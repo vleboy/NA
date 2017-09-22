@@ -57,30 +57,55 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'name'
-      }
+      },
+      isFetching: false,
+      dataType: []
     }
   },
   methods: {
-    async getMapPlayer (store, data) {
+    getMapPlayer (store, data) {
+      if(this.isFetching) return
+      this.isFetching = true
       event.stopPropagation(this.handleNodeClick)
-      if (data.isClick && data.isClick === 'clicked') {
-        this.$message({
-          type: 'success',
-          message: '查询成功'
-        })
-        return
-      } else {
-        var agentId = {
+      invoke({
+        url: api.mapPlayer,
+        method: api.post,
+        data: {
           userId: data.id
         }
-        const [err, ret] = await invoke({
-          url: api.mapPlayer,
-          method: api.post,
-          data: agentId
-        })
-        if (err) {
-        } else {
-          var result = ret.data.list
+      }).then(
+        result => {
+          const [err, ret] = result
+          let localData = [] // 暂存有新增玩家数组
+          let isBreak = false // 判断是否跳出当前循环
+          this.isFetching = false
+          if(!this.dataType.length) {
+            this.dataType = ret.data.list
+            for (let item of this.dataType) {
+              store.append(item, data)
+            }
+          } else {
+            for (let i of ret.data.list) {
+              for(let j of this.dataType) {
+                if(i.userId == j.userId){
+                  isBreak = true
+                  break
+                }
+              }
+              if (isBreak) {
+                isBreak = !isBreak
+                continue
+              } else {
+                localData.push(i)
+              }
+            }
+            this.dataType = ret.data.list
+            if (localData.length) {
+              for (let item of localData) {
+                store.append(item, data)
+              }
+            }
+          }
           if (ret.data.list.length == 0) {
             this.$message({
               type: 'warning',
@@ -92,12 +117,8 @@ export default {
               message: '查询成功'
             })
           }
-          for (let item of result) {
-            store.append(item, data)
-          }
         }
-        data.isClick = 'clicked'
-      }
+      )
     },
     filterNode (value, data) {
       if (!value) {
