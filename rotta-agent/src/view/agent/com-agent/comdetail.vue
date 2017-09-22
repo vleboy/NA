@@ -1,0 +1,1042 @@
+<template>
+    <div class="comdetail">
+        <div class="comdetail-title">
+            <h2>{{comdetail.displayName}}</h2>
+        </div>
+        <div class="simpleinfo">
+            <div class="parent">
+                <h4>基本信息</h4>
+                <p v-if="this.comdetail.parent !== '01'">所属代理: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
+                </p>
+                <p v-if="this.comdetail.parent === '01'">所属代理: 无
+                </p>
+            </div>
+            <div class="simpleform" v-if="this.$store.state.variable.isEdit === false">
+                <p class="simple">
+                    <span>代理ID: {{comdetail.displayId}}</span>
+                    <!-- <span>代理标识: {{comdetail.suffix}}</span> -->
+                    <span>代理成数: {{comdetail.rate}}%</span>
+                    <span>电子游戏洗码比: {{comdetail.vedioMix}}%</span>
+                    <span>真人视讯洗码比: {{comdetail.liveMix}}%</span>
+                    <span>代理创建时间: {{formatTime(comdetail.createdAt)}}</span>
+                    <span>最后登录时间: {{formatTime(comdetail.loginAt)}}</span>
+                </p>
+                <p class="remark">
+                    <span>代理备注: <span :title="comdetail.remark">{{Remark(comdetail.remark)}}</span></span>
+                </p>
+            </div>
+            <div class="editform" v-if="this.$store.state.variable.isEdit === true">
+                <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
+                    <el-row>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="代理ID">
+                                    {{comdetail.displayId}}
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="6">
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <!-- <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="代理标识">
+                                    {{comdetail.suffix}}
+                                </el-form-item>
+                            </div>
+                        </el-col> -->
+                    </el-row>
+                    <el-row>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="代理成数" prop="rate">
+                                    <el-input v-model="comdetail.rate" icon="edit" :on-icon-click="turnONedit" :disabled="disable">
+                                        <template slot="prepend">%</template>
+                                    </el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="电子游戏洗码比" prop="vedioMix">
+                                    <el-input v-model="comdetail.vedioMix" icon="edit" :on-icon-click="turnONedit" :disabled="disable">
+                                        <template slot="prepend">%</template>
+                                    </el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="真人游戏洗码比" prop="liveMix">
+                                    <el-input v-model="comdetail.liveMix" icon="edit" :on-icon-click="turnONedit" :disabled="disable">
+                                        <template slot="prepend">%</template>
+                                    </el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="创建时间">
+                                    {{formatTime(comdetail.createdAt)}}
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="最后登录时间">
+                                    {{formatTime(comdetail.loginAt)}}
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="备注">
+                                    <el-input autosize v-model="comdetail.remark" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </el-form>
+            </div>
+        </div>
+        <div class="manangeinfo">
+            <h4>管理信息
+            <div style="float:right;margin-right:2rem" v-if="this.disable === false">
+              <el-button type="primary" @click="submitEdit" :loading="loading">提交修改</el-button>
+            </div>
+          </h4>
+            <div class="manangeform" v-if="this.$store.state.variable.isEdit === false">
+                <p class="manager-one">
+                    <span>管理员账号: {{(comdetail.username)}}</span>
+                    <span>管理员密码: ********</span>
+                </p>
+                <p class="manager-three">
+                    <span>生效时间: {{contractPeriod(comdetail.contractPeriod)}}</span>
+                    <span>上次登录时间: {{formatTime(comdetail.loginAt)}}</span>
+                    <span>上次登录IP: {{comdetail.lastIP}}</span>
+                </p>
+            </div>
+            <div class="editform" v-if="this.$store.state.variable.isEdit === true">
+                <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
+                    <el-row>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="管理员账号">
+                                    {{(comdetail.username)}}
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="管理员密码" prop="password">
+                                    <el-input v-model="comdetail.password" type="password" :disabled="disable" icon="edit" :on-icon-click="turnONedit">
+                                        <!-- <el-button slot="append" @click="randomPassword">生成</el-button> -->
+                                    </el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="8">
+                            <div class="">
+                                <el-form-item label="生效时间" prop="contractPeriod">
+                                    <el-date-picker v-model="comdetail.contractPeriod" type="daterange" label="生效时间" :disabled="comdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
+                                    <el-checkbox v-model="comdetail.isforever" :disabled="disable" @change="changeContract">永久</el-checkbox>
+                                    <span @click="turnONedit" class="editIcon">编辑</span>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="上次登录时间">
+                                    {{formatTime(comdetail.loginAt)}}
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="上次登录IP">
+                                    {{comdetail.lastIP}}
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </el-form>
+            </div>
+        </div>
+        <div class="propertyinfo">
+            <h4>财务信息</h4>
+            <div class="propertyform">
+                <div class="propertyform-header">
+                    <span>当前剩余点数: <span style="color:#FF9900">{{comBills}}</span></span>
+                    <el-button type="text" class="propertybtn" @click="refreshAgent">刷新</el-button>
+                    <el-button type="text" class="propertybtn" @click="storePoints" v-if="this.comdetail.status === 1">存点</el-button>
+                    <el-button type="text" class="propertybtn" @click="withdrawPoints" v-if="this.comdetail.status === 1">提取</el-button>
+                </div>
+                <div class="propertyform-form">
+                    <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>
+                        <el-table-column label="序号" prop="" type="index" align="center" width="80"></el-table-column>
+                        <el-table-column label="账户余额" prop="balance" align="center" width=""></el-table-column>
+                        <el-table-column label="交易点数" prop="" align="center" width="">
+                            <template scope="scope">
+                                <span class="green" v-if="scope.row.action === 1">{{scope.row.amount.toFixed(2)}}</span>
+                                <span class="red" v-if="scope.row.action === -1">{{scope.row.amount.toFixed(2)}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="交易时间" prop="" align="center" width="">
+                            <template scope="scope">
+                                <span>{{formatTime(scope.row.updatedAt)}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="交易类型" prop="" align="center" width="">
+                            <template scope="scope">
+                                <p v-if="scope.row.action == 1 && scope.row.fromLevel < scope.row.toLevel">
+                                  {{scope.row.fromUser}} 对 {{scope.row.toUser}}<span> 存点</span>
+                                </p>
+                                <p v-if="scope.row.action == -1 && scope.row.fromLevel < scope.row.toLevel">
+                                  {{scope.row.fromUser}} 对 {{scope.row.toUser}}<span> 存点</span>
+                                </p>
+                                <p v-if="scope.row.action == -1 && scope.row.fromLevel > scope.row.toLevel">
+                                  {{scope.row.toUser}} 对 {{scope.row.fromUser}}<span> 提点</span>
+                                </p>
+                                <p v-if="scope.row.action == 1 && scope.row.fromLevel > scope.row.toLevel">
+                                  {{scope.row.toUser}} 对 {{scope.row.fromUser}}<span> 提点</span>
+                                </p>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="交易详情(原账+当前操作额=现在余额)" align="center" prop="balance">
+                            <template scope="scope">
+                                <p v-if="scope.row.action === 1">
+                                    <span>{{scope.row.oldBalance}}</span>
+                                    <span class="green"> + {{scope.row.amount}}</span> =
+                                    <span>{{scope.row.balance}}</span>
+                                </p>
+                                <p v-if="scope.row.action === -1">
+                                    <span>{{scope.row.oldBalance}}</span>
+                                    <span class="red"> - {{Math.abs(scope.row.amount)}}</span> =
+                                    <span>{{scope.row.balance}}</span>
+                                </p>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作人" prop="operator" align="center" width="">
+                            <template scope="scope">
+                                <span>{{(scope.row.operator)}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="备注" prop="remark" align="center" width="65">
+                            <template scope="scope">
+                                <el-popover trigger="hover" placement="bottom">
+                                  <div class="remarkBox">
+                                    <p>{{ Remark(scope.row.remark) }}</p>
+                                  </div>
+                                  <div slot="reference" class="">
+                                    <el-icon name="search" style="color:#108ee9"></el-icon>
+                                  </div>
+                                </el-popover>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+                <div class="page">
+                    <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.comdetailproperty.length" :page-sizes="[5, 10]" :page-size="page" @size-change="getnowSize" @current-change="getnowPage"></el-pagination>
+                </div>
+            </div>
+        </div>
+        <div class="propertyinfo">
+            <h4>一级代理列表</h4>
+            <div class="propertyform">
+                <div class="propertyform-header">
+                    <span>当前剩余点数: <span style="color:#FF9900"> {{childAgentBills}} </span></span>
+                    <el-button type="text" class="propertybtn" @click="refreshChildAgent">刷新</el-button>
+                </div>
+                <div class="propertyform-form">
+                    <el-table style="width: 98%; font-size: 12px;" border max-height='10px' :data="childAgent">
+                    <el-table-column prop="" label="序号" align="center" width="65" type="index"></el-table-column>
+                    <!-- <el-table-column prop="suffix" label="代理标识" align="center" width=""></el-table-column> -->
+                    <el-table-column prop="displayName" label="代理昵称" align="center" width="">
+                        <template scope="scope">
+                            <span class="gorouter" @click="outYouWanted(scope.row.userId)">{{(scope.row.displayName)}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="balance" label="剩余点数" align="center" width="">
+                        <template scope="scope">
+                            <span>{{points(scope.row.balance)}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="lastBill.updatedAt" label="操作时间" align="center">
+                        <template scope="scope">
+                            <span>{{formatTime(scope.row.lastBill.updatedAt)}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="lastBill.remark" label="备注" align="center" width="65">
+                        <template scope="scope">
+                          <el-popover trigger="hover" placement="bottom">
+                            <div class="remarkBox">
+                              <p>{{ Remark(scope.row.remark) }}</p>
+                            </div>
+                            <div slot="reference" class="">
+                              <el-icon name="search" style="color:#108ee9"></el-icon>
+                            </div>
+                          </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="操作(对旗下线路商操作)" align="center" v-if="isRight">
+                      <template scope="scope">
+                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">存点</el-button>
+                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">提点</el-button>
+                        <el-button type="text" @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">锁定</el-button>
+                        <el-button type="text" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">解锁</el-button>
+                      </template>
+                    </el-table-column>
+                </el-table>
+                </div>
+                <div class="page">
+                    <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.detailChild.length"
+                                   :page-sizes="[5, 10]" :page-size="childAgentSize" @size-change="getchildAgentSize"
+                                   @current-change="getchildAgentPage"></el-pagination>
+                </div>
+            </div>
+        </div>
+        <div class="propertyinfo">
+            <h4>直属玩家列表</h4>
+            <div class="propertyform">
+                <div class="propertyform-header">
+                    <span>玩家拥有点数合计: <span style="color:#FF9900"> {{childPlayerBills}} </span></span>&emsp;
+                    <span>玩家数: <span style="color:#FF9900"> {{this.$store.state.variable.detailPlayer.length}} </span></span>&emsp;
+                    <el-button type="text" class="propertybtn" @click="getPlayerList">刷新</el-button>
+                </div>
+                <div class="propertyform-form">
+                    <el-table style="width: 98%; font-size: 12px;" border max-height='10px' :data="playerData">
+                    <el-table-column prop="" label="序号" align="center" width="65" type="index"></el-table-column>
+                    <el-table-column prop="userName" label="用户名" align="center"></el-table-column>
+                    <el-table-column prop="nickname" label="玩家昵称" align="center" width="">
+                        <template scope="scope">
+                            <span class="gorouter" @click="goPlayerdetail(scope.row.userName)">{{Remark(scope.row.nickname)}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="balance" label="剩余点数" align="center" width="">
+                        <template scope="scope">
+                            <span>{{points(scope.row.balance)}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="updatedAt" label="操作时间" align="center">
+                        <template scope="scope">
+                            <span>{{formatTime(scope.row.updatedAt)}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="lastBill.remark" label="备注" align="center" width="65">
+                        <template scope="scope">
+                          <el-popover trigger="hover" placement="bottom">
+                            <div class="remarkBox">
+                              <p>{{ Remark(scope.row.remark) }}</p>
+                            </div>
+                            <div slot="reference" class="">
+                              <el-icon name="search" style="color:#108ee9"></el-icon>
+                            </div>
+                          </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="操作(对直属玩家操作)" align="center">
+                      <template scope="scope">
+                        <el-button type="text" @click="player_storePoints(scope.$index, scope.row)" v-if="scope.row.state === 1">存点</el-button>
+                        <el-button type="text" @click="player_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.state === 1">提点</el-button>
+                        <el-button type="text" @click="lockPlayer(scope.row)" v-if="scope.row.state === 1">锁定</el-button>
+                        <el-button type="text" @click="lockPlayer(scope.row)" v-if="scope.row.state === 0">解锁</el-button>
+                      </template>
+                    </el-table-column>
+                </el-table>
+                </div>
+                <div class="page">
+                    <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.detailPlayer.length"
+                                   :page-sizes="[5, 10]" :page-size="playerAgentSize" @size-change="getPlayerAgentSize"
+                                   @current-change="getPlayerAgentPage"></el-pagination>
+                </div>
+            </div>
+        </div>
+        <billtransfer></billtransfer>
+    </div>
+</template>
+
+<script>
+import Billtransfer from '@/components/billtransfer'
+import { detailTime, formatContractPeriod, billType, formatRemark, formatUsername, formatPoints } from '@/behavior/format'
+import { invoke } from '@/libs/fetchLib'
+import api from '@/api/api'
+export default {
+  components: {
+    Billtransfer
+  },
+  beforeCreate () {
+    this.$store.commit('startLoading')
+    this.$store.commit({
+      type: 'recordNowindex',
+      data: 'comlist'
+    })
+    this.$store.commit('returnLocalStorage')
+    this.$store.dispatch('getComdetail')
+    this.$store.dispatch('getComdetail_property')
+    this.$store.dispatch('getComdetail_child')
+    this.$store.dispatch('getDetailPlayer')
+  },
+  computed: {
+    comdetail () {
+      var data = this.$store.state.variable.comdetaildata
+      if (data.remark === 'NULL') {
+        data.remark === '无'
+      }
+      return data
+    },
+    isRight () {
+      var right = false
+      if (localStorage.loginLevel > this.$store.state.variable.comdetaildata.level) {
+        right = false
+      } else if (localStorage.loginLevel < this.$store.state.variable.comdetaildata.level) {
+        right = true
+      }
+      return right
+    },
+    waterFall () {
+      var waterFall = this.$store.state.variable.comdetailproperty
+      if (this.page === 1) {
+        waterFall = waterFall.slice(0, this.size)
+      } else {
+        waterFall = waterFall.slice(((this.page - 1) * this.size), this.size * this.page)
+      }
+      return waterFall
+    },
+    comBills () {
+      var x = this.$store.state.variable.comdetailproperty[0] && this.$store.state.variable.comdetailproperty[0].balance || 0
+      return this.points(x)
+    },
+    childAgent () {
+      var childAgent = this.$store.state.variable.detailChild
+      if (this.childAgentPage === 1) {
+        return childAgent.slice(0, this.childAgentSize)
+      } else {
+        return childAgent.slice(((this.childAgentPage - 1) * this.childAgentSize), this.childAgentSize * this.childAgentPage)
+      }
+    }, // 下级代理分页
+    playerData () {
+      var detailPlayer = this.$store.state.variable.detailPlayer
+      if (this.playerAgentPage === 1) {
+        return detailPlayer.slice(0, this.playerAgentSize)
+      } else {
+        return detailPlayer.slice(((this.playerAgentPage - 1) * this.playerAgentSize), this.playerAgentSize * this.playerAgentPage)
+      }
+    }, // 玩家数据分页
+    childAgentBills () {
+      var bills = 0
+      if (!this.childAgent) {
+        bills = 0
+      } else {
+        for (var i = 0; i < this.childAgent.length; i++) {
+          bills += this.childAgent[i].balance
+        }
+      }
+      return this.points(bills)
+    }, // 下级代理总点数
+    childPlayerBills () {
+      var bills = 0
+      if (!this.playerData) {
+        bills = 0
+      } else {
+        for (var i = 0; i < this.playerData.length; i++) {
+          bills += this.playerData[i].balance
+        }
+      }
+      return this.points(bills)
+    } // 下级玩家总点数
+  },
+  data () {
+    var checkPassword = (rule, value, callback) => {
+      // console.log('checkPassword', value)
+      var password = function passwordLevel (password) {
+        var Modes = 0
+        for (let i = 0; i < password.length; i++) {
+          Modes |= CharMode(password.charCodeAt(i))
+        }
+        return bitTotal(Modes)
+        // CharMode函数
+        function CharMode (iN) {
+          if (iN >= 48 && iN <= 57) {
+            return 1
+          } // 数字
+          if (iN >= 65 && iN <= 90) {
+            return 2
+          } // 大小写
+          if ((iN >= 97 && iN <= 122) || (iN >= 65 && iN <= 90)) {
+            return 4
+          } else {
+            return 8
+          } // 特殊字符
+        }
+        // bitTotal函数
+        function bitTotal (num) {
+          let modes = 0
+          for (let i = 0; i < 4; i++) {
+            if (num & 1) modes++
+            num >>>= 1
+          }
+          return modes
+        }
+      }
+      if (value === '') {
+        callback(new Error('密码不能为空'))
+        this.isfinish.password = false
+      } else if (value.length < 6) {
+        callback(new Error('密码不能少于6位'))
+        this.isfinish.password = false
+      } else if (value.length > 16) {
+        callback(new Error('密码不能多于16位'))
+        this.isfinish.password = false
+      } else {
+        var x = password(value)
+        if (x < 3) {
+          callback(new Error('密码中必须包含大写字母、小写字母、数字、符号，中任意三种的组合'))
+          this.isfinish.password = false
+        } else {
+          value = value.trim()
+          this.isfinish.password = true
+          callback()
+        }
+      }
+    } // 验证密码
+    var checkRate = (rule, value, callback) => {
+      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
+      if (value === '') {
+        callback(new Error('请输入抽成比'))
+        this.isfinish.rate = false
+      } else if (!num.test(value)) {
+        callback(new Error('抽成比只能为0.00 - 100.00'))
+        this.isfinish.rate = false
+      } else if (value < 0 || value > 100) {
+        callback(new Error('抽成比应为0~100之间的数字'))
+        this.isfinish.rate = false
+      } else {
+        this.isfinish.rate = true
+        callback()
+      }
+    } // 验证代理成数
+    var checkVedioMix = (rule, value, callback) => {
+      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
+      if (value === '') {
+        callback(new Error('请输入电子游戏洗码比'))
+        this.isfinish.vedioMix = false
+      } else if (!num.test(value)) {
+        callback(new Error('电子游戏洗码比只能为0.00 - 100.00'))
+        this.isfinish.vedioMix = false
+      } else if (value < 0 || value > 100) {
+        callback(new Error('电子游戏洗码比应为0~100之间的数字'))
+        this.isfinish.vedioMix = false
+      } else {
+        this.isfinish.vedioMix = true
+        callback()
+      }
+    } // 验证电子游戏洗码比
+    var checkLiveMix = (rule, value, callback) => {
+      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
+      if (value === '') {
+        callback(new Error('请输入真人视讯洗码比'))
+        this.isfinish.liveMix = false
+      } else if (!num.test(value)) {
+        callback(new Error('真人视讯洗码比只能为0.00 - 100.00'))
+        this.isfinish.liveMix = false
+      } else if (value < 0 || value > 100) {
+        callback(new Error('真人视讯洗码比应为0~100之间的数字'))
+        this.isfinish.liveMix = false
+      } else {
+        this.isfinish.liveMix = true
+        callback()
+      }
+    } // 验证真人视讯洗码
+    var checkContractPeriod = (rule, value, callback) => {
+      if (value === 0) {
+        this.isfinish.contractPeriod = true
+        callback()
+      } else if (value === [null, null]) {
+        this.isfinish.contractPeriod = false
+        callback(new Error('请选择合同生效时间'))
+      } else if (value[0] !== null || value[1] !== null) {
+        this.isfinish.contractPeriod = true
+        callback()
+      }
+    } // 验证合同有效时间
+    return {
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() < Date.now() - 8.64e7
+        }
+      },
+      size: 5,
+      page: 1,
+      childAgentSize: 5,
+      childAgentPage: 1,
+      playerAgentSize: 5,
+      playerAgentPage: 1,
+      loading: false, // 加载动画
+      disable: true, // 禁用输入框
+      balance: 0,
+      isfinish: {
+        password: true,
+        rate: true,
+        vedioMix: true,
+        liveMix: true,
+        contractPeriod: true
+      },
+      rules: {
+        password: [
+          {validator: checkPassword, trigger: 'change'}
+        ],
+        rate: [
+          {validator: checkRate, trigger: 'change'}
+        ],
+        vedioMix: [
+          {validator: checkVedioMix, trigger: 'change'}
+        ],
+        liveMix: [
+          {validator: checkLiveMix, trigger: 'change'}
+        ],
+        contractPeriod: [
+          {validator: checkContractPeriod, trigger: 'change'}
+        ]
+      }
+    }
+  },
+  methods: {
+    refreshAgent () {
+      this.$store.commit('startLoading')
+      this.$store.dispatch('getComdetail_property')
+    }, // 刷新详情页代理账单
+    refreshChildAgent () {
+      this.$store.commit('startLoading')
+      this.$store.dispatch('getComdetail_child')
+    }, // 刷新详情页代理下级代理账单
+    user (name) {
+      return formatUsername(name)
+    }, // 格式化用户名
+    Remark (remark) {
+      return formatRemark(remark)
+    }, // 格式化备注
+    goParent () {
+      // console.log('上级线路商ID', this.comdetail.parent, '上级线路商是:', this.comdetail.parentName)
+      this.$store.commit({
+        type: 'recordComdetailID',
+        data: this.comdetail.parent
+      })
+      this.$router.push('comdetail')
+      this.$store.commit('startLoading')
+      this.$store.commit('closeEdit')
+      this.$store.dispatch('getComdetail')
+      this.$store.dispatch('getComdetail_property')
+      this.$store.dispatch('getComdetail_child')
+      this.$store.dispatch('getDetailPlayer')
+    }, // 跳转至其上级代理
+    outYouWanted (link) {
+      // console.log('跳转用户的ID', link)
+      this.$store.commit({
+        type: 'recordComdetailID',
+        data: link
+      })
+      this.$router.push('comdetail')
+      this.$store.commit('startLoading')
+      this.$store.dispatch('getComdetail')
+      this.$store.dispatch('getComdetail_property')
+      this.$store.dispatch('getComdetail_child')
+      this.$store.dispatch('getDetailPlayer')
+    }, // 详情页代理列表跳转
+    damn_storePoints (index, row) {
+      var obj = {
+        userId: row.userId,
+        role: '1000',
+        username: row.username,
+        parentDispalyName: row.parentDisplayName, // 上级昵称
+        parentId: row.parent, // 上级ID
+        parentName: row.parentName // 上级用户名
+      }
+      console.log('操作的用户为 ' + row.username + ' / ' + '操作的用户ID为 ' + row.userId + '/' + '操作的用户role为' + row.role)
+      this.$store.commit({
+        type: 'getpointsObject',
+        data: obj
+      })
+      this.$store.commit('startStoreDialog')
+      this.$store.commit({
+        type: 'getpointsIndex',
+        data: 'billtransfer'
+      })
+    }, // 代理对其下级代理存点
+    player_storePoints (index, row) {
+      var obj = {
+        type: 'player',
+        userId: row.userId,
+        userRole: '10000',
+        username: row.userName,
+        parentDispalyName: row.merchantName, // 上级昵称
+        parentRoll: '1000', // 上级角色
+        parentId: row.parent, // 上级ID
+        parentName: row.parentName // 上级用户名
+      }
+      // console.log('操作的用户为 ' + row.userName + ' / ' + '操作的用户ID为 ' + row.userId + '/' + obj)
+      // console.log(obj)
+      this.$store.commit({
+        type: 'getpointsObject',
+        data: obj
+      })
+      this.$store.commit('startStoreDialog')
+      this.$store.commit({
+        type: 'getpointsIndex',
+        data: 'billtransfer'
+      })
+    }, // 代理对玩家存点
+    damn_withdrawPoints (index, row) {
+      var obj = {
+        userId: row.userId,
+        role: '1000',
+        username: row.username,
+        parentDispalyName: row.parentDisplayName, // 上级昵称
+        parentId: row.parent, // 上级ID
+        parentName: row.parentName // 上级用户名
+      }
+      console.log('操作的用户为 ' + row.username + ' / ' + '操作的用户ID为 ' + row.userId + '/' + '操作的用户role为' + row.role)
+      this.$store.commit({
+        type: 'getpointsObject',
+        data: obj
+      })
+      this.$store.commit('startWithdrawDialog')
+      this.$store.commit({
+        type: 'getpointsIndex',
+        data: 'billtransfer'
+      })
+    }, // 代理对其下级代理提点
+    player_withdrawPoints (index, row) {
+      var obj = {
+        type: 'player',
+        userId: row.userId,
+        userRole: '10000',
+        username: row.userName,
+        parentDispalyName: row.merchantName, // 上级昵称
+        parentRoll: '1000', // 上级角色
+        parentId: row.parent, // 上级ID
+        parentName: row.parentName // 上级用户名
+      }
+      // console.log('操作的用户为 ' + row.userName + ' / ' + '操作的用户ID为 ' + row.userId + '/' + obj)
+      // console.log(obj)
+      this.$store.commit({
+        type: 'getpointsObject',
+        data: obj
+      })
+      this.$store.commit('startWithdrawDialog')
+      this.$store.commit({
+        type: 'getpointsIndex',
+        data: 'billtransfer'
+      })
+    }, // 代理对玩家提点
+    lockUser (index, row) {
+      var user = {
+        role: row.role,
+        userId: row.userId,
+        status: 0
+      }
+      invoke({
+        url: api.userStatus,
+        method: api.post,
+        data: user
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var data = ret.payload
+            console.log('操作成功返回数据', data)
+            this.$message({
+              message: '锁定成功',
+              type: 'success'
+            })
+            this.$store.dispatch('getComdetail_child')
+          }
+        }
+      )
+    }, // 锁定代理
+    unlockUser (index, row) {
+      var user = {
+        role: row.role,
+        userId: row.userId,
+        status: 1
+      }
+      invoke({
+        url: api.userStatus,
+        method: api.post,
+        data: user
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var data = ret.payload
+            console.log('操作成功返回数据', data)
+            this.$message({
+              message: '解锁成功',
+              type: 'success'
+            })
+            this.$store.dispatch('getComdetail_child')
+          }
+        }
+      )
+    }, // 解锁代理
+    lockPlayer (row) {
+      this.$store.commit('startLoading')
+      invoke({
+        url: api.playerForzen,
+        method: api.post,
+        data: {
+          userName: row.userName,
+          state: row.state ? 0 : 1
+        }
+      }).then(
+        result => {
+          const [err, res] = result
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else if (res) {
+            this.$message({
+              message: '状态改变成功',
+              type: 'success'
+            })
+            this.$store.dispatch('getDetailPlayer')
+          }
+          this.$store.commit('closeLoading')
+        }
+      )
+    }, // 直属玩家解锁/锁定
+    goPlayerdetail (player) {
+      this.$store.commit({
+        type: 'localPlayerInfoAgent',
+        data: player
+      })
+      this.$store.commit('startLoading')
+      invoke({
+        url: `${api.getPlayDetail}?userName=${player}`,
+        method: api.get
+      }).then(
+        result => {
+        const [err, res] = result
+        if (err) {
+          this.$message({
+            message: err.msg,
+            type: 'error'
+          })
+        } else {
+          this.playerDetail = res.data
+          this.$store.commit({
+          type: 'playerDetail',
+          data: this.playerDetail
+      })
+    }
+      this.$router.push('agentPlayerDetail')
+      this.$store.commit('closeLoading')
+    }
+    )
+    }, // 跳转到玩家详情页
+    formatTime (time) {
+      return detailTime(time)
+    },
+    points (points) {
+      return formatPoints(points)
+    }, // 格式化点数
+    contractPeriod (time) {
+      return formatContractPeriod(time)
+    },
+    bills (bill) {
+      return billType(bill)
+    },
+    turnONedit () {
+      this.disable = false
+    }, // 开启编辑
+    changeContract () {
+      if (this.comdetail.isforever === true) {
+        this.comdetail.contractPeriod = 0
+        this.isfinish.contractPeriod = true
+      } else {
+        this.comdetail.contractPeriod = [null, null]
+        this.isfinish.contractPeriod = false
+      }
+    }, // 设置永久时间
+    submitEdit () {
+      if (this.isfinish.password === false || this.isfinish.rate === false || this.isfinish.contractPeriod === false || this.isfinish.vedioMix === false || this.isfinish.liveMix === false) {
+        this.$message({
+          message: '修改信息错误',
+          type: 'error'
+        })
+      } else {
+        this.loading = true
+        if (this.comdetail.contractPeriod !== 0) {
+          for (var i = this.comdetail.contractPeriod.length - 1; i >= 0; i--) {
+            if (isNaN(this.comdetail.contractPeriod[i].toString())) {
+              this.comdetail.contractPeriod[i] = new Date(this.comdetail.contractPeriod[i].toString()).getTime()
+            }
+          }
+        }
+        console.log('修改提交的数据是:', this.comdetail)
+        invoke({
+          url: api.agentUpdate,
+          method: api.post,
+          data: this.comdetail
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+              this.$message({
+                message: err.msg,
+                type: 'warning'
+              })
+              this.loading = false
+            } else {
+              var data = ret.data.payload
+              console.log(data)
+              this.disable = true
+              this.loading = false
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
+            }
+          }
+        )
+      }
+    }, // 提交修改数据
+    storePoints () {
+      var user = {
+        userId: this.comdetail.userId,
+        role: '1000',
+        username: this.comdetail.username,
+        parentDispalyName: this.comdetail.parentDisplayName, // 上级昵称
+        parentId: this.comdetail.parent, // 上级ID
+        parentName: this.comdetail.parentName // 上级用户名
+      }
+      this.$store.commit({
+        type: 'getpointsObject',
+        data: user
+      })
+      this.$store.commit({
+        type: 'getpointsIndex',
+        data: 'billtransfer'
+      })
+      this.$store.commit('startStoreDialog')
+    }, // 代理详情页存点
+    withdrawPoints () {
+      var user = {
+        userId: this.comdetail.userId,
+        role: '1000',
+        username: this.comdetail.username,
+        parentDispalyName: this.comdetail.parentDisplayName, // 上级昵称
+        parentId: this.comdetail.parent, // 上级ID
+        parentName: this.comdetail.parentName // 上级用户名
+      }
+      this.$store.commit({
+        type: 'getpointsObject',
+        data: user
+      })
+      this.$store.commit({
+        type: 'getpointsIndex',
+        data: 'billtransfer'
+      })
+      this.$store.commit('startWithdrawDialog')
+    }, // 代理详情页提点
+    getPlayerList () {
+      this.$store.commit(startLoading)
+      this.$store.dispatch('getDetailPlayer')
+    }, // 刷新玩家列表
+    getnowSize (size) {
+      this.size = size
+    }, // 账户流水分页
+    getnowPage (page) {
+      this.page = page
+    }, // 账户流水分页
+    getchildAgentSize (size) {
+      this.childAgentSize = size
+    }, // 详情页下级代理分页
+    getchildAgentPage (page) {
+      this.childAgentPage = page
+    }, // 详情页下级代理分页
+    getPlayerAgentSize (size) {
+      this.playerAgentSize = size
+    }, // 直属玩家分页
+    getPlayerAgentPage (page) {
+      this.playerAgentPage = page
+    } // 直属玩家分页
+  }
+}
+</script>
+
+<style scoped>
+    .comdetail .comdetail-title{text-align: center;}
+    .comdetail h2{font-size: 2.5rem;font-weight: bold;padding: 1rem 0 0 0;}
+    .comdetail h4{font-size: 1.8rem;font-weight: normal;padding: 2rem 0;color: #5a5a5a}
+    .comdetail .simpleinfo,
+    .comdetail .manangeinfo,
+    .comdetail .propertyinfo{width: 98%;margin: 0 auto;vertical-align: baseline;font-size: 0.8rem}
+    .comdetail .simpleform,
+    .comdetail .manangeform,
+    .comdetail .propertyform{background-color: #f5f5f5;padding-left: 3%;padding-bottom: 1rem}
+
+    /**/
+    .comdetail .editform{background-color: #f5f5f5;padding-top: 1rem;padding-left: 1rem}
+    /**/
+    .comdetail .simple span {display: inline-block;width: 30%;line-height: 3.5rem;}
+    .comdetail .remark{padding-bottom: 1rem;margin-top: 1rem}
+    .comdetail .remark span {display: inline-block;width: 50%;text-overflow: ellipsis; overflow: hidden; white-space: nowrap; vertical-align: -0.2rem}
+    .comdetail .information span{display: inline-block;width: 30%;line-height: 3.5rem;}
+
+    .comdetail .manager-one{padding-top: 1rem}
+    .comdetail .manager-two{}
+    .comdetail .manager-three{padding-bottom: 1rem}
+
+    .comdetail .manager-one span{display: inline-block; width: 30%;line-height: 3.5rem}
+    .comdetail .manager-two span{display: block; width: 50%;line-height: 3.5rem}
+    .comdetail .manager-three span{display: inline-block; width: 30%;line-height: 3.5rem}
+
+  .comdetail .margin{margin-bottom: 4rem}
+  .comdetail .green{color: #00CC00}
+  .comdetail .red{color: #FF3300}
+  .comdetail .hidden{opacity: 0;}
+
+  .comdetail .parent h4,
+  .comdetail .parent p{display: inline-block;}
+  .comdetail .parent p{margin-left: 0.5rem;font-size: 1rem;color: #797979}
+  .comdetail .parent .router-link{cursor: pointer;color: #108DE9}
+
+  .comdetail .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+
+  .remarkBox{word-wrap: break-word; word-break: normal;width: 200px}
+  .comdetail .gorouter{cursor: pointer;color: #20a0ff}
+
+  .comdetail .editIcon{cursor: pointer;color: #20a0ff;display: inline-block}
+</style>
