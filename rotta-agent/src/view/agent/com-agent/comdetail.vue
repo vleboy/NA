@@ -11,21 +11,7 @@
                 <p v-if="this.comdetail.parent === '01'">所属代理: 无
                 </p>
             </div>
-            <div class="simpleform" v-if="this.$store.state.variable.isEdit === false">
-                <p class="simple">
-                    <span>代理ID: {{comdetail.displayId}}</span>
-                    <!-- <span>代理标识: {{comdetail.suffix}}</span> -->
-                    <span>代理成数: {{comdetail.rate}}%</span>
-                    <span>电子游戏洗码比: {{comdetail.vedioMix}}%</span>
-                    <span>真人视讯洗码比: {{comdetail.liveMix}}%</span>
-                    <span>代理创建时间: {{formatTime(comdetail.createdAt)}}</span>
-                    <span>最后登录时间: {{formatTime(comdetail.loginAt)}}</span>
-                </p>
-                <p class="remark">
-                    <span>代理备注: <span :title="comdetail.remark">{{Remark(comdetail.remark)}}</span></span>
-                </p>
-            </div>
-            <div class="editform" v-if="this.$store.state.variable.isEdit === true">
+            <div class="editform">
                 <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
                     <el-row>
                         <el-col :span="6">
@@ -43,19 +29,15 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <!-- <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="代理标识">
-                                    {{comdetail.suffix}}
-                                </el-form-item>
-                            </div>
-                        </el-col> -->
                     </el-row>
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="代理成数" prop="rate">
-                                    <el-input v-model="comdetail.rate" icon="edit" :on-icon-click="turnONedit" :disabled="disable">
+                                <el-form-item label="代理成数" v-show="this.disable == true">
+                                    {{comdetail.rate}}
+                                </el-form-item>
+                                <el-form-item label="代理成数" prop="rate" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.rate">
                                         <template slot="prepend">%</template>
                                     </el-input>
                                 </el-form-item>
@@ -66,8 +48,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="电子游戏洗码比" prop="vedioMix">
-                                    <el-input v-model="comdetail.vedioMix" icon="edit" :on-icon-click="turnONedit" :disabled="disable">
+                                <el-form-item label="电子游戏洗码比" v-show="this.disable == true">
+                                    {{comdetail.vedioMix}}
+                                </el-form-item>
+                                <el-form-item label="电子游戏洗码比" prop="vedioMix" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.vedioMix">
                                         <template slot="prepend">%</template>
                                     </el-input>
                                 </el-form-item>
@@ -78,8 +63,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="真人游戏洗码比" prop="liveMix">
-                                    <el-input v-model="comdetail.liveMix" icon="edit" :on-icon-click="turnONedit" :disabled="disable">
+                                <el-form-item label="真人游戏洗码比" v-show="this.disable == true">
+                                    {{comdetail.liveMix}}
+                                </el-form-item>
+                                <el-form-item label="真人游戏洗码比" prop="liveMix" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.liveMix">
                                         <template slot="prepend">%</template>
                                     </el-input>
                                 </el-form-item>
@@ -108,8 +96,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="备注">
-                                    <el-input autosize v-model="comdetail.remark" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="备注" v-show="this.disable == true">
+                                    {{Remark(comdetail.remark)}}
+                                </el-form-item>
+                                <el-form-item label="备注" v-show="this.disable == false">
+                                    <el-input autosize v-model="comdetail.remark"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -119,8 +110,9 @@
         </div>
         <div class="manangeinfo">
             <h4>管理信息
-            <div style="float:right;margin-right:2rem" v-if="this.disable === false">
-              <el-button type="primary" @click="submitEdit" :loading="loading">提交修改</el-button>
+            <div style="float:right;margin-right:2rem">
+              <el-button type="primary" @click="submitEdit" :loading="loading" v-if="this.disable === false">提交修改</el-button>
+              <el-button type="primary" @click="turnONedit" v-if="this.disable === true">编辑</el-button>
             </div>
           </h4>
             <div class="manangeform" v-if="this.$store.state.variable.isEdit === false">
@@ -149,9 +141,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员密码" prop="password">
-                                    <el-input v-model="comdetail.password" type="password" :disabled="disable" icon="edit" :on-icon-click="turnONedit">
-                                        <!-- <el-button slot="append" @click="randomPassword">生成</el-button> -->
+                                <el-form-item label="管理员密码" v-show="this.disable == true">
+                                    ********
+                                </el-form-item>
+                                <el-form-item label="管理员密码" prop="password" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.password" type="password">
                                     </el-input>
                                 </el-form-item>
                             </div>
@@ -160,10 +154,12 @@
                     <el-row>
                         <el-col :span="8">
                             <div class="">
-                                <el-form-item label="生效时间" prop="contractPeriod">
+                                <el-form-item label="生效时间" v-show="this.disable == true">
+                                    ********
+                                </el-form-item>
+                                <el-form-item label="生效时间" prop="contractPeriod" v-show="this.disable == false">
                                     <el-date-picker v-model="comdetail.contractPeriod" type="daterange" label="生效时间" :disabled="comdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
-                                    <el-checkbox v-model="comdetail.isforever" :disabled="disable" @change="changeContract">永久</el-checkbox>
-                                    <span @click="turnONedit" class="editIcon">编辑</span>
+                                    <el-checkbox v-model="comdetail.isforever" @change="changeContract">永久</el-checkbox>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -549,10 +545,10 @@ export default {
         callback(new Error('请输入电子游戏洗码比'))
         this.isfinish.vedioMix = false
       } else if (!num.test(value)) {
-        callback(new Error('电子游戏洗码比只能为0.00 - 100.00'))
+        callback(new Error('电子游戏洗码比只能为0.00 - 1.00'))
         this.isfinish.vedioMix = false
-      } else if (value < 0 || value > 100) {
-        callback(new Error('电子游戏洗码比应为0~100之间的数字'))
+      } else if (value < 0 || value > 1) {
+        callback(new Error('电子游戏洗码比应为 0.00 ~ 1.00 之间的数字'))
         this.isfinish.vedioMix = false
       } else {
         this.isfinish.vedioMix = true
@@ -565,10 +561,10 @@ export default {
         callback(new Error('请输入真人视讯洗码比'))
         this.isfinish.liveMix = false
       } else if (!num.test(value)) {
-        callback(new Error('真人视讯洗码比只能为0.00 - 100.00'))
+        callback(new Error('真人视讯洗码比只能为0.00 - 1.00'))
         this.isfinish.liveMix = false
-      } else if (value < 0 || value > 100) {
-        callback(new Error('真人视讯洗码比应为0~100之间的数字'))
+      } else if (value < 0 || value > 1) {
+        callback(new Error('真人视讯洗码比应为 0.00 ~ 1.00 之间的数字'))
         this.isfinish.liveMix = false
       } else {
         this.isfinish.liveMix = true
