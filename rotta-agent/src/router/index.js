@@ -125,17 +125,17 @@ export default new Router({
     },
     {
       path: '/helplist',
-      name: '帮助信息列表',
+      name: '帮助列表',
       component: Helplist
     },
     {
       path: '/helpdetail',
-      name: '帮助信息详情',
+      name: '帮助详情',
       component: Helpdetail
     },
     {
       path: '/addhelp',
-      name: '新增帮助信息',
+      name: '新增帮助',
       component: Addhelp
     },
     {
