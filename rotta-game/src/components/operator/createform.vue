@@ -109,7 +109,7 @@
         }
       } // 运营商描述
       var validateCompanyEmail = (rule, value, callback) => {
-        var email = new RegExp(/^([a-zA-Z0-9_-]){1,16}@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)
+        var email = new RegExp(/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/)
         if (value === '') {
           this.isfinish.companyEmail = false
           callback(new Error('请输入邮箱'))
