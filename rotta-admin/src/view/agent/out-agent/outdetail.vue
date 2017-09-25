@@ -99,9 +99,14 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="" style="float:left">
-                                <el-form-item label="线路商游戏">
+                                <el-form-item label="线路商游戏" v-show="this.disable == true">
                                     <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
                                         {{item.name}}
+                                    </div>
+                                </el-form-item>
+                                <el-form-item label="线路商游戏" v-show="this.disable == false">
+                                    <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
+                                        <el-checkbox :label="item.name"></el-checkbox>
                                     </div>
                                 </el-form-item>
                             </div>
@@ -141,10 +146,10 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="18">
                             <div class="">
                                 <el-form-item label="备注" v-show="this.disable == true">
-                                    {{Remark(outdetail.remark)}}
+                                    <div style="word-wrap: break-word;word-break: normal;">{{Remark(outdetail.remark)}}</div>
                                 </el-form-item>
                                 <el-form-item label="备注" v-show="this.disable == false">
                                     <el-input autosize v-model="outdetail.remark"></el-input>
@@ -234,6 +239,9 @@
                                     {{formatTime(outdetail.loginAt)}}
                                 </el-form-item>
                             </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
                         </el-col>
                         <el-col :span="6">
                             <div class="">
@@ -443,6 +451,9 @@ export default {
     this.$store.dispatch('getOutdetail_child_merchants')
     this.$store.dispatch('getOutdetail_child_managers')
     this.$store.dispatch('getOutdetail_property')
+  },
+  beforeMounte () {
+    this.addGame()
   },
   computed: {
     outdetail () {
