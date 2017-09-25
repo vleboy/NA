@@ -10,7 +10,9 @@ const state = {
   variable,
   checkform
 }
-
+const getters = {
+  visitedViews: state => state.variable.visitedViews
+}
 const actions = {
   getGamelist (context) {
     context.commit('startLoading')
@@ -263,6 +265,7 @@ const mutations = {
 
 export default new Vuex.Store({
   state,
+  getters,
   mutations,
   actions
 })

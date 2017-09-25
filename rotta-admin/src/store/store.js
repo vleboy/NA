@@ -9,7 +9,9 @@ const state = {
   variable,
   checkform
 }
-
+const getters = {
+  visitedViews: state => state.variable.visitedViews
+}
 const actions = {
   getMap (context) {
     var data = {
@@ -959,6 +961,7 @@ const mutations = {
 
 export default new Vuex.Store({
   state,
+  getters,
   mutations,
   actions
 })
