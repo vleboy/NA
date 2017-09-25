@@ -7,14 +7,12 @@
     <div v-if='islogin === true' style="width:100%;height:100%">
       <!-- 顶部条 -->
       <div class="top Noprint" >
-          <div class="logoBox Noprint">
-            <span>公司Logo</span>
-          </div>
+        <div class="top-header">
           <bread class="Noprint"></bread>
-          <!-- <Tab class="Noprint"></Tab> -->
           <loginbar class="Noprint"></loginbar>
+        </div>
+        <div class="tab"><Tab class="Noprint"></Tab></div>
       </div>
-      <div class="tab"><Tab class="Noprint"></Tab></div>
       <!-- 左侧导航条 -->
       <div class="main-left">
           <div class="left-content">
@@ -76,18 +74,21 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 #app{width: 100%;height: 100%;}
 /* #20a0ff */
 /**/
-.top{width: 100%;height: 3rem;position:fixed;top:0;left:0;right:0;background-color:#fff;}
+.top{width: 90%;position:fixed;top:0;left:10%;right:0;background-color:#fff;}
 ::-webkit-scrollbar {
 width: 0px;
 height: 1px;
 }
-.top:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.top-header{
+  display: flex;
+  justify-content: space-between;
+}
 /**/
 
 .main-left{
   width:10%;
   position:fixed;
-  top:3rem;
+  top:0;
   left:0;
   bottom:0;
   background-color: #324157;
@@ -99,10 +100,9 @@ height: 1px;
 
 .main-right{
   height:100%;
-  padding:3rem 0 0 10%;
+  padding:99px 0 0 10%;
   box-sizing:border-box;
   overflow-x: hidden;
-  margin-top: 4rem;
 }
 
 .right-content{
@@ -132,11 +132,6 @@ height: 1px;
   .Noprint { display: none }
 }
 .tab {
-  width: 90%;
-  position: fixed;
-  top: 3rem;
-  left: 10%;
-  z-index: 99;
-  background: #fff;
+  width: 100%;
 }
 </style>
