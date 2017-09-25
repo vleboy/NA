@@ -5,38 +5,8 @@
         </div>
         <div class="simpleinfo">
             <h4>基本信息</h4>
-            <div class="simpleform" v-if="this.$store.state.variable.isEdit === false">
-                <p class="simple">
-                    <span>线路商ID: {{outdetail.displayId}}</span>
-                    <span v-if="outdetail.parentRole != '1'">
-                        <span v-if="this.outdetail.parent !== '01' && this.loginLevel < this.outdetail.level" @click="goParent()" class="goParent" style="width:60%">上级线路商: {{outdetail.parentDisplayName}}</span>
-                        <span v-if="this.outdetail.parent !== '01' && this.loginLevel > this.outdetail.level" style="width:60%">
-                        上级线路商: {{outdetail.parentDisplayName}}</span>
-                    </span>
-                    <span v-if="outdetail.parentRole == '1'" style="width:33%">
-                        上级线路商: 直属于平台
-                    </span>
-                    <span>线路商标识: {{outdetail.suffix}}</span>
-                    <span>负责人: {{outdetail.hostName}}</span>
-                    <span>负责人联系方式: {{outdetail.hostContact}}</span>
-                    <span>抽成比: {{outdetail.rate}}%</span>
-                    <span>线路商可放商户名额: {{outdetail.limit}}</span>
-                    <span>线路商代理游戏: 
-                        <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
-                            {{item.name}}
-                        </div>
-                    </span>
-                    <span>线路商Email: {{outdetail.managerEmail}}</span>
-                    <span>线路商创建时间: {{formatTime(outdetail.createdAt)}}</span>
-                    <span>最后登录时间: {{formatTime(outdetail.loginAt)}}</span>
-                </p>
-                <p class="remark">
-                    <span>线路商备注: <span :title="outdetail.remark">{{Remark(outdetail.remark)}}</span></el-input>
-                    </span>
-                </p>
-            </div>
-            <div class="editform" v-if="this.$store.state.variable.isEdit === true">
-                <el-form label-width='110px' label-position="right" :model="outdetail" ref="outdetail" :rules="rules">
+            <div class="editform">
+                <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
                     <el-row>
                         <el-col :span="6">
                             <div class="">
@@ -51,7 +21,14 @@
                         <el-col :span="6">
                             <div class="">
                                 <el-form-item label="上级线路商">
-                                    {{user(outdetail.parentName)}}
+                                    <span v-if="outdetail.parentRole != '1'">
+                                      <span v-if="this.outdetail.parent !== '01' && this.loginLevel < this.outdetail.level" @click="goParent()" class="goParent">{{outdetail.parentDisplayName}}</span>
+                                      <span v-if="this.outdetail.parent !== '01' && this.loginLevel > this.outdetail.level">
+                                        {{outdetail.parentDisplayName}}</span>
+                                    </span>
+                                    <span v-if="outdetail.parentRole == '1'">
+                                        直属于平台
+                                    </span>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -69,8 +46,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="负责人" prop="hostName">
-                                    <el-input v-model="outdetail.hostName" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="负责人" v-show="this.disable == true">
+                                    {{outdetail.hostName}}
+                                </el-form-item>
+                                <el-form-item label="负责人" prop="hostName" v-show="this.disable == false">
+                                    <el-input v-model="outdetail.hostName"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -79,8 +59,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="负责人联系方式" prop="hostContact">
-                                    <el-input v-model="outdetail.hostContact" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="负责人联系方式" v-show="this.disable == true">
+                                    {{outdetail.hostContact}}
+                                </el-form-item>
+                                <el-form-item label="负责人联系方式" prop="hostContact" v-show="this.disable == false">
+                                    <el-input v-model="outdetail.hostContact"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -89,8 +72,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="抽成比" prop="rate">
-                                    <el-input v-model="outdetail.rate" icon="edit" :on-icon-click="turnONedit" :disabled="disable">
+                                <el-form-item label="抽成比" v-show="this.disable == true">
+                                    {{outdetail.rate}}
+                                </el-form-item>
+                                <el-form-item label="抽成比" prop="rate" v-show="this.disable == false">
+                                    <el-input v-model="outdetail.rate">
                                         <template slot="prepend">%</template>
                                     </el-input>
                                 </el-form-item>
@@ -100,15 +86,18 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="可放商户名额" prop="limit">
-                                    <el-input v-model="outdetail.limit" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="可放商户名额" v-show="this.disable == true">
+                                    {{outdetail.limit}}
+                                </el-form-item>
+                                <el-form-item label="可放商户名额" prop="limit" v-show="this.disable == false">
+                                    <el-input v-model="outdetail.limit"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="12">
+                        <el-col :span="6">
                             <div class="" style="float:left">
                                 <el-form-item label="线路商游戏">
                                     <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
@@ -117,6 +106,19 @@
                                 </el-form-item>
                             </div>
                             <!-- <el-button type="text" @click="addGame" style="float:left;margin-left:0.1rem">添加</el-button> -->
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="6">
+                            <div class="">
+                                <el-form-item label="线路商Email" v-show="this.disable == true">
+                                    {{outdetail.managerEmail}}
+                                </el-form-item>
+                                <el-form-item label="线路商Email" prop="managerEmail" v-show="this.disable == false">
+                                    <el-input v-model="outdetail.managerEmail"></el-input>
+                                </el-form-item>
+                            </div>
                         </el-col>
                     </el-row>
                     <el-row>
@@ -141,18 +143,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="备注">
-                                    <el-input autosize v-model="outdetail.remark" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="备注" v-show="this.disable == true">
+                                    {{Remark(outdetail.remark)}}
                                 </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="线路商Email" prop="managerEmail">
-                                    <el-input v-model="outdetail.managerEmail" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="备注" v-show="this.disable == false">
+                                    <el-input autosize v-model="outdetail.remark"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -162,28 +157,13 @@
         </div>
         <div class="manangeinfo">
             <h4>管理信息
-              <div style="float:right;margin-right:2rem" v-if="this.disable === false">
-                <el-button type="primary" @click="submitEdit" :loading="loading">提交修改</el-button>
+              <div style="float:right;margin-right:2rem">
+                <el-button type="primary" @click="submitEdit" :loading="loading" v-if="this.disable == false">提交修改</el-button>
+                <el-button type="primary" @click="turnONedit" v-if="this.disable == true">编辑</el-button>
               </div>
             </h4>
-            <div class="manangeform" v-if="this.$store.state.variable.isEdit === false">
-                <p class="manager-one">
-                    <span>管理员账号: {{user(outdetail.username)}}</span>
-                    <span>管理员姓名: {{outdetail.adminName}}</span>
-                    <span>管理员密码: {{outdetail.password}}</span>
-                </p>
-                <p class="manager-two">
-                    <span>管理员Eamil: {{outdetail.adminEmail}}</span>
-                    <span>管理员联系方式: {{outdetail.adminContact}}</span>
-                </p>
-                <p class="manager-three">
-                    <span>生效时间: {{contractPeriod(outdetail.contractPeriod)}}</span>
-                    <span>上次登录时间: {{formatTime(outdetail.loginAt)}}</span>
-                    <span>上次登录IP: {{outdetail.lastIP}}</span>
-                </p>
-            </div>
-            <div class="editform" v-if="this.$store.state.variable.isEdit === true">
-                <el-form label-width='110px' label-position="right" :model="outdetail" ref="outdetail" :rules="rules">
+            <div class="editform">
+                <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
                     <el-row>
                         <el-col :span="6">
                             <div class="">
@@ -197,8 +177,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员姓名" prop="adminName">
-                                    <el-input v-model="outdetail.adminName" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="管理员姓名" v-show="this.disable == true">
+                                    {{outdetail.adminName}}
+                                </el-form-item>
+                                <el-form-item label="管理员姓名" prop="adminName" v-show="this.disable == false">
+                                    <el-input v-model="outdetail.adminName"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -207,8 +190,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员密码" prop="password">
-                                    <el-input v-model="outdetail.password" :disabled="disable">
+                                <el-form-item label="管理员密码" v-show="this.disable == true">
+                                    {{outdetail.password}}
+                                </el-form-item>
+                                <el-form-item label="管理员密码" prop="password" v-show="this.disable == false">
+                                    <el-input v-model="outdetail.password">
                                         <el-button slot="append" @click="randomPassword">生成</el-button>
                                     </el-input>
                                 </el-form-item>
@@ -218,8 +204,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员Eamil" prop="adminEmail">
-                                    <el-input v-model="outdetail.adminEmail" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="管理员Eamil" v-show="this.disable == true">
+                                    {{outdetail.adminEmail}}
+                                </el-form-item>
+                                <el-form-item label="管理员Eamil" prop="adminEmail" v-show="this.disable == false">
+                                    <el-input v-model="outdetail.adminEmail"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -227,9 +216,12 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="生效时间" prop="contractPeriod">
+                                <el-form-item label="生效时间" v-show="this.disable == true">
+                                    {{contractPeriod(outdetail.contractPeriod)}}
+                                </el-form-item>
+                                <el-form-item label="生效时间" prop="contractPeriod" v-show="this.disable == false">
                                     <el-date-picker v-model="outdetail.contractPeriod" type="daterange" label="生效时间" :disabled="outdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
-                                    <el-checkbox v-model="outdetail.isforever" :disabled="disable" @change="changeContract">永久</el-checkbox>
+                                    <el-checkbox v-model="outdetail.isforever" @change="changeContract">永久</el-checkbox>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -254,8 +246,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员联系方式" prop="adminContact">
-                                    <el-input v-model="outdetail.hostContact" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="管理员联系方式" v-show="this.disable == true">
+                                    {{outdetail.adminContact}}
+                                </el-form-item>
+                                <el-form-item label="管理员联系方式" prop="adminContact" v-show="this.disable == false">
+                                    <el-input v-model="outdetail.adminContact"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -428,14 +423,11 @@
 </template>
 
 <script>
-// import { checkEmail, checkUserEmail, checkRate, checkHostname, checkName, checkHostcontact, checkContractPeriod, checkLimit, checkPassword, checkAdmincontact } from '@/behavior/regexp'
 import Billtransfer from '@/components/billtransfer'
 import { detailTime, formatContractPeriod, billType, formatRemark, formatUsername, formatPoints, formatGamelist } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 import { randomPassword } from '@/behavior/randomPassword'
-// import store from '@/store/store'
-// import checkform from '@/variables/checkform'
 export default {
   components: {
     Billtransfer
@@ -521,7 +513,6 @@ export default {
   },
   data () {
     var checkPassword = (rule, value, callback) => {
-      // console.log('checkPassword', value)
       var password = function passwordLevel (password) {
         var Modes = 0
         for (let i = 0; i < password.length; i++) {
@@ -610,7 +601,6 @@ export default {
       }
     } // 验证线路商邮箱
     var checkadminEmail = (rule, value, callback) => {
-      // console.log('adminEmail', value)
       var email = new RegExp(/^([a-zA-Z0-9_-]){1,16}@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)
       // console.log(value)
       if (value === '') {
@@ -712,10 +702,10 @@ export default {
     } // 验证线路商管理员联系方式
     var checkContractPeriod = (rule, value, callback) => {
       // console.log('contractPeriod', value)
-      if (value === 0) {
+      if (value == 0) {
         this.isfinish.contractPeriod = true
         callback()
-      } else if (value === [null, null]) {
+      } else if (value == [null, null]) {
         this.isfinish.contractPeriod = false
         callback(new Error('请选择合同生效时间'))
       } else if (value[0] !== null || value[1] !== null) {
@@ -884,8 +874,6 @@ export default {
       this.disable = false
     }, // 开启编辑
     changeContract () {
-      console.log('永久', this.outdetail.isforever)
-      // this.outdetail.isforever = !this.outdetail.isforever
       if (this.outdetail.isforever === true) {
         this.outdetail.contractPeriod = 0
         this.isfinish.contractPeriod = true
@@ -901,13 +889,20 @@ export default {
       this.outdetail.password = newpassword
     }, // 生成密码
     submitEdit () {
-      // console.log('finish', this.isfinish)
-      if (this.isfinish.password === false || this.isfinish.limit === false || this.isfinish.adminEmail === false || this.isfinish.managerEmail === false || this.isfinish.rate === false || this.isfinish.hostName === false || this.isfinish.adminContact === false || this.isfinish.adminName === false || this.isfinish.hostContact === false || this.isfinish.contractPeriod === false) {
+      var wrong = false
+      for (let item of Object.values(this.isfinish)) {
+        if (item == false) {
+          wrong = true
+          break
+        }
+      }
+      if (wrong) {
         this.$message({
-          message: '修改信息错误',
-          type: 'error'
-        })
+            message: '修改信息错误',
+            type: 'error'
+          })
       } else {
+        wrong = !wrong
         this.loading = true
         var outdetailID = ''
         if (this.outdetail.contractPeriod !== 0) {
@@ -1079,33 +1074,27 @@ export default {
 </script>
 
 <style scoped>
-	.outdetail .outdetail-title{text-align: center;}
-	.outdetail h2{font-size: 2.5rem;font-weight: bold;padding: 1rem 0 0 0;}
-	.outdetail h4{font-size: 1.8rem;font-weight: normal;padding: 2rem 0;color: #5a5a5a}
-	.outdetail .simpleinfo,
-	.outdetail .manangeinfo,
-	.outdetail .propertyinfo{width: 98%;margin: 0 auto;vertical-align: baseline;font-size: 0.8rem}
-	.outdetail .simpleform,
-	.outdetail .manangeform,
-	.outdetail .propertyform{background-color: #f5f5f5;padding-left: 3%;padding-bottom: 1rem}
+    .outdetail .el-icon-edit{color: #20a0ff;margin-left: 0.2rem;cursor: pointer;}
+    .outdetail .outdetail-title{text-align: center;}
+    .outdetail h2{font-size: 2.5rem;font-weight: bold;padding: 1rem 0 0 0;}
+    .outdetail h4{font-size: 1.8rem;font-weight: normal;padding: 2rem 0;color: #5a5a5a}
+    .outdetail .simpleinfo,
+    .outdetail .manangeinfo,
+    .outdetail .propertyinfo{width: 98%;margin: 0 auto;vertical-align: baseline;font-size: 0.8rem}
+    .outdetail .simpleform,
+    .outdetail .manangeform,
+    .outdetail .propertyform{background-color: #f5f5f5;padding-left: 3%;padding-bottom: 1rem}
 
-	/**/
-	.outdetail .editform{background-color: #f5f5f5;padding-top: 1rem;padding-left: 1rem}
-	/**/
-	.outdetail .simple span {display: inline-block;width: 33%;line-height: 3.5rem;}
-	.outdetail .remark{padding-bottom: 1rem;margin-top: 1rem}
-	.outdetail .remark span {display: inline-block;width: 50%;text-overflow: ellipsis; overflow: hidden; white-space: nowrap; vertical-align: -0.2rem}
+    /**/
+    .outdetail .editform{background-color: #f5f5f5;padding-top: 1rem;padding-left: 1rem}
+    /**/
 
-	.outdetail .manager-one{padding-top: 1rem}
-	.outdetail .manager-two{}
-	.outdetail .manager-three{padding-bottom: 1rem}
+    .outdetail .manager-one{padding-top: 1rem}
+    .outdetail .manager-two{}
+    .outdetail .manager-three{padding-bottom: 1rem}
 
-	.outdetail .manager-one span{display: inline-block; width: 33%;line-height: 3.5rem}
-	.outdetail .manager-two span{display: block; width: 33%;line-height: 3.5rem}
-	.outdetail .manager-three span{display: inline-block; width: 33%;line-height: 3.5rem}
-
-	.outdetail .margin{margin-bottom: 4rem}
-	.outdetail .green{color: #00CC00}
+    .outdetail .margin{margin-bottom: 4rem}
+    .outdetail .green{color: #00CC00}
     .outdetail .red{color: #FF3300}
     .outdetail .hidden{opacity: 0;}
 

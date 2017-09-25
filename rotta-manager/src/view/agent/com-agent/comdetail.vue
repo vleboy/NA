@@ -9,35 +9,7 @@
                 <p v-if="this.comdetail.parent !== '01'">所属线路商: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
                 </p>
             </div>
-            <div class="simpleform" v-if="this.$store.state.variable.isEdit === false">
-                <p class="simple">
-                    <span>商户号: {{comdetail.displayId}}</span>
-                    <span>线路号: {{msn(comdetail.msn)}}</span>
-                    <span>商户标识: {{comdetail.suffix}}</span>
-                    <span>负责人: {{comdetail.hostName}}</span>
-                    <span>负责人联系方式: {{comdetail.hostContact}}</span>
-                    <span>抽成比: {{comdetail.rate}}%</span>
-                    <span>商户游戏: 
-                        <div v-for="item in comdetail.gameList" style="display:inline-block;margin-left:0.25rem">
-                            {{item.name}}
-                        </div>
-                    </span>
-                    <span>商户Email: {{comdetail.merchantEmail}}</span>
-                    <span>商户创建时间: {{formatTime(comdetail.createdAt)}}</span>
-                    <span>最后登录时间: {{formatTime(comdetail.loginAt)}}</span>
-                </p>
-                <p class="">
-                    <span style="line-height:3.5rem">商户密匙: <span>{{comdetail.apiKey}}</span></span>
-                </p>
-                <p class="information">
-                    <span>商户前端域名: <span>{{comdetail.frontURL}}</span></span>
-                    <span>商户白名单: <span>{{comdetail.loginWhiteList}}</span></span>
-                </p>
-                <p class="remark">
-                    <span>商户备注: <span :title="comdetail.remark">{{Remark(comdetail.remark)}}</span></span>
-                </p>
-            </div>
-            <div class="editform" v-if="this.$store.state.variable.isEdit === true">
+            <div class="editform">
                 <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
                     <el-row>
                         <el-col :span="6">
@@ -71,8 +43,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="负责人" prop="hostName">
-                                    <el-input v-model="comdetail.hostName" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="负责人" v-show="this.disable == true">
+                                    {{user(comdetail.hostName)}}
+                                </el-form-item>
+                                <el-form-item label="负责人" prop="hostName" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.hostName"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -81,8 +56,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="负责人联系方式" prop="hostContact">
-                                    <el-input v-model="comdetail.hostContact" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="负责人联系方式" v-show="this.disable == true">
+                                    {{comdetail.hostContact}}
+                                </el-form-item>
+                                <el-form-item label="负责人联系方式" prop="hostContact" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.hostContact"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -91,8 +69,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="抽成比" prop="rate">
-                                    <el-input v-model="comdetail.rate" icon="edit" :on-icon-click="turnONedit" :disabled="disable">
+                                <el-form-item label="抽成比" v-show="this.disable == true">
+                                    {{comdetail.rate}}
+                                </el-form-item>
+                                <el-form-item label="抽成比" prop="rate" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.rate">
                                         <template slot="prepend">%</template>
                                     </el-input>
                                 </el-form-item>
@@ -102,8 +83,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="商户Email" prop="merchantEmail">
-                                    <el-input v-model="comdetail.merchantEmail" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="商户Email" v-show="this.disable == true">
+                                    {{comdetail.merchantEmail}}
+                                </el-form-item>
+                                <el-form-item label="商户Email" prop="merchantEmail" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.merchantEmail"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -139,6 +123,9 @@
                                 </el-form-item>
                             </div>
                         </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
                         <el-col :span="6">
                             <div class="">
                                 <el-form-item label="线路号">
@@ -150,8 +137,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="商户前端域名" prop="frontURL">
-                                    <el-input autosize v-model="comdetail.frontURL" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="商户前端域名" v-show="disable == true">
+                                    {{comdetail.frontURL}}
+                                </el-form-item>
+                                <el-form-item label="商户前端域名" prop="frontURL" v-show="disable == false">
+                                    <el-input autosize v-model="comdetail.frontURL"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -166,8 +156,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="商户白名单" prop="loginWhiteList">
-                                    <el-input autosize v-model="comdetail.loginWhiteList" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="商户白名单" v-show="disable == true">
+                                    {{comdetail.loginWhiteList}}
+                                </el-form-item>
+                                <el-form-item label="商户白名单" prop="loginWhiteList" v-show="disable == false">
+                                    <el-input autosize v-model="comdetail.loginWhiteList"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -175,8 +168,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="备注">
-                                    <el-input autosize v-model="comdetail.remark" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="备注" v-show="disable == true">
+                                    {{Remark(comdetail.remark)}}
+                                </el-form-item>
+                                <el-form-item label="备注" v-show="disable == false">
+                                    <el-input autosize v-model="comdetail.remark"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -186,27 +182,12 @@
         </div>
         <div class="manangeinfo">
             <h4>管理信息
-            <div style="float:right;margin-right:2rem" v-if="this.disable === false">
-              <el-button type="primary" @click="submitEdit" :loading="loading">提交修改</el-button>
+            <div style="float:right;margin-right:2rem">
+              <el-button type="primary" @click="submitEdit" :loading="loading" v-if="this.disable === false">提交修改</el-button>
+              <el-button type="primary" @click="turnONedit" v-if="this.disable === true">编辑</el-button>
             </div>
           </h4>
-            <div class="manangeform" v-if="this.$store.state.variable.isEdit === false">
-                <p class="manager-one">
-                    <span>管理员账号: {{user(comdetail.username)}}</span>
-                    <span>管理员姓名: {{comdetail.adminName}}</span>
-                    <span>管理员密码: {{comdetail.password}}</span>
-                </p>
-                <p class="manager-two">
-                    <span>管理员Eamil: {{comdetail.adminEmail}}</span>
-                    <span>管理员联系方式: {{comdetail.adminContact}}</span>
-                </p>
-                <p class="manager-three">
-                    <span>生效时间: {{contractPeriod(comdetail.contractPeriod)}}</span>
-                    <span>上次登录时间: {{formatTime(comdetail.loginAt)}}</span>
-                    <span>上次登录IP: {{comdetail.lastIP}}</span>
-                </p>
-            </div>
-            <div class="editform" v-if="this.$store.state.variable.isEdit === true">
+            <div class="editform">
                 <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
                     <el-row>
                         <el-col :span="6">
@@ -221,8 +202,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员姓名" prop="adminName">
-                                    <el-input v-model="comdetail.adminName" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="管理员姓名" v-show="this.disable == true">
+                                    {{comdetail.adminName}}
+                                </el-form-item>
+                                <el-form-item label="管理员姓名" prop="adminName" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.adminName"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -231,8 +215,11 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员密码" prop="password">
-                                    <el-input v-model="comdetail.password" :disabled="disable">
+                                <el-form-item label="管理员密码" v-show="this.disable == true">
+                                    {{comdetail.password}}
+                                </el-form-item>
+                                <el-form-item label="管理员密码" prop="password" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.password">
                                         <el-button slot="append" @click="randomPassword">生成</el-button>
                                     </el-input>
                                 </el-form-item>
@@ -242,18 +229,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员Eamil" prop="adminEmail">
-                                    <el-input v-model="comdetail.adminEmail" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="管理员Eamil" v-show="this.disable == true">
+                                    {{comdetail.adminEmail}}
                                 </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="生效时间" prop="contractPeriod">
-                                    <el-date-picker v-model="comdetail.contractPeriod" type="daterange" label="生效时间" :disabled="comdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
-                                    <el-checkbox v-model="comdetail.isforever" :disabled="disable" @change="changeContract">永久</el-checkbox>
+                                <el-form-item label="管理员Eamil" prop="adminEmail" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.adminEmail"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -262,10 +242,26 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
+                                <el-form-item label="生效时间" v-show="this.disable == true">
+                                    {{contractPeriod(comdetail.contractPeriod)}}
+                                </el-form-item>
+                                <el-form-item label="生效时间" prop="contractPeriod" v-show="this.disable == false">
+                                    <el-date-picker v-model="comdetail.contractPeriod" type="daterange" label="生效时间" :disabled="comdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
+                                    <el-checkbox v-model="comdetail.isforever" @change="changeContract">永久</el-checkbox>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="6">
+                            <div class="">
                                 <el-form-item label="上次登录时间">
                                     {{formatTime(comdetail.loginAt)}}
                                 </el-form-item>
                             </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
                         </el-col>
                         <el-col :span="6">
                             <div class="">
@@ -278,8 +274,11 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员联系方式" prop="adminContact">
-                                    <el-input v-model="comdetail.adminContact" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
+                                <el-form-item label="管理员联系方式" v-show="this.disable == true">
+                                    {{comdetail.adminContact}}
+                                </el-form-item>
+                                <el-form-item label="管理员联系方式" prop="adminContact" v-show="this.disable == false">
+                                    <el-input v-model="comdetail.adminContact"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -364,13 +363,11 @@
 </template>
 
 <script>
-// import { checkEmail, checkUserEmail, checkRate, checkHostname, checkName, checkHostcontact, checkContractPeriod, checkPassword, checkAdmincontact, checkLoginWhiteList, checkURL } from '@/behavior/regexp'
 import Billtransfer from '@/components/billtransfer'
 import { detailTime, formatContractPeriod, billType, formatRemark, formatUsername, formatMSN, formatPoints } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 import { randomPassword } from '@/behavior/randomPassword'
-// import store from '@/store/store'
 export default {
   components: {
     Billtransfer
@@ -379,7 +376,7 @@ export default {
     this.$store.commit('startLoading')
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'comlist'
+      data: 'comdetail'
     })
     this.$store.commit('returnLocalStorage')
     this.$store.dispatch('getComdetail')
@@ -405,7 +402,6 @@ export default {
   },
   data () {
     var checkPassword = (rule, value, callback) => {
-      // console.log('checkPassword', value)
       var password = function passwordLevel (password) {
         var Modes = 0
         for (let i = 0; i < password.length; i++) {
@@ -473,9 +469,7 @@ export default {
       }
     } // 验证商户邮箱
     var checkadminEmail = (rule, value, callback) => {
-      // console.log('adminEmail', value)
       var email = new RegExp(/^([a-zA-Z0-9_-]){1,16}@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)
-      // console.log(value)
       if (value === '') {
         callback(new Error('请输入邮箱'))
         this.isfinish.adminEmail = false
@@ -488,9 +482,7 @@ export default {
       }
     } // 验证商户管理员邮箱
     var checkRate = (rule, value, callback) => {
-      // console.log('rate', value)
       var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
-      // console.log(value)
       if (value === '') {
         callback(new Error('请输入抽成比'))
         this.isfinish.rate = false
@@ -506,7 +498,6 @@ export default {
       }
     } // 验证抽成比
     var checkHostname = (rule, value, callback) => {
-      // console.log('hostName', value)
       var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z_]+$/)
       if (value === '') {
         callback(new Error('请输入负责人姓名'))
@@ -523,7 +514,6 @@ export default {
       }
     } // 验证负责人姓名
     var checkHostcontact = (rule, value, callback) => {
-      // console.log('hostContact', value)
       var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
       if (value === '') {
         callback(new Error('请输入负责人联系方式'))
@@ -540,7 +530,6 @@ export default {
       }
     } // 验证负责人联系方式
     var checkAdminName = (rule, value, callback) => {
-      // console.log('adminName', value)
       var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z_]+$/)
       if (value === '') {
         callback(new Error('请输入姓名'))
@@ -557,7 +546,6 @@ export default {
       }
     } // 验证商户管理员姓名
     var checkAdmincontact = (rule, value, callback) => {
-      // console.log('adminContact', value)
       var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
       if (value === '') {
         callback(new Error('请输入管理员联系方式'))
@@ -601,7 +589,6 @@ export default {
       }
     } // 验证前端域名
     var checkContractPeriod = (rule, value, callback) => {
-      // console.log('contractPeriod', value)
       if (value === 0) {
         this.isfinish.contractPeriod = true
         callback()
@@ -723,7 +710,7 @@ export default {
     }, // 跳转至其上级线路商
     formatTime (time) {
       return detailTime(time)
-    },
+    }, // 格式化时间
     points (points) {
       return formatPoints(points)
     }, // 格式化点数
@@ -749,7 +736,6 @@ export default {
       this.disable = false
     }, // 开启编辑
     changeContract () {
-      // this.comdetail.isforever = !this.comdetail.isforever
       if (this.comdetail.isforever === true) {
         this.comdetail.contractPeriod = 0
         this.isfinish.contractPeriod = true
@@ -764,27 +750,34 @@ export default {
       this.comdetail.password = newpassword
     }, // 生成密码
     submitEdit () {
-      if (this.isfinish.password === false || this.isfinish.adminEmail === false || this.isfinish.managerEmail === false || this.isfinish.rate === false || this.isfinish.hostName === false || this.isfinish.adminContact === false || this.isfinish.adminName === false || this.isfinish.hostContact === false || this.isfinish.contractPeriod === false || this.isfinish.loginWhiteList === false || this.isfinish.frontURL === false) {
+      var wrong = false
+      for (let item of Object.values(this.isfinish)) {
+        if (item == false) {
+          wrong = true
+          break
+        }
+      }
+      if (wrong) {
         this.$message({
-          message: '修改信息错误',
-          type: 'error'
-        })
+            message: '修改信息错误',
+            type: 'error'
+          })
       } else {
+        wrong = !wrong
         this.loading = true
-        var comdetailID = ''
-        if (this.comdetail.contractPeriod !== 0) {
-          for (var i = this.comdetail.contractPeriod.length - 1; i >= 0; i--) {
-            if (isNaN(this.comdetail.contractPeriod[i].toString())) {
-              this.comdetail.contractPeriod[i] = new Date(this.comdetail.contractPeriod[i].toString()).getTime()
+          var comdetailID = ''
+          if (this.comdetail.contractPeriod !== 0) {
+            for (var i = this.comdetail.contractPeriod.length - 1; i >= 0; i--) {
+              if (isNaN(this.comdetail.contractPeriod[i].toString())) {
+                this.comdetail.contractPeriod[i] = new Date(this.comdetail.contractPeriod[i].toString()).getTime()
+              }
             }
           }
-        }
-        if (!this.$store.state.variable.comdetailID) {
-          comdetailID = localStorage.comdetailID
-        } else {
-          comdetailID = this.$store.state.variable.comdetailID
-        }
-        console.log('修改提交的数据是:', this.comdetail)
+          if (!this.$store.state.variable.comdetailID) {
+            comdetailID = localStorage.comdetailID
+          } else {
+            comdetailID = this.$store.state.variable.comdetailID
+          }
         invoke({
           url: api.merchants + '/' + comdetailID,
           method: api.post,
@@ -859,9 +852,9 @@ export default {
     .comdetail .manager-two{}
     .comdetail .manager-three{padding-bottom: 1rem}
 
-    .comdetail .manager-one span{display: inline-block; width: 30%;line-height: 3.5rem}
-    .comdetail .manager-two span{display: block; width: 50%;line-height: 3.5rem}
-    .comdetail .manager-three span{display: inline-block; width: 30%;line-height: 3.5rem}
+    .comdetail .manager-one span,
+    .comdetail .manager-two span,
+    .comdetail .manager-three span{display: inline-block; width: 33%;line-height: 3.5rem}
 
   .comdetail .margin{margin-bottom: 4rem}
   .comdetail .green{color: #00CC00}
