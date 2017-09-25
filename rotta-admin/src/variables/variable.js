@@ -125,7 +125,10 @@ const variable = {
 
   playerDetail: [], // 玩家详细
 
-  boothType: '' // 存储展位类别状态
+  boothType: '', // 存储展位类别状态
+  visitedViews: [],
+  activeIndex: null,
+  tabIndex: null
 }
 
 export default {
