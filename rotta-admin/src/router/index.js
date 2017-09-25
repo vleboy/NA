@@ -140,7 +140,7 @@ export default new Router({
     },
     {
       path: '/helplist',
-      name: '直属商户报表',
+      name: '帮助列表',
       component: Helplist
     },
     {

@@ -59,7 +59,7 @@ export default new Router({
     },
     {
       path: '/propList',
-      name: '道具中心',
+      name: '道具列表',
       component: propList
     },
     {

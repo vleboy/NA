@@ -35,6 +35,11 @@
       <el-breadcrumb-item><span  class="large">道具列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'packageList'" class="title">
+      <el-breadcrumb-item>道具管理 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">礼包列表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'addGame'" class="title">
       <el-breadcrumb-item>游戏列表 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">创建游戏</span> </el-breadcrumb-item>
