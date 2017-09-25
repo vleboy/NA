@@ -3,8 +3,8 @@
 	<el-row>
       <el-col>
           <el-menu :default-active="nowindex" theme="dark" :router="true" :unique-opened="true">
+              <div class="logo"><span>公司Logo</span></div>
               <el-menu-item index="board">看板</el-menu-item>
-
               <el-submenu index="1">
                 <template slot="title">游戏运营商</template>
                 <el-menu-item index="operatorList">运营商列表</el-menu-item>
@@ -47,5 +47,10 @@ export default {
 </script>
 
 <style scoped>
-
+.logo {
+  font-size: 14px;
+  color: #ffffff;
+  text-align: center;
+  padding: 15px;
+}
 </style>

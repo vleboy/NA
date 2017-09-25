@@ -30,7 +30,10 @@ const variable = {
 
   getSearchGame: '', // 搜索存储游戏数据
 
-  getSearchOperator: '' // 搜索存储游戏商数据
+  getSearchOperator: '', // 搜索存储游戏商数据
+  visitedViews: [],
+  activeIndex: null,
+  tabIndex: null
 }
 
 export default {

@@ -24,58 +24,72 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: '看板',
       redirect: '/board'
     },
     {
       path: '/board',
+      name: '看板',
       component: Board
     },
     {
       path: '/helplist',
+      name: '帮助信息列表',
       component: Helplist
     },
     {
       path: '/helpdetail',
+      name: '帮助信息详情',
       component: Helpdetail
     },
     {
       path: '/addhelp',
+      name: '新增帮助信息',
       component: Addhelp
     },
     {
       path: '/gameBackstage',
+      name: '游戏后台',
       component: GameBackstage
     },
     {
       path: '/packageList',
+      name: '礼包列表',
       component: packageList
     },
     {
       path: '/propList',
+      name: '道具中心',
       component: propList
     },
     {
       path: '/addGame',
+      name: '创建游戏',
       component: addGame
     },
     {
       path: '/gameList',
+      name: '游戏列表',
       component: gameList
     },
     {
       path: '/gamedetail',
+      name: '游戏详细',
       component: gameDetail
     },
     {
       path: '/operatorList',
+      name: '游戏运营商列表',
       component: operatorList
     },
     {
       path: '/addOperator',
+      name: '创建游戏运营商',
       component: addOperator
     },
     {
       path: '/operatordetail',
+      name: '游戏运营商详细',
       component: operatorDetail
     }
   ]
