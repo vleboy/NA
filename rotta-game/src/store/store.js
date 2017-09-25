@@ -129,6 +129,14 @@ const mutations = {
     state.variable.isloading = false
   }, // 关闭Loading
 
+  isOpenEdit (state, payload) {
+    state.variable.isEdit = true
+  }, // 是否是编辑状态
+
+  isCloseEdit (state, payload) {
+    state.variable.isEdit = false
+  }, // 是否是编辑状态
+
   changeIslogin (state, payload) {
     if (localStorage.loginToken) {
       state.variable.islogin = true
@@ -260,7 +268,11 @@ const mutations = {
 
   searchOld (state, payload) {
     state.variable.searchOld = payload.data
-  }
+  },
+
+  storageOperatorItem (state, payload) {
+    state.variable.operatorItem = payload.data
+  } // 单个游戏运营商数据存储
 }
 
 export default new Vuex.Store({

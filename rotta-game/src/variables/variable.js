@@ -31,9 +31,16 @@ const variable = {
   getSearchGame: '', // 搜索存储游戏数据
 
   getSearchOperator: '', // 搜索存储游戏商数据
+<<<<<<< HEAD
   visitedViews: [],
   activeIndex: null,
   tabIndex: null
+=======
+
+  operatorItem: '', // 游戏运营商单条数据存储
+
+  isEdit: false
+>>>>>>> dev
 }
 
 export default {

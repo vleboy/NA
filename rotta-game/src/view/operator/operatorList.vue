@@ -33,6 +33,7 @@ export default {
   methods: {
     goCreate () {
       this.$router.push('addOperator')
+      this.$store.commit('isCloseEdit')
       this.$store.commit({
         type: 'recordNowindex',
         data: 'addOperator'

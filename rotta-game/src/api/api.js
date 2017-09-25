@@ -79,6 +79,8 @@ const api = {
 
   addCompanyNew: front.diana + front.stage + '/companyNew', // 新增游戏运营商
 
+  companyUpdate: front.diana + front.stage + '/companyUpdate', // 修改游戏运营商
+
   // hulk
 
   billTransfer: front.hulk + front.stage + '/billTransfer', // 存提点接口
