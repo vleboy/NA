@@ -155,7 +155,6 @@
 
     <el-breadcrumb separator="/" v-if="nowindex === 'msnlist'" class="title">
       <el-breadcrumb-item>系统设置 </el-breadcrumb-item>
-      <el-breadcrumb-item>线路号管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">线路号列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 

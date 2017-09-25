@@ -145,12 +145,12 @@ export default new Router({
     },
     {
       path: '/helpdetail',
-      name: '帮助信息列表',
+      name: '帮助详情',
       component: Helpdetail
     },
     {
       path: '/addhelp',
-      name: '添加帮助信息',
+      name: '添加信息',
       component: Addhelp
     },
     {
