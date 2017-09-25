@@ -140,12 +140,12 @@ export default new Router({
     },
     {
       path: '/managerloginlist',
-      name: '线路商登录日志',
+      name: '管理员登录日志',
       component: Managerloginlist
     },
     {
       path: '/merchantloginlist',
-      name: '商户登录日志',
+      name: '代理登录日志',
       component: Merchantloginlist
     },
     {
