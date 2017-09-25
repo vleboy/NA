@@ -67,7 +67,7 @@ export default {
 </script>
 
 <style scoped>
-.loginbar{float: right;margin: 0.5rem 1rem 0 0}
+.loginbar{margin: 0.5rem 1rem 0 0}
 .loginbar .helpBox{display: inline-block;width: 1.1rem;height: 1.1rem;vertical-align: -0.1rem}
 .loginbar .help-icon{width: 100%;height: 100%;}
 .loginbar .help{margin-right: 0.4rem;vertical-align: 0.1rem;cursor: pointer;color: #20a0ff}
