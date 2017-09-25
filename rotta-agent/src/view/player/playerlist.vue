@@ -4,13 +4,13 @@
       <el-row class="transition-box">
         <el-col :span="10">
           <span>&emsp;用户名: </span>
-          <el-input placeholder="请输入" class="input" v-model="searchInfo.searchName"></el-input>
+          <el-input placeholder="请输入" class="input" v-model="searchInfo.userName"></el-input>
         </el-col>
         <el-col :span="10" class="text-left">
           <span>直属代理: </span>
-          <el-input placeholder="请输入" class="input" v-model="searchInfo.parentName"></el-input>
+          <el-input placeholder="请输入" class="input" v-model="searchInfo.merchantName"></el-input>
         </el-col>
-        <el-button type="primary" @click="startSearch">搜索</el-button>
+        <el-button type="primary" @click="getPlayList">搜索</el-button>
         <el-button  @click="resultSearch">重置</el-button>
       </el-row>
     </div>
@@ -109,7 +109,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import { detailTime } from '@/behavior/format'
   import { invoke } from '@/libs/fetchLib'
   import api from '@/api/api'
@@ -134,7 +134,6 @@
         playerStatus: ['已锁定', '正常'],
         checkedArray: [],
         names: [],
-        searchArray: [],
         searchInfo: {},
         balanceInfo: {}
       }
@@ -202,7 +201,8 @@
         this.$store.commit('startLoading')
         invoke({
           url: api.getPlayerList,
-          method: api.post
+          method: api.post,
+          data: this.searchInfo
         }).then(
           result => {
             const [err, res] = result
@@ -213,8 +213,6 @@
               })
             } else {
               this.playerList = res.data.list
-              this.searchArray = res.data.list
-              console.log(this.playerList, 'this.playerList')
             }
             this.$store.commit('closeLoading')
           }
@@ -309,27 +307,6 @@
       getLastTime (row, col) {
         return detailTime(row.updateAt)
       }, // 格式化登录时间
-      startSearch () {
-        let {searchName, parentName} = this.searchInfo
-        this.arrayLocal = JSON.parse(JSON.stringify(this.searchArray))
-        if ((!searchName && !parentName)) {
-          this.getPlayList()
-        } else if (searchName && parentName) {
-          this.playerList = this.arrayLocal.filter(item => {
-            return (item.userName === this.searchInfo.searchName && item.parentName === this.searchInfo.parentName)
-          })
-        } else {
-          if (searchName) {
-            this.playerList = this.arrayLocal.filter(item => {
-              return item.userName === this.searchInfo.searchName
-            })
-          } else if (parentName) {
-            this.playerList = this.arrayLocal.filter(item => {
-              return item.parentName === this.searchInfo.parentName
-            })
-          }
-        }
-      },
       getNowsize (size) {
         this.nowSize = size
         console.log('当前每页:' + size)
@@ -339,7 +316,6 @@
         console.log('当前是第:' + page + '页')
       },
       resultSearch () {
-        this.searchArray = []
         this.searchInfo = {}
         this.getPlayList()
       },

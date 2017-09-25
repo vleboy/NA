@@ -11,7 +11,7 @@
           <span>玩家昵称: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.nickname"></el-input>
         </el-col>
-        <el-button type="primary" @click="startSearch">搜索</el-button>
+        <el-button type="primary" @click="getPlayList">搜索</el-button>
         <el-button  @click="resultSearch">重置</el-button>
       </el-row>
     </div>
@@ -69,7 +69,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import dateformat from 'dateformat'
   import { formatUserName, unFormatUserName } from '@/behavior/format'
   import { invoke } from '@/libs/fetchLib'
@@ -91,7 +91,6 @@
         playerList: [],
         playerStatus: ['已锁定', '正常'],
         checkedArray: [],
-        searchArray: [],
         names: [],
         searchInfo: {}
       }
@@ -144,7 +143,8 @@
         this.$store.commit('startLoading')
         invoke({
           url: api.getPlayList,
-          method: api.get
+          method: api.post,
+          data: this.searchInfo
         }).then(
           result => {
             const [err, res] = result
@@ -158,7 +158,6 @@
                 item.userName = formatUserName(item.userName)
               }
               this.playerList = res.data.list
-              this.searchArray = res.data.list
             }
             this.$store.commit('closeLoading')
           }
@@ -236,27 +235,6 @@
         var formatprev = dateformat(now, 'isoDate')
         return formatprev
       }, // 格式化创建时间
-      startSearch () {
-        let {userName, nickname} = this.searchInfo
-        this.arrayLocal = JSON.parse(JSON.stringify(this.searchArray))
-        if ((!userName && !nickname)) {
-          this.getPlayList()
-        } else if (userName && nickname) {
-          this.playerList = this.arrayLocal.filter(item => {
-            return (item.userName === this.searchInfo.userName && item.nickname === this.searchInfo.nickname)
-          })
-        } else {
-          if (userName) {
-            this.playerList = this.arrayLocal.filter(item => {
-              return item.userName === this.searchInfo.userName
-            })
-          } else if (nickname) {
-            this.playerList = this.arrayLocal.filter(item => {
-              return item.nickname === this.searchInfo.nickname
-            })
-          }
-        }
-      },
       getNowsize (size) {
         this.nowSize = size
         console.log('当前每页:' + size)
@@ -266,7 +244,6 @@
         console.log('当前是第:' + page + '页')
       },
       resultSearch () {
-        this.searchArray = []
         this.searchInfo = {}
         this.getPlayList()
       }
