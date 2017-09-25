@@ -28,8 +28,8 @@
         </el-table-column>
       <el-table-column label="操作" align="center" min-width="65">
             <template scope="scope">
-                <el-button type="text" class="myBtn" @click="goDetail(scope.row)">查看</el-button>
-                <!--<el-button type="text" class="myBtn" @click="editUser(scope.$index, scope.row)">更多</el-button>-->
+                <el-button type="text"  @click="goDetail(scope.row)">查看</el-button>
+                <el-button type="text"  @click="editOperator(scope.row)">编辑</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -101,6 +101,14 @@ export default {
       })
       this.$router.push('operatordetail')
     }, // 查看用户
+    editOperator (item) {
+      this.$router.push('addOperator')
+      this.$store.commit('isOpenEdit')
+      this.$store.commit({
+        type: 'storageOperatorItem',
+        data: item
+      })
+    },
     getNowsize (size) {
       this.nowSize = size
       console.log('当前每页:' + size)
@@ -117,6 +125,5 @@ export default {
 <style scoped>
 .outresult{padding: 2rem;}
 .gamelist span{width: 100%;text-align: center;margin: 0.25rem 0;background-color: #fff;color: #000}
-.myBtn{width: 100%;margin: 0 auto}
 .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
 </style>

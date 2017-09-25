@@ -28,7 +28,7 @@
     <div class="list-form">
       <el-row>
         <p class="print-justfy1">合作区域 : {{regionList[suclist.companyRegion-1]}}</p>
-        <p class="print-justfy1"><span>KEY : {{suclist.companyKey}}</span></p>
+        <p class="print-justfy1"><span>KEY : {{suclist.companyKey}}</span><span>（注意：本信息只显示一次，请记录此信息，若遗失请联系管理员）</span></p>
         <p class="print-justfy1"><span>合同备注 : {{suclist.remark == 'NULL!' ? '暂无' : suclist.remark}}</span></p>
       </el-row>
     </div>

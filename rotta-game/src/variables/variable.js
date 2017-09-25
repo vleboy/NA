@@ -30,7 +30,11 @@ const variable = {
 
   getSearchGame: '', // 搜索存储游戏数据
 
-  getSearchOperator: '' // 搜索存储游戏商数据
+  getSearchOperator: '', // 搜索存储游戏商数据
+
+  operatorItem: '', // 游戏运营商单条数据存储
+
+  isEdit: false
 }
 
 export default {
