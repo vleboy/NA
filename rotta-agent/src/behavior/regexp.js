@@ -337,10 +337,10 @@ export const checkLivemix = (rule, value, callback) => {
     callback(new Error('请输入洗码比'))
     store.state.checkform.liveMix = false
   } else if (!num.test(value)) {
-    callback(new Error('洗码比只能为0.00 - 100.00'))
+    callback(new Error('洗码比只能为0.00 - 1.00'))
     store.state.checkform.liveMix = false
-  } else if (value < 0 || value > 100) {
-    callback(new Error('洗码比应为0~100之间的数字'))
+  } else if (value < 0 || value > 1) {
+    callback(new Error('洗码比应为0.00 ~ 1.00之间的数字'))
     store.state.checkform.liveMix = false
   } else {
     var agentId = ''
@@ -378,10 +378,10 @@ export const checkVediomix = (rule, value, callback) => {
     callback(new Error('请输入洗码比'))
     store.state.checkform.vedioMix = false
   } else if (!num.test(value)) {
-    callback(new Error('洗码比只能为0.00 - 100.00'))
+    callback(new Error('洗码比只能为0.00 - 1.00'))
     store.state.checkform.vedioMix = false
-  } else if (value < 0 || value > 100) {
-    callback(new Error('洗码比应为0~100之间的数字'))
+  } else if (value < 0 || value > 1) {
+    callback(new Error('洗码比应为0.00 ~ 1.00之间的数字'))
     store.state.checkform.vedioMix = false
   } else {
     var agentId = ''

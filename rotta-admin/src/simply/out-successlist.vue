@@ -8,7 +8,7 @@
       <p>
         <span class="suclist-title">线路商昵称 : {{outdata.displayName}}</span>
         <span class="suclist-little-title" v-if="!this.$store.state.variable.outcreate.parent">所属线路商 : 直属于平台</span>
-        <span class="suclist-little-title" v-else>所属线路商 : {{formatUser(outsuccess.parentName)}}</span>
+        <span class="suclist-little-title" v-else>所属线路商 : {{outsuccess.parentDisplayName}}</span>
       </p>
       <p class="suclist-line1">
         <span class="">线路商ID : {{outsuccess.displayId}}</span>
