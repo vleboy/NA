@@ -20,7 +20,7 @@
           <span>玩家昵称: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.nickname"></el-input>
         </el-col>
-        <el-button type="primary" @click="startSearch">搜索</el-button>
+        <el-button type="primary" @click="getPlayList">搜索</el-button>
         <el-button @click="resultSearch">重置</el-button>
       </el-row>
     </div>
@@ -99,14 +99,8 @@
         playerList: [],
         playerStatus: ['已锁定', '正常'],
         checkedArray: [],
-        searchArray: [],
         names: [],
-        searchInfo: {
-          userName: '',
-          merchantName: '',
-          msn: '',
-          nickname: ''
-        }
+        searchInfo: {}
       }
     },
     created () {
@@ -156,7 +150,8 @@
         this.$store.commit('startLoading')
         invoke({
           url: api.getPlayList,
-          method: api.get
+          method: api.post,
+          data: this.searchInfo
         }).then(
           result => {
             const [err, res] = result
@@ -170,8 +165,6 @@
                 item.userNameParent = formatUserName(item.userName)
               }
               this.playerList = res.data.list
-              this.searchArray = res.data.list
-              console.log(this.playerList, 'this.playerList')
             }
             this.$store.commit('closeLoading')
           }
@@ -244,38 +237,6 @@
       getAtime (row, col) {
         return detailTime(row.updateAt)
       }, // 格式化创建时间
-      startSearch () {
-        let {userName, msn, merchantName, nickname} = this.searchInfo
-        this.arrayLocal = JSON.parse(JSON.stringify(this.searchArray))
-        if ((!userName && !msn && !merchantName && !nickname)) {
-          this.getPlayList()
-        } else if (userName && msn && merchantName && nickname) {
-          this.playerList = this.arrayLocal.filter(item => {
-            return (item.msn === this.searchInfo.msn &&
-            item.userNameParent === this.searchInfo.userName &&
-            item.merchantName === this.searchInfo.merchantName &&
-            item.nickname === this.searchInfo.nickname)
-          })
-        } else {
-          if (userName) {
-            this.playerList = this.arrayLocal.filter(item => {
-              return item.userNameParent === this.searchInfo.userName
-            })
-          } else if (msn) {
-            this.playerList = this.arrayLocal.filter(item => {
-              return item.msn === this.searchInfo.msn
-            })
-          } else if (merchantName) {
-            this.playerList = this.arrayLocal.filter(item => {
-              return item.merchantName === this.searchInfo.merchantName
-            })
-          } else if (nickname) {
-            this.playerList = this.arrayLocal.filter(item => {
-              return item.nickname === this.searchInfo.nickname
-            })
-          }
-        }
-      },
       getNowsize (size) {
         this.nowSize = size
         console.log('当前每页:' + size)
@@ -285,7 +246,6 @@
         console.log('当前是第:' + page + '页')
       },
       resultSearch () {
-        this.searchArray = []
         this.searchInfo = {}
         this.getPlayList()
       }
