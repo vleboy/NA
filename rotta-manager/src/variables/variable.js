@@ -118,7 +118,10 @@ const variable = {
 
   msnList: [], // 线路号列表
 
-  playerDetail: [] // 玩家详细
+  playerDetail: [], // 玩家详细
+  visitedViews: [],
+  activeIndex: null,
+  tabIndex: null
 }
 
 export default {

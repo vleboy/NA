@@ -7,11 +7,11 @@
     <div v-if='islogin === true' style="width:100%;height:100%">
       <!-- 顶部条 -->
       <div class="top Noprint" >
-          <div class="logoBox Noprint">
-            <span>公司Logo</span>
-          </div>
+        <div class="top-header">
           <bread class="Noprint"></bread>
           <loginbar class="Noprint"></loginbar>
+        </div>
+        <div class="tab"><Tab class="Noprint"></Tab></div>
       </div>
       <!-- 左侧导航条 -->
       <div class="main-left">
@@ -38,6 +38,7 @@
 import Rottamap from '@/components/Rottamap' // 组织架构
 import Sidebar from '@/components/sidebar' // 导航条组件
 import Bread from '@/components/bread' // 面包屑组件
+import Tab from '@/components/tabs' // 标签页组件
 import Loginbar from '@/components/loginbar' // 顶部条组件
 import Login from '@/components/login' // 登录框组件
 export default {
@@ -46,7 +47,8 @@ export default {
     Login,
     Loginbar,
     Bread,
-    Sidebar
+    Sidebar,
+    Tab
   },
   beforeCreate () {
     this.$store.commit('changeIslogin')
@@ -92,18 +94,22 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 #app{width: 100%;height: 100%;}
 /* #20a0ff */
 /**/
-.top{width: 100%;height: 3rem;position:fixed;top:0;left:0;right:0;background-color:#fff;}
+.top{width: 85%;position:fixed;top:0;left:15%;right:0;background-color:#fff;}
 /*::-webkit-scrollbar {*/
 /*width: 0px;*/
 /*height: 1px;*/
 /*}*/
-.top:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+/* .top:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;} */
 /**/
+.top-header{
+  display: flex;
+  justify-content: space-between;
+}
 
 .main-left{
   width:15%;
   position:fixed;
-  top:3rem;
+  top:0;
   left:0;
   bottom:0;
   background-color: #324157;
@@ -115,14 +121,14 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 
 .main-right-true{
   height:100%;
-  padding:3rem 20% 0 15%;
+  padding:99px 20% 0 15%;
   box-sizing:border-box;
   overflow-x: hidden;
 }
 
 .main-right-false{
   height:100%;
-  padding:3rem 0 0 15%;
+  padding:99px 0 0 15%;
   box-sizing:border-box;
   overflow-x: hidden;
 }

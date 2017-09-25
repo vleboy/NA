@@ -47,110 +47,137 @@ export default new Router({
     },
     {
       path: '/',
+      name: '看板',
       redirect: '/board'
     },
     {
       path: '/board',
+      name: '看板',
       component: Board
     },
     {
       path: '/outlist',
+      name: '线路商列表',
       component: Outlist
     },
     {
       path: '/outdetail',
+      name: '线路商详情页',
       component: Outdetail
     },
     {
       path: '/outcreate',
+      name: '创建线路商',
       component: Outcreate
     },
     {
       path: '/comlist',
+      name: '商户列表',
       component: Comlist
     },
     {
       path: '/comdetail',
+      name: '商户详情页',
       component: Comdetail
     },
     {
       path: '/comcreate',
+      name: '创建商户',
       component: Comcreate
     },
     {
       path: '/playerlist',
+      name: '玩家详情页',
       component: Playerlist
     },
     {
       path: '/playerdetail',
+      name: '玩家详情页',
       component: Playerdetail
     },
     {
       path: '/gamelist',
+      name: '游戏列表',
       component: Gamelist
     },
     {
       path: '/personal',
+      name: '个人中心',
       component: Personal
     },
     {
       path: '/advertiselist',
+      name: '广告列表',
       component: Advertiselist
     },
     {
       path: '/advertisedetail',
+      name: '广告详情',
       component: Advertisedetail
     },
     {
       path: '/Addadvertise',
+      name: '新增广告',
       component: Addadvertise
     },
     {
       path: '/manager',
+      name: '直属线路商报表',
       component: Manager
     },
     {
       path: '/merchant',
+      name: '直属商户报表',
       component: Merchant
     },
     {
       path: '/helplist',
+      name: '帮助信息列表',
       component: Helplist
     },
     {
       path: '/helpdetail',
+      name: '帮助信息详情',
       component: Helpdetail
     },
     {
       path: '/addhelp',
+      name: '新增帮助信息',
       component: Addhelp
     },
     {
       path: '/managerloginlist',
+      name: '线路商登录日志',
       component: Managerloginlist
     },
     {
       path: '/merchantloginlist',
+      name: '商户登录日志',
       component: Merchantloginlist
     },
     {
       path: '/admindate',
+      name: '管理员操作日志',
       component: Admindate
     },
     {
       path: '/adminlist',
+      name: '管理员列表',
       component: Adminlist
     },
     {
       path: '/addadmin',
+      name: '新增管理员',
       component: Addadmin
     },
     {
       path: '/msnlist',
+      name: '线路号列表',
       component: Msnlist
     },
     {
       path: '/gameBackstage',
+      name: '游戏后台',
       component: GameBackstage
     }
   ]
