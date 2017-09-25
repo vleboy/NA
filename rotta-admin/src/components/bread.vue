@@ -160,6 +160,7 @@
     </el-breadcrumb>
 
    <el-breadcrumb separator="/" v-if="nowindex === 'boothList'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
       <el-breadcrumb-item>展位管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">展位列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
