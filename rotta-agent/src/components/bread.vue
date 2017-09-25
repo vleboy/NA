@@ -175,7 +175,7 @@ export default {
 </script>
 
 <style scoped>
-.bread{margin-left: 1rem;margin-top: 1rem}
+.bread{float: left;margin-left: 1rem;margin-top: 1rem}
 .bread .title{line-height: 1.5rem;font-size: 0.8rem}
 .bread .large{font-size: 1.2rem}
 </style>

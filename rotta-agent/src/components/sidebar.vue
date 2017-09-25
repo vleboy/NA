@@ -3,8 +3,7 @@
 	<el-row>
       <el-col>
           <el-menu :default-active="nowindex" theme="dark" :router="true" :unique-opened="true">
-              <div class="logo"><span>公司Logo</span></div>
-              <el-menu-item index="board">看板</el-menu-item>
+               <el-menu-item index="board">看板</el-menu-item>
               <el-menu-item index="personal">个人中心</el-menu-item>
               <el-submenu index="1">
                 <template slot="title">代理中心</template>
@@ -73,11 +72,6 @@ export default {
 </script>
 
 <style scoped>
-.logo {
-  font-size: 14px;
-  color: #ffffff;
-  text-align: center;
-  padding: 15px;
-}
+
 </style>
 
