@@ -80,7 +80,7 @@ export default new Router({
     },
     {
       path: '/comdetail',
-      name: '编辑代理',
+      name: '查看代理',
       component: Comdetail
     },
     {
