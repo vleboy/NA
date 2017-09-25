@@ -8,7 +8,7 @@
       <p>
         <span class="suclist-title">商户昵称 : {{comdata.displayName}}</span>
         <span class="suclist-little-title" v-if="!this.$store.state.variable.comcreate.parent">所属线路商 : 直属于平台</span>
-        <span class="suclist-little-title" v-else>所属线路商 : {{formatUser(comsuccess.parentName)}}</span>
+        <span class="suclist-little-title" v-else>所属线路商 : {{comsuccess.parentDisplayName}}</span>
       </p>
       <p class="suclist-line1">
         <span class="">商户号 : {{comsuccess.displayId}}</span>

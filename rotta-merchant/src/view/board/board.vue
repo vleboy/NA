@@ -69,7 +69,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <div class="content-border">
-            <div class="content-title">售出/收益</div>
+            <div class="content-title">收益</div>
             <div>
               <div class="content-top">
                 <el-col class="g-text-right">
@@ -119,9 +119,9 @@
         totalData: [],
         dataChess: [],
         dataVideo: [],
-        statisticalTextOne: ['今日售出点数', '今日收益点数', '在线玩家', '今日签约数'],
-        statisticalTextTwo: ['历史售出点数', '历史收益点数', '玩家总数', '历史签约数'],
-        statisticalIcon: ['/static/icon-1.png', '/static/icon-2.png', '/static/icon-3.png', '/static/icon-4.png'],
+        statisticalTextOne: ['今日收益点数', '在线玩家'],
+        statisticalTextTwo: ['历史收益点数', '玩家总数'],
+        statisticalIcon: ['/static/icon-2.png', '/static/icon-3.png'],
         dateTypeArray: [],
         consumeList: '',
         consumeAndIncomeList: '',
@@ -135,14 +135,14 @@
     },
     mounted () {
       let self = this
-      for (let i = 0; i < 4; i++){
+      for (let i = 0; i < 2; i++){
         self.getStatisticalNum(i)
       }
       self.changeDateType()
       self.changeDateTypeTwo()
       self.intervalid = setInterval(() => {
         self.isSetInterval = true
-        for (let i = 0; i < 4; i++){
+        for (let i = 0; i < 2; i++){
           self.getStatisticalNum(i)
         }
         self.changeDateType()
@@ -173,11 +173,6 @@
       optionSeriesLine () {
         let optionSeriesLine = [
           {
-            name: '售出',
-            type: 'line',
-            data:  this.consumeAndIncomeList.sale
-          },
-          {
             name: '收益',
             type: 'line',
             data: this.consumeAndIncomeList.consume
@@ -204,14 +199,14 @@
           url: api.statisticsAll,
           method: api.post,
           data: {
-            type: index+1
+            type: index+2
           }
         }).then(
           result => {
             const [err, res] = result
             if (!this.isSetInterval) {
               this.totalData.splice(index, 0, {
-                index: index+1,
+                index: index+2,
                 icon: this.statisticalIcon[index],
                 oneText: this.statisticalTextOne[index],
                 twoText: this.statisticalTextTwo[index],
@@ -369,10 +364,6 @@
           },
           legend: {
             data: [
-              {
-                name: '售出',
-                icon: 'circle'
-              },
               {
                 name: '收益',
                 icon: 'circle'
