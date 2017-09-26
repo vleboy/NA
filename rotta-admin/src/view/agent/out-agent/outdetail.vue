@@ -105,12 +105,14 @@
                                     </div>
                                 </el-form-item>
                                 <el-form-item label="线路商游戏" v-show="this.disable == false">
-                                    <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
-                                        <el-checkbox :label="item.name" @change="selectGamelist"></el-checkbox>
-                                    </div>
+                                    <el-checkbox-group v-model="selectGame">
+                                        <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
+                                    </el-checkbox-group>
+                                    <!-- <div v-for="item in " >
+                                        <el-checkbox :label="item.name" v-model="selectGame" @change="selectGamelist(item)"></el-checkbox>
+                                    </div> -->
                                 </el-form-item>
                             </div>
-                            <!-- <el-button type="text" @click="addGame" style="float:left;margin-left:0.1rem">添加</el-button> -->
                         </el-col>
                         <el-col :span="1">
                             <span class="hidden">1</span>
@@ -452,7 +454,7 @@ export default {
     this.$store.dispatch('getOutdetail_child_managers')
     this.$store.dispatch('getOutdetail_property')
   },
-  beforeMounte () {
+  mounted () {
     this.addGame()
   },
   computed: {
@@ -732,7 +734,9 @@ export default {
         }
       },
       // isforever: true,
-      gameList: [],
+      gameList: [], // 上级拥有的游戏(包含所有的对象)
+      parentGamelist: [], // 上级拥有的游戏(只带名字的)
+      selectGame: [], // 修改游戏选中值(只带名字的)
       balance: 0, // 余额
       loading: false,
       disable: true, // 禁用输入框
@@ -790,9 +794,6 @@ export default {
     }
   },
   methods: {
-    selectGamelist (data) {
-      console.log(data)
-    },
     refreshOutmerchant () {
       this.$store.commit('startLoading')
       this.$store.dispatch('getOutdetail_child_merchants')
@@ -844,11 +845,16 @@ export default {
           if (err) {
           } else {
             var data = ret.data.payload
-            this.outdetail.gameList = data
+            this.gameList = data
+            for(let item of data) {
+              if (item.name) {
+                this.parentGamelist.push(item.name)
+              }
+            }
           }
         }
       )
-    }, // 新增游戏
+    }, // 获取上级拥有游戏
     user (name) {
       return formatUsername(name)
     }, // 格式化用户名
@@ -885,6 +891,11 @@ export default {
       return billType(bill)
     },
     turnONedit () {
+      for (let item of this.outdetail.gameList) {
+        if (item.name) {
+          this.selectGame.push(item.name)
+        }
+      }
       this.disable = false
     }, // 开启编辑
     changeContract () {
@@ -919,6 +930,14 @@ export default {
         wrong = !wrong
         this.loading = true
         var outdetailID = ''
+        this.outdetail.gameList = []
+        for (let outside of this.gameList) {
+          for (let inside of this.selectGame) {
+            if (outside.name == inside) {
+              this.outdetail.gameList.push(outside)
+            }
+          }
+        }
         if (this.outdetail.contractPeriod !== 0) {
           for (var i = this.outdetail.contractPeriod.length - 1; i >= 0; i--) {
             if (isNaN(this.outdetail.contractPeriod[i].toString())) {
@@ -931,7 +950,6 @@ export default {
         } else {
           outdetailID = this.$store.state.variable.outdetailID
         }
-        console.log('修改提交的数据是:', this.outdetail)
         invoke({
           url: api.managers + '/' + outdetailID,
           method: api.post,
