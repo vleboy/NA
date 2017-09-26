@@ -88,9 +88,11 @@ export default {
         border-radius: 100%;
         margin-bottom: 20px;
         border: 4px solid transparent;
+        -webkit-transition: border .5s;
         transition: border .5s;
         &:hover {
           border: 4px solid red;
+          -webkit-transition: border .5s;
           transition: border .5s;
         }
         img {

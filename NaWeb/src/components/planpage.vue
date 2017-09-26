@@ -105,7 +105,8 @@ export default {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translateX(-50%)translateY(-50%);
+        -webkit-transform: translateX(-50%)translateY(-50%);
+                transform: translateX(-50%)translateY(-50%);
         h1 {
           font-size: 24px;
           color: #c00000;

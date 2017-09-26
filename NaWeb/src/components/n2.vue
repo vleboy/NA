@@ -106,7 +106,8 @@ export default {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translateX(-50%)translateY(-50%);
+        -webkit-transform: translateX(-50%)translateY(-50%);
+                transform: translateX(-50%)translateY(-50%);
         width: 408px;
         font-size: 16px;
         line-height: 26.40005px;
@@ -146,8 +147,9 @@ export default {
             overflow: hidden;
             &:hover .bg {
               opacity: 0.2;
+              -webkit-transition: opacity .5s;
               transition: opacity .5s;
-            }
+            }}
             h2 {
               position: absolute;
               bottom: 0px;
@@ -164,6 +166,7 @@ export default {
               height: 100%;
               background-color: red;
               opacity: 0;
+              -webkit-transition: opacity .5s;
               transition: opacity .5s;
             }
           }

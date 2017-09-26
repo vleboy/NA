@@ -87,7 +87,8 @@ export default {
       position: absolute;
       bottom: 17px;
       left: 50%;
-      transform: translateX(-52%);
+      -webkit-transform: translateX(-52%);
+              transform: translateX(-52%);
       margin: 0;
       padding: 0;
       z-index: 2;
