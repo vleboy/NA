@@ -876,7 +876,13 @@ const mutations = {
 
   playerDetail (state, payload) {
     state.variable.playerDetail = payload.data
-  } // 存储玩家详细
+  }, // 存储玩家详细
+  
+  resetTab (state) {
+    state.variable.visitedViews = []
+    state.variable.activeIndex = null
+    state.variable.tabIndex = null
+  } // 清空Tab标签
 }
 
 export default new Vuex.Store({

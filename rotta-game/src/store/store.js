@@ -272,7 +272,13 @@ const mutations = {
 
   storageOperatorItem (state, payload) {
     state.variable.operatorItem = payload.data
-  } // 单个游戏运营商数据存储
+  }, // 单个游戏运营商数据存储
+
+  resetTab (state) {
+    state.variable.visitedViews = []
+    state.variable.activeIndex = null
+    state.variable.tabIndex = null
+  } // 清空Tab标签
 }
 
 export default new Vuex.Store({

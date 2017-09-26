@@ -582,7 +582,13 @@ const mutations = {
 
   rememberBoothType (state, payload) {
     state.variable.boothType = payload.data
-  }
+  },
+
+  resetTab (state) {
+    state.variable.visitedViews = []
+    state.variable.activeIndex = null
+    state.variable.tabIndex = null
+  } // 清空Tab标签
 }
 
 export default new Vuex.Store({

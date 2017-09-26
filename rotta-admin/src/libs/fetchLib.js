@@ -1,4 +1,5 @@
-// import { ZEUS_GATEWAY } from './fetchConfig'
+import Vue from 'vue'
+import router from '@/router'
 import api from '@/api/api'
 import axios from 'axios'
 import store from '@/store/store'
@@ -10,7 +11,6 @@ export const invoke = async (cfg) => {
     method: cfg.method,
     url: cfg.url
   }
-  // console.log('发送请求时的token为', token)
   const requestConfig = {
     baseURL: api,
     headers: {
@@ -19,13 +19,16 @@ export const invoke = async (cfg) => {
     ...param
   }
   try {
-    // Message.warning('您的Token已过期,请重新登录！')
     const response = await axios.request(requestConfig)
     return [0, response]
   } catch (e) {
     if (!e.response) {
+      router.push('board')
       store.state.variable.islogin = false
       store.state.variable.isloading = false
+      store.state.variable.visitedViews = []
+      store.state.variable.activeIndex = null
+      store.state.variable.tabIndex = null
       localStorage.clear()
       Message.warning('您的Token已过期,请重新登录！')
     }

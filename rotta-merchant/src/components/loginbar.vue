@@ -43,6 +43,7 @@ export default {
           data: 'board'
         })
         this.$router.push('board')
+        this.$store.commit('resetTab')
         this.$store.commit('logout')
         localStorage.clear()
       }).catch(() => {

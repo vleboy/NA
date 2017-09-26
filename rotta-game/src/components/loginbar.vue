@@ -42,6 +42,7 @@ export default {
           type: 'recordNowindex',
           data: 'board'
         })
+        this.$store.commit('resetTab')
         this.$store.commit('logout')
         localStorage.clear()
       }).catch(() => {
