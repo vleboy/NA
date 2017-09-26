@@ -108,9 +108,6 @@
                                     <el-checkbox-group v-model="selectGame">
                                         <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
                                     </el-checkbox-group>
-                                    <!-- <div v-for="item in " >
-                                        <el-checkbox :label="item.name" v-model="selectGame" @change="selectGamelist(item)"></el-checkbox>
-                                    </div> -->
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -938,6 +935,7 @@ export default {
             }
           }
         }
+        this.outdetail.gameList = Array.from(new Set(this.outdetail.gameList))
         if (this.outdetail.contractPeriod !== 0) {
           for (var i = this.outdetail.contractPeriod.length - 1; i >= 0; i--) {
             if (isNaN(this.outdetail.contractPeriod[i].toString())) {
