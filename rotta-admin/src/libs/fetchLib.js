@@ -2,6 +2,7 @@
 import api from '@/api/api'
 import axios from 'axios'
 import store from '@/store/store'
+import { Message } from 'element-ui'
 export const invoke = async (cfg) => {
   const token = store.state.variable.token
   const param = {
@@ -18,9 +19,16 @@ export const invoke = async (cfg) => {
     ...param
   }
   try {
+    // Message.warning('您的Token已过期,请重新登录！')
     const response = await axios.request(requestConfig)
     return [0, response]
   } catch (e) {
+    if (!e.response) {
+      store.state.variable.islogin = false
+      store.state.variable.isloading = false
+      localStorage.clear()
+      Message.warning('您的Token已过期,请重新登录！')
+    }
     return [e.response.data.err, 0]
   }
 }
