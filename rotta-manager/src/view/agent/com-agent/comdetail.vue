@@ -169,10 +169,10 @@
                         <el-col :span="18">
                             <div class="">
                                 <el-form-item label="备注" v-show="this.disable == true">
-                                    <div style="word-wrap: break-word;word-break: normal;">{{Remark(outdetail.remark)}}</div>
+                                    <div style="word-wrap: break-word;word-break: normal;">{{Remark(comdetail.remark)}}</div>
                                 </el-form-item>
                                 <el-form-item label="备注" v-show="this.disable == false">
-                                    <el-input autosize v-model="outdetail.remark"></el-input>
+                                    <el-input autosize v-model="comdetail.remark"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>

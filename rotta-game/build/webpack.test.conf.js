@@ -38,7 +38,7 @@ var webpackConfig = merge(baseWebpackConfig, {
 
       'thor_URL': JSON.stringify('https://b8asomqkih.execute-api.ap-southeast-1.amazonaws.com/'), // thor有关接口
 
-      'hera_URL': JSON.stringify('https://fyzoquo3p9.execute-api.ap-southeast-1.amazonaws.com/'), // hera有关接口
+      'hera_URL': JSON.stringify('https://xbbw2jfb58.execute-api.ap-southeast-1.amazonaws.com/'), // hera有关接口
 
       'hawkeye_URL': JSON.stringify('https://ajlhg1sv9j.execute-api.ap-southeast-1.amazonaws.com/') // hawkeye有关接口
     }),

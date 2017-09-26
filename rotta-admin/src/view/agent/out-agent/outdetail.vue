@@ -106,7 +106,7 @@
                                 </el-form-item>
                                 <el-form-item label="线路商游戏" v-show="this.disable == false">
                                     <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
-                                        <el-checkbox :label="item.name"></el-checkbox>
+                                        <el-checkbox :label="item.name" @change="selectGamelist"></el-checkbox>
                                     </div>
                                 </el-form-item>
                             </div>
@@ -790,6 +790,9 @@ export default {
     }
   },
   methods: {
+    selectGamelist (data) {
+      console.log(data)
+    },
     refreshOutmerchant () {
       this.$store.commit('startLoading')
       this.$store.dispatch('getOutdetail_child_merchants')
