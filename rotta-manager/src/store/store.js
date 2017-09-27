@@ -716,7 +716,7 @@ const mutations = {
     if (state.variable.condition.condition_three) {
       var result3 = []
       state.variable.comlist.filter(item => {
-        if (item.managerEmail.indexOf(state.variable.condition.condition_three) != -1) {
+        if (item.merchantEmail.indexOf(state.variable.condition.condition_three) != -1) {
           result3.push(item)
         }
       })
@@ -736,7 +736,7 @@ const mutations = {
       state.variable.comlist = result4
     }
     if (!state.variable.condition.condition_one && !state.variable.condition.condition_two && !state.variable.condition.condition_three && !state.variable.condition.condition_four) {
-      state.variable.comlist = state.variable.copyoutlist
+      state.variable.comlist = state.variable.copycomlist
     }
   }, // 搜索商户列表数据
 
