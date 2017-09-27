@@ -130,6 +130,7 @@ export default {
       return detailTime(time)
     },
     getnowlist (code) {
+      this.searchGameName = ''
       this.$store.commit('startLoading')
       var data = {
         gameType: code
@@ -153,6 +154,7 @@ export default {
       )
     }, // 获取当前类型游戏
     getAlllist () {
+      localStorage.removeItem('clickGameType')
       this.$store.commit('startLoading')
       var type = []
       for (var i = this.$store.state.variable.gameListData.length - 1; i >= 0; i--) {
@@ -199,12 +201,14 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            console.log(data)
             if (this.searchGameName) {
               this.searchGame()
             }
-            if (localStorage.clickGameType && !this.searchGame) {
+            if (localStorage.clickGameType && !this.searchGameName) {
               this.getnowlist(localStorage.clickGameType)
+            }
+            if (!this.searchGameName && !localStorage.clickGameType) {
+              this.getAlllist()
             }
             this.$message({
               message: '操作成功',
@@ -234,12 +238,14 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            console.log(data)
             if (this.searchGameName) {
               this.searchGame()
             }
-            if (localStorage.clickGameType && !this.searchGame) {
+            if (localStorage.clickGameType && !this.searchGameName) {
               this.getnowlist(localStorage.clickGameType)
+            }
+            if (!this.searchGameName && !localStorage.clickGameType) {
+              this.getAlllist()
             }
             this.$message({
               message: '操作成功',
@@ -269,12 +275,14 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            console.log(data)
             if (this.searchGameName) {
               this.searchGame()
             }
-            if (localStorage.clickGameType && !this.searchGame) {
+            if (localStorage.clickGameType && !this.searchGameName) {
               this.getnowlist(localStorage.clickGameType)
+            }
+            if (!this.searchGameName && !localStorage.clickGameType) {
+              this.getAlllist()
             }
             this.$message({
               message: '操作成功',
@@ -286,7 +294,7 @@ export default {
     } // 维护游戏
   },
   beforeDestory () {
-    localStorage.removeItem('clickGameType', code)
+    localStorage.removeItem('clickGameType')
   }
 }
 </script>
