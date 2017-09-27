@@ -327,6 +327,12 @@ export default {
       }
     }, // 永久合同时间
     cancel () {
+      if (Object.values(this.$store.state.variable.condition) && this.$store.state.variable.nowIndex == 'outlist') {
+        this.$store.commit('searchOutlist')
+      }
+      if (Object.values(this.$store.state.variable.condition) && this.$store.state.variable.nowIndex == 'comlist') {
+        this.$store.commit('searchComlist')
+      }
       this.$store.commit('closeStoreDialog')
       this.$store.commit('closeWithdrawDialog')
       this.$store.commit('resetfinish')

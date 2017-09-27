@@ -115,7 +115,6 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('搜索的返回结果:', data)
               this.allgames = data
               this.$store.commit('closeLoading')
             }
@@ -135,7 +134,7 @@ export default {
       var data = {
         gameType: code
       }
-      // console.log(code)
+      localStorage.setItem('clickGameType', code)
       invoke({
         url: api.gameList,
         method: api.post,
@@ -201,8 +200,12 @@ export default {
           } else {
             var data = ret.data.payload
             console.log(data)
-            this.getnowlist()
-            this.getAlllist()
+            if (this.searchGameName) {
+              this.searchGame()
+            }
+            if (localStorage.clickGameType && !this.searchGame) {
+              this.getnowlist(localStorage.clickGameType)
+            }
             this.$message({
               message: '操作成功',
               type: 'success'
@@ -232,8 +235,12 @@ export default {
           } else {
             var data = ret.data.payload
             console.log(data)
-            this.getnowlist()
-            this.getAlllist()
+            if (this.searchGameName) {
+              this.searchGame()
+            }
+            if (localStorage.clickGameType && !this.searchGame) {
+              this.getnowlist(localStorage.clickGameType)
+            }
             this.$message({
               message: '操作成功',
               type: 'success'
@@ -263,8 +270,12 @@ export default {
           } else {
             var data = ret.data.payload
             console.log(data)
-            this.getnowlist()
-            this.getAlllist()
+            if (this.searchGameName) {
+              this.searchGame()
+            }
+            if (localStorage.clickGameType && !this.searchGame) {
+              this.getnowlist(localStorage.clickGameType)
+            }
             this.$message({
               message: '操作成功',
               type: 'success'
@@ -273,6 +284,9 @@ export default {
         }
       )
     } // 维护游戏
+  },
+  beforeDestory () {
+    localStorage.removeItem('clickGameType', code)
   }
 }
 </script>
