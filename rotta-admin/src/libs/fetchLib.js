@@ -22,7 +22,7 @@ export const invoke = async (cfg) => {
     const response = await axios.request(requestConfig)
     return [0, response]
   } catch (e) {
-    if (!e.response) {
+    if (!e.response && e.status == '500') {
       router.push('board')
       store.state.variable.islogin = false
       store.state.variable.isloading = false
