@@ -697,32 +697,52 @@ const mutations = {
 
   postSearch_conditon (state, payload) {
     state.variable.condition = payload.data
-    // console.log('搜索条件是', Object.values(state.variable.condition))
+    console.log('搜索条件是', Object.values(state.variable.condition))
   }, // 记录搜索条件
 
   searchOutlist () {
     state.variable.outlist = state.variable.copyoutlist
     if (state.variable.condition.condition_one) {
-      state.variable.outlist = state.variable.outlist.filter(item => {
-        return item.suffix.indexOf(state.variable.condition.condition_one) != -1
+      var result1 = []
+      state.variable.outlist.filter(item => {
+        if (item.suffix.indexOf(state.variable.condition.condition_one) != -1) {
+          result1.push(item)
+        }
       })
-    } else if (state.variable.condition.condition_two) {
-      state.variable.outlist = state.variable.outlist.filter(item => {
-        return item.displayName.indexOf(state.variable.condition.condition_two) != -1
+      state.variable.outlist = result1
+    }
+    if (state.variable.condition.condition_two) {
+      var result2 = []
+      state.variable.outlist.filter(item => {
+        if (item.displayName.indexOf(state.variable.condition.condition_two) != -1) {
+          result2.push(item)
+        }
       })
-    } else if (state.variable.condition.condition_three) {
-      state.variable.outlist = state.variable.outlist.filter(item => {
-        return item.managerEmail.indexOf(state.variable.condition.condition_three) != -1
+      state.variable.outlist = result2
+    }
+    if (state.variable.condition.condition_three) {
+      var result3 = []
+      state.variable.outlist.filter(item => {
+        if (item.managerEmail.indexOf(state.variable.condition.condition_three) != -1) {
+          result3.push(item)
+        }
       })
-    } else if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0) {
+      state.variable.outlist = result3
+    }
+    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0) {
+      var result4 = []
       var a = new Date(state.variable.condition.condition_four[0].toString())
       a = a.getTime()
       var b = new Date(state.variable.condition.condition_four[1].toString())
       b = b.getTime()
-      state.variable.outlist = state.variable.outlist.filter(item => {
-        return a <= item.createdAt && item.createdAt <= b
+      state.variable.outlist.filter(item => {
+        if (a <= item.createdAt && item.createdAt <= b) {
+          result4.push(item)
+        }
       })
-    } else {
+      state.variable.outlist = result4
+    }
+    if (!state.variable.condition.condition_one && !state.variable.condition.condition_two && !state.variable.condition.condition_three && !state.variable.condition.condition_four) {
       state.variable.outlist = state.variable.copyoutlist
     }
   }, // 搜索线路商列表数据
@@ -730,27 +750,47 @@ const mutations = {
   searchComlist () {
     state.variable.comlist = state.variable.copycomlist
     if (state.variable.condition.condition_one) {
-      state.variable.comlist = state.variable.comlist.filter(item => {
-        return item.suffix.indexOf(state.variable.condition.condition_one) != -1
+      var result1 = []
+      state.variable.comlist.filter(item => {
+        if (item.suffix.indexOf(state.variable.condition.condition_one) != -1) {
+          result1.push(item)
+        }
       })
-    } else if (state.variable.condition.condition_two) {
-      state.variable.comlist = state.variable.comlist.filter(item => {
-        return item.displayName.indexOf(state.variable.condition.condition_two) != -1
+      state.variable.comlist = result1
+    }
+    if (state.variable.condition.condition_two) {
+      var result2 = []
+      state.variable.comlist.filter(item => {
+        if (item.displayName.indexOf(state.variable.condition.condition_two) != -1) {
+          result2.push(item)
+        }
       })
-    } else if (state.variable.condition.condition_three) {
-      state.variable.comlist = state.variable.comlist.filter(item => {
-        return item.merchantEmail.indexOf(state.variable.condition.condition_three) != -1
+      state.variable.comlist = result2
+    }
+    if (state.variable.condition.condition_three) {
+      var result3 = []
+      state.variable.comlist.filter(item => {
+        if (item.managerEmail.indexOf(state.variable.condition.condition_three) != -1) {
+          result3.push(item)
+        }
       })
-    } else if (state.variable.condition.condition_four) {
+      state.variable.comlist = result3
+    }
+    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0) {
+      var result4 = []
       var a = new Date(state.variable.condition.condition_four[0].toString())
       a = a.getTime()
       var b = new Date(state.variable.condition.condition_four[1].toString())
       b = b.getTime()
-      state.variable.comlist = state.variable.comlist.filter(item => {
-        return a <= item.createdAt && item.createdAt <= b
+      state.variable.comlist.filter(item => {
+        if (a <= item.createdAt && item.createdAt <= b) {
+          result4.push(item)
+        }
       })
-    } else {
-      state.variable.comlist = state.variable.copycomlist
+      state.variable.comlist = result4
+    }
+    if (!state.variable.condition.condition_one && !state.variable.condition.condition_two && !state.variable.condition.condition_three && !state.variable.condition.condition_four) {
+      state.variable.comlist = state.variable.copyoutlist
     }
   }, // 搜索商户列表数据
 
