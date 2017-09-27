@@ -22,15 +22,15 @@ export const invoke = async (cfg) => {
     const response = await axios.request(requestConfig)
     return [0, response]
   } catch (e) {
-    if (!e.response && e.status == '500') {
-      router.push('board')
-      store.state.variable.islogin = false
+    if (!e.response) {
+      // router.push('board')
+      // store.state.variable.islogin = false
       store.state.variable.isloading = false
-      store.state.variable.visitedViews = []
-      store.state.variable.activeIndex = null
-      store.state.variable.tabIndex = null
-      localStorage.clear()
-      Message.warning('您的Token已过期,请重新登录！')
+      // store.state.variable.visitedViews = []
+      // store.state.variable.activeIndex = null
+      // store.state.variable.tabIndex = null
+      // localStorage.clear()
+      Message.warning('您的Token已过期或网络不稳定')
     }
     return [e.response.data.err, 0]
   }

@@ -40,7 +40,7 @@ export default {
       condition_one: '',
       condition_two: '',
       condition_three: '',
-      condition_four: ''
+      condition_four: []
     }
   },
   computed: {
@@ -61,8 +61,34 @@ export default {
         condition_one: '',
         condition_two: '',
         condition_three: '',
-        condition_four: ''
+        condition_four: []
       }
+    }
+  },
+  watch: {
+    'condition.condition_one' (val) {
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: this.condition
+      })
+    },
+    'condition.condition_two' (val) {
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: this.condition
+      })
+    },
+    'condition.condition_three' (val) {
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: this.condition
+      })
+    },
+    'condition.condition_four' (val) {
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: this.condition
+      })
     }
   },
   mounted () {
@@ -80,26 +106,46 @@ export default {
         titleThree: '商户Email',
         titleFour: '创建时间'
       }
+    } else if (this.$store.state.variable.nowIndex === 'adminlist') {
+      this.searchTitle = {
+        titleOne: '用户名',
+        titleTwo: '真实姓名',
+        titleThree: '管理员Email',
+        titleFour: '创建时间'
+      }
+    } else if (this.$store.state.variable.nowIndex === 'managerloginlist') {
+      this.searchTitle = {
+        titleOne: '线路商昵称',
+        titleTwo: '线路商标识',
+        titleThree: '最后登录IP',
+        titleFour: '最后登录时间'
+      }
+    } else if (this.$store.state.variable.nowIndex === 'admindate') {
+      this.searchTitle = {
+        titleOne: '用户名',
+        titleTwo: '真实姓名',
+        titleThree: '管理员Email',
+        titleFour: '创建时间'
+      }
+    } else if (this.$store.state.variable.nowIndex === 'merchantloginlist') {
+      this.searchTitle = {
+        titleOne: '商户昵称',
+        titleTwo: '商户标识',
+        titleThree: '最后登录IP',
+        titleFour: '最后登录时间'
+      }
     }
   },
   methods: {
     startSearch () {
-      if (!this.condition.condition_one && !this.condition.condition_two && !this.condition.condition_three && !this.condition.condition_four) {
-        // console.log(this.condition)
-        this.$message({
-          message: '请输入搜索条件',
-          type: 'warning'
-        })
-      } else {
-        this.$store.commit({
-          type: 'postSearch_conditon',
-          data: this.condition
-        })
-        if (this.nowindex === 'outlist') {
-          this.$store.commit('searchOutlist')
-        } else if (this.nowindex === 'comlist') {
-          this.$store.commit('searchComlist')
-        }
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: this.condition
+      })
+      if (this.nowindex === 'outlist') {
+        this.$store.commit('searchOutlist')
+      } else if (this.nowindex === 'comlist') {
+        this.$store.commit('searchComlist')
       }
     },
     resetSearch () {
@@ -109,6 +155,10 @@ export default {
         condition_three: '',
         condition_four: ''
       }
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: {}
+      })
       if (this.nowindex === 'outlist') {
         this.$store.dispatch('getOutlist')
       } else if (this.nowindex === 'comlist') {
@@ -121,8 +171,8 @@ export default {
 
 <style scoped>
 .searchbox{text-align: center;padding-top: 2rem;background-color: #f5f5f5;height: 8rem;margin-top: 0.2rem}
-.searchBtn{display: inline-block;}
-.moreBox{margin-left: -14rem;}
-.input{width: 15rem}
+.searchbox .searchBtn{display: inline-block;}
+.searchbox .moreBox{margin-left: -14rem;}
+.searchbox .input{width: 15rem}
 .searchCount{text-align: left;margin-left: 0.5rem;margin-top: 0.5rem;font-size: 0.8rem}
 </style>

@@ -63,6 +63,7 @@ const actions = {
             type: 'recordOutlist',
             data: data
           })
+          context.commit('searchOutlist')
           context.commit('closeLoading')
         }
       }
@@ -88,6 +89,7 @@ const actions = {
             type: 'recordComlist',
             data: data
           })
+          context.commit('searchComlist')
           context.commit('closeLoading')
         }
       }
@@ -641,24 +643,24 @@ const mutations = {
 
   postSearch_conditon (state, payload) {
     state.variable.condition = payload.data
-    console.log('搜索条件是', state.variable.condition)
+    // console.log('搜索条件是', state.variable.condition)
   }, // 记录搜索条件
 
   searchOutlist () {
     state.variable.outlist = state.variable.copyoutlist
     if (state.variable.condition.condition_one) {
       state.variable.outlist = state.variable.outlist.filter(item => {
-        return item.suffix === state.variable.condition.condition_one
+        return item.suffix.indexOf(state.variable.condition.condition_one) != -1
       })
     } else if (state.variable.condition.condition_two) {
       state.variable.outlist = state.variable.outlist.filter(item => {
-        return item.displayName === state.variable.condition.condition_two
+        return item.displayName.indexOf(state.variable.condition.condition_two) != -1
       })
     } else if (state.variable.condition.condition_three) {
       state.variable.outlist = state.variable.outlist.filter(item => {
-        return item.managerEmail === state.variable.condition.condition_three
+        return item.managerEmail.indexOf(state.variable.condition.condition_three) != -1
       })
-    } else if (state.variable.condition.condition_four) {
+    } else if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0) {
       var a = new Date(state.variable.condition.condition_four[0].toString())
       a = a.getTime()
       var b = new Date(state.variable.condition.condition_four[1].toString())
@@ -666,6 +668,8 @@ const mutations = {
       state.variable.outlist = state.variable.outlist.filter(item => {
         return a <= item.createdAt && item.createdAt <= b
       })
+    } else {
+      state.variable.outlist = state.variable.copyoutlist
     }
   }, // 搜索线路商列表数据
 
@@ -673,15 +677,15 @@ const mutations = {
     state.variable.comlist = state.variable.copycomlist
     if (state.variable.condition.condition_one) {
       state.variable.comlist = state.variable.comlist.filter(item => {
-        return item.suffix === state.variable.condition.condition_one
+        return item.suffix.indexOf(state.variable.condition.condition_one) != -1
       })
     } else if (state.variable.condition.condition_two) {
       state.variable.comlist = state.variable.comlist.filter(item => {
-        return item.displayName === state.variable.condition.condition_two
+        return item.displayName.indexOf(state.variable.condition.condition_two) != -1
       })
     } else if (state.variable.condition.condition_three) {
       state.variable.comlist = state.variable.comlist.filter(item => {
-        return item.managerEmail === state.variable.condition.condition_three
+        return item.merchantEmail.indexOf(state.variable.condition.condition_three) != -1
       })
     } else if (state.variable.condition.condition_four) {
       var a = new Date(state.variable.condition.condition_four[0].toString())
@@ -691,6 +695,8 @@ const mutations = {
       state.variable.comlist = state.variable.comlist.filter(item => {
         return a <= item.createdAt && item.createdAt <= b
       })
+    } else {
+      state.variable.comlist = state.variable.copycomlist
     }
   }, // 搜索商户列表数据
 

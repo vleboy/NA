@@ -273,7 +273,12 @@ export default {
     }, // 对其下级商户或线路商存提点的用户数据
     optionOne_label () {
       var name = localStorage.loginUsername.split('_')[1]
-      var x = '【上级线路商】'
+      var x = ''
+      if (localStorage.loginUsername.split('_')[0] === 'Platform') {
+        x = '【平台管理员】'
+      } else {
+        x = localStorage.loginUsername.split('_')[0]
+      }
       return x + ' ' + name
     }, // 管理员姓名
     parentName () {
@@ -322,12 +327,6 @@ export default {
       }
     }, // 永久合同时间
     cancel () {
-      if (Object.values(this.$store.state.variable.condition) && this.$store.state.variable.nowIndex == 'outlist') {
-        this.$store.commit('searchOutlist')
-      }
-      if (Object.values(this.$store.state.variable.condition) && this.$store.state.variable.nowIndex == 'comlist') {
-        this.$store.commit('searchComlist')
-      }
       this.$store.commit('closeStoreDialog')
       this.$store.commit('closeWithdrawDialog')
       this.$store.commit('resetfinish')
@@ -601,7 +600,6 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('存点成功返回', data)
               this.isfinish = true
               if (this.$store.state.variable.nowIndex === 'outlist') {
                 this.$store.dispatch('getOutlist')
@@ -639,7 +637,6 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('提点成功返回', data)
               this.isfinish = true
               if (this.$store.state.variable.nowIndex === 'outlist') {
                 this.$store.dispatch('getOutlist')
