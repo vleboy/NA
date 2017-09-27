@@ -67,9 +67,28 @@ export default {
   },
   watch: {
     'condition.condition_one' (val) {
-      if (val) {
-        console.log('现在的值', val)
-      }
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: this.condition
+      })
+    },
+    'condition.condition_two' (val) {
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: this.condition
+      })
+    },
+    'condition.condition_three' (val) {
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: this.condition
+      })
+    },
+    'condition.condition_four' (val) {
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: this.condition
+      })
     }
   },
   mounted () {

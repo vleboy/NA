@@ -697,22 +697,22 @@ const mutations = {
 
   postSearch_conditon (state, payload) {
     state.variable.condition = payload.data
-    console.log('搜索条件是', Object.values(state.variable.condition))
+    // console.log('搜索条件是', Object.values(state.variable.condition))
   }, // 记录搜索条件
 
   searchOutlist () {
     state.variable.outlist = state.variable.copyoutlist
     if (state.variable.condition.condition_one) {
       state.variable.outlist = state.variable.outlist.filter(item => {
-        return item.suffix === state.variable.condition.condition_one
+        return item.suffix.indexOf(state.variable.condition.condition_one) != -1
       })
     } else if (state.variable.condition.condition_two) {
       state.variable.outlist = state.variable.outlist.filter(item => {
-        return item.displayName === state.variable.condition.condition_two
+        return item.displayName.indexOf(state.variable.condition.condition_two) != -1
       })
     } else if (state.variable.condition.condition_three) {
       state.variable.outlist = state.variable.outlist.filter(item => {
-        return item.managerEmail === state.variable.condition.condition_three
+        return item.managerEmail.indexOf(state.variable.condition.condition_three) != -1
       })
     } else if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0) {
       var a = new Date(state.variable.condition.condition_four[0].toString())
@@ -731,15 +731,15 @@ const mutations = {
     state.variable.comlist = state.variable.copycomlist
     if (state.variable.condition.condition_one) {
       state.variable.comlist = state.variable.comlist.filter(item => {
-        return item.suffix === state.variable.condition.condition_one
+        return item.suffix.indexOf(state.variable.condition.condition_one) != -1
       })
     } else if (state.variable.condition.condition_two) {
       state.variable.comlist = state.variable.comlist.filter(item => {
-        return item.displayName === state.variable.condition.condition_two
+        return item.displayName.indexOf(state.variable.condition.condition_two) != -1
       })
     } else if (state.variable.condition.condition_three) {
       state.variable.comlist = state.variable.comlist.filter(item => {
-        return item.managerEmail === state.variable.condition.condition_three
+        return item.merchantEmail.indexOf(state.variable.condition.condition_three) != -1
       })
     } else if (state.variable.condition.condition_four) {
       var a = new Date(state.variable.condition.condition_four[0].toString())
