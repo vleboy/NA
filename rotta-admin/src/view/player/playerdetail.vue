@@ -208,6 +208,7 @@ export default {
               data: res.data
             })
             this.detailList = res.data
+            this.changeRadio()
           }
           this.$store.commit('closeLoading')
         }

@@ -174,6 +174,7 @@
       },
       playDetail (row) {
         this.$store.commit('startLoading')
+        localStorage.setItem('playerName', row.userName)
         invoke({
           url: `${api.getPlayerDetail}?userName=${row.userName}`,
           method: api.get

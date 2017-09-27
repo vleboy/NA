@@ -140,7 +140,12 @@ export default {
       data: 'agentPlayerDetail'
     })
   },
-  created () {},
+  mounted () {
+    console.log(localStorage.playerName, 'localStorage.playerName')
+    if(!this.$store.state.variable.playerDetail.length){
+      this.getPlayerDetail(localStorage.playerName)
+    }
+  },
   data () {
     return {
       nowSize: 5,
@@ -227,11 +232,12 @@ export default {
         return name
       }
     },
-    getPlayerDetail () {
+    getPlayerDetail (param) {
       this.amountDate = []
+      let name = this.detailInfo.userName || param
       this.$store.commit('startLoading')
       invoke({
-        url: `${api.getPlayerDetail}?userName=${this.detailInfo.userName}`,
+        url: `${api.getPlayerDetail}?userName=${name}`,
         method: api.get
       }).then(
         result => {
@@ -247,6 +253,7 @@ export default {
               data: res.data
             })
             this.detailList = res.data
+            this.changeRadio()
           }
           this.$store.commit('closeLoading')
         }

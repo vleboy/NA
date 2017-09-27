@@ -22,8 +22,6 @@ export const invoke = async (cfg) => {
     const response = await axios.request(requestConfig)
     return [0, response]
   } catch (e) {
-    console.log(JSON.stringify(e))
-    console.log(e)
     if (!e.response && e.status == '500') {
       router.push('board')
       store.state.variable.islogin = false
