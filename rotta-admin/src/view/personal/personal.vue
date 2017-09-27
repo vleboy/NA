@@ -12,7 +12,7 @@
               <span>管理员密码: {{adminInfo.password}}</span>
             </p>
             <p>
-              <span>管理员Eamil: {{adminInfo.adminEmail}}</span>
+              <span>管理员Email: {{adminInfo.adminEmail}}</span>
               <span>管理员角色: {{formatRole(adminInfo.subRole)}}</span>
               <span>管理员联系方式: {{adminInfo.adminContact}}</span>
             </p>

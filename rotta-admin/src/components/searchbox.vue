@@ -70,21 +70,21 @@ export default {
       this.searchTitle = {
         titleOne: '线路商标识',
         titleTwo: '线路商昵称',
-        titleThree: '线路商Eamil',
+        titleThree: '线路商Email',
         titleFour: '创建时间'
       }
     } else if (this.$store.state.variable.nowIndex === 'comlist') {
       this.searchTitle = {
         titleOne: '商户标识',
         titleTwo: '商户昵称',
-        titleThree: '商户Eamil',
+        titleThree: '商户Email',
         titleFour: '创建时间'
       }
     } else if (this.$store.state.variable.nowIndex === 'adminlist') {
       this.searchTitle = {
         titleOne: '用户名',
         titleTwo: '真实姓名',
-        titleThree: '管理员Eamil',
+        titleThree: '管理员Email',
         titleFour: '创建时间'
       }
     } else if (this.$store.state.variable.nowIndex === 'managerloginlist') {
@@ -98,7 +98,7 @@ export default {
       this.searchTitle = {
         titleOne: '用户名',
         titleTwo: '真实姓名',
-        titleThree: '管理员Eamil',
+        titleThree: '管理员Email',
         titleFour: '创建时间'
       }
     } else if (this.$store.state.variable.nowIndex === 'merchantloginlist') {

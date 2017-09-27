@@ -16,7 +16,7 @@
         </el-table-column> -->
         <el-table-column prop="points" label="剩余点数" align="center">
           <template scope="scope">
-            <span>{{formatPoints(scope.row.points)}}</span>
+            <span>{{formatPoints(scope.row.balance)}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="createdAt" label="创建时间"  align="center">

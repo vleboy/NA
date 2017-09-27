@@ -167,7 +167,7 @@
                     <span>管理员密码: {{outdetail.password}}</span>
                 </p>
                 <p class="manager-two">
-                    <span>管理员Eamil: {{outdetail.adminEmail}}</span>
+                    <span>管理员Email: {{outdetail.adminEmail}}</span>
                     <span>管理员联系方式: {{outdetail.adminContact}}</span>
                 </p>
                 <p class="manager-three">
@@ -212,7 +212,7 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员Eamil" prop="adminEmail">
+                                <el-form-item label="管理员Email" prop="adminEmail">
                                     <el-input v-model="outdetail.adminEmail" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
                                 </el-form-item>
                             </div>

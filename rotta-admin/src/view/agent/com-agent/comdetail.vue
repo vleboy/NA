@@ -233,10 +233,10 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员Eamil" v-show="this.disable == true">
+                                <el-form-item label="管理员Email" v-show="this.disable == true">
                                     {{comdetail.adminEmail}}
                                 </el-form-item>
-                                <el-form-item label="管理员Eamil" prop="adminEmail" v-show="this.disable == false">
+                                <el-form-item label="管理员Email" prop="adminEmail" v-show="this.disable == false">
                                     <el-input v-model="comdetail.adminEmail"></el-input>
                                 </el-form-item>
                             </div>

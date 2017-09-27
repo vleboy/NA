@@ -172,7 +172,7 @@
                     <span>管理员密码: {{comdetail.password}}</span>
                 </p>
                 <p class="manager-two">
-                    <span>管理员Eamil: {{comdetail.adminEmail}}</span>
+                    <span>管理员Email: {{comdetail.adminEmail}}</span>
                     <span>管理员联系方式: {{comdetail.adminContact}}</span>
                 </p>
                 <p class="manager-three">
@@ -217,7 +217,7 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员Eamil">
+                                <el-form-item label="管理员Email">
                                     <el-input v-model="comdetail.adminEmail" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
                                 </el-form-item>
                             </div>
