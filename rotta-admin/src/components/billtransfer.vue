@@ -327,12 +327,6 @@ export default {
       }
     }, // 永久合同时间
     cancel () {
-      if (Object.values(this.$store.state.variable.condition) && this.$store.state.variable.nowIndex == 'outlist') {
-        this.$store.commit('searchOutlist')
-      }
-      if (Object.values(this.$store.state.variable.condition) && this.$store.state.variable.nowIndex == 'comlist') {
-        this.$store.commit('searchComlist')
-      }
       this.$store.commit('closeStoreDialog')
       this.$store.commit('closeWithdrawDialog')
       this.$store.commit('resetfinish')
@@ -606,7 +600,6 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('存点成功返回', data)
               this.isfinish = true
               if (this.$store.state.variable.nowIndex === 'outlist') {
                 this.$store.dispatch('getOutlist')
@@ -644,7 +637,6 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('提点成功返回', data)
               this.isfinish = true
               if (this.$store.state.variable.nowIndex === 'outlist') {
                 this.$store.dispatch('getOutlist')

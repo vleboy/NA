@@ -150,6 +150,10 @@ export default {
       type: 'recordNowindex',
       data: 'comlist'
     })
+    this.$store.commit({
+      type: 'postSearch_conditon',
+      data: {}
+    })
   },
   created () {
     this.$store.dispatch('getComlist')

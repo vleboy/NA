@@ -65,6 +65,13 @@ export default {
       }
     }
   },
+  watch: {
+    'condition.condition_one' (val) {
+      if (val) {
+        console.log('现在的值', val)
+      }
+    }
+  },
   mounted () {
     if (this.$store.state.variable.nowIndex === 'outlist') {
       this.searchTitle = {
@@ -112,22 +119,14 @@ export default {
   },
   methods: {
     startSearch () {
-      if (!this.condition.condition_one && !this.condition.condition_two && !this.condition.condition_three && !this.condition.condition_four) {
-        // console.log(this.condition)
-        this.$message({
-          message: '请输入搜索条件',
-          type: 'warning'
-        })
-      } else {
-        this.$store.commit({
-          type: 'postSearch_conditon',
-          data: this.condition
-        })
-        if (this.nowindex === 'outlist') {
-          this.$store.commit('searchOutlist')
-        } else if (this.nowindex === 'comlist') {
-          this.$store.commit('searchComlist')
-        }
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: this.condition
+      })
+      if (this.nowindex === 'outlist') {
+        this.$store.commit('searchOutlist')
+      } else if (this.nowindex === 'comlist') {
+        this.$store.commit('searchComlist')
       }
     },
     resetSearch () {
@@ -137,6 +136,10 @@ export default {
         condition_three: '',
         condition_four: ''
       }
+      this.$store.commit({
+        type: 'postSearch_conditon',
+        data: {}
+      })
       if (this.nowindex === 'outlist') {
         this.$store.dispatch('getOutlist')
       } else if (this.nowindex === 'comlist') {

@@ -148,6 +148,10 @@ export default {
       type: 'recordNowindex',
       data: 'outlist'
     })
+    this.$store.commit({
+      type: 'postSearch_conditon',
+      data: {}
+    })
   },
   created () {
     this.$store.dispatch('getOutlist')

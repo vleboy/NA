@@ -63,6 +63,7 @@ const actions = {
             type: 'recordOutlist',
             data: data
           })
+          context.commit('searchOutlist')
           context.commit('closeLoading')
         }
       }
@@ -88,6 +89,7 @@ const actions = {
             type: 'recordComlist',
             data: data
           })
+          context.commit('searchComlist')
           context.commit('closeLoading')
         }
       }
@@ -695,7 +697,7 @@ const mutations = {
 
   postSearch_conditon (state, payload) {
     state.variable.condition = payload.data
-    // console.log('搜索条件是', state.variable.condition)
+    console.log('搜索条件是', Object.values(state.variable.condition))
   }, // 记录搜索条件
 
   searchOutlist () {
@@ -720,6 +722,8 @@ const mutations = {
       state.variable.outlist = state.variable.outlist.filter(item => {
         return a <= item.createdAt && item.createdAt <= b
       })
+    } else {
+      state.variable.outlist = state.variable.copyoutlist
     }
   }, // 搜索线路商列表数据
 
@@ -745,6 +749,8 @@ const mutations = {
       state.variable.comlist = state.variable.comlist.filter(item => {
         return a <= item.createdAt && item.createdAt <= b
       })
+    } else {
+      state.variable.comlist = state.variable.copycomlist
     }
   }, // 搜索商户列表数据
 
