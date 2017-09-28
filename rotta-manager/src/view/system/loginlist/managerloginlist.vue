@@ -67,6 +67,12 @@ export default {
       data: 'managerloginlist'
     })
     this.$store.commit('returnLocalStorage')
+    this.$store.commit({
+      type: 'postSearch_conditon',
+      data: {}
+    })
+  },
+  created () {
     this.$store.dispatch('getManager_LoginList')
   },
   computed: {

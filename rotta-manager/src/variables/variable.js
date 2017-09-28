@@ -108,7 +108,10 @@ const variable = {
   gameListData: [], // 游戏中心游戏列表
 
   managerLoginList: [], // 线路商登录日志
+  copyManagerLoginList: [], // 线路商登录日志副本
+
   merchantLoginList: [], // 商户登录日志
+  copyMerchantLoginList: [], // 商户登录日志副本
 
   adminCooperdate: [], // 管理员操作日志
 

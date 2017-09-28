@@ -1,24 +1,22 @@
 <template>
   <div class="admindate">
-    <searchbox></searchbox>
     <div class="search">
-      <p>共搜索到 0 条数据</p>
-      <!-- <el-button type="primary">导出excel</el-button> -->
+      <p>共搜索到 {{count}} 条数据</p>
     </div>
     <div class="admindate-list">
       <el-table stripe :data="adminoperate">
         <el-table-column label="序号" prop="" align="center" width="65" type='index'>
         </el-table-column>
-        <el-table-column label="操作" prop="action" align="center">
+        <el-table-column label="操作" prop="action" align="center" sortable>
         </el-table-column>
-        <el-table-column label="操作时间" prop="createdAt" align="center">
+        <el-table-column label="操作时间" prop="createdAt" align="center" sortable>
           <template scope="scope">
             <span>{{formatTime(scope.row.createdAt)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作人" prop="username" align="center">
         </el-table-column>
-        <el-table-column label="操作结果" prop="ret"  align="center">
+        <el-table-column label="操作结果" prop="ret"  align="center" sortable>
           <template scope="scope">
             <span class="green" v-if="scope.row.ret === 'Y'">成功</span>
             <span class="red" v-if="scope.row.ret === 'N'">失败</span>
@@ -34,11 +32,7 @@
 </template>
 <script>
 import { detailTime } from '@/behavior/format'
-import Searchbox from '@/components/searchbox'
 export default {
-  components: {
-    Searchbox
-  },
   beforeCreate () {
     this.$store.commit({
       type: 'recordNowindex',
@@ -50,6 +44,9 @@ export default {
   computed: {
     adminoperate () {
       return this.$store.state.variable.adminCooperdate
+    },
+    count () {
+      return this.$store.state.variable.adminCooperdate.length
     }
   },
   methods: {

@@ -115,8 +115,8 @@ export default {
       }
     } else if (this.$store.state.variable.nowIndex === 'managerloginlist') {
       this.searchTitle = {
-        titleOne: '线路商昵称',
-        titleTwo: '线路商标识',
+        titleOne: '线路商标识',
+        titleTwo: '线路商昵称',
         titleThree: '最后登录IP',
         titleFour: '最后登录时间'
       }
@@ -129,8 +129,8 @@ export default {
       }
     } else if (this.$store.state.variable.nowIndex === 'merchantloginlist') {
       this.searchTitle = {
-        titleOne: '商户昵称',
-        titleTwo: '商户标识',
+        titleOne: '商户标识',
+        titleTwo: '商户昵称',
         titleThree: '最后登录IP',
         titleFour: '最后登录时间'
       }
@@ -146,6 +146,12 @@ export default {
         this.$store.commit('searchOutlist')
       } else if (this.nowindex === 'comlist') {
         this.$store.commit('searchComlist')
+      } else if (this.nowindex === 'managerloginlist') {
+        this.$store.commit('searchManagerloginlist')
+      } else if (this.nowindex === 'merchantloginlist') {
+        this.$store.commit('searchMerchantloginlist')
+      } else if (this.nowindex === 'adminlist') {
+        this.$store.commit('searchAdminlist')
       }
     },
     resetSearch () {
@@ -163,6 +169,12 @@ export default {
         this.$store.dispatch('getOutlist')
       } else if (this.nowindex === 'comlist') {
         this.$store.dispatch('getComlist')
+      } else if (this.nowindex === 'managerloginlist') {
+        this.$store.dispatch('getManager_LoginList')
+      } else if (this.nowindex === 'merchantloginlist') {
+        this.$store.dispatch('getMerchant_LoginList')
+      } else if (this.nowindex === 'adminlist') {
+        this.$store.dispatch('getAdminlist')
       }
     }
   }

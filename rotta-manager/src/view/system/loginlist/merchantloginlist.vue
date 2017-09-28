@@ -67,6 +67,12 @@ export default {
       data: 'merchantloginlist'
     })
     this.$store.commit('returnLocalStorage')
+    this.$store.commit({
+      type: 'postSearch_conditon',
+      data: {}
+    })
+  },
+  created () {
     this.$store.dispatch('getMerchant_LoginList')
   },
   computed: {
