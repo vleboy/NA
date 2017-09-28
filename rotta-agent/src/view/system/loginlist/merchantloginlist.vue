@@ -9,12 +9,6 @@
       <el-table stripe :data="loginList">
         <el-table-column label="序号" prop="" align="center" width="65" type="index">
         </el-table-column>
-        <!-- <el-table-column label="代理标识" prop="suffix" align="center">
-          <template scope="scope">
-            <span v-if="scope.row.suffix != 'Platform'">{{(scope.row.suffix)}}</span>
-            <span v-if="scope.row.suffix == 'Platform'">无</span>
-          </template>
-        </el-table-column> -->
         <el-table-column label="代理昵称" prop="displayName" align="center">
         </el-table-column>
         <el-table-column label="代理账号" prop="" align="center">
@@ -41,12 +35,6 @@
             <p v-if="scope.row.ret === 'Y'" class="green"><span class="statusIcon2">&middot;</span>{{scope.row.detail}}</p>
           </template>
         </el-table-column>
-        <!-- <el-table-column label="操作" align="center" min-width="65">
-            <template scope="scope">
-              <el-button type="text" @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">锁定</el-button>
-              <el-button type="text" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">解锁</el-button>
-            </template>
-        </el-table-column> -->
       </el-table>
     </div>
     <div style="text-align:right;margin: 2rem 2rem 0 0">

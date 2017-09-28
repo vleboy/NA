@@ -66,10 +66,10 @@
                     <el-table-column label="交易对象" align="center" width="" prop="">
                       <template scope="scope">
                         <span v-if="scope.row.fromLevel > scope.row.toLevel">
-                          代理管理员 {{(scope.row.toUser)}} 对 代理 {{(scope.row.fromUser)}}
+                          {{scope.row.toDisplayName}} 对 {{scope.row.fromDisplayName}}
                         </span>
                         <span v-if="scope.row.fromLevel < scope.row.toLevel">
-                          代理管理员 {{(scope.row.fromUser)}} 对 代理 {{(scope.row.toUser)}}
+                          {{scope.row.fromDisplayName}} 对 {{scope.row.toDisplayName}}
                         </span>
                       </template>
                     </el-table-column>

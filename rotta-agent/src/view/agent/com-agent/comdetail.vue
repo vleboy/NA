@@ -213,16 +213,16 @@
                         <el-table-column label="交易类型" prop="" align="center" width="">
                             <template scope="scope">
                                 <p v-if="scope.row.action == 1 && scope.row.fromLevel < scope.row.toLevel">
-                                  {{scope.row.fromUser}} 对 {{scope.row.toUser}}<span> 存点</span>
+                                  {{scope.row.fromDisplayName}} 对 {{scope.row.toDisplayName}}<span> 存点</span>
                                 </p>
                                 <p v-if="scope.row.action == -1 && scope.row.fromLevel < scope.row.toLevel">
-                                  {{scope.row.fromUser}} 对 {{scope.row.toUser}}<span> 存点</span>
+                                  {{scope.row.fromDisplayName}} 对 {{scope.row.toDisplayName}}<span> 存点</span>
                                 </p>
                                 <p v-if="scope.row.action == -1 && scope.row.fromLevel > scope.row.toLevel">
-                                  {{scope.row.toUser}} 对 {{scope.row.fromUser}}<span> 提点</span>
+                                  {{scope.row.toDisplayName}} 对 {{scope.row.fromDisplayName}}<span> 提点</span>
                                 </p>
                                 <p v-if="scope.row.action == 1 && scope.row.fromLevel > scope.row.toLevel">
-                                  {{scope.row.toUser}} 对 {{scope.row.fromUser}}<span> 提点</span>
+                                  {{scope.row.toDisplayName}} 对 {{scope.row.fromDisplayName}}<span> 提点</span>
                                 </p>
                             </template>
                         </el-table-column>

@@ -88,7 +88,7 @@ export default {
     } else if (this.$store.state.variable.nowIndex === 'managerloginlist') {
       this.searchTitle = {
         titleOne: '代理昵称',
-        titleTwo: '代理标识',
+        titleTwo: '代理账号',
         titleThree: '最后登录IP',
         titleFour: '最后登录时间'
       }
