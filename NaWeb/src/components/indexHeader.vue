@@ -47,7 +47,7 @@ export default {
   width: 80%;
   height: 100px;
   line-height: 100px;
-  background: url('../assets/navbg.png');
+  background: url('../assets/navbg.png') no-repeat;
   background-position: 10px 0;
   border-bottom: 2px solid red;
   border-image: -webkit-linear-gradient(-270deg, transparent, red)10 30;

@@ -31,9 +31,11 @@ export default {
     },
     move: function(ev) {
       let iX=ev.clientX-(this.$refs.imgCover[0].offsetWidth/2)
+      let iY=ev.clientY-(this.$refs.imgCover[0].offsetHeight/2)
       if(-510 < iX && iX < 510) {
         this.$refs.imgCover[0].style.left= `${-iX/4}px`
       }
+      this.$refs.imgCover[0].style.top= `${-iY/4}px`
     },
     out: function() {
       this.$refs.imgCover[0].style.left = 0
