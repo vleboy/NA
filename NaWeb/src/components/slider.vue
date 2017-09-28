@@ -31,7 +31,6 @@ export default {
     },
     move: function(ev) {
       let iX=ev.clientX-(this.$refs.imgCover[0].offsetWidth/2)
-      console.log(iX,this.$refs.imgCover[0].offsetWidth/2)
       if(-510 < iX && iX < 510) {
         this.$refs.imgCover[0].style.left= `${-iX/4}px`
       }

@@ -76,7 +76,6 @@
     },
     methods: {
       getBlur (num) {
-        console.log(num, 'getBlur')
         switch (num) {
           case 1:
             this.isBlurInputName = false
@@ -93,7 +92,6 @@
         }
       },
       getFocus (num) {
-        console.log(num, 'getFocus')
         switch (num) {
           case 1:
             this.isBlurInputName = true
