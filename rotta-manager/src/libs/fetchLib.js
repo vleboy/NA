@@ -23,14 +23,18 @@ export const invoke = async (cfg) => {
     return [0, response]
   } catch (e) {
     if (!e.response) {
-      // router.push('board')
-      // store.state.variable.islogin = false
       store.state.variable.isloading = false
-      // store.state.variable.visitedViews = []
-      // store.state.variable.activeIndex = null
-      // store.state.variable.tabIndex = null
-      // localStorage.clear()
-      Message.warning('您的Token已过期或网络不稳定')
+      Message.warning('您的网络不稳定,请重试')
+    }
+    if (e.response && e.response.data.code == 90001) {
+      router.push('board')
+      store.state.variable.islogin = false
+      store.state.variable.isloading = false
+      store.state.variable.visitedViews = []
+      store.state.variable.activeIndex = null
+      store.state.variable.tabIndex = null
+      localStorage.clear()
+      Message.warning('您的Token已过期,请重新登录')
     }
     return [e.response.data.err, 0]
   }
