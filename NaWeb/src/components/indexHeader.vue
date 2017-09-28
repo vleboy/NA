@@ -48,6 +48,7 @@ export default {
   height: 100px;
   line-height: 100px;
   background: url('../assets/navbg.png');
+  background-position: 10px 0;
   border-bottom: 2px solid red;
   border-image: -webkit-linear-gradient(-270deg, transparent, red)10 30;
   border-image: -moz-linear-gradient(-270deg, transparent, red)10 30;
