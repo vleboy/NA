@@ -37,12 +37,6 @@
             <p v-if="scope.row.ret === 'Y'" class="green"><span class="statusIcon2">&middot;</span>{{scope.row.detail}}</p>
           </template>
         </el-table-column>
-        <!-- <el-table-column label="操作" align="center" min-width="65">
-            <template scope="scope">
-              <el-button type="text" @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">锁定</el-button>
-              <el-button type="text" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">解锁</el-button>
-            </template>
-        </el-table-column> -->
       </el-table>
     </div>
     <div style="text-align:right;margin: 2rem 2rem 0 0">
@@ -68,6 +62,12 @@ export default {
       data: 'merchantloginlist'
     })
     this.$store.commit('returnLocalStorage')
+    this.$store.commit({
+      type: 'postSearch_conditon',
+      data: {}
+    })
+  },
+  created () {
     this.$store.dispatch('getMerchant_LoginList')
   },
   computed: {

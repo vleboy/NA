@@ -28,9 +28,9 @@
             <div class="form-header">
                 <span class="points">当前管理员剩余点数: <span style="color:#FF9900">{{balance}}</span>
                 </span>
-                <div class="right">
+                <!-- <div class="right">
                   <el-input placeholder="请输入搜索条件" class="input"></el-input><el-button type="primary" class="myBtn">搜索</el-button>
-                </div>
+                </div> -->
             </div>
             <div class="propertyform-form">
                 <el-table style="width: 98%; font-size: 12px;" border max-height='10px' :data="adminWaterFall">

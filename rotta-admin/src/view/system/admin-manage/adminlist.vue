@@ -78,6 +78,12 @@ export default {
       data: 'adminlist'
     })
     this.$store.commit('returnLocalStorage')
+    this.$store.commit({
+        type: 'postSearch_conditon',
+        data: {}
+      })
+  },
+  created () {
     this.$store.dispatch('getAdminlist')
   },
   computed: {

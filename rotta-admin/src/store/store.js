@@ -456,6 +456,7 @@ const actions = {
             data: list
           })
         }
+        // context.commit('searchManagerloginlist')
         context.commit('closeLoading')
       }
     )
@@ -529,6 +530,7 @@ const actions = {
             type: 'recordAdminlist',
             data: list
           })
+          context.commit('searchAdminlist')
           context.commit('closeLoading')
         }
       }
@@ -729,7 +731,7 @@ const mutations = {
       })
       state.variable.outlist = result3
     }
-    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0) {
+    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0 && state.variable.condition.condition_four[0] != null) {
       var result4 = []
       var a = new Date(state.variable.condition.condition_four[0].toString())
       a = a.getTime()
@@ -776,7 +778,7 @@ const mutations = {
       })
       state.variable.comlist = result3
     }
-    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0) {
+    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0 && state.variable.condition.condition_four[0] != null) {
       var result4 = []
       var a = new Date(state.variable.condition.condition_four[0].toString())
       a = a.getTime()
@@ -958,11 +960,107 @@ const mutations = {
 
   recordManager_LoginList (state, payload) {
     state.variable.managerLoginList = payload.data
+    state.variable.copyManagerLoginList = payload.data
   }, // 存储线路商登录日志
+
+  searchManagerloginlist (state, payload) {
+    state.variable.managerLoginList = state.variable.copyManagerLoginList
+    if (state.variable.condition.condition_one) {
+      var result1 = []
+      state.variable.managerLoginList.filter(item => {
+        if (item.suffix.indexOf(state.variable.condition.condition_one) != -1) {
+          result1.push(item)
+        }
+      })
+      state.variable.managerLoginList = result1
+    }
+    if (state.variable.condition.condition_two) {
+      var result2 = []
+      state.variable.managerLoginList.filter(item => {
+        if (item.displayName && item.displayName.indexOf(state.variable.condition.condition_two) != -1) {
+          result2.push(item)
+        }
+      })
+      state.variable.managerLoginList = result2
+    }
+    if (state.variable.condition.condition_three) {
+      var result3 = []
+      state.variable.managerLoginList.filter(item => {
+        if (item.lastIP.indexOf(state.variable.condition.condition_three) != -1) {
+          result3.push(item)
+        }
+      })
+      state.variable.managerLoginList = result3
+    }
+    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0 && state.variable.condition.condition_four[0] != null) {
+      var result4 = []
+      var a = new Date(state.variable.condition.condition_four[0].toString())
+      a = a.getTime()
+      var b = new Date(state.variable.condition.condition_four[1].toString())
+      b = b.getTime()
+      state.variable.managerLoginList.filter(item => {
+        if (a <= item.lastLogin && item.lastLogin <= b) {
+          result4.push(item)
+        }
+      })
+      state.variable.managerLoginList = result4
+    }
+    if (!state.variable.condition.condition_one && !state.variable.condition.condition_two && !state.variable.condition.condition_three && !state.variable.condition.condition_four) {
+      state.variable.managerLoginList = state.variable.copyManagerLoginList
+    }
+  }, // 搜索线路商登录日志
 
   recordMerchant_LoginList (state, payload) {
     state.variable.merchantLoginList = payload.data
+    state.variable.copyMerchantLoginList = payload.data
   }, // 存储商户登录日志
+
+  searchMerchantloginlist (state, payload) {
+    state.variable.merchantLoginList = state.variable.copyMerchantLoginList
+    if (state.variable.condition.condition_one) {
+      var result1 = []
+      state.variable.merchantLoginList.filter(item => {
+        if (item.suffix.indexOf(state.variable.condition.condition_one) != -1) {
+          result1.push(item)
+        }
+      })
+      state.variable.merchantLoginList = result1
+    }
+    if (state.variable.condition.condition_two) {
+      var result2 = []
+      state.variable.merchantLoginList.filter(item => {
+        if (item.displayName && item.displayName.indexOf(state.variable.condition.condition_two) != -1) {
+          result2.push(item)
+        }
+      })
+      state.variable.merchantLoginList = result2
+    }
+    if (state.variable.condition.condition_three) {
+      var result3 = []
+      state.variable.merchantLoginList.filter(item => {
+        if (item.lastIP.indexOf(state.variable.condition.condition_three) != -1) {
+          result3.push(item)
+        }
+      })
+      state.variable.merchantLoginList = result3
+    }
+    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0 && state.variable.condition.condition_four[0] != null) {
+      var result4 = []
+      var a = new Date(state.variable.condition.condition_four[0].toString())
+      a = a.getTime()
+      var b = new Date(state.variable.condition.condition_four[1].toString())
+      b = b.getTime()
+      state.variable.merchantLoginList.filter(item => {
+        if (a <= item.lastLogin && item.lastLogin <= b) {
+          result4.push(item)
+        }
+      })
+      state.variable.merchantLoginList = result4
+    }
+    if (!state.variable.condition.condition_one && !state.variable.condition.condition_two && !state.variable.condition.condition_three && !state.variable.condition.condition_four) {
+      state.variable.merchantLoginList = state.variable.copyMerchantLoginList
+    }
+  }, // 搜索商户登录日志
 
   recordAdmin_cooperDate (state, payload) {
     state.variable.adminCooperdate = payload.data
@@ -970,7 +1068,55 @@ const mutations = {
 
   recordAdminlist (state, payload) {
     state.variable.adminList = payload.data
+    state.variable.copyAdminlist = payload.data
   }, // 存储管理员列表
+
+  searchAdminlist (state, payload) {
+    state.variable.adminList = state.variable.copyAdminlist
+    if (state.variable.condition.condition_one) {
+      var result1 = []
+      state.variable.adminList.filter(item => {
+        if (item.uname.indexOf(state.variable.condition.condition_one) != -1) {
+          result1.push(item)
+        }
+      })
+      state.variable.adminList = result1
+    }
+    if (state.variable.condition.condition_two) {
+      var result2 = []
+      state.variable.adminList.filter(item => {
+        if (item.adminName.indexOf(state.variable.condition.condition_two) != -1) {
+          result2.push(item)
+        }
+      })
+      state.variable.adminList = result2
+    }
+    if (state.variable.condition.condition_three) {
+      var result3 = []
+      state.variable.adminList.filter(item => {
+        if (item.adminEmail.indexOf(state.variable.condition.condition_three) != -1) {
+          result3.push(item)
+        }
+      })
+      state.variable.adminList = result3
+    }
+    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0 && state.variable.condition.condition_four[0] != null) {
+      var result4 = []
+      var a = new Date(state.variable.condition.condition_four[0].toString())
+      a = a.getTime()
+      var b = new Date(state.variable.condition.condition_four[1].toString())
+      b = b.getTime()
+      state.variable.adminList.filter(item => {
+        if (a <= item.createdAt && item.createdAt <= b) {
+          result4.push(item)
+        }
+      })
+      state.variable.adminList = result4
+    }
+    if (!state.variable.condition.condition_one && !state.variable.condition.condition_two && !state.variable.condition.condition_three && !state.variable.condition.condition_four) {
+      state.variable.adminList = state.variable.copyAdminlist
+    }
+  }, // 搜索管理员列表
 
   recordMsnlist (state, payload) {
     state.variable.msnList = payload.data

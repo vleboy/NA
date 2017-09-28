@@ -2,7 +2,7 @@
   <div>
 	<el-row>
       <el-col>
-          <el-menu :default-active="nowindex" theme="dark" :router="true" :unique-opened="true" @select="openNewWindow">
+          <el-menu :default-active="nowindex" theme="dark" :router="true" :unique-opened="true">
               <div class="logo"><span>公司Logo</span></div>
               <el-menu-item index="board">看板</el-menu-item>
               <el-menu-item index="personal" v-if="this.userRight.person === true">个人中心</el-menu-item>
@@ -115,10 +115,6 @@ export default {
     }
   },
   methods: {
-    openNewWindow (data) {
-      console.log(data)
-      // window.open('http://localhost:4800/#/' + data)
-    }
   }
 }
 </script>

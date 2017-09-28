@@ -111,11 +111,15 @@ const variable = {
   gameListData: [], // 游戏中心游戏类型列表
 
   managerLoginList: [], // 线路商登录日志
+  copyManagerLoginList: [], // 线路商登录日志副本
+
   merchantLoginList: [], // 商户登录日志
+  copyMerchantLoginList: [], // 商户登录日志副本
 
   adminCooperdate: [], // 管理员操作日志
 
   adminList: [], // 管理员列表
+  copyAdminlist: [], // 管理员列表副本
 
   bills: '', // 个人中心用户余额
 
