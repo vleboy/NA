@@ -39,6 +39,7 @@ export default {
     },
     out: function() {
       this.$refs.imgCover[0].style.left = 0
+      this.$refs.imgCover[0].style.top= 0
     }
   }
 }
