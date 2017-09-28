@@ -15,7 +15,7 @@
       <img src="../assets/logo.png" alt="">
     </div>
     <div class="navbars" @click="show()">
-      <a href="#">
+      <a href="javascript:;">
         <img src="../assets/nav.png" alt="">
       </a>
     </div>

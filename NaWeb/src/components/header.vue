@@ -15,7 +15,7 @@
       </ul>
     </div>
     <div class="right">
-      <a href="#">
+      <a href="javascript:;">
         <img src="../assets/nav.png" alt="">
       </a>
     </div>

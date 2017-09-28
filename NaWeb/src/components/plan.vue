@@ -6,7 +6,7 @@
     </div>
     <ul>
       <li v-for="(item, index) in Solutions" :key="index">
-        <a href="#" class="img">
+        <a href="javascript:;" class="img">
           <img :src="item.imgUrl" alt="">
         </a>
         <h2>{{item.title}}</h2>
