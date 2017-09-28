@@ -44,7 +44,7 @@
                         <el-col :span="6">
                             <div class="">
                                 <el-form-item label="负责人" v-show="this.disable == true">
-                                    {{user(comdetail.hostName)}}
+                                    {{(comdetail.hostName)}}
                                 </el-form-item>
                                 <el-form-item label="负责人" prop="hostName" v-show="this.disable == false">
                                     <el-input v-model="comdetail.hostName"></el-input>
@@ -317,10 +317,10 @@
                         <el-table-column label="交易类型" prop="" align="center" width="">
                             <template scope="scope">
                                 <span v-if="scope.row.fromLevel < scope.row.toLevel">
-                                    {{user(scope.row.fromUser)}} 对 {{user(scope.row.toUser)}} <span>存点</span>
+                                    {{(scope.row.fromDisplayName)}} 对 {{(scope.row.toDisplayName)}} <span>存点</span>
                                 </span>
                                 <span v-if="scope.row.fromLevel > scope.row.toLevel">
-                                    {{user(scope.row.toUser)}} 对 {{user(scope.row.fromUser)}} <span>提点</span>
+                                    {{(scope.row.toDisplayName)}} 对 {{(scope.row.fromDisplayName)}} <span>提点</span>
                                 </span>
                             </template>
                         </el-table-column>
