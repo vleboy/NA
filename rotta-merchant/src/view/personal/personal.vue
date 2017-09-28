@@ -61,10 +61,10 @@
                     <el-table-column label="交易对象" align="center" width="" prop="toUser">
                       <template scope="scope">
                         <span v-if="scope.row.fromLevel > scope.row.toLevel">
-                          {{scope.row.toUser.split('_')[1]}} 对 {{scope.row.fromUser.split('_')[1]}}
+                          {{scope.row.toDisplayName}} 对 {{scope.row.fromDisplayName}}
                         </span>
                         <span v-if="scope.row.fromLevel < scope.row.toLevel">
-                          {{scope.row.fromUser.split('_')[1]}} 对 {{scope.row.toUser.split('_')[1]}}
+                          {{scope.row.fromDisplayName}} 对 {{scope.row.toDisplayName}}
                         </span>
                       </template>
                     </el-table-column>
