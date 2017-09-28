@@ -5,37 +5,12 @@
       <h1>行业解决方案</h1>
     </div>
     <ul>
-      <li>
+      <li v-for="(item, index) in Solutions" :key="index">
         <a href="#" class="img">
-          <img src="../assets/11.png" alt="">
+          <img :src="item.imgUrl" alt="">
         </a>
-        <h2>标题安师</h2>
-        <p>内容文字内容文字内容文字内容文字 保留两排超出给标点符号</p>
-        <a href="/about.html"><button>详情</button></a>
-      </li>
-      <li>
-        <a href="#" class="img">
-          <img src="../assets/22.png" alt="">
-        </a>
-        <h2>标题安师</h2>
-        <p>内容文字内容文字内容文字内容文字 保留两排超出给标点符号</p>
-        <a href="/about.html"><button>详情</button></a>
-      </li>
-      <li>
-        <a href="#" class="img">
-          <img src="../assets/33.png" alt="">
-        </a>
-        <h2>标题安师</h2>
-        <p>内容文字内容文字内容文字内容文字 保留两排超出给标点符号</p>
-        <a href="/about.html"><button>详情</button></a>
-      </li>
-      <li>
-        <a href="#" class="img">
-          <img src="../assets/444.png" alt="">
-        </a>
-        <h2>标题安师</h2>
-        <p>内容文字内容文字内容文字内容文字 保留两排超出给标点符号</p>
-        <a href="/about.html"><button>详情</button></a>
+        <h2>{{item.title}}</h2>
+        <p>{{item.content}}</p>
       </li>
     </ul>
   </div>
@@ -43,6 +18,16 @@
 
 <script>
 export default {
+  data () {
+    return {
+       Solutions: [
+         { title: '标题信息', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/11.png'},
+         { title: '标题信息', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/22.png'},
+         { title: '标题信息', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/33.png'},
+         { title: '标题信息', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/444.png'}
+       ]
+    }
+  }
 }
 </script>
 

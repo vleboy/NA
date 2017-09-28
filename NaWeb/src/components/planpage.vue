@@ -6,33 +6,42 @@
       <div class="bar">
         <div class="left">
           <i></i>
-          <span>行业解决方案</span>
+          <span>公司产品</span>
         </div>
         <div class="right">
           <i></i>
-          <span> > 行业方案 > 动态标题</span>
+          <span> > 公司产品 > 动态标题</span>
         </div>
       </div>
       <div class="msg">
         <div class="msgContent">
-          <h1>动态资讯标题</h1>
+          <h1>{{products.title}}</h1>
           <div class="msgImg">
-            <img src="../assets/msg.png" alt="">
+            <img :src="products.imgUrl" alt="">
           </div>
-          <p>后就哭了，违法的时间内喀麦隆轻松点v撒分别法国版韩国队能否梵蒂冈vwf给的服务而非额外如果维A额瓦负荷我ifvhaows分vijw扫荡符是山东fig怂滴感觉瑟瑟的风景索赔大佛可是iwqjed  缩放as发达省份所迫啊的风景四大佛教啊三等奖啊私人度假啊佛教啊审计法配送费就怕宋江示范点</p>
+          <p>{{products.content}}</p>
         </div>
       </div>
     </div>
-    <Footer></Footer>
+    <v-footer></v-footer>
   </div>
 </template>
 
 <script>
-import Footer from './footer'
+import VFooter from './footer'
 import VHeader from './header'
 export default {
   components: {
-    Footer, VHeader
+    VFooter, VHeader
+  },
+  data () {
+    return {
+      products: {
+        title: '动态资讯标题',
+        imgUrl: '/static/msg.png',
+        content: '啊的空间撒娇的卡就死定了卡就死定了卡就是领导卡就是领导卡上课了大家了四度空间阿里斯顿'
+      }
+    }
   }
 }
 </script>
@@ -95,19 +104,15 @@ export default {
     }
     .msg {
       width: 100%;
-      min-height: 495px;
       background-color: #fff;
       margin-top: 20px;
       border-top: 1px solid red;
       position: relative;
+      text-align: center;
       .msgContent {
-        text-align: center;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translateX(-50%)translateY(-50%);
-                transform: translateX(-50%)translateY(-50%);
+        padding: 50px;
         h1 {
+          margin: 10px auto;
           font-size: 24px;
           color: #c00000;
         }
@@ -160,7 +165,6 @@ export default {
         }
       }
       .msg {
-        min-height: 330px;
         margin-top: 10px;
         .msgContent {
           h1 {

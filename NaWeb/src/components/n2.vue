@@ -7,37 +7,16 @@
     <div class="content">
       <div class="left">
         <i></i>
-        <p>新亚洲集团基于多年的行业运营经验，
-总结和分析未来数字娱乐的发展方向，
-对接了全球优秀的技术资源，本着向行业提供更加多元，
-更加优质的电子娱乐内容的初衷，即将推出N²计划，
-敬请期待……</p>
+        <p>{{lefts.content}}</p>
+        <img :src="lefts.imgUrl">
       <!-- <h2><span>N²计划</span></h2> -->
       </div>
       <div class="right">
         <ul>
-          <li>
+          <li v-for="(item, index) in rights" :key="index">
             <div class="img">
-              <h2><span>N²计划</span></h2>
-              <div class="bg"></div>
-            </div>
-          </li>
-          <li>
-            <div class="img">
-              <h2><span>N²计划</span></h2>
-              <div class="bg"></div>
-            </div>
-          </li>
-          <li>
-            <div class="img">
-              <h2><span>N²计划</span></h2>
-              <div class="bg"></div>
-            </div>
-          </li>
-          <li>
-            <div class="img">
-              <h2><span>N²计划</span></h2>
-              <div class="bg"></div>
+              <h2><span>{{item.title}}</span></h2>
+              <div class="bg"><img :src="item.imgUrl"></div>
             </div>
           </li>
         </ul>
@@ -48,6 +27,20 @@
 
 <script>
 export default {
+  data () {
+    return {
+      lefts: {
+        content: '新亚洲集团基于多年的行业运营经验，总结和分析未来数字娱乐的发展方向，对接了全球优秀的技术资源，本着向行业提供更加多元，更加优质的电子娱乐内容的初衷，即将推出N²计划，敬请期待……',
+        imgUrl: ''
+      },
+      rights: [
+        {title: 'N²计划', imgUrl: ''},
+        {title: 'N²计划', imgUrl: ''},
+        {title: 'N²计划', imgUrl: ''},
+        {title: 'N²计划', imgUrl: ''}
+      ]
+    }
+  }
 }
 </script>
 
@@ -174,7 +167,6 @@ export default {
       }
     }
   }
-}
 @media screen and (min-width: 768px) and (max-width: 1280px) {
   .n2 {
     .title {

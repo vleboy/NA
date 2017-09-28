@@ -11,6 +11,9 @@
         </ul>
       </div>
     </div>
+    <div class="logo-top">
+      <img src="../assets/logo.png" alt="">
+    </div>
     <div class="navbars" @click="show()">
       <a href="#">
         <img src="../assets/nav.png" alt="">
@@ -84,6 +87,18 @@ export default {
     }
   }
 }
+.logo-top {
+  position: absolute;
+  top: 35px;
+  left: 45px;
+  width: 160px;
+  height: 80px;
+  z-index: 99;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
 .navbars {
   position: fixed;
   top: 35px;
@@ -116,6 +131,12 @@ export default {
           }
         }
       }
+    }
+    .logo-top {
+      top: 25px;
+      left: 30px;
+      width: 105px;
+      height: 50px;
     }
   .navbars {
     top: 25px;

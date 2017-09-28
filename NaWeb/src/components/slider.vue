@@ -1,10 +1,12 @@
 <template lang="html">
     <div class="block">
-      <div class="logo">
+      <!-- <div class="logo">
         <img src="../assets/logo.png" alt="">
-      </div>
+      </div> -->
       <el-carousel height="100%" autoplay>
-        <el-carousel-item v-for="item in 4" :key="item">
+        <el-carousel-item v-for="(item,index) in banners" :key="index">
+          <img :src="item.imgUrl">
+          <div class="imgCover" v-show="index === 0" @mousemove="move" @mouseout="out" ref="imgCover"></div>
         </el-carousel-item>
       </el-carousel>
       <div class="down" @click="moveDown()"></div>
@@ -13,9 +15,29 @@
 
 <script>
 export default {
+  data () {
+    return {
+      banners: [
+        {imgUrl: '/static/banner2.jpg'},
+        {imgUrl: '/static/banner1.jpg'},
+        {imgUrl: '/static/banner3.jpg'},
+        {imgUrl: '/static/banner4.jpg'}
+      ]
+    }
+  },
   methods: {
     moveDown: function() {
       $.fn.fullpage.moveSectionDown()
+    },
+    move: function(ev) {
+      let iX=ev.clientX-(this.$refs.imgCover[0].offsetWidth/2)
+      console.log(iX,this.$refs.imgCover[0].offsetWidth/2)
+      if(-510 < iX && iX < 510) {
+        this.$refs.imgCover[0].style.left= `${-iX/4}px`
+      }
+    },
+    out: function() {
+      this.$refs.imgCover[0].style.left = 0
     }
   }
 }
@@ -50,25 +72,21 @@ export default {
       line-height: 100%;
       margin: 0;
     }
-    .el-carousel__item:nth-child(3) {
-       background: url('../assets/banner1.jpg') no-repeat;
-       background-position: 0 10%;
+    .el-carousel__item {
        background-size: 100%;
-    }
-    .el-carousel__item:nth-child(4) {
-      background: url('../assets/banner2.jpg') no-repeat;
-      background-position: 0 100%;
-      background-size: 100%;
-    }
-    .el-carousel__item:nth-child(5) {
-      background: url('../assets/banner3.jpg') no-repeat;
-      background-position: 0 25%;
-      background-size: 100%;
-    }
-    .el-carousel__item:nth-child(6) {
-      background: url('../assets/banner4.jpg') no-repeat;
-      background-position: 0 80%;
-      background-size: 100%;
+       background-repeat: no-repeat;
+       img {
+         width: 100%;
+         height: 100%;
+       }
+       .imgCover {
+         position: absolute;
+         top: 0;
+         width: 100%;
+         height: 100%;
+         background: url('../assets/gas.png') no-repeat;
+         background-size: 100%;
+       }
     }
     .el-carousel__button {
       width: 10px;
