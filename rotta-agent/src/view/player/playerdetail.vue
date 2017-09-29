@@ -33,7 +33,7 @@
       <div class="countinfo">
         <h4>消费信息</h4>
         <div class="countinfo-title">
-          <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{detailInfo.balance}}</span></span>
+          <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{detailInfo.balance|currency}}</span></span>
           <el-button type="text" @click="getPlayerDetail">刷新</el-button>
           <el-button type="text" @click="openModal(0)" v-if="detailInfo.state!=0">存点</el-button>
           <el-button type="text" @click="openModal(1)" v-if="detailInfo.state!=0">提点</el-button>
@@ -49,7 +49,7 @@
         </div>
         <div class="countinfo-center">
           <el-col :span="5">
-            <span>花费总点数 : <span class="g-color-red">{{allAmountFun}}</span></span>
+            <span>花费总点数 : <span class="g-color-red">{{allAmountFun|currency}}</span></span>
           </el-col>
 
           <el-col :span="7" style="float: right; text-align: right">
@@ -66,12 +66,12 @@
             <el-table-column prop="date" label="序号" width="65" align="center" type="index"></el-table-column>
             <el-table-column prop="nowPoints" label="账户余额" width="120" align="center">
               <template scope="scope">
-                {{scope.row.originalAmount+scope.row.amount}}
+                {{(scope.row.originalAmount+scope.row.amount)|currency}}
               </template>
             </el-table-column>
             <el-table-column label="交易点数" width="120" align="center">
               <template scope="scope">
-                <span :class="{'-p-green':scope.row.action ==1,'-p-red':scope.row.action ==-1}">{{scope.row.amount}}</span>
+                <span :class="{'-p-green':scope.row.action ==1,'-p-red':scope.row.action ==-1}">{{scope.row.amount|currency}}</span>
               </template>
             </el-table-column>
             <el-table-column label="交易时间" :formatter="getAtime" width="180" align="center"></el-table-column>
@@ -79,7 +79,7 @@
             <el-table-column label="交易详情(原账+当前操作额=现在余额)"  align="center">
               <template scope="scope">
                 <span>{{scope.row.originalAmount}}</span><span :class="{'-p-green':scope.row.action ==1,'-p-red':scope.row.action ==-1}">
-                <span v-if="scope.row.action==1">+</span>{{scope.row.amount}}</span>=<span>{{scope.row.originalAmount+scope.row.amount}}</span>
+                <span v-if="scope.row.action==1">+</span>{{scope.row.amount}}</span>=<span>{{(scope.row.originalAmount+scope.row.amount)|currency}}</span>
               </template>
             </el-table-column>
             <el-table-column prop="" label="操作人" width="180" align="center">
@@ -389,6 +389,11 @@ export default {
         }
       }
       this.detailList.list = this.searchArray
+    }
+  },
+  filters:{   //过滤器，所有数字保留两位小数
+    currency(value){
+      return (value-0).toFixed(2);
     }
   }
 }
