@@ -3,7 +3,7 @@
 	<el-row>
       <el-col>
           <el-menu :default-active="nowindex" theme="dark" :router="true" :unique-opened="true">
-              <div class="logo"><span>公司Logo</span></div>
+              <div class="logo"><img style=" width: 60%;" src="static/NAlogo.png"></div>
               <el-menu-item index="board">看板</el-menu-item>
               <el-submenu index="1">
                 <template slot="title">游戏运营商</template>

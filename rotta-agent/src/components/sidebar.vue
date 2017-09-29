@@ -3,7 +3,7 @@
 	<el-row>
       <el-col>
           <el-menu :default-active="nowindex" theme="dark" :router="true" :unique-opened="true">
-              <div class="logo"><span>公司Logo</span></div>
+              <div class="logo"><img style=" width: 70%;" src="static/NAlogo.png"></div>
               <el-menu-item index="board">看板</el-menu-item>
               <el-menu-item index="personal">个人中心</el-menu-item>
               <el-submenu index="1">
@@ -26,7 +26,7 @@
                 <template slot="title">玩家中心</template>
                   <el-menu-item index="agentPlayerList">玩家列表</el-menu-item>
                   <el-menu-item index="addPlayer">创建玩家</el-menu-item>
-                  <el-menu-item index="agentPlayerStatistics">玩家统计</el-menu-item> 
+                  <el-menu-item index="agentPlayerStatistics">玩家统计</el-menu-item>
               </el-submenu> -->
               <el-submenu index="3">
                   <template slot="title">系统设置</template>
