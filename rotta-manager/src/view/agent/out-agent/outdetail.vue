@@ -73,7 +73,7 @@
                         <el-col :span="6">
                             <div class="">
                                 <el-form-item label="抽成比" v-show="this.disable == true">
-                                    {{outdetail.rate}}
+                                    {{outdetail.rate}}%
                                 </el-form-item>
                                 <el-form-item label="抽成比" prop="rate" v-show="this.disable == false">
                                     <el-input v-model="outdetail.rate">
@@ -99,13 +99,17 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="" style="float:left">
-                                <el-form-item label="线路商游戏">
+                                <el-form-item label="线路商游戏" v-show="this.disable == true">
                                     <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
                                         {{item.name}}
                                     </div>
                                 </el-form-item>
+                                <el-form-item label="线路商游戏" v-show="this.disable == false">
+                                    <el-checkbox-group v-model="selectGame">
+                                        <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
+                                    </el-checkbox-group>
+                                </el-form-item>
                             </div>
-                            <!-- <el-button type="text" @click="addGame" style="float:left;margin-left:0.1rem">添加</el-button> -->
                         </el-col>
                         <el-col :span="1">
                             <span class="hidden">1</span>
@@ -235,6 +239,9 @@
                                 </el-form-item>
                             </div>
                         </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
                         <el-col :span="6">
                             <div class="">
                                 <el-form-item label="上次登录IP">
@@ -264,8 +271,8 @@
                 <div class="propertyform-header">
                     <span>当前剩余点数: <span style="color:#FF9900">{{outdetailBill}}</span></span>
                     <el-button type="text" class="propertybtn" @click="refreshOut">刷新</el-button>
-                    <el-button type="text" class="propertybtn" @click="pro_storePoints" v-if="this.outdetail.status === 1">存点</el-button>
-                    <el-button type="text" class="propertybtn" @click="pro_withdrawPoints" v-if="this.outdetail.status === 1">提取</el-button>
+                    <el-button type="text" class="propertybtn" @click="pro_storePoints" v-if="this.outdetail.status === 1 && isRight">存点</el-button>
+                    <el-button type="text" class="propertybtn" @click="pro_withdrawPoints" v-if="this.outdetail.status === 1 && isRight">提取</el-button>
                 </div>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>
@@ -285,10 +292,10 @@
                         <el-table-column label="交易类型" prop="" align="center" width="">
                             <template scope="scope">
                                 <span v-if="scope.row.fromLevel < scope.row.toLevel">
-                                    {{user(scope.row.fromDisplayName)}} 对 {{user(scope.row.toDisplayName)}} <span>存点</span>
+                                    {{(scope.row.fromDisplayName)}} 对 {{(scope.row.toDisplayName)}} <span>存点</span>
                                 </span>
                                 <span v-if="scope.row.fromLevel > scope.row.toLevel">
-                                    {{user(scope.row.toDisplayName)}} 对 {{user(scope.row.fromDisplayName)}} <span>提点</span>
+                                    {{(scope.row.toDisplayName)}} 对 {{(scope.row.fromDisplayName)}} <span>提点</span>
                                 </span>
                             </template>
                         </el-table-column>
@@ -443,6 +450,9 @@ export default {
     this.$store.dispatch('getOutdetail_child_merchants')
     this.$store.dispatch('getOutdetail_child_managers')
     this.$store.dispatch('getOutdetail_property')
+  },
+  mounted () {
+    this.addGame()
   },
   computed: {
     outdetail () {
@@ -721,7 +731,9 @@ export default {
         }
       },
       // isforever: true,
-      gameList: [],
+      gameList: [], // 上级拥有的游戏(包含所有的对象)
+      parentGamelist: [], // 上级拥有的游戏(只带名字的)
+      selectGame: [], // 修改游戏选中值(只带名字的)
       balance: 0, // 余额
       loading: false,
       disable: true, // 禁用输入框
@@ -830,11 +842,16 @@ export default {
           if (err) {
           } else {
             var data = ret.data.payload
-            this.outdetail.gameList = data
+            this.gameList = data
+            for(let item of data) {
+              if (item.name) {
+                this.parentGamelist.push(item.name)
+              }
+            }
           }
         }
       )
-    }, // 新增游戏
+    }, // 获取上级拥有游戏
     user (name) {
       return formatUsername(name)
     }, // 格式化用户名
@@ -871,6 +888,11 @@ export default {
       return billType(bill)
     },
     turnONedit () {
+      for (let item of this.outdetail.gameList) {
+        if (item.name) {
+          this.selectGame.push(item.name)
+        }
+      }
       this.disable = false
     }, // 开启编辑
     changeContract () {
@@ -905,6 +927,15 @@ export default {
         wrong = !wrong
         this.loading = true
         var outdetailID = ''
+        this.outdetail.gameList = []
+        for (let outside of this.gameList) {
+          for (let inside of this.selectGame) {
+            if (outside.name == inside) {
+              this.outdetail.gameList.push(outside)
+            }
+          }
+        }
+        this.outdetail.gameList = Array.from(new Set(this.outdetail.gameList))
         if (this.outdetail.contractPeriod !== 0) {
           for (var i = this.outdetail.contractPeriod.length - 1; i >= 0; i--) {
             if (isNaN(this.outdetail.contractPeriod[i].toString())) {
@@ -917,7 +948,6 @@ export default {
         } else {
           outdetailID = this.$store.state.variable.outdetailID
         }
-        console.log('修改提交的数据是:', this.outdetail)
         invoke({
           url: api.managers + '/' + outdetailID,
           method: api.post,
@@ -1000,55 +1030,71 @@ export default {
       )
     },
     pro_storePoints () {
-      this.$store.commit('startStoreDialog')
+      var user = {
+        username: this.outdetail.username,
+        userId: this.outdetail.userId,
+        role: this.outdetail.role,
+        parentId: this.outdetail.parent,
+        parentName: this.outdetail.parentDisplayName
+      }
+      this.$store.commit({
+        type: 'recordNowlistUser',
+        data: user
+      })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'outdetail_pro'
+        data: 'store'
       })
     }, // 管理员直接对详情页线路商存点
     pro_withdrawPoints () {
-      this.$store.commit('startWithdrawDialog')
+      var user = {
+        username: this.outdetail.username,
+        userId: this.outdetail.userId,
+        role: this.outdetail.role,
+        parentId: this.outdetail.parent,
+        parentName: this.outdetail.parentDisplayName
+      }
+      this.$store.commit({
+        type: 'recordNowlistUser',
+        data: user
+      })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'outdetail_pro'
+        data: 'withdraw'
       })
     }, // 管理员直接对详情页线路商提点
     damn_storePoints (index, row) {
-      var obj = {
+      var user = {
         username: row.username,
         userId: row.userId,
         role: row.role,
-        parent: row.parent,
+        parentId: row.parent,
         parentName: row.parentName
       }
-      // console.log('操作的用户为 ' + row.username + ' / ' + '操作的用户ID为 ' + row.userId + '/' + '操作的用户role为' + row.role)
       this.$store.commit({
-        type: 'getpointsObject',
-        data: obj
+        type: 'recordNowlistUser',
+        data: user
       })
-      this.$store.commit('startStoreDialog')
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'outdetail_damn'
+        data: 'store'
       })
     }, // 管理员或其上级线路商对其下级线路商或商户存点
     damn_withdrawPoints (index, row) {
-      var obj = {
+      var user = {
         username: row.username,
         userId: row.userId,
         role: row.role,
-        parent: row.parent,
+        parentId: row.parent,
         parentName: row.parentName
       }
-      // console.log('操作的用户为 ' + row.username + ' / ' + '操作的用户ID为 ' + row.userId + '/' + '操作的用户role为' + row.role)
       this.$store.commit({
-        type: 'getpointsObject',
-        data: obj
+        type: 'recordNowlistUser',
+        data: user
       })
-      this.$store.commit('startWithdrawDialog')
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'outdetail_damn'
+        data: 'withdraw'
       })
     }, // 管理员或其上级线路商对其下级线路商或商户提点
     getwaterFallSize (size) {

@@ -67,7 +67,7 @@ export default {
         if (this.codeFetching) return
         var user = {
           usage: 'login',
-          relKey: 'Platform_' + this.userInfo.username
+          relKey: 'Platform_' + this.userInfo.username.trim()
         }
         this.codeFetching = true
         invoke({

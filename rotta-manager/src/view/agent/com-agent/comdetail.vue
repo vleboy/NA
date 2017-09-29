@@ -70,7 +70,7 @@
                         <el-col :span="6">
                             <div class="">
                                 <el-form-item label="抽成比" v-show="this.disable == true">
-                                    {{comdetail.rate}}
+                                    {{comdetail.rate}}%
                                 </el-form-item>
                                 <el-form-item label="抽成比" prop="rate" v-show="this.disable == false">
                                     <el-input v-model="comdetail.rate">
@@ -96,13 +96,17 @@
                         </el-col>
                         <el-col :span="12">
                             <div class="" style="float:left">
-                                <el-form-item label="商户游戏">
+                                <el-form-item label="商户游戏" v-show="this.disable == true">
                                     <div v-for="item in comdetail.gameList" style="display:inline-block;margin-left:0.25rem">
                                         {{item.name}}
                                     </div>
                                 </el-form-item>
+                                <el-form-item label="商户游戏" v-show="this.disable == false">
+                                    <el-checkbox-group v-model="selectGame">
+                                        <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
+                                    </el-checkbox-group>
+                                </el-form-item>
                             </div>
-                            <!-- <el-button type="text" @click="addGame" style="float:left;margin-left:0.1rem">添加</el-button> -->
                         </el-col>
                     </el-row>
                     <el-row>
@@ -382,6 +386,9 @@ export default {
     this.$store.dispatch('getComdetail')
     this.$store.dispatch('getComdetail_property')
   },
+  mounted () {
+    this.addGame()
+  },
   computed: {
     comdetail () {
       return this.$store.state.variable.comdetaildata
@@ -606,6 +613,9 @@ export default {
           return time.getTime() < Date.now() - 8.64e7
         }
       },
+      gameList: [], // 上级拥有的游戏(包含所有的对象)
+      parentGamelist: [], // 上级拥有的游戏(只带名字的)
+      selectGame: [], // 修改游戏选中值(只带名字的)
       size: 5,
       page: 1,
       loading: false, // 加载动画
@@ -680,7 +690,12 @@ export default {
           if (err) {
           } else {
             var data = ret.data.payload
-            this.comdetail.gameList = data
+            this.gameList = data
+            for(let item of data) {
+              if (item.name) {
+                this.parentGamelist.push(item.name)
+              }
+            }
           }
         }
       )
@@ -695,7 +710,7 @@ export default {
       return formatRemark(remark)
     }, // 格式化备注
     goParent () {
-      console.log('上级线路商ID', this.comdetail.parent, '上级线路商是:', this.comdetail.parentName)
+      // console.log('上级线路商ID', this.comdetail.parent, '上级线路商是:', this.comdetail.parentName)
       this.$store.commit({
         type: 'recordOutdetailID',
         data: this.comdetail.parent
@@ -733,6 +748,11 @@ export default {
       return billType(bill)
     },
     turnONedit () {
+      for (let item of this.comdetail.gameList) {
+        if (item.name) {
+          this.selectGame.push(item.name)
+        }
+      }
       this.disable = false
     }, // 开启编辑
     changeContract () {
@@ -765,7 +785,16 @@ export default {
       } else {
         wrong = !wrong
         this.loading = true
-          var comdetailID = ''
+        var comdetailID = ''
+        this.comdetail.gameList = []
+        for (let outside of this.gameList) {
+          for (let inside of this.selectGame) {
+            if (outside.name == inside) {
+              this.comdetail.gameList.push(outside)
+            }
+          }
+        }
+        this.comdetail.gameList = Array.from(new Set(this.comdetail.gameList))
           if (this.comdetail.contractPeriod !== 0) {
             for (var i = this.comdetail.contractPeriod.length - 1; i >= 0; i--) {
               if (isNaN(this.comdetail.contractPeriod[i].toString())) {
@@ -806,17 +835,37 @@ export default {
       }
     }, // 提交修改数据
     storePoints () {
-      this.$store.commit('startStoreDialog')
+      var user = {
+        username: this.comdetail.username,
+        userId: this.comdetail.userId,
+        role: this.comdetail.role,
+        parentId: this.comdetail.parent,
+        parentName: this.comdetail.parentDisplayName
+      }
+      this.$store.commit({
+        type: 'recordNowlistUser',
+        data: user
+      })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'comdetail_pro'
+        data: 'store'
       })
     }, // 存点
     withdrawPoints () {
-      this.$store.commit('startWithdrawDialog')
+      var user = {
+        username: this.comdetail.username,
+        userId: this.comdetail.userId,
+        role: this.comdetail.role,
+        parentId: this.comdetail.parent,
+        parentName: this.comdetail.parentDisplayName
+      }
+      this.$store.commit({
+        type: 'recordNowlistUser',
+        data: user
+      })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'comdetail_pro'
+        data: 'withdraw'
       })
     }, // 提点
     getnowSize (size) {

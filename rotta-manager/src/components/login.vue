@@ -71,7 +71,7 @@ export default {
         if (this.codeFetching) return
         var user = {
           usage: 'login',
-          relKey: this.userInfo.suffix + '_' + this.userInfo.username
+          relKey: this.userInfo.suffix.trim() + '_' + this.userInfo.username.trim()
         }
         this.codeFetching = true
         invoke({

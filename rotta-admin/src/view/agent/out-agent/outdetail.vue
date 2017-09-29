@@ -73,7 +73,7 @@
                         <el-col :span="6">
                             <div class="">
                                 <el-form-item label="抽成比" v-show="this.disable == true">
-                                    {{outdetail.rate}}
+                                    {{outdetail.rate}}%
                                 </el-form-item>
                                 <el-form-item label="抽成比" prop="rate" v-show="this.disable == false">
                                     <el-input v-model="outdetail.rate">
@@ -271,8 +271,8 @@
                 <div class="propertyform-header">
                     <span>当前剩余点数: <span style="color:#FF9900">{{outdetailBill}}</span></span>
                     <el-button type="text" class="propertybtn" @click="refreshOut">刷新</el-button>
-                    <el-button type="text" class="propertybtn" @click="pro_storePoints" v-if="this.outdetail.status === 1">存点</el-button>
-                    <el-button type="text" class="propertybtn" @click="pro_withdrawPoints" v-if="this.outdetail.status === 1">提取</el-button>
+                    <el-button type="text" class="propertybtn" @click="pro_storePoints" v-if="this.outdetail.status === 1 && isRight">存点</el-button>
+                    <el-button type="text" class="propertybtn" @click="pro_withdrawPoints" v-if="this.outdetail.status === 1 && isRight">提取</el-button>
                 </div>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>
@@ -1030,55 +1030,71 @@ export default {
       )
     },
     pro_storePoints () {
-      this.$store.commit('startStoreDialog')
+      var user = {
+        username: this.outdetail.username,
+        userId: this.outdetail.userId,
+        role: this.outdetail.role,
+        parentId: this.outdetail.parent,
+        parentName: this.outdetail.parentDisplayName
+      }
+      this.$store.commit({
+        type: 'recordNowlistUser',
+        data: user
+      })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'outdetail_pro'
+        data: 'store'
       })
     }, // 管理员直接对详情页线路商存点
     pro_withdrawPoints () {
-      this.$store.commit('startWithdrawDialog')
+      var user = {
+        username: this.outdetail.username,
+        userId: this.outdetail.userId,
+        role: this.outdetail.role,
+        parentId: this.outdetail.parent,
+        parentName: this.outdetail.parentDisplayName
+      }
+      this.$store.commit({
+        type: 'recordNowlistUser',
+        data: user
+      })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'outdetail_pro'
+        data: 'withdraw'
       })
     }, // 管理员直接对详情页线路商提点
     damn_storePoints (index, row) {
-      var obj = {
+      var user = {
         username: row.username,
         userId: row.userId,
         role: row.role,
-        parent: row.parent,
+        parentId: row.parent,
         parentName: row.parentName
       }
-      // console.log('操作的用户为 ' + row.username + ' / ' + '操作的用户ID为 ' + row.userId + '/' + '操作的用户role为' + row.role)
       this.$store.commit({
-        type: 'getpointsObject',
-        data: obj
+        type: 'recordNowlistUser',
+        data: user
       })
-      this.$store.commit('startStoreDialog')
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'outdetail_damn'
+        data: 'store'
       })
     }, // 管理员或其上级线路商对其下级线路商或商户存点
     damn_withdrawPoints (index, row) {
-      var obj = {
+      var user = {
         username: row.username,
         userId: row.userId,
         role: row.role,
-        parent: row.parent,
+        parentId: row.parent,
         parentName: row.parentName
       }
-      // console.log('操作的用户为 ' + row.username + ' / ' + '操作的用户ID为 ' + row.userId + '/' + '操作的用户role为' + row.role)
       this.$store.commit({
-        type: 'getpointsObject',
-        data: obj
+        type: 'recordNowlistUser',
+        data: user
       })
-      this.$store.commit('startWithdrawDialog')
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'outdetail_damn'
+        data: 'withdraw'
       })
     }, // 管理员或其上级线路商对其下级线路商或商户提点
     getwaterFallSize (size) {

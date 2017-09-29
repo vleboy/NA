@@ -5,8 +5,11 @@
     </div>
     <div class="manangeinfo">
         <h4 style="display:inline-block">管理信息</h4>
-        <span style="margin-left:0.4rem" v-if="this.adminInfo.parentName !== 'PlatformAdmin'">
-          所属代理: {{adminInfo.parentDisplayName}}
+        <span style="margin-left:0.4rem" v-if="this.adminInfo.parent != '01'">
+          所属线路商: {{adminInfo.parentDisplayName}}
+        </span>
+        <span style="margin-left:0.4rem" v-if="this.adminInfo.parent == '01'">
+          所属: 直属于平台
         </span>
         <div class="manangeform">
             <p>

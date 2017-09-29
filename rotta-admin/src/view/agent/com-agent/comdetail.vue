@@ -70,7 +70,7 @@
                         <el-col :span="6">
                             <div class="">
                                 <el-form-item label="抽成比" v-show="this.disable == true">
-                                    {{comdetail.rate}}
+                                    {{comdetail.rate}}%
                                 </el-form-item>
                                 <el-form-item label="抽成比" prop="rate" v-show="this.disable == false">
                                     <el-input v-model="comdetail.rate">
@@ -710,7 +710,7 @@ export default {
       return formatRemark(remark)
     }, // 格式化备注
     goParent () {
-      console.log('上级线路商ID', this.comdetail.parent, '上级线路商是:', this.comdetail.parentName)
+      // console.log('上级线路商ID', this.comdetail.parent, '上级线路商是:', this.comdetail.parentName)
       this.$store.commit({
         type: 'recordOutdetailID',
         data: this.comdetail.parent
@@ -835,17 +835,37 @@ export default {
       }
     }, // 提交修改数据
     storePoints () {
-      this.$store.commit('startStoreDialog')
+      var user = {
+        username: this.comdetail.username,
+        userId: this.comdetail.userId,
+        role: this.comdetail.role,
+        parentId: this.comdetail.parent,
+        parentName: this.comdetail.parentDisplayName
+      }
+      this.$store.commit({
+        type: 'recordNowlistUser',
+        data: user
+      })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'comdetail_pro'
+        data: 'store'
       })
     }, // 存点
     withdrawPoints () {
-      this.$store.commit('startWithdrawDialog')
+      var user = {
+        username: this.comdetail.username,
+        userId: this.comdetail.userId,
+        role: this.comdetail.role,
+        parentId: this.comdetail.parent,
+        parentName: this.comdetail.parentDisplayName
+      }
+      this.$store.commit({
+        type: 'recordNowlistUser',
+        data: user
+      })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'comdetail_pro'
+        data: 'withdraw'
       })
     }, // 提点
     getnowSize (size) {

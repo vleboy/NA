@@ -23,7 +23,7 @@
 			}
 		},
 		mounted () {
-			console.log(this.editableTabsValue2)
+			// console.log(this.editableTabsValue2)
 		},
 		methods: {
 			closeViewTabs(data) {

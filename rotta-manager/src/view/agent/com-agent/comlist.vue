@@ -150,6 +150,10 @@ export default {
       type: 'recordNowindex',
       data: 'comlist'
     })
+    this.$store.commit({
+      type: 'postSearch_conditon',
+      data: {}
+    })
   },
   created () {
     this.$store.dispatch('getComlist')
@@ -210,7 +214,17 @@ export default {
       return formatContractPeriod(con)
     }, // 格式化合同时间
     checkUser (index, row) {
-      // console.log('查看的用户为 ' + row.username + ' / ' + '查看的用户ID为 ' + row.userId)
+      var user = {
+        userId: row.userId,
+        role: row.role,
+        username: row.username,
+        parentId: row.parent,
+        parentName: row.parentDisplayName
+      }
+      this.$store.commit({
+        type: 'recordNowlistUser',
+        data: user
+      })
       this.$store.commit({
         type: 'recordComdetailID',
         data: row.userId
@@ -219,16 +233,6 @@ export default {
       this.$store.commit('closeEdit')
       this.$router.push('comdetail')
     }, // 查看用户
-    editUser (index, row) {
-      // console.log('查看的用户为 ' + row.username + ' / ' + '查看的用户ID为 ' + row.userId)
-      this.$store.commit({
-        type: 'recordComdetailID',
-        data: row.userId
-      })
-      localStorage.setItem('nowUser', row.userId)
-      this.$store.commit('startEdit')
-      this.$router.push('comdetail')
-    }, // 编辑用户
     getNowsize (size) {
       this.nowSize = size
       // console.log('当前每页:' + size)
@@ -242,11 +246,12 @@ export default {
       window.open(url)
     }, // 打开前端域名
     storePoints (index, row) {
-      // console.log('存点用户是：', row.username, '用户ID', row.userId)
       var user = {
         userId: row.userId,
         role: row.role,
-        username: row.username
+        username: row.username,
+        parentId: row.parent,
+        parentName: row.parentDisplayName
       }
       this.$store.commit({
         type: 'recordNowlistUser',
@@ -254,26 +259,25 @@ export default {
       })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'list_transfer'
+        data: 'store'
       })
-      this.$store.commit('startStoreDialog')
     }, // 存点
     withdrawPoints (index, row) {
       var user = {
         userId: row.userId,
         role: row.role,
-        username: row.username
+        username: row.username,
+        parentId: row.parent,
+        parentName: row.parentDisplayName
       }
-      // console.log('提点用户是：', row.username, '用户ID', row.userId)
-      this.$store.commit({
-        type: 'getpointsIndex',
-        data: 'list_transfer'
-      })
       this.$store.commit({
         type: 'recordNowlistUser',
         data: user
       })
-      this.$store.commit('startWithdrawDialog')
+      this.$store.commit({
+        type: 'getpointsIndex',
+        data: 'withdraw'
+      })
     }, // 提点
     lockUser (index, row) {
       var user = {

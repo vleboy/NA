@@ -17,8 +17,8 @@
                       <el-form-item label="线路商ID" class="moreinfo">
                           <span>{{ props.row.userId }}</span>
                       </el-form-item>
-                      <el-form-item label="线路商昵称" class="moreinfo">
-                          <span>{{ props.row.displayName }}</span>
+                      <el-form-item label="线路商创建时间" class="moreinfo">
+                          <span>{{ Time(props.row.createdAt) }}</span>
                       </el-form-item>
                       <el-form-item label="管理员账号" class="moreinfo">
                           <span>{{ props.row.username.split('_')[1] }}</span>
@@ -42,6 +42,8 @@
               </template>
           </el-table-column>
           <el-table-column label="线路商标识" prop="suffix" align="center">
+          </el-table-column>
+          <el-table-column label="线路商昵称" prop="displayName" align="center">
           </el-table-column>
           <el-table-column label="上级线路商" prop="parent" align="center" sortable>
             <template scope="scope">
@@ -72,11 +74,6 @@
               </template>
           </el-table-column>
           <el-table-column label="线路商邮箱" prop="managerEmail" width="110" header-align="center">
-          </el-table-column>
-          <el-table-column label="创建时间" prop="createdAt" align="center" width="120" sortable>
-            <template scope="scope">
-              <span>{{Time(scope.row.createdAt)}}</span>
-            </template>
           </el-table-column>
           <el-table-column label="最后登录时间" prop="loginAt" align="center" width="150" sortable>
               <template scope="scope">
@@ -210,6 +207,17 @@ export default {
     }, // 格式化合同时间
     checkUser (index, row) {
       // console.log('查看的用户为 ' + row.username + ' / ' + '查看的用户ID为 ' + row.userId)
+      var user = {
+        userId: row.userId,
+        role: row.role,
+        username: row.username,
+        parentId: row.parent,
+        parentName: row.parentDisplayName
+      }
+      this.$store.commit({
+        type: 'recordNowlistUser',
+        data: user
+      })
       this.$store.commit({
         type: 'recordOutdetailID',
         data: row.userId
@@ -218,16 +226,6 @@ export default {
       this.$store.commit('closeEdit')
       this.$router.push('outdetail')
     }, // 查看用户
-    editUser (index, row) {
-      // console.log('查看的用户为 ' + row.username + ' / ' + '查看的用户ID为 ' + row.userId)
-      this.$store.commit({
-        type: 'recordOutdetailID',
-        data: row.userId
-      })
-      localStorage.setItem('nowUser', row.userId)
-      this.$store.commit('startEdit')
-      this.$router.push('outdetail')
-    }, // 编辑用户
     getNowsize (size) {
       this.nowSize = size
       // console.log('当前每页:' + size)
@@ -237,11 +235,12 @@ export default {
       // console.log('当前是第:' + page + '页')
     },
     storePoints (index, row) {
-      // console.log('存点用户是：', row.username, '用户ID', row.userId)
       var user = {
         userId: row.userId,
         role: row.role,
-        username: row.username
+        username: row.username,
+        parentId: row.parent,
+        parentName: row.parentDisplayName
       }
       this.$store.commit({
         type: 'recordNowlistUser',
@@ -249,26 +248,25 @@ export default {
       })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'list_transfer'
+        data: 'store'
       })
-      this.$store.commit('startStoreDialog')
     }, // 存点
     withdrawPoints (index, row) {
       var user = {
         userId: row.userId,
         role: row.role,
-        username: row.username
+        username: row.username,
+        parentId: row.parent,
+        parentName: row.parentDisplayName
       }
-      // console.log('提点用户是：', row.username, '用户ID', row.userId)
-      this.$store.commit({
-        type: 'getpointsIndex',
-        data: 'list_transfer'
-      })
       this.$store.commit({
         type: 'recordNowlistUser',
         data: user
       })
-      this.$store.commit('startWithdrawDialog')
+      this.$store.commit({
+        type: 'getpointsIndex',
+        data: 'withdraw'
+      })
     }, // 提点
     lockUser (index, row) {
       var user = {
