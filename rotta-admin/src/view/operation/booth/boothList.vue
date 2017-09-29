@@ -79,7 +79,7 @@
       </el-table>
       <div class="page">
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="boothList.length"
-                       :page-sizes="[5, 10]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+                       :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
         </el-pagination>
       </div>
     </div>
@@ -160,7 +160,7 @@ export default {
   },
   data () {
     return {
-      nowSize: 5,
+      nowSize: 20,
       nowPage: 1,
       isAddProp: false,
       isSending: false,

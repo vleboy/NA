@@ -28,7 +28,7 @@
         </el-table>
     </div>
     <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.msnList.length" :page-sizes="[10, 20]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.msnList.length" :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"></el-pagination>
     </div>
 </div>
 </template>
@@ -49,7 +49,7 @@ export default {
     return {
       loading: false,
       thisMsn: '', // 搜索的商户号
-      nowSize: 10,
+      nowSize: 20,
       nowPage: 1,
       searchMsn: ''
     }
