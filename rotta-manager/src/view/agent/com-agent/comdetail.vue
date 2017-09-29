@@ -358,7 +358,7 @@
                     </el-table>
                 </div>
                 <div class="page">
-                    <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.comdetailproperty.length" :page-sizes="[5, 10]" :page-size="page" @size-change="getnowSize" @current-change="getnowPage"></el-pagination>
+                    <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.comdetailproperty.length" :page-sizes="[20, 50]" :page-size="page" @size-change="getnowSize" @current-change="getnowPage"></el-pagination>
                 </div>
             </div>
         </div>
@@ -616,7 +616,7 @@ export default {
       gameList: [], // 上级拥有的游戏(包含所有的对象)
       parentGamelist: [], // 上级拥有的游戏(只带名字的)
       selectGame: [], // 修改游戏选中值(只带名字的)
-      size: 5,
+      size: 20,
       page: 1,
       loading: false, // 加载动画
       disable: true, // 禁用输入框
