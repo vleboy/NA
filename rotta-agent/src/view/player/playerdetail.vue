@@ -7,13 +7,16 @@
       <div class="baseinfo">
         <h4>基本信息</h4>
         <div class="baseinfo-form">
-          <el-col :span="6">
+          <el-col :span="5">
+            <div class="-player-title">所属代理：{{detailInfo.merchantName}}</div>
+          </el-col>
+          <el-col :span="5">
             <div class="-player-title">用户名：{{detailInfo.userName}}</div>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <div class="-player-title">昵称：{{detailInfo.nickname === 'NULL!' ? '无' : detailInfo.nickname}}</div>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="4">
             <div class="-player-title" >
               密码：
               <span v-if="!editPassword">{{detailInfo.password}}</span>
@@ -25,7 +28,7 @@
               </span>
             </div>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <div class="-player-title">上次登录游戏时间：{{lastTime}}</div>
           </el-col>
         </div>
