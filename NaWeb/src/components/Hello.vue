@@ -7,6 +7,9 @@
       <About></About>
     </div>
     <div class="section">
+      <Download></Download>
+    </div>
+    <div class="section">
       <Plan></Plan>
     </div>
     <div class="section">
@@ -28,6 +31,7 @@
 // })
 import Slider from './slider'
 import About from './about'
+import Download from './download'
 import Plan from './plan'
 import Product from './product'
 import N2 from './n2'
@@ -43,13 +47,13 @@ export default {
     $('#dowebok').fullpage (
       {
         scrollingSpeed: 500,
-        anchors: ['page1', 'page2', 'page3', 'page4', 'page5', 'page6'],
+        anchors: ['page1', 'page2', 'page3', 'page4', 'page5', 'page6', 'page7'],
         menu: '#menu'
       }
     )
   },
   components: {
-    Slider, About, Plan, Product, N2, Contact
+    Slider, About, Plan, Product, N2, Contact, Download
   }
 }
 </script>

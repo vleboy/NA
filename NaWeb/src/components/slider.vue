@@ -35,7 +35,9 @@ export default {
       if(-510 < iX && iX < 510) {
         this.$refs.imgCover[0].style.left= `${-iX/4}px`
       }
-      this.$refs.imgCover[0].style.top= `${-iY/4}px`
+      if(-280 < iY && iY < 280) {
+        this.$refs.imgCover[0].style.top= `${-iY/4}px`
+      }
     },
     out: function() {
       this.$refs.imgCover[0].style.left = 0

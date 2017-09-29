@@ -3571,9 +3571,9 @@ poi-load-config@^1.1.1:
     postcss-load-config "^1.2.0"
     use-config "^1.0.0"
 
-poi@^9.3.5:
-  version "9.3.5"
-  resolved "https://registry.npmjs.org/poi/-/poi-9.3.5.tgz#eb6a00579162ebd0b2d725eed9bf1c5a7ff81c54"
+poi@^9.3.8:
+  version "9.3.8"
+  resolved "https://registry.yarnpkg.com/poi/-/poi-9.3.8.tgz#6a0a82f9eafaad4679279a1963b38c75ca1f0ed9"
   dependencies:
     address "^1.0.1"
     autoprefixer "^7.1.2"

@@ -5,9 +5,10 @@
         <ul id="menu">
           <li data-menuanchor="page1" class="active"><a href="#page1">首页<i>·</i></a></li>
           <li data-menuanchor="page2"><a href="#page2">关于我们<i>·</i></a></a></li>
-          <li data-menuanchor="page3"><a href="#page3">行业解决方案<i>·</i></a></li>
-          <li data-menuanchor="page4"><a href="#page4">公司产品<i>·</i></a></li>
-          <li data-menuanchor="page6"><a href="#page6">联系我们</a></li>
+          <li data-menuanchor="page3"><a href="#page3">立即下载<i>·</i></a></li>
+          <li data-menuanchor="page4"><a href="#page4">行业解决方案<i>·</i></a></li>
+          <li data-menuanchor="page5"><a href="#page5">公司产品<i>·</i></a></li>
+          <li data-menuanchor="page7"><a href="#page7">联系我们</a></li>
         </ul>
       </div>
     </div>
