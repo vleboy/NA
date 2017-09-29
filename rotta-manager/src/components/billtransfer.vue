@@ -229,10 +229,11 @@ export default {
     postStore () {
       this.loading = true
       var data = this.storePoints
+      data.fromUserId = localStorage.loginId
       data.toRole = this.$store.state.variable.nowUser.role
       data.toUser = this.$store.state.variable.nowUser.username
-      if (!this.storePoints.fromUserId || !this.storePoints.amount || Number(this.storePoints.amount) < 0 || isNaN(this.storePoints.amount)) {
-        // console.log('存点错误时显示数据', data)
+      if (!this.storePoints.amount || Number(this.storePoints.amount) < 0 || isNaN(this.storePoints.amount)) {
+        console.log('存点错误时显示数据', data)
         this.$message({
           message: '请完善存点信息',
           type: 'error'
@@ -277,14 +278,10 @@ export default {
       this.loading = true
       var data = this.withdrawPoints
       data.fromUserId = this.$store.state.variable.nowUser.userId
-      data.toRole = ''
-      if (data.toUser == localStorage.loginUsername) {
-        data.toRole = '1'
-      } else {
-        data.toRole = '10'
-      }
-      if (!this.withdrawPoints.toUser || !this.withdrawPoints.amount || Number(this.withdrawPoints.amount) < 0 || isNaN(this.withdrawPoints.amount)) {
-        // console.log('提点错误时显示数据', data)
+      data.toRole = localStorage.loginRole
+      data.toUser = localStorage.loginUsername
+      if (!this.withdrawPoints.amount || Number(this.withdrawPoints.amount) < 0 || isNaN(this.withdrawPoints.amount)) {
+        console.log('提点错误时显示数据', data)
         this.$message({
           message: '请完善存点信息',
           type: 'error'

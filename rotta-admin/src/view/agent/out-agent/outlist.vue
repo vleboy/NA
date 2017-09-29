@@ -17,9 +17,6 @@
                       <el-form-item label="线路商ID" class="moreinfo">
                           <span>{{ props.row.userId }}</span>
                       </el-form-item>
-                      <el-form-item label="线路商创建时间" class="moreinfo">
-                          <span>{{ Time(props.row.createdAt) }}</span>
-                      </el-form-item>
                       <el-form-item label="管理员账号" class="moreinfo">
                           <span>{{ props.row.username.split('_')[1] }}</span>
                       </el-form-item>
@@ -34,6 +31,9 @@
                       </el-form-item>
                       <el-form-item label="管理员邮箱" class="moreinfo">
                           <span>{{ props.row.adminEmail }}</span>
+                      </el-form-item>
+                      <el-form-item label="最后登录时间" class="moreinfo">
+                          <span>{{ Time(props.row.loginAt) }}</span>
                       </el-form-item>
                       <el-form-item label="线路商生效时间" class="moreinfo">
                           <span>{{ contractPeriod(props.row.contractPeriod) }}</span>
@@ -75,9 +75,9 @@
           </el-table-column>
           <el-table-column label="线路商邮箱" prop="managerEmail" width="110" header-align="center">
           </el-table-column>
-          <el-table-column label="最后登录时间" prop="loginAt" align="center" width="150" sortable>
+          <el-table-column label="创建时间" prop="loginAt" align="center" width="150" sortable>
               <template scope="scope">
-              <span style="word-break:normal">{{Time(scope.row.loginAt)}}</span>
+              <span style="word-break:normal">{{Time(scope.row.createdAt)}}</span>
             </template>
           </el-table-column>
           <el-table-column label="状态" align="center" prop="status" sortable width="90">
