@@ -518,7 +518,7 @@
       padding-bottom: 0.5rem;
       font-size: 20px;
       color: #000000;
-      max-width: 80px;
+      max-width: 75px;
       display: inline-block;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -566,7 +566,7 @@
 
   @media screen and (min-width: 1280px){
     .right-number{
-      max-width: 140px;
+      max-width: 160px!important;
     }
   }
 
