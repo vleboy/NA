@@ -326,7 +326,7 @@
                     </el-table>
                 </div>
                 <div class="page">
-                      <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.outdetailproperty.length" :page-sizes="[20, 50]" :page-size="waterFallSize" @size-change="getwaterFallSize" @current-change="getwaterFallPage"></el-pagination>
+                      <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.outdetailproperty.length" :page-sizes="[10, 20]" :page-size="waterFallSize" @size-change="getwaterFallSize" @current-change="getwaterFallPage"></el-pagination>
                     </div>
             </div>
         </div>
@@ -373,7 +373,7 @@
                 </el-table>
                 </div>
                 <div class="page">
-                    <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.outdetailmanagers.length" :page-sizes="[20, 50]" :page-size="childManagersSize" @size-change="getchildManagersSize" @current-change="getchildManagersPage"></el-pagination>
+                    <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.outdetailmanagers.length" :page-sizes="[5, 10]" :page-size="childManagersSize" @size-change="getchildManagersSize" @current-change="getchildManagersPage"></el-pagination>
                 </div>
             </div>
         </div>
@@ -421,7 +421,7 @@
                 </el-table>
             </div>
             <div class="page">
-              <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.outdetailmerchants.length" :page-sizes="[20, 50]" :page-size="childMerchantsSize" @size-change="getchildMerchantsSize" @current-change="getchildManagersPage"></el-pagination>
+              <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.outdetailmerchants.length" :page-sizes="[5, 10]" :page-size="childMerchantsSize" @size-change="getchildMerchantsSize" @current-change="getchildManagersPage"></el-pagination>
             </div>
         </div>
         </div>
@@ -738,11 +738,11 @@ export default {
       loading: false,
       disable: true, // 禁用输入框
       bills: '',  // 账户余额
-      waterFallSize: 20, // 线路商详情页财务信息分页
+      waterFallSize: 10, // 线路商详情页财务信息分页
       waterFallPage: 1, // 线路商详情页财务信息分页
-      childManagersSize: 20, // 线路商详情页所属线路商分页
+      childManagersSize: 5, // 线路商详情页所属线路商分页
       childManagersPage: 1, // 线路商详情页所属线路商分页
-      childMerchantsSize: 20, // 线路商详情页所属商户分页
+      childMerchantsSize: 5, // 线路商详情页所属商户分页
       childMerchantsPage: 1, // 线路商详情页所属商户分页
       isfinish: {
         password: true,
