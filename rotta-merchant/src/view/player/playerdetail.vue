@@ -27,7 +27,7 @@
             <el-radio-button label="40000">电子游戏</el-radio-button>
             <el-radio-button label="30000">真人视讯</el-radio-button>
             <el-radio-button label="-1">中心钱包</el-radio-button>
-            <el-radio-button label="-3">商户</el-radio-button>
+            <el-radio-button label="-3">商城</el-radio-button>
           </el-radio-group>
         </div>
         <div class="countinfo-center">
