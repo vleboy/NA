@@ -28,9 +28,10 @@
         </el-table-column>
         <el-table-column label="包含物品" prop="desc" align="center" :show-overflow-tooltip="true">
           <template scope="scope">
-            <div v-for="(item, index) in scope.row.tools" style="padding-right:0.5rem;display: inline-block">
+            <div v-if="scope.row.tools.length" v-for="(item, index) in scope.row.tools" style="padding-right:0.5rem;display: inline-block">
               <span>{{item.toolName}} x {{item.sum}}</span>;
             </div>
+            <span v-if="!scope.row.tools.length">暂无物品</span>
           </template>
         </el-table-column>
         <el-table-column label="发送对象" align="center">
@@ -249,8 +250,6 @@ export default {
         return this.$message.error('请输入邮件内容')
       } else if (!this.mailInfo.sendTime && (this.checkTime === 2)) {
         return this.$message.error('请选择发送时间')
-      } else if (!this.mailInfo.tools.length) {
-        return this.$message.error('请添加物品')
       }
       this.mailInfo.sendTime = this.mailInfo.sendTime ? new Date(this.mailInfo.sendTime).getTime() : new Date().getTime()
       this.mailInfo.nickname = this.radioInfo == 2 ? this.mailInfo.nickname : ''
