@@ -22,8 +22,8 @@
                             <div class="">
                                 <el-form-item label="上级线路商">
                                     <span v-if="outdetail.parentRole != '1'">
-                                      <span v-if="this.outdetail.parent !== '01' && this.loginLevel < this.outdetail.level" @click="goParent()" class="goParent">{{outdetail.parentDisplayName}}</span>
-                                      <span v-if="this.outdetail.parent !== '01' && this.loginLevel >= this.outdetail.level">
+                                      <span v-if="this.outdetail.parent != '01' && this.loginLevel < this.outdetail.level" @click="goParent()" class="goParent">{{outdetail.parentDisplayName}}</span>
+                                      <span v-if="this.outdetail.parent != '01' && this.loginLevel >= this.outdetail.level">
                                         {{outdetail.parentDisplayName}}</span>
                                     </span>
                                     <span v-if="outdetail.parentRole == '1'">
