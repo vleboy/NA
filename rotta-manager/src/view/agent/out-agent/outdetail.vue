@@ -22,8 +22,8 @@
                             <div class="">
                                 <el-form-item label="上级线路商">
                                     <span v-if="outdetail.parentRole != '1'">
-                                      <span v-if="this.outdetail.parent !== '01' && this.loginLevel < this.outdetail.level" @click="goParent()" class="goParent">{{outdetail.parentDisplayName}}</span>
-                                      <span v-if="this.outdetail.parent !== '01' && this.loginLevel > this.outdetail.level">
+                                      <span v-if="this.outdetail.parent != '01' && this.loginLevel < this.outdetail.level" @click="goParent()" class="goParent">{{outdetail.parentDisplayName}}</span>
+                                      <span v-if="this.outdetail.parent != '01' && this.loginLevel > this.outdetail.level">
                                         {{outdetail.parentDisplayName}}</span>
                                     </span>
                                     <span v-if="outdetail.parentRole == '1'">
@@ -460,9 +460,9 @@ export default {
     },
     isRight () {
       var right = false
-      if (localStorage.loginLevel > this.$store.state.variable.outdetaildata.level) {
+      if (Number(localStorage.loginLevel) > this.$store.state.variable.outdetaildata.level) {
         right = false
-      } else if (localStorage.loginLevel < this.$store.state.variable.outdetaildata.level) {
+      } else if (Number(localStorage.loginLevel) < this.$store.state.variable.outdetaildata.level) {
         right = true
       }
       return right
@@ -724,7 +724,7 @@ export default {
       }
     } // 验证合同有效时间
     return {
-      loginLevel: localStorage.loginLevel, // 登陆用户等级
+      loginLevel: Number(localStorage.loginLevel), // 登陆用户等级
       pickerOptions: {
         disabledDate (time) {
           return time.getTime() < Date.now() - 8.64e7
