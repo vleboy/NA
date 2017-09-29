@@ -77,7 +77,7 @@ export default {
       margin: 0;
     }
     .el-carousel__item {
-       background-size: 100%;
+       background-size: cover;
        background-repeat: no-repeat;
        img {
          width: 100%;
@@ -89,7 +89,7 @@ export default {
          width: 100%;
          height: 100%;
          background: url('../assets/gas.png') no-repeat;
-         background-size: 100%;
+         background-size: cover;
        }
     }
     .el-carousel__button {
@@ -117,7 +117,7 @@ export default {
       width: 158px;
       height: 68px;
       background: url('../assets/down.png') no-repeat;
-      background-size: 100%;
+      background-size: cover;
       cursor: pointer;
     }
   }

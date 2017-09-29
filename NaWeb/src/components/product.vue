@@ -1,18 +1,20 @@
 <template lang="html">
   <div class="product">
-    <div class="title">
-      <p>Product</p>
-      <h1>我们的产品</h1>
+    <div class="product-content">
+      <div class="title">
+        <p>Product</p>
+        <h1>我们的产品</h1>
+      </div>
+      <ul>
+        <li v-for="(item, index) in Products" :key="index">
+          <a href="/about.html">
+            <img :src="item.imgUrl" alt="">
+          </a>
+          <h2>{{item.title}}</h2>
+            <p>{{item.content}}</p>
+        </li>
+      </ul>
     </div>
-    <ul>
-      <li v-for="(item, index) in Products" :key="index">
-        <a href="/about.html">
-          <img :src="item.imgUrl" alt="">
-        </a>
-        <h2>{{item.title}}</h2>
-          <p>{{item.content}}</p>
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -36,8 +38,12 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #000;
+  display: table;
+  .product-content {
+    display: table-cell;
+    vertical-align: middle;
+  }
   .title {
-    padding-top: 190px;
     text-align: center;
     color: #fff;
     p {
@@ -101,7 +107,6 @@ export default {
 @media screen and (min-width: 768px) and (max-width: 1280px) {
   .product {
     .title {
-      padding-top: 127px;
       p {
         font-size: 9.33px;
         margin-bottom: 14px;

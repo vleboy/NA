@@ -19,7 +19,7 @@
   width: 100%;
   height: 100%;
   background: url('../assets/download.png') no-repeat;
-  background-size: 100%;
+  background-size: cover;
   .content {
     position: absolute;
     top: 50%;

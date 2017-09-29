@@ -26,7 +26,7 @@ export default {
   width: 100%;
   height: 100%;
   background: url('../assets/about.jpg') no-repeat;
-  background-size: 100%;
+  background-size: cover;
   .left {
     width: 12.34%;
     height: 268px;
@@ -81,7 +81,7 @@ export default {
       width: 100%;
       height: 360px;
       background: url('../assets/rightImg.png') no-repeat;
-      background-size: cover;
+      background-size: 100%;
     }
   }
 }

@@ -1,25 +1,27 @@
 <template lang="html">
   <div class="n2">
-    <div class="title">
-      <p>N2 PLAN</p>
-      <h1>N2 计划</h1>
-    </div>
-    <div class="content">
-      <div class="left">
-        <i></i>
-        <p>{{lefts.content}}</p>
-        <img :src="lefts.imgUrl">
-      <!-- <h2><span>N²计划</span></h2> -->
+    <div class="n2-content">
+      <div class="title">
+        <p>N2 PLAN</p>
+        <h1>N2 计划</h1>
       </div>
-      <div class="right">
-        <ul>
-          <li v-for="(item, index) in rights" :key="index">
-            <div class="img">
-              <h2><span>{{item.title}}</span></h2>
-              <div class="bg"><img :src="item.imgUrl"></div>
-            </div>
-          </li>
-        </ul>
+      <div class="content">
+        <div class="left">
+          <i></i>
+          <p>{{lefts.content}}</p>
+          <img :src="lefts.imgUrl">
+        <!-- <h2><span>N²计划</span></h2> -->
+        </div>
+        <div class="right">
+          <ul>
+            <li v-for="(item, index) in rights" :key="index">
+              <div class="img">
+                <h2><span>{{item.title}}</span></h2>
+                <div class="bg"><img :src="item.imgUrl"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -50,8 +52,12 @@ export default {
   height: 100%;
   background: url('../assets/n2Bg.png') no-repeat;
   background-size: cover;
+  display: table;
+  .n2-content {
+    display: table-cell;
+    vertical-align: middle;
+  }
   .title {
-    padding-top: 114px;
     text-align: center;
     color: #fff;
     p {
@@ -170,7 +176,6 @@ export default {
 @media screen and (min-width: 768px) and (max-width: 1280px) {
   .n2 {
     .title {
-      padding-top: 77px;
       p {
         font-size: 9.33px;
         margin-bottom: 14px;
