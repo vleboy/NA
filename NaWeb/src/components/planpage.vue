@@ -6,20 +6,22 @@
       <div class="bar">
         <div class="left">
           <i></i>
-          <span>公司产品</span>
+          <span>电子游戏介绍</span>
         </div>
         <div class="right">
           <i></i>
-          <span> > 公司产品 > 动态标题</span>
+          <span> > 公司产品 > 电子游戏介绍</span>
         </div>
       </div>
       <div class="msg">
         <div class="msgContent">
-          <h1>{{products.title}}</h1>
-          <div class="msgImg">
-            <img :src="products.imgUrl" alt="">
+          <div v-for="(item, index) in products" :key="index">
+            <h1>{{item.title}}</h1>
+            <div class="msgImg">
+              <img :src="item.imgUrl" alt="">
+            </div>
+            <p>{{item.content}}</p>
           </div>
-          <p>{{products.content}}</p>
         </div>
       </div>
     </div>
@@ -36,11 +38,18 @@ export default {
   },
   data () {
     return {
-      products: {
-        title: '动态资讯标题',
-        imgUrl: '/static/msg.png',
-        content: '啊的空间撒娇的卡就死定了卡就死定了卡就是领导卡就是领导卡上课了大家了四度空间阿里斯顿'
-      }
+      products: [
+        {
+          title: '塔罗之谜',
+          imgUrl: '/static/msg.png',
+          content: '  塔罗题材的电子游戏，有着小阿卡那牌【宝剑】【权杖】【圣杯】【星币】元素的符号预示着命运的真相。当出现3个及以上的【命运之轮】时，代表着你即将做一个重大的选择，五色卡牌分别对应五种决定命运的水晶球，跟随着直觉做出选择，带你进入全新的塔罗世界，感受塔罗的神秘力量。'
+        },
+        {
+          title: '小厨娘',
+          imgUrl: '/static/msg.png',
+          content: '有着传统中国风的美食题材电子游戏。一个民间普通的小厨娘，通过烹饪中国特色美食【北京烤鸭】【东坡肘子】【小笼包】【麻婆豆腐】【水煮鱼】受到皇帝了的青睐，下发御用【令牌】传召小厨娘进宫参加厨艺比赛。随着令牌传到的还有5卷诏书，小厨娘在选择一款拿手的调味方式后，将身着霓裳，进入华丽的皇宫参加比赛，根据自身的表现获得奖励。'
+        }
+      ]
     }
   }
 }
@@ -126,7 +135,7 @@ export default {
           }
         }
         p {
-          margin: 0 auto;
+          margin: 0 auto 40px;
           margin-top: 18px;
           width: 925px;
           color: #7e7e7e;
@@ -176,7 +185,7 @@ export default {
             margin: 0 auto;
           }
           p {
-            margin: 0 auto;
+            margin: 0 auto 40px;
             margin-top: 10px;
             width: 620px;
             font-size: 10.67px;
