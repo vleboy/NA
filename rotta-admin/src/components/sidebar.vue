@@ -67,7 +67,7 @@
                 <!-- <el-menu-item index="propertycenter">财务中心</el-menu-item> -->
              <!--  <el-menu-item index="control" v-if="this.userRight.risk === true">风控中心</el-menu-item> -->
 
-              <el-submenu index="6" v-if="this.userRight.service === true">
+              <!-- <el-submenu index="6" v-if="this.userRight.service === true">
                   <template slot="title">客服中心</template>
                     <el-submenu index="6-1">
                       <template slot="title">帮助信息</template>
@@ -75,7 +75,7 @@
                         <el-menu-item index="helpdetail">帮助详情</el-menu-item>
                         <el-menu-item index="addhelp">新增帮助</el-menu-item>
                     </el-submenu>
-              </el-submenu>
+              </el-submenu> -->
               <el-submenu index="7" v-if="this.userRight.system === true || this.userRight.system">
                   <template slot="title">系统设置</template>
                   <el-submenu index="7-1" v-if="this.userRight.system === true">
