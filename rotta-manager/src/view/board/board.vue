@@ -221,8 +221,8 @@
             } else {
               for (let item of this.totalData) {
                 if (res && (item.index === res.data.type)) {
-                  item.oneNum = res.data.oneNum
-                  item.twoNum = res.data.twoNum
+                  item.oneNum = this.thousandFormatter(res.data.oneNum)
+                  item.twoNum = this.thousandFormatter(res.data.twoNum)
                 }
               }
             }
@@ -452,7 +452,15 @@
         this.getConsumeAndIncome()
       }, // 售出收益日期筛选过滤切换
       thousandFormatter (num) {
-        return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+        let toString = num.toString()
+        let numOne = ''
+        let numTwo = ''
+        let formatterNum = ''
+        if(toString.indexOf('.')>-1){
+          [numOne,numTwo] = toString.split('.')
+        }
+        formatterNum = (numOne || num).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+        return numTwo ? `${formatterNum}.${numTwo}` : formatterNum
       }, // 千位符格式化
       getWeek() {
         //按周日为一周的最后一天计算
