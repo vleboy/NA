@@ -22,7 +22,7 @@
   background-size: cover;
   .content {
     position: absolute;
-    top: 50%;
+    top: 47%;
     left: 50%;
     transform: translateX(-50%)translateY(-50%);
     font-size: 26px;
@@ -53,6 +53,7 @@
 @media screen and (min-width: 768px) and (max-width: 1280px) {
   .download {
     .content {
+      top: 44%;
       font-size: 19px;
     }
     .download-address {

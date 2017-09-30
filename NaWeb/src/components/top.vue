@@ -18,7 +18,7 @@ export default {
 .top {
   position: fixed;
   right: 21px;
-  bottom: 18px;
+  bottom: 45px;
   width: 57px;
   height: 57px;
   background: url('../assets/arrow_top.png')no-repeat;

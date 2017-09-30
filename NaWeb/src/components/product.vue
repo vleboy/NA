@@ -7,7 +7,7 @@
       </div>
       <ul>
         <li v-for="(item, index) in Products" :key="index">
-          <a href="/about.html">
+          <a :href='`/about.html?type=${item.type}&title=${item.title}`'>
             <img :src="item.imgUrl" alt="">
           </a>
           <h2>{{item.title}}</h2>
@@ -23,10 +23,10 @@ export default {
   data () {
     return {
       Products: [
-        {title: '真人视讯', content: '我们集合了当下最流行的真人视讯游戏类型整合了全新的互联网直播技术通过更逼真的赌场还原以及更流畅的服务，为客户提供全新的体验',imgUrl: '/static/1.png'},
-        {title: '棋牌游戏', content: '网络棋牌游戏正在被大家慢慢接受和喜欢我们把传统的棋牌游戏进行重新定义加上全新的呈现技术灵活的运营模式，推出了NA棋牌的产品序列',imgUrl: '/static/2.png'},
-        {title: '电子游戏', content: 'NA电子游戏融合了传统的经典电子游戏加入了更加多元化的题材以及更加具有娱乐性的玩法让更多的玩家有丰富的游戏体验',imgUrl: '/static/3.png'},
-        {title: '电子竞技', content: '电子竞技的火热全世界都有目共睹，娱乐化职业化是未来电子竞技的未来NA电子竞技依托丰富的娱乐产品经验即将推出NA电子竞技产品序列，敬请期待……',imgUrl: '/static/4.png'}
+        {title: '真人视讯', type: 'people', content: '我们集合了当下最流行的真人视讯游戏类型整合了全新的互联网直播技术通过更逼真的赌场还原以及更流畅的服务，为客户提供全新的体验',imgUrl: '/static/1.png'},
+        {title: '棋牌游戏', type: 'chess', content: '网络棋牌游戏正在被大家慢慢接受和喜欢我们把传统的棋牌游戏进行重新定义加上全新的呈现技术灵活的运营模式，推出了NA棋牌的产品序列',imgUrl: '/static/2.png'},
+        {title: '电子游戏', type: 'tiger', content: 'NA电子游戏融合了传统的经典电子游戏加入了更加多元化的题材以及更加具有娱乐性的玩法让更多的玩家有丰富的游戏体验',imgUrl: '/static/3.png'},
+        {title: '电子竞技', type: 'electron', content: '电子竞技的火热全世界都有目共睹，娱乐化职业化是未来电子竞技的未来NA电子竞技依托丰富的娱乐产品经验即将推出NA电子竞技产品序列，敬请期待……',imgUrl: '/static/4.png'}
       ]
     }
   }

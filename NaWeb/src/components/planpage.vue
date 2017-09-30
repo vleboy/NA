@@ -6,21 +6,24 @@
       <div class="bar">
         <div class="left">
           <i></i>
-          <span>电子游戏介绍</span>
+          <span>{{title}}介绍</span>
         </div>
         <div class="right">
           <i></i>
-          <span> > 公司产品 > 电子游戏介绍</span>
+          <span> > 公司产品 > {{title}}介绍</span>
         </div>
       </div>
       <div class="msg">
         <div class="msgContent">
-          <div v-for="(item, index) in products" :key="index">
+          <div v-for="(item, index) in productData" :key="index">
             <h1>{{item.title}}</h1>
             <div class="msgImg">
               <img :src="item.imgUrl" alt="">
             </div>
             <p>{{item.content}}</p>
+            <h3>【大奖】</h3>
+            <h3>【特色选择模式】</h3>
+            <h3>【免费游戏】</h3>
           </div>
         </div>
       </div>
@@ -41,15 +44,40 @@ export default {
       products: [
         {
           title: '塔罗之谜',
-          imgUrl: '/static/msg.png',
+          imgUrl: '/static/ele.png',
           content: '  塔罗题材的电子游戏，有着小阿卡那牌【宝剑】【权杖】【圣杯】【星币】元素的符号预示着命运的真相。当出现3个及以上的【命运之轮】时，代表着你即将做一个重大的选择，五色卡牌分别对应五种决定命运的水晶球，跟随着直觉做出选择，带你进入全新的塔罗世界，感受塔罗的神秘力量。'
         },
         {
           title: '小厨娘',
-          imgUrl: '/static/msg.png',
+          imgUrl: '/static/ele2.jpg',
           content: '有着传统中国风的美食题材电子游戏。一个民间普通的小厨娘，通过烹饪中国特色美食【北京烤鸭】【东坡肘子】【小笼包】【麻婆豆腐】【水煮鱼】受到皇帝了的青睐，下发御用【令牌】传召小厨娘进宫参加厨艺比赛。随着令牌传到的还有5卷诏书，小厨娘在选择一款拿手的调味方式后，将身着霓裳，进入华丽的皇宫参加比赛，根据自身的表现获得奖励。'
         }
-      ]
+      ],
+      productData: [],
+      demo: [
+        {
+          title: this.GetQueryString('title'),
+          imgUrl: '/static/msg.png',
+          content: '这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容'
+        }
+      ],
+      title: ''
+    }
+  },
+  created () {
+    let type = this.GetQueryString('type')
+    let titles = this.GetQueryString('title')
+    this.title = titles
+    type === 'tiger' ? this.productData = this.products : this.productData = this.demo
+  },
+  methods: {
+    GetQueryString: function (name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) {
+          return decodeURI(r[2]);
+      }
+      return null;
     }
   }
 }
@@ -121,8 +149,8 @@ export default {
       .msgContent {
         padding: 50px;
         h1 {
-          margin: 10px auto;
-          font-size: 24px;
+          margin: 50px auto;
+          font-size: 40px;
           color: #c00000;
         }
         .msgImg {
@@ -135,11 +163,15 @@ export default {
           }
         }
         p {
-          margin: 0 auto 40px;
+          margin: 0 auto 20px;
           margin-top: 18px;
           width: 925px;
           color: #7e7e7e;
           font-size: 16px;
+          line-height: 30px
+        }
+        h3 {
+          margin: 20px 0;
         }
       }
     }
@@ -177,7 +209,7 @@ export default {
         margin-top: 10px;
         .msgContent {
           h1 {
-            font-size: 16px;
+            font-size: 25px;
           }
           .msgImg {
             width: 425px;
@@ -189,6 +221,7 @@ export default {
             margin-top: 10px;
             width: 620px;
             font-size: 10.67px;
+            line-height: 20px
           }
         }
       }
