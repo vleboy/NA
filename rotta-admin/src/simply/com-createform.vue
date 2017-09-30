@@ -4,19 +4,19 @@
     <h2 class="title">基本信息</h2>
     <el-form :model="merchantInfo" ref="merchantInfo" :rules="rules" label-width="120px" label-position="right">
         <el-form-item label="商户标识" prop="suffix">
-          <el-input v-model="merchantInfo.suffix" class="input" placeholder="请输入"></el-input>
+          <el-input v-model="merchantInfo.suffix" class="input" placeholder="2~6 位,只能输入英文和数字(以字母开头)"></el-input>
         </el-form-item>
           <el-form-item label="商户昵称" prop="displayName">
-            <el-input v-model="merchantInfo.displayName" class="input" placeholder="请输入"></el-input>
+            <el-input v-model="merchantInfo.displayName" class="input" placeholder="2~10 位,只能输入中英文及数字"></el-input>
           </el-form-item>
           <el-form-item label="商户邮箱" prop="merchantEmail">
             <el-input v-model="merchantInfo.merchantEmail" class="input" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="负责人" prop="hostName">
-            <el-input v-model="merchantInfo.hostName" class="input" placeholder="请输入"></el-input>
+            <el-input v-model="merchantInfo.hostName" class="input" placeholder="2~16 位,只能输入中英文"></el-input>
           </el-form-item>
           <el-form-item label="负责人联系方式" prop="hostContact">
-            <el-input v-model="merchantInfo.hostContact" class="input" placeholder="请输入"></el-input>
+            <el-input v-model="merchantInfo.hostContact" class="input" placeholder="5~40位,只能输入中英文及数字"></el-input>
           </el-form-item>
           <el-form-item label="所属线路商">
             <el-select v-model="merchantInfo.parent" filterable placeholder="请选择" clearable class="input">

@@ -36,20 +36,20 @@
       </el-form-item>
       <h2 class="title">配置商户后台管理员</h2>
       <el-form-item label="商户管理员用户名" prop="username">
-        <el-input v-model="setcomInfo.username" class="input" placeholder="请输入"></el-input>
+        <el-input v-model="setcomInfo.username" class="input" placeholder="5~16位,只能输入英文及数字"></el-input>
       </el-form-item>
       <el-form-item label="商户管理员密码" prop="password">
-        <el-input v-model="setcomInfo.password" class="input" placeholder="请输入"></el-input>
+        <el-input v-model="setcomInfo.password" class="input" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></el-input>
         <el-button type="text" class="" @click="randomPassword">生成</el-button>
       </el-form-item>
       <el-form-item label="商户管理员真实姓名" prop="adminName">
-        <el-input v-model="setcomInfo.adminName" class="input" placeholder="请输入"></el-input>
+        <el-input v-model="setcomInfo.adminName" class="input" placeholder="2~16位,只能输入中英文"></el-input>
       </el-form-item>
       <el-form-item label="商户管理员邮箱" prop="adminEmail">
         <el-input v-model="setcomInfo.adminEmail" class="input" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="商户管理员联系方式" prop="adminContact">
-        <el-input v-model="setcomInfo.adminContact" class="input" placeholder="请输入"></el-input>
+        <el-input v-model="setcomInfo.adminContact" class="input" placeholder="5~40位,只能输入中英文及数字"></el-input>
       </el-form-item>
     </el-form>
   </div>

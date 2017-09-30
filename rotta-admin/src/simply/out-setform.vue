@@ -23,20 +23,20 @@
       </el-form-item>
       <h2 class="title">配置线路商后台管理员</h2>
       <el-form-item label="管理员用户名" prop="username">
-        <el-input v-model="setOutinfo.username" class="input" placeholder="请输入"></el-input>
+        <el-input v-model="setOutinfo.username" class="input" placeholder="5~16位,只能输入英文及数字"></el-input>
       </el-form-item>
       <el-form-item label="管理员密码" prop="password">
-        <el-input v-model="setOutinfo.password" class="input" placeholder="请输入"></el-input>
+        <el-input v-model="setOutinfo.password" class="input" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></el-input>
         <el-button type="text" class="" @click="randomPassword">生成</el-button>
       </el-form-item>
       <el-form-item label="管理员真实姓名" prop="adminName">
-        <el-input v-model="setOutinfo.adminName" class="input" placeholder="请输入"></el-input>
+        <el-input v-model="setOutinfo.adminName" class="input" placeholder="2~16位,只能输入中英文"></el-input>
       </el-form-item>
       <el-form-item label="管理员邮箱" prop="adminEmail">
         <el-input v-model="setOutinfo.adminEmail" class="input" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="管理员联系方式" prop="adminContact">
-        <el-input v-model="setOutinfo.adminContact" class="input" placeholder="请输入"></el-input>
+        <el-input v-model="setOutinfo.adminContact" class="input" placeholder="5~40位,只能输入中英文及数字"></el-input>
       </el-form-item>
     </el-form>
   </div>

@@ -10,19 +10,19 @@
             </el-select>
           </el-form-item>
         <el-form-item label="管理员用户名" prop="username">
-          <el-input v-model="addadmin.username" class="input" placeholder="请输入"></el-input>
+          <el-input v-model="addadmin.username" class="input" placeholder="5~16位,只能输入英文和数字"></el-input>
         </el-form-item>
           <el-form-item label="管理员密码" prop="password">
-            <el-input v-model="addadmin.password" class="input" placeholder="请输入"></el-input>
+            <el-input v-model="addadmin.password" class="input" placeholder="6~16位,包含字母、数字及符号中任意三种组合"></el-input>
           </el-form-item>
           <el-form-item label="管理员姓名" prop="adminName">
-            <el-input v-model="addadmin.adminName" class="input" placeholder="请输入"></el-input>
+            <el-input v-model="addadmin.adminName" class="input" placeholder="2~16位,只能输入中英文"></el-input>
           </el-form-item>
           <el-form-item label="管理员Email" prop="adminEmail">
             <el-input v-model="addadmin.adminEmail" class="input" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="管理员联系方式" prop="adminContact">
-            <el-input v-model="addadmin.adminContact" class="input" placeholder="请输入"></el-input>
+            <el-input v-model="addadmin.adminContact" class="input" placeholder="5~40位,只能输入中英文及数字"></el-input>
           </el-form-item>
           <el-form-item label="" prop="adminContact">
              <el-button type="primary" class="subBtn" @click="registAdmin"> 提交</el-button>
