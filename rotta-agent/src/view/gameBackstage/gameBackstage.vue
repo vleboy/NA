@@ -118,10 +118,10 @@ export default{
     background-color: #ffffff; margin-bottom: 2rem;padding: 1rem;position: relative
   }
   .item-left{
-    width: 10rem;margin: 0 auto;
+    width: 10rem;margin: 0 auto;text-align: center;
   }
   .item-img{
-    width: 160px;
+    width: 120px;
     height: 120px;
   }
   .img-text{
