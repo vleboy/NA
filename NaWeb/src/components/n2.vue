@@ -15,9 +15,9 @@
         <div class="right">
           <ul>
             <li v-for="(item, index) in rights" :key="index">
-              <div class="img">
+              <div class="img" :style="`background:url(${item.imgUrl}) no-repeat;background-size: cover`">
                 <h2><span>{{item.title}}</span></h2>
-                <div class="bg"><img :src="item.imgUrl"></div>
+                <div class="bg"></div>
               </div>
             </li>
           </ul>
@@ -36,10 +36,10 @@ export default {
         imgUrl: ''
       },
       rights: [
-        {title: 'N²计划', imgUrl: ''},
-        {title: 'N²计划', imgUrl: ''},
-        {title: 'N²计划', imgUrl: ''},
-        {title: 'N²计划', imgUrl: ''}
+        {title: '全新的产品形态,待续...', imgUrl: '/static/n1.JPG'},
+        {title: '全新的用户体验,待续...', imgUrl: '/static/n2.jpg'},
+        {title: '全新的运营思路,待续...', imgUrl: '/static/n3.jpg'},
+        {title: '全新的合作方式,待续...', imgUrl: '/static/n4.jpg'}
       ]
     }
   }
@@ -141,7 +141,7 @@ export default {
             padding-bottom: 100%;
             height: 0;
             border-radius: 15px;
-            background: url('../assets/plan1.png') no-repeat;
+            // background: url('../assets/plan1.png') no-repeat;
             background-size: cover;
             overflow: hidden;
             &:hover .bg {
