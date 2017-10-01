@@ -25,21 +25,10 @@ export default {
 .about {
   width: 100%;
   height: 100%;
+  position: relative;
   background: url('../assets/about.jpg') no-repeat;
   background-size: cover;
-  .left {
-    width: 12.34%;
-    height: 268px;
-    line-height: 268px;
-    background: url('../assets/about1.png') no-repeat;
-    background-size: cover;
-    margin-left: 169px;
-    text-align: center;
-    span {
-      font-size: 34.57px;
-      color: #fff;
-    }
-  }
+
   .right {
     position: absolute;
     top: 54px;

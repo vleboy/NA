@@ -14,18 +14,19 @@
 </template>
 
 <script>
-    
+
 </script>
 
 <style lang="less" scoped>
 .download {
   width: 100%;
   height: 100%;
+  position: relative;
   background: url('../assets/download.jpg') no-repeat;
   background-size: cover;
   .content {
     position: absolute;
-    top: 80%;
+    top: 84%;
     left: 50%;
     transform: translateX(-50%)translateY(-50%);
     font-size: 26px;
@@ -34,13 +35,15 @@
   }
   h2 {
     img {
-      width: 10%;
+      width: 60px;
+      height: 30px;
     }
   }
   .download-address {
     margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
+    /*display: flex;*/
+    overflow: hidden;
+    /*justify-content: space-between;*/
     div {
       a {
         display: inline-block;
@@ -49,8 +52,10 @@
     .android {
       text-align: right;
       padding-right: 5px;
+      float: left;
     }
     .ios {
+      float: right;
       text-align: left;
     }
     img {

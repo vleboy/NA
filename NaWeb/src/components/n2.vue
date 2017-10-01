@@ -9,7 +9,7 @@
         <div class="left">
           <i></i>
           <p>{{lefts.content}}</p>
-          <img :src="lefts.imgUrl">
+          <!--<img :src="lefts.imgUrl">-->
         <!-- <h2><span>N²计划</span></h2> -->
         </div>
         <div class="right">
