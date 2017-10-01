@@ -411,14 +411,14 @@
             break
           case 2:
             this.consumeDataTime = {
-              startTime: nowDate.setMonth(nowDate.getMonth(),1),
-              endTime: nowDate.setMonth(nowDate.getMonth()+1,0)
+              startTime: new Date(nowDate.setMonth(nowDate.getMonth(),1)).setHours(0,0,0,0),
+              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1
             }
             break
           case 3:
             this.consumeDataTime = {
-              startTime: nowDate.setMonth(nowDate.getMonth(),1),
-              endTime: nowDate.setMonth(nowDate.getMonth()+3,0)
+              startTime: new Date(nowDate.setMonth(nowDate.getMonth(),1)).setHours(0,0,0,0),
+              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+3,0)).setHours(0,0,0,0)+24*3600*1000-1
             }
             break
         }
@@ -437,14 +437,14 @@
             break
           case 2:
             this.consumeAndIncomeDataTime = {
-              startTime: nowDate.setMonth(nowDate.getMonth(),1),
-              endTime: nowDate.setMonth(nowDate.getMonth()+1,0)
+              startTime: new Date(nowDate.setMonth(nowDate.getMonth(),1)).setHours(0,0,0,0),
+              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1
             }
             break
           case 3:
             this.consumeAndIncomeDataTime = {
-              startTime: nowDate.setMonth(nowDate.getMonth(),1),
-              endTime: nowDate.setMonth(nowDate.getMonth()+3,0)
+              startTime: new Date(nowDate.setMonth(nowDate.getMonth(),1)).setHours(0,0,0,0),
+              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+3,0)).setHours(0,0,0,0)+24*3600*1000-1
             }
             break
         }
@@ -467,7 +467,7 @@
         let date = new Date();
 
         //今天是这周的第几天
-        let today = date.getDay();
+        let today = date.getDay()+1;
 
         //上周日距离今天的天数（负数表示）
         let stepSunDay = -today + 1;
