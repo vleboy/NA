@@ -116,7 +116,7 @@ export default {
     background-position: 0 -2px;
   }
   .content {
-    margin: 27px 310px 0;
+    margin: 27px 16.15% 0;
     padding-bottom: 57px;
 .bar {
       width: 100%;
@@ -203,7 +203,6 @@ export default {
       height: 300px;//450
     }
     .content {
-      margin: 27px 310px 0;
       padding-bottom: 35px;
       .bar {
         .left {
