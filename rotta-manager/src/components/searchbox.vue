@@ -102,8 +102,8 @@ export default {
     } else if (this.$store.state.variable.nowIndex === 'comlist') {
       this.searchTitle = {
         titleOne: '商户标识',
-        titleTwo: '商户昵称',
-        titleThree: '商户Email',
+        titleTwo: '商户线路号',
+        titleThree: '商户昵称',
         titleFour: '创建时间'
       }
     } else if (this.$store.state.variable.nowIndex === 'adminlist') {

@@ -763,7 +763,7 @@ const mutations = {
     if (state.variable.condition.condition_two) {
       var result2 = []
       state.variable.comlist.filter(item => {
-        if (item.displayName.indexOf(state.variable.condition.condition_two) != -1) {
+        if (Number(item.msn) == Number(state.variable.condition.condition_two)) {
           result2.push(item)
         }
       })
@@ -772,7 +772,7 @@ const mutations = {
     if (state.variable.condition.condition_three) {
       var result3 = []
       state.variable.comlist.filter(item => {
-        if (item.merchantEmail.indexOf(state.variable.condition.condition_three) != -1) {
+        if (item.displayName.indexOf(state.variable.condition.condition_three) != -1) {
           result3.push(item)
         }
       })

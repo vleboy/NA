@@ -17,8 +17,8 @@
                         <el-form-item label="商户ID" class="moreinfo">
                             <span>{{ props.row.userId }}</span>
                         </el-form-item>
-                        <el-form-item label="商户线路号" class="moreinfo">
-                            <span>{{ formatMSN(props.row.msn) }}</span>
+                        <el-form-item label="商户邮箱" class="moreinfo">
+                            <span>{{ props.row.merchantEmail }}</span>
                         </el-form-item>
                         <el-form-item label="商户前端域名" class="moreinfo">
                             <span @click="openURL(props.row.frontURL)" class="fontUrl">{{ props.row.frontURL }}</span>
@@ -51,6 +51,11 @@
             </el-table-column>
             <el-table-column label="商户昵称" prop="displayName" align="center">
             </el-table-column>
+            <el-table-column label="商户线路号" prop="merchantEmail" align="center">
+              <template scope="scope">
+                <span>{{formatMSN(scope.row.msn)}}</span>
+              </template>
+            </el-table-column>
             <el-table-column label="上级线路商" prop="" align="center" sortable>
               <template scope="scope">
                 <span @click="goComParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{scope.row.parentDisplayName}}</span>
@@ -74,8 +79,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="商户邮箱" prop="merchantEmail" align="center" width="110">
-            </el-table-column>
+            
             <el-table-column label="创建时间" prop="createdAt" align="center" width="120" sortable>
   			      <template scope="scope">
               	<span>{{Time(scope.row.createdAt)}}</span>
