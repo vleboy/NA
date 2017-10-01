@@ -467,7 +467,7 @@
         let date = new Date();
 
         //今天是这周的第几天
-        let today = date.getDay()+1;
+        let today = date.getDay();
 
         //上周日距离今天的天数（负数表示）
         let stepSunDay = -today + 1;
@@ -479,7 +479,7 @@
 
         let time = date.getTime();
 
-        return new Date(time + stepSunDay * 24 * 3600 * 1000);
+        return new Date(time + stepSunDay * 24 * 3600 * 1000+24*3600*1000);
       } // 处理周次
     },
     beforeDestroy (){
