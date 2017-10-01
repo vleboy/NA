@@ -21,17 +21,11 @@
               <img :src="item.imgUrl" alt="">
             </div>
             <p>{{item.content}}</p>
-            <h3>【大奖】</h3>
-            <div class="msgImg">
-              <img :src="item.img1" alt="">
-            </div>
-            <h3>【特色选择模式】</h3>
-            <div class="msgImg">
-              <img :src="item.img2" alt="">
-            </div>
-            <h3>【免费游戏】</h3>
-            <div class="msgImg">
-              <img :src="item.img3" alt="">
+            <div v-for="e in item.tags">
+              <h3>{{e.title}}</h3>
+              <div class="msgImg">
+                <img :src="e.img" alt="">
+              </div>
             </div>
           </div>
         </div>
@@ -55,18 +49,111 @@ export default {
           title: '塔罗之谜',
           imgUrl: '/static/ele.png',
           content: '  塔罗题材的电子游戏，有着小阿卡那牌【宝剑】【权杖】【圣杯】【星币】元素的符号预示着命运的真相。当出现3个及以上的【命运之轮】时，代表着你即将做一个重大的选择，五色卡牌分别对应五种决定命运的水晶球，跟随着直觉做出选择，带你进入全新的塔罗世界，感受塔罗的神秘力量。',
-          img1: '/static/tl_big.jpg',
-          img2: '/static/tl_choise.jpg',
-          img3: '/static/tl_free.jpg'
+          tags: [
+            {
+              title: '【大奖】',
+              img: '/static/tl_big.jpg'
+            },
+            {
+              title: '【特色选择模式】',
+              img: '/static/tl_choise.jpg'
+            },
+            {
+              title: '【免费游戏】',
+              img: '/static/tl_free.jpg'
+            }
+          ]
         },
         {
           title: '小厨娘',
           imgUrl: '/static/ele2.jpg',
           content: '有着传统中国风的美食题材电子游戏。一个民间普通的小厨娘，通过烹饪中国特色美食【北京烤鸭】【东坡肘子】【小笼包】【麻婆豆腐】【水煮鱼】受到皇帝了的青睐，下发御用【令牌】传召小厨娘进宫参加厨艺比赛。随着令牌传到的还有5卷诏书，小厨娘在选择一款拿手的调味方式后，将身着霓裳，进入华丽的皇宫参加比赛，根据自身的表现获得奖励。',
-          img1: '/static/xcn_big.jpg',
-          img2: '/static/xcn_choise.jpg',
-          img3: '/static/xcn_free.jpg'
+          tags: [
+            {
+              title: '【大奖】',
+              img: '/static/xcn_big.jpg'
+            },
+            {
+              title: '【特色选择模式】',
+              img: 'static/xcn_choise.jpg'
+            },
+            {
+              title: '【免费游戏】',
+              img: '/static/xcn_free.jpg'
+            }
+          ]
         }
+      ],
+      chessData: [
+        {
+          title: '四川麻将',
+          imgUrl: '',
+          content: '《四川麻将》是NA娱乐出品的一款经典国粹麻将游戏。时尚简约的游戏画面，真人实时对战，伴您欢乐每一天。本产品基于开房模式开发，为玩家与好友提供一个稳定、安全的对局环境，即使好友不在身边也能随时开战，实时语音聊天。游戏中有十余种特殊规则可供开房者选择，以适配各地不同的玩法习惯。房间管理和个人战绩模块中提供了详细的对局详情记录功能，无论是开房者还是玩家都可以从中得知自己开设/参与的每场游戏中的战绩流水，从而更好的为玩家服务。',
+          tags: [
+            {
+              title: '【胡】',
+              img: '/static/qp1.jpg'
+            },
+             {
+              title: '【胜利】',
+              img: '/static/qp2.jpg'
+            }
+          ]
+        },
+        {
+          title: '推锅',
+          imgUrl: '',
+          content: '《推锅》是NA娱乐出品的一款基于开房模式的经典牌九游戏。玩家通过在顺、天、地四个方位押注来与庄家对赌，比庄家大的庄家赔注，比庄家小的庄家吃注。《推锅》中每个房间最多可以支持十四名玩家同时进行游戏，其中包含十位旁观玩家和四位上座玩家。其中每位上座玩家都有坐庄的机会，而旁观玩家也能正常参与游戏中每一个回合的下注与结算。功能强大的房间管理系统使得开房者可以十分便捷地对房间进行管理，例如为玩家增加积分或为房间增加时间等。游戏中还为开房者提供了抽水模式的配置功能，开房者可以根据玩家习惯自由进行抽水模式的设置，并且房间管理中对于每个房间的抽水数额也都有着详细的记录与统计，以便于开房者进行结算。',
+          tags: [
+            {
+              title: '【特效展示】',
+              img: '/static/qp3.jpg'
+            },
+             {
+              title: '【特效展示】',
+              img: '/static/qp4.jpg'
+            },
+            {
+              title: '【切牌阶段】',
+              img: '/static/qp5.png'
+            },
+            {
+              title: '【搓牌阶段】',
+              img: '/static/qp6.png'
+            },
+            {
+              title: '【开牌阶段】',
+              img: '/static/qp7.png'
+            },
+            {
+              title: '【房间管理】',
+              img: '/static/qp8.png'
+            },
+            {
+              title: '【对局详情】',
+              img: '/static/qp9.png'
+            }
+          ]
+        },
+        {
+          title: '推筒子',
+          imgUrl: '',
+          content: '《推筒子》是NA娱乐出品的一款基于开房模式的经典牌九游戏。玩家通过在顺、天、地四个方位押注来与庄家进行对赌，比庄家大的庄家赔注，比庄家小的庄家吃注。《推筒子》支持十四名玩家同时进行游戏，其中包含十位旁观玩家和四位上座玩家。其中每位上座玩家都有坐庄的机会，而旁观玩家也能正常参与游戏中每一个回合的下注与结算。功能强大的房间管理系统使得开房者可以十分便捷地对房间进行管理，例如为玩家增加积分或为房间增加时间等。游戏中还为开房者提供了抽水模式的配置功能，开房者可以根据玩家习惯自由进行抽水模式的设置，并且在房间管理中对于每个房间的抽水数额都有着详细的记录与统计，以便于开房者进行结算。',
+          tags: [
+            {
+              title: '【掷骰子】',
+              img: '/static/qp10.png'
+            },
+            {
+              title: '【特效展示】',
+              img: '/static/qp11.jpg'
+            },
+            {
+              title: '【开牌阶段】',
+              img: '/static/qp12.png'
+            }
+          ]
+        },
       ],
       productData: [],
       demo: [
@@ -74,9 +161,7 @@ export default {
           title: this.GetQueryString('title'),
           imgUrl: '/static/msg.png',
           content: '这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容',
-          img1: '/static/msg.png',
-          img2: '/static/msg.png',
-          img3: '/static/msg.png'
+          tags: []
         }
       ],
       title: ''
@@ -86,7 +171,13 @@ export default {
     let type = this.GetQueryString('type')
     let titles = this.GetQueryString('title')
     this.title = titles
-    type === 'tiger' ? this.productData = this.products : this.productData = this.demo
+    if(type === 'tiger'){
+      this.productData = this.products
+    } else if(type === 'chess'){
+      this.productData = this.chessData
+    } else {
+      this.productData = this.demo
+    }
   },
   methods: {
     GetQueryString: function (name) {
@@ -118,7 +209,7 @@ export default {
   .content {
     margin: 27px 16.15% 0;
     padding-bottom: 57px;
-.bar {
+  .bar {
       width: 100%;
       color: #fff;
       &:after {
