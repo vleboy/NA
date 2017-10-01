@@ -42,13 +42,13 @@ export default {
   }
   .right {
     position: absolute;
-    top: 97px;
+    top: 54px;
     width: 25.42%;
     right: 202px;
     .logo {
       width: 258px;
       height: 129px;
-      margin: 0 auto 69px;
+      margin: 0 auto 59px;
       img {
         width: 100%;
         height: 100%;
@@ -57,7 +57,7 @@ export default {
     h1 {
       font-size: 52px;
       color: #333333;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       i {
         display: inline-block;
         width: 38px;
