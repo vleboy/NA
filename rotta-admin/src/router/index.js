@@ -46,6 +46,8 @@ import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
 
 import LineUp from '@/view/lineup/lineup' // 排队设置
 
+import ComputerGame from '@/view/riskManagement/computerGame' // 电子游戏风控
+
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -212,6 +214,11 @@ export default new Router({
       path: '/lineup',
       name: '排队设置',
       component: LineUp
+    },
+    {
+      path: '/computerGame',
+      name: '电子游戏风控',
+      component: ComputerGame
     }
   ]
 })

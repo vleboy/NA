@@ -42,7 +42,9 @@ var webpackConfig = merge(baseWebpackConfig, {
 
       'hawkeye_URL': JSON.stringify('https://ajlhg1sv9j.execute-api.ap-southeast-1.amazonaws.com/'), // hawkeye有关接口
 
-      'stat_URL': JSON.stringify('https://jrryxhd7e4.execute-api.ap-southeast-1.amazonaws.com/') // stat有关接口
+      'stat_URL': JSON.stringify('https://jrryxhd7e4.execute-api.ap-southeast-1.amazonaws.com/'), // stat有关接口
+
+      'other_URL': JSON.stringify('https://5u7tszt1ug.execute-api.ap-southeast-1.amazonaws.com/') // other有关接口(主要针对老曾接口)
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

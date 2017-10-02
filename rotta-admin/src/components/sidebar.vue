@@ -59,6 +59,10 @@
                     <el-menu-item index="boothList">展位列表</el-menu-item>
                   </el-submenu>
               </el-submenu>
+              <el-submenu index="5">
+                <template slot="title">风控中心</template>
+                <el-menu-item index="computerGame">电子游戏风控</el-menu-item>
+              </el-submenu>
               <!-- <el-submenu index="5" v-if="this.userRight.finance === true">
                   <template slot="title">财务中心</template>
                   <el-menu-item index="manager">直属线路商报表</el-menu-item>

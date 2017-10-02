@@ -15,7 +15,9 @@ const front = {
 
   hawkeye: hawkeye_URL, // hawkeye有关接口
 
-  stat: stat_URL // stat有关接口
+  stat: stat_URL, // stat有关接口
+
+  other: other_URL // other接口 （针对老曾）
 }
 
 const api = {
@@ -152,6 +154,12 @@ const api = {
   statisticsConsume: front.stat + front.stage + '/statistics/consume', // 游戏消耗点数总览
 
   consumeAndIncome: front.stat + front.stage + '/statistics/consumeAndIncome', // 售出，收益
+
+  //other
+
+  statisticsGame: front.other + 'g40001/gamestats', // 获取风控中心电子游戏顶部统计数据接口
+
+  canvasGame: front.other + 'g40001/rtpstats', // 获取风控中心电子游戏图表数据
 
   // methods
 

@@ -123,6 +123,11 @@
       <el-breadcrumb-item><span  class="large">新增帮助信息</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'computerGame'" class="title">
+      <el-breadcrumb-item>风控中心 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">电子游戏风控</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'managerloginlist'" class="title">
       <el-breadcrumb-item>系统设置 </el-breadcrumb-item>
       <el-breadcrumb-item>登录日志 </el-breadcrumb-item>
