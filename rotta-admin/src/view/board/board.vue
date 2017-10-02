@@ -479,7 +479,7 @@
 
         let time = date.getTime();
 
-        return new Date(time + stepSunDay * 24 * 3600 * 1000+24*3600*1000);
+        return new Date(time + stepSunDay * 24 * 3600 * 1000);
       } // 处理周次
     },
     beforeDestroy (){
