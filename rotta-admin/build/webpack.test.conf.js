@@ -44,7 +44,7 @@ var webpackConfig = merge(baseWebpackConfig, {
 
       'stat_URL': JSON.stringify('https://jrryxhd7e4.execute-api.ap-southeast-1.amazonaws.com/'), // stat有关接口
 
-      'other_URL': JSON.stringify('https://5u7tszt1ug.execute-api.ap-southeast-1.amazonaws.com/') // other有关接口(主要针对老曾接口)
+      'other_URL': JSON.stringify('https://z2mwxg1qb5.execute-api.ap-southeast-1.amazonaws.com/') // other有关接口(主要针对老曾接口)
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
