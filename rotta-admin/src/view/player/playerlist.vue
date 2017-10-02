@@ -3,7 +3,7 @@
     <div class="propList-search propList">
       <el-row class="transition-box">
         <el-col :span="10">
-          <span>&emsp;用户名: </span>
+          <span>用户名: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.userName"></el-input>
         </el-col>
         <el-col :span="10" class="text-left">
@@ -13,7 +13,7 @@
       </el-row>
       <el-row class="transition-box" style="margin-top: 2rem">
         <el-col :span="10">
-          <span>所属线路: </span>
+          <span>线路号: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.msn"></el-input>
         </el-col>
         <el-col :span="10" class="text-left">
@@ -58,7 +58,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="center">
+        <el-table-column prop="balance" label="点数" sortable show-overflow-tooltip align="center">
         </el-table-column>
         <el-table-column prop="updateAt" label="最近登录游戏时间" :formatter="getAtime" align="center">
         </el-table-column>

@@ -49,7 +49,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="center">
+        <el-table-column prop="balance" label="点数" sortable show-overflow-tooltip align="center">
         </el-table-column>
         <el-table-column prop="updateAt" label="最近登录游戏时间" :formatter="getAtime" align="center">
         </el-table-column>

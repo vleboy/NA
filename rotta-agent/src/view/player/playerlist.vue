@@ -37,7 +37,7 @@
             <span>{{formatRemark(scope.row.nickname)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="center">
+        <el-table-column prop="balance" label="点数" sortable show-overflow-tooltip align="center">
         </el-table-column>
         <el-table-column prop="merchantName" label="直属代理" align="center" width="120"  sortable>
           <template scope="scope">
