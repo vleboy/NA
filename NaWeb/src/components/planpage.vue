@@ -187,6 +187,14 @@ export default {
           tags: []
         }
       ],
+      download: [
+        {
+          title: 'NA GAME DOWNLOAD',
+          imgUrl: '/static/download.jpg',
+          content: '',
+          tags: []
+        }
+      ],
       title: ''
     }
   },
@@ -198,6 +206,8 @@ export default {
       this.productData = this.products
     } else if(type === 'chess'){
       this.productData = this.chessData
+    } else if(type === 'android' || type === 'ios'){
+      this.productData = this.download
     } else {
       this.productData = this.demo
     }

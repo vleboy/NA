@@ -6,8 +6,8 @@
           GAME DOWNLOAD HERE
         </h2>
         <div class="download-address">
-            <div class="android"><a href="javascript:;"><img src="../assets/e1.png" alt=""></a></div>
-            <div class="ios"><a href="javascript:;"><img src="../assets/e2.png" alt=""></a></div>
+            <div class="android"><a href="/about.html?type=android&title=安卓下载"><img src="../assets/e1.png" alt=""></a></div>
+            <div class="ios"><a href="/about.html?type=ios&title=苹果下载"><img src="../assets/e2.png" alt=""></a></div>
         </div>
       </div>
   </div>
