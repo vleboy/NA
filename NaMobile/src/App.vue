@@ -4,7 +4,7 @@
       <div class="button">
           <a href="javascript:;" v-if="!ios"><img src="/static/mobile-1.png" alt=""></a>
           <a href="javascript:;" v-else><img src="/static/mobile-2.png" alt=""></a>
-          <p v-if="ios">IOS安装教程 <i></i></p>
+          <p v-if="ios">IOS安装教程 (请下滑!)</p>
       </div>
     </div>
     <div class="section" v-if="ios">
@@ -111,6 +111,7 @@ html, body {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 p {
+  font-weight: bold;
   font-size: 22px;
   color: #ffffff;
 }
