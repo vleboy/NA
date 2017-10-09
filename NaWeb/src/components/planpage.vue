@@ -153,7 +153,27 @@ export default {
               img: '/static/qp12.png'
             }
           ]
-        },
+        }
+      ],
+      productData: [],
+      demo: [
+        {
+          title: this.GetQueryString('title'),
+          imgUrl: '/static/msg.png',
+          content: '这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容',
+          tags: []
+        }
+      ],
+      download: [
+        {
+          title: 'NA GAME DOWNLOAD',
+          imgUrl: '/static/download.jpg',
+          content: '',
+          tags: []
+        }
+      ],
+      title: '',
+      electronData: [
         {
           title: 'NA游戏平台',
           imgUrl: '',
@@ -176,26 +196,8 @@ export default {
               img: '/static/qp16.png'
             }
           ]
-        },
-      ],
-      productData: [],
-      demo: [
-        {
-          title: this.GetQueryString('title'),
-          imgUrl: '/static/msg.png',
-          content: '这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容',
-          tags: []
         }
-      ],
-      download: [
-        {
-          title: 'NA GAME DOWNLOAD',
-          imgUrl: '/static/download.jpg',
-          content: '',
-          tags: []
-        }
-      ],
-      title: ''
+      ]
     }
   },
   created () {
@@ -208,6 +210,8 @@ export default {
       this.productData = this.chessData
     } else if(type === 'android' || type === 'ios'){
       this.productData = this.download
+    } else if(type === 'electron'){
+      this.productData = this.electronData
     } else {
       this.productData = this.demo
     }
