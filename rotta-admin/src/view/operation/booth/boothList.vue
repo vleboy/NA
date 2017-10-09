@@ -19,13 +19,13 @@
     <p class="searchResult">共搜索到 {{boothList.length || 0}} 条数据</p>
 
     <div class="-booth-searchResult">
-      <el-col :span="5">
-        <el-radio-group v-model="radioInfo" @change="changeRadio()">
-          <el-radio-button v-for="(item, index) in boothType" :key="index" :label="item.code" >{{item.name}}</el-radio-button>
-        </el-radio-group>
-      </el-col>
-      <el-col :span="19" style="text-align: right">
-        <el-button type="primary" class="justfy1" @click="openModal()">物品上架</el-button>
+      <!--<el-col :span="5">-->
+        <!--<el-radio-group v-model="radioInfo" @change="changeRadio()">-->
+          <!--<el-radio-button v-for="(item, index) in boothType" :key="index" :label="item.code" >{{item.name}}</el-radio-button>-->
+        <!--</el-radio-group>-->
+      <!--</el-col>-->
+      <el-col :span="24">
+        <el-button type="primary" @click="openModal()">物品上架</el-button>
       </el-col>
     </div>
     <div class="boothList">
@@ -86,11 +86,11 @@
 
     <el-dialog title="物品上架" :visible.sync="isAddProp" style="text-align: center">
       <el-form :model="boothInfo">
-        <el-form-item label="选择上架展位" label-width="110px" >
-          <el-select v-model="boothInfo.seatType" placeholder="请选择上架展位" clearable style="width: 100%" @change="changeType()">
-            <el-option v-for="(item, index) in boothType" :key="index" :label="item.name" :value="item.code"></el-option>
-          </el-select>
-        </el-form-item>
+        <!--<el-form-item label="选择上架展位" label-width="110px" >-->
+          <!--<el-select v-model="boothInfo.seatType" placeholder="请选择上架展位" clearable style="width: 100%" @change="changeType()">-->
+            <!--<el-option v-for="(item, index) in boothType" :key="index" :label="item.name" :value="item.code"></el-option>-->
+          <!--</el-select>-->
+        <!--</el-form-item>-->
         <el-form-item label="展位编号" label-width="110px" >
           <el-input v-model="boothInfo.order" placeholder="请输入展位编号" type="number" :maxlength='20'></el-input>
         </el-form-item>
@@ -186,7 +186,7 @@ export default {
       propList: [],
       packageList: [],
       boothInfo: {
-        seatType: '',
+        seatType: 2,
         remark: '',
         order: '',
         sum: '',
@@ -220,7 +220,7 @@ export default {
         url: api.boothList,
         method: api.post,
         data: {
-          seatType: type || this.$store.state.variable.boothType || '1'
+          seatType: type || this.$store.state.variable.boothType || '2'
         }
       }).then(
         result => {
@@ -364,7 +364,7 @@ export default {
         this.isCheckGoods = true
       } else {
         this.boothInfo = {
-          seatType: '',
+          seatType: 2,
           remark: '',
           order: '',
           sum: '',
