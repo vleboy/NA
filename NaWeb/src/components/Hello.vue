@@ -60,5 +60,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='less'>
-@import "https://cdn.dowebok.com/77/css/jquery.fullPage.css";
+@import "../css/jquery.fullPage.css";
 </style>
