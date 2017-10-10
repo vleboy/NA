@@ -253,6 +253,7 @@
       .center-icon{
         width: 15px;
         margin-right: 10px;
+        vertical-align: middle;
       }
       .-center-con{
         /*font-style: italic;*/
