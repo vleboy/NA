@@ -197,6 +197,32 @@ export default {
             }
           ]
         }
+      ],
+      peopleData: [
+        {
+          title: '移动真人LIVE',
+          imgUrl: '/static/people1.jpg',
+          content: '移动真人LIVE集合了当下最受欢迎的真人视讯游戏，多种类投注方式，娱乐性强，稳定高效流畅体验。',
+          tags: []
+        },
+        {
+          title: '多样式投注玩法',
+          imgUrl: '/static/people2.jpg',
+          content: 'NA全新上线B27，免佣，SUPER 6投注模式，让玩家更多的享受多样化玩法。',
+          tags: []
+        },
+        {
+          title: '全明咪牌',
+          imgUrl: '/static/people3.jpg',
+          content: '为提高交互式体验，百家乐普通台全部玩家可进行咪牌操作！',
+          tags: []
+        },
+        {
+          title: '多台娱乐',
+          imgUrl: '/static/people4.jpg',
+          content: '玩家可根据选择进行多台娱乐，置顶与置底功能，更方便了客户的便捷性。运势佳的游戏台创造连赢机会，真正实际意义上给玩家纵观全场，把握致胜先机的最佳选择。',
+          tags: []
+        }
       ]
     }
   },
@@ -212,6 +238,8 @@ export default {
       this.productData = this.download
     } else if(type === 'electron'){
       this.productData = this.electronData
+    } else if (type === 'people') {
+      this.productData = this.peopleData
     } else {
       this.productData = this.demo
     }

@@ -10,8 +10,8 @@
           <a href="javascript:;" class="img">
             <img :src="item.imgUrl" alt="">
           </a>
-          <!-- <h2>{{item.title}}</h2>
-          <p>{{item.content}}</p> -->
+          <h2>{{item.title}}</h2>
+          <!-- <p>{{item.content}}</p> -->
         </li>
       </ul>
     </div>
@@ -23,10 +23,10 @@ export default {
   data () {
     return {
        Solutions: [
-         { title: '标题信息', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/1.png'},
-         { title: '标题信息', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/2.png'},
-         { title: '标题信息', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/3.png'},
-         { title: '标题信息', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/4.png'}
+         { title: '移动端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/1.png'},
+         { title: 'web端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/2.png'},
+         { title: 'PC端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/3.png'},
+         { title: '直播系统解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/4.png'}
        ]
     }
   }

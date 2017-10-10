@@ -32,13 +32,13 @@
         <el-col :offset="1" :span="5" class="color-white  contact-center" >
           <h2 class="margin-bottom">CONTACT <span class="color-red">US</span></h2>
           <div class="-center-con">
-            <img src="../assets/contact/tel.png" class="center-icon"> +63 (2) 746 2177
+            <img src="../assets/contact/tel.png" class="center-icon">+63 (2) 746 2177
           </div>
           <div class="-center-con">
-            <img src="../assets/contact/attr.png" class="center-icon"> China st, Melbourne VIC 3000, street australa
+            <img src="../assets/contact/attr.png" class="center-icon">Live:xinasia_2
           </div>
           <div class="-center-con">
-            <img src="../assets/contact/message.png" class="center-icon"> 5454664@qq.com
+            <img src="../assets/contact/message.png" class="center-icon">Newasia@na77.com
           </div>
         </el-col>
         <el-col :offset="1" :span="6" class="color-white contact-right">
@@ -49,7 +49,7 @@
             <img class="right-submit" src="../assets/contact/submit.png" @click="submit">
           </div>
           <!-- <h2 class="margin-bottom">SOCIAL <span class="color-red">NEWS</span></h2> -->
-          <div><img src="../assets/contact/share.png" style="width: 30%"></div>
+          <div><a href="https://www.facebook.com/NA-Gaming-491601904532399/" style="display:inline-block"><img src="../assets/contact/share.png" style="width: 100%"></a></div>
         </el-col>
       </div>
     </div>

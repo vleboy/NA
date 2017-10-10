@@ -23,10 +23,10 @@ export default {
   data () {
     return {
       Products: [
-        {title: '游戏平台', type: 'electron', content: 'NA游戏平台，是NA娱乐针对博彩行业开发的全新游戏平台。它整合了NA娱乐旗下所有游戏，打造一个拥有真人直播、电子游戏、棋牌游戏的综合性博彩游戏平台，为所有玩家提供全新的游戏体验。',imgUrl: '/static/444.png'},
-        {title: '真人视讯', type: 'people', content: '我们集合了当下最流行的真人视讯游戏类型整合了全新的互联网直播技术通过更逼真的赌场还原以及更流畅的服务，为客户提供全新的体验。',imgUrl: '/static/11.png'},
-        {title: '棋牌游戏', type: 'chess', content: '网络棋牌游戏正在被大家慢慢接受和喜欢我们把传统的棋牌游戏进行重新定义加上全新的呈现技术灵活的运营模式，推出了NA棋牌的产品序列。',imgUrl: '/static/22.png'},
-        {title: '电子游戏', type: 'tiger', content: 'NA电子游戏融合了传统的经典电子游戏加入了更加多元化的题材以及更加具有娱乐性的玩法让更多的玩家有丰富的游戏体验。',imgUrl: '/static/33.png'}
+        {title: '游戏平台', type: 'electron', content: 'NA游戏平台，是NA娱乐针对博彩行业开发的全新游戏平台。它整合了NA娱乐旗下所有游戏，打造一个拥有真人直播、电子游戏、棋牌游戏的综合性博彩游戏平台，为所有玩家提供全新的游戏体验。',imgUrl: '/static/g4.png'},
+        {title: '真人视讯', type: 'people', content: '我们集合了当下最流行的真人视讯游戏类型整合了全新的互联网直播技术通过更逼真的赌场还原以及更流畅的服务，为客户提供全新的体验。',imgUrl: '/static/g1.png'},
+        {title: '棋牌游戏', type: 'chess', content: '网络棋牌游戏正在被大家慢慢接受和喜欢我们把传统的棋牌游戏进行重新定义加上全新的呈现技术灵活的运营模式，推出了NA棋牌的产品序列。',imgUrl: '/static/g3.png'},
+        {title: '电子游戏', type: 'tiger', content: 'NA电子游戏融合了传统的经典电子游戏加入了更加多元化的题材以及更加具有娱乐性的玩法让更多的玩家有丰富的游戏体验。',imgUrl: '/static/g2.png'}
       ]
     }
   }

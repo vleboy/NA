@@ -99,7 +99,7 @@ export default {
         background-size: cover;
         position: absolute;
         top: 35px;
-        left: -7px;
+        left: -10px;
       }
       p {
         position: absolute;
@@ -195,7 +195,7 @@ export default {
           width: 177px;
           height: 60px;
           top: 24px;
-          left: -7px;
+          left: -10px;
         }
         p {
           width: 273px;
