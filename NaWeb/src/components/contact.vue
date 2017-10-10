@@ -38,7 +38,7 @@
             <img src="../assets/contact/attr.png" class="center-icon"> China st, Melbourne VIC 3000, street australa
           </div>
           <div class="-center-con">
-            <img src="../assets/contact/message.png" class="center-icon"> 5454664@qq.com
+            <img src="../assets/contact/message.png" class="center-icon"> 
           </div>
         </el-col>
         <el-col :offset="1" :span="6" class="color-white contact-right">
