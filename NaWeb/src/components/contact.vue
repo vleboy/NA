@@ -32,23 +32,23 @@
         <el-col :offset="1" :span="5" class="color-white  contact-center" >
           <h2 class="margin-bottom">CONTACT <span class="color-red">US</span></h2>
           <div class="-center-con">
-            <img src="../assets/contact/tel.png" class="center-icon"> 012-02030330
+            <img src="../assets/contact/tel.png" class="center-icon"> +63 (2) 746 2177
           </div>
           <div class="-center-con">
-            <img src="../assets/contact/attr.png" class="center-icon"> china st,Melbourne VIC 3000,stree australa
+            <img src="../assets/contact/attr.png" class="center-icon"> China st, Melbourne VIC 3000, street australa
           </div>
           <div class="-center-con">
             <img src="../assets/contact/message.png" class="center-icon"> 5454664@qq.com
           </div>
         </el-col>
         <el-col :offset="1" :span="6" class="color-white contact-right">
-          <h2 class=" margin-bottom">SUBSCRIBE <span class="color-red">NEWSLETTER</span></h2>
+          <h2 class=" margin-bottom">NEWSLETTER <span class="color-red"> SUBCRIPTION</span></h2>
           <div class="right-contact">
             <input class="footer-left-input" placeholder="example@example.com" style="width:70%;"
                    @blur="getBlur(4)" @focus="getFocus(4)" :class="{'blur-input':isBlurInputExample}">
             <img class="right-submit" src="../assets/contact/submit.png" @click="submit">
           </div>
-          <h2 class="margin-bottom">SOCIAL <span class="color-red">NEWS</span></h2>
+          <!-- <h2 class="margin-bottom">SOCIAL <span class="color-red">NEWS</span></h2> -->
           <div><img src="../assets/contact/share.png" style="width: 30%"></div>
         </el-col>
       </div>
@@ -58,7 +58,7 @@
         <div class="text-center">
           <img class="footer-logo" src="../assets/contact/logo.png">
         </div>
-        <h4 class="color-white">(C) 2017 MADE WITH BY NA</h4>
+        <h4 class="color-white">© 2017, New Asia. All right reserved.</h4>
       </div>
     </div>
   </div>

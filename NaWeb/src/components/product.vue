@@ -2,7 +2,7 @@
   <div class="product">
     <div class="product-content">
       <div class="title">
-        <p>Product</p>
+        <p>PRODUCTS</p>
         <h1>我们的产品</h1>
       </div>
       <ul>

@@ -2,7 +2,7 @@
   <div class="plan">
     <div class="plan-content">
       <div class="title">
-        <p>Solution</p>
+        <p>SOLUTION</p>
         <h1>行业解决方案</h1>
       </div>
       <ul>

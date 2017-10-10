@@ -4,7 +4,7 @@
       <a href="/">
         <img src="../assets/logo.png" alt="">
       </a>
-      <p>(C) 2017 MADE WITH BY NA</p>
+      <p>© 2017, New Asia. All right reserved.</p>
     </div>
   </div>
 </template>

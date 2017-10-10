@@ -3,7 +3,7 @@
       <div class="content">
         <h2>
           <img src="../assets/logo.png">
-          GAME DOWNLOAD HERE
+          GAME DOWNLOAD
         </h2>
         <div class="download-address">
             <div class="android"><a href="/about.html?type=android&title=安卓下载"><img src="../assets/e1.png" alt=""></a></div>
