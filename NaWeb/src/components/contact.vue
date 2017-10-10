@@ -31,9 +31,9 @@
         </el-col>
         <el-col :offset="1" :span="5" class="color-white  contact-center" >
           <h2 class="margin-bottom">CONTACT <span class="color-red">US</span></h2>
-          <div class="-center-con">
+          <!-- <div class="-center-con">
             <img src="../assets/contact/tel.png" class="center-icon">+63 (2) 746 2177
-          </div>
+          </div> -->
           <div class="-center-con">
             <img src="../assets/contact/attr.png" class="center-icon">Live:xinasia_2
           </div>
