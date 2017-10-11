@@ -8,7 +8,7 @@
       <ul>
         <li v-for="(item, index) in Solutions" :key="index">
           <a href="javascript:;" class="img">
-            <img :src="item.imgUrl" alt="">
+            <div><img :src="item.imgUrl" alt=""></div>
           </a>
           <h2>{{item.title}}</h2>
           <!-- <p>{{item.content}}</p> -->
@@ -23,10 +23,10 @@ export default {
   data () {
     return {
        Solutions: [
-         { title: '移动端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/1.png'},
-         { title: 'web端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/2.png'},
-         { title: 'PC端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/3.png'},
-         { title: '直播系统解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/4.png'}
+         { title: '移动端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/iPad.png'},
+         { title: 'WEB端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/Browser.png'},
+         { title: 'PC端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/Graph.png'},
+         { title: '直播系统解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/video.png'}
        ]
     }
   }
@@ -73,22 +73,21 @@ export default {
       width: 25%;
       float: left;
       .img {
+        position: relative;
         display: inline-block;
         width: 90%;
-        height: 90%;
+        height: 0;
+        padding-bottom: 90%;
+        background: url('../assets/plansbg.png') no-repeat;
+        background-size: cover;
         border-radius: 100%;
         margin-bottom: 20px;
-        border: 4px solid transparent;
-        -webkit-transition: border .5s;
-        transition: border .5s;
-        &:hover {
-          border: 4px solid red;
-          -webkit-transition: border .5s;
-          transition: border .5s;
-        }
         img {
-          width: 100%;
-          height: 100%;
+          width: 30%;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translateX(-50%)translateY(-50%);
         }
       }
       h2 {
@@ -137,13 +136,7 @@ export default {
       margin-top: 54px;
       li {
         .img {
-          width: 90%;
-          height: 90%;
           margin-bottom: 13px;
-          img {
-            width: 100%;
-            height: 100%;
-          }
         }
         h2 {
           font-size: 12px;

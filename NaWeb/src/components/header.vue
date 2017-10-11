@@ -51,7 +51,7 @@ export default {
   h1 {
     float: left;
     height: 100%;
-    margin-left: 317px;
+    margin-left: 16.51%;
     a {
       display: inline-block;
       width: 157px;
@@ -65,7 +65,7 @@ export default {
   }
   .mid {
     float: left;
-    margin-left: 142px;
+    margin-left: 7.4%;
     ul {
       &:after {
         content: '';
@@ -82,7 +82,7 @@ export default {
         }
         i {
           display: inline-block;
-          margin: 0 35px;
+          margin: 0 1.5rem;
           color: #fff !important;
         }
       }
@@ -113,18 +113,18 @@ export default {
     line-height: 69px;
     font-size: 12.45px;
     h1 {
-      margin-left: 211px;
+      margin-left: 16.48%;
       a {
         width: 105px;
         height: 52px;
       }
     }
     .mid {
-      margin-left: 94px;
+      margin-left: 7.34%;
       ul {
         li {
           i {
-            margin: 0 30px;
+            margin: 0 1.3rem;
           }
         }
       }

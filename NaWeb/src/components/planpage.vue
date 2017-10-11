@@ -5,7 +5,7 @@
     <div class="content">
       <div class="bar">
         <div class="left">
-          <i></i>
+          <i @click="goBack"></i>
           <span>{{title}}介绍</span>
         </div>
         <div class="right">
@@ -252,6 +252,9 @@ export default {
           return decodeURI(r[2]);
       }
       return null;
+    },
+    goBack: function () {
+      history.go(-1)
     }
   }
 }
@@ -293,6 +296,7 @@ export default {
           height: 25px;
           background: url('../assets/iconLeft.png') no-repeat;
           background-size: cover;
+          cursor: pointer;
         }
         span {
           font-size: 26.67px;
