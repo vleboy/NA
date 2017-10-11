@@ -294,7 +294,7 @@
         this.dialogLoading = false
         this.$message.success('图片上传成功')
         this.fileList = fileList
-        this.managerInfo.gameImg = `http://ouef62ous.bkt.clouddn.com/${response.key}`
+        this.managerInfo.gameImg = `https://ouef62ous.bkt.clouddn.com/${response.key}`
       }, // 图片上传成功回调
       beforeUpload (file) {
         const isJPG = (file.type === 'image/jpeg') || (file.type === 'image/png')

@@ -344,7 +344,7 @@ export default {
       this.dialogLoading = false
       this.$message.success('上传成功')
       this.fileList = fileList
-      this.noticeInfo.img = `http://ouef62ous.bkt.clouddn.com/${response.key}`
+      this.noticeInfo.img = `https://ouef62ous.bkt.clouddn.com/${response.key}`
     }, // 图片上传成功回调
     beforeUpload (file) {
       const isLt1M = file.size / 1024 / 1024 < 10

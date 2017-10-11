@@ -353,7 +353,7 @@
         this.dialogLoading = false
         this.$message.success('上传成功')
         this.fileList = fileList
-        this.managerInfo.companyContract = `http://ouef62ous.bkt.clouddn.com/${response.key}`
+        this.managerInfo.companyContract = `https://ouef62ous.bkt.clouddn.com/${response.key}`
       }, // 文件上传成功回调
       beforeUpload (file, fileList) {
         const isSizeZip = file.size / 1024 / 1024 < 10
@@ -413,7 +413,7 @@
       handleSuccessTwo (response, file, fileList) {
         this.dialogLoading = false
         this.$message.success('上传成功')
-        this.managerInfo.license = `http://ouef62ous.bkt.clouddn.com/${response.key}`
+        this.managerInfo.license = `https://ouef62ous.bkt.clouddn.com/${response.key}`
       }, // 图片上传成功回调
       beforeUploadTwo (file) {
         const isJPG = (file.type === 'image/jpeg') || (file.type === 'image/png')
