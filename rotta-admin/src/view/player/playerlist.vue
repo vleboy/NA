@@ -30,8 +30,8 @@
     <div class="playerform">
       <el-row style="margin-bottom: 2rem">
         <el-col>
-          <el-button type="primary" @click="allChangeState(0)">批量锁定</el-button>
-          <el-button type="primary" @click="allChangeState(1)">批量解锁</el-button>
+          <el-button type="primary" @click="allChangeState(0)">批量停用</el-button>
+          <el-button type="primary" @click="allChangeState(1)">批量开启</el-button>
         </el-col>
       </el-row>
       <el-table stripe :data="getItems" @selection-change="selectionChange">
@@ -65,7 +65,7 @@
         <el-table-column label="操作" show-overflow-tooltip align="center">
           <template scope="scope">
             <el-button  type="text" @click="playDetail(scope.row)">查看</el-button>
-            <el-button  type="text" @click="changeStatus(scope.row)">{{scope.row.state ? '锁定' : '解锁'}}</el-button>
+            <el-button  type="text" @click="changeStatus(scope.row)">{{scope.row.state ? '停用' : '开启'}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -97,7 +97,7 @@
         nowPage: 1,
         showSearch: false,
         playerList: [],
-        playerStatus: ['已锁定', '正常'],
+        playerStatus: ['已停用', '正常'],
         checkedArray: [],
         names: [],
         searchInfo: {}

@@ -137,7 +137,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="isAddMail = false">取 消</el-button>
-        <el-button type="primary" :load="isSending" @click="submitProp()">{{isSending ? '提交中' : '确 定'}}</el-button>
+        <el-button type="primary" :load="isSending" @click="submitProp()">{{isSending ? '减交中' : '确 定'}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -194,14 +194,14 @@ export default {
         mailName: '',
         mailId: ''
       },
-      searchArray: [], // 暂时存储
+      searchArray: [], // 暂时加储
       addToolInfo: {
         toolName: '',
         sum: '',
         contentType: ''
-      }, // 暂存新增的道具
+      }, // 暂加新增的道具
       propList: [], // 获取道具列表
-      addToolList: [], // 添加新增道具列表（本地暂存）
+      addToolList: [], // 添加新增道具列表（本地暂加）
       dateOption: {
         disabledDate (time) {
           return time.getTime() < Date.now() - 3600 * 1000 * 24
@@ -253,7 +253,7 @@ export default {
       }
       this.mailInfo.sendTime = this.mailInfo.sendTime ? new Date(this.mailInfo.sendTime).getTime() : new Date().getTime()
       this.mailInfo.nickname = this.radioInfo == 2 ? this.mailInfo.nickname : ''
-      if (this.isSending) return // 防止重复提交
+      if (this.isSending) return // 防止重复减交
       this.isSending = true
       invoke({
         url: api.addMail,
@@ -270,7 +270,7 @@ export default {
             this.isSending = false
           } else if (res) {
             this.$message({
-              message: '提交成功',
+              message: '减交成功',
               type: 'success'
             })
             this.addToolList = []

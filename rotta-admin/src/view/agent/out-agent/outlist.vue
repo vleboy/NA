@@ -11,7 +11,7 @@
         <el-table stripe :data="outlist">
           <el-table-column label="序号" prop="rank" align="center" width="65" type="index">
           </el-table-column>
-          <el-table-column type="expand" width="20">
+          <!-- <el-table-column type="expand" width="20">
               <template scope="props">
                   <el-form label-position="left" inline>
                       <el-form-item label="线路商ID" class="moreinfo">
@@ -40,7 +40,7 @@
                       </el-form-item>
                   </el-form>
               </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column label="线路商标识" prop="suffix" align="center">
           </el-table-column>
           <el-table-column label="线路商昵称" prop="displayName" align="center">
@@ -56,14 +56,18 @@
               <span>{{(scope.row.rate)}}%</span>
             </template>
           </el-table-column>
-          <el-table-column label="可用商户名额" prop="limit" align="center">
+          <!-- <el-table-column label="可用商户名额" prop="limit" align="center">
             <template scope="scope">
               <span>{{(scope.row.merchantUsedCount)}}</span>/<span>{{(scope.row.limit)}}</span>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column label="剩余点数" prop="balance" align="center" sortable>
             <template scope="scope">
               <span>{{points(scope.row.balance)}}</span>
+              <div>
+                <span @click="storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1" style="color:#4db3ff;cursor:pointer">加点</span>
+                <span @click="withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1" style="color:#4db3ff;cursor:pointer">减点</span>
+              </div>
             </template>
           </el-table-column>
           <el-table-column label="线路商游戏" prop="gamelist" align="center" width="110">
@@ -73,7 +77,7 @@
                   </div>
               </template>
           </el-table-column>
-          <el-table-column label="线路商邮箱" prop="managerEmail" width="110" header-align="center">
+          <el-table-column label="线路商邮箱" prop="managerEmail" align="center">
           </el-table-column>
           <el-table-column label="创建时间" prop="loginAt" align="center" width="150" sortable>
               <template scope="scope">
@@ -105,10 +109,10 @@
                     <el-dropdown trigger="click">
                       <span style="color:#20a0ff">更多</span>
                         <el-dropdown-menu slot="dropdown">
-                          <p @click="storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>存点</el-dropdown-item></p>
-                          <p @click="withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>提点</el-dropdown-item></p>
-                          <p @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0"><el-dropdown-item>解锁</el-dropdown-item></p>
-                          <p @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>锁定</el-dropdown-item></p>
+                          <p @click="storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>加点</el-dropdown-item></p>
+                          <p @click="withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>减点</el-dropdown-item></p>
+                          <p @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0"><el-dropdown-item>开启</el-dropdown-item></p>
+                          <p @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>停用</el-dropdown-item></p>
                         </el-dropdown-menu>
                     </el-dropdown>
                   </el-button>
@@ -250,7 +254,7 @@ export default {
         type: 'getpointsIndex',
         data: 'store'
       })
-    }, // 存点
+    }, // 加点
     withdrawPoints (index, row) {
       var user = {
         userId: row.userId,
@@ -267,7 +271,7 @@ export default {
         type: 'getpointsIndex',
         data: 'withdraw'
       })
-    }, // 提点
+    }, // 减点
     lockUser (index, row) {
       var user = {
         userId: row.userId,
@@ -290,7 +294,7 @@ export default {
             var data = ret.data.payload
             console.log(data)
             this.$message({
-              message: '锁定',
+              message: '停用',
               type: 'success'
             })
             this.$store.dispatch('getOutlist')
@@ -298,7 +302,7 @@ export default {
           }
         }
       )
-    }, // 锁定用户
+    }, // 停用用户
     unlockUser (index, row) {
       var user = {
         userId: row.userId,
@@ -311,10 +315,9 @@ export default {
       })
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'list_unlockUser'
+        data: 'unlock'
       })
-      this.$store.commit('startStoreDialog')
-    } // 解锁用户
+    } // 开启用户
   }
 }
 </script>

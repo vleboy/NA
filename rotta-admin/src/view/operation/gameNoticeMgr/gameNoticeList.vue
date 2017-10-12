@@ -50,7 +50,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" min-width="100">
           <template scope="scope">
-            <el-button type="text" @click="changeStatus(scope.row)">{{scope.row.adStatus==1 ? '锁定' : '解锁'}}</el-button>
+            <el-button type="text" @click="changeStatus(scope.row)">{{scope.row.adStatus==1 ? '停用' : '开启'}}</el-button>
             <el-button type="text" @click="openModal(scope.row)">编辑</el-button>
             <el-button v-if="scope.row.adStatus" type="text" @click="delItem(scope.row)">删除</el-button>
           </template>
@@ -94,7 +94,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="isOpenModal = false">取 消</el-button>
-        <el-button type="primary" :load="isSending" @click="submitProp(noticeInfo.adId)">{{isSending ? '提交中' : '确 定'}}</el-button>
+        <el-button type="primary" :load="isSending" @click="submitProp(noticeInfo.adId)">{{isSending ? '减交中' : '确 定'}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -129,7 +129,7 @@ export default {
         key: '',
         token: ''
       },
-      noticeStatus: ['已锁定', '正常'],
+      noticeStatus: ['已停用', '正常'],
       gameNoticeList: [],
       noticeInfo: {
         adName: '',
@@ -141,7 +141,7 @@ export default {
         searchId: '',
         searchName: ''
       },
-      searchArray: [], // 暂时存储
+      searchArray: [], // 暂时加储
       dateOption: {
         disabledDate (time) {
           return time.getTime() < Date.now() - 3600 * 1000 * 24
@@ -189,7 +189,7 @@ export default {
       } else if (!this.noticeInfo.img) {
         return this.$message.error('请选择上传图片')
       }
-      if (this.isSending) return // 防止重复提交
+      if (this.isSending) return // 防止重复减交
       this.isSending = true
       invoke({
         url: id ? api.updateGameNotice : api.addGameNotice,
@@ -206,7 +206,7 @@ export default {
             this.isSending = false
           } else if (res) {
             this.$message({
-              message: '提交成功',
+              message: '减交成功',
               type: 'success'
             })
             this.isOpenModal = false

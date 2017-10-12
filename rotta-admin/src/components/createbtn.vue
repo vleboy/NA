@@ -92,7 +92,7 @@ export default {
     }, // 填写线路商基本信息
     gosucout () {
       console.log(this.$store.state.checkform)
-      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.limit === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.name === false || this.$store.state.checkform.userContact === false || this.$store.state.checkform.userEmail === false) {
+      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.name === false || this.$store.state.checkform.userContact === false || this.$store.state.checkform.userEmail === false) {
         this.$message({
           message: '请完善配置信息',
           type: 'error'
@@ -167,7 +167,6 @@ export default {
         this.outset = {
           points: '', // 初始代理点数
           rate: '', // 线路商抽成比
-          limit: '', // 可放名额
           gameList: [], // 拥有游戏
           username: '', // 代理商管理员用户名
           password: '', // 代理商管理员密码

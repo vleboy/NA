@@ -50,7 +50,7 @@ export const api = {
   msnLock: {
     url: 'https://viwko4gvx0.execute-api.ap-southeast-1.amazonaws.com/dev/lockmsn',
     method: 'get'
-  }, // 锁定解锁线路号 lockmsn/{msn}/{status}
+  }, // 停用开启线路号 lockmsn/{msn}/{status}
   msnList: {
     url: 'https://viwko4gvx0.execute-api.ap-southeast-1.amazonaws.com/dev/msnList',
     method: 'post'
@@ -78,7 +78,7 @@ export const api = {
   billTransfer: {
     url: 'https://e73xksjd1k.execute-api.ap-southeast-1.amazonaws.com/dev/billTransfer',
     method: 'post'
-  }, // 存点提点
+  }, // 加点减点
   bills: {
     url: 'https://e73xksjd1k.execute-api.ap-southeast-1.amazonaws.com/dev/bills',
     method: 'get'

@@ -8,7 +8,6 @@ const checkform = {
   contractPeriod: false,
   isforever: false,
   points: false,
-  limit: false,
   username: false,
   password: false,
   name: false, // 管理员姓名

@@ -296,8 +296,8 @@
                 <div class="propertyform-header">
                     <span>当前剩余点数: <span style="color:#FF9900">{{comBills}}</span></span>
                     <el-button type="text" class="propertybtn" @click="refreshCom">刷新</el-button>
-                    <el-button type="text" class="propertybtn" @click="storePoints">存点</el-button>
-                    <el-button type="text" class="propertybtn" @click="withdrawPoints">提取</el-button>
+                    <el-button type="text" class="propertybtn" @click="storePoints">加点</el-button>
+                    <el-button type="text" class="propertybtn" @click="withdrawPoints">减点</el-button>
                 </div>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>
@@ -317,10 +317,10 @@
                         <el-table-column label="交易类型" prop="" align="center" width="">
                             <template scope="scope">
                                 <span v-if="scope.row.fromLevel < scope.row.toLevel">
-                                    {{(scope.row.fromDisplayName)}} 对 {{(scope.row.toDisplayName)}} <span>存点</span>
+                                    {{(scope.row.fromDisplayName)}} 对 {{(scope.row.toDisplayName)}} <span>加点</span>
                                 </span>
                                 <span v-if="scope.row.fromLevel > scope.row.toLevel">
-                                    {{(scope.row.toDisplayName)}} 对 {{(scope.row.fromDisplayName)}} <span>提点</span>
+                                    {{(scope.row.toDisplayName)}} 对 {{(scope.row.fromDisplayName)}} <span>减点</span>
                                 </span>
                             </template>
                         </el-table-column>
@@ -850,7 +850,7 @@ export default {
         type: 'getpointsIndex',
         data: 'store'
       })
-    }, // 存点
+    }, // 加点
     withdrawPoints () {
       var user = {
         username: this.comdetail.username,
@@ -867,7 +867,7 @@ export default {
         type: 'getpointsIndex',
         data: 'withdraw'
       })
-    }, // 提点
+    }, // 减点
     getnowSize (size) {
       this.size = size
     },  // 账户流水分页

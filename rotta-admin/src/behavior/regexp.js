@@ -160,7 +160,7 @@ export const checkSuffix = (rule, value, callback) => {
             var suffixStatus = ret.data.payload
             // console.log('标识状态为', suffixStatus)
             if (suffixStatus === false) {
-              callback(new Error('该标识已存在'))
+              callback(new Error('该标识已加在'))
               store.state.checkform.suffix = false
             } else {
               store.state.checkform.suffix = true
@@ -187,7 +187,7 @@ export const checkSuffix = (rule, value, callback) => {
             var suffixStatus = ret.data.payload
             // console.log('标识状态为', suffixStatus)
             if (suffixStatus === false) {
-              callback(new Error('该标识已存在'))
+              callback(new Error('该标识已加在'))
               store.state.checkform.suffix = false
             } else {
               store.state.checkform.suffix = true
@@ -236,7 +236,7 @@ export const checkDisplayname = (rule, value, callback) => {
           var displayNameStatus = ret.data.payload
           console.log('昵称状态为', displayNameStatus)
           if (displayNameStatus === false) {
-            callback(new Error('该昵称已存在'))
+            callback(new Error('该昵称已加在'))
             store.state.checkform.displayName = false
           } else {
             store.state.checkform.displayName = true
@@ -374,8 +374,8 @@ export const checkPoints = (rule, value, callback) => {
     store.state.checkform.points = false
   } else {
     if (store.state.variable.nowIndex === 'outcreate') {
-      console.log('上级Id', store.state.variable.outcreate.parent)
-      console.log('登录用户Id', localStorage.loginId)
+      // console.log('上级Id', store.state.variable.outcreate.parent)
+      // console.log('登录用户Id', localStorage.loginId)
       var managerId = ''
       if (!store.state.variable.outcreate.parent) {
         managerId = localStorage.loginId
@@ -391,7 +391,7 @@ export const checkPoints = (rule, value, callback) => {
           if (err) {
           } else {
             var bills = ret.data.payload.balance
-            console.log('该账户余额', bills)
+            // console.log('该账户余额', bills)
             if (value > bills) {
               callback(new Error('所属账户余额为 ' + bills + ' , 已超过最大可分配额'))
               store.state.checkform.points = false
@@ -494,7 +494,7 @@ export const checkMSN = (rule, value, callback) => {
         } else {
           var data = ret.data.payload.avalible
           if (data === false) {
-            callback(new Error('该线路号已注册或已锁定'))
+            callback(new Error('该线路号已注册或已停用'))
             store.state.checkform.msn = false
           } else {
             store.state.checkform.msn = true

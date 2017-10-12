@@ -14,7 +14,7 @@
         <el-input-number v-model="ruleForm.countTime" :min="1" :max="10000" :disabled="ruleForm.status === '关' || ruleForm.status ===''"></el-input-number>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">减交</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -109,7 +109,7 @@ export default {
           )
         } else {
           this.$message({
-            message: '请根据提示设置',
+            message: '请根据减示设置',
             type: 'error'
           })
           return false;

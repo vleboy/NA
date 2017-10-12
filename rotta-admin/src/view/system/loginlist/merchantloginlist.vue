@@ -27,7 +27,7 @@
         </el-table-column>
         <el-table-column label="登录状态" prop="status" align="center">
           <template scope="scope">
-            <p v-if="scope.row.userStatus === 0" class="red"><span class="statusIcon1">&middot;</span>锁定</p>
+            <p v-if="scope.row.userStatus === 0" class="red"><span class="statusIcon1">&middot;</span>停用</p>
             <p v-if="scope.row.userStatus === 1" class="green"><span class="statusIcon2">&middot;</span>正常</p>
           </template>
         </el-table-column>
@@ -103,14 +103,14 @@ export default {
             var data = ret.payload
             console.log('操作成功返回数据', data)
             this.$message({
-              message: '锁定成功',
+              message: '停用成功',
               type: 'success'
             })
             this.$store.dispatch('getManager_LoginList')
           }
         }
       )
-    }, // 锁定用户
+    }, // 停用用户
     unlockUser (index, row) {
       var user = {
         role: row.role,
@@ -129,14 +129,14 @@ export default {
             var data = ret.payload
             console.log('操作成功返回数据', data)
             this.$message({
-              message: '解锁成功',
+              message: '开启成功',
               type: 'success'
             })
             this.$store.dispatch('getManager_LoginList')
           }
         }
       )
-    } // 解锁用户
+    } // 开启用户
   }
 }
 </script>

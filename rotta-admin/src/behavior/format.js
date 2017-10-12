@@ -32,9 +32,9 @@ export const detailTime = function (time) {
 export const formatStatus = function (status) {
   var sub = ''
   if (status === 0) {
-    sub = '已锁定'
+    sub = '已停用'
   } else {
-    sub = '正常'
+    sub = '已启用'
   }
   return sub
 } // 格式化用户状态
@@ -66,9 +66,9 @@ export const formatGamelist = function (arr) {
 export const billType = function (type) {
   var str = ''
   if (Number(type) === 1) {
-    str = '存点'
+    str = '加点'
   } else if (Number(type) === -1) {
-    str = '提点'
+    str = '减点'
   }
   return str
 } // 格式化交易类型

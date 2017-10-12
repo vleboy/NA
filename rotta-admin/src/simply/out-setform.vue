@@ -13,9 +13,9 @@
           <el-input v-model="setOutinfo.rate" class="input" placeholder="请输入"></el-input>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="线路商可放商户名额" prop="limit">
+      <!-- <el-form-item label="线路商可放商户名额" prop="limit">
         <el-input v-model="setOutinfo.limit" class="input" placeholder="请输入"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="线路商拥有的游戏">
         <el-select v-model="setOutinfo.gameList" multiple placeholder="请选择" clearable class="input">
             <el-option v-for="item in allGames" :key="item" :label="item.name" :value="item" style="max-width:336px"></el-option>
@@ -119,7 +119,6 @@ export default {
       setOutinfo: {
         rate: '', // 线路商抽成比
         points: '', // 初始线路商点数
-        limit: '', // 可放名额
         gameList: [], // 拥有游戏
         username: '', // 线路商商管理员用户名
         password: '', // 线路商商管理员密码
