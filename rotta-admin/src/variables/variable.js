@@ -131,7 +131,10 @@ const variable = {
   boothType: '', // 加储展位类别状态
   visitedViews: [],
   activeIndex: null,
-  tabIndex: null
+  tabIndex: null,
+
+  firstKey: '', // 后端分页开始键
+  lastKey: '' // 后端分页结束键
 }
 
 export default {

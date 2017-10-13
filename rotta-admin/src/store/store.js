@@ -530,7 +530,7 @@ const actions = {
     var checklogin = {
       role: '1',
       type: 'operate',
-      pageSize: '20',
+      pageSize: 40,
       startKey: null
     }
     invoke({
@@ -543,7 +543,6 @@ const actions = {
         if (res) {
         } else {
           var list = ret.data.payload.Items
-          // console.log('管理员操作日志是', list)
           context.commit({
             type: 'recordAdmin_cooperDate',
             data: list
@@ -1215,7 +1214,15 @@ const mutations = {
     state.variable.visitedViews = []
     state.variable.activeIndex = null
     state.variable.tabIndex = null
-  } // 清空Tab标签
+  }, // 清空Tab标签
+
+  resetFirstKey (state) {
+    state.variable.firstKey = ''
+  }, // 清除分页开始键
+
+  resetLastKey (state) {
+    state.variable.lastKey = ''
+  } // 清除分页结束键
 }
 
 export default new Vuex.Store({
