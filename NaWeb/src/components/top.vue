@@ -42,4 +42,17 @@ export default {
     }
   }
 }
+@media screen and (max-width: 750px) {
+  .top {
+    width: 38px;
+    height: 36px;
+    line-height: 32px;
+    right: 12px;
+    bottom: 12px;
+    background-size: cover;
+    &:hover {
+      background-position: 0px -44px;
+    }
+  }
+}
 </style>
