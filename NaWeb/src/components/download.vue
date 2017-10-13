@@ -50,11 +50,13 @@
       }
     }
     .android {
+      width: 50%;
       text-align: right;
       padding-right: 5px;
       float: left;
     }
     .ios {
+      width: 50%;
       float: right;
       text-align: left;
     }
