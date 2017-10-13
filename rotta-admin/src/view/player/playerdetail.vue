@@ -123,7 +123,7 @@ export default {
       return detailTime(this.$store.state.variable.playerDetail.createAt)
     },
     dataList () {
-      if (!this.isShowRadio) { // 主要是处理从组织架构跳转至玩家详细的逻辑
+      if (!this.isShowRadio) { // 主要是处理从层级关系跳转至玩家详细的逻辑
         if (this.nowPage === 1) {
           return this.playerDetailList.list.slice(0, this.nowSize)
         } else {

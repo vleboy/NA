@@ -70,6 +70,10 @@
             <el-table-column label="剩余点数" prop="balance" align="center" sortable>
               <template scope="scope">
               	<span>{{points(scope.row.balance)}}</span>
+                <div>
+                <span @click="storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1" style="color:#4db3ff;cursor:pointer">加点</span>
+                <span @click="withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1" style="color:#4db3ff;cursor:pointer">减点</span>
+              </div>
               </template>
             </el-table-column>
             <el-table-column label="商户游戏" prop="gameList" align="center" width="110">

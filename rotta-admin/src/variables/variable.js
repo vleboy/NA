@@ -1,5 +1,5 @@
 const variable = {
-  isSlider: false, // 是否显示组织架构
+  isSlider: false, // 是否显示层级关系
   islogin: false,
   isloading: false,
   token: '',
@@ -14,7 +14,7 @@ const variable = {
   copyoutlist: [], // 线路商列表拷贝数据
   copycomlist: [], // 商户列表拷贝数据
 
-  map: [], // 管理员组织架构
+  map: [], // 管理员层级关系
 
   nowParent: '', // 创建页面默认上级线路商
 
