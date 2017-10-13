@@ -271,8 +271,8 @@
                 <div class="propertyform-header">
                     <span>当前剩余点数: <span style="color:#FF9900">{{outdetailBill}}</span></span>
                     <el-button type="text" class="propertybtn" @click="refreshOut">刷新</el-button>
-                    <el-button type="text" class="propertybtn" @click="pro_storePoints" v-if="this.outdetail.status === 1 && isRight">存点</el-button>
-                    <el-button type="text" class="propertybtn" @click="pro_withdrawPoints" v-if="this.outdetail.status === 1 && isRight">提取</el-button>
+                    <el-button type="text" class="propertybtn" @click="pro_storePoints" v-if="this.outdetail.status === 1 && isRight">加点</el-button>
+                    <el-button type="text" class="propertybtn" @click="pro_withdrawPoints" v-if="this.outdetail.status === 1 && isRight">减点</el-button>
                 </div>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>
@@ -292,10 +292,10 @@
                         <el-table-column label="交易类型" prop="" align="center" width="">
                             <template scope="scope">
                                 <span v-if="scope.row.fromLevel < scope.row.toLevel">
-                                    {{(scope.row.fromDisplayName)}} 对 {{(scope.row.toDisplayName)}} <span>存点</span>
+                                    {{(scope.row.fromDisplayName)}} 对 {{(scope.row.toDisplayName)}} <span>加点</span>
                                 </span>
                                 <span v-if="scope.row.fromLevel > scope.row.toLevel">
-                                    {{(scope.row.toDisplayName)}} 对 {{(scope.row.fromDisplayName)}} <span>提点</span>
+                                    {{(scope.row.toDisplayName)}} 对 {{(scope.row.fromDisplayName)}} <span>减点</span>
                                 </span>
                             </template>
                         </el-table-column>
@@ -364,10 +364,10 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作(对旗下线路商操作)" align="center" v-if="isRight">
                       <template scope="scope">
-                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">存点</el-button>
-                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">提点</el-button>
-                        <el-button type="text" @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">锁定</el-button>
-                        <el-button type="text" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">解锁</el-button>
+                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">加点</el-button>
+                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">减点</el-button>
+                        <el-button type="text" @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">停用</el-button>
+                        <el-button type="text" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">开启</el-button>
                       </template>
                     </el-table-column>
                 </el-table>
@@ -412,10 +412,10 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作(对旗下商户操作)" align="center" v-if="isRight">
                       <template scope="scope">
-                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">存点</el-button>
-                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">提点</el-button>
-                        <el-button type="text" @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">锁定</el-button>
-                        <el-button type="text" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">解锁</el-button>
+                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">加点</el-button>
+                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">减点</el-button>
+                        <el-button type="text" @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">停用</el-button>
+                        <el-button type="text" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">开启</el-button>
                       </template>
                     </el-table-column>
                 </el-table>
@@ -974,7 +974,7 @@ export default {
           }
         )
       }
-    }, // 提交修改数据
+    }, // 减交修改数据
     lockUser (index, row) {
       var user = {
         role: row.role,
@@ -993,7 +993,7 @@ export default {
             var data = ret.payload
             console.log('操作成功返回数据', data)
             this.$message({
-              message: '锁定成功',
+              message: '停用成功',
               type: 'success'
             })
             this.$store.dispatch('getOutdetail_child_managers')
@@ -1020,7 +1020,7 @@ export default {
             var data = ret.payload
             console.log('操作成功返回数据', data)
             this.$message({
-              message: '解锁成功',
+              message: '开启成功',
               type: 'success'
             })
             this.$store.dispatch('getOutdetail_child_managers')
@@ -1045,7 +1045,7 @@ export default {
         type: 'getpointsIndex',
         data: 'store'
       })
-    }, // 管理员直接对详情页线路商存点
+    }, // 管理员直接对详情页线路商加点
     pro_withdrawPoints () {
       var user = {
         username: this.outdetail.username,
@@ -1062,7 +1062,7 @@ export default {
         type: 'getpointsIndex',
         data: 'withdraw'
       })
-    }, // 管理员直接对详情页线路商提点
+    }, // 管理员直接对详情页线路商减点
     damn_storePoints (index, row) {
       var user = {
         username: row.username,
@@ -1079,7 +1079,7 @@ export default {
         type: 'getpointsIndex',
         data: 'store'
       })
-    }, // 管理员或其上级线路商对其下级线路商或商户存点
+    }, // 管理员或其上级线路商对其下级线路商或商户加点
     damn_withdrawPoints (index, row) {
       var user = {
         username: row.username,
@@ -1096,7 +1096,7 @@ export default {
         type: 'getpointsIndex',
         data: 'withdraw'
       })
-    }, // 管理员或其上级线路商对其下级线路商或商户提点
+    }, // 管理员或其上级线路商对其下级线路商或商户减点
     getwaterFallSize (size) {
       this.waterFallSize = size
     },  // 详情页线路商财务分页

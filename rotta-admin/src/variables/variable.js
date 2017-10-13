@@ -31,7 +31,6 @@ const variable = {
     contractPeriod: [], // 生效时间
     isforever: false, // 是否永久有效
     points: '', // 初始代理点数
-    limit: '', // 可放名额
     gameList: [], // 拥有游戏
     username: '', // 代理商管理员用户名
     password: '', // 代理商管理员密码
@@ -87,8 +86,8 @@ const variable = {
   personalinfo: {}, // 管理员基本信息
   personalproperty: [], // 管理员点数操作记录
 
-  storeDialog: false, // 存点框状态
-  withdrawDialog: false, // 提点框状态
+  storeDialog: false, // 加点框状态
+  withdrawDialog: false, // 减点框状态
 
   storePoints: {
     fromUserId: '',
@@ -96,17 +95,17 @@ const variable = {
     toUser: '',
     amount: '',
     remark: ''
-  }, // 存点明细
+  }, // 加点明细
   withdrawPoints: {
     fromUserId: '',
     toRole: '',
     toUser: '',
     amount: '',
     remark: ''
-  }, // 提点明细
+  }, // 减点明细
 
-  pointsIndex: '', // 存提点发起方式
-  pointsObject: {}, // 对详情页用户发起存提点操作的下级信息
+  pointsIndex: '', // 加减点发起方式
+  pointsObject: {}, // 对详情页用户发起加减点操作的下级信息
 
   gameListData: [], // 游戏中心游戏类型列表
 
@@ -129,7 +128,7 @@ const variable = {
 
   playerDetail: [], // 玩家详细
 
-  boothType: '', // 存储展位类别状态
+  boothType: '', // 加储展位类别状态
   visitedViews: [],
   activeIndex: null,
   tabIndex: null

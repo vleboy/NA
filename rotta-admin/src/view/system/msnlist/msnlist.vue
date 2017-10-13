@@ -13,7 +13,7 @@
               <template scope="scope">
                 <p v-if="scope.row.status === 0" class="green">未使用</p>
                 <p v-if="scope.row.status === 1" class="red">已使用</p>
-                <p v-if="scope.row.status === 2" class="blue">已锁定</p>
+                <p v-if="scope.row.status === 2" class="blue">已停用</p>
               </template>
             </el-table-column>
             <el-table-column label="商户" prop="displayName" align="center" :formatter="backDisplayname">
@@ -21,8 +21,8 @@
             <el-table-column label="操作" align="center" min-width="65">
                 <template scope="scope">
                     <!-- <el-button type="text" class="myBtn" v-if="scope.row.status === 1">查看</el-button> -->
-                    <el-button type="text" class="myBtn" v-if="scope.row.status === 2" @click="checkOpera(scope.$index, scope.row)">解锁</el-button>
-                    <el-button type="text" class="myBtn" v-if="scope.row.status === 0" @click="checkOpera(scope.$index, scope.row)">锁定</el-button>
+                    <el-button type="text" class="myBtn" v-if="scope.row.status === 2" @click="checkOpera(scope.$index, scope.row)">开启</el-button>
+                    <el-button type="text" class="myBtn" v-if="scope.row.status === 0" @click="checkOpera(scope.$index, scope.row)">停用</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -124,9 +124,9 @@ export default {
       if (result) {
         var message = ''
         if (operate === 0) {
-          message = '解锁成功'
+          message = '开启成功'
         } else {
-          message = '线路号已锁定'
+          message = '线路号已停用'
         }
         this.$message({
           message: message,
@@ -135,7 +135,7 @@ export default {
         this.$store.dispatch('getMsnList')
         this.loading = false
       }
-    }, // 锁定/解锁线路号
+    }, // 停用/开启线路号
     formatMSN (row, col) {
       var msn = row.msn
       msn = (msn * 0.001).toFixed(3).substring(2)

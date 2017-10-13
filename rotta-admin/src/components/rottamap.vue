@@ -76,7 +76,7 @@ export default {
       }).then(
         result => {
           const [err, ret] = result
-          let localData = [] // 暂存有新增玩家数组
+          let localData = [] // 暂加有新增玩家数组
           let isBreak = false // 判断是否跳出当前循环
           this.isFetching = false
           if(!this.dataType.length) {

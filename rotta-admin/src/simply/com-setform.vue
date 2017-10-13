@@ -182,7 +182,7 @@ export default {
             } else {
               var data = ret.data.payload.avalible
               if (data === false) {
-                callback(new Error('该线路号已注册或已锁定'))
+                callback(new Error('该线路号已注册或已停用'))
                 store.state.checkform.msn = false
               } else {
                 store.state.checkform.msn = true

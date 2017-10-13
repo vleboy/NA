@@ -52,13 +52,13 @@
 
 	如:
 
-	.success{color: #00CC00} // 成功提示颜色
+	.success{color: #00CC00} // 成功减示颜色
 
-	.error{color: #108DE9} // 失败提示颜色
+	.error{color: #108DE9} // 失败减示颜色
 
-	.warning{color: #FF3300} // 警告提示颜色
+	.warning{color: #FF3300} // 警告减示颜色
 
-	.unexcept{color: #FF9900} // 异常提示颜色
+	.unexcept{color: #FF9900} // 异常减示颜色
 
 
 -尺寸类
@@ -183,7 +183,7 @@
 
 		渲染页面/
 
-		如需要存储,调用commit更新vueX状态
+		如需要加储,调用commit更新vueX状态
 
 - 组件复用
 

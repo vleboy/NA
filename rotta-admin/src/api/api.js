@@ -35,7 +35,7 @@ const api = {
 
   login: front.zues + front.stage + '/users/auth', // 所有用户登录接口
 
-  checkUserExist: front.zues + front.stage + '/checkUserExist', // 检查用户标识是否存在
+  checkUserExist: front.zues + front.stage + '/checkUserExist', // 检查用户标识是否加在
 
   managers: front.zues + front.stage + '/managers', // 线路商数据接口
 
@@ -43,11 +43,11 @@ const api = {
 
   getchilds: front.zues + front.stage + '/childList', // 查询下级接口
 
-  userStatus: front.zues + front.stage + '/userChangeStatus', // 锁定解锁用户接口
+  userStatus: front.zues + front.stage + '/userChangeStatus', // 停用开启用户接口
 
   checkMSN: front.zues + front.stage + '/check_msn', // 检查线路号是否重复接口
 
-  msnLock: front.zues + front.stage + '/lockmsn', // 锁定解锁线路号接口
+  msnLock: front.zues + front.stage + '/lockmsn', // 停用开启线路号接口
 
   msnList: front.zues + front.stage + '/msnList', // 线路号列表接口
 
@@ -79,7 +79,7 @@ const api = {
 
   // hulk
 
-  billTransfer: front.hulk + front.stage + '/billTransfer', // 存提点接口
+  billTransfer: front.hulk + front.stage + '/billTransfer', // 加减点接口
 
   bills: front.hulk + front.stage + '/bills', // 查询用户余额
 
@@ -109,9 +109,9 @@ const api = {
 
   getPlayDetail: front.hera + front.stage + '/player/bill/info', // 玩家详情
 
-  forzenPlay: front.hera + front.stage + '/player/forzen', // 单个解冻、已锁定
+  forzenPlay: front.hera + front.stage + '/player/forzen', // 单个解冻、已停用
 
-  allForzenPlay: front.hera + front.stage + '/player/batch/forzen', // 单个解冻、已锁定
+  allForzenPlay: front.hera + front.stage + '/player/batch/forzen', // 单个解冻、已停用
 
   // thor
 

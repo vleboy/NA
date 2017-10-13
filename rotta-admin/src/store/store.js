@@ -349,7 +349,7 @@ const actions = {
             type: 'recordPersonal_info',
             data: data
           })
-          context.commit('closeLoading')
+          // context.commit('closeLoading')
         }
       }
     )
@@ -399,7 +399,7 @@ const actions = {
             type: 'recordPersonal_bills',
             data: data
           })
-          context.commit('closeLoading')
+          // context.commit('closeLoading')
         }
       }
     )
@@ -798,7 +798,7 @@ const mutations = {
 
   recordNowlistUser (state, payload) {
     state.variable.nowUser = payload.data
-    console.log('存取点传过来的数据', state.variable.nowUser)
+    console.log('加取点传过来的数据', state.variable.nowUser)
   }, // 记录当前列表页面操作的用户的信息
 
   recordOutdetailID (state, payload) {
@@ -912,12 +912,12 @@ const mutations = {
 
   getpointsIndex (state, payload) {
     state.variable.pointsIndex = payload.data
-  }, // 存提点发起方式
+  }, // 加减点发起方式
 
   getpointsObject (state, payload) {
     state.variable.pointsObject = payload.data
-    // console.log('存提点下级的信息是', state.variable.pointsObject)
-  }, // 获取对详情页用户发起存提点操作的下级信息
+    // console.log('加减点下级的信息是', state.variable.pointsObject)
+  }, // 获取对详情页用户发起加减点操作的下级信息
 
   startEdit (state, payload) {
     state.variable.isEdit = true
@@ -929,27 +929,27 @@ const mutations = {
 
   startStoreDialog (state, payload) {
     state.variable.storeDialog = true
-  }, // 开启存点对话框
+  }, // 开启加点对话框
 
   closeStoreDialog (state, payload) {
     state.variable.storeDialog = false
-  }, // 关闭存点对话框
+  }, // 关闭加点对话框
 
   startWithdrawDialog (state, payload) {
     state.variable.withdrawDialog = true
-  }, // 开启提点对话框
+  }, // 开启减点对话框
 
   closeWithdrawDialog (state, payload) {
     state.variable.withdrawDialog = false
-  }, // 关闭提点对话框
+  }, // 关闭减点对话框
 
   finishPoints () {
     state.variable.isfinish = true
-  }, // 更新存提点状态
+  }, // 更新加减点状态
 
   resetfinish () {
     state.variable.isfinish = false
-  }, // 初始化存提点状态
+  }, // 初始化加减点状态
 
   recordGamelistData (state, payload) {
     state.variable.gameListData = payload.data
@@ -957,12 +957,12 @@ const mutations = {
 
   recordPersonal_bills (state, payload) {
     state.variable.bills = payload.data
-  }, // 存储管理员个人中心余额
+  }, // 加储管理员个人中心余额
 
   recordManager_LoginList (state, payload) {
     state.variable.managerLoginList = payload.data
     state.variable.copyManagerLoginList = payload.data
-  }, // 存储线路商登录日志
+  }, // 加储线路商登录日志
 
   searchManagerloginlist (state, payload) {
     state.variable.managerLoginList = state.variable.copyManagerLoginList
@@ -1014,7 +1014,7 @@ const mutations = {
   recordMerchant_LoginList (state, payload) {
     state.variable.merchantLoginList = payload.data
     state.variable.copyMerchantLoginList = payload.data
-  }, // 存储商户登录日志
+  }, // 加储商户登录日志
 
   searchMerchantloginlist (state, payload) {
     state.variable.merchantLoginList = state.variable.copyMerchantLoginList
@@ -1065,12 +1065,12 @@ const mutations = {
 
   recordAdmin_cooperDate (state, payload) {
     state.variable.adminCooperdate = payload.data
-  }, // 存储管理员操作日志
+  }, // 加储管理员操作日志
 
   recordAdminlist (state, payload) {
     state.variable.adminList = payload.data
     state.variable.copyAdminlist = payload.data
-  }, // 存储管理员列表
+  }, // 加储管理员列表
 
   searchAdminlist (state, payload) {
     state.variable.adminList = state.variable.copyAdminlist
@@ -1122,7 +1122,7 @@ const mutations = {
   recordMsnlist (state, payload) {
     state.variable.msnList = payload.data
     state.variable.copymsnList = payload.data
-  }, // 存储线路号列表
+  }, // 加储线路号列表
 
   recordSearchMsn (state, payload) {
     state.variable.msn = payload.data
@@ -1130,11 +1130,11 @@ const mutations = {
 
   recordOutParent_Bills (state, payload) {
     state.variable.outparentBills = payload.data
-  }, // 存储上级线路商余额
+  }, // 加储上级线路商余额
 
   recordComParent_Bills (state, payload) {
     state.variable.comparentBills = payload.data
-  }, // 存储上级商户余额
+  }, // 加储上级商户余额
 
   searchMsnlist () {
     state.variable.msnList = state.variable.copymsnList
@@ -1145,7 +1145,7 @@ const mutations = {
 
   playerDetail (state, payload) {
     state.variable.playerDetail = payload.data
-  }, // 存储玩家详细
+  }, // 加储玩家详细
 
   rememberBoothType (state, payload) {
     state.variable.boothType = payload.data
