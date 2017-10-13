@@ -2,14 +2,15 @@
   <div class="contact">
     <div class="header-bg">
       <div class="bg-opacity"></div>
-      <el-col class="color-white center-title">
-        <div class="title-top">CLIENTS</div>
-        <h1 class="title-down">合作伙伴</h1>
-      </el-col>
-      <div style="text-align: center">
-        <img class="header-img" src="../assets/contact/header-img.png">
+      <div>
+        <div class="color-white center-title">
+          <div class="title-top">CLIENTS</div>
+          <h1 class="title-down">合作伙伴</h1>
+        </div>
+        <div style="text-align: center">
+          <img class="header-img" src="../assets/contact/header-img.png">
+        </div>
       </div>
-
     </div>
     <div class="center-bg">
       <div class="center-outer"></div>
@@ -18,7 +19,7 @@
           <div class="title-top">CONTACT US</div>
           <h1 class="title-down">联系我们</h1>
         </el-col>
-        <el-col :offset="2" :span="7"  class="color-white">
+        <el-col :offset="2" :span="7"  class="mobile-width color-white">
           <input placeholder="NAME" class="footer-left-input"
                  @blur="getBlur(1)" @focus="getFocus(1)" :class="{'blur-input':isBlurInputName}">
           <input placeholder="EMAIL" class="footer-left-input"
@@ -29,7 +30,7 @@
             <img class="left-submit"  src="../assets/contact/submit.png" @click="submit">
           </div>
         </el-col>
-        <el-col :offset="1" :span="5" class="color-white  contact-center" >
+        <el-col :offset="1" :span="5" class="mobile-width color-white  contact-center" >
           <h2 class="margin-bottom">CONTACT <span class="color-red">US</span></h2>
           <!-- <div class="-center-con">
             <img src="../assets/contact/tel.png" class="center-icon">+63 (2) 746 2177
@@ -41,7 +42,7 @@
             <img src="../assets/contact/message.png" class="center-icon">Newasia@na77.com
           </div>
         </el-col>
-        <el-col :offset="1" :span="6" class="color-white contact-right">
+        <el-col :offset="1" :span="6" class="mobile-width mobile-display color-white contact-right">
           <h2 class=" margin-bottom">NEWSLETTER <span class="color-red"> SUBCRIPTION</span></h2>
           <div class="right-contact">
             <input class="footer-left-input" placeholder="example@example.com" style="width:70%;"
@@ -168,7 +169,7 @@
     .footer-bg{
       background: url('../assets/contact/footer.png') no-repeat;
       width: 100%;
-      height: 14%;
+      height: 16%;
       overflow: hidden;
       padding: 20px 0;
       position: relative;
@@ -336,5 +337,115 @@
       }
     }
   }
+
+  @media screen and (max-width: 750px){
+      .contact{
+          .header-bg{
+              height:28%;
+              .header-img{
+                width:400px;
+                position: relative;
+              }
+          }
+          .center-title{
+              padding: 22px ;
+              .title-top{
+                font-size: 12px;
+                margin-bottom: 10px;
+              }
+              .title-down{
+                font-size: 22px;
+                font-weight: normal
+              }
+          }
+
+          .center-bg {
+            height:56%;
+            .mobile-width{
+              width: 40%;
+            }
+            .mobile-display{
+              display: none;
+            }
+            .center-outer{
+              width: 250%;
+            }
+            .contact-center{
+              h2{
+                font-size: 16px;
+              }
+            }
+            .contact-right{
+              h2{
+                font-size: 16px;
+              }
+            }
+            .right-submit{
+              width:150px;
+            }
+            .footer-left-input{
+              border-radius: 19px;
+              height: 38px;
+              font-size: 12px;
+            }
+            .left-textarea{
+              height: 50px;
+            }
+            .left-submit{
+              width:135px;
+            }
+        }
+      }
+  }
+
+  @media screen and (max-width: 320px){
+      .contact{
+          .header-bg{
+              .header-img{
+                width:230px;
+              }
+          }
+          .center-title{
+              padding: 20px ;
+              .title-top{
+                font-size: 12px;
+                margin-bottom: 10px;
+              }
+              .title-down{
+                font-size: 22px;
+                font-weight: normal
+              }
+          }
+
+          .center-bg {
+            height:56%;
+            .mobile-width{
+              width: 40%;
+            }
+            .mobile-display{
+              display: none;
+            }
+            .center-outer{
+              width: 250%;
+            }
+            .left-textarea{
+              height: 40px;
+            }
+            .left-submit{
+              width:106px;
+            }
+            .contact-center{
+              margin-left: 0;
+              width: 50%;
+
+              .center-icon{
+                margin-right: 8px;
+              }
+            }
+        }
+      }
+  }
+
+
 
 </style>
