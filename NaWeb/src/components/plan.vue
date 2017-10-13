@@ -197,7 +197,7 @@ export default {
     }
     ul {
       position: relative;
-      top:10%;
+      top:6%;
 
       li {
         width: 50%;

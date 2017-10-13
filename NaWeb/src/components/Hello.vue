@@ -31,7 +31,7 @@
         <About2></About2>
       </div>
       <div class="section">
-        <Download></Download>
+        <Download2></Download2>
       </div>
       <div class="section">
         <Plan></Plan>
@@ -55,6 +55,7 @@ import Slider2 from './slider2'
 import About from './about'
 import About2 from './About2'
 import Download from './download'
+import Download2 from './download2'
 import Plan from './plan'
 import Product from './product'
 import N2 from './n2'
@@ -76,7 +77,7 @@ export default {
     )
   },
   components: {
-    Slider, About, Plan, Product, N2, Contact, Download, Slider2, About2
+    Slider, About, Plan, Product, N2, Contact, Download, Slider2, About2, Download2
   }
 }
 </script>

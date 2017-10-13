@@ -343,7 +343,7 @@
           .header-bg{
               height:28%;
               .header-img{
-                width:400px;
+                width:280px;
                 position: relative;
               }
           }
@@ -389,10 +389,19 @@
               font-size: 12px;
             }
             .left-textarea{
-              height: 50px;
+              height: 40px;
+              margin-bottom: 15px
             }
             .left-submit{
               width:135px;
+            }
+            .contact-center{
+              margin-left: 0;
+              width: 50%;
+
+              .center-icon{
+                margin-right: 8px;
+              }
             }
         }
       }
