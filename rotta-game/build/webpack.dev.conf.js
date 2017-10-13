@@ -32,7 +32,9 @@ module.exports = merge(baseWebpackConfig, {
 
       'hera_URL': JSON.stringify('https://xbbw2jfb58.execute-api.ap-southeast-1.amazonaws.com/'), // hera有关接口
 
-      'hawkeye_URL': JSON.stringify('https://ajlhg1sv9j.execute-api.ap-southeast-1.amazonaws.com/') // hawkeye有关接口
+      'hawkeye_URL': JSON.stringify('https://ajlhg1sv9j.execute-api.ap-southeast-1.amazonaws.com/'), // hawkeye有关接口
+
+      'stateMachine_URL': JSON.stringify('https://844sz7nr7l.execute-api.ap-southeast-1.amazonaws.com/') // StateMachine有关接口
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

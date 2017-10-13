@@ -14,6 +14,8 @@ const front = {
   hera: hera_URL, // hera有关接口
 
   hawkeye: hawkeye_URL, // hawkeye有关接口
+
+  stateMachine: stateMachine_URL // stateMachine接口
 }
 
 const api = {
@@ -166,6 +168,10 @@ const api = {
   delHorseRaceLamp: front.hawkeye + front.stage + '/notice/remove', // 删除跑马灯
 
   mapPlayer: front.hawkeye + front.stage + '/player/list', // 组织架构商户玩家
+
+  //stateMachine
+
+  uploadImg: front.stateMachine + front.stage + '/upload', // 上传图片获取签证
 
   // methods
 

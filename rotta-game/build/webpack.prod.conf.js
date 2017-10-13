@@ -41,6 +41,8 @@ var webpackConfig = merge(baseWebpackConfig, {
       'hera_URL': JSON.stringify('https://d0hhnba6ee.execute-api.ap-southeast-1.amazonaws.com/'), // hera有关接口
 
       'hawkeye_URL': JSON.stringify('https://dawlhzlkt6.execute-api.ap-southeast-1.amazonaws.com/'), // hawkeye有关接口
+
+      'stateMachine_URL': JSON.stringify('https://3y68duvxk7.execute-api.ap-southeast-1.amazonaws.com/') // StateMachine有关接口
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

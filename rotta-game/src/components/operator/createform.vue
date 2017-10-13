@@ -28,11 +28,12 @@
       <el-form-item label="上传合同">
         <el-upload
           class="upload-demo"
-          action="//upload.qiniu.com"
+          :action="uploadAction"
           ref="upload"
           :on-success="handleSuccess"
           :on-error="handleError"
           :before-upload="beforeUpload"
+          :http-request="requestHeader"
           :on-remove='changeRemove'
           :file-list="arrayList"
           :data="form">
@@ -42,10 +43,11 @@
       </el-form-item>
       <el-form-item label="上传执照" prop="license">
         <el-upload
-          action="//upload.qiniu.com"
+          :action="uploadAction"
           class="g-avatar-uploader"
           ref="upload"
           :show-file-list="false"
+          :http-request="requestHeaderTwo"
           :on-success="handleSuccessTwo"
           :on-error="handleErrorTwo"
           :before-upload="beforeUploadTwo"
@@ -242,6 +244,8 @@
             value: '5'
           }
         ],
+        uploadAction: '',
+        imgFile:{},
         form: {
           key: '',
           token: ''
@@ -348,6 +352,30 @@
           remark: '' // 类型
         }
       },
+      requestHeader () {
+        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
+        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
+        invoke({
+          url: this.uploadAction,
+          method: 'put',
+          data: this.imgFile,
+          isToken: 'false'
+        }).then(res => {
+          const [err, ret] = res
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            this.dialogLoading = false
+            this.$message.success('上传成功')
+            this.managerInfo.companyContract = (process.env.NODE_ENV == 'development') ? dev : prod
+            console.log(this.managerInfo.companyContract, 'this.managerInfo')
+          }
+        })
+      },
+
       // 合同文件
       handleSuccess (response, file, fileList) {
         this.dialogLoading = false
@@ -358,7 +386,7 @@
       beforeUpload (file, fileList) {
         const isSizeZip = file.size / 1024 / 1024 < 10
         const suffix = this.suffixFun(file.name).toLowerCase()
-
+        this.imgFile = file
         return new Promise((resolve, reject) =>{
           this.dialogLoading = true
           if (suffix != 'zip') {
@@ -376,10 +404,11 @@
           }
 
           invoke({
-            url: api.getUploadImgToken,
+            url: api.uploadImg,
             method: api.post,
             data: {
-              fileKey: file.name
+              contentType: 'image',
+              filePath: file.name
             }
           }).then(res => {
             const [err, ret] = res
@@ -389,10 +418,7 @@
                 type: 'error'
               })
             } else {
-              this.form = {
-                key: file.name,
-                token: ret.data.payload
-              }
+              this.uploadAction = ret.data.payload
               resolve(true)
             }
           }).catch(err => {
@@ -407,9 +433,34 @@
       }, // 错误回调
       changeRemove (file) {
         this.managerInfo.companyContract = ''
+        console.log(this.managerInfo)
       }, // 移除事件
 
       // 上传执照
+      requestHeaderTwo () {
+        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
+        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
+        invoke({
+          url: this.uploadAction,
+          method: 'put',
+          data: this.imgFile,
+          isToken: 'false'
+        }).then(res => {
+          const [err, ret] = res
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            this.dialogLoading = false
+            this.$message.success('上传成功')
+            this.managerInfo.license = (process.env.NODE_ENV == 'development') ? dev : prod
+            console.log(this.managerInfo.license, 'this.managerInfo')
+          }
+        })
+      },
+
       handleSuccessTwo (response, file, fileList) {
         this.dialogLoading = false
         this.$message.success('上传成功')
@@ -418,6 +469,7 @@
       beforeUploadTwo (file) {
         const isJPG = (file.type === 'image/jpeg') || (file.type === 'image/png')
         const isLt1M = file.size / 1024 / 1024 < 5
+        this.imgFile = file
         return new Promise((resolve, reject) =>{
           this.dialogLoading = true
           if (!isJPG) {
@@ -431,10 +483,11 @@
           }
 
           invoke({
-            url: api.getUploadImgToken,
+            url: api.uploadImg,
             method: api.post,
             data: {
-              fileKey: file.name
+              contentType: 'image',
+              filePath: file.name
             }
           }).then(res => {
             const [err, ret] = res
@@ -444,10 +497,7 @@
                 type: 'error'
               })
             } else {
-              this.form = {
-                key: file.name,
-                token: ret.data.payload
-              }
+              this.uploadAction = ret.data.payload
               resolve(true)
             }
           }).catch(err => {

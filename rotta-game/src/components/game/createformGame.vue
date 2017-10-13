@@ -27,14 +27,14 @@
       </el-form-item>
       <el-form-item label="游戏LOGO" prop="gameImg">
         <el-upload
-          action="//upload.qiniu.com"
+          :action="uploadAction"
           class="g-avatar-uploader"
           ref="upload"
+          :http-request="requestHeader"
           :show-file-list="false"
           :on-success="handleSuccess"
           :on-error="handleError"
-          :before-upload="beforeUpload"
-          :data="form">
+          :before-upload="beforeUpload">
           <img v-if="managerInfo.gameImg" :src="managerInfo.gameImg" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -198,6 +198,8 @@
         }, // 列表验证规则
         options: [],
         fileList: [],
+        uploadAction: '',
+        imgFile:{},
         form: {
           key: '',
           token: ''
@@ -290,6 +292,29 @@
           this.$store.commit('closeLoading')
         })
       },
+      requestHeader () {
+        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
+        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
+        invoke({
+          url: this.uploadAction,
+          method: 'put',
+          data: this.imgFile,
+          isToken: 'false'
+        }).then(res => {
+          const [err, ret] = res
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            this.dialogLoading = false
+            this.$message.success('上传成功')
+            this.managerInfo.gameImg = (process.env.NODE_ENV == 'development') ? dev : prod
+            console.log(this.managerInfo.gameImg, 'this.managerInfo')
+          }
+        })
+      },
       handleSuccess (response, file, fileList) {
         this.dialogLoading = false
         this.$message.success('图片上传成功')
@@ -299,6 +324,7 @@
       beforeUpload (file) {
         const isJPG = (file.type === 'image/jpeg') || (file.type === 'image/png')
         const isLt1M = file.size / 1024 / 1024 < 1
+        this.imgFile = file
         return new Promise((resolve, reject) =>{
           this.dialogLoading = true
           if (!isJPG) {
@@ -312,10 +338,11 @@
           }
 
           invoke({
-            url: api.getUploadImgToken,
+            url: api.uploadImg,
             method: api.post,
             data: {
-              fileKey: file.name
+              contentType: 'image',
+              filePath: file.name
             }
           }).then(res => {
             const [err, ret] = res
@@ -325,10 +352,7 @@
                 type: 'error'
               })
             } else {
-              this.form = {
-                key: file.name,
-                token: ret.data.payload
-              }
+              this.uploadAction = ret.data.payload
               resolve(true)
             }
           }).catch(err => {

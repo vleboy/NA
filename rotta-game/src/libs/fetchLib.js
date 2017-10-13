@@ -18,8 +18,16 @@ export const invoke = async (cfg) => {
     },
     ...param
   }
+  const noTokenRequestConfig = {
+    baseURL: api,
+    headers: {
+      'Content-Type': 'image'
+    },
+    ...param
+  } // 主要是针对接口不需要token情况下  默认是传递  不需要传递 isToken = false 即可
+  const isToken = (cfg.isToken != 'false')
   try {
-    const response = await axios.request(requestConfig)
+    const response = await axios.request(isToken ? requestConfig : noTokenRequestConfig)
     return [0, response]
   } catch (e) {
     if (!e.response) {
