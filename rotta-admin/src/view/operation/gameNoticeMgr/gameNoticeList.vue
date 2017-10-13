@@ -73,15 +73,15 @@
         </el-form-item>
         <el-form-item label="公告图标" label-width="140px" style="text-align: left">
           <el-upload
-            action="//upload.qiniu.com"
+            :action="uploadAction"
             class="g-avatar-uploader"
             ref="upload"
+            :http-request="requestHeader"
             :on-success="handleSuccess"
             :on-error="handleError"
             :before-upload="beforeUpload"
             :file-list="fileList"
-            :show-file-list="false"
-            :data="form">
+            :show-file-list="false">
             <img v-if="noticeInfo.img" :src="noticeInfo.img" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
@@ -125,10 +125,8 @@ export default {
       isSending: false,
       dialogLoading: false,
       fileList: [],
-      form: {
-        key: '',
-        token: ''
-      },
+      uploadAction: '',
+      imgFile:{},
       noticeStatus: ['已停用', '正常'],
       gameNoticeList: [],
       noticeInfo: {
@@ -340,17 +338,39 @@ export default {
         })
       })
     }, // 删除公告
+    requestHeader () {
+      invoke({
+        url: this.uploadAction,
+        method: 'put',
+        data: this.imgFile,
+        isToken: 'false'
+      }).then(res => {
+        const [err, ret] = res
+        if (err) {
+          this.$message({
+            message: err.msg,
+            type: 'error'
+          })
+        } else {
+          this.dialogLoading = false
+          this.$message.success('上传成功')
+//          this.noticeInfo.img = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` // 测试环境路径
+          this.noticeInfo.img = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //正式环境路径
+          console.log(this.noticeInfo.img, 'this.noticeInfo.img')
+        }
+      })
+    },
     handleSuccess (response, file, fileList) {
       this.dialogLoading = false
       this.$message.success('上传成功')
       this.fileList = fileList
-      this.noticeInfo.img = `https://ouef62ous.bkt.clouddn.com/${response.key}`
+//      this.noticeInfo.img = `https://ouef62ous.bkt.clouddn.com/${response.key}`
     }, // 图片上传成功回调
     beforeUpload (file) {
       const isLt1M = file.size / 1024 / 1024 < 10
       const suffix = this.suffixFun(file.name).toLowerCase()
       const fileType = ['png', 'jpg']
-
+      this.imgFile = file
       return new Promise((resolve, reject) =>{
         this.dialogLoading = true
         if (!(fileType.indexOf(suffix) > -1)) {
@@ -364,10 +384,11 @@ export default {
         }
 
         invoke({
-          url: api.getUploadImgToken,
+          url: api.uploadImg,
           method: api.post,
           data: {
-            fileKey: file.name
+            contentType: 'image',
+            filePath: file.name
           }
         }).then(res => {
           const [err, ret] = res
@@ -377,10 +398,7 @@ export default {
               type: 'error'
             })
           } else {
-            this.form = {
-              key: file.name,
-              token: ret.data.payload
-            }
+            this.uploadAction = ret.data.payload
             resolve(true)
           }
         }).catch(err => {

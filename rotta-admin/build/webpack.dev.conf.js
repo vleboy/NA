@@ -36,7 +36,9 @@ module.exports = merge(baseWebpackConfig, {
 
       'stat_URL': JSON.stringify('https://jrryxhd7e4.execute-api.ap-southeast-1.amazonaws.com/'), // stat有关接口
 
-      'other_URL': JSON.stringify('https://z2mwxg1qb5.execute-api.ap-southeast-1.amazonaws.com/') // other有关接口(主要针对老曾接口)
+      'other_URL': JSON.stringify('https://z2mwxg1qb5.execute-api.ap-southeast-1.amazonaws.com/'), // other有关接口(主要针对老曾接口)
+
+      'stateMachine_URL': JSON.stringify('https://mnlj1vhd33.execute-api.ap-southeast-1.amazonaws.com/') // StateMachine有关接口
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

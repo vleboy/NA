@@ -17,7 +17,9 @@ const front = {
 
   stat: stat_URL, // stat有关接口
 
-  other: other_URL // other接口 （针对老曾）
+  other: other_URL, // other接口 （针对老曾）
+
+  stateMachine: stateMachine_URL // stateMachine接口
 }
 
 const api = {
@@ -160,6 +162,10 @@ const api = {
   statisticsGame: front.other + 'g40001/gamestats', // 获取风控中心电子游戏顶部统计数据接口
 
   canvasGame: front.other + 'g40001/rtpstats', // 获取风控中心电子游戏图表数据
+
+  //stateMachine
+
+  uploadImg: front.stateMachine + front.stage + '/upload', // 上传图片获取签证
 
   // methods
 
