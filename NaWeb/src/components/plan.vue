@@ -9,7 +9,7 @@
         <li v-for="(item, index) in Solutions" :key="index">
           <a href="javascript:;" class="img">
             <!-- <div><img :src="item.imgUrl" alt=""></div> -->
-            <i :style="`background: url(${item.imgUrl}) no-repeat;background-size: cover;`"></i>
+            <i :style="`background: url(${item.imgUrl}) 3px 0 no-repeat;background-size: cover;`"></i>
           </a>
           <h2>{{item.title}}</h2>
           <!-- <p>{{item.content}}</p> -->
@@ -84,7 +84,7 @@ export default {
         border-radius: 100%;
         margin-bottom: 20px;
         &:hover i {
-          background-position: 0 -150px!important;
+          background-position: 3px -150px!important;
         }
         i {
           position: absolute;
@@ -107,7 +107,8 @@ export default {
       h2 {
         font-size: 18px;
         font-weight: bold;
-        margin-bottom: 24px
+        margin-bottom: 24px;
+        margin-left: 3px;
       }
       p {
         width: 192px;
@@ -152,7 +153,7 @@ export default {
         .img {
           margin-bottom: 13px;
           &:hover i {
-            background-position: 0 -100px!important;
+            background-position: 3px -100px!important;
           }
           i {
             width: 100px;
