@@ -90,6 +90,10 @@ export default {
     },
     resetList () {
       this.searchMsn = ''
+      this.$store.commit({
+        type: 'recordSearchMsn',
+        data: ''
+      })
       this.$store.dispatch('getMsnList')
     }, // 重置列表
     backDisplayname (row, col) {

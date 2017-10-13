@@ -618,6 +618,9 @@ const actions = {
             type: 'recordMsnlist',
             data: sortList
           })
+          if (state,variable.msn) {
+            context.commit('searchMsnlist')
+          }
           context.commit('closeLoading')
         }
       }
