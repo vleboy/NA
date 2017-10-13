@@ -1,36 +1,59 @@
 <template>
-  <div id="dowebok">
-    <div class="section">
-      <Slider></Slider>
-    </div>
-    <div class="section">
-      <About></About>
-    </div>
-    <div class="section">
-      <Download></Download>
-    </div>
-    <div class="section">
-      <Plan></Plan>
-    </div>
-    <div class="section">
-      <Product></Product>
-    </div>
-    <div class="section">
-      <N2></N2>
-    </div>
-    <div class="section">
-      <Contact></Contact>
+  <div>
+    <!-- <div id="dowebok" style="display: none">
+      <div class="section">
+        <Slider></Slider>
+      </div>
+      <div class="section">
+        <About></About>
+      </div>
+      <div class="section">
+        <Download></Download>
+      </div>
+      <div class="section">
+        <Plan></Plan>
+      </div>
+      <div class="section">
+        <Product></Product>
+      </div>
+      <div class="section">
+        <N2></N2>
+      </div>
+      <div class="section">
+        <Contact></Contact>
+      </div>
+    </div> -->
+    <div id="dowebok">
+      <div class="section">
+        <Slider2></Slider2>
+      </div>
+      <div class="section">
+        <About2></About2>
+      </div>
+      <div class="section">
+        <Download></Download>
+      </div>
+      <div class="section">
+        <Plan></Plan>
+      </div>
+      <div class="section">
+        <Product></Product>
+      </div>
+      <div class="section">
+        <N2></N2>
+      </div>
+      <div class="section">
+        <Contact></Contact>
+      </div>
     </div>
   </div>
-
 </template>
 
 <script>
-// $(function () {
-//   $('#dowebok').fullpage ({})
-// })
 import Slider from './slider'
+import Slider2 from './slider2'
 import About from './about'
+import About2 from './About2'
 import Download from './download'
 import Plan from './plan'
 import Product from './product'
@@ -53,7 +76,7 @@ export default {
     )
   },
   components: {
-    Slider, About, Plan, Product, N2, Contact, Download
+    Slider, About, Plan, Product, N2, Contact, Download, Slider2, About2
   }
 }
 </script>
