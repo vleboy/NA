@@ -153,7 +153,7 @@
       optionSeries () {
         let optionSeries = [
           {
-            name: 'N币',
+            name: '商城',
             type: 'bar',
             data: this.consumeList.store
           },
@@ -310,7 +310,7 @@
         let self = this;
         let myChart = this.$echarts.init(document.getElementById('myChartAllPie'))
         myChart.on('legendselectchanged', function (params) {
-          let storeNum = params.selected['N币'] ? self.consumeList.storeSum : 0 ;
+          let storeNum = params.selected['商城'] ? self.consumeList.storeSum : 0 ;
           let vedio = params.selected['真人视讯'] ? self.consumeList.vedioSum : 0 ;
           let elec = params.selected['电子游戏'] ? self.consumeList.elecSum : 0 ;
           self.dynamicNum = storeNum + vedio + elec
@@ -327,7 +327,7 @@
           legend: {
             data: [
               {
-                name: 'N币',
+                name: '商城',
                 icon: 'rect'
               },
               {
