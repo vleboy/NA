@@ -150,4 +150,16 @@ export default {
     }
   }
 }
+@media screen and (max-width: 750px) {
+
+    .logo-top {
+     img{
+      width: 50%;
+       height: 50%;
+     }
+    }
+  .navbars {
+    display: none;
+  }
+}
 </style>

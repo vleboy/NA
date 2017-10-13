@@ -180,4 +180,57 @@ export default {
     }
   }
 }
+@media screen and (max-width: 750px) {
+  .plan {
+
+    .plan-content {
+      height: 100%;
+      display: block;
+    }
+    .title {
+      position: relative;
+      top:13%;
+
+      h1 {
+        font-size: 30px;
+      }
+    }
+    ul {
+      position: relative;
+      top:10%;
+
+      li {
+        width: 50%;
+        float: left;
+        margin-bottom: 20px;
+        .img {
+          margin-bottom: 13px;
+          &:hover i {
+            background-position: 3px -100px!important;
+          }
+          i {
+            width: 100px;
+            height: 0;
+            padding-bottom: 100px;
+          }
+        }
+        h2 {
+          font-size: 12px;
+          margin-bottom: 15px
+        }
+        p {
+          width: 129px;
+          font-size: 8px;
+          line-height: 29px;
+        }
+        button {
+          width: 92px;
+          height: 25px;
+          margin-top: 14px;
+          font-size: 9px;
+        }
+      }
+    }
+  }
+}
 </style>
