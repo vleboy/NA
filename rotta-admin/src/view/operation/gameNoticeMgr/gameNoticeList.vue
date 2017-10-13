@@ -339,6 +339,8 @@ export default {
       })
     }, // 删除公告
     requestHeader () {
+      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
+      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
       invoke({
         url: this.uploadAction,
         method: 'put',
@@ -354,8 +356,7 @@ export default {
         } else {
           this.dialogLoading = false
           this.$message.success('上传成功')
-//          this.noticeInfo.img = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` // 测试环境路径
-          this.noticeInfo.img = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //正式环境路径
+          this.noticeInfo.img = (process.env.NODE_ENV == 'development') ? dev : prod
           console.log(this.noticeInfo.img, 'this.noticeInfo.img')
         }
       })
