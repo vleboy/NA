@@ -138,20 +138,27 @@ export default {
   },
   methods: {
     startSearch () {
+      if (this.condition.condition_four) {
+        for (var i = this.condition.condition_four.length - 1; i >= 0; i--) {
+          if (isNaN(this.condition.condition_four[i].toString())) {
+            this.condition.condition_four[i] = new Date(this.condition.condition_four[i].toString()).getTime()
+          }
+        }
+      }
       this.$store.commit({
         type: 'postSearch_conditon',
         data: this.condition
       })
       if (this.nowindex === 'outlist') {
-        this.$store.commit('searchOutlist')
+        this.$store.dispatch('getOutlist')
       } else if (this.nowindex === 'comlist') {
-        this.$store.commit('searchComlist')
+        this.$store.dispatch('getComlist')
       } else if (this.nowindex === 'managerloginlist') {
         this.$store.commit('searchManagerloginlist')
       } else if (this.nowindex === 'merchantloginlist') {
         this.$store.commit('searchMerchantloginlist')
       } else if (this.nowindex === 'adminlist') {
-        this.$store.commit('searchAdminlist')
+        this.$store.dispatch('getAdminlist')
       }
     },
     resetSearch () {
@@ -159,7 +166,7 @@ export default {
         condition_one: '',
         condition_two: '',
         condition_three: '',
-        condition_four: ''
+        condition_four: []
       }
       this.$store.commit({
         type: 'postSearch_conditon',

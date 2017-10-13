@@ -57,7 +57,7 @@ const api = {
 
   parentList: front.zues + front.stage + '/avalible_managers', // 获取可用上级接口
 
-  adminList: front.zues + front.stage + '/admins', // 管理员列表
+  adminList: front.zues + front.stage + '/adminList', // 管理员列表
 
   checkDisplayName: front.zues + front.stage + '/checkNickExist', // 验证昵称是否重复
 
