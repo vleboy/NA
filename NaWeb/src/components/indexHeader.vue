@@ -153,9 +153,10 @@ export default {
 @media screen and (max-width: 750px) {
 
     .logo-top {
+      top:28px;
      img{
-      width: 50%;
-       height: 50%;
+       width: 40%;
+       height: 40%;
      }
     }
   .navbars {

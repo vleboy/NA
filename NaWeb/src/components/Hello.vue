@@ -40,7 +40,7 @@
         <Product2></Product2>
       </div>
       <div class="section">
-        <N2></N2>
+        <N22></N22>
       </div>
       <div class="section">
         <Contact></Contact>
@@ -60,6 +60,7 @@ import Plan from './plan'
 import Product from './product'
 import Product2 from './product2'
 import N2 from './n2'
+import N22 from './n22'
 import Contact from './contact'
 export default {
   name: 'hello',
@@ -78,7 +79,7 @@ export default {
     )
   },
   components: {
-    Slider, About, Plan, Product, N2, Contact, Download, Slider2, About2, Download2, Product2
+    Slider, About, Plan, Product, N2, Contact, Download, Slider2, About2, Download2, Product2, N22
   }
 }
 </script>
