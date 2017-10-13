@@ -6,8 +6,8 @@
           GAME DOWNLOAD
         </h2>
         <div class="download-address">
-            <div class="android"><a href="/about.html?type=android&title=安卓下载"><img src="../assets/e1.png" alt=""></a></div>
-            <div class="ios"><a href="/about.html?type=ios&title=苹果下载"><img src="../assets/e2.png" alt=""></a></div>
+            <div class="android"><a href="http://www.na77.com/NAGame.apk"><img src="../assets/e1.png" alt=""></a></div>
+            <div class="ios"><a href="itms-services://?action=download-manifest&url=https://a1.na12345.com/NAGame/Update/IOS/autoIntall.plist"><img src="../assets/e2.png" alt=""></a></div>
         </div>
       </div>
   </div>

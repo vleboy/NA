@@ -45,7 +45,7 @@ export default {
 @media screen and (max-width: 750px) {
   .top {
     width: 38px;
-    height: 36px;
+    height: 40px;
     line-height: 32px;
     right: 12px;
     bottom: 12px;
