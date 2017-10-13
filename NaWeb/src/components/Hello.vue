@@ -37,7 +37,7 @@
         <Plan></Plan>
       </div>
       <div class="section">
-        <Product></Product>
+        <Product2></Product2>
       </div>
       <div class="section">
         <N2></N2>
@@ -58,6 +58,7 @@ import Download from './download'
 import Download2 from './download2'
 import Plan from './plan'
 import Product from './product'
+import Product2 from './product2'
 import N2 from './n2'
 import Contact from './contact'
 export default {
@@ -77,7 +78,7 @@ export default {
     )
   },
   components: {
-    Slider, About, Plan, Product, N2, Contact, Download, Slider2, About2, Download2
+    Slider, About, Plan, Product, N2, Contact, Download, Slider2, About2, Download2, Product2
   }
 }
 </script>
