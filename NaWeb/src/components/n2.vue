@@ -2,8 +2,8 @@
   <div class="n2">
     <div class="n2-content">
       <div class="title">
-        <p>N2 PLAN</p>
-        <h1>N2 计划</h1>
+        <p>N² PLAN</p>
+        <h1>N² 计划</h1>
       </div>
       <div class="content">
         <div class="left">

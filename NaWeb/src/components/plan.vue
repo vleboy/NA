@@ -8,7 +8,8 @@
       <ul>
         <li v-for="(item, index) in Solutions" :key="index">
           <a href="javascript:;" class="img">
-            <div><img :src="item.imgUrl" alt=""></div>
+            <!-- <div><img :src="item.imgUrl" alt=""></div> -->
+            <i :style="`background: url(${item.imgUrl}) no-repeat;background-size: cover;`"></i>
           </a>
           <h2>{{item.title}}</h2>
           <!-- <p>{{item.content}}</p> -->
@@ -23,10 +24,10 @@ export default {
   data () {
     return {
        Solutions: [
-         { title: '移动端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/iPad.png'},
-         { title: 'WEB端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/Browser.png'},
-         { title: 'PC端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/Graph.png'},
-         { title: '直播系统解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/video.png'}
+         { title: '移动端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/p1.png'},
+         { title: 'WEB端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/p2.png'},
+         { title: 'PC端解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/p3.png'},
+         { title: '直播系统解决方案', content: '内容文字内容文字内容文字内容文字 保留两排超出给标点符号', imgUrl: '/static/p4.png'}
        ]
     }
   }
@@ -82,6 +83,19 @@ export default {
         background-size: cover;
         border-radius: 100%;
         margin-bottom: 20px;
+        &:hover i {
+          background-position: 0 -150px!important;
+        }
+        i {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translateX(-50%)translateY(-50%);
+          display: inline-block;
+          width: 150px;
+          height: 0;
+          padding-bottom: 150px;
+        }
         img {
           width: 30%;
           position: absolute;
@@ -137,6 +151,14 @@ export default {
       li {
         .img {
           margin-bottom: 13px;
+          &:hover i {
+            background-position: 0 -100px!important;
+          }
+          i {
+            width: 100px;
+            height: 0;
+            padding-bottom: 100px;
+          }
         }
         h2 {
           font-size: 12px;
