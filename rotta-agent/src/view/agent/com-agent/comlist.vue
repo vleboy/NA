@@ -255,7 +255,7 @@
 </template>
 
 <script>
-import Rottamap from '@/components/Rottamap' // 组织架构
+import Rottamap from '@/components/rottamap' // 组织架构
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 import Billtransfer from '@/components/billtransfer'
