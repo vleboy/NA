@@ -37,6 +37,7 @@ import Admindate from '@/view/system/datelist/admindate' // 管理员操作日�
 
 import Adminlist from '@/view/system/admin-manage/adminlist' // 管理员列表
 import Addadmin from '@/view/system/admin-manage/addadmin' // 新增管理员
+import Adminright from '@/view/system/admin-manage/adminright' // 管理员权限列表
 
 import Msnlist from '@/view/system/msnlist/msnlist' // 线路号列表
 
@@ -179,6 +180,11 @@ export default new Router({
       path: '/addadmin',
       name: '新增管理员',
       component: Addadmin
+    },
+    {
+      path: '/adminright',
+      name: '管理员权限',
+      component: Adminright
     },
     {
       path: '/msnlist',

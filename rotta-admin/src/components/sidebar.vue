@@ -95,6 +95,7 @@
                       <template slot="title">管理员管理</template>
                       <el-menu-item index="adminlist">管理员列表</el-menu-item>
                       <el-menu-item index="addadmin">添加管理员</el-menu-item>
+                      <el-menu-item index="adminright">管理员权限</el-menu-item>
                   </el-submenu>
                   <el-menu-item index="msnlist" v-if="this.userRight.system === true || this.userRight.system.msn === true">线路号列表</el-menu-item>
               </el-submenu>
