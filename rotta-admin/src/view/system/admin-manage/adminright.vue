@@ -1,7 +1,7 @@
 <template>
   <div class="adminright">
     <div class="topBtn">
-      <el-button type="primary">创建新角色</el-button>
+      <el-button type="primary" @click="goCreate">创建新角色</el-button>
     </div>
     <div class="adminright-form">
       <el-table border tooltip-effect="dark" :data="rightList">
@@ -81,7 +81,14 @@ export default {
     getNowpage (page) {
       this.nowPage = page
       // console.log('当前是第:' + page + '页')
-    }
+    },
+    goCreate () {
+      this.$router.push('addcharacter')
+      this.$store.commit({
+      type: 'recordNowindex',
+      data: 'addcharacter'
+    })
+    } // 跳转至创建新权限页面
   }
 }
 </script>

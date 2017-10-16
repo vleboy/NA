@@ -38,6 +38,7 @@ import Admindate from '@/view/system/datelist/admindate' // 管理员操作日�
 import Adminlist from '@/view/system/admin-manage/adminlist' // 管理员列表
 import Addadmin from '@/view/system/admin-manage/addadmin' // 新增管理员
 import Adminright from '@/view/system/admin-manage/adminright' // 管理员权限列表
+import Addcharacter from '@/view/system/admin-manage/addcharacter' // 创建新权限角色
 
 import Msnlist from '@/view/system/msnlist/msnlist' // 线路号列表
 
@@ -185,6 +186,11 @@ export default new Router({
       path: '/adminright',
       name: '管理员权限',
       component: Adminright
+    },
+    {
+      path: '/addcharacter',
+      name: '创建权限',
+      component: Addcharacter
     },
     {
       path: '/msnlist',
