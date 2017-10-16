@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import Rottamap from '@/components/Rottamap' // 层级关系
+import Rottamap from '@/components/rottamap' // 层级关系
 import Sidebar from '@/components/sidebar' // 导航条组件
 import Bread from '@/components/bread' // 面包屑组件
 import Tab from '@/components/tabs' // 标签页组件
