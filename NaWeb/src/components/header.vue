@@ -20,12 +20,17 @@
         <img src="../assets/nav.png" alt="">
       </a>
     </div>
+    <div class="right-mobile">
+      <a href="/index.html#page5">
+        <img src="../assets/mobile/back.png" >
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'header',
+  name: 'header'
 }
 </script>
 
@@ -105,6 +110,9 @@ export default {
       }
     }
   }
+  .right-mobile {
+    display: none;
+  }
 }
 @media screen and (min-width: 768px) and (max-width: 1280px) {
   .header {
@@ -136,6 +144,48 @@ export default {
         height: 20px;
       }
     }
+    .right-mobile {
+      display: none
+    }
   }
+}
+@media (max-width: 768px) {
+  .header {
+    height: 50px;
+    line-height: 50px;
+    h1 {
+      margin-left: 10px; 
+      a {
+        width: 80px;
+        height: 40px;
+        img {
+          width: 100%;
+          vertical-align: sub;
+        }
+      }
+    }
+    .mid {
+      display: none
+    }
+    .right{
+      display: none
+    }
+    .right-mobile{
+      display: block;
+      height: 100%;
+      float: right;
+      margin-right: 10px;
+      a {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        vertical-align: text-bottom;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  } 
 }
 </style>

@@ -80,5 +80,17 @@
     }
   }
 }
+// @media screen and (orientation: portrait) {
+//   /*竖屏 css*/
+//    .download {
+//      background: red;
+//    }
+// } 
+// @media screen and (orientation: landscape) {
+//   /*横屏 css*/
+//   .download {
+//      background: blue;
+//    }
+// }
 </style>
 

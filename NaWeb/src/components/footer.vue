@@ -52,4 +52,16 @@ export default {
     }
   }
 }
+@media screen {
+  .footer {
+    height: 80px;
+    .logo {
+      width: 100%;
+      a {
+        width: 80px;
+        height: 40px;
+      }
+    }
+  }
+}
 </style>

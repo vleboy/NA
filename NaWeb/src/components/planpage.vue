@@ -271,7 +271,7 @@ export default {
     width: 100%;
     height: 450px;
     background: url('../assets/pagebg.jpg') no-repeat;
-    background-size: cover;
+    background-size: 100%;
     background-position: 0 -2px;
   }
   .content {
@@ -401,6 +401,44 @@ export default {
             width: 425px;
             font-size: 10.67px;
             line-height: 20px
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 768px){
+  .planpage {
+    padding-bottom:0px; 
+    background-color: #fff;
+    .bg {
+      height: 225px;
+      background: url('../assets/mobile/bg.png') no-repeat;
+      background-size: 100%;
+    }
+    .content {
+      margin: 0;
+      .bar {
+        display: none
+      }
+      .msg {
+        width: 100%;
+        border-top: none;
+        padding: 0 10px;
+        .msgContent {
+          width: 100%;
+          padding: 0;
+          h1 {
+            margin: 50px auto 20px;
+          }
+          .msgImg {
+            width: 100%;
+          }
+          p {
+            width: 100%;
+          }
+          h3 {
+            margin: 40px 0 20px;
           }
         }
       }
