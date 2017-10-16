@@ -109,9 +109,8 @@ export default {
       position: absolute;
       bottom: 17px;
       left: 50%;
-      -webkit-transform: translateX(-52%);
-              transform: translateX(-52%);
-      margin: 0;
+      transform: translateX(-52%);
+      margin: 0px;
       padding: 0;
       z-index: 2;
       width: 158px;
@@ -136,6 +135,13 @@ export default {
       width: 106px;
       height: 46px;
       bottom: 13px;
+    }
+  }
+}
+@media (max-width: 768px){
+  .block {
+    .el-carousel__indicators {
+      bottom: 5%;
     }
   }
 }

@@ -14,7 +14,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .top {
   position: fixed;
   right: 21px;

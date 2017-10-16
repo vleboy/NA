@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .fp-controlArrow .fp-prev{
     border-width: 8.5px 0 8.5px 4px;
 }

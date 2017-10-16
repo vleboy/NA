@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .block {
     width: 100%;
     height: 100%;
@@ -78,27 +78,12 @@ export default {
       border-radius: 100%;
     }
     .el-carousel__indicators {
-      bottom: 5%;
+      bottom: 5%!important;
     }
     .el-carousel__arrow {
       font-size: 40px;
       width: 80px;
       height: 80px;
-    }
-    .down {
-      position: absolute;
-      bottom: 17px;
-      left: 50%;
-      -webkit-transform: translateX(-52%);
-              transform: translateX(-52%);
-      margin: 0;
-      padding: 0;
-      z-index: 2;
-      width: 158px;
-      height: 68px;
-      background: url('../assets/down.png') no-repeat;
-      background-size: cover;
-      cursor: pointer;
     }
   }
 </style>
