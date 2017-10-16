@@ -38,6 +38,12 @@
     <div class="page">
       <el-pagination layout="prev, pager, next, sizes, jumper" :total="10" :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"></el-pagination>
     </div>
+    <p class="title">权限列表</p>
+    <div class="rightSelect" :disable="true">
+      <el-checkbox-group v-model="selectRight">
+        <el-checkbox v-for="item in allRight" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
+      </el-checkbox-group>
+    </div>
   </div>
 </template>
 
@@ -56,7 +62,9 @@ export default {
     return {
       rightList: [],
       nowSize: 20,
-      nowPage: 1
+      nowPage: 1,
+      selectRight: [],
+      allRight: []
     }
   },
   methods: {
@@ -83,4 +91,7 @@ export default {
 .adminright .adminright-form{width: 99%;margin: 0 auto;margin-top: 1rem}
 .adminright .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
 .remarkBox{word-wrap: break-word; word-break: normal;width: 200px}
+
+.adminright .title{font-size: 1.5rem;margin: 0 0 1rem 0.5%;color: #676A6D}
+.adminright .rightSelect{width: 99%;margin: 0 auto;margin-top: 1rem;border:1px solid #676A6D;min-height: 400px}
 </style>
