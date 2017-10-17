@@ -455,7 +455,7 @@
       }
   }
 
-@media screen and (orientation: landscape) {
+@media screen and (max-width: 750px) and (orientation: landscape) {
   .contact {
     .center-title{
       padding: 5px;

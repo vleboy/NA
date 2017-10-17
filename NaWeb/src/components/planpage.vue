@@ -445,7 +445,7 @@ export default {
     }
   }
 }
-@media screen and (orientation: landscape) {
+@media screen and (max-width: 768px) and (orientation: landscape) {
   .planpage {
     .bg {
       height: 400px;
