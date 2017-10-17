@@ -25,7 +25,7 @@
             <el-input v-model="addadmin.adminContact" class="input" placeholder="5~40位,只能输入中英文及数字"></el-input>
           </el-form-item>
           <el-form-item label="" prop="adminContact">
-             <el-button type="primary" class="subBtn" @click="registAdmin"> 减交</el-button>
+             <el-button type="primary" class="subBtn" @click="registAdmin"> 提交</el-button>
              <el-button type="primary" class="subBtn" @click="resetAdmin"> 重置</el-button>
           </el-form-item>
       </el-form>

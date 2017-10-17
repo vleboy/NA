@@ -132,7 +132,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="isAddProp = false">取 消</el-button>
-        <el-button type="primary" :load="isSending" @click="submitProp(boothInfo.seatId)">{{isSending ? '减交中' : '确 定'}}</el-button>
+        <el-button type="primary" :load="isSending" @click="submitProp(boothInfo.seatId)">{{isSending ? '提交中' : '确 定'}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -290,7 +290,7 @@ export default {
       } else if (!pattern.positiveInteger.exec(this.boothInfo.sum) || this.boothInfo.sum > 100000000) {
         return this.$message.error('物品数量范围为1-1000,000,00的正整数')
       }
-      if (this.isSending) return // 防止重复减交
+      if (this.isSending) return // 防止重复提交
       this.isSending = true
       invoke({
         url: id ? api.updateBooth : api.addBooth,
@@ -307,7 +307,7 @@ export default {
             this.isSending = false
           } else if (res) {
             this.$message({
-              message: '减交成功',
+              message: '提交成功',
               type: 'success'
             })
             this.isAddProp = false

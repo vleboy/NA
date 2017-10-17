@@ -93,7 +93,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="isOpenModal = false">取 消</el-button>
-        <el-button type="primary" :load="isSending" @click="submitProp(horseRaceLampInfo.noid)">{{isSending ? '减交中' : '确 定'}}</el-button>
+        <el-button type="primary" :load="isSending" @click="submitProp(horseRaceLampInfo.noid)">{{isSending ? '提交中' : '确 定'}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -190,7 +190,7 @@ export default {
       } else if (time < this.horseRaceLampInfo.splitTime) {
         return this.$message.error('时间间隔不能小于播放间隔时间')
       }
-      if (this.isSending) return // 防止重复减交
+      if (this.isSending) return // 防止重复提交
       this.isSending = true
       invoke({
         url: id ? api.updateHorseRaceLamp : api.addHorseRaceLamp,
@@ -207,7 +207,7 @@ export default {
             this.isSending = false
           } else if (res) {
             this.$message({
-              message: '减交成功',
+              message: '提交成功',
               type: 'success'
             })
             this.isOpenModal = false

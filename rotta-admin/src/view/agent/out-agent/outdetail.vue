@@ -974,7 +974,7 @@ export default {
           }
         )
       }
-    }, // 减交修改数据
+    }, // 提交修改数据
     lockUser (index, row) {
       var user = {
         role: row.role,

@@ -4,7 +4,7 @@
       <quill-editor ref="myTextEditor" v-model="content" :config="editorOption"></quill-editor>
     </div>
     <div class="editor-btn">
-        <el-button type="primary" @click="submit">减交</el-button>
+        <el-button type="primary" @click="submit">提交</el-button>
          <el-button @click="resetContent">重置</el-button>
     </div>
     <div class="content-output">
@@ -57,7 +57,7 @@ export default {
         },
         submit(){
             console.log(this.content);
-            this.$message.success('减交成功！');
+            this.$message.success('提交成功！');
         }
     },
     computed: {

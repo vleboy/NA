@@ -94,7 +94,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="isOpenModal = false">取 消</el-button>
-        <el-button type="primary" :load="isSending" @click="submitProp(noticeInfo.adId)">{{isSending ? '减交中' : '确 定'}}</el-button>
+        <el-button type="primary" :load="isSending" @click="submitProp(noticeInfo.adId)">{{isSending ? '提交中' : '确 定'}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -187,7 +187,7 @@ export default {
       } else if (!this.noticeInfo.img) {
         return this.$message.error('请选择上传图片')
       }
-      if (this.isSending) return // 防止重复减交
+      if (this.isSending) return // 防止重复提交
       this.isSending = true
       invoke({
         url: id ? api.updateGameNotice : api.addGameNotice,
@@ -204,7 +204,7 @@ export default {
             this.isSending = false
           } else if (res) {
             this.$message({
-              message: '减交成功',
+              message: '提交成功',
               type: 'success'
             })
             this.isOpenModal = false

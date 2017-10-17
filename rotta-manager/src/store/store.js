@@ -44,9 +44,28 @@ const actions = {
     )
   }, // 获取管理员页面组织架构
   getOutlist (context) {
+    var data = {
+      query: {},
+      sortkey: 'createdAt',
+      sort: 'desc'
+    }
+    if (state.variable.condition.condition_one) {
+      data.query.suffix = state.variable.condition.condition_one
+    }
+    if (state.variable.condition.condition_two) {
+      data.query.displayName = state.variable.condition.condition_two
+    }
+    if (state.variable.condition.condition_three) {
+      data.query.managerEmail = state.variable.condition.condition_three
+    }
+    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0 && state.variable.condition.condition_four[0] != null) {
+      data.query.createdAt = state.variable.condition.condition_four
+    }
+    // console.log('data', data)
     invoke({
       url: api.managers,
-      method: api.get
+      method: api.post,
+      data: data
     }).then(
       result => {
         const [err, ret] = result
@@ -58,21 +77,40 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('线路商列表数据', data)
+          // console.log('线路商列表数据', data)
           context.commit({
             type: 'recordOutlist',
             data: data
           })
-          context.commit('searchOutlist')
+          // context.commit('searchOutlist')
           context.commit('closeLoading')
         }
       }
     )
   }, // 获取线路商列表
   getComlist (context) {
+    var data = {
+      query: {},
+      sortkey: 'createdAt',
+      sort: 'desc'
+    }
+    if (state.variable.condition.condition_one) {
+      data.query.suffix = state.variable.condition.condition_one
+    }
+    if (state.variable.condition.condition_two) {
+      data.query.msn = state.variable.condition.condition_two
+    }
+    if (state.variable.condition.condition_three) {
+      data.query.displayName = state.variable.condition.condition_three
+    }
+    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0 && state.variable.condition.condition_four[0] != null) {
+      data.query.createdAt = state.variable.condition.condition_four
+    }
+    // console.log('data', data)
     invoke({
       url: api.merchants,
-      method: api.get
+      method: api.post,
+      data: data
     }).then(
       result => {
         const [err, ret] = result
@@ -84,12 +122,12 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('商户列表数据', data)
+          // console.log('商户列表数据', data)
           context.commit({
             type: 'recordComlist',
             data: data
           })
-          context.commit('searchComlist')
+          // context.commit('searchComlist')
           context.commit('closeLoading')
         }
       }
@@ -462,9 +500,28 @@ const actions = {
     )
   }, // 获取登录用户账户余额
   getAdminlist (context) {
+    var data = {
+      query: {},
+      sortkey: 'createdAt',
+      sort: 'desc'
+    }
+    if (state.variable.condition.condition_one) {
+      data.query.uname = state.variable.condition.condition_one
+    }
+    if (state.variable.condition.condition_two) {
+      data.query.adminName = state.variable.condition.condition_two
+    }
+    if (state.variable.condition.condition_three) {
+      data.query.adminEmail = state.variable.condition.condition_three
+    }
+    if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0 && state.variable.condition.condition_four[0] != null) {
+      data.query.createdAt = state.variable.condition.condition_four
+    }
+    // console.log('data', data) 
     invoke({
       url: api.adminList,
-      method: api.get
+      method: api.post,
+      data: data
     }).then(
       result => {
         const [err, ret] = result
@@ -476,6 +533,7 @@ const actions = {
             type: 'recordAdminlist',
             data: list
           })
+          // context.commit('searchAdminlist')
           context.commit('closeLoading')
         }
       }
