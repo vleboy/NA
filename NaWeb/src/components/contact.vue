@@ -455,6 +455,27 @@
       }
   }
 
-
+@media screen and (orientation: landscape) {
+  .contact {
+    .center-title{
+      padding: 5px;
+      .title-top {
+        padding-bottom: 5px;
+      }
+    }
+    .header-bg {
+      .header-img {
+        width: 200px;
+      }
+    }
+    .center-bg .footer-left-input {
+      height: 25px;
+      margin-bottom: 10px;
+    }
+    .center-bg .left-submit {
+      width: 100px;
+    }
+  }
+}
 
 </style>

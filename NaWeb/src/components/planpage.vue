@@ -445,4 +445,13 @@ export default {
     }
   }
 }
+@media screen and (orientation: landscape) {
+  .planpage {
+    .bg {
+      height: 400px;
+      background: url('../assets/mobile/bg2.jpg') no-repeat;
+      background-size: 100%;
+    }
+  }
+}
 </style>

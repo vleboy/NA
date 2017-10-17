@@ -3,12 +3,18 @@
       <!-- <div class="logo">
         <img src="../assets/logo.png" alt="">
       </div> -->
-      <el-carousel height="100%" autoplay>
+      <el-carousel height="100%" autoplay class="landscape">
         <el-carousel-item v-for="(item,index) in banners" :key="index">
           <img :src="item.imgUrl">
         </el-carousel-item>
       </el-carousel>
-      <!-- <div class="down" @click="moveDown()"></div> -->
+
+      <el-carousel height="100%" autoplay class="normal">
+        <el-carousel-item v-for="(item,index) in banners2" :key="index">
+          <img :src="item.imgUrl">
+        </el-carousel-item>
+      </el-carousel>
+      <div class="down" @click="moveDown()"></div>
      </div>
 </template>
 
@@ -21,8 +27,19 @@ export default {
         {imgUrl: '/static/mobile/1.jpg'},
         {imgUrl: '/static/mobile/3.jpg'},
         {imgUrl: '/static/mobile/4.jpg'}
+      ],
+      banners2: [
+        {imgUrl: '/static/mobile/mob3_h.jpg'},
+        {imgUrl: '/static/mobile/mob4_h.jpg'},
+        {imgUrl: '/static/mobile/mob2_h.jpg'},
+        {imgUrl: '/static/mobile/mob1_h.jpg'}
       ]
     }
+  },
+  methods: {
+    moveDown: function() {
+      $.fn.fullpage.moveSectionDown()
+    },
   }
 }
 </script>
@@ -32,6 +49,12 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
+    .normal {
+      display: block;
+    }
+    .landscape {
+       display: none
+     }
     .logo {
       position: absolute;
       top: 35px;
@@ -85,5 +108,33 @@ export default {
       width: 80px;
       height: 80px;
     }
+    .down {
+      position: absolute;
+      bottom: -5%;
+      left: 50%;
+      transform: translateX(-52%)scale(.4);
+      margin: 0px;
+      padding: 0;
+      z-index: 2;
+      width: 158px;
+      height: 68px;
+      background: url('../assets/down.png') no-repeat;
+      background-size: cover;
+      cursor: pointer;
+    }
   }
+@media screen and (orientation: portrait) {
+  /*竖屏 css*/
+   .block {
+     .normal {
+       display: none
+     }
+     .landscape {
+       display: block
+     }
+     .down {
+       bottom: -1%;
+     } 
+   }
+}  
 </style>

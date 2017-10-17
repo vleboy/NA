@@ -143,4 +143,20 @@ export default {
     }
   }
 }
+@media screen and (orientation: landscape) {
+  .product {
+    .li {
+      .a {
+        width: 25%;
+        height: 25%;
+      }
+      h2 {
+        margin-bottom: 10px;
+      }
+      p {
+        width: 70%;
+      }
+    }
+  }
+}
 </style>

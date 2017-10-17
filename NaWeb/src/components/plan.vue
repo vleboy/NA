@@ -180,7 +180,7 @@ export default {
     }
   }
 }
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 750px) and (orientation: portrait){
   .plan {
 
     .plan-content {
@@ -228,6 +228,39 @@ export default {
           height: 25px;
           margin-top: 14px;
           font-size: 9px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 750px) and (orientation: landscape){
+  .plan {
+    .title {
+      position: relative;
+      top:13%;
+      p {
+        font-size: 12px;
+      }
+      h1 {
+        font-size: 23px;
+      }
+    }
+    ul {
+      margin-top: 5%;
+      li {
+        .img {
+          margin-bottom: 10px;
+          &:hover i {
+            background-position: 3px -75px!important;
+          }
+          i {
+            width: 75px;
+            height: 0;
+            padding-bottom: 75px;
+          }
+        }
+        h2 {
+          font-size: 12px;
         }
       }
     }

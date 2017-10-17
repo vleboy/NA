@@ -188,4 +188,7 @@ export default {
     }
   } 
 }
+@media screen and (orientation: landscape) {
+
+}
 </style>
