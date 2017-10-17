@@ -134,7 +134,10 @@ const variable = {
   tabIndex: null,
 
   firstKey: '', // 后端分页开始键
-  lastKey: '' // 后端分页结束键
+  lastKey: '', // 后端分页结束键
+
+  rightList: [], // 管理员权限列表
+  allRight: [] //管理员所有权限 
 }
 
 export default {

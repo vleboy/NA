@@ -4,7 +4,7 @@
       <el-col>
           <el-menu :default-active="nowindex" theme="dark" :router="true" :unique-opened="true">
               <div class="logo"><img style=" width: 60%;" src="static/NAlogo.png"></div>
-              <el-menu-item index="board">李君Sb</el-menu-item>
+              <el-menu-item index="board">看板</el-menu-item>
               <el-menu-item index="personal" v-if="this.userRight.person === true">个人中心</el-menu-item>
               <el-submenu index="1" v-if="this.userRight.merchant === true">
                   <template slot="title">商户中心</template>
@@ -95,7 +95,7 @@
                       <template slot="title">管理员管理</template>
                       <el-menu-item index="adminlist">管理员列表</el-menu-item>
                       <el-menu-item index="addadmin">添加管理员</el-menu-item>
-                      <el-menu-item index="adminright">管理员权限</el-menu-item>
+                      <!-- <el-menu-item index="adminright">管理员权限</el-menu-item> -->
                   </el-submenu>
                   <el-menu-item index="msnlist" v-if="this.userRight.system === true || this.userRight.system.msn === true">线路号列表</el-menu-item>
               </el-submenu>

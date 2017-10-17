@@ -79,6 +79,11 @@ const api = {
 
   lineUpGet: front.diana + front.stage + '/configOne', // 排队设置获取
 
+  subRoleList: front.diana + front.stage + '/subRoleList', // 管理员权限列表
+
+  subRolePermissionList: front.diana + front.stage + '/subRolePermissionList', // 管理员所有权限
+
+  subRoleUpdate: front.diana + front.stage + '/subRoleUpdate', // 更新角色权限
   // hulk
 
   billTransfer: front.hulk + front.stage + '/billTransfer', // 加减点接口

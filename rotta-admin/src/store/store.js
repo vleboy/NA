@@ -625,6 +625,44 @@ const actions = {
       }
     )
   }, // 获取线路号列表
+  getRightlist (context) {
+    invoke({
+      url: api.subRoleList,
+      method: api.post
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var data = ret.data.payload.Items
+          context.commit({
+            type: 'recordRightlist',
+            data: data
+          })
+          context.commit('closeLoading')
+        }
+      }
+    )
+  }, // 获取管理员权限列表
+  getAllright (context) {
+    invoke({
+      url: api.subRolePermissionList,
+      method: api.get
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var data = ret.data.payload
+          context.commit({
+            type: 'recordAllright',
+            data: data
+          })
+          context.commit('closeLoading')
+        }
+      }
+    )
+  }, // 获取管理员所有权限
   addVisitedViews({ commit }, view) {
     commit('ADD_VISITED_VIEWS', view)
   },
@@ -1222,7 +1260,15 @@ const mutations = {
 
   resetLastKey (state) {
     state.variable.lastKey = ''
-  } // 清除分页结束键
+  }, // 清除分页结束键
+
+  recordRightlist (state, payload) {
+    state.variable.rightList = payload.data
+  }, // 记录管理员权限列表
+
+  recordAllright (state, payload) {
+    state.variable.allRight = payload.data
+  }, // 记录管理员所有列表
 }
 
 export default new Vuex.Store({
