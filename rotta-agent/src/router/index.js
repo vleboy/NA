@@ -160,7 +160,7 @@ export default new Router({
     },
     {
       path: '/addadmin',
-      name: '新增管理员',
+      name: '添加管理员',
       component: Addadmin
     },
     {

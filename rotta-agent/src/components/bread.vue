@@ -1,7 +1,6 @@
 <template>
   <div class="bread">
     <el-breadcrumb separator="/" v-if="nowindex === 'board'" class="title">
-      <el-breadcrumb-item>看板系统 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">看板</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -46,7 +45,6 @@
 
     <el-breadcrumb separator="/" v-if="nowindex === 'comlist'" class="title">
       <el-breadcrumb-item>代理中心 </el-breadcrumb-item>
-      <el-breadcrumb-item>代理管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">代理列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
