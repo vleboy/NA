@@ -46,7 +46,7 @@ const api = {
 
   randomCaptcha: front.zues + front.stage + '/captcha', // 随机生成验证码
 
-  changePassword: front.zues + front.stage + '/updatePassword', // 修改密码
+  // changePassword: front.zues + front.stage + '/updatePassword', // 修改密码
 
   getSign: front.zues + front.stage + '/game/sign', // 获取游戏后台跳转链接签名
 
@@ -84,6 +84,8 @@ const api = {
   changeGameNoticeStatus: front.hulk + front.stage + '/adChangeStatus', // 更改状态
 
   delGameNotice: front.hulk + front.stage + '/adDelete', // 更改状态
+
+  changePassword: front.hulk + front.stage + '/updateAgentPassword', // 修改代理密码
 
   // Javis
 
