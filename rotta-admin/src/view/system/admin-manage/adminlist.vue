@@ -31,7 +31,8 @@
           </el-table-column>
           <el-table-column prop="" label="操作" align="center">
             <template scope="scope">
-              <span class="blue" @click="changePassword(scope.$index, scope.row)">修改密码</span>
+              <span class="blue" @click="changePassword(scope.$index, scope.row)">修改密码</span> | 
+              <span class="blue" @click="changeRight(scope.$index, scope.row)">修改角色</span>
             </template>
           </el-table-column>
       </el-table>
@@ -57,6 +58,24 @@
           <p class="success"><i class="el-icon-circle-check"></i>修改成功</p>
           <div style="text-align:center">
             <el-button type="primary" @click="confirm()">确定</el-button>
+          </div>
+        </div>
+    </el-dialog>
+
+    <el-dialog title="修改角色" :visible.sync="changeright" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" class="billTransfer">
+        <div style="text-align:center;padding-bottom:5rem" v-if="!isfinish">
+          <el-select v-model="changeData.subRole" filterable placeholder="请选择" clearable class="input">
+            <el-option v-for="item in myRight" :key="item" :label="item.name" :value="item.name" style="max-width:336px"></el-option>
+          </el-select>
+        </div>
+        <div class="bottom-btn" v-if="!isfinish">
+          <el-button @click="cancelChange" class="distance">取 消</el-button>
+          <el-button type="primary" @click="postRightChange" :loading="loading">继 续</el-button>
+        </div>
+        <div v-if="isfinish">
+          <p class="success"><i class="el-icon-circle-check"></i>修改成功</p>
+          <div style="text-align:center">
+            <el-button type="primary" @click="confirmChange">确定</el-button>
           </div>
         </div>
     </el-dialog>
@@ -164,10 +183,17 @@ export default {
       }
     } // 验证重复输入密码
     return {
+      loading: false,
+      changeright: false,
       changepassword: false,
       isfinish: false,
       userId: '',
       oldPassword: '',
+      myRight: [], // 管理员角色列表
+      changeData: {
+        userId: '',
+        subRole: ''
+      },
       passwordAbout: {
         newPassword: '',
         repeatNew: ''
@@ -196,11 +222,11 @@ export default {
       }
       this.checknew = false
       this.repeatnew = false
-    },
+    }, // 修改密码相关
     cancel () {
       this.changepassword = false
       this.$refs[this.passwordAbout].resetFields()
-    },
+    }, // 修改密码相关
     formatRole (user) {
       if (user === 'admin') {
         user = '平台管理员'
@@ -258,7 +284,66 @@ export default {
           type: 'error'
         })
       }
-    }
+    }, // 传输修改密码
+    changeRight (index, row) {
+      this.changeright = true
+      this.changeData.userId = row.userId
+      invoke({
+        url: api.subRoleList,
+        method: api.post
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var data = ret.data.payload.Items
+            this.myRight = data
+          }
+        }
+      )
+      // console.log('这个逼的数据', row)
+    }, // 开启修改角色
+    postRightChange () {
+      if (!this.changeData.subRole) {
+        this.$message({
+          type: 'warning',
+          message: '请选择您的新角色！'
+        })
+      } else {
+        this.loading = true
+        invoke({
+          url: api.adminUpdate,
+          method: api.post,
+          data: this.changeData
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+              this.loading = false
+            } else {
+              this.$store.dispatch('getAdminlist')
+              this.isfinish = true
+              this.loading = false
+            }
+          }
+        )
+      }
+    }, // 传递修改角色
+    cancelChange () {
+      this.changeright = false
+      this.changeData = {
+        userId: '',
+        subRole: ''
+      }
+    }, // 取消修改角色
+    confirmChange () {
+      this.changeright = false
+      this.isfinish = false
+      this.changeData = {
+        userId: '',
+        subRole: ''
+      }
+    } // 确认角色修改
   }
 }
 </script>

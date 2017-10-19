@@ -67,6 +67,8 @@ const api = {
 
   getSign: front.zues + front.stage + '/game/sign', // 获取游戏后台跳转链接签名
 
+  adminUpdate: front.zues + front.stage + '/adminUpdate', // 更新管理员角色
+
   // diana
 
   allGames: front.diana + front.stage + '/gameType', // 获取游戏类型列表

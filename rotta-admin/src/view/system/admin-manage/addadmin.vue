@@ -5,10 +5,10 @@
     <div class="addmanager-form">
       <el-form :model="addadmin" ref="addadmin" label-width="120px" label-position="right" :rules="rules">
         <el-form-item label="管理员角色">
-            <el-select v-model="addadmin.subRole" filterable placeholder="请选择" clearable class="input">
-              <el-option v-for="item in myRight" :key="item" :label="item.name" :value="item.name" style="max-width:336px"></el-option>
-            </el-select>
-          </el-form-item>
+          <el-select v-model="addadmin.subRole" filterable placeholder="请选择" clearable class="input">
+            <el-option v-for="item in myRight" :key="item" :label="item.name" :value="item.name" style="max-width:336px"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="管理员用户名" prop="username">
           <el-input v-model="addadmin.username" class="input" placeholder="5~16位,只能输入英文和数字"></el-input>
         </el-form-item>
