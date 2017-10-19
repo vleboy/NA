@@ -113,16 +113,16 @@ export const checkPassword = (rule, value, callback) => {
   if (value === '') {
     callback(new Error('密码不能为空'))
     store.state.checkform.password = false
-  } else if (value.length < 6) {
-    callback(new Error('密码不能少于6位'))
+  } else if (value.length < 8) {
+    callback(new Error('密码不能少于8位'))
     store.state.checkform.password = false
   } else if (value.length > 16) {
     callback(new Error('密码不能多于16位'))
     store.state.checkform.password = false
   } else {
     var x = password(value)
-    if (x < 3) {
-      callback(new Error('密码中必须包含大写字母、小写字母、数字、符号，中任意三种的组合'))
+    if (x < 2) {
+      callback(new Error('密码中必须包含字母、数字、符号，中任意两种的组合'))
       store.state.checkform.password = false
     } else {
       value = value.trim()

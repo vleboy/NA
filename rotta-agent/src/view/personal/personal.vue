@@ -225,16 +225,16 @@ export default {
       } if (value == this.oldPassword) {
         callback(new Error('密码不能与原密码一致'))
         this.checknew = false
-      } else if (value.length < 6) {
-        callback(new Error('密码不能少于6位'))
+      } else if (value.length < 8) {
+        callback(new Error('密码不能少于8位'))
         this.checknew = false
       } else if (value.length > 16) {
         callback(new Error('密码不能多于16位'))
         this.checknew = false
       } else {
         var x = password(value)
-        if (x < 3) {
-          callback(new Error('密码必须包含大写字母、小写字母、数字、符号，中任意三种的组合'))
+        if (x < 2) {
+          callback(new Error('密码中必须包含字母、数字、符号，中任意两种的组合'))
           this.checknew = false
         } else {
           value = value.trim()
