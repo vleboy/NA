@@ -83,7 +83,11 @@ const api = {
 
   subRolePermissionList: front.diana + front.stage + '/subRolePermissionList', // 管理员所有权限
 
-  subRoleUpdate: front.diana + front.stage + '/subRoleUpdate', // 更新角色权限
+  subRoleUpdate: front.diana + front.stage + '/subRoleUpdate', // 更新权限角色
+
+  subRoleNew: front.diana + front.stage + '/subRoleNew', // 新增权限角色
+
+  subRoleDelete: front.diana + front.stage + '/subRoleDelete', // 删除权限角色
   // hulk
 
   billTransfer: front.hulk + front.stage + '/billTransfer', // 加减点接口

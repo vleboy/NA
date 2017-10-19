@@ -6,7 +6,7 @@
       <el-form :model="addadmin" ref="addadmin" label-width="120px" label-position="right" :rules="rules">
         <el-form-item label="管理员角色">
             <el-select v-model="addadmin.subRole" filterable placeholder="请选择" clearable class="input">
-              <el-option v-for="item in myRight" :key="item" :label="item.name" :value="item.role" style="max-width:336px"></el-option>
+              <el-option v-for="item in myRight" :key="item" :label="item.name" :value="item.name" style="max-width:336px"></el-option>
             </el-select>
           </el-form-item>
         <el-form-item label="管理员用户名" prop="username">
@@ -40,6 +40,7 @@ import api from '@/api/api'
 import { checkPassword, checkUsername, checkName, checkUserEmail, checkAdmincontact } from '@/behavior/regexp'
 export default {
   beforeCreate () {
+    this.$store.commit('startLoading')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'addadmin'
@@ -48,15 +49,16 @@ export default {
   },
   mounted () {
     invoke({
-      url: api.userRight,
-      method: api.get
+      url: api.subRoleList,
+      method: api.post
     }).then(
       result => {
         const [err, ret] = result
         if (err) {
         } else {
-          var data = ret.data.payload
+          var data = ret.data.payload.Items
           this.myRight = data
+          this.$store.commit('closeLoading')
         }
       }
     )

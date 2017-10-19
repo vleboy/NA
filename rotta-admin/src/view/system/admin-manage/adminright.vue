@@ -7,16 +7,21 @@
       <el-table border tooltip-effect="dark" :data="rightList">
           <el-table-column type="index" width="65" align="center" label="序号">
           </el-table-column>
-          <el-table-column prop="uname" label="角色名" align="center">
+          <el-table-column prop="name" label="角色名" align="center">
           </el-table-column>
-          <el-table-column prop="adminName" label="权限" align="center">
+          <el-table-column prop="permissions" label="权限" align="center">
+            <template scope="scope">
+              <div slot="reference" class="permissions">
+                  <el-tag v-for="item in scope.row.permissions" key={{item}} type="primary">{{ item }}</el-tag>
+              </div>
+            </template>
           </el-table-column>
-          <el-table-column prop="createdAt" label="创建时间"  align="center">
+          <el-table-column prop="createdAt" label="创建时间"  align="center" width="180">
             <template scope="scope">
               <span>{{formatTime(scope.row.createdAt)}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="adminEmail" label="备注" align="center">
+          <el-table-column prop="remark" label="备注" align="center">
             <template scope="scope">
               <el-popover trigger="hover" placement="bottom">
                 <div class="remarkBox">
@@ -28,9 +33,10 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="操作" align="center">
+          <el-table-column prop="permissions" label="操作" align="center" width="180">
             <template scope="scope">
-              <span class="blue" @click="changePassword(scope.$index, scope.row)">编辑</span>
+              <span class="blue" @click="editRight(scope.$index, scope.row)">编辑</span> |
+              <span class="blue" @click="deleteRight(scope.$index, scope.row)">删除</span>
             </template>
           </el-table-column>
       </el-table>
@@ -38,22 +44,48 @@
     <div class="page">
       <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.rightList.length" :page-sizes="[10, 20]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"></el-pagination>
     </div>
-    <div class="clearfix">
-      <p class="title" style="float:left">权限列表</p>
-      <el-button type="primary" style="float:right;margin-right:0.5%">提交修改</el-button>
+    <div v-loading="loading" element-loading-text="提交修改中">
+    <p class="title" v-if="this.isEdit">权限列表</p>
+    <div class="btn-group" v-if="this.isEdit">
+      <el-button type="primary" style="" @click="selectAll">全选</el-button>
+      <el-button @click="resetRight">清空</el-button>
+      <el-button type="primary" @click="submitChange">提交修改</el-button>
     </div>
-    <div class="rightSelect" v-loading="loading" element-loading-text="提交修改中">
-      <el-tree :data="allRight.children" ref="tree" show-checkbox node-key="name" :props="defaultProps" :default-expand-all="true" :show-checkbox='true' @check-change="setRight">
-      </el-tree>
-      <!-- <el-checkbox-group v-model="selectRight">
-        <el-checkbox v-for="item in allRight.children" :label="item" :key="item" style="display:block;margin:1rem 0 0 1rem">{{item.name}}</el-checkbox>
-      </el-checkbox-group> -->
+    <div class="rightSelect" v-if="this.isEdit">
+      <div v-for="item in allRight">
+        <p v-if="!item.hasParent"> 
+          <span v-if="item.children">{{item.name}}</span>
+            <el-checkbox v-if="!item.children" :label="item.name" :key="item" @change="recordSelect(item)" v-model="item.isChecked">
+              <span>
+                {{item.name}}
+              </span>
+            </el-checkbox>
+          <p style="margin-left:1rem;" v-for="second in item.children">
+            <span v-if="second.children">
+              {{second.name}}
+            </span>
+            <el-checkbox v-if="!second.children" :label="second.name" :key="second" @change="recordSelect(second)" v-model="second.isChecked">
+              <span>{{second.name}}</span>
+            </el-checkbox>
+            <span style="margin-left:2rem;display:block" v-for="third in second.children">
+              <el-checkbox :label="third.name" :key="third" @change="recordSelect(third)" v-model="third.isChecked">
+                <span>{{third.name}}</span>
+              </el-checkbox>
+            </span>
+          </p>
+        </p>
+      </div>
     </div>
+    </div>
+    
   </div>
 </template>
 
 <script>
 import { detailTime, formatRemark } from '@/behavior/format'
+import { invoke } from '@/libs/fetchLib'
+import api from '@/api/api'
+import { rightList } from '@/variables/allRight'
 export default {
   beforeCreate () {
     this.$store.commit('startLoading')
@@ -63,7 +95,6 @@ export default {
       data: 'adminright'
     })
     this.$store.dispatch('getRightlist')
-    this.$store.dispatch('getAllright')
   },
   computed: {
     rightList () {
@@ -76,52 +107,169 @@ export default {
       return list
     },
     allRight () {
-      return this.$store.state.variable.allRight
-    }
+      return this.all
+    },
   },
   data () {
     return {
+      all: rightList,
+      isEdit: false,
       nowSize: 10,
       nowPage: 1,
-      selectRight: [],
       defaultProps: {
         children: 'children',
         label: 'name'
       },
-      loading: false
+      loading: false,
+      nowName: '', // 当前编辑用户
+      remark: '', // 编辑用户备注
+      selectRight: [] // 选中值
     }
   },
-  watch: {
-    // selectRight (val) {
-    //   console.log('选中的值',val)
-    // }
-  },
+  // watch: {
+  //   selectRight (val) {
+  //     console.log('选中', val)
+  //   }
+  // },
   methods: {
-    setRight (a,b,c) {
-      // var hasParent = []
-      // for (let item of this.allRight.children) {
-        
-      // }
-      if (b) {
-        this.selectRight.push(a.name)
+    recordSelect (data) {
+      if (data.isChecked) {
+        this.selectRight.push(data.name)
       } else {
-        var index = this.selectRight.indexOf(a.name)
+        var index = this.selectRight.indexOf(data.name);
         if (index > -1) {
-          this.selectRight.splice(index, 1)
+          this.selectRight.splice(index, 1);
         }
-        // for (let outside of this.allRight.children) {
-        //   for (let inside of this.selectRight) {
-        //     if (outside.children) {
-        //       for (let final of outside.children) {
-        //         if (final == inside) {
-        //           console.log(123)
-        //         }
-        //       }
-        //     }
-        //   }
-        // }
       }
-    }, // 配置权限事件
+    }, // 选择权限
+    selectAll () {
+      this.selectRight = []
+      for (let first of this.all) {
+        first.isChecked = true
+        if (!first.children) {
+          this.selectRight.push(first.name)
+        }
+        for (let second of first.children) {
+          second.isChecked = true
+          if (!second.children) {
+            this.selectRight.push(second.name)
+          }
+          for (let third of second.children) {
+            third.isChecked = true
+            this.selectRight.push(third.name)
+          }
+        }
+      }
+    }, // 全选
+    resetRight () {
+      for (let first of this.all) {
+        first.isChecked = false
+        for (let second of first.children) {
+          second.isChecked = false
+          for (let third of second.children) {
+            third.isChecked = false
+          }
+        }
+      }
+      this.selectRight = []
+    }, // 清空选择
+    editRight (index, row) {
+      this.nowName = row.name
+      this.remark = row.remark
+      this.resetRight()
+      var all = []
+      for (let checked of row.permissions) {
+        for (let first of this.all) {
+          if (first.name == checked) {
+            first.isChecked = true
+            all.push(first.name)
+          }    
+          for (let second of first.children) {
+            if (second.name == checked) {
+              second.isChecked = true
+              all.push(second.name)
+            }  
+            for (let third of second.children) {
+              if (third.name == checked) {
+                third.isChecked = true
+                all.push(third.name)
+              }
+            }
+          }
+        }
+      }
+      this.selectRight = all
+      this.isEdit = true
+    }, // 开启编辑权限
+    submitChange () {
+      if (this.selectRight.length == 0) {
+        this.$message({
+          type: 'error',
+          message: '权限不能为空！'
+        })
+      } else {
+        this.loading = true
+        var data = {
+          name: this.nowName,
+          remark: this.remark,
+          permissions: this.selectRight
+        }
+        invoke({
+          url: api.subRoleUpdate,
+          method: api.post,
+          data: data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              this.$message({
+                type: 'success',
+                message: '修改成功！'
+              })
+              this.loading = false
+              this.isEdit = false
+              this.resetRight()
+              this.selectRight = []
+              this.$store.dispatch('getRightlist')
+            }
+          }
+        )
+      }
+    }, // 提交权限修改
+    deleteRight (index, row) {
+      this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var data = {
+          name: row.name
+        }
+        invoke({
+          url: api.subRoleDelete,
+          method: api.post,
+          data: data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              this.$message({
+                type: 'success',
+                message: '删除成功！'
+              })
+              this.$store.dispatch('getRightlist')
+            }
+          }
+        )
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })      
+      })
+    }, // 删除权限角色
     formatTime (data) {
       return detailTime(data)
     },
@@ -143,38 +291,24 @@ export default {
         data: 'addcharacter'
       })
     }, // 跳转至创建新权限页面
-    submitChange () {
-      this.loading = true
-      invoke({
-      url: api.subRoleUpdate,
-      method: api.psot,
-      data: this.selectRight
-    }).then(
-      result => {
-        const [err, ret] = result
-        if (err) {
-        } else {
-          var data = ret.data.payload
-          context.commit({
-            type: 'recordAllright',
-            data: data
-          })
-          context.commit('closeLoading')
-        }
-      }
-    )
-    }, // 提交权限修改
   }
 }
 </script>
 
 <style scoped>
-.adminright .clearfix:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.adminright{margin-bottom: 5rem}
 .adminright .topBtn{margin-left: 0.5%}
 .adminright .adminright-form{width: 99%;margin: 0 auto;margin-top: 1rem}
-.adminright .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+.adminright .page {padding-bottom: 1rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
 .remarkBox{word-wrap: break-word; word-break: normal;width: 200px}
 
 .adminright .title{font-size: 1.5rem;margin: 0 0 1rem 0.5%;color: #676A6D}
-.adminright .rightSelect{width: 99%;margin: 1rem auto 4rem;}
+.adminright .btn-group{margin-left: 0.5%}
+.adminright .rightSelect{width: 95%;margin: 1rem auto;}
+.adminright .rightSelect span,
+.adminright .rightSelect p{line-height: 2rem}
+.adminright .blue{cursor: pointer;color: #20a0ff;margin:0 0.5rem;}
+.adminright .blue:hover{text-decoration: underline;text-decoration-color: #20a0ff}
+.adminright .permissions{text-align: left;padding: 0.5rem 0}
+.adminright .permissions span{display: inline-block;text-align: center;margin:0.2rem;}
 </style>

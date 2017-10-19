@@ -108,6 +108,7 @@ export default {
             this.getcaptcha()
           } else {
             var success = ret.data.payload
+            console.log('登录成功', success)
             this.$message({
               message: '登录成功',
               type: 'success'
