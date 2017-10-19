@@ -34,7 +34,6 @@ const actions = {
         } else {
           var data = []
           data.push(ret.data.payload)
-          // console.log('组织架构数据', data)
           context.commit({
             type: 'recordMap',
             data: data
@@ -65,7 +64,6 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('详情页所属线路商数据:', data)
           context.commit({
             type: 'recordOutdetail_child_managers',
             data: data
@@ -96,7 +94,6 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('详情页所属商户数据:', data)
           context.commit({
             type: 'recordOutdetail_child_merchants',
             data: data
@@ -121,7 +118,6 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('代理商基本信息', data)
           context.commit({
             type: 'recordPersonal_info',
             data: data
@@ -146,7 +142,6 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('代理商点数操作记录', data)
           context.commit({
             type: 'recordPersonal_property',
             data: data
@@ -282,7 +277,7 @@ const actions = {
           })
         } else {
           var data = ret.data.list
-          console.log('代理玩家数据', data)
+          // console.log('代理玩家数据', data)
           context.commit({
             type: 'recordDetailPlayer',
             data: data
@@ -314,7 +309,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('详情页代理下级数据', data)
+          // console.log('详情页代理下级数据', data)
           context.commit({
             type: 'recordComdetail_child',
             data: data
@@ -331,7 +326,7 @@ const actions = {
     } else {
       comdetailID = state.variable.comdetailID
     }
-    console.log('查看的用户id:', comdetailID)
+    // console.log('查看的用户id:', comdetailID)
     invoke({
       url: api.agentdetail + '/' + comdetailID,
       method: api.get
@@ -345,7 +340,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('代理详细数据', data)
+          // console.log('代理详细数据', data)
           context.commit({
             type: 'recordComdetaildata',
             data: data
@@ -375,7 +370,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('商户账户流水详情', data)
+          // console.log('商户账户流水详情', data)
           context.commit({
             type: 'recordComdetail_property',
             data: data
@@ -421,7 +416,7 @@ const actions = {
         if (err) {
         } else {
           var data = ret.data.payload
-          console.log(data)
+          // console.log(data)
           context.commit({
             type: 'recordComParent_Bills',
             data: data
@@ -697,7 +692,7 @@ const mutations = {
 
   postSearch_conditon (state, payload) {
     state.variable.condition = payload.data
-    console.log('搜索条件是', state.variable.condition)
+    // console.log('搜索条件是', state.variable.condition)
   }, // 记录搜索条件
 
   searchOutlist () {
@@ -787,7 +782,7 @@ const mutations = {
       ...state.variable.comcreate,
       ...payload.data
     }
-    console.log(state.variable.comcreate)
+    // console.log(state.variable.comcreate)
   }, // 记录一般商户注册数据
 
   recordOutsuccess (state, payload) {
