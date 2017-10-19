@@ -158,9 +158,16 @@ const actions = {
     } else {
       userId = state.variable.listId || localStorage.loginId
     }
+    var data = {
+      parent: userId,
+      query: {},
+      sortkey: 'createdAt',
+      sort: 'desc'
+    }
     invoke({
-      url: api.agentList + '/' + userId,
-      method: api.get
+      url: api.agentList,
+      method: api.post,
+      data: data
     }).then(
       result => {
         const [err, ret] = result
@@ -453,9 +460,15 @@ const actions = {
     )
   }, // 获取管理员操作日志
   getAdminlist (context) {
+    var data = {
+      query: {},
+      sortkey: 'createdAt',
+      sort: 'desc'
+    }
     invoke({
       url: api.adminList,
-      method: api.get
+      method: api.post,
+      data: data
     }).then(
       result => {
         const [err, ret] = result
