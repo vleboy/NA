@@ -50,7 +50,6 @@
 
     <el-breadcrumb separator="/" v-if="nowindex === 'comcreate'" class="title">
       <el-breadcrumb-item>代理中心 </el-breadcrumb-item>
-      <el-breadcrumb-item>代理管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">创建代理</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
