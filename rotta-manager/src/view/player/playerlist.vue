@@ -78,7 +78,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   import dateformat from 'dateformat'
   import { invoke } from '@/libs/fetchLib'
   import { formatUserName, unFormatUserName } from '@/behavior/format'
@@ -119,7 +119,6 @@
     methods: {
       selectionChange (val) {
         this.checkedArray = val
-        <!-- console.log(this.checkedArray, '被选中的多选') -->
       },
       playDetail (row) {
         this.$store.commit('startLoading')
@@ -245,11 +244,9 @@
       }, // 格式化创建时间
       getNowsize (size) {
         this.nowSize = size
-        <!-- console.log('当前每页:' + size) -->
       },
       getNowpage (page) {
         this.nowPage = page
-        <!-- console.log('当前是第:' + page + '页') -->
       },
       resultSearch () {
         this.searchInfo = {}
