@@ -99,7 +99,7 @@
     </div>
   </div>
 </template>
-<script type="text/ecmascript-6">
+<script>
   import { invoke } from '@/libs/fetchLib'
   import api from '@/api/api'
   export default {
@@ -283,7 +283,7 @@
       changeConsume () {
         this.isGoConsume = true
         let [start, end] = this.dateInterval
-        console.log(this.dateInterval)
+        // console.log(this.dateInterval)
         if (start != null || end != null) {
           this.dateType = ''
           this.consumeDataTime = {
@@ -314,7 +314,7 @@
           let vedio = params.selected['真人视讯'] ? self.consumeList.vedioSum : 0 ;
           let elec = params.selected['电子游戏'] ? self.consumeList.elecSum : 0 ;
           self.dynamicNum = storeNum + vedio + elec
-          console.log(self.dynamicNum, 'self.dynamicNum')
+          // console.log(self.dynamicNum, 'self.dynamicNum')
         });
         // 绘制图表
         myChart.setOption({

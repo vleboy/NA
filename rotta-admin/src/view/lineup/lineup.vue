@@ -69,7 +69,7 @@ export default {
             type: 'error'
           })
         } else {
-          console.log(ret)
+          // console.log(ret)
           ret.data.payload.status === 1 ? ret.data.payload.status = '开' : ret.data.payload.status = '关'
           this.ruleForm = {
             status: ret.data.payload.status,

@@ -78,7 +78,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   import { invoke } from '@/libs/fetchLib'
   import { formatUserName, unFormatUserName, detailTime } from '@/behavior/format'
   import api from '@/api/api'
@@ -118,7 +118,7 @@
     methods: {
       selectionChange (val) {
         this.checkedArray = val
-        console.log(this.checkedArray, '被选中的多选')
+        // console.log(this.checkedArray, '被选中的多选')
       },
       playDetail (row) {
         localStorage.setItem('playerName', row.userName)
@@ -239,11 +239,11 @@
       }, // 格式化创建时间
       getNowsize (size) {
         this.nowSize = size
-        console.log('当前每页:' + size)
+        // console.log('当前每页:' + size)
       },
       getNowpage (page) {
         this.nowPage = page
-        console.log('当前是第:' + page + '页')
+        // console.log('当前是第:' + page + '页')
       },
       resultSearch () {
         this.searchInfo = {}

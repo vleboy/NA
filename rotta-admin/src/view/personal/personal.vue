@@ -282,7 +282,7 @@ export default {
           userId: this.adminInfo.userId,
           password: this.passwordAbout.newPassword
         }
-        console.log(data)
+        // console.log(data)
         invoke({
           url: api.changePassword,
           method: api.post,
@@ -293,7 +293,7 @@ export default {
             if (err) {
             } else {
               var data = ret.data.payload
-              console.log(data)
+              // console.log(data)
               this.$store.dispatch('getPersonal_info')
               this.isfinish = true
             }

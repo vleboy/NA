@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 export default{

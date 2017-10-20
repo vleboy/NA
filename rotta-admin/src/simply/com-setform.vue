@@ -282,7 +282,7 @@ export default {
       this.setcomInfo.loginWhiteList = '0.0.0.0'
     }
     this.setcomInfo.frontURL = this.selectFront + this.setcomInfo.frontURL
-    console.log(this.setcomInfo)
+    // console.log(this.setcomInfo)
     this.$store.commit({
       type: 'recordComcreate',
       data: this.setcomInfo
@@ -298,7 +298,7 @@ export default {
         if (err) {
         } else {
           var data = ret.data.payload
-          console.log('注册线路商成功后返回数据是:', data)
+          // console.log('注册线路商成功后返回数据是:', data)
           this.$store.commit({
             type: 'recordComsuccess',
             data: data
