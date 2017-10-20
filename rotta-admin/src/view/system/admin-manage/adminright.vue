@@ -85,7 +85,7 @@
 import { detailTime, formatRemark } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
-import { rightList } from '@/variables/allRight'
+import { rightList } from '@/variables/allright'
 export default {
   beforeCreate () {
     this.$store.commit('startLoading')
