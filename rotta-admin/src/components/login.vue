@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import crypto from '@/crypto/crypto'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 // import { checkUsername, checkPassword, checkCaptcha } from '@/behavior/regexp'
@@ -126,14 +127,12 @@ export default {
               type: 'recordUserinfo',
               data: info
             })
+            var key = success.token.substring(0,6)
             localStorage.setItem('loginToken', success.token)
             localStorage.setItem('loginLevel', success.level)
             localStorage.setItem('loginId', success.userId)
             localStorage.setItem('loginSubrole', success.subRole)
-            var userRight = success.subRolePermission
-            var str = JSON.stringify(userRight)
-            localStorage.userRight = str
-            // localStorage.setItem('loginRight', success.subRolePermission)
+            localStorage.setItem('userRight', crypto.aesEncrypt(JSON.stringify(success.subRolePermission), key))
             localStorage.setItem('loginRole', success.role)
             localStorage.setItem('loginUsername', success.username)
             this.$store.commit('changeIslogin')

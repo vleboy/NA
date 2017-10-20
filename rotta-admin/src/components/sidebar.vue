@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import crypto from '@/crypto/crypto'
 export default {
   name: 'sidebar',
   computed: {
@@ -117,7 +118,6 @@ export default {
   },
   data () {
     return {
-      rightList: JSON.parse(localStorage.userRight),
       userRight: {
         board: {
           hasRight: false,
@@ -207,9 +207,11 @@ export default {
     }
   },
   mounted () {
-    for (let key in this.userRight) {
-      if(this.rightList.indexOf(this.userRight[key].name) != -1) {
-        this.userRight[key].hasRight = true
+    var key = localStorage.loginToken.substring(0,6)
+    var fuck = JSON.parse(crypto.aesDecrypt(localStorage.userRight, key))
+    for (let index in this.userRight) {
+      if(fuck.indexOf(this.userRight[index].name) != -1) {
+        this.userRight[index].hasRight = true
       }
     }
     // console.log(this.userRight)

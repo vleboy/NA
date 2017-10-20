@@ -11,9 +11,11 @@ import fastclick from 'fastclick'
 import store from './store/store'
 import './style/globalStyle.css'
 import echarts from 'echarts'
+import crypto from 'crypto'
 import VueQuillEditor from 'vue-quill-editor'
 Vue.use(ElementUI)
 Vue.use(VueQuillEditor)
+Vue.prototype.$crypto = crypto
 Vue.prototype.$echarts = echarts
 fastclick.attach(document.body)
 /* eslint-disable no-new */
