@@ -25,7 +25,7 @@
           <router-view v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'></router-view>
         </div>
       </div>
-      <!-- 组织架构 -->
+      <!-- 层级关系 -->
       <transition name="fade">
         <div class="main-map" v-if="this.isSlider === true">
           <rottamap></rottamap>
@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import Rottamap from '@/components/rottamap' // 组织架构
+import Rottamap from '@/components/rottamap' // 层级关系
 import Sidebar from '@/components/sidebar' // 导航条组件
 import Bread from '@/components/bread' // 面包屑组件
 import Tab from '@/components/tabs' // 标签页组件

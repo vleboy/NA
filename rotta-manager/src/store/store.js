@@ -33,7 +33,7 @@ const actions = {
         } else {
           var data = []
           data.push(ret.data.payload)
-          // console.log('组织架构数据', data)
+          // console.log('层级关系数据', data)
           context.commit({
             type: 'recordMap',
             data: data
@@ -42,7 +42,7 @@ const actions = {
         }
       }
     )
-  }, // 获取管理员页面组织架构
+  }, // 获取管理员页面层级关系
   getOutlist (context) {
     var data = {
       query: {},
@@ -621,11 +621,11 @@ const mutations = {
   },
   isMap (state, payload) {
     state.variable.isSlider = !state.variable.isSlider
-  }, // 是否显示组织架构
+  }, // 是否显示层级关系
 
   recordMap (state, payload) {
     state.variable.map = payload.data
-  }, // 记录线路商页面组织架构
+  }, // 记录线路商页面层级关系
 
   selectParent (state, payload) {
     state.variable.nowParent = payload.data
@@ -648,7 +648,7 @@ const mutations = {
       }
     }
     // console.log('现在数组', state.variable.map[0])
-  }, // 将玩家数据插入组织架构
+  }, // 将玩家数据插入层级关系
 
   startLoading (state, payload) {
     state.variable.isloading = true

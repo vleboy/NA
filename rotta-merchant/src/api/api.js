@@ -99,7 +99,7 @@ const api = {
 
   getUploadImgToken: front.Javis + front.stage + '/upToken', // 获取七牛云token
 
-  map: front.Javis + front.stage + '/organize', // 组织架构接口
+  map: front.Javis + front.stage + '/organize', // 层级关系接口
 
   // hera
 
@@ -143,7 +143,7 @@ const api = {
 
   delHorseRaceLamp: front.hawkeye + front.stage + '/notice/remove', // 删除跑马灯
 
-  mapPlayer: front.hawkeye + front.stage + '/player/list', // 组织架构商户玩家
+  mapPlayer: front.hawkeye + front.stage + '/player/list', // 层级关系商户玩家
 
   // stat
 

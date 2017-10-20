@@ -270,7 +270,7 @@ const mutations = {
   },
   isMap (state, payload) {
     state.variable.isSlider = !state.variable.isSlider
-  }, // 是否显示组织架构
+  }, // 是否显示层级关系
 
   startLoading (state, payload) {
     state.variable.isloading = true

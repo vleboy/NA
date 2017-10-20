@@ -1,6 +1,6 @@
 const variable = {
-  isSlider: false, // 是否显示组织架构
-  nowParent: '', // 组织架构选择上级
+  isSlider: false, // 是否显示层级关系
+  nowParent: '', // 层级关系选择上级
   islogin: false,
   isloading: false,
   token: '',
@@ -61,7 +61,7 @@ const variable = {
     adminContact: '' // 商户管理员联系方式
   }, // 创建一般商户信息
 
-  map: [], // 线路商组织架构
+  map: [], // 线路商层级关系
 
   outsuccess: {}, // 创建线路商成功后返回的数据
   comsuccess: {}, // 创建一般商户成功后返回的数据

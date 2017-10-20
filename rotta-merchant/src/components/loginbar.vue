@@ -3,7 +3,7 @@
     <div class="helpBox">
       <img src="/static/icon.png" alt="帮助" class="help-icon">
     </div>
-    <span class="help" @click="showSlider">组织架构</span>
+    <span class="help" @click="showSlider">层级关系</span>
     <div class="userBox">
       <img src="/static/admin.svg" alt="头像" class="user-icon">
     </div>
@@ -55,7 +55,7 @@ export default {
     }, // 退出登录操作
     showSlider () {
       this.$store.commit('isMap')
-    }, // 呼出组织架构
+    }, // 呼出层级关系
     formatUser (o) {
       if (o) {
         return o.split('_')[1]
