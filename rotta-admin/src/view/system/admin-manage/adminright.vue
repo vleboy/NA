@@ -296,7 +296,7 @@ export default {
 </script>
 
 <style scoped>
-.adminright{margin-bottom: 5rem}
+.adminright{margin: 2rem 0 5rem 0}
 .adminright .topBtn{margin-left: 0.5%}
 .adminright .adminright-form{width: 99%;margin: 0 auto;margin-top: 1rem}
 .adminright .page {padding-bottom: 1rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
