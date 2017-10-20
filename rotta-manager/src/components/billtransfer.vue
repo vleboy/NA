@@ -432,7 +432,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log(data)
+              // console.log(data)
               this.$message({
                 message: '解锁成功',
                 type: 'success'

@@ -114,7 +114,7 @@ export default {
             this.$store.commit('closeLoading')
           } else {
             var success = ret.data.payload
-            console.log('登录成功返回数据', success)
+            // console.log('登录成功返回数据', success)
             this.$message({
               message: '登录成功',
               type: 'success'

@@ -963,7 +963,7 @@ export default {
               this.loading = false
             } else {
               var data = ret.data.payload
-              console.log(data)
+              // console.log(data)
               this.disable = true
               this.loading = false
               this.$message({
@@ -991,7 +991,7 @@ export default {
           if (err) {
           } else {
             var data = ret.payload
-            console.log('操作成功返回数据', data)
+            // console.log('操作成功返回数据', data)
             this.$message({
               message: '锁定成功',
               type: 'success'
@@ -1018,7 +1018,7 @@ export default {
           if (err) {
           } else {
             var data = ret.payload
-            console.log('操作成功返回数据', data)
+            // console.log('操作成功返回数据', data)
             this.$message({
               message: '解锁成功',
               type: 'success'

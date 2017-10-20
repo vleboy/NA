@@ -198,7 +198,7 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            console.log(data)
+            // console.log(data)
             this.getnowlist()
             this.getAlllist()
             this.$message({
@@ -229,7 +229,7 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            console.log(data)
+            // console.log(data)
             this.getnowlist()
             this.getAlllist()
             this.$message({
@@ -260,7 +260,7 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            console.log(data)
+            // console.log(data)
             this.getnowlist()
             this.getAlllist()
             this.$message({

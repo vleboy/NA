@@ -184,7 +184,7 @@ export default {
       return formatMSN(msn)
     }, // 格式化线路号
     goComParent (parent) {
-      console.log('上级线路商', parent)
+      // console.log('上级线路商', parent)
       this.$store.commit({
         type: 'recordOutdetailID',
         data: parent

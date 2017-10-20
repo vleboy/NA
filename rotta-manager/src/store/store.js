@@ -154,7 +154,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('线路商详细数据', data)
+          // console.log('线路商详细数据', data)
           context.commit({
             type: 'recordOutdetaildata',
             data: data
@@ -185,7 +185,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('线路商账户流水详情', data)
+          // console.log('线路商账户流水详情', data)
           context.commit({
             type: 'recordOutdetail_property',
             data: data
@@ -216,7 +216,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('详情页所属线路商数据:', data)
+          // console.log('详情页所属线路商数据:', data)
           context.commit({
             type: 'recordOutdetail_child_managers',
             data: data
@@ -247,7 +247,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('详情页所属商户数据:', data)
+          // console.log('详情页所属商户数据:', data)
           context.commit({
             type: 'recordOutdetail_child_merchants',
             data: data
@@ -278,7 +278,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('商户详细数据', data)
+          // console.log('商户详细数据', data)
           context.commit({
             type: 'recordComdetaildata',
             data: data
@@ -309,7 +309,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('商户账户流水详情', data)
+          // console.log('商户账户流水详情', data)
           context.commit({
             type: 'recordComdetail_property',
             data: data
@@ -334,7 +334,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('管理员基本信息', data)
+          // console.log('管理员基本信息', data)
           context.commit({
             type: 'recordPersonal_info',
             data: data
@@ -359,7 +359,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          console.log('管理员点数操作记录', data)
+          // console.log('管理员点数操作记录', data)
           context.commit({
             type: 'recordPersonal_property',
             data: data
@@ -490,7 +490,7 @@ const actions = {
         if (res) {
         } else {
           var data = ret.data.payload.balance
-          console.log('账户余额', data)
+          // console.log('账户余额', data)
           context.commit({
             type: 'record_personalBills',
             data: data
@@ -835,7 +835,7 @@ const mutations = {
       ...state.variable.comcreate,
       ...payload.data
     }
-    console.log(state.variable.comcreate)
+    // console.log(state.variable.comcreate)
   }, // 记录一般商户注册数据
 
   recordOutsuccess (state, payload) {
@@ -911,7 +911,7 @@ const mutations = {
 
   getpointsObject (state, payload) {
     state.variable.pointsObject = payload.data
-    console.log('存提点下级的信息是', state.variable.pointsObject)
+    // console.log('存提点下级的信息是', state.variable.pointsObject)
   }, // 获取对详情页用户发起存提点操作的下级信息
 
   startEdit (state, payload) {
