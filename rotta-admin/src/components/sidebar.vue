@@ -4,31 +4,31 @@
       <el-col>
           <el-menu :default-active="nowindex" theme="dark" :router="true" :unique-opened="true">
               <div class="logo"><img style=" width: 60%;" src="static/NAlogo.png"></div>
-              <el-menu-item index="board" v-if="userRight.board.hasRight">看板</el-menu-item>
-              <el-menu-item index="personal" v-if="userRight.personal.hasRight">个人中心</el-menu-item>
-              <el-submenu index="1" v-if="userRight.managerList.hasRight || userRight.outcreate.hasRight || userRight.merchantList.hasRight || userRight.comcreate.hasRight">
+              <el-menu-item index="board" v-show="userRight.board.hasRight">看板</el-menu-item>
+              <el-menu-item index="personal" v-show="userRight.personal.hasRight">个人中心</el-menu-item>
+              <el-submenu index="1" v-show="userRight.managerList.hasRight || userRight.outcreate.hasRight || userRight.merchantList.hasRight || userRight.comcreate.hasRight">
                   <template slot="title">商户中心</template>
-                  <el-submenu index="1-1" v-if="userRight.managerList.hasRight || userRight.outcreate.hasRight">
+                  <el-submenu index="1-1" v-show="userRight.managerList.hasRight || userRight.outcreate.hasRight">
                       <template slot="title">线路商管理</template>
-                      <el-menu-item index="outlist" v-if="userRight.managerList.hasRight">线路商列表</el-menu-item>
-                      <el-menu-item index="outcreate" v-if="userRight.outcreate.hasRight">创建线路商</el-menu-item>
+                      <el-menu-item index="outlist" v-show="userRight.managerList.hasRight">线路商列表</el-menu-item>
+                      <el-menu-item index="outcreate" v-show="userRight.outcreate.hasRight">创建线路商</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="1-2" v-if="userRight.merchantList.hasRight || userRight.comcreate.hasRight">
+                  <el-submenu index="1-2" v-show="userRight.merchantList.hasRight || userRight.comcreate.hasRight">
                       <template slot="title">商户管理</template>
-                      <el-menu-item index="comlist" v-if="userRight.merchantList.hasRight">商户列表</el-menu-item>
-                      <el-menu-item index="comcreate" v-if="userRight.comcreate.hasRight">创建商户</el-menu-item>
+                      <el-menu-item index="comlist" v-show="userRight.merchantList.hasRight">商户列表</el-menu-item>
+                      <el-menu-item index="comcreate" v-show="userRight.comcreate.hasRight">创建商户</el-menu-item>
                   </el-submenu>
               </el-submenu>
-              <el-submenu index="2" v-if="userRight.playerlist.hasRight">
+              <el-submenu index="2" v-show="userRight.playerlist.hasRight">
                   <template slot="title">玩家中心</template>
                   <el-menu-item index="playerlist">玩家列表</el-menu-item>
               </el-submenu>
-              <el-submenu index="3" v-if="userRight.gamelist.hasRight || userRight.gameBackstage.hasRight">
+              <el-submenu index="3" v-show="userRight.gamelist.hasRight || userRight.gameBackstage.hasRight">
                   <template slot="title">游戏中心</template>
-                  <el-menu-item index="gamelist" v-if="userRight.gamelist.hasRight">游戏列表</el-menu-item>
-                  <el-menu-item index="gameBackstage" v-if="userRight.gameBackstage.hasRight">游戏后台</el-menu-item>
+                  <el-menu-item index="gamelist" v-show="userRight.gamelist.hasRight">游戏列表</el-menu-item>
+                  <el-menu-item index="gameBackstage" v-show="userRight.gameBackstage.hasRight">游戏后台</el-menu-item>
               </el-submenu>
-              <el-submenu index="4" v-if="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight || userRight.gameMailList.hasRight || userRight.boothList.hasRight || userRight.computerGame.hasRight">
+              <el-submenu index="4" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight || userRight.gameMailList.hasRight || userRight.boothList.hasRight || userRight.computerGame.hasRight">
                   <template slot="title">运营中心</template>
                   <!-- <el-submenu index="4-1">
                       <template slot="title">赛事管理</template>
@@ -44,34 +44,34 @@
                       <el-menu-item index="advertisedetail">广告详情页</el-menu-item>
                       <el-menu-item index="addadvertise">添加广告</el-menu-item>
                   </el-submenu> -->
-                  <el-submenu index="4-4" v-if="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">
+                  <el-submenu index="4-4" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">
                       <template slot="title">公告管理</template>
-                       <el-menu-item index="gameNoticeList" v-if="userRight.gameNoticeList.hasRight">游戏公告列表</el-menu-item>
-                       <el-menu-item index="horseRaceLampList" v-if="userRight.horseRaceLampList.hasRight">跑马灯列表</el-menu-item>
+                       <el-menu-item index="gameNoticeList" v-show="userRight.gameNoticeList.hasRight">游戏公告列表</el-menu-item>
+                       <el-menu-item index="horseRaceLampList" v-show="userRight.horseRaceLampList.hasRight">跑马灯列表</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="4-5" v-if="userRight.gameMailList.hasRight">
+                  <el-submenu index="4-5" v-show="userRight.gameMailList.hasRight">
                       <template slot="title">站内信管理</template>
                       <el-menu-item index="gameMailList">游戏邮件列表</el-menu-item>
                   </el-submenu>
 
-                  <el-submenu index="4-6" v-if="userRight.boothList.hasRight">
+                  <el-submenu index="4-6" v-show="userRight.boothList.hasRight">
                     <template slot="title">展位管理</template>
                     <el-menu-item index="boothList">展位列表</el-menu-item>
                   </el-submenu>
               </el-submenu>
-              <el-submenu index="5" v-if="userRight.computerGame.hasRight">
+              <el-submenu index="5" v-show="userRight.computerGame.hasRight">
                 <template slot="title">风控中心</template>
                 <el-menu-item index="computerGame">电子游戏风控</el-menu-item>
               </el-submenu>
-              <!-- <el-submenu index="5" v-if="this.userRight.finance === true">
+              <!-- <el-submenu index="5" v-show="this.userRight.finance === true">
                   <template slot="title">财务中心</template>
                   <el-menu-item index="manager">直属线路商报表</el-menu-item>
                   <el-menu-item index="merchant">直属商户报表</el-menu-item>
               </el-submenu> -->
                 <!-- <el-menu-item index="propertycenter">财务中心</el-menu-item> -->
-             <!--  <el-menu-item index="control" v-if="this.userRight.risk === true">风控中心</el-menu-item> -->
+             <!--  <el-menu-item index="control" v-show="this.userRight.risk === true">风控中心</el-menu-item> -->
 
-              <!-- <el-submenu index="6" v-if="this.userRight.service === true">
+              <!-- <el-submenu index="6" v-show="this.userRight.service === true">
                   <template slot="title">客服中心</template>
                     <el-submenu index="6-1">
                       <template slot="title">帮助信息</template>
@@ -80,29 +80,29 @@
                         <el-menu-item index="addhelp">新增帮助</el-menu-item>
                     </el-submenu>
               </el-submenu> -->
-              <el-submenu index="7" v-if="userRight.managerloginlist.hasRight || userRight.merchantloginlist.hasRight || userRight.admindate.hasRight || userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight || userRight.msnlist.hasRight">
+              <el-submenu index="7" v-show="userRight.managerloginlist.hasRight || userRight.merchantloginlist.hasRight || userRight.admindate.hasRight || userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight || userRight.msnlist.hasRight">
                   <template slot="title">系统设置</template>
-                  <el-submenu index="7-1" v-if="userRight.managerloginlist.hasRight || userRight.merchantloginlist.hasRight">
+                  <el-submenu index="7-1" v-show="userRight.managerloginlist.hasRight || userRight.merchantloginlist.hasRight">
                       <template slot="title">登录日志</template>
-                      <el-menu-item index="managerloginlist" v-if="userRight.managerloginlist.hasRight">线路商登录日志</el-menu-item>
-                      <el-menu-item index="merchantloginlist" v-if="userRight.merchantloginlist.hasRight">商户登录日志</el-menu-item>
+                      <el-menu-item index="managerloginlist" v-show="userRight.managerloginlist.hasRight">线路商登录日志</el-menu-item>
+                      <el-menu-item index="merchantloginlist" v-show="userRight.merchantloginlist.hasRight">商户登录日志</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="7-2" v-if="userRight.admindate.hasRight">
+                  <el-submenu index="7-2" v-show="userRight.admindate.hasRight">
                       <template slot="title">操作日志</template>
                       <el-menu-item index="admindate">管理员操作日志</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="7-3" v-if="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight">
+                  <el-submenu index="7-3" v-show="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight">
                       <template slot="title">管理员管理</template>
-                      <el-menu-item index="adminlist" v-if="userRight.adminlist.hasRight">管理员列表</el-menu-item>
-                      <el-menu-item index="addadmin" v-if="userRight.addadmin.hasRight">添加管理员</el-menu-item>
-                      <el-menu-item index="adminright" v-if="userRight.adminright.hasRight">管理员权限列表</el-menu-item>
-                      <el-menu-item index="addcharacter" v-if="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight">新增管理员权限</el-menu-item>
+                      <el-menu-item index="adminlist" v-show="userRight.adminlist.hasRight">管理员列表</el-menu-item>
+                      <el-menu-item index="addadmin" v-show="userRight.addadmin.hasRight">添加管理员</el-menu-item>
+                      <el-menu-item index="adminright" v-show="userRight.adminright.hasRight">管理员权限列表</el-menu-item>
+                      <el-menu-item index="addcharacter" v-show="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight">新增管理员权限</el-menu-item>
                   </el-submenu>
-                  <el-menu-item index="msnlist" v-if="userRight.msnlist.hasRight">线路号列表</el-menu-item>
+                  <el-menu-item index="msnlist" v-show="userRight.msnlist.hasRight">线路号列表</el-menu-item>
               </el-submenu>
-              <!-- <el-menu-item index="lineup" v-if="this.userRight.person === true">排队设置</el-menu-item> -->
+              <!-- <el-menu-item index="lineup" v-show="this.userRight.person === true">排队设置</el-menu-item> -->
           </el-menu>
-        </el-col>
+      </el-col>
   </el-row>
   </div>
 </template>
