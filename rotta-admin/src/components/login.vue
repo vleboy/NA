@@ -81,7 +81,6 @@ export default {
               this.codeFetching = false
             } else {
               var captcha = ret.data.payload
-              // console.log('验证码是', captcha)
               this.codeFetching = false
               this.userInfo.getcode = `data:image/png;base64,${captcha}`
             }
@@ -108,7 +107,6 @@ export default {
             this.getcaptcha()
           } else {
             var success = ret.data.payload
-            console.log('登录成功', success)
             this.$message({
               message: '登录成功',
               type: 'success'

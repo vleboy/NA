@@ -84,12 +84,12 @@ export default {
   },
   watch: {
     'addcharacter.permissions' (val) {
-      console.log('选中的值', val)
+      // console.log('选中的值', val)
     }
   },
   methods: {
     createRight () {
-      console.log(this.addcharacter)
+      // console.log(this.addcharacter)
       if (this.addcharacter.permissions.length == 0 || !this.addcharacter.name) {
         this.$message({
           type: 'error',
