@@ -154,7 +154,7 @@ export default {
         if (err) {
         } else {
           var data = ret.data.payload
-          console.log('注册线路商成功后返回数据是:', data)
+          
           this.$store.commit({
             type: 'recordComsuccess',
             data: data

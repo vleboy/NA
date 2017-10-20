@@ -154,7 +154,7 @@ export default {
       return formatContractPeriod(con)
     }, // 格式化合同时间
     checkUser (index, row) {
-      // console.log('查看的用户为 ' + row.username + ' / ' + '查看的用户ID为 ' + row.userId)
+      // 
       this.$store.commit({
         type: 'recordOutdetailID',
         data: row.userId
@@ -163,7 +163,7 @@ export default {
       this.$router.push('outdetail')
     }, // 查看用户
     editUser (index, row) {
-      // console.log('查看的用户为 ' + row.username + ' / ' + '查看的用户ID为 ' + row.userId)
+      // 
       this.$store.commit({
         type: 'recordOutdetailID',
         data: row.userId
@@ -173,11 +173,11 @@ export default {
     }, // 编辑用户
     getNowsize (size) {
       this.nowSize = size
-      // console.log('当前每页:' + size)
+      // 
     },
     getNowpage (page) {
       this.nowPage = page
-      // console.log('当前是第:' + page + '页')
+      // 
     }
   }
 }

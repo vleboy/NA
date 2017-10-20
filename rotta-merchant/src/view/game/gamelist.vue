@@ -95,7 +95,7 @@ export default {
       var data = {
         gameType: code
       }
-      // console.log(code)
+      // 
       invoke({
         url: api.gameList,
         method: api.post,
@@ -106,7 +106,7 @@ export default {
           if (err) {
           } else {
             var list = ret.data.payload
-            // console.log(list)
+            // 
             this.allgames = list
             this.$store.commit('closeLoading')
           }
@@ -133,7 +133,7 @@ export default {
           if (err) {
           } else {
             var list = ret.data.payload
-            // console.log(list)
+            // 
             this.allgames = list
             this.$store.commit('closeLoading')
           }
@@ -160,7 +160,7 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            console.log(data)
+            
             this.getnowlist()
             this.getAlllist()
             this.$message({
@@ -191,7 +191,7 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            console.log(data)
+            
             this.getnowlist()
             this.getAlllist()
             this.$message({
@@ -222,7 +222,7 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            console.log(data)
+            
             this.getnowlist()
             this.getAlllist()
             this.$message({

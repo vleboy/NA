@@ -362,7 +362,7 @@ export default {
   },
   methods: {
     goParent () {
-      console.log('上级线路商ID', this.comdetail.parent, '上级线路商是:', this.comdetail.parentName)
+      
       this.$store.commit({
         type: 'recordOutdetailID',
         data: this.comdetail.parent
@@ -430,7 +430,7 @@ export default {
             this.loading = false
           } else {
             var data = ret.data.payload
-            console.log(data)
+            
             invoke({
               url: api.managers + '/' + comdetailID,
               method: api.get
@@ -445,7 +445,7 @@ export default {
                   })
                 } else {
                   var data = ret.data.payload
-                  console.log('商户详细数据', data)
+                  
                   this.comdetail = data
                   this.$store.commit('closeLoading')
                 }

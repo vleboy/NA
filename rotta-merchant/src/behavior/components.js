@@ -1,10 +1,10 @@
 export const canvas = function (captcha) {
-  // console.log(captcha, 'captcha')
+  // 
   let str = captcha || '获取验证码'
     // 绘制验证码
   var drawPic = () => {
     var canvas = document.getElementById('canvasCode')
-    // console.log(canvas)
+    // 
     var width = canvas.width
     var height = canvas.height
     var ctx = canvas.getContext('2d')

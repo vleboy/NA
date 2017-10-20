@@ -353,7 +353,7 @@ export default {
       data.fromUserId = localStorage.loginId
       data.toUser = this.$store.state.variable.outdetaildata.username
       if (this.storePoints.fromUserId === '' || this.storePoints.amount === '' || Number(this.storePoints.amount) < 0 || isNaN(this.storePoints.amount) === true) {
-        console.log(data)
+        // 
         this.$message({
           message: '请完善存点信息',
           type: 'error'
@@ -373,7 +373,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('存点成功返回', data)
+              // 
               this.isfinish = true
               this.$store.dispatch('getOutdetail_property')
             }
@@ -387,7 +387,7 @@ export default {
       data.fromUserId = this.$store.state.variable.outdetaildata.userId
       data.toUser = localStorage.loginUsername
       if (this.withdrawPoints.fromUserId === '' || this.withdrawPoints.amount === '' || Number(this.withdrawPoints.amount) < 0 || isNaN(this.withdrawPoints.amount) === true) {
-        console.log(data)
+        // 
         this.$message({
           message: '请完善提点信息',
           type: 'error'
@@ -407,7 +407,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('提点成功返回', data)
+              
               this.isfinish = true
               this.$store.dispatch('getOutdetail_property')
             }
@@ -423,7 +423,7 @@ export default {
       }
       data.toUser = this.childData.username
       if (this.storePoints.fromUserId === '' || this.storePoints.amount === '' || Number(this.storePoints.amount) < 0 || isNaN(this.storePoints.amount) === true) {
-        console.log(data)
+        // 
         this.$message({
           message: '请完善存点信息',
           type: 'error'
@@ -443,7 +443,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('存点成功返回', data)
+              // 
               this.isfinish = true
               this.$store.dispatch('getOutdetail_child_merchants')
               this.$store.dispatch('getOutdetail_child_managers')
@@ -468,13 +468,13 @@ export default {
         }
       }
       if (this.withdrawPoints.fromUserId === '' || this.withdrawPoints.amount === '' || Number(this.withdrawPoints.amount) < 0 || isNaN(this.withdrawPoints.amount) === true) {
-        console.log(data)
+        // 
         this.$message({
           message: '请完善存点信息',
           type: 'error'
         })
       } else {
-        console.log('发起提点前的数据', data)
+        // 
         invoke({
           url: api.billTransfer,
           method: api.post,
@@ -489,7 +489,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('存点成功返回', data)
+              // 
               this.isfinish = true
               this.$store.dispatch('getOutdetail_child_merchants')
               this.$store.dispatch('getOutdetail_child_managers')
@@ -507,7 +507,7 @@ export default {
       }
       data.toUser = this.$store.state.variable.comdetaildata.username
       if (this.storePoints.fromUserId === '' || this.storePoints.amount === '' || Number(this.storePoints.amount) < 0 || isNaN(this.storePoints.amount) === true) {
-        console.log(data)
+        // 
         this.$message({
           message: '请完善存点信息',
           type: 'error'
@@ -527,7 +527,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('存点成功返回', data)
+              // 
               this.isfinish = true
               this.$store.dispatch('getComdetail_property')
             }
@@ -545,9 +545,9 @@ export default {
         data.toUser = this.$store.state.variable.comdetaildata.parentName
         data.toRole = '10'
       }
-      console.log('提点前的数据是', data)
+      // 
       if (this.withdrawPoints.fromUserId === '' || this.withdrawPoints.amount === '' || Number(this.withdrawPoints.amount) < 0 || isNaN(this.withdrawPoints.amount) === true) {
-        console.log(data)
+        // 
         this.$message({
           message: '请完善存点信息',
           type: 'error'
@@ -567,7 +567,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('提点成功返回', data)
+              
               this.isfinish = true
               this.$store.dispatch('getComdetail_property')
             }
@@ -581,7 +581,7 @@ export default {
       data.fromUserId = localStorage.loginId
       data.toUser = this.$store.state.variable.nowUser.username
       if (this.storePoints.fromUserId === '' || this.storePoints.amount === '' || Number(this.storePoints.amount) < 0 || isNaN(this.storePoints.amount) === true) {
-        console.log(data)
+        // 
         this.$message({
           message: '请完善存点信息',
           type: 'error'
@@ -601,7 +601,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('存点成功返回', data)
+              
               this.isfinish = true
               if (this.$store.state.variable.nowIndex === 'outlist') {
                 this.$store.dispatch('getOutlist')
@@ -619,7 +619,7 @@ export default {
       data.toUser = localStorage.loginUsername
       data.toRole = localStorage.loginRole
       if (this.withdrawPoints.fromUserId === '' || this.withdrawPoints.amount === '' || Number(this.withdrawPoints.amount) < 0 || isNaN(this.withdrawPoints.amount) === true) {
-        console.log(data)
+        
         this.$message({
           message: '请完善存点信息',
           type: 'error'
@@ -639,7 +639,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('提点成功返回', data)
+              
               this.isfinish = true
               if (this.$store.state.variable.nowIndex === 'outlist') {
                 this.$store.dispatch('getOutlist')
@@ -658,7 +658,7 @@ export default {
         status: 1,
         contractPeriod: this.contractPeriod
       }
-      // console.log(data)
+      // 
       if (this.contractPeriod === undefined || this.contractPeriod === '' || this.contractPeriod[0] === null || this.contractPeriod[1] === null) {
         this.$message({
           message: '请选择生效时间',
@@ -679,7 +679,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log(data)
+              
               this.$message({
                 message: '解锁成功',
                 type: 'success'

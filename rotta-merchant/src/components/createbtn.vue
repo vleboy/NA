@@ -58,7 +58,7 @@ export default {
       }
     }, // 填写线路商基本信息
     gosucout () {
-      console.log(this.$store.state.checkform)
+      
       if (this.$store.state.checkform.points === false || this.$store.state.checkform.limit === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.name === false || this.$store.state.checkform.userContact === false || this.$store.state.checkform.userEmail === false) {
         this.$message({
           message: '请完善配置信息',
@@ -79,7 +79,7 @@ export default {
       }
     }, // 配置线路商信息
     gosuccom () {
-      console.log(this.$store.state.checkform)
+      
       if (this.$store.state.checkform.points === false || this.$store.state.checkform.msn === false || this.$store.state.checkform.loginWhitelist === false || this.$store.state.checkform.frontURL === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.name === false || this.$store.state.checkform.userContact === false || this.$store.state.checkform.userEmail === false) {
         this.$message({
           message: '请完善配置信息',

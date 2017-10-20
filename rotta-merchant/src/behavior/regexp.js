@@ -87,7 +87,7 @@ export const checkSuffix = (rule, value, callback) => {
           if (err) {
           } else {
             var suffixStatus = ret.data.payload
-            // console.log('标识状态为', suffixStatus)
+            // 
             if (suffixStatus === false) {
               callback(new Error('该标识已存在'))
               store.state.checkform.suffix = false
@@ -114,7 +114,7 @@ export const checkSuffix = (rule, value, callback) => {
           if (err) {
           } else {
             var suffixStatus = ret.data.payload
-            // console.log('标识状态为', suffixStatus)
+            // 
             if (suffixStatus === false) {
               callback(new Error('该标识已存在'))
               store.state.checkform.suffix = false
@@ -148,7 +148,7 @@ export const checkDisplayname = (rule, value, callback) => {
 
 export const checkEmail = (rule, value, callback) => {
   var email = new RegExp(/^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$/)
-  // console.log(value)
+  // 
   if (value === '') {
     callback(new Error('请输入邮箱'))
     store.state.checkform.email = false
@@ -163,7 +163,7 @@ export const checkEmail = (rule, value, callback) => {
 
 export const checkUserEmail = (rule, value, callback) => {
   var email = new RegExp(/^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$/)
-  // console.log(value)
+  // 
   if (value === '') {
     callback(new Error('请输入邮箱'))
     store.state.checkform.userEmail = false
@@ -178,7 +178,7 @@ export const checkUserEmail = (rule, value, callback) => {
 
 export const checkRate = (rule, value, callback) => {
   var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
-  // console.log(value)
+  // 
   if (value === '') {
     callback(new Error('请输入抽成比'))
     store.state.checkform.rate = false

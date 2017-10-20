@@ -91,7 +91,7 @@ export default {
     },
     async checkOpera (index, row) {
       this.loading = true
-      // console.log('操作的线路号为 ' + row.msn + ' / ' + '当前线路号的状态是 ' + row.status)
+      // 
       var msn = row.msn
       var operate = row.status
       if (operate === 0) {
