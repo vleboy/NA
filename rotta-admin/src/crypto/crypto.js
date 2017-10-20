@@ -14,13 +14,4 @@ export default {
 	    return decrypted;
 	} // 解密
 }
-	// var data = 'Hello, this is a secret message!';
- //    var key = 'Password!';
- //    var encrypted = crypto.aesEncrypt(data, key);
- //    var decrypted = crypto.aesDecrypt(encrypted, key);
- //    console.log('Plain text: ' + data);
- //    console.log('Encrypted text: ' + encrypted);
- //    console.log('Decrypted text: ' + decrypted);
- //    
-
 
