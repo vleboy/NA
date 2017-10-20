@@ -85,19 +85,6 @@
                     </el-row>
                     <el-row>
                         <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="可放商户名额" v-show="this.disable == true">
-                                    {{outdetail.limit}}
-                                </el-form-item>
-                                <el-form-item label="可放商户名额" prop="limit" v-show="this.disable == false">
-                                    <el-input v-model="outdetail.limit"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="6">
                             <div class="" style="float:left">
                                 <el-form-item label="线路商游戏" v-show="this.disable == true">
                                     <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">

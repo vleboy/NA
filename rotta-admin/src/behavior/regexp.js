@@ -234,7 +234,7 @@ export const checkDisplayname = (rule, value, callback) => {
         if (err) {
         } else {
           var displayNameStatus = ret.data.payload
-          console.log('昵称状态为', displayNameStatus)
+          // console.log('昵称状态为', displayNameStatus)
           if (displayNameStatus === false) {
             callback(new Error('该昵称已加在'))
             store.state.checkform.displayName = false
