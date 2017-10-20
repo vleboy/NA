@@ -63,6 +63,9 @@ export default {
       data: 'addcharacter'
     })
   },
+  created () {
+    this.resetRight()
+  },
   computed: {
     allRight () {
       return this.all
