@@ -61,7 +61,7 @@ export default {
       if(isAndroid){
         window.location.href = 'http://www.na77.com/NAGame.apk'
       } else if(isiOS){
-        axios.get('https://844sz7nr7l.execute-api.ap-southeast-1.amazonaws.com/dev/ipquery')
+        axios.get(`${url}/dev/ipquery`)
         .then(function (res) {
           if(res.data.payload.data.country === '中国'){
             window.location.href = 'itms-services://?action=download-manifest&url=http://natest001.oss-cn-hongkong.aliyuncs.com/autoIntall.plist'
