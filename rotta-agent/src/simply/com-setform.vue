@@ -103,7 +103,7 @@ export default {
       data: this.setcomInfo
     })
     var comcreate = this.$store.state.variable.comcreate
-    console.log('注册提交前的数据是', comcreate)
+    // console.log('注册提交前的数据是', comcreate)
     invoke({
       url: api.createUser,
       method: api.post,
@@ -114,7 +114,7 @@ export default {
         if (err) {
         } else {
           var data = ret.data.payload
-          console.log('注册代理成功后返回数据是:', data)
+          // console.log('注册代理成功后返回数据是:', data)
           this.$store.commit({
             type: 'recordComsuccess',
             data: data
