@@ -5,7 +5,7 @@
     </div> -->
     <!-- <span class="help" @click="showSlider">组织架构</span> -->
     <div class="userBox">
-      <img src="/static/admin.svg" alt="头像" class="user-icon">
+      <img src="/static/admin.png" alt="头像" class="user-icon">
     </div>
     <el-dropdown trigger="click">
       <span class="username">{{username}}</span>
