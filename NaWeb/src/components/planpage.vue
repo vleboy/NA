@@ -181,19 +181,19 @@ export default {
           tags: [
             {
               title: '【大厅】',
-              img: '/static/qp13.jpg'
+              img: '/static/gameHall1.png'
             },
             {
               title: '【活动】',
-              img: '/static/qp14.jpg'
+              img: '/static/gameHall2.png'
             },
             {
               title: '【房间管理】',
-              img: '/static/qp15.png'
+              img: '/static/gameHall3.png'
             },
             {
               title: '【商城】',
-              img: '/static/qp16.png'
+              img: '/static/gameHall4.png'
             }
           ]
         }

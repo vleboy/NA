@@ -29,7 +29,7 @@
 </template>
 
 <script>
-
+import axios from 'axios'
 export default {
   name: 'app',
   data () {
@@ -39,7 +39,6 @@ export default {
     }
   },
   created () {
-
     var u = navigator.userAgent;
     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -62,7 +61,17 @@ export default {
       if(isAndroid){
         window.location.href = 'http://www.na77.com/NAGame.apk'
       } else if(isiOS){
-        window.location.href = 'itms-services://?action=download-manifest&url=https://a1.na12345.com/NAGame/Update/IOS/autoIntall.plist'
+        axios.get('https://844sz7nr7l.execute-api.ap-southeast-1.amazonaws.com/dev/ipquery')
+        .then(function (res) {
+          if(res.data.payload.data.country === '中国'){
+            window.location.href = 'itms-services://?action=download-manifest&url=http://natest001.oss-cn-hongkong.aliyuncs.com/autoIntall.plist'
+          } else {
+             window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autointall.plist'
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
       }
     }else if (is_weixin() || is_QQInnerBro()) {
       this.show = true
