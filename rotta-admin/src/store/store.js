@@ -895,7 +895,7 @@ const mutations = {
 
   recordNowlistUser (state, payload) {
     state.variable.nowUser = payload.data
-    console.log('加取点传过来的数据', state.variable.nowUser)
+    // console.log('加取点传过来的数据', state.variable.nowUser)
   }, // 记录当前列表页面操作的用户的信息
 
   recordOutdetailID (state, payload) {
