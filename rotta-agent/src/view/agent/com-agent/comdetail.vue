@@ -675,7 +675,7 @@ export default {
         parentId: row.parent, // 上级ID
         parentName: row.parentName // 上级用户名
       }
-      console.log('操作的用户为 ' + row.username + ' / ' + '操作的用户ID为 ' + row.userId + '/' + '操作的用户role为' + row.role)
+      // console.log('操作的用户为 ' + row.username + ' / ' + '操作的用户ID为 ' + row.userId + '/' + '操作的用户role为' + row.role)
       this.$store.commit({
         type: 'getpointsObject',
         data: obj
@@ -718,7 +718,7 @@ export default {
         parentId: row.parent, // 上级ID
         parentName: row.parentName // 上级用户名
       }
-      console.log('操作的用户为 ' + row.username + ' / ' + '操作的用户ID为 ' + row.userId + '/' + '操作的用户role为' + row.role)
+      // console.log('操作的用户为 ' + row.username + ' / ' + '操作的用户ID为 ' + row.userId + '/' + '操作的用户role为' + row.role)
       this.$store.commit({
         type: 'getpointsObject',
         data: obj
@@ -768,7 +768,7 @@ export default {
           if (err) {
           } else {
             var data = ret.payload
-            console.log('操作成功返回数据', data)
+            // console.log('操作成功返回数据', data)
             this.$message({
               message: '锁定成功',
               type: 'success'
@@ -794,7 +794,7 @@ export default {
           if (err) {
           } else {
             var data = ret.payload
-            console.log('操作成功返回数据', data)
+            // console.log('操作成功返回数据', data)
             this.$message({
               message: '解锁成功',
               type: 'success'
@@ -900,7 +900,7 @@ export default {
             }
           }
         }
-        console.log('修改提交的数据是:', this.comdetail)
+        // console.log('修改提交的数据是:', this.comdetail)
         invoke({
           url: api.agentUpdate,
           method: api.post,
@@ -916,7 +916,7 @@ export default {
               this.loading = false
             } else {
               var data = ret.data.payload
-              console.log(data)
+              // console.log(data)
               this.disable = true
               this.loading = false
               this.$message({

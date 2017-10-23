@@ -351,7 +351,7 @@ export default {
       this.$store.dispatch('getComlist')
     },
     createAgent(index, row){
-      console.log(row.userId)
+      // console.log(row.userId)
       this.$store.commit({
         type: 'selectParent',
         data: row.userId
@@ -359,7 +359,7 @@ export default {
       this.$router.push('comcreate')
     },
     createPlayer(index, row){
-      console.log(row.userId)
+      // console.log(row.userId)
       this.$store.commit({
         type: 'selectParent',
         data: row.userId
@@ -412,7 +412,7 @@ export default {
     }, // 打开组织架构
     selectionChange (val) {
       this.checkedArray = val
-      console.log(this.checkedArray, '被选中的多选')
+      // console.log(this.checkedArray, '被选中的多选')
     }, // 多选玩家
     formatUser (user) {
       return formatUsername(user)
@@ -570,7 +570,7 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            console.log(data)
+            // console.log(data)
             this.$message({
               message: '锁定',
               type: 'success'
