@@ -5,7 +5,7 @@
   	</div>
   	<span class="help" @click="showSlider">层级关系</span>
   	<div class="userBox">
-  	  <img src="/static/admin.svg" alt="头像" class="user-icon">
+  	  <img src="static/admin.png" alt="头像" class="user-icon">
   	</div>
     <el-tag type="primary" class="loginSubrole">{{formatRole(subRole)}}</el-tag>
   	<el-dropdown trigger="click">
