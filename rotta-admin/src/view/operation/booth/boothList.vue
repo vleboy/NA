@@ -138,7 +138,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 import { detailTime } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
@@ -251,7 +251,7 @@ export default {
               type: 'error'
             })
           } else {
-            console.log(res)
+            // console.log(res)
             this.boothType = res.data.payload
             this.getBoothList()
           }
@@ -380,7 +380,7 @@ export default {
     startSearch () {
       let {toolId, toolName} = this.searchInfo
       this.arrayLocal = JSON.parse(JSON.stringify(this.searchArray))
-      console.log(this.arrayLocal, 111)
+      // console.log(this.arrayLocal, 111)
       if ((!toolId && !toolName)) {
         this.searchArray = []
         this.getBoothList()
@@ -418,11 +418,11 @@ export default {
     }, // 格式化创建时间
     getNowsize (size) {
       this.nowSize = size
-      console.log('当前每页:' + size)
+      // console.log('当前每页:' + size)
     },
     getNowpage (page) {
       this.nowPage = page
-      console.log('当前是第:' + page + '页')
+      // console.log('当前是第:' + page + '页')
     },
     getPropList () {
       invoke({

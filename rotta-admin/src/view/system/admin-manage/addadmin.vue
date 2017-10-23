@@ -123,7 +123,7 @@ export default {
               this.resetAdmin()
             } else {
               var data = ret.payload
-              console.log(data)
+              // console.log(data)
               this.$message({
                 message: '创建成功',
                 type: 'success'
