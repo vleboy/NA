@@ -51,11 +51,11 @@ export default new Router({
       path: '*',
       redirect: '/board'
     },
-    {
-      path: '/',
-      name: '看板',
-      redirect: '/board'
-    },
+    // {
+    //   path: '/',
+    //   name: '看板',
+    //   redirect: '/board'
+    // },
     {
       path: '/board',
       name: '看板',
