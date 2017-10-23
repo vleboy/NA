@@ -300,7 +300,7 @@
           fromUserId: rows.parent
         }
         this.isSave = (bool === 0)
-        console.log(this.balanceInfo)
+        // console.log(this.balanceInfo)
       },
       getAtime (row, col) {
         return detailTime(row.createAt)
