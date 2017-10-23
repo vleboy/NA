@@ -131,7 +131,7 @@
     </div>
   </div>
 </template>
-<script type="text/ecmascript-6">
+<script>
 import { detailTime, formatUsername } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
@@ -144,7 +144,7 @@ export default {
     })
   },
   mounted () {
-    console.log(localStorage.playerName, 'localStorage.playerName')
+    // console.log(localStorage.playerName, 'localStorage.playerName')
     if(!this.$store.state.variable.playerDetail.length){
       this.getPlayerDetail(localStorage.playerName)
     }
@@ -279,11 +279,11 @@ export default {
     }, // 格式化创建时间
     getNowsize (size) {
       this.nowSize = size
-      console.log('当前每页:' + size)
+      // console.log('当前每页:' + size)
     },
     getNowpage (page) {
       this.nowPage = page
-      console.log('当前是第:' + page + '页')
+      // console.log('当前是第:' + page + '页')
     },
     changeRadio () {
       this.isShowRadio = true
@@ -329,7 +329,7 @@ export default {
               type: 'error'
             })
           } else {
-            console.log(res)
+            // console.log(res)
             this.$message.success('修改成功')
             this.getPlayerDetail()
             this.editPassword = false
@@ -369,7 +369,7 @@ export default {
             })
             this.isSending = false
           } else {
-            console.log(res)
+            // console.log(res)
             this.$message.success('提交成功')
             this.isSending = false
             this.isOpenModal = false

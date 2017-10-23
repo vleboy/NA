@@ -109,7 +109,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   import { detailTime } from '@/behavior/format'
   import { invoke } from '@/libs/fetchLib'
   import api from '@/api/api'
@@ -170,7 +170,7 @@
       },
       selectionChange (val) {
         this.checkedArray = val
-        console.log(this.checkedArray, '被选中的多选')
+        // console.log(this.checkedArray, '被选中的多选')
       },
       playDetail (row) {
         this.$store.commit('startLoading')
@@ -310,11 +310,11 @@
       }, // 格式化登录时间
       getNowsize (size) {
         this.nowSize = size
-        console.log('当前每页:' + size)
+        // console.log('当前每页:' + size)
       },
       getNowpage (page) {
         this.nowPage = page
-        console.log('当前是第:' + page + '页')
+        // console.log('当前是第:' + page + '页')
       },
       resultSearch () {
         this.searchInfo = {}
@@ -352,7 +352,7 @@
               })
               this.isSending = false
             } else {
-              console.log(res)
+              // console.log(res)
               this.$message.success('提交成功')
               this.isSending = false
               this.isOpenModal = false

@@ -69,7 +69,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   import { detailTime } from '@/behavior/format'
   import { invoke } from '@/libs/fetchLib'
   import api from '@/api/api'
@@ -133,7 +133,7 @@
             } else {
               this.playerList = res.data.list
               this.searchArray = res.data.list
-              console.log(this.playerList, 'this.playerList')
+              // console.log(this.playerList, 'this.playerList')
             }
             this.$store.commit('closeLoading')
           }
@@ -165,11 +165,11 @@
       },
       getNowsize (size) {
         this.nowSize = size
-        console.log('当前每页:' + size)
+        // console.log('当前每页:' + size)
       },
       getNowpage (page) {
         this.nowPage = page
-        console.log('当前是第:' + page + '页')
+        // console.log('当前是第:' + page + '页')
       },
       resultSearch () {
         this.searchArray = []
