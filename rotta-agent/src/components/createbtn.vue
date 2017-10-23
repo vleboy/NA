@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     gosetcom () {
-      console.log(this.$store.state.checkform)
+      // console.log(this.$store.state.checkform)
       if (this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.displayName === false || this.$store.state.checkform.contractPeriod === false) {
         this.$message({
           message: '请完善创建信息',
@@ -92,7 +92,7 @@ export default {
       }
     }, // 配置代理信息
     gosuccom () {
-      console.log(this.$store.state.checkform)
+      // console.log(this.$store.state.checkform)
       if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.vedioMix === false || this.$store.state.checkform.liveMix === false) {
         this.$message({
           message: '请完善配置信息',
