@@ -204,7 +204,7 @@ export const checkSuffix = (rule, value, callback) => {
           if (err) {
           } else {
             var suffixStatus = ret.data.payload
-            console.log('标识状态为', suffixStatus)
+            // console.log('标识状态为', suffixStatus)
             if (suffixStatus === false) {
               callback(new Error('该标识已存在'))
               store.state.checkform.suffix = false
@@ -246,7 +246,7 @@ export const checkDisplayname = (rule, value, callback) => {
         if (err) {
         } else {
           var displayNameStatus = ret.data.payload
-          console.log('昵称状态为', displayNameStatus)
+          // console.log('昵称状态为', displayNameStatus)
           if (displayNameStatus === false) {
             callback(new Error('该昵称已存在'))
             store.state.checkform.displayName = false
@@ -490,8 +490,8 @@ export const checkPoints = (rule, value, callback) => {
     store.state.checkform.points = false
   } else {
     if (store.state.variable.nowIndex === 'outcreate') {
-      console.log('上级Id', store.state.variable.outcreate.parent)
-      console.log('登录用户Id', localStorage.loginId)
+      // console.log('上级Id', store.state.variable.outcreate.parent)
+      // console.log('登录用户Id', localStorage.loginId)
       var managerId = ''
       if (!store.state.variable.outcreate.parent) {
         managerId = localStorage.loginId
@@ -507,7 +507,7 @@ export const checkPoints = (rule, value, callback) => {
           if (err) {
           } else {
             var bills = ret.data.payload.balance
-            console.log('该账户余额', bills)
+            // console.log('该账户余额', bills)
             if (value > bills) {
               callback(new Error('所属账户余额为 ' + bills + ' , 已超过最大可分配额'))
               store.state.checkform.points = false
