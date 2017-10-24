@@ -76,7 +76,7 @@ export default {
           type: 'recordNowindex',
           data: 'board'
         })
-        this.$router.push('board')
+        this.$router.push('welcome')
         this.$store.commit('resetTab')
         this.$store.commit('logout')
         localStorage.clear()
