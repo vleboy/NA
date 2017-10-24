@@ -58,7 +58,7 @@
         <el-table-column label="备注" align="center" >
           <template scope="scope">
             <el-popover trigger="hover" placement="bottom" width="200">
-              <div class="remarkBox">{{ scope.row.remark === 'NULL!' ? '无' : scope.row.remark}}</div>
+              <div class="remark_content">{{ scope.row.remark === 'NULL!' ? '无' : scope.row.remark}}</div>
               <div slot="reference" class="">
                 <el-icon name="search" style="color:#108ee9"></el-icon>
               </div>
@@ -380,5 +380,5 @@
   .playerlist .text-left{text-align: left}
   .playerlist .rebackinfo{padding:0 2rem;}
   .playerlist .playerform{padding: 2rem;margin:0 auto;}
-  .remarkBox{word-wrap: break-word; word-break: normal;width: 200px}
+  .remark_content{word-wrap: break-word; word-break: normal;width: 200px}
 </style>
