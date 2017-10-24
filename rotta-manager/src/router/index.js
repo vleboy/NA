@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+import Welcome from '@/view/welcome/welcome' // 欢迎页面
+
 import Board from '@/view/board/board' // 系统看板
 
 import Outlist from '@/view/agent/out-agent/outlist' // 线路商列表
@@ -43,13 +46,13 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: '/board'
+      redirect: '/welcome'
     },
-    // {
-    //   path: '/',
-    //   name: '看板',
-    //   redirect: '/board'
-    // },
+    {
+      path: '/welcome',
+      name: '欢迎',
+      component: Welcome
+    },
     {
       path: '/board',
       name: '看板',
