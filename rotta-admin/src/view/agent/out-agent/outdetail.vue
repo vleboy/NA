@@ -369,7 +369,7 @@
             <div class="propertyform">
             <div class="propertyform-header">
                 <span class="justfy1">商户剩余点数: <span style="color:#FF9900">{{childMerchantsbill}}</span></span>
-                <span style="margin-left: 1rem">商户数：{{usedMerchant}}/{{outdetail.limit}}</span>
+                <!-- <span style="margin-left: 1rem">商户数：{{usedMerchant}}/{{outdetail.limit}}</span> -->
                 <el-button type="text" class="propertybtn justfy2" @click="refreshOutmerchant">刷新</el-button>
             </div>
             <div class="propertyform-form">
