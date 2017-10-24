@@ -3,7 +3,7 @@
   	<div class="helpBox">
   	  <img src="/static/icon.png" alt="帮助" class="help-icon">
   	</div>
-  	<span class="help" @click="showSlider">层级关系</span>
+  	<span class="help" @click="showSlider" v-if="this.rottaMap.hasRight">层级关系</span>
   	<div class="userBox">
   	  <img src="static/admin.png" alt="头像" class="user-icon">
   	</div>
@@ -18,6 +18,7 @@
   </div>
 </template>
 <script>
+import crypto from '@/crypto/crypto'
 export default {
   name: 'loginbar',
   computed: {
@@ -27,7 +28,20 @@ export default {
   },
   data () {
     return {
-      subRole: localStorage.loginSubrole
+      subRole: localStorage.loginSubrole,
+      rottaMap: {
+        name: '层级关系',
+        hasRight: false
+      }
+    }
+  },
+  mounted () {
+    var key = localStorage.loginToken.substring(0,6)
+    var fuck = JSON.parse(crypto.aesDecrypt(localStorage.userRight, key))
+    for (let item of fuck) {
+      if (item == this.rottaMap.name) {
+        this.rottaMap.hasRight = true
+      }
     }
   },
   methods: {

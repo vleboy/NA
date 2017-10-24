@@ -13,6 +13,12 @@ export const rightList = [
   },
   {
     isChecked: false,
+    name: '层级关系',
+    hasParent: false,
+    children: ''
+  },
+  {
+    isChecked: false,
     name: '商户中心',
     hasParent: false,
     children: [
@@ -209,7 +215,13 @@ export const rightList = [
           },
           {
             isChecked: false,
-            name: '管理员权限',
+            name: '管理员角色列表',
+            hasParent: true,
+            children: ''
+          },
+          {
+            isChecked: false,
+            name: '新增管理员角色',
             hasParent: true,
             children: ''
           }

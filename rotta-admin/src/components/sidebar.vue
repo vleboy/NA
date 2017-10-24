@@ -91,12 +91,12 @@
                       <template slot="title">操作日志</template>
                       <el-menu-item index="admindate">管理员操作日志</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="7-3" v-show="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight">
+                  <el-submenu index="7-3" v-show="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight ||userRight.addcharacter.hasRight">
                       <template slot="title">管理员管理</template>
                       <el-menu-item index="adminlist" v-show="userRight.adminlist.hasRight">管理员列表</el-menu-item>
                       <el-menu-item index="addadmin" v-show="userRight.addadmin.hasRight">添加管理员</el-menu-item>
                       <el-menu-item index="adminright" v-show="userRight.adminright.hasRight">管理员角色列表</el-menu-item>
-                      <el-menu-item index="addcharacter" v-show="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight">新增管理员角色</el-menu-item>
+                      <el-menu-item index="addcharacter" v-show="userRight.addcharacter.hasRight">新增管理员角色</el-menu-item>
                   </el-submenu>
                   <el-menu-item index="msnlist" v-show="userRight.msnlist.hasRight">线路号列表</el-menu-item>
               </el-submenu>
@@ -119,6 +119,10 @@ export default {
   data () {
     return {
       userRight: {
+        rottaMap: {
+          hasRight: false,
+          name: '层级关系'
+        }, // 层级关系
         board: {
           hasRight: false,
           name: '看板'
@@ -197,7 +201,11 @@ export default {
         }, // 添加管理员
         adminright: {
           hasRight: false,
-          name: '管理员权限'
+          name: '管理员角色列表'
+        }, // 管理员权限
+        addcharacter: {
+          hasRight: false,
+          name: '新增管理员角色'
         }, // 管理员权限
         msnlist: {
           hasRight: false,
@@ -214,7 +222,6 @@ export default {
         this.userRight[index].hasRight = true
       }
     }
-    // console.log(this.userRight)
   },
   methods: {
   }
