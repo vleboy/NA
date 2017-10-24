@@ -82,7 +82,7 @@
       </el-table>
       <div style="text-align: right;margin:2rem 0">
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerList.length"
-                       :page-sizes="[5, 10]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+                       :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
         </el-pagination>
       </div>
     </div>
@@ -124,7 +124,7 @@
     },
     data () {
       return {
-        nowSize: 5,
+        nowSize: 20,
         nowPage: 1,
         showSearch: false,
         isOpenModal: false,
