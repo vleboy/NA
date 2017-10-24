@@ -100,10 +100,6 @@ export default {
         result => {
           const [err, ret] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
             this.$store.commit('closeLoading')
             this.getcaptcha()
           } else {
