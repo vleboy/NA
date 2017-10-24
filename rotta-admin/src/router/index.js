@@ -184,12 +184,12 @@ export default new Router({
     },
     {
       path: '/adminright',
-      name: '管理员权限',
+      name: '管理员角色列表',
       component: Adminright
     },
     {
       path: '/addcharacter',
-      name: '创建权限',
+      name: '新增管理员角色',
       component: Addcharacter
     },
     {

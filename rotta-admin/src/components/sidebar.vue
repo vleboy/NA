@@ -95,8 +95,8 @@
                       <template slot="title">管理员管理</template>
                       <el-menu-item index="adminlist" v-show="userRight.adminlist.hasRight">管理员列表</el-menu-item>
                       <el-menu-item index="addadmin" v-show="userRight.addadmin.hasRight">添加管理员</el-menu-item>
-                      <el-menu-item index="adminright" v-show="userRight.adminright.hasRight">管理员权限列表</el-menu-item>
-                      <el-menu-item index="addcharacter" v-show="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight">新增管理员权限</el-menu-item>
+                      <el-menu-item index="adminright" v-show="userRight.adminright.hasRight">管理员角色列表</el-menu-item>
+                      <el-menu-item index="addcharacter" v-show="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight">新增管理员角色</el-menu-item>
                   </el-submenu>
                   <el-menu-item index="msnlist" v-show="userRight.msnlist.hasRight">线路号列表</el-menu-item>
               </el-submenu>
