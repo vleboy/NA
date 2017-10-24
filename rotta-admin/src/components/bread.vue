@@ -161,13 +161,13 @@
     <el-breadcrumb separator="/" v-if="nowindex === 'adminright'" class="title">
       <el-breadcrumb-item>系统设置 </el-breadcrumb-item>
       <el-breadcrumb-item>管理员管理 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">管理员权限</span> </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">管理员角色列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'addcharacter'" class="title">
       <el-breadcrumb-item>系统设置 </el-breadcrumb-item>
       <el-breadcrumb-item>管理员管理 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">创建权限</span> </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">新增管理员角色</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'msnlist'" class="title">

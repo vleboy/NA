@@ -1,11 +1,11 @@
 <template>
   <div class="addcharacter" v-loading="loading" element-loading-text="创建权限中">
     <div class="formBox">
-      <h2>创建角色权限</h2>
+      <h2>创建角色</h2>
       <div class="addcharacter-form">
         <el-form label-width="120px" label-position="right">
           <el-form-item label="角色名称">
-            <el-input class="input" placeholder="输入创建权限名称" v-model="addcharacter.name"></el-input>
+            <el-input class="input" placeholder="输入创建角色名称" v-model="addcharacter.name"></el-input>
           </el-form-item>
           <el-form-item label="角色权限">
             <div class="rightSelect">
