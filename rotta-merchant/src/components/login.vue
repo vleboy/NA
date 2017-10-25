@@ -122,7 +122,7 @@ export default {
               type: 'recordToken',
               data: success.token
             })
-            this.$router.push('board')
+            this.$router.push('welcome')
             var info = {
               username: success.username,
               userId: success.userId,
