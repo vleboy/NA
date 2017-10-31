@@ -64,9 +64,9 @@ export default {
         axios.get(`${url}/dev/ipquery`)
         .then(function (res) {
           if(res.data.payload.data.country === '中国'){
-            window.location.href = 'itms-services://?action=download-manifest&url=https://natest001.oss-cn-hongkong.aliyuncs.com/autoIntall.plist'
+            window.location.href = 'itms-services://?action=download-manifest&url=https://natest001.oss-cn-hongkong.aliyuncs.com/autoinstall1315.plist'
           } else {
-            window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoIntall.plist'
+            window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1315.plist'
           }
         })
         .catch(function (error) {
