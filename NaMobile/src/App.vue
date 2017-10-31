@@ -66,8 +66,7 @@ export default {
           if(res.data.payload.data.country === '中国'){
             window.location.href = 'itms-services://?action=download-manifest&url=https://natest001.oss-cn-hongkong.aliyuncs.com/autoIntall.plist'
           } else {
-             // window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autointall.plist'
-             window.location.href = 'itms-services://?action=download-manifest&url=https://s3-ap-southeast-1.amazonaws.com/oss.na12345.com/autoIntall.plist'
+            window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoIntall.plist'
           }
         })
         .catch(function (error) {
