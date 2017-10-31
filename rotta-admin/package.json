@@ -5,11 +5,14 @@
   "author": "",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
-    "start": "node build/dev-server.js",
-    "build": "node build/build.js",
     "test": "node build/test.js",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint --ext .js,.vue src",
+    "dev-admin": "node build/dev-admin.js",
+    "dev-manager": "node build/dev-manager.js",
+    "dev-merchant": "node build/dev-merchant.js",
+    "build-admin": "node build/build-admin.js",
+    "build-manager": "node build/build-manager.js",
+    "build-merchant": "node build/build-merchant.js"
   },
   "dependencies": {
     "axios": "^0.16.2",
