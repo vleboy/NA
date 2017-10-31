@@ -1,7 +1,6 @@
 <template>
   <div class="bread">
     <el-breadcrumb separator="/" v-if="nowindex === 'board'" class="title">
-      <el-breadcrumb-item>看板系统 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">看板</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
