@@ -40,7 +40,7 @@ import Sidebar from '@/components/sidebar' // 导航条组件
 import Bread from '@/components/bread' // 面包屑组件
 import Tab from '@/components/tabs' // 标签页组件
 import Loginbar from '@/components/loginbar' // 顶部条组件
-import Login from '@/components/login' // 登录框组件
+import Login from '@/components/login/login-manager' // 登录框组件
 export default {
   components: {
     Rottamap,
