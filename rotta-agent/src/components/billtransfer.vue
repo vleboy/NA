@@ -10,7 +10,7 @@
         </el-form>
         <div class="bottom-btn" v-if="isfinish === false">
           <el-button @click="cancel" class="distance">取 消</el-button>
-          <el-button type="primary" @click="list_unlockUser">继 续</el-button>
+          <el-button type="primary" @click="list_unlockUser" :loading='loading'>继 续</el-button>
         </div>
         <div v-if="isfinish === true">
           <p class="success"><i class="el-icon-circle-check"></i>操作成功</p>
@@ -37,7 +37,7 @@
         </el-form>
         <div class="bottom-btn" v-if="isfinish === false">
           <el-button @click="cancel" class="distance">取 消</el-button>
-          <el-button type="primary" @click="postStore">继 续</el-button>
+          <el-button type="primary" @click="postStore" :loading='loading'>继 续</el-button>
         </div>
         <div v-if="isfinish === true">
           <p class="success"><i class="el-icon-circle-check"></i>操作成功</p>
@@ -61,7 +61,7 @@
           </el-form>
           <div class="bottom-btn" v-if="isfinish === false">
             <el-button @click="cancel" class="distance">取 消</el-button>
-            <el-button type="primary" @click="postWithdraw">继 续</el-button>
+            <el-button type="primary" @click="postWithdraw" :loading='loading'>继 续</el-button>
           </div>
           <div v-if="isfinish === true">
             <p class="success"><i class="el-icon-circle-check"></i>操作成功</p>
@@ -88,7 +88,7 @@
         </el-form>
         <div class="bottom-btn" v-if="isfinish === false">
           <el-button @click="cancel" class="distance">取 消</el-button>
-          <el-button type="primary" @click="playerStore">继 续</el-button>
+          <el-button type="primary" @click="playerStore" :loading='loading'>继 续</el-button>
         </div>
         <div v-if="isfinish === true">
           <p class="success"><i class="el-icon-circle-check"></i>操作成功</p>
@@ -112,7 +112,7 @@
           </el-form>
           <div class="bottom-btn" v-if="isfinish === false">
             <el-button @click="cancel" class="distance">取 消</el-button>
-            <el-button type="primary" @click="playerWithdraw">继 续</el-button>
+            <el-button type="primary" @click="playerWithdraw" :loading='loading'>继 续</el-button>
           </div>
           <div v-if="isfinish === true">
             <p class="success"><i class="el-icon-circle-check"></i>操作成功</p>
@@ -158,6 +158,7 @@ export default {
           return time.getTime() < Date.now() - 8.64e7
         }
       },
+      loading: false,
       isfinish: false,
       storePoints: {
         fromUserId: '',
@@ -206,6 +207,7 @@ export default {
       } // 提点明细
     },
     postStore () {
+      this.loading = true
       var data = this.storePoints
       if (this.$store.state.variable.dialogObj.parentId === '01') {
         data.fromUserId = localStorage.loginId
@@ -219,11 +221,12 @@ export default {
       }
       data.toUser = this.$store.state.variable.dialogObj.username
       if (!this.storePoints.amount || Number(this.storePoints.amount) < 0 || isNaN(this.storePoints.amount) === true) {
-        console.log(data)
+        // console.log(data)
         this.$message({
           message: '请完善存点信息',
           type: 'error'
         })
+        this.loading = false
       } else {
         var url = ''
         if (this.$store.state.variable.dialogObj.type) {
@@ -245,7 +248,8 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('存点成功返回', data)
+              // console.log('存点成功返回', data)
+              this.loading = false
               this.isfinish = true
               this.$store.dispatch('getComlist')
               this.$store.dispatch('getSelfData')
@@ -258,6 +262,7 @@ export default {
       }
     }, // 代理存点
     postWithdraw () {
+      this.loading = true
       var data = this.withdrawPoints
       if (this.$store.state.variable.dialogObj.type) {
         data.fromUserId = this.$store.state.variable.dialogObj.parentId
@@ -274,9 +279,10 @@ export default {
         }
       }
       data.toRole = '1000'
-      console.log('1:', data)
+      // console.log('1:', data)
       if (!this.withdrawPoints.amount || Number(this.withdrawPoints.amount) < 0 || isNaN(this.withdrawPoints.amount) === true) {
-        console.log(data)
+        // console.log(data)
+        this.loading = false
         this.$message({
           message: '请完善存点信息',
           type: 'error'
@@ -302,7 +308,8 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log('提点成功返回', data)
+              // console.log('提点成功返回', data)
+              this.loading = false
               this.isfinish = true
               this.$store.dispatch('getComlist')
               this.$store.dispatch('getSelfData')
@@ -315,6 +322,7 @@ export default {
       }
     }, // 代理提点
     playerStore () {
+      this.loading = true
       var data = {
         fromUserId: this.$store.state.variable.dialogObj.fromUserId,
         toUser: this.$store.state.variable.dialogObj.userName,
@@ -341,6 +349,7 @@ export default {
               })
             } else {
               this.$message.success('提交成功')
+              this.loading = false
               this.isfinish = true
               this.$store.dispatch('getAgentPlayer')
               this.$store.dispatch('getSelfData')
@@ -350,6 +359,7 @@ export default {
       }
     }, // 玩家存点
     playerWithdraw () {
+      this.loading = true
       var data = {
         fromUserId: this.$store.state.variable.dialogObj.fromUserId,
         toUser: this.$store.state.variable.dialogObj.userName,
@@ -376,6 +386,7 @@ export default {
               })
             } else {
               this.$message.success('提交成功')
+              this.loading = false
               this.isfinish = true
               this.$store.dispatch('getAgentPlayer')
               this.$store.dispatch('getSelfData')
@@ -385,6 +396,7 @@ export default {
       }
     }, // 玩家提点
     list_unlockUser () {
+      this.loading = true
       var data = {
         role: this.$store.state.variable.dialogObj.role,
         userId: this.$store.state.variable.dialogObj.userId,
