@@ -23,8 +23,9 @@
                 </el-table-column>
                 <el-table-column label="上级代理" prop="parent" align="center">
                   <template scope="scope">
-                      <span @click="goParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{(scope.row.parentDisplayName)}}</span>
-                      <span v-if="scope.row.parent === '01'">直属于平台</span>
+                      <span @click="goParent(scope.row.parent)" class="fontUrl" v-if="loginUser == 'Agent' && scope.row.parent != '01'">{{(scope.row.parentDisplayName)}}</span>
+                      <span v-if="loginUser != 'Agent' && scope.row.parent != '01'">{{(scope.row.parentDisplayName)}}</span>
+                      <span v-if="scope.row.parent == '01'">直属于平台</span>
                   </template>
                 </el-table-column>
                 <el-table-column label="代理成数" prop="rate" align="center">
@@ -280,6 +281,7 @@ export default {
   },
   data () {
     return {
+      loginUser: localStorage.loginSuffix,
       nowSize: 10,
       nowPage: 1,
       playerStatus: ['已锁定', '正常'],
