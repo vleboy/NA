@@ -302,9 +302,16 @@ const actions = {
       comdetailID = state.variable.comdetailID
     }
     // console.log('查看的用户id:', comdetailID)
+    var data = {
+      parent: comdetailID,
+      query: {},
+      sortkey: 'createdAt',
+      sort: 'desc'
+    }
     invoke({
-      url: api.agentList + '/' + comdetailID,
-      method: api.get
+      url: api.agentList,
+      method: api.post,
+      data: data
     }).then(
       result => {
         const [err, ret] = result

@@ -39,9 +39,11 @@
                                     {{comdetail.rate}}%
                                 </el-form-item>
                                 <el-form-item label="代理成数" prop="rate" v-show="this.disable == false">
-                                    <el-input v-model="comdetail.rate">
+                                    <el-tooltip class="item" effect="dark" :content="rateContent" placement="top">
+                                      <el-input v-model="comdetail.rate">
                                         <template slot="prepend">%</template>
-                                    </el-input>
+                                      </el-input>
+                                    </el-tooltip>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -54,9 +56,11 @@
                                     {{comdetail.vedioMix}}%
                                 </el-form-item>
                                 <el-form-item label="电子游戏洗码比" prop="vedioMix" v-show="this.disable == false">
-                                    <el-input v-model="comdetail.vedioMix">
+                                    <el-tooltip class="item" effect="dark" :content="vedioMixContent" placement="top">
+                                      <el-input v-model="comdetail.vedioMix">
                                         <template slot="prepend">%</template>
-                                    </el-input>
+                                      </el-input>
+                                    </el-tooltip>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -69,9 +73,11 @@
                                     {{comdetail.liveMix}}%
                                 </el-form-item>
                                 <el-form-item label="真人游戏洗码比" prop="liveMix" v-show="this.disable == false">
-                                    <el-input v-model="comdetail.liveMix">
+                                    <el-tooltip class="item" effect="dark" :content="liveMixContent" placement="top">
+                                      <el-input v-model="comdetail.liveMix">
                                         <template slot="prepend">%</template>
-                                    </el-input>
+                                      </el-input>
+                                    </el-tooltip>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -402,7 +408,35 @@ export default {
     this.$store.dispatch('getComdetail_child')
     this.$store.dispatch('getDetailPlayer')
   },
+  created () {
+    var parentId = this.$store.state.variable.comdetailID
+    invoke({
+      url: api.bills + '/' + parentId,
+      method: api.get
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var data = ret.data.payload
+          this.parentInfo = data
+        }
+      }
+    )
+  },
   computed: {
+    rateContent () {
+      var content = this.parentInfo.rate
+      return '上级代理成数为 ' + content + '%'
+    },
+    liveMixContent () {
+      var content = this.parentInfo.liveMix
+      return '上级代理成数为 ' + content + '%'
+    },
+    vedioMixContent () {
+      var content = this.parentInfo.vedioMix
+      return '上级代理成数为 ' + content + '%'
+    },
     comdetail () {
       var data = this.$store.state.variable.comdetaildata
       if (data.remark === 'NULL') {
@@ -536,6 +570,9 @@ export default {
       } else if (value < 0 || value > 100) {
         callback(new Error('抽成比应为0~100之间的数字'))
         this.isfinish.rate = false
+      } else if (value >= this.parentInfo.rate) {
+        callback(new Error('超出上级成数'))
+        this.isfinish.rate = false
       } else {
         this.isfinish.rate = true
         callback()
@@ -552,6 +589,9 @@ export default {
       } else if (value < 0 || value > 1) {
         callback(new Error('电子游戏洗码比应为 0.00 ~ 1.00 之间的数字'))
         this.isfinish.vedioMix = false
+      } else if (value >= this.parentInfo.vedioMix) {
+        callback(new Error('超出上级电子游戏洗码比'))
+        this.isfinish.vedioMix = false
       } else {
         this.isfinish.vedioMix = true
         callback()
@@ -567,6 +607,9 @@ export default {
         this.isfinish.liveMix = false
       } else if (value < 0 || value > 1) {
         callback(new Error('真人视讯洗码比应为 0.00 ~ 1.00 之间的数字'))
+        this.isfinish.liveMix = false
+      } else if (value >= this.parentInfo.liveMix) {
+        callback(new Error('超出上级真人游戏洗码比'))
         this.isfinish.liveMix = false
       } else {
         this.isfinish.liveMix = true
@@ -586,6 +629,7 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      parentInfo: '',
       loginId: localStorage.loginId,
       pickerOptions: {
         disabledDate (time) {
