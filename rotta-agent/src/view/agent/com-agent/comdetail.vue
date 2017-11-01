@@ -922,6 +922,7 @@ export default {
     },
     turnONedit () {
       this.disable = false
+      this.$store.commit('startEdit')
     }, // 开启编辑
     changeContract () {
       if (this.comdetail.isforever === true) {
@@ -965,6 +966,7 @@ export default {
               var data = ret.data.payload
               // console.log(data)
               this.disable = true
+              this.$store.commit('closeEdit')
               this.loading = false
               this.$message({
                 message: '修改成功',
