@@ -570,7 +570,7 @@ export default {
       } else if (value < 0 || value > 100) {
         callback(new Error('抽成比应为0~100之间的数字'))
         this.isfinish.rate = false
-      } else if (value >= this.parentInfo.rate) {
+      } else if (value > this.parentInfo.rate) {
         callback(new Error('超出上级成数'))
         this.isfinish.rate = false
       } else {
@@ -589,7 +589,7 @@ export default {
       } else if (value < 0 || value > 1) {
         callback(new Error('电子游戏洗码比应为 0.00 ~ 1.00 之间的数字'))
         this.isfinish.vedioMix = false
-      } else if (value >= this.parentInfo.vedioMix) {
+      } else if (value > this.parentInfo.vedioMix) {
         callback(new Error('超出上级电子游戏洗码比'))
         this.isfinish.vedioMix = false
       } else {
@@ -608,7 +608,7 @@ export default {
       } else if (value < 0 || value > 1) {
         callback(new Error('真人视讯洗码比应为 0.00 ~ 1.00 之间的数字'))
         this.isfinish.liveMix = false
-      } else if (value >= this.parentInfo.liveMix) {
+      } else if (value > this.parentInfo.liveMix) {
         callback(new Error('超出上级真人游戏洗码比'))
         this.isfinish.liveMix = false
       } else {
