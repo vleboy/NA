@@ -151,6 +151,7 @@ const actions = {
             message: err.msg,
             type: 'warning'
           })
+          context.commit('closeLoading')
         } else {
           var data = ret.data.payload
           // console.log('线路商详细数据', data)
@@ -158,6 +159,7 @@ const actions = {
             type: 'recordOutdetaildata',
             data: data
           })
+          context.commit('closeLoading')
         }
       }
     )
@@ -188,7 +190,7 @@ const actions = {
             type: 'recordOutdetail_property',
             data: data
           })
-          context.commit('closeLoading')
+          // context.commit('closeLoading')
         }
       }
     )
@@ -219,7 +221,7 @@ const actions = {
             type: 'recordOutdetail_child_managers',
             data: data
           })
-          context.commit('closeLoading')
+          // context.commit('closeLoading')
         }
       }
     )
@@ -250,7 +252,7 @@ const actions = {
             type: 'recordOutdetail_child_merchants',
             data: data
           })
-          context.commit('closeLoading')
+          // context.commit('closeLoading')
         }
       }
     )
@@ -280,6 +282,7 @@ const actions = {
             type: 'recordComdetaildata',
             data: data
           })
+          context.commit('closeLoading')
         }
       }
     )
@@ -310,7 +313,7 @@ const actions = {
             type: 'recordComdetail_property',
             data: data
           })
-          context.commit('closeLoading')
+          // context.commit('closeLoading')
         }
       }
     )
