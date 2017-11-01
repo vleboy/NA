@@ -13,14 +13,14 @@
               <el-input v-model="setcomInfo.rate" class="input" placeholder="请输入"></el-input>
             </el-tooltip>
           </el-form-item>
-          <el-form-item label="电子游戏洗码比(%)" prop="liveMix">
+          <el-form-item label="电子游戏洗码比(%)" prop="vedioMix">
             <el-tooltip class="item" effect="dark" :content="parentVedioMix" placement="right">
-              <el-input v-model="setcomInfo.liveMix" class="input" placeholder="请输入"></el-input>
+              <el-input v-model="setcomInfo.vedioMix" class="input" placeholder="请输入"></el-input>
             </el-tooltip>
           </el-form-item>
-          <el-form-item label="真人视讯洗码比(%)" prop="vedioMix">
+          <el-form-item label="真人视讯洗码比(%)" prop="liveMix">
             <el-tooltip class="item" effect="dark" :content="parentLiveMix" placement="right">
-              <el-input v-model="setcomInfo.vedioMix" class="input" placeholder="请输入"></el-input>
+              <el-input v-model="setcomInfo.liveMix" class="input" placeholder="请输入"></el-input>
             </el-tooltip>
           </el-form-item>
     </el-form>
