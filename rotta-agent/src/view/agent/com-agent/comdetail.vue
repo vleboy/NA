@@ -6,7 +6,9 @@
         <div class="simpleinfo">
             <div class="parent">
                 <h4>基本信息</h4>
-                <p v-if="this.comdetail.parent !== '01'">所属代理: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
+                <p v-if="this.comdetail.parent !== '01' && this.$store.state.variable.comdetailID != loginId">所属代理: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
+                </p>
+                <p v-if="this.comdetail.parent !== '01' && this.$store.state.variable.comdetailID == loginId">所属代理: <span>{{comdetail.parentDisplayName}}</span>
                 </p>
                 <p v-if="this.comdetail.parent === '01'">所属代理: 无
                 </p>
@@ -112,7 +114,7 @@
             <h4>管理信息
             <div style="float:right;margin-right:2rem">
               <el-button type="primary" @click="submitEdit" :loading="loading" v-if="this.disable === false">提交修改</el-button>
-              <el-button type="primary" @click="turnONedit" v-if="this.disable === true">编辑</el-button>
+              <el-button type="primary" @click="turnONedit" v-if="this.disable === true && this.$store.state.variable.comdetailID != loginId">编辑</el-button>
             </div>
           </h4>
             <div class="manangeform" v-if="this.$store.state.variable.isEdit === false">
@@ -192,8 +194,8 @@
                 <div class="propertyform-header">
                     <span>当前剩余点数: <span style="color:#FF9900">{{comBills}}</span></span>
                     <el-button type="text" class="propertybtn" @click="refreshAgent">刷新</el-button>
-                    <el-button type="text" class="propertybtn" @click="storePoints" v-if="this.comdetail.status === 1">存点</el-button>
-                    <el-button type="text" class="propertybtn" @click="withdrawPoints" v-if="this.comdetail.status === 1">提取</el-button>
+                    <el-button type="text" class="propertybtn" @click="storePoints" v-if="this.comdetail.status === 1　&& this.$store.state.variable.comdetailID != loginId">存点</el-button>
+                    <el-button type="text" class="propertybtn" @click="withdrawPoints" v-if="this.comdetail.status === 1　&& this.$store.state.variable.comdetailID != loginId">提取</el-button>
                 </div>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>
@@ -584,6 +586,7 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      loginId: localStorage.loginId,
       pickerOptions: {
         disabledDate (time) {
           return time.getTime() < Date.now() - 8.64e7
