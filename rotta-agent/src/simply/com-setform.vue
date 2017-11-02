@@ -156,9 +156,9 @@ export default {
 </script>
 
 <style scoped>
-.com-setform{width:41rem;margin: 0 auto;}
+.com-setform{width:42rem;margin: 0 auto;}
 .com-setform .title{font-weight: normal;color: #5a5a5a;margin: 1rem 0 2rem 0;text-align: center;margin-left: -35rem}
-.com-setform .input{width: 20rem}
+.com-setform .input{width: 21rem}
 @media print {
   .Noprint{ display: none }
 }

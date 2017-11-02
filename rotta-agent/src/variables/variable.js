@@ -57,8 +57,6 @@ const variable = {
     isforever: false, // 是否永久有效
     points: '', // 代理点数
     agentEmail: '', // 代理邮箱
-    hostName: '', // 代理真实姓名
-    hostContact: '', // 代理联系方式
     username: '', // 代理用户名
     password: '' // 代理登录密码
   }, // 创建代理信息
