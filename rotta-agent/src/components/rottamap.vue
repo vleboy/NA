@@ -99,9 +99,9 @@ export default {
     goCreateAgent (store, data) {
       event.stopPropagation(this.handleNodeClick)
       this.$store.commit({
-          type: 'recordAgentId',
-          data: localStorage.loginId
-        })
+        type: 'selectParent',
+        data: ''
+      })
       this.$router.push('comcreate')
     },
     filterNode (value, data) {

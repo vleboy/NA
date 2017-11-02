@@ -126,9 +126,9 @@ export default {
     }
   },
   beforeDestroy () {
-    if (this.merchantInfo.parent === '' && localStorage.loginParent === '00') {
+    if (!this.merchantInfo.parent && localStorage.loginParent == '00') {
       this.merchantInfo.parent = '01'
-    } else if (this.merchantInfo.parent === '' && localStorage.loginParent !== '00') {
+    } else if (!this.merchantInfo.parent && localStorage.loginParent != '00') {
       this.merchantInfo.parent = localStorage.loginId
     }
     if (this.merchantInfo.isforever === true) {
