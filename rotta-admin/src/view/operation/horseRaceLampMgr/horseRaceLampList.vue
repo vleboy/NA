@@ -275,11 +275,11 @@ export default {
     },
     getNowsize (size) {
       this.nowSize = size
-      console.log('当前每页:' + size)
+//      console.log('当前每页:' + size)
     },
     getNowpage (page) {
       this.nowPage = page
-      console.log('当前是第:' + page + '页')
+//      console.log('当前是第:' + page + '页')
     },
     delItem (row) {
       this.$confirm(`确定要删除该公告吗？`, {

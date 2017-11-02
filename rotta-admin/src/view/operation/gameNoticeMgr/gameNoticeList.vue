@@ -179,7 +179,7 @@ export default {
       )
     },
     submitProp (id) {
-      console.log(pattern.url.exec(this.noticeInfo.url), this.noticeInfo.url)
+//      console.log(pattern.url.exec(this.noticeInfo.url), this.noticeInfo.url)
       if (!this.noticeInfo.adName) {
         return this.$message.error('请输入公告名称')
       } else if (!pattern.url.exec(this.noticeInfo.url)) {
@@ -295,11 +295,11 @@ export default {
     }, // 格式化创建时间
     getNowsize (size) {
       this.nowSize = size
-      console.log('当前每页:' + size)
+//      console.log('当前每页:' + size)
     },
     getNowpage (page) {
       this.nowPage = page
-      console.log('当前是第:' + page + '页')
+//      console.log('当前是第:' + page + '页')
     },
     delItem (row) {
       this.$confirm(`确定要删除该公告吗？`, {
@@ -357,7 +357,7 @@ export default {
           this.dialogLoading = false
           this.$message.success('上传成功')
           this.noticeInfo.img = (process.env.NODE_ENV == 'development') ? dev : prod
-          console.log(this.noticeInfo.img, 'this.noticeInfo.img')
+//          console.log(this.noticeInfo.img, 'this.noticeInfo.img')
         }
       })
     },
@@ -403,7 +403,7 @@ export default {
             resolve(true)
           }
         }).catch(err => {
-          console.log(err)
+//          console.log(err)
           reject(false)
         })
       })
