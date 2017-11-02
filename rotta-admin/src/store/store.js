@@ -367,7 +367,7 @@ const actions = {
       }
     )
   }, // 获取创建商户上级余额
-  getPersonal_info (context) {
+  getPersonal_info_admin (context) {
     invoke({
       url: api.adminCenter,
       method: api.get
@@ -392,6 +392,56 @@ const actions = {
       }
     )
   }, // 获取管理员个人中心基本信息
+  getPersonal_info_manager (context) {
+    invoke({
+      url: api.managers + '/' + localStorage.loginId,
+      method: api.get
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+          context.commit('closeLoading')
+          this.$message({
+            message: err.msg,
+            type: 'warning'
+          })
+        } else {
+          var data = ret.data.payload
+          // console.log('管理员基本信息', data)
+          context.commit({
+            type: 'recordPersonal_info',
+            data: data
+          })
+          context.commit('closeLoading')
+        }
+      }
+    )
+  },
+  getPersonal_info_merchant (context) {
+    invoke({
+      url: api.merchants + '/' + localStorage.loginId,
+      method: api.get
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+          context.commit('closeLoading')
+          this.$message({
+            message: err.msg,
+            type: 'warning'
+          })
+        } else {
+          var data = ret.data.payload
+          
+          context.commit({
+            type: 'recordPersonal_info',
+            data: data
+          })
+          context.commit('closeLoading')
+        }
+      }
+    )
+  },
   getPersonal_property (context) {
     invoke({
       url: api.waterFall + '/' + localStorage.loginId,

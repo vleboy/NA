@@ -3,7 +3,7 @@
   	<div class="helpBox">
   	  <img src="/static/icon.png" alt="帮助" class="help-icon">
   	</div>
-  	<span class="help" @click="showSlider" v-if="this.rottaMap.hasRight">层级关系</span>
+  	<span class="help" @click="showSlider" v-if="this.rottaMap.hasRight || !subRole">层级关系</span>
   	<div class="userBox">
   	  <img src="static/admin.png" alt="头像" class="user-icon">
   	</div>
