@@ -7,7 +7,7 @@
   	<div class="userBox">
   	  <img src="static/admin.png" alt="头像" class="user-icon">
   	</div>
-    <el-tag type="primary" class="loginSubrole">{{formatRole(subRole)}}</el-tag>
+    <el-tag type="primary" v-if="subRole" class="loginSubrole">{{formatRole(subRole)}}</el-tag>
   	<el-dropdown trigger="click">
       <span class="username">{{formatUser(username)}}</span>
         <el-dropdown-menu slot="dropdown">
