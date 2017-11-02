@@ -3,6 +3,11 @@
   <div class="com-setform">
     <h2 class="title">配置代理信息</h2>
     <el-form :model="setcomInfo" :rules="rules" ref="setcomInfo" class="setform" label-width="160px" label-position="right">
+      <el-form-item label="代理游戏">
+        <el-select v-model="setcomInfo.gameList" multiple placeholder="请选择" clearable class="input">
+            <el-option v-for="item in allGames" :key="item" :label="item.name" :value="item" style="max-width:336px"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="代理点数" prop="points">
         <el-tooltip class="item" effect="dark" :content="parentBills" placement="right">
           <el-input v-model="setcomInfo.points" class="input" placeholder="请输入"></el-input>
@@ -62,10 +67,34 @@ export default {
   },
   mounted () {
     this.$store.dispatch('getcomParentBills')
+    var data = {
+      parent: ''
+    }
+    if (this.$store.state.variable.comcreate.parent === '') {
+      data.parent = '01'
+    } else {
+      data.parent = this.$store.state.variable.comcreate.parent
+    }
+    invoke({
+      url: api.allGames,
+      method: api.post,
+      data: data
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var data = ret.data.payload
+          this.allGames = data
+        }
+      }
+    )
   },
   data () {
     return {
+      allGames: [], // 所有游戏
       setcomInfo: {
+        gameList: [], // 代理游戏
         points: '', // 代理点数
         rate: '', // 代理抽成比
         liveMix: '', // 真人洗码比

@@ -28,6 +28,13 @@
                       <span v-if="scope.row.parent == '01'">直属于平台</span>
                   </template>
                 </el-table-column>
+                <el-table-column label="代理游戏" prop="gamelist" align="center" width="110">
+                    <template scope="scope">
+                        <div slot="reference" class="gamelist">
+                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column label="代理成数" prop="rate" align="center">
                     <template scope="scope">
                         <span>{{(scope.row.rate)}}%</span>
@@ -102,6 +109,13 @@
                       <span @click="goParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{(scope.row.parentDisplayName)}}</span>
                       <span v-if="scope.row.parent === '01'">直属于平台</span>
                   </template>
+                </el-table-column>
+                <el-table-column label="代理游戏" prop="gamelist" align="center" width="110">
+                    <template scope="scope">
+                        <div slot="reference" class="gamelist">
+                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="代理成数" prop="rate" align="center" sortable>
                     <template scope="scope">

@@ -167,6 +167,7 @@ export default {
         }
       } else if (this.nowindex === 'comcreate' && this.steps === 1) {
         this.comset = {
+          gameList: [], // 代理游戏
           points: '', // 代理点数
           rate: '', // 代理抽成比
           liveMix: '', // 真人洗码比

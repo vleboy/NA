@@ -27,6 +27,18 @@
                             <span class="hidden">1</span>
                         </el-col>
                         <el-col :span="6">
+                            <div class="" style="float:left">
+                                <el-form-item label="代理游戏" v-show="this.disable == true">
+                                    <div v-for="item in comdetail.gameList" style="display:inline-block;margin-left:0.25rem">
+                                        {{item.name}}
+                                    </div>
+                                </el-form-item>
+                                <el-form-item label="代理游戏" v-show="this.disable == false">
+                                    <el-checkbox-group v-model="selectGame">
+                                        <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
+                                    </el-checkbox-group>
+                                </el-form-item>
+                            </div>
                         </el-col>
                         <el-col :span="1">
                             <span class="hidden">1</span>
@@ -629,6 +641,9 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      gameList: [], // 上级拥有的游戏(包含所有的对象)
+      parentGamelist: [], // 上级拥有的游戏(只带名字的)
+      selectGame: [], // 修改游戏选中值(只带名字的)
       parentInfo: '',
       loginId: localStorage.loginId,
       pickerOptions: {
@@ -672,6 +687,30 @@ export default {
     }
   },
   methods: {
+    addGame () {
+      var data = {
+        userId: this.$store.state.variable.comdetaildata.parent
+      }
+      invoke({
+        url: api.allGames,
+        method: api.post,
+        data: data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var data = ret.data.payload
+            this.gameList = data
+            for(let item of data) {
+              if (item.name) {
+                this.parentGamelist.push(item.name)
+              }
+            }
+          }
+        }
+      )
+    }, // 获取上级拥有游戏
     refreshAgent () {
       this.$store.commit('startLoading')
       this.$store.dispatch('getComdetail_property')
@@ -941,6 +980,15 @@ export default {
         })
       } else {
         this.loading = true
+        this.comdetail.gameList = []
+        for (let outside of this.gameList) {
+          for (let inside of this.selectGame) {
+            if (outside.name == inside) {
+              this.comdetail.gameList.push(outside)
+            }
+          }
+        }
+        this.comdetail.gameList = Array.from(new Set(this.comdetail.gameList))
         if (this.comdetail.contractPeriod !== 0) {
           for (var i = this.comdetail.contractPeriod.length - 1; i >= 0; i--) {
             if (isNaN(this.comdetail.contractPeriod[i].toString())) {
