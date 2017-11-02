@@ -36,11 +36,13 @@ export default {
     }
   },
   mounted () {
-    var key = localStorage.loginToken.substring(0,6)
-    var fuck = JSON.parse(crypto.aesDecrypt(localStorage.userRight, key))
-    for (let item of fuck) {
-      if (item == this.rottaMap.name) {
-        this.rottaMap.hasRight = true
+    if (this.subRole) {
+      var key = localStorage.loginToken.substring(0,6)
+      var fuck = JSON.parse(crypto.aesDecrypt(localStorage.userRight, key))
+      for (let item of fuck) {
+        if (item == this.rottaMap.name) {
+          this.rottaMap.hasRight = true
+        }
       }
     }
   },
