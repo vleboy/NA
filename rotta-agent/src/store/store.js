@@ -38,7 +38,7 @@ const actions = {
             type: 'recordMap',
             data: data
           })
-          context.commit('closeLoading')
+          // context.commit('closeLoading')
         }
       }
     )
@@ -254,7 +254,7 @@ const actions = {
               type: 'recordAgentPlayer',
               data: data
             })
-            context.commit('closeLoading')
+            // context.commit('closeLoading')
           }
         }
       )

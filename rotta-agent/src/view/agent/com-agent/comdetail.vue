@@ -436,6 +436,9 @@ export default {
       }
     )
   },
+  mounted() {
+    this.addGame()
+  },
   computed: {
     rateContent () {
       var content = this.parentInfo.rate
@@ -960,6 +963,11 @@ export default {
       return billType(bill)
     },
     turnONedit () {
+      for (let item of this.comdetail.gameList) {
+        if (item.name) {
+          this.selectGame.push(item.name)
+        }
+      }
       this.disable = false
       this.$store.commit('startEdit')
     }, // 开启编辑
