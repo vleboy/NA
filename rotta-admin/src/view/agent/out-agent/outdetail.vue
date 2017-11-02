@@ -873,7 +873,7 @@ export default {
     },
     actions (bill) {
       return billType(bill)
-    },
+    }, // 格式化点数
     turnONedit () {
       for (let item of this.outdetail.gameList) {
         if (item.name) {
