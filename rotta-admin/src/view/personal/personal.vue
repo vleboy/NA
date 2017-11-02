@@ -17,9 +17,6 @@ export default {
       role: localStorage.loginRole
     }
   },
-  mounted () {
-    console.log(this.role)
-  },
   components: {
     personalAdmin,
     personalManager,

@@ -143,7 +143,7 @@ export default {
   },
   computed: {
     balance () {
-      return formatPoints(this.$store.state.variable.personalbills)
+      return formatPoints(this.$store.state.variable.bills)
     },
     adminInfo () {
       var data = this.$store.state.variable.personalinfo
