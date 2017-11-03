@@ -161,13 +161,15 @@
             name: '真人视讯',
             type: 'bar',
             data: this.consumeList.vedio
-          },
-          {
-            name: '电子游戏',
-            type: 'bar',
-            data: this.consumeList.elec
           }
         ]
+        if(localStorage.displayName != '包房代理'){
+          optionSeries.push({
+              name: '电子游戏',
+              type: 'bar',
+              data: this.consumeList.elec
+          })
+        }
         return optionSeries
       },
       optionSeriesLine () {
