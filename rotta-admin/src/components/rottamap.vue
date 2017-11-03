@@ -197,7 +197,7 @@ export default {
       }
       if (data.name == 'NA集团') {
         this.$router.push('personal')
-        this.$store.dispatch('getPersonal_info')
+        this.$store.dispatch('getPersonal_info_admin')
         this.$store.dispatch('getPersonal_property')
         this.$store.dispatch('getPersonal_bills')
       }
