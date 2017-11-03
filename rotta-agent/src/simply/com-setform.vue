@@ -90,6 +90,15 @@ export default {
       }
     )
   },
+  watch: {
+    'setcomInfo.gameList' (val) {
+      if (val.length>0) {
+        store.state.checkform.gameList = true
+      } else {
+        store.state.checkform.gameList = false
+      }
+    }
+  },
   data () {
     return {
       allGames: [], // 所有游戏

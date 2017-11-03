@@ -439,6 +439,15 @@ export default {
   mounted() {
     this.addGame()
   },
+  watch: {
+    selectGame (val) {
+      if (val.length > 0) {
+        this.isfinish.gameList = true
+      } else {
+        this.isfinish.gameList = false
+      }
+    }
+  },
   computed: {
     rateContent () {
       var content = this.parentInfo.rate
@@ -664,6 +673,7 @@ export default {
       disable: true, // 禁用输入框
       balance: 0,
       isfinish: {
+        gameList: true,
         password: true,
         rate: true,
         vedioMix: true,
@@ -981,9 +991,22 @@ export default {
       }
     }, // 设置永久时间
     submitEdit () {
+      // var select = localStorage.selectGame
+      // console.log('草泥马',select)
+      // if (!select) {
+      //   this.$message({
+      //     message: '请至少选择一款游戏',
+      //     type: 'error'
+      //   })
+      // }
       if (this.isfinish.password === false || this.isfinish.rate === false || this.isfinish.contractPeriod === false || this.isfinish.vedioMix === false || this.isfinish.liveMix === false) {
         this.$message({
           message: '修改信息错误',
+          type: 'error'
+        })
+      } else if (this.isfinish.gameList === false) {
+        this.$message({
+          message: '代理游戏不能为空',
           type: 'error'
         })
       } else {

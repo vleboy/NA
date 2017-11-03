@@ -53,6 +53,7 @@ const variable = {
     vedioMix: '', // 电子洗码比
     parent: '', // 上级代理
     remark: '', // 备注
+    gameList: [], // 代理游戏
     contractPeriod: [], // 生效时间
     isforever: false, // 是否永久有效
     points: '', // 代理点数
