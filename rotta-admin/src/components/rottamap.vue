@@ -28,11 +28,39 @@ import api from '@/api/api'
 export default {
   beforeCreate () {
     this.$store.commit('returnLocalStorage')
-    this.$store.dispatch('getMap')
   },
   created () {
   },
   mounted () {
+    if (this.role == '1' || this.role == '10') {
+      this.$store.dispatch('getMap')
+    } else if (this.role == '100') {
+      var data = {
+          userId: localStorage.loginId
+        }
+        invoke({
+          url: api.mapPlayer,
+          method: api.post,
+          data: data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+              this.$message({
+                message: err.msg,
+                type: 'warning'
+              })
+            } else {
+              var data = ret.data.list
+              this.$store.commit({
+                type: 'recordMap',
+                data: data
+              })
+              this.loading = false
+            }
+          }
+        )
+    }
   },
   computed: {
     isSlider () {
@@ -53,6 +81,7 @@ export default {
   data () {
     return {
       filterText: '',
+      role: localStorage.loginRole,
       nowUser: localStorage.nowUser,
       defaultProps: {
         children: 'children',
