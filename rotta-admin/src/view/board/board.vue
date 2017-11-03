@@ -99,7 +99,7 @@
     </div>
   </div>
 </template>
-<script>
+<script type="text/ecmascript-6">
   import { invoke } from '@/libs/fetchLib'
   import api from '@/api/api'
   export default {
@@ -119,9 +119,9 @@
         totalData: [],
         dataChess: [],
         dataVideo: [],
-        statisticalTextOne: ['今日售出点数', '今日收益点数', '在线玩家', '今日签约数'],
-        statisticalTextTwo: ['历史售出点数', '历史收益点数', '玩家总数', '历史签约数'],
-        statisticalIcon: ['/static/icon-1.png', '/static/icon-2.png', '/static/icon-3.png', '/static/icon-4.png'],
+        statisticalTextOne: localStorage.loginRole == '100' ? ['今日收益点数', '在线玩家'] : ['今日售出点数', '今日收益点数', '在线玩家', '今日签约数'],
+        statisticalTextTwo: localStorage.loginRole == '100' ? ['历史收益点数', '玩家总数'] : ['历史售出点数', '历史收益点数', '玩家总数', '历史签约数'],
+        statisticalIcon: localStorage.loginRole == '100' ? ['/static/icon-2.png', '/static/icon-3.png'] : ['/static/icon-1.png', '/static/icon-2.png', '/static/icon-3.png', '/static/icon-4.png'],
         dateTypeArray: [],
         consumeList: '',
         consumeAndIncomeList: '',
@@ -130,20 +130,33 @@
         isGoConsume: false, // 判断是否从搜索框跳转
         isGoConsumeAndIncome: false, // 判断是否从搜索框跳转
         isSetInterval: false, // 是否是定时刷新,
-        dynamicNum: '' // 动态渲染游戏消耗总点数
+        dynamicNum: '', // 动态渲染游戏消耗总点数
+        role: localStorage.loginRole // 相应角色的权限（区分商户、线路商、平台角色）
       }
     },
     mounted () {
       let self = this
-      for (let i = 0; i < 4; i++){
-        self.getStatisticalNum(i)
+      if (this.role == '100') {
+        for (let i = 0; i < 2; i++){
+          self.getStatisticalNum(i)
+        }
+      } else {
+        for (let i = 0; i < 4; i++){
+          self.getStatisticalNum(i)
+        }
       }
       self.changeDateType()
       self.changeDateTypeTwo()
       self.intervalid = setInterval(() => {
         self.isSetInterval = true
-        for (let i = 0; i < 4; i++){
-          self.getStatisticalNum(i)
+        if (this.role == '100') {
+          for (let i = 0; i < 2; i++){
+            self.getStatisticalNum(i)
+          }
+        } else {
+          for (let i = 0; i < 4; i++){
+            self.getStatisticalNum(i)
+          }
         }
         self.changeDateType()
         self.changeDateTypeTwo()
@@ -204,7 +217,7 @@
           url: api.statisticsAll,
           method: api.post,
           data: {
-            type: index+1
+            type: index + ((this.role == '100') ? 2 : 1)
           }
         }).then(
           result => {

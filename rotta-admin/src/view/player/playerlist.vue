@@ -2,26 +2,26 @@
   <div class="playerlist">
     <div class="propList-search propList">
       <el-row class="transition-box">
-        <el-col :span="10">
+        <el-col :span="10" class="g-text-right">
           <span>用户名: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.userName"></el-input>
         </el-col>
-        <el-col :span="10" class="text-left">
-          <span>所属商户: </span>
-          <el-input placeholder="请输入" class="input" v-model="searchInfo.merchantName"></el-input>
-        </el-col>
-      </el-row>
-      <el-row class="transition-box" style="margin-top: 2rem">
-        <el-col :span="10">
-          <span>线路号: </span>
-          <el-input placeholder="请输入" class="input" v-model="searchInfo.msn"></el-input>
-        </el-col>
-        <el-col :span="10" class="text-left">
+        <el-col :span="10" class="g-text-right">
           <span>玩家昵称: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.nickname"></el-input>
         </el-col>
         <el-button type="primary" @click="getPlayList">搜索</el-button>
         <el-button @click="resultSearch">重置</el-button>
+      </el-row>
+      <el-row class="transition-box" style="margin-top: 2rem" v-if="role!='100'">
+        <el-col :span="10" class="g-text-right">
+        <span>所属商户: </span>
+        <el-input placeholder="请输入" class="input" v-model="searchInfo.merchantName"></el-input>
+        </el-col>
+        <el-col :span="10" class="g-text-right">
+          <span>线路号: </span>
+          <el-input placeholder="请输入" class="input" v-model="searchInfo.msn"></el-input>
+        </el-col>
       </el-row>
     </div>
     <div class="rebackinfo">
@@ -100,7 +100,8 @@
         playerStatus: ['已停用', '正常'],
         checkedArray: [],
         names: [],
-        searchInfo: {}
+        searchInfo: {},
+        role: localStorage.loginRole // 相应角色的权限（区分商户、线路商、平台角色）
       }
     },
     created () {
