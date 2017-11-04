@@ -704,6 +704,11 @@ export default {
       var data = {
         userId: this.$store.state.variable.comdetaildata.parent
       }
+      if (this.$store.state.variable.comcreate.parent === '') {
+        data.parent = '01'
+      } else {
+        data.parent = this.$store.state.variable.comcreate.parent
+      }
       invoke({
         url: api.allGames,
         method: api.post,
