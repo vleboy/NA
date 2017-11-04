@@ -702,7 +702,12 @@ export default {
   methods: {
     addGame () {
       var data = {
-        parent: this.$store.state.variable.comdetaildata.parent,
+        userId: this.$store.state.variable.comdetaildata.parent,
+      }
+      if (this.$store.state.variable.comdetaildata.parent === '') {
+        data.parent = '01'
+      } else {
+        data.parent = this.$store.state.variable.comdetaildata.parent
       }
       invoke({
         url: api.allGames,
