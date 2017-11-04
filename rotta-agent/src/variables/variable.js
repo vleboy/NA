@@ -76,6 +76,7 @@ const variable = {
 
   outdetailID: '', // 查看线路商详情页的该用户ID
   comdetailID: '', // 查看线路商详情页的该用户ID
+  parentGame: '', // 上级游戏
 
   outdetaildata: {}, // 线路商详情页基本数据
   comdetaildata: {}, // 商户详情页基本数据

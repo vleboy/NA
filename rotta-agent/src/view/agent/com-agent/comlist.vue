@@ -412,6 +412,10 @@ export default {
         type: 'recordComdetailID',
         data: row.userId
       })
+      this.$store.commit({
+        type: 'parentGame',
+        data: row.parent
+      })
       this.$store.commit('closeEdit')
       this.$router.push('comdetail')
     }, // 当前列表跳转详情

@@ -702,13 +702,9 @@ export default {
   methods: {
     addGame () {
       var data = {
-        userId: this.$store.state.variable.comdetaildata.parent,
+        parent: this.$store.state.variable.parentGame
       }
-      if (this.$store.state.variable.comdetaildata.parent === '') {
-        data.parent = '01'
-      } else {
-        data.parent = this.$store.state.variable.comdetaildata.parent
-      }
+      console.log(localStorage.parentGame)
       invoke({
         url: api.allGames,
         method: api.post,

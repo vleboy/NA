@@ -775,6 +775,10 @@ const mutations = {
     localStorage.setItem('comdetailID', payload.data)
   }, // 记录一般商户详情页ID
 
+  parentGame (state, payload) {
+    state.variable.parentGame = payload.data
+    localStorage.setItem('parentGame', payload.data)
+  }, // 获取上级游戏
   changeSteps () {
     state.variable.steps++
     if (state.variable.steps === 2) {
