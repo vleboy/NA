@@ -704,7 +704,6 @@ export default {
       var data = {
         parent: this.$store.state.variable.parentGame
       }
-      console.log(localStorage.parentGame)
       invoke({
         url: api.allGames,
         method: api.post,
