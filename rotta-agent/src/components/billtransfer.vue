@@ -246,6 +246,7 @@ export default {
                 message: err.msg,
                 type: 'warning'
               })
+              this.loading = false
             } else {
               var data = ret.data.payload
               // console.log('存点成功返回', data)
@@ -334,6 +335,7 @@ export default {
           message: '请完善存点信息',
           type: 'error'
         })
+        this.loading = false
       } else {
         invoke({
           url: api.playerDeposit,
@@ -371,6 +373,7 @@ export default {
           message: '请完善存点信息',
           type: 'error'
         })
+        this.loading = false
       } else {
         invoke({
           url: api.playerTake,
@@ -403,12 +406,13 @@ export default {
         status: 1,
         contractPeriod: this.contractPeriod
       }
-      console.log(data)
+      // console.log(data)
       if (this.contractPeriod === undefined || this.contractPeriod === '' || this.contractPeriod[0] === null || this.contractPeriod[1] === null) {
         this.$message({
           message: '请选择生效时间',
           type: 'error'
         })
+        this.loading = false
       } else {
         for (var i = data.contractPeriod.length - 1; i >= 0; i--) {
           data.contractPeriod[i] = new Date(data.contractPeriod[i].toString()).getTime()
@@ -427,11 +431,12 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              console.log(data)
+              // console.log(data)
               this.$message({
                 message: '解锁成功',
                 type: 'success'
               })
+              this.loading = false
               this.isfinish = true
               this.$store.dispatch('getComlist')
             }
