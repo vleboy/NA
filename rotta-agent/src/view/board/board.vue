@@ -163,7 +163,7 @@
             data: this.consumeList.vedio
           }
         ]
-        if(localStorage.loginDisplayName != '包房代理' && localStorage.loginParentDisplayName != '包房代理'){
+        if(localStorage.loginParentName != 'XYZBF' && localStorage.loginUsername != 'XYZBF'){
           optionSeries.push({
               name: '电子游戏',
               type: 'bar',
