@@ -10,22 +10,22 @@
       </el-form-item>
       <el-form-item label="代理点数" prop="points">
         <el-tooltip class="item" effect="dark" :content="parentBills" placement="right">
-          <el-input v-model="setcomInfo.points" class="input" placeholder="请输入"></el-input>
+          <el-input v-model="setcomInfo.points" class="input" placeholder="请输入点数,最大不超过其上级拥有点数"></el-input>
         </el-tooltip>
       </el-form-item>
       <el-form-item label="代理成数(%)" prop="rate">
             <el-tooltip class="item" effect="dark" :content="parentRate" placement="right">
-              <el-input v-model="setcomInfo.rate" class="input" placeholder="请输入"></el-input>
+              <el-input v-model="setcomInfo.rate" class="input" placeholder="0.00~100.00,最大不超过其上级成数"></el-input>
             </el-tooltip>
           </el-form-item>
           <el-form-item label="电子游戏洗码比(%)" prop="vedioMix">
             <el-tooltip class="item" effect="dark" :content="parentVedioMix" placement="right">
-              <el-input v-model="setcomInfo.vedioMix" class="input" placeholder="请输入"></el-input>
+              <el-input v-model="setcomInfo.vedioMix" class="input" placeholder="0.00~1.00,最大不超过其上级电子洗码比"></el-input>
             </el-tooltip>
           </el-form-item>
           <el-form-item label="真人视讯洗码比(%)" prop="liveMix">
             <el-tooltip class="item" effect="dark" :content="parentLiveMix" placement="right">
-              <el-input v-model="setcomInfo.liveMix" class="input" placeholder="请输入"></el-input>
+              <el-input v-model="setcomInfo.liveMix" class="input" placeholder="0.00~1.00,最大不超过其上级真人洗码比"></el-input>
             </el-tooltip>
           </el-form-item>
     </el-form>
