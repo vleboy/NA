@@ -7,7 +7,7 @@
         <el-button class="" @click="reset">重置</el-button>
       </div>
       <div v-if="steps === 1">
-        <el-button type="primary" class="createBtn-btn" @click="gosucout">下一步</el-button>
+        <el-button type="primary" class="createBtn-btn" @click="gosucout" :loading="loading">下一步</el-button>
         <el-button class="" @click="reset">重置</el-button>
       </div>
       <div v-if="steps === 3">
@@ -23,7 +23,7 @@
         <el-button class="" @click="reset">重置</el-button>
       </div>
       <div v-if="steps === 1">
-        <el-button type="primary" class="createBtn-btn" @click="gosuccom">下一步</el-button>
+        <el-button type="primary" class="createBtn-btn" @click="gosuccom" :loading="loading">下一步</el-button>
         <el-button class="" @click="reset">重置</el-button>
       </div>
       <div v-if="steps === 3">
@@ -48,6 +48,7 @@ export default {
   props: ['managerInfo', 'setOutinfo', 'merchantInfo', 'setcomInfo'],
   data () {
     return {
+      loading: false,
       outinfo: this.managerInfo,
       outset: this.setOutinfo,
       cominfo: this.merchantInfo,
@@ -91,14 +92,19 @@ export default {
       }
     }, // 填写线路商基本信息
     gosucout () {
-      // console.log(this.$store.state.checkform)
+      this.loading = true
       if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.name === false || this.$store.state.checkform.userContact === false || this.$store.state.checkform.userEmail === false) {
         this.$message({
           message: '请完善配置信息',
           type: 'error'
         })
+        this.loading = false
       } else {
-        this.$store.commit('changeSteps')
+        let self = this
+        setTimeout(function(){
+          self.loading = false
+          self.$store.commit('changeSteps')
+        },5000)
       }
     }, // 配置线路商信息
     gosetcom () {
@@ -112,14 +118,19 @@ export default {
       }
     }, // 填写商户基本信息
     gosuccom () {
-      // console.log(this.$store.state.checkform)
+      this.loading = true
       if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.msn === false || this.$store.state.checkform.loginWhitelist === false || this.$store.state.checkform.frontURL === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.name === false || this.$store.state.checkform.userContact === false || this.$store.state.checkform.userEmail === false) {
         this.$message({
           message: '请完善配置信息',
           type: 'error'
         })
+        this.loading = false
       } else {
-        this.$store.commit('changeSteps')
+        let self = this
+        setTimeout(function(){
+          self.loading = false
+          self.$store.commit('changeSteps')
+        },5000)
       }
     }, // 配置商户信息
     goOutlist () {
