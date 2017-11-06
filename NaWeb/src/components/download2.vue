@@ -7,7 +7,7 @@
         </h2>
         <div class="download-address">
             <div class="android"><a href="http://www.na77.com/NAGame.apk"><img src="../assets/e1.png" alt=""></a></div>
-            <div class="ios"><a href="itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1320.plist"><img src="../assets/e2.png" alt=""></a></div>
+            <div class="ios"><a href="itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1400.plist"><img src="../assets/e2.png" alt=""></a></div>
         </div>
       </div>
   </div>
