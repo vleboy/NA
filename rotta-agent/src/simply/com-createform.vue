@@ -68,7 +68,7 @@ export default {
         } else {
           var data = ret.data.payload
           data = data.filter(item => {
-            return item.parentDisplayName != '包房代理'
+            return item.parentName != 'XYZBF'
           })
           this.parent = data
           this.parent.push({

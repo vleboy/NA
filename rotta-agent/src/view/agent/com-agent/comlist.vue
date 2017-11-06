@@ -81,7 +81,7 @@
                 </el-table-column>
                 <el-table-column label="操作" align="center" width="90">
                     <template scope="scope">
-                      <el-button type="text" class="myBtn" @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1 && scope.row.parentDisplayName != '包房代理'">创建代理</el-button>
+                      <el-button type="text" class="myBtn" @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1 && scope.row.parentName != 'XYZBF'">创建代理</el-button>
                       <el-button type="text" class="myBtn" @click="createPlayer(scope.$index, scope.row)" v-if="scope.row.status === 1">创建玩家</el-button>
                       <el-button type="text" class="myBtn" @click="goDetail(scope.$index, scope.row)">查看详情</el-button>
                     </template>
@@ -176,7 +176,7 @@
                                     <p @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">
                                         <el-dropdown-item>锁定</el-dropdown-item>
                                     </p>
-                                    <p @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1 && scope.row.parentDisplayName != '包房代理'">
+                                    <p @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1 && scope.row.parentName != 'XYZBF'">
                                         <el-dropdown-item>创建代理</el-dropdown-item>
                                     </p>
                                     <p @click="createPlayer(scope.$index, scope.row)" v-if="scope.row.status === 1">
