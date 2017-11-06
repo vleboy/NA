@@ -571,6 +571,7 @@ export default {
       this.$store.commit('startWithdrawDialog')
     }, // 玩家提点
     lockUser (index, row) {
+      this.$store.commit('startLoading')
       var user = {
         userId: row.userId,
         role: row.role,
@@ -588,6 +589,7 @@ export default {
               message: err.msg,
               type: 'error'
             })
+            this.$store.commit('closeLoading')
           } else {
             var data = ret.data.payload
             // console.log(data)
@@ -596,6 +598,7 @@ export default {
               type: 'success'
             })
             this.$store.dispatch('getComlist')
+            this.$store.commit('closeLoading')
           }
         }
       )

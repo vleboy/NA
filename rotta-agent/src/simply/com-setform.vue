@@ -136,30 +136,30 @@ export default {
     // }
   },
   beforeDestroy () {
-    this.$store.commit({
-      type: 'recordComcreate',
-      data: this.setcomInfo
-    })
-    var comcreate = this.$store.state.variable.comcreate
-    // console.log('注册提交前的数据是', comcreate)
-    invoke({
-      url: api.createUser,
-      method: api.post,
-      data: comcreate
-    }).then(
-      result => {
-        const [err, ret] = result
-        if (err) {
-        } else {
-          var data = ret.data.payload
-          // console.log('注册代理成功后返回数据是:', data)
-          this.$store.commit({
-            type: 'recordComsuccess',
-            data: data
-          })
+    if (this.setcomInfo.gameList.length != 0 && this.setcomInfo.points && this.setcomInfo.rate && this.setcomInfo.liveMix && this.setcomInfo.vedioMix) {
+      this.$store.commit({
+        type: 'recordComcreate',
+        data: this.setcomInfo
+      })
+      var comcreate = this.$store.state.variable.comcreate
+      invoke({
+        url: api.createUser,
+        method: api.post,
+        data: comcreate
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var data = ret.data.payload
+            this.$store.commit({
+              type: 'recordComsuccess',
+              data: data
+            })
+          }
         }
-      }
-    )
+      )
+    }
   }
 }
 </script>
