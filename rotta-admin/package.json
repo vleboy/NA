@@ -12,7 +12,10 @@
     "dev-merchant": "node build/dev-merchant.js --port 4803",
     "build-admin": "node build/build-admin.js",
     "build-manager": "node build/build-manager.js",
-    "build-merchant": "node build/build-merchant.js"
+    "build-merchant": "node build/build-merchant.js",
+    "test-admin": "node build/test-admin.js",
+    "test-manager": "node build/test-manager.js",
+    "test-merchant": "node build/test-merchant.js"
   },
   "dependencies": {
     "axios": "^0.16.2",

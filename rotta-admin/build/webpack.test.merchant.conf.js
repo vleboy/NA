@@ -3,7 +3,7 @@ var utils = require('./utils')
 var webpack = require('webpack')
 var config = require('../config')
 var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.base.conf')
+var baseWebpackConfig = require('./webpack.merchant.conf')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -27,7 +27,7 @@ var webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env,
+      'process.env': config.dev.env,
       'zues_URL': JSON.stringify('https://v6gv32ekre.execute-api.ap-southeast-1.amazonaws.com/'), // zues有关接口
 
       'hulk_URL': JSON.stringify('https://50eavr29x9.execute-api.ap-southeast-1.amazonaws.com/'), // hulk有关接口
