@@ -722,7 +722,7 @@ const mutations = {
 
   selectParent (state, payload) {
     state.variable.nowParent = payload.data
-    console.log('当前所选上级ID', state.variable.nowParent)
+    // console.log('当前所选上级ID', state.variable.nowParent)
   },
 
   pushPlayer (state, payload) {
