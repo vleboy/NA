@@ -160,7 +160,7 @@ export const checkSuffix = (rule, value, callback) => {
             var suffixStatus = ret.data.payload
             // console.log('标识状态为', suffixStatus)
             if (suffixStatus === false) {
-              callback(new Error('该标识已加在'))
+              callback(new Error('该标识已存在'))
               store.state.checkform.suffix = false
             } else {
               store.state.checkform.suffix = true
@@ -187,7 +187,7 @@ export const checkSuffix = (rule, value, callback) => {
             var suffixStatus = ret.data.payload
             // console.log('标识状态为', suffixStatus)
             if (suffixStatus === false) {
-              callback(new Error('该标识已加在'))
+              callback(new Error('该标识已存在'))
               store.state.checkform.suffix = false
             } else {
               store.state.checkform.suffix = true
@@ -236,7 +236,7 @@ export const checkDisplayname = (rule, value, callback) => {
           var displayNameStatus = ret.data.payload
           // console.log('昵称状态为', displayNameStatus)
           if (displayNameStatus === false) {
-            callback(new Error('该昵称已加在'))
+            callback(new Error('该昵称已存在'))
             store.state.checkform.displayName = false
           } else {
             store.state.checkform.displayName = true

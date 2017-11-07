@@ -182,7 +182,7 @@ export default {
       } else if (data.parentId == '01') {
         return false
       }
-    }, // 是否加在上级
+    }, // 是否存在上级
     storeBills () {
       if (!this.storePoints.fromUserId) {
         return '请选择起始账户'

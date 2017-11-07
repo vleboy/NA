@@ -37,7 +37,7 @@ const api = {
 
   login: front.zues + front.stage + '/users/auth', // 所有用户登录接口
 
-  checkUserExist: front.zues + front.stage + '/checkUserExist', // 检查用户标识是否加在
+  checkUserExist: front.zues + front.stage + '/checkUserExist', // 检查用户标识是否存在
 
   managers: front.zues + front.stage + '/managers', // 线路商数据接口
 
