@@ -278,34 +278,35 @@ export default {
     }
   },
   beforeDestroy () {
-    if (!this.setcomInfo.loginWhiteList) {
-      this.setcomInfo.loginWhiteList = '0.0.0.0'
-    }
-    this.setcomInfo.frontURL = this.selectFront + this.setcomInfo.frontURL
-    // console.log(this.setcomInfo)
-    this.$store.commit({
-      type: 'recordComcreate',
-      data: this.setcomInfo
-    })
-    var comcreate = this.$store.state.variable.comcreate
-    invoke({
-      url: api.createUser,
-      method: api.post,
-      data: comcreate
-    }).then(
-      result => {
-        const [err, ret] = result
-        if (err) {
-        } else {
-          var data = ret.data.payload
-          // console.log('注册线路商成功后返回数据是:', data)
-          this.$store.commit({
-            type: 'recordComsuccess',
-            data: data
-          })
-        }
+    if (!this.setcomInfo.rate || !this.setcomInfo.points || !this.setcomInfo.msn || !this.setcomInfo.frontURL || !this.setcomInfo.username || !this.setcomInfo.password || !this.setcomInfo.adminName || !this.setcomInfo.adminEmail || !this.setcomInfo.adminContact) {
+    } else {
+      if (!this.setcomInfo.loginWhiteList) {
+        this.setcomInfo.loginWhiteList = '0.0.0.0'
       }
-    )
+      this.setcomInfo.frontURL = this.selectFront + this.setcomInfo.frontURL
+      this.$store.commit({
+        type: 'recordComcreate',
+        data: this.setcomInfo
+      })
+      var comcreate = this.$store.state.variable.comcreate
+      invoke({
+        url: api.createUser,
+        method: api.post,
+        data: comcreate
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var data = ret.data.payload
+            this.$store.commit({
+              type: 'recordComsuccess',
+              data: data
+            })
+          }
+        }
+      )
+    }
   }
 }
 </script>

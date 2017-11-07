@@ -164,29 +164,32 @@ export default {
     }
   },
   beforeDestroy () {
-    this.$store.commit({
-      type: 'recordOutcreate',
-      data: this.setOutinfo
-    })
-    var outcreate = this.$store.state.variable.outcreate
-    invoke({
-      url: api.createUser,
-      method: api.post,
-      data: outcreate
-    }).then(
-      result => {
-        const [err, ret] = result
-        if (err) {
-        } else {
-          var data = ret.data.payload
-          // console.log('注册线路商成功后返回数据是:', data)
-          this.$store.commit({
-            type: 'recordOutsuccess',
-            data: data
-          })
+    if (!this.setOutinfo.rate || !this.setOutinfo.points || !this.setOutinfo.username || !this.setOutinfo.password || !this.setOutinfo.adminName || !this.setOutinfo.adminEmail || !this.setOutinfo.adminContact) {
+    } else {
+      this.$store.commit({
+        type: 'recordOutcreate',
+        data: this.setOutinfo
+      })
+      var outcreate = this.$store.state.variable.outcreate
+      invoke({
+        url: api.createUser,
+        method: api.post,
+        data: outcreate
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var data = ret.data.payload
+            // console.log('注册线路商成功后返回数据是:', data)
+            this.$store.commit({
+              type: 'recordOutsuccess',
+              data: data
+            })
+          }
         }
-      }
-    )
+      )
+    }
   }
 }
 </script>

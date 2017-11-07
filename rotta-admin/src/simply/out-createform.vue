@@ -136,22 +136,24 @@ export default {
     }
   },
   beforeDestroy () {
-    if (this.managerInfo.isforever === true) {
-      this.managerInfo.contractPeriod = 0
-    }
-    if (this.managerInfo.contractPeriod !== 0) {
-      for (var i = this.managerInfo.contractPeriod.length - 1; i >= 0; i--) {
-        this.managerInfo.contractPeriod[i] = new Date(this.managerInfo.contractPeriod[i].toString()).getTime()
+    if (!this.managerInfo.suffix ||!this.managerInfo.displayName ||!this.managerInfo.managerEmail || !this.managerInfo.hostName || !this.managerInfo.hostContact || this.managerInfo.contractPeriod.length == 0 || this.managerInfo.contractPeriod[0] == null || this.managerInfo.contractPeriod != 0) {
+    } else {
+      if (this.managerInfo.isforever === true) {
+        this.managerInfo.contractPeriod = 0
       }
+      if (this.managerInfo.contractPeriod !== 0) {
+        for (var i = this.managerInfo.contractPeriod.length - 1; i >= 0; i--) {
+          this.managerInfo.contractPeriod[i] = new Date(this.managerInfo.contractPeriod[i].toString()).getTime()
+        }
+      }
+      if (!this.managerInfo.remark) {
+        this.managerInfo.remark = 'NULL!'
+      }
+      this.$store.commit({
+        type: 'recordOutcreate',
+        data: this.managerInfo
+      })
     }
-    if (!this.managerInfo.remark) {
-      this.managerInfo.remark = 'NULL!'
-    }
-    // console.log(this.managerInfo)
-    this.$store.commit({
-      type: 'recordOutcreate',
-      data: this.managerInfo
-    })
   }
 }
 </script>
