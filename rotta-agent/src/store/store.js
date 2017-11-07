@@ -38,7 +38,7 @@ const actions = {
             type: 'recordMap',
             data: data
           })
-          context.commit('closeLoading')
+          // context.commit('closeLoading')
         }
       }
     )
@@ -254,7 +254,7 @@ const actions = {
               type: 'recordAgentPlayer',
               data: data
             })
-            context.commit('closeLoading')
+            // context.commit('closeLoading')
           }
         }
       )
@@ -302,9 +302,16 @@ const actions = {
       comdetailID = state.variable.comdetailID
     }
     // console.log('查看的用户id:', comdetailID)
+    var data = {
+      parent: comdetailID,
+      query: {},
+      sortkey: 'createdAt',
+      sort: 'desc'
+    }
     invoke({
-      url: api.agentList + '/' + comdetailID,
-      method: api.get
+      url: api.agentList,
+      method: api.post,
+      data: data
     }).then(
       result => {
         const [err, ret] = result
@@ -768,6 +775,10 @@ const mutations = {
     localStorage.setItem('comdetailID', payload.data)
   }, // 记录一般商户详情页ID
 
+  parentGame (state, payload) {
+    state.variable.parentGame = payload.data
+    localStorage.setItem('parentGame', payload.data)
+  }, // 获取上级游戏
   changeSteps () {
     state.variable.steps++
     if (state.variable.steps === 2) {

@@ -1,22 +1,5 @@
 <template>
   <div class="createBtn">
-
-    <div v-if="nowindex === 'outcreate'">
-      <div v-if="steps === 0">
-        <el-button type="primary" class="createBtn-btn" @click="gosetout">下一步</el-button>
-        <el-button class="" @click="reset">重置</el-button>
-      </div>
-      <div v-if="steps === 1">
-        <el-button type="primary" class="createBtn-btn" @click="gosucout">下一步</el-button>
-        <el-button class="" @click="reset">重置</el-button>
-      </div>
-      <div v-if="steps === 3">
-        <el-button type="primary" @click="goOutlist">返回列表</el-button>
-        <el-button class="justfy" @click="goOutdetail"> 查 看 </el-button>
-        <el-button @click="print"> 打 印 </el-button>
-      </div>
-    </div>
-
     <div v-if="nowindex === 'comcreate'">
       <div v-if="steps === 0">
         <el-button type="primary" class="createBtn-btn" @click="gosetcom">下一步</el-button>
@@ -81,7 +64,6 @@ export default {
   },
   methods: {
     gosetcom () {
-      // console.log(this.$store.state.checkform)
       if (this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.displayName === false || this.$store.state.checkform.contractPeriod === false) {
         this.$message({
           message: '请完善创建信息',
@@ -92,8 +74,7 @@ export default {
       }
     }, // 配置代理信息
     gosuccom () {
-      // console.log(this.$store.state.checkform)
-      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.vedioMix === false || this.$store.state.checkform.liveMix === false) {
+      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.vedioMix === false || this.$store.state.checkform.liveMix === false || !this.$store.state.checkform.gameList) {
         this.$message({
           message: '请完善配置信息',
           type: 'error'
@@ -167,6 +148,7 @@ export default {
         }
       } else if (this.nowindex === 'comcreate' && this.steps === 1) {
         this.comset = {
+          gameList: [], // 代理游戏
           points: '', // 代理点数
           rate: '', // 代理抽成比
           liveMix: '', // 真人洗码比

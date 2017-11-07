@@ -53,12 +53,11 @@ const variable = {
     vedioMix: '', // 电子洗码比
     parent: '', // 上级代理
     remark: '', // 备注
+    gameList: [], // 代理游戏
     contractPeriod: [], // 生效时间
     isforever: false, // 是否永久有效
     points: '', // 代理点数
     agentEmail: '', // 代理邮箱
-    hostName: '', // 代理真实姓名
-    hostContact: '', // 代理联系方式
     username: '', // 代理用户名
     password: '' // 代理登录密码
   }, // 创建代理信息
@@ -77,6 +76,7 @@ const variable = {
 
   outdetailID: '', // 查看线路商详情页的该用户ID
   comdetailID: '', // 查看线路商详情页的该用户ID
+  parentGame: '', // 上级游戏
 
   outdetaildata: {}, // 线路商详情页基本数据
   comdetaildata: {}, // 商户详情页基本数据

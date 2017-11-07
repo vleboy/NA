@@ -75,10 +75,10 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 /* #20a0ff */
 /**/
 .top{width: 90%;position:fixed;top:0;left:10%;right:0;background-color:#fff;}
-::-webkit-scrollbar {
-width: 0px;
-height: 1px;
-}
+/*::-webkit-scrollbar {*/
+/*width: 0px;*/
+/*height: 1px;*/
+/*}*/
 .top-header{
   display: flex;
   justify-content: space-between;

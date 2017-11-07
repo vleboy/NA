@@ -167,7 +167,7 @@ export default {
       return this.$store.state.variable.nowUser.parentId
     }, // 加减点用户上级ID
     parentName () {
-      var name = this.$store.state.variable.nowUser.parentName || ''
+      var name = this.$store.state.variable.nowUser.parentDisplayName || ''
       if (name.indexOf('_') != -1) {
         name = name.split('_')[1]
         return '【线路商】' + name

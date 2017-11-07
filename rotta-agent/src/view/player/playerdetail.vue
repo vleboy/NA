@@ -213,13 +213,13 @@ export default {
       this.allAmount = 0
       if (!this.isShowRadio) {
         for (let item of this.playerDetailList.list) {
-          if (item.amount < 0) {
+          if (item.amount < 0 && (item.kindId!=-1)) {
             this.allAmount = item.amount + this.allAmount
           }
         }
       } else {
         for (let item of this.detailList.list) {
-          if (item.amount < 0) {
+          if (item.amount < 0 && (item.kindId!=-1)) {
             this.allAmount = item.amount + this.allAmount
           }
         }

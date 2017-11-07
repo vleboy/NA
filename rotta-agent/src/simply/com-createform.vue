@@ -4,13 +4,13 @@
     <h2 class="title">基本信息</h2>
     <el-form :model="merchantInfo" ref="merchantInfo" :rules="rules" label-width="140px" label-position="right">
           <el-form-item label="代理用户名" prop="username">
-            <el-input v-model="merchantInfo.username" class="input" placeholder="请输入"></el-input>
+            <el-input v-model="merchantInfo.username" class="input" placeholder="5~16位,只能包含英文或数字"></el-input>
           </el-form-item>
           <el-form-item label="代理密码" prop="password">
-            <el-input v-model="merchantInfo.password" class="input" placeholder="请输入"></el-input>
+            <el-input v-model="merchantInfo.password" class="input" placeholder="8~16位,必须包含英文、数字和符号任意两种组合"></el-input>
           </el-form-item>
           <el-form-item label="代理昵称" prop="displayName">
-            <el-input v-model="merchantInfo.displayName" class="input" placeholder="请输入"></el-input>
+            <el-input v-model="merchantInfo.displayName" class="input" placeholder="2~10位,只能包含中文、英文或数字"></el-input>
           </el-form-item>
           <el-form-item label="所属代理">
             <el-select v-model="merchantInfo.parent" filterable placeholder="请选择" clearable class="input">
@@ -67,6 +67,9 @@ export default {
         if (err) {
         } else {
           var data = ret.data.payload
+          data = data.filter(item => {
+            return item.parentName != 'XYZBF'
+          })
           this.parent = data
           this.parent.push({
             displayName: '直属',
@@ -126,9 +129,9 @@ export default {
     }
   },
   beforeDestroy () {
-    if (this.merchantInfo.parent === '' && localStorage.loginParent === '00') {
+    if (!this.merchantInfo.parent && localStorage.loginParent == '00') {
       this.merchantInfo.parent = '01'
-    } else if (this.merchantInfo.parent === '' && localStorage.loginParent !== '00') {
+    } else if (!this.merchantInfo.parent && localStorage.loginParent != '00') {
       this.merchantInfo.parent = localStorage.loginId
     }
     if (this.merchantInfo.isforever === true) {

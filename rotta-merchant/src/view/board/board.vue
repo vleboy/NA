@@ -278,7 +278,7 @@
       changeConsume () {
         this.isGoConsume = true
         let [start, end] = this.dateInterval
-        
+
         if (start != null || end != null) {
           this.dateType = ''
           this.consumeDataTime = {
@@ -309,7 +309,7 @@
           let vedio = params.selected['真人视讯'] ? self.consumeList.vedioSum : 0 ;
           let elec = params.selected['电子游戏'] ? self.consumeList.elecSum : 0 ;
           self.dynamicNum = storeNum + vedio + elec
-          
+
         });
         // 绘制图表
         myChart.setOption({
@@ -408,8 +408,8 @@
             break
           case 3:
             this.consumeDataTime = {
-              startTime: new Date(nowDate.setMonth(nowDate.getMonth(),1)).setHours(0,0,0,0),
-              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+3,0)).setHours(0,0,0,0)+24*3600*1000-1
+              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1,
+              startTime: new Date(nowDate.setMonth(nowDate.getMonth()-3,1)).setHours(0,0,0,0)
             }
             break
         }
@@ -434,8 +434,8 @@
             break
           case 3:
             this.consumeAndIncomeDataTime = {
-              startTime: new Date(nowDate.setMonth(nowDate.getMonth(),1)).setHours(0,0,0,0),
-              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+3,0)).setHours(0,0,0,0)+24*3600*1000-1
+              endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1,
+              startTime: new Date(nowDate.setMonth(nowDate.getMonth()-3,1)).setHours(0,0,0,0)
             }
             break
         }

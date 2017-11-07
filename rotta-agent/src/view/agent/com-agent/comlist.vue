@@ -23,9 +23,17 @@
                 </el-table-column>
                 <el-table-column label="上级代理" prop="parent" align="center">
                   <template scope="scope">
-                      <span @click="goParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{(scope.row.parentDisplayName)}}</span>
-                      <span v-if="scope.row.parent === '01'">直属于平台</span>
+                      <span @click="goParent(scope.row.parent)" class="fontUrl" v-if="loginUser == 'Agent' && scope.row.parent != '01'">{{(scope.row.parentDisplayName)}}</span>
+                      <span v-if="loginUser != 'Agent' && scope.row.parent != '01'">{{(scope.row.parentDisplayName)}}</span>
+                      <span v-if="scope.row.parent == '01'">直属于平台</span>
                   </template>
+                </el-table-column>
+                <el-table-column label="代理游戏" prop="gamelist" align="center" width="110">
+                    <template scope="scope">
+                        <div slot="reference" class="gamelist">
+                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="代理成数" prop="rate" align="center">
                     <template scope="scope">
@@ -73,7 +81,7 @@
                 </el-table-column>
                 <el-table-column label="操作" align="center" width="90">
                     <template scope="scope">
-                      <el-button type="text" class="myBtn" @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1">创建代理</el-button>
+                      <el-button type="text" class="myBtn" @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1 && scope.row.parentName != 'XYZBF'">创建代理</el-button>
                       <el-button type="text" class="myBtn" @click="createPlayer(scope.$index, scope.row)" v-if="scope.row.status === 1">创建玩家</el-button>
                       <el-button type="text" class="myBtn" @click="goDetail(scope.$index, scope.row)">查看详情</el-button>
                     </template>
@@ -101,6 +109,13 @@
                       <span @click="goParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{(scope.row.parentDisplayName)}}</span>
                       <span v-if="scope.row.parent === '01'">直属于平台</span>
                   </template>
+                </el-table-column>
+                <el-table-column label="代理游戏" prop="gamelist" align="center" width="110">
+                    <template scope="scope">
+                        <div slot="reference" class="gamelist">
+                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column label="代理成数" prop="rate" align="center" sortable>
                     <template scope="scope">
@@ -161,7 +176,7 @@
                                     <p @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">
                                         <el-dropdown-item>锁定</el-dropdown-item>
                                     </p>
-                                    <p @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1">
+                                    <p @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1 && scope.row.parentName != 'XYZBF'">
                                         <el-dropdown-item>创建代理</el-dropdown-item>
                                     </p>
                                     <p @click="createPlayer(scope.$index, scope.row)" v-if="scope.row.status === 1">
@@ -280,6 +295,7 @@ export default {
   },
   data () {
     return {
+      loginUser: localStorage.loginSuffix,
       nowSize: 10,
       nowPage: 1,
       playerStatus: ['已锁定', '正常'],
@@ -395,6 +411,10 @@ export default {
       this.$store.commit({
         type: 'recordComdetailID',
         data: row.userId
+      })
+      this.$store.commit({
+        type: 'parentGame',
+        data: row.parent
       })
       this.$store.commit('closeEdit')
       this.$router.push('comdetail')
@@ -551,6 +571,7 @@ export default {
       this.$store.commit('startWithdrawDialog')
     }, // 玩家提点
     lockUser (index, row) {
+      this.$store.commit('startLoading')
       var user = {
         userId: row.userId,
         role: row.role,
@@ -568,6 +589,7 @@ export default {
               message: err.msg,
               type: 'error'
             })
+            this.$store.commit('closeLoading')
           } else {
             var data = ret.data.payload
             // console.log(data)
@@ -576,6 +598,7 @@ export default {
               type: 'success'
             })
             this.$store.dispatch('getComlist')
+            this.$store.commit('closeLoading')
           }
         }
       )

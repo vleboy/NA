@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)https://www.ebetapp.com/ebettest -->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=distice-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="renderer" content="webkit">
+        <title>NA App Install</title>
+        <link rel="stylesheet" href="./css/common.css" media="screen">
+        <link rel="stylesheet" href="./css/download.css" media="screen">
+        <link rel="stylesheet" href="./css/mobile.css" media="screen">
+        <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
+    </head>
+    <style>
+        .pc_modal{
+            display: none;
+        }
+        .mobile_modal{
+            display: none;
+        }
+    </style>
+    <body>
+    <div class="index-page pc_modal">
+        <div class="client-header">
+            <div class="bg"></div>
+            <div class="container">
+                <a class="pull-left" href="javascript:;">
+                    <span class="logo">NA</span>
+                </a>
+                <div class="pull-right relative">
+                    <ul class="deflate">
+                        <li>
+                            <div class="chinese">
+                                <a href="./help.html">iOS安装帮助</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="banner">
+            <div class="slide slide1">
+                <div class="bg-wrapper">
+                    <div class="bg" id="container_left">
+                        <div id="canvas_left"></div>
+                    </div>
+                    <div class="mask"></div>
+                </div>
+                <div class="content" style="margin-left:30%">
+                    <div class="con-warpper-fixed">
+                        <div class="con-pc">
+                            <div class="con-pc2">
+                                <p><img src="./img/android.png" class="icon"></p>
+                                <div class="chinese">
+                                    <p>支持安卓4.0或以上的版本</p>
+                                    <p>文件大小 46.2M</p>
+                                    <p><a class="btn btn-left" href="http://www.na77.com/NAGame.apk">免费下载</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="con-mobile">
+                            <div class="con-pc2">
+                                <p><img src="./img/code.png" class="code"></p>
+                                <p class="chinese">手机扫描二维码下载</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide slide2">
+                <div class="bg-wrapper">
+                    <div class="bg" id="container_right">
+                        <div id="canvas_right"></div>
+                    </div>
+                    <div class="mask"></div>
+                </div>
+                <div class="content" style="margin-right:30%">
+                    <div class="con-warpper-fixed">
+                        <div class="con-pc">
+                            <div class="con-pc2">
+                                <p><img src="./img/apple.png" class="icon"></p>
+                                <div class="chinese">
+                                    <p><font>最佳游戏体验，建议使用iOS 9 或以上的版本</font></p>
+                                    <p><font>文件大小 30.17M</font></p>
+                                    <p><a class="btn btn-left" style="    cursor: context-menu;">扫码下载</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="con-mobile">
+                            <div class="con-pc2">
+                                <p><img src="./img/code.png" class="code"></p>
+                                <p class="chinese">手机扫描二维码下载</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="index-footer">
+            <div class="bg"></div>
+            <div class="container chinese">
+                Copyright © 2013-2017 New Asia &nbsp;&nbsp;&nbsp;All Rights Reserved. &nbsp;&nbsp;&nbsp; 版权所有
+            </div>
+        </div>
+    </div>
+    <div class="mobile_modal" style="height: 100%">
+        <div class="mobile-bg">
+            <div class="mobile-logo"><img src="img/logo.png"></div>
+            <div class="mobile-tip isAndroid">
+                <!--<p><img src="./img/android.png" class="icon"></p>-->
+                <div class="mobile-text">
+                    <p>支持安卓4.0或以上的版本 文件大小 46.2M</p>
+                    <p style="margin-top: 4%"><a class="btn btn-left" href="http://www.na77.com/NAGame.apk">Android免费下载</a></p>
+                </div>
+            </div>
+            <div class="mobile-tip isIos">
+                <!--<p><img src="./img/apple.png" class="icon"></p>-->
+                <div class="mobile-text">
+                    <p>最佳游戏体验，建议使用iOS 9 或以上的版本  文件大小 30.17M</p>
+                    <p style="margin-top: 4%" ><a class="btn btn-left" onclick="iosModal()">ios免费下载</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="active-modal-bg modal-bg">
+
+        </div>
+        <div class="active-modal modal-bg">
+            <div class="modal-head">
+                <div class="head-close" onclick="closeModal()">X</div>
+            </div>
+            <div class="modal-center">
+                <p><a class="btn btn-left modal-btn modal-top" href="help.html">查看教程下载</a></p>
+                <p><a class="btn btn-left modal-btn" href="itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1400.plist">ios直接下载</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/cav.js"></script>
+    <script src="./js/backgroundShaking.js"></script>
+    <script src="./js/base.js"></script>
+    <script>
+        $(function() {
+            backgroundShaking('container_left', 'canvas_left', '#8e1c1c', '#8e1c1c')
+            backgroundShaking('container_right', 'canvas_right', '#aaa', '#fff')
+        })
+    </script>
+
+    </body>
+</html>
