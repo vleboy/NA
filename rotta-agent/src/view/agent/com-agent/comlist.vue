@@ -416,6 +416,7 @@ export default {
         type: 'parentGame',
         data: row.parent
       })
+      localStorage.setItem('parentID', row.parent)
       this.$store.commit('closeEdit')
       this.$router.push('comdetail')
     }, // 当前列表跳转详情
@@ -481,6 +482,11 @@ export default {
         type: 'recordComdetailID',
         data: row.userId
       })
+      this.$store.commit({
+        type: 'parentGame',
+        data: row.parent
+      })
+      localStorage.setItem('parentID', row.parent)
       localStorage.setItem('nowUser', row.userId)
       this.$store.commit('startEdit')
       this.$router.push('comdetail')

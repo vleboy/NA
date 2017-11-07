@@ -421,20 +421,28 @@ export default {
     this.$store.dispatch('getDetailPlayer')
   },
   created () {
-    var parentId = this.$store.state.variable.comdetailID
-    invoke({
-      url: api.bills + '/' + parentId,
-      method: api.get
-    }).then(
-      result => {
-        const [err, ret] = result
-        if (err) {
-        } else {
-          var data = ret.data.payload
-          this.parentInfo = data
-        }
+    var parentId = localStorage.parentID
+    if (parentId == '01') {
+      this.parentInfo = {
+        liveMix: 1,
+        vedioMix: 1,
+        rate: 100
       }
-    )
+    } else {
+      invoke({
+        url: api.bills + '/' + parentId,
+        method: api.get
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var data = ret.data.payload
+            this.parentInfo = data
+          }
+        }
+      )
+    }
   },
   mounted() {
     this.addGame()
