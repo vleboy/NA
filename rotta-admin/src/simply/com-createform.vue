@@ -132,24 +132,21 @@ export default {
     }
   },
   beforeDestroy () {
-    if (!this.merchantInfo.suffix || !this.merchantInfo.displayName || !this.merchantInfo.rate || !this.merchantInfo.merchantEmail || !this.merchantInfo.hostName || !this.merchantInfo.hostContact || this.merchantInfo.contractPeriod.length == 0 || this.merchantInfo.contractPeriod[0] == null || this.merchantInfo.contractPeriod != 0) {
-    } else {
-      if (this.merchantInfo.isforever === true) {
-        this.merchantInfo.contractPeriod = 0
-      }
-      if (this.merchantInfo.contractPeriod !== 0) {
-        for (var i = this.merchantInfo.contractPeriod.length - 1; i >= 0; i--) {
-          this.merchantInfo.contractPeriod[i] = new Date(this.merchantInfo.contractPeriod[i].toString()).getTime()
-        }
-      }
-      if (!this.merchantInfo.remark) {
-        this.merchantInfo.remark = 'NULL!'
-      }
-      this.$store.commit({
-        type: 'recordComcreate',
-        data: this.merchantInfo
-      })
+    if (this.merchantInfo.isforever === true) {
+      this.merchantInfo.contractPeriod = 0
     }
+    if (this.merchantInfo.contractPeriod !== 0) {
+      for (var i = this.merchantInfo.contractPeriod.length - 1; i >= 0; i--) {
+        this.merchantInfo.contractPeriod[i] = new Date(this.merchantInfo.contractPeriod[i].toString()).getTime()
+      }
+    }
+    if (!this.merchantInfo.remark) {
+      this.merchantInfo.remark = 'NULL!'
+    }
+    this.$store.commit({
+      type: 'recordComcreate',
+      data: this.merchantInfo
+    })
   }
 }
 </script>
