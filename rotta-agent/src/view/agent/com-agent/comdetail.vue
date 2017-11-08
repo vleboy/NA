@@ -697,6 +697,7 @@ export default {
           const [err, ret] = result
           if (err) {
           } else {
+            this.parentGamelist = []
             var data = ret.data.payload
             this.gameList = data
             for(let item of data) {
