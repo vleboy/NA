@@ -421,28 +421,6 @@ export default {
     this.$store.dispatch('getDetailPlayer')
   },
   created () {
-    var parentId = localStorage.parentID
-    if (parentId == '01') {
-      this.parentInfo = {
-        liveMix: 1,
-        vedioMix: 1,
-        rate: 100
-      }
-    } else {
-      invoke({
-        url: api.bills + '/' + parentId,
-        method: api.get
-      }).then(
-        result => {
-          const [err, ret] = result
-          if (err) {
-          } else {
-            var data = ret.data.payload
-            this.parentInfo = data
-          }
-        }
-      )
-    }
   },
   mounted() {
     this.addGame()
@@ -752,6 +730,7 @@ export default {
         type: 'recordComdetailID',
         data: this.comdetail.parent
       })
+      this.disable = true
       this.$router.push('comdetail')
       this.$store.commit('startLoading')
       this.$store.commit('closeEdit')
@@ -766,6 +745,7 @@ export default {
         type: 'recordComdetailID',
         data: link
       })
+      this.disable = true
       this.$router.push('comdetail')
       this.$store.commit('startLoading')
       this.$store.dispatch('getComdetail')
@@ -985,6 +965,28 @@ export default {
         if (item.name) {
           this.selectGame.push(item.name)
         }
+      }
+      var parentId = localStorage.parentID
+      if (parentId == '01') {
+        this.parentInfo = {
+          liveMix: 1,
+          vedioMix: 1,
+          rate: 100
+        }
+      } else {
+        invoke({
+          url: api.bills + '/' + parentId,
+          method: api.get
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              this.parentInfo = data
+            }
+          }
+        )
       }
       this.disable = false
       this.$store.commit('startEdit')
