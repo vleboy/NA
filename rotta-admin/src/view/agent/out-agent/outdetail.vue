@@ -822,6 +822,7 @@ export default {
         type: 'recordComdetailID',
         data: ID
       })
+      this.$store.commit('closeEdit')
       this.$router.push('comdetail')
       this.$store.commit('startLoading')
       this.$store.dispatch('getComdetail')
@@ -889,6 +890,7 @@ export default {
         type: 'recordOutdetailID',
         data: this.outdetail.parent
       })
+      this.$store.commit('closeEdit')
       this.$router.push('outdetail')
       this.$store.commit('startLoading')
       this.$store.dispatch('getOutdetail')
