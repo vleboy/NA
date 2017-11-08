@@ -703,6 +703,7 @@ export default {
           if (err) {
           } else {
             this.parentGamelist = []
+            this.selectGame = []
             var data = ret.data.payload
             this.gameList = data
             for(let item of data) {
@@ -715,6 +716,7 @@ export default {
                 this.selectGame.push(item.name)
               }
             }
+            this.$store.commit('closeLoading')
           }
         }
       )
@@ -789,6 +791,7 @@ export default {
       return billType(bill)
     },
     turnONedit () {
+      this.$store.commit('startLoading')
       this.addGame()
       this.getparentRate()
       this.$store.commit('startEdit')
