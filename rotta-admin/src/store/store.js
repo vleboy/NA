@@ -33,7 +33,6 @@ const actions = {
         } else {
           var data = []
           data.push(ret.data.payload)
-          // console.log('层级关系数据', data)
           context.commit({
             type: 'recordMap',
             data: data
