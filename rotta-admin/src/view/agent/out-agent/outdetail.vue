@@ -151,8 +151,8 @@
         <div class="manangeinfo">
             <h4>管理信息
               <div style="float:right;margin-right:2rem">
-                <el-button type="primary" @click="submitEdit" :loading="loading" v-if="disable == false">提交修改</el-button>
-                <el-button type="primary" @click="turnONedit" v-if="disable == true">编辑</el-button>
+                <el-button type="primary" @click="submitEdit" :loading="loading" v-if="disable == false && loginUser != outdetail.username">提交修改</el-button>
+                <el-button type="primary" @click="turnONedit" v-if="disable == true && loginUser != outdetail.username">编辑</el-button>
               </div>
             </h4>
             <div class="editform">
@@ -723,6 +723,7 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      loginUser: localStorage.loginUsername, // 登录用户角色
       loginLevel: Number(localStorage.loginLevel), // 登陆用户等级
       pickerOptions: {
         disabledDate (time) {
