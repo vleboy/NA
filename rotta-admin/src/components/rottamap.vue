@@ -188,6 +188,8 @@ export default {
     },
     handleNodeClick (data, node, store) {
       var allNode = document.getElementsByClassName('renderZone')
+      this.$store.commit('closeEdit')
+      localStorage.setItem('parentID', data.parent)
       for (var i = allNode.length - 1; i >= 0; i--) {
         allNode[i].style.display = 'none'
       }

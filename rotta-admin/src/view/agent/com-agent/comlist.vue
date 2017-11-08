@@ -237,6 +237,7 @@ export default {
         type: 'recordComdetailID',
         data: row.userId
       })
+      localStorage.setItem('parentID', row.parent)
       localStorage.setItem('nowUser', row.userId)
       this.$store.commit('closeEdit')
       this.$router.push('comdetail')

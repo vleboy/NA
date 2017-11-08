@@ -153,7 +153,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          // console.log('线路商详细数据', data)
+          localStorage.setItem('parentID', data.parent)
           context.commit({
             type: 'recordOutdetaildata',
             data: data
@@ -275,7 +275,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          // console.log('商户详细数据', data)
+          localStorage.setItem('parentID', data.parent)
           context.commit({
             type: 'recordComdetaildata',
             data: data
@@ -1067,11 +1067,11 @@ const mutations = {
   }, // 获取对详情页用户发起加减点操作的下级信息
 
   startEdit (state, payload) {
-    state.variable.isEdit = true
+    state.variable.isEdit = false
   }, // 开启编辑功能
 
   closeEdit (state, payload) {
-    state.variable.isEdit = false
+    state.variable.isEdit = true
   }, // 关闭编辑功能
 
   startStoreDialog (state, payload) {

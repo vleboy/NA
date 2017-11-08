@@ -46,10 +46,10 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="负责人" v-show="this.disable == true">
+                                <el-form-item label="负责人" v-show="disable == true">
                                     {{outdetail.hostName}}
                                 </el-form-item>
-                                <el-form-item label="负责人" prop="hostName" v-show="this.disable == false">
+                                <el-form-item label="负责人" prop="hostName" v-show="disable == false">
                                     <el-input v-model="outdetail.hostName"></el-input>
                                 </el-form-item>
                             </div>
@@ -59,10 +59,10 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="负责人联系方式" v-show="this.disable == true">
+                                <el-form-item label="负责人联系方式" v-show="disable == true">
                                     {{outdetail.hostContact}}
                                 </el-form-item>
-                                <el-form-item label="负责人联系方式" prop="hostContact" v-show="this.disable == false">
+                                <el-form-item label="负责人联系方式" prop="hostContact" v-show="disable == false">
                                     <el-input v-model="outdetail.hostContact"></el-input>
                                 </el-form-item>
                             </div>
@@ -72,13 +72,15 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="抽成比" v-show="this.disable == true">
+                                <el-form-item label="抽成比" v-show="disable == true">
                                     {{outdetail.rate}}%
                                 </el-form-item>
-                                <el-form-item label="抽成比" prop="rate" v-show="this.disable == false">
-                                    <el-input v-model="outdetail.rate">
+                                <el-form-item label="抽成比" prop="rate" v-show="disable == false">
+                                    <el-tooltip class="item" effect="dark" :content="rateContent" placement="top">
+                                      <el-input v-model="outdetail.rate">
                                         <template slot="prepend">%</template>
-                                    </el-input>
+                                      </el-input>
+                                    </el-tooltip>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -86,12 +88,12 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="" style="float:left">
-                                <el-form-item label="线路商游戏" v-show="this.disable == true">
+                                <el-form-item label="线路商游戏" v-show="disable == true">
                                     <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
                                         {{item.name}}
                                     </div>
                                 </el-form-item>
-                                <el-form-item label="线路商游戏" v-show="this.disable == false">
+                                <el-form-item label="线路商游戏" v-show="disable == false">
                                     <el-checkbox-group v-model="selectGame">
                                         <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
                                     </el-checkbox-group>
@@ -103,10 +105,10 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="线路商Email" v-show="this.disable == true">
+                                <el-form-item label="线路商Email" v-show="disable == true">
                                     {{outdetail.managerEmail}}
                                 </el-form-item>
-                                <el-form-item label="线路商Email" prop="managerEmail" v-show="this.disable == false">
+                                <el-form-item label="线路商Email" prop="managerEmail" v-show="disable == false">
                                     <el-input v-model="outdetail.managerEmail"></el-input>
                                 </el-form-item>
                             </div>
@@ -134,10 +136,10 @@
                     <el-row>
                         <el-col :span="18">
                             <div class="">
-                                <el-form-item label="备注" v-show="this.disable == true">
+                                <el-form-item label="备注" v-show="disable == true">
                                     <div style="word-wrap: break-word;word-break: normal;">{{Remark(outdetail.remark)}}</div>
                                 </el-form-item>
-                                <el-form-item label="备注" v-show="this.disable == false">
+                                <el-form-item label="备注" v-show="disable == false">
                                     <el-input autosize v-model="outdetail.remark"></el-input>
                                 </el-form-item>
                             </div>
@@ -149,8 +151,8 @@
         <div class="manangeinfo">
             <h4>管理信息
               <div style="float:right;margin-right:2rem">
-                <el-button type="primary" @click="submitEdit" :loading="loading" v-if="this.disable == false">提交修改</el-button>
-                <el-button type="primary" @click="turnONedit" v-if="this.disable == true">编辑</el-button>
+                <el-button type="primary" @click="submitEdit" :loading="loading" v-if="disable == false">提交修改</el-button>
+                <el-button type="primary" @click="turnONedit" v-if="disable == true">编辑</el-button>
               </div>
             </h4>
             <div class="editform">
@@ -168,10 +170,10 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员姓名" v-show="this.disable == true">
+                                <el-form-item label="管理员姓名" v-show="disable == true">
                                     {{outdetail.adminName}}
                                 </el-form-item>
-                                <el-form-item label="管理员姓名" prop="adminName" v-show="this.disable == false">
+                                <el-form-item label="管理员姓名" prop="adminName" v-show="disable == false">
                                     <el-input v-model="outdetail.adminName"></el-input>
                                 </el-form-item>
                             </div>
@@ -181,10 +183,10 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员密码" v-show="this.disable == true">
+                                <el-form-item label="管理员密码" v-show="disable == true">
                                     {{outdetail.password}}
                                 </el-form-item>
-                                <el-form-item label="管理员密码" prop="password" v-show="this.disable == false">
+                                <el-form-item label="管理员密码" prop="password" v-show="disable == false">
                                     <el-input v-model="outdetail.password">
                                         <el-button slot="append" @click="randomPassword">生成</el-button>
                                     </el-input>
@@ -195,10 +197,10 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员Email" v-show="this.disable == true">
+                                <el-form-item label="管理员Email" v-show="disable == true">
                                     {{outdetail.adminEmail}}
                                 </el-form-item>
-                                <el-form-item label="管理员Email" prop="adminEmail" v-show="this.disable == false">
+                                <el-form-item label="管理员Email" prop="adminEmail" v-show="disable == false">
                                     <el-input v-model="outdetail.adminEmail"></el-input>
                                 </el-form-item>
                             </div>
@@ -207,10 +209,10 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="生效时间" v-show="this.disable == true">
+                                <el-form-item label="生效时间" v-show="disable == true">
                                     {{contractPeriod(outdetail.contractPeriod)}}
                                 </el-form-item>
-                                <el-form-item label="生效时间" prop="contractPeriod" v-show="this.disable == false">
+                                <el-form-item label="生效时间" prop="contractPeriod" v-show="disable == false">
                                     <el-date-picker v-model="outdetail.contractPeriod" type="daterange" label="生效时间" :disabled="outdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
                                     <el-checkbox v-model="outdetail.isforever" @change="changeContract">永久</el-checkbox>
                                 </el-form-item>
@@ -240,10 +242,10 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="管理员联系方式" v-show="this.disable == true">
+                                <el-form-item label="管理员联系方式" v-show="disable == true">
                                     {{outdetail.adminContact}}
                                 </el-form-item>
-                                <el-form-item label="管理员联系方式" prop="adminContact" v-show="this.disable == false">
+                                <el-form-item label="管理员联系方式" prop="adminContact" v-show="disable == false">
                                     <el-input v-model="outdetail.adminContact"></el-input>
                                 </el-form-item>
                             </div>
@@ -428,6 +430,7 @@ export default {
   },
   beforeCreate () {
     this.$store.commit('startLoading')
+    this.$store.commit('closeEdit')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'outdetail'
@@ -439,9 +442,15 @@ export default {
     this.$store.dispatch('getOutdetail_property')
   },
   mounted () {
-    this.addGame()
   },
   computed: {
+    disable () {
+      return this.$store.state.variable.isEdit
+    }, // 是否开启编辑
+    rateContent () {
+      var content = this.parentInfo.rate
+      return '上级线路商抽成比为 ' + content + '%'
+    },
     outdetail () {
       return this.$store.state.variable.outdetaildata
     },
@@ -624,6 +633,9 @@ export default {
       } else if (value < 0 || value > 100) {
         callback(new Error('抽成比应为0~100之间的数字'))
         this.isfinish.rate = false
+      } else if (value > this.parentInfo.rate) {
+        callback(new Error('超过上级最大抽成比'))
+        this.isfinish.rate = false
       } else {
         this.isfinish.rate = true
         callback()
@@ -717,13 +729,13 @@ export default {
           return time.getTime() < Date.now() - 8.64e7
         }
       },
+      parentInfo: {}, // 上级抽成比
       // isforever: true,
       gameList: [], // 上级拥有的游戏(包含所有的对象)
       parentGamelist: [], // 上级拥有的游戏(只带名字的)
       selectGame: [], // 修改游戏选中值(只带名字的)
       balance: 0, // 余额
       loading: false,
-      disable: true, // 禁用输入框
       bills: '',  // 账户余额
       waterFallSize: 10, // 线路商详情页财务信息分页
       waterFallPage: 1, // 线路商详情页财务信息分页
@@ -817,7 +829,7 @@ export default {
     }, // 详情页下级商户跳转
     addGame () {
       var data = {
-        userId: this.$store.state.variable.outdetaildata.parent
+        parent: localStorage.parentID
       }
       invoke({
         url: api.allGames,
@@ -835,10 +847,37 @@ export default {
                 this.parentGamelist.push(item.name)
               }
             }
+            for (let item of this.outdetail.gameList) {
+              if (item.name) {
+                this.selectGame.push(item.name)
+              }
+            }
           }
         }
       )
     }, // 获取上级拥有游戏
+    getparentRate () {
+      var parentId = localStorage.parentID
+      if (parentId == '01') {
+        this.parentInfo = {
+          rate: 100
+        }
+      } else {
+        invoke({
+          url: api.bills + '/' + parentId,
+          method: api.get
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              this.parentInfo = data
+            }
+          }
+        )
+      }
+    }, // 获取上级抽成比
     user (name) {
       return formatUsername(name)
     }, // 格式化用户名
@@ -875,12 +914,9 @@ export default {
       return billType(bill)
     },
     turnONedit () {
-      for (let item of this.outdetail.gameList) {
-        if (item.name) {
-          this.selectGame.push(item.name)
-        }
-      }
-      this.disable = false
+      this.addGame()
+      this.getparentRate()
+      this.$store.commit('startEdit')
     }, // 开启编辑
     changeContract () {
       if (this.outdetail.isforever === true) {
@@ -893,7 +929,7 @@ export default {
       // console.log(this.outdetail.contractPeriod)
     }, // 设置永久时间
     randomPassword () {
-      this.disable = false
+      disable = false
       var newpassword = randomPassword()
       this.outdetail.password = newpassword
     }, // 生成密码
@@ -950,8 +986,7 @@ export default {
               this.loading = false
             } else {
               var data = ret.data.payload
-              // console.log(data)
-              this.disable = true
+              this.$store.commit('closeEdit')
               this.loading = false
               this.$message({
                 message: '修改成功',
