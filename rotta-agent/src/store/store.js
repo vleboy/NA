@@ -354,7 +354,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          // console.log('代理详细数据', data)
+          localStorage.setItem('parentID', data.parent)
           context.commit({
             type: 'recordComdetaildata',
             data: data
