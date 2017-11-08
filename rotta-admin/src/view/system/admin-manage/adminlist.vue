@@ -272,7 +272,7 @@ export default {
             if (err) {
             } else {
               var data = ret.data.payload
-              console.log(data)
+              // console.log(data)
               this.isfinish = true
               this.$store.dispatch('getAdminlist')
             }

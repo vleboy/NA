@@ -56,7 +56,7 @@ export default {
           })
         },
         submit(){
-            console.log(this.content);
+            // console.log(this.content);
             this.$message.success('提交成功！');
         }
     },

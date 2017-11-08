@@ -328,11 +328,11 @@ export default {
     }, // 格式化创建时间
     getNowsize (size) {
       this.nowSize = size
-      console.log('当前每页:' + size)
+      // console.log('当前每页:' + size)
     },
     getNowpage (page) {
       this.nowPage = page
-      console.log('当前是第:' + page + '页')
+      // console.log('当前是第:' + page + '页')
     },
     getPropList () {
       invoke({
@@ -434,7 +434,7 @@ export default {
           })
         }
       }
-      console.log(this.addToolList, 'addToolList')
+      // console.log(this.addToolList, 'addToolList')
     }, // 新增道具
     delAddPackage (index) {
       this.addToolList.splice(index, 1)
@@ -443,7 +443,7 @@ export default {
       this.isEditPackage = true
       this.addToolInfo = JSON.parse(JSON.stringify(row))
       this.contentType = this.addToolInfo.contentType
-      console.log(this.addToolInfo, '编辑')
+      // console.log(this.addToolInfo, '编辑')
     },
     changeType () {
       if (!this.isEditPackage) {
