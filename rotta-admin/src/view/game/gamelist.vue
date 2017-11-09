@@ -58,14 +58,18 @@ import api from '@/api/api'
 export default {
   beforeCreate () {
     this.$store.commit('startLoading')
+    this.$store.commit('resetAjax')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'gamelist'
     })
     this.$store.commit('returnLocalStorage')
-    this.$store.dispatch('getGamelistData')
+    this.$store.dispatch('getGameType')
   },
   computed: {
+    ajaxCount () {
+      return this.$store.state.ajaxCount
+    },
     gameType () {
       return this.$store.state.variable.gameListData
     },
@@ -74,7 +78,14 @@ export default {
     }
   },
   mounted () {
-    this.getAlllist()
+    
+  },
+  watch: {
+    ajaxCount (val) {
+      if (val == 1) {
+        this.getAlllist()
+      }
+    }
   },
   data () {
     return {
@@ -150,9 +161,10 @@ export default {
     }, // 获取当前类型游戏
     getAlllist () {
       localStorage.removeItem('clickGameType')
+      this.searchGameName = ''
       var type = []
-      for (var i = this.$store.state.variable.gameListData.length - 1; i >= 0; i--) {
-        type.push(Number(this.$store.state.variable.gameListData[i].code))
+      for (let item of this.$store.state.variable.gameListData) {
+        type.push(item.code)
       }
       type = type.join(',').toString()
       var data = {
@@ -169,6 +181,7 @@ export default {
           } else {
             var list = ret.data.payload
             this.allgames = list
+            this.$store.commit('closeLoading')
           }
         }
       )

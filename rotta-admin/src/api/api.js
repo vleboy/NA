@@ -71,7 +71,7 @@ const api = {
 
   // diana
 
-  allGames: front.diana + front.stage + '/gameType', // 获取游戏类型列表
+  gameType: front.diana + front.stage + '/gameType', // 获取游戏类型列表
 
   gameList: front.diana + front.stage + '/gameList', // 获取游戏列表
 

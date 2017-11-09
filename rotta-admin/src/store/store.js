@@ -482,31 +482,32 @@ const actions = {
       }
     )
   }, // 获取管理员个人中心余额
-  getGamelistData (context) {
-    var data = {
-      userId: localStorage.loginId
+  getGameType (context) {
+    let data = {
+      parent: localStorage.loginId
+    }
+    if (localStorage.loginRole == '1') {
+      data.parent = '01'
     }
     invoke({
-      url: api.allGames,
+      url: api.gameType,
       method: api.post,
       data: data
     }).then(
       result => {
         const [err, ret] = result
         if (err) {
-          context.commit('closeLoading')
           this.$message({
             message: err.msg,
             type: 'warning'
           })
         } else {
           var data = ret.data.payload
-          // console.log('游戏列表数据', data)
+          context.commit('countAjax')
           context.commit({
             type: 'recordGamelistData',
             data: data
           })
-          context.commit('closeLoading')
         }
       }
     )
