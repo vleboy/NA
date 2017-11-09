@@ -2,6 +2,7 @@ const variable = {
   isSlider: false, // 是否显示层级关系
   islogin: false,
   isloading: false,
+  mapLoading: false, // 层级关系loading
   token: '',
   userInfo: {},
   nowIndex: '', // 当前所在页面

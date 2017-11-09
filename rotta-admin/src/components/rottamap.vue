@@ -1,5 +1,5 @@
 <template>
-<div class="map" id="sliderMap">
+<div class="map" id="sliderMap" v-loading="loading" element-loading-text="正在为您加载">
     <div class="map-content">
       <el-input placeholder="输入线路商/商户昵称查询" v-model="filterText" class="mapInput">
       </el-input>
@@ -28,8 +28,7 @@ import api from '@/api/api'
 export default {
   beforeCreate () {
     this.$store.commit('returnLocalStorage')
-  },
-  created () {
+    this.$store.commit('openMap')
   },
   mounted () {
     if (this.role == '1' || this.role == '10') {
@@ -50,19 +49,23 @@ export default {
                 message: err.msg,
                 type: 'warning'
               })
+              this.$store.commit('closeMap')
             } else {
               var data = ret.data.list
               this.$store.commit({
                 type: 'recordMap',
                 data: data
               })
-              this.loading = false
+              this.$store.commit('closeMap')
             }
           }
         )
     }
   },
   computed: {
+    loading () {
+      return this.$store.state.variable.mapLoading
+    },
     isSlider () {
       return this.$store.state.variable.isSlider
     },

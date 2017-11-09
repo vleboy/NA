@@ -8,7 +8,7 @@
             <div class="editform">
                 <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="线路商ID">
                                     {{outdetail.displayId}}
@@ -18,7 +18,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="上级线路商">
                                     <span v-if="outdetail.parentRole != '1'">
@@ -35,7 +35,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="线路商标识">
                                     {{outdetail.suffix}}
@@ -44,7 +44,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="负责人" v-show="disable == true">
                                     {{outdetail.hostName}}
@@ -57,7 +57,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="负责人联系方式" v-show="disable == true">
                                     {{outdetail.hostContact}}
@@ -70,7 +70,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="抽成比" v-show="disable == true">
                                     {{outdetail.rate}}%
@@ -86,7 +86,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="" style="float:left">
                                 <el-form-item label="线路商游戏" v-show="disable == true">
                                     <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
@@ -103,7 +103,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="线路商Email" v-show="disable == true">
                                     {{outdetail.managerEmail}}
@@ -115,7 +115,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="创建时间">
                                     {{formatTime(outdetail.createdAt)}}
@@ -125,7 +125,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="最后登录时间">
                                     {{formatTime(outdetail.loginAt)}}
@@ -158,7 +158,7 @@
             <div class="editform">
                 <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="管理员账号">
                                     {{user(outdetail.username)}}
@@ -168,7 +168,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="管理员姓名" v-show="disable == true">
                                     {{outdetail.adminName}}
@@ -181,7 +181,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="管理员密码" v-show="disable == true">
                                     {{outdetail.password}}
@@ -195,7 +195,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="管理员Email" v-show="disable == true">
                                     {{outdetail.adminEmail}}
@@ -205,9 +205,22 @@
                                 </el-form-item>
                             </div>
                         </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="7">
+                            <div class="">
+                                <el-form-item label="管理员联系方式" v-show="disable == true">
+                                    {{outdetail.adminContact}}
+                                </el-form-item>
+                                <el-form-item label="管理员联系方式" prop="adminContact" v-show="disable == false">
+                                    <el-input v-model="outdetail.adminContact"></el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="生效时间" v-show="disable == true">
                                     {{contractPeriod(outdetail.contractPeriod)}}
@@ -221,7 +234,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="上次登录时间">
                                     {{formatTime(outdetail.loginAt)}}
@@ -231,22 +244,10 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="上次登录IP">
                                     {{outdetail.lastIP}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="管理员联系方式" v-show="disable == true">
-                                    {{outdetail.adminContact}}
-                                </el-form-item>
-                                <el-form-item label="管理员联系方式" prop="adminContact" v-show="disable == false">
-                                    <el-input v-model="outdetail.adminContact"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -430,6 +431,7 @@ export default {
   },
   beforeCreate () {
     this.$store.commit('startLoading')
+    this.$store.commit('resetAjax')
     this.$store.commit('closeEdit')
     this.$store.commit({
       type: 'recordNowindex',
@@ -437,13 +439,16 @@ export default {
     })
     this.$store.commit('returnLocalStorage')
     this.$store.dispatch('getOutdetail')
+    this.$store.dispatch('getOutdetail_property')
     this.$store.dispatch('getOutdetail_child_merchants')
     this.$store.dispatch('getOutdetail_child_managers')
-    this.$store.dispatch('getOutdetail_property')
   },
   mounted () {
   },
   computed: {
+    ajaxCount () {
+      return this.$store.state.ajaxCount
+    },
     disable () {
       return this.$store.state.variable.isEdit
     }, // 是否开启编辑
@@ -515,6 +520,13 @@ export default {
         }
       }
       return this.points(bills)
+    }
+  },
+  watch: {
+    ajaxCount (val) {
+      if (val == 4) {
+        this.$store.commit('closeLoading')
+      }
     }
   },
   data () {

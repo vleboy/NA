@@ -7,7 +7,8 @@ import checkform from '@/variables/checkform'
 Vue.use(Vuex) // 全局注册
 const state = {
   variable,
-  checkform
+  checkform,
+  ajaxCount: 0
 }
 const getters = {
   visitedViews: state => state.variable.visitedViews
@@ -25,7 +26,7 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-          context.commit('closeLoading')
+          context.commit('closeMap')
           this.$message({
             message: err.msg,
             type: 'warning'
@@ -37,7 +38,7 @@ const actions = {
             type: 'recordMap',
             data: data
           })
-          context.commit('closeLoading')
+          context.commit('closeMap')
         }
       }
     )
@@ -152,6 +153,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
+          context.commit('countAjax')
           localStorage.setItem('parentID', data.parent)
           context.commit({
             type: 'recordOutdetaildata',
@@ -175,19 +177,17 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-          context.commit('closeLoading')
           this.$message({
             message: err.msg,
             type: 'warning'
           })
         } else {
           var data = ret.data.payload
-          // console.log('线路商账户流水详情', data)
+          context.commit('countAjax')
           context.commit({
             type: 'recordOutdetail_property',
             data: data
           })
-          context.commit('closeLoading')
         }
       }
     )
@@ -206,19 +206,17 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-          context.commit('closeLoading')
           this.$message({
             message: err.msg,
             type: 'warning'
           })
         } else {
           var data = ret.data.payload
-          // console.log('详情页所属线路商数据:', data)
+          context.commit('countAjax')
           context.commit({
             type: 'recordOutdetail_child_managers',
             data: data
           })
-          context.commit('closeLoading')
         }
       }
     )
@@ -237,19 +235,17 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-          context.commit('closeLoading')
           this.$message({
             message: err.msg,
             type: 'warning'
           })
         } else {
           var data = ret.data.payload
-          // console.log('详情页所属商户数据:', data)
+          context.commit('countAjax')
           context.commit({
             type: 'recordOutdetail_child_merchants',
             data: data
           })
-          context.commit('closeLoading')
         }
       }
     )
@@ -274,6 +270,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
+          context.commit('countAjax')
           localStorage.setItem('parentID', data.parent)
           context.commit({
             type: 'recordComdetaildata',
@@ -297,19 +294,18 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-          context.commit('closeLoading')
           this.$message({
             message: err.msg,
             type: 'warning'
           })
         } else {
           var data = ret.data.payload
+          context.commit('countAjax')
           // console.log('商户账户流水详情', data)
           context.commit({
             type: 'recordComdetail_property',
             data: data
           })
-          context.commit('closeLoading')
         }
       }
     )
@@ -381,6 +377,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
+          context.commit('countAjax')
           // console.log('管理员基本信息', data)
           context.commit({
             type: 'recordPersonal_info',
@@ -456,12 +453,13 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
+          context.commit('countAjax')
           // console.log('管理员点数操作记录', data)
           context.commit({
             type: 'recordPersonal_property',
             data: data
           })
-          context.commit('closeLoading')
+          // context.commit('closeLoading')
         }
       }
     )
@@ -481,6 +479,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload.balance
+          context.commit('countAjax')
           // console.log('用户余额', data)
           context.commit({
             type: 'recordPersonal_bills',
@@ -727,6 +726,18 @@ const actions = {
 }
 
 const mutations = {
+  resetAjax (state, payload) {
+    state.ajaxCount = 0
+  }, // 重置Ajax请求数
+  countAjax (state, payload) {
+    state.ajaxCount++
+  }, // Ajax计数
+  closeMap (state, payload) {
+    state.variable.mapLoading = false
+  }, // 关闭层级关系loading
+  openMap (state, payload) {
+    state,variable.mapLoading = true
+  }, // 打开层级关系loading
   ADD_VISITED_VIEWS: (state, view) => {
     let newTabName = ++state.variable.tabIndex + ''
     if (state.variable.visitedViews.some(v => v.path === view.path)) {

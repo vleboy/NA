@@ -155,7 +155,6 @@ export default {
     }, // 获取当前类型游戏
     getAlllist () {
       localStorage.removeItem('clickGameType')
-      this.$store.commit('startLoading')
       var type = []
       for (var i = this.$store.state.variable.gameListData.length - 1; i >= 0; i--) {
         type.push(Number(this.$store.state.variable.gameListData[i].code))
@@ -174,9 +173,7 @@ export default {
           if (err) {
           } else {
             var list = ret.data.payload
-            // console.log(list)
             this.allgames = list
-            this.$store.commit('closeLoading')
           }
         }
       )

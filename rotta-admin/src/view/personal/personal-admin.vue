@@ -144,6 +144,7 @@ import api from '@/api/api'
 export default {
   beforeCreate () {
     this.$store.commit('startLoading')
+    this.$store.commit('resetAjax')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'personal'
@@ -154,6 +155,9 @@ export default {
     this.$store.dispatch('getPersonal_bills')
   },
   computed: {
+    ajaxCount () {
+      return this.$store.state.ajaxCount
+    },
     adminInfo () {
       this.oldPassword = this.$store.state.variable.personalinfo.password
       return this.$store.state.variable.personalinfo
@@ -170,6 +174,13 @@ export default {
     balance () {
       var x = this.$store.state.variable.bills
       return this.formatPoints(x)
+    }
+  },
+  watch: {
+    ajaxCount (val) {
+      if (val == 3) {
+        this.$store.commit('closeLoading')
+      }
     }
   },
   data () {
@@ -242,6 +253,7 @@ export default {
       }
     } // 验证重复输入密码
     return {
+      // ajaxCount: this.$store.state.ajaxCount, // 请求数
       nowSize: 20,
       nowPage: 1,
       passwordAbout: {

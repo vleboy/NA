@@ -12,7 +12,7 @@
             <div class="editform">
                 <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="商户ID">
                                     {{comdetail.displayId}}
@@ -22,7 +22,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="上级商户">
                                     {{user(comdetail.parentName)}}
@@ -32,7 +32,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="商户标识">
                                     {{comdetail.suffix}}
@@ -41,7 +41,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="负责人" v-show="disable == true">
                                     {{(comdetail.hostName)}}
@@ -54,7 +54,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="负责人联系方式" v-show="disable == true">
                                     {{comdetail.hostContact}}
@@ -67,7 +67,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="抽成比" v-show="disable == true">
                                     {{comdetail.rate}}%
@@ -83,7 +83,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="商户Email" v-show="disable == true">
                                     {{comdetail.merchantEmail}}
@@ -112,7 +112,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="创建时间">
                                     {{formatTime(comdetail.createdAt)}}
@@ -122,7 +122,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="最后登录时间">
                                     {{formatTime(comdetail.loginAt)}}
@@ -132,7 +132,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="线路号">
                                     {{msn(comdetail.msn)}}
@@ -141,7 +141,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="商户前端域名" v-show="disable == true">
                                     {{comdetail.frontURL}}
@@ -150,6 +150,9 @@
                                     <el-input autosize v-model="comdetail.frontURL"></el-input>
                                 </el-form-item>
                             </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
                         </el-col>
                         <el-col :span="12">
                             <div class="">
@@ -160,7 +163,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="商户白名单" v-show="disable == true">
                                     {{comdetail.loginWhiteList}}
@@ -196,7 +199,7 @@
             <div class="editform">
                 <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="管理员账号">
                                     {{user(comdetail.username)}}
@@ -206,7 +209,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="管理员姓名" v-show="disable == true">
                                     {{comdetail.adminName}}
@@ -219,7 +222,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="管理员密码" v-show="disable == true">
                                     {{comdetail.password}}
@@ -233,7 +236,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="管理员Email" v-show="disable == true">
                                     {{comdetail.adminEmail}}
@@ -246,7 +249,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="生效时间" v-show="disable == true">
                                     {{contractPeriod(comdetail.contractPeriod)}}
@@ -259,7 +262,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="上次登录时间">
                                     {{formatTime(comdetail.loginAt)}}
@@ -269,7 +272,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="上次登录IP">
                                     {{comdetail.lastIP}}
@@ -278,7 +281,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="6">
+                        <el-col :span="7">
                             <div class="">
                                 <el-form-item label="管理员联系方式" v-show="disable == true">
                                     {{comdetail.adminContact}}
@@ -380,6 +383,7 @@ export default {
   },
   beforeCreate () {
     this.$store.commit('startLoading')
+    this.$store.commit('resetAjax')
     this.$store.commit('closeEdit')
     this.$store.commit({
       type: 'recordNowindex',
@@ -392,6 +396,9 @@ export default {
   mounted () {
   },
   computed: {
+    ajaxCount () {
+      return this.$store.state.ajaxCount
+    },
     disable () {
       return this.$store.state.variable.isEdit
     }, // 是否开启编辑
@@ -414,6 +421,13 @@ export default {
     comBills () {
       var x = this.$store.state.variable.comdetailproperty[0] && this.$store.state.variable.comdetailproperty[0].balance || 0
       return this.points(x)
+    }
+  },
+  watch: {
+    ajaxCount (val) {
+      if (val == 2) {
+        this.$store.commit('closeLoading')
+      }
     }
   },
   data () {
