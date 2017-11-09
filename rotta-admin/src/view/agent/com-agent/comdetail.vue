@@ -708,7 +708,7 @@ export default {
         userId: localStorage.parentID
       }
       invoke({
-        url: api.allGames,
+        url: api.gameType,
         method: api.post,
         data: data
       }).then(
