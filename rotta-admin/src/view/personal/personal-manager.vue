@@ -132,6 +132,7 @@ import { detailTime, formatPoints, formatRemark } from '@/behavior/format'
 export default {
   beforeCreate () {
     this.$store.commit('startLoading')
+    this.$store.commit('resetAjax')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'personal'
@@ -142,6 +143,9 @@ export default {
     this.$store.dispatch('getPersonal_property')
   },
   computed: {
+    ajaxCount () {
+      return this.$store.state.ajaxCount
+    },
     balance () {
       return formatPoints(this.$store.state.variable.bills)
     },
@@ -157,6 +161,13 @@ export default {
         waterFall = waterFall.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
       }
       return waterFall
+    }
+  },
+  watch: {
+    ajaxCount (val) {
+      if (val == 3) {
+        this.$store.commit('closeLoading')
+      }
     }
   },
   data () {

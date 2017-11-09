@@ -36,7 +36,7 @@
                     <span class="subscribe4" v-if="o.gameStatus === 4">故障</span>
                     <span class="time">{{formatTime(o.updatedAt)}}</span>
                 </span>
-                  <el-dropdown trigger="click" class="moreIcon">
+                  <el-dropdown trigger="click" class="moreIcon" v-if="loginRole == '1'">
                   <span class="el-dropdown-link"><i class="el-icon-more"></i></span>
                     <el-dropdown-menu slot="dropdown">
                         <p @click="onlineGame(o)" v-if="o.gameStatus !== 1"><el-dropdown-item>上线</el-dropdown-item></p>
@@ -44,12 +44,6 @@
                         <p @click="maintainGame(o)"><el-dropdown-item>维护</el-dropdown-item></p>
                     </el-dropdown-menu>
                 </el-dropdown>
-                <!-- <el-dropdown trigger="click" class="editIcon">
-                  <span class="el-dropdown-link"><i class="el-icon-edit"></i></span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>编辑</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown> -->
               </div>
           </el-col>
         </el-row>
@@ -84,6 +78,7 @@ export default {
   },
   data () {
     return {
+      loginRole: localStorage.loginRole,
       allgames: [],
       searchGameName: ''
     }
