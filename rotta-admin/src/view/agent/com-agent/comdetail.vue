@@ -772,6 +772,7 @@ export default {
         type: 'recordOutdetailID',
         data: this.comdetail.parent
       })
+      this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$router.push('outdetail')
       this.$store.commit('startLoading')

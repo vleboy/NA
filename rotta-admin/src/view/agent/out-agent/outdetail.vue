@@ -821,6 +821,7 @@ export default {
         type: 'recordOutdetailID',
         data: ID
       })
+      this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$router.push('outdetail')
       this.$store.commit('startLoading')
@@ -835,6 +836,7 @@ export default {
         type: 'recordComdetailID',
         data: ID
       })
+      this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$router.push('comdetail')
       this.$store.commit('startLoading')
@@ -906,6 +908,7 @@ export default {
         type: 'recordOutdetailID',
         data: this.outdetail.parent
       })
+      this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$router.push('outdetail')
       this.$store.commit('startLoading')

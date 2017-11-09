@@ -79,7 +79,7 @@ export default {
       data.parent = this.$store.state.variable.outcreate.parent
     }
     invoke({
-      url: api.allGames,
+      url: api.gameType,
       method: api.post,
       data: data
     }).then(
