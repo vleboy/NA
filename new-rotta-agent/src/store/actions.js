@@ -10,6 +10,7 @@ export default {
       data: userInfo
     })
     .then(res => {
+      alert('登录成功')
       commit(types.LOGIN, res)
     })
     .catch(error => {

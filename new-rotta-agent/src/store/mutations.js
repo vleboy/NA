@@ -3,12 +3,12 @@ import {
 } from './mutation-types.js'
 import getters from './getters'
 const state = {
-  count: 1
+  token: ''
 }
 
 const mutations = {
   [LOGIN] (state, res) {
-    console.log(state, res)
+    this.state.token = res
   }
 }
 

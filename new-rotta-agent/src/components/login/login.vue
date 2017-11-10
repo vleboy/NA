@@ -79,11 +79,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(this.loginForm)
-          this.$store.dispatch('login', this.loginForm).then(() => {
-
-          }).catch(() => {
-
-          })
+          this.$store.dispatch('login', this.loginForm)
         } else {
           console.log('error submit!!')
           return false
