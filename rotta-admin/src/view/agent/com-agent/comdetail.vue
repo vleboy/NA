@@ -73,11 +73,9 @@
                                     {{comdetail.rate}}%
                                 </el-form-item>
                                 <el-form-item label="抽成比" prop="rate" v-show="disable == false">
-                                    <el-tooltip class="item" effect="dark" :content="rateContent" placement="top">
-                                      <el-input v-model="comdetail.rate">
-                                        <template slot="prepend">%</template>
-                                      </el-input>
-                                    </el-tooltip>
+                                  <el-input v-model="comdetail.rate">
+                                    <template slot="prepend">%</template>
+                                  </el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -402,10 +400,6 @@ export default {
     disable () {
       return this.$store.state.variable.isEdit
     }, // 是否开启编辑
-    rateContent () {
-      var content = this.parentInfo.rate
-      return '上级线路商抽成比为 ' + content + '%'
-    },
     comdetail () {
       return this.$store.state.variable.comdetaildata
     },
@@ -521,9 +515,6 @@ export default {
         this.isfinish.rate = false
       } else if (value < 0 || value > 100) {
         callback(new Error('抽成比应为0~100之间的数字'))
-        this.isfinish.rate = false
-      } else if (value > this.parentInfo.rate) {
-        callback(new Error('超过上级最大抽成比'))
         this.isfinish.rate = false
       } else {
         this.isfinish.rate = true

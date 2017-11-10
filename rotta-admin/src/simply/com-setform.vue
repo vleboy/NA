@@ -9,9 +9,7 @@
         </el-tooltip>
       </el-form-item>
       <el-form-item label="商户抽成比(%)" prop="rate">
-        <el-tooltip class="item" effect="dark" :content="parentRate" placement="right">
-          <el-input v-model="setcomInfo.rate" class="input" placeholder="请输入"></el-input>
-        </el-tooltip>
+        <el-input v-model="setcomInfo.rate" class="input" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="商户线路号" prop="msn">
         <el-input v-model="setcomInfo.msn" class="input" placeholder="请输入"></el-input>
@@ -80,9 +78,6 @@ export default {
   computed: {
     parentBills () {
       return '当前所属上级余额: ' + this.$store.state.variable.comparentBills.balance
-    },
-    parentRate () {
-      return '当前所属上级抽成比: ' + this.$store.state.variable.comparentBills.rate + '%'
     }
   },
   mounted () {
@@ -121,10 +116,7 @@ export default {
         callback(new Error('抽成比只能为0.00 - 100.00'))
         store.state.checkform.rate = false
       } else if (value < 0 || value > 100) {
-        callback(new Error('抽成比应为0~100之间的数字'))
-        store.state.checkform.rate = false
-      } else if (Number(value) > Number(this.$store.state.variable.comparentBills.rate)) {
-        callback(new Error('上级最大抽成比为' + this.$store.state.variable.comparentBills.rate + '%' + ' ' + '已超过上级最大抽成比'))
+        callback(new Error('抽成比应为0.00 ~ 100.00之间的数字'))
         store.state.checkform.rate = false
       } else {
         store.state.checkform.rate = true
