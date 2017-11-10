@@ -8,7 +8,7 @@
       <gocreate></gocreate>
     </div>
     <div class="outresult">
-        <el-table stripe :data="outlist">
+        <el-table stripe :data="outlist" @sort-change="fuckthis">
           <el-table-column label="序号" prop="rank" align="center" width="65" type="index">
           </el-table-column>
           <!-- <el-table-column type="expand" width="20">
@@ -45,23 +45,18 @@
           </el-table-column>
           <el-table-column label="线路商昵称" prop="displayName" align="center">
           </el-table-column>
-          <el-table-column label="上级线路商" prop="parent" align="center" sortable>
+          <el-table-column label="上级线路商" prop="parent" align="center" sortable='custom'>
             <template scope="scope">
                 <span @click="goOutParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{scope.row.parentDisplayName}}</span>
                 <span v-if="scope.row.parent === '01'">直属于平台</span>
               </template>
           </el-table-column>
-          <el-table-column label="抽成比" prop="rate" align="center" width="100" sortable>
+          <el-table-column label="抽成比" prop="rate" align="center" width="100" sortable='custom'>
             <template scope="scope">
               <span>{{(scope.row.rate)}}%</span>
             </template>
           </el-table-column>
-          <!-- <el-table-column label="可用商户名额" prop="limit" align="center">
-            <template scope="scope">
-              <span>{{(scope.row.merchantUsedCount)}}</span>/<span>{{(scope.row.limit)}}</span>
-            </template>
-          </el-table-column> -->
-          <el-table-column label="剩余点数" prop="balance" align="center" sortable>
+          <el-table-column label="剩余点数" prop="balance" align="center" sortable='custom'>
             <template scope="scope">
               <span>{{points(scope.row.balance)}}</span>
               <div>
@@ -79,12 +74,12 @@
           </el-table-column>
           <el-table-column label="线路商邮箱" prop="managerEmail" align="center">
           </el-table-column>
-          <el-table-column label="创建时间" prop="loginAt" align="center" width="150" sortable>
+          <el-table-column label="创建时间" prop="createdAt" align="center" width="150" sortable='custom'>
               <template scope="scope">
               <span style="word-break:normal">{{Time(scope.row.createdAt)}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="状态" align="center" prop="status" sortable width="90">
+          <el-table-column label="状态" align="center" prop="status" sortable='custom' width="90">
             <template scope="scope">
               <span>{{Status(scope.row.status)}}</span>
             </template>
@@ -159,6 +154,10 @@ export default {
   },
   data () {
     return {
+      sort: {
+        sortkey: '',
+        sortway: ''
+      },
       nowSize: 20,
       nowPage: 1
     }
@@ -174,7 +173,49 @@ export default {
       return outlist
     }
   },
+  watch: {
+    sort: {
+      handler: function (val, oldVal) {
+        if (val && val.sortkey != null && val.sortway != null) {
+          this.$store.commit('startLoading')
+          var data = {
+            query: {},
+            sortkey: val.sortkey,
+            sort: val.sortway.slice(0,4)
+          }
+          invoke({
+            url: api.managers,
+            method: api.post,
+            data: data
+          }).then(
+            result => {
+              const [err, ret] = result
+              if (err) {
+                this.$store.commit('closeLoading')
+                this.$message({
+                  message: err.msg,
+                  type: 'warning'
+                })
+              } else {
+                var data = ret.data.payload
+                this.$store.commit({
+                  type: 'recordOutlist',
+                  data: data
+                })
+                this.$store.commit('closeLoading')
+              }
+            }
+          )
+        }
+      },
+      deep:true
+    }
+  },
   methods: {
+    fuckthis (col) {
+      this.sort.sortkey = col.prop
+      this.sort.sortway = col.order
+    },
     goOutParent (parent) {
       // console.log('上级线路商', parent)
       this.$store.commit({
