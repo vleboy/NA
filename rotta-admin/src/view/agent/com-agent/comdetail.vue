@@ -726,28 +726,6 @@ export default {
         }
       )
     }, // 新增游戏
-    getparentRate () {
-      var parentId = localStorage.parentID
-      if (parentId == '01') {
-        this.parentInfo = {
-          rate: 100
-        }
-      } else {
-        invoke({
-          url: api.bills + '/' + parentId,
-          method: api.get
-        }).then(
-          result => {
-            const [err, ret] = result
-            if (err) {
-            } else {
-              var data = ret.data.payload
-              this.parentInfo = data
-            }
-          }
-        )
-      }
-    }, // 获取上级抽成比
     msn (msn) {
       return formatMSN(msn)
     }, // 格式化线路号
@@ -799,7 +777,6 @@ export default {
     turnONedit () {
       this.$store.commit('startLoading')
       this.addGame()
-      this.getparentRate()
       this.$store.commit('startEdit')
     }, // 开启编辑
     changeContract () {

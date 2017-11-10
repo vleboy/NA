@@ -866,28 +866,6 @@ export default {
         }
       )
     }, // 获取上级拥有游戏
-    getparentRate () {
-      var parentId = localStorage.parentID
-      if (parentId == '01') {
-        this.parentInfo = {
-          rate: 100
-        }
-      } else {
-        invoke({
-          url: api.bills + '/' + parentId,
-          method: api.get
-        }).then(
-          result => {
-            const [err, ret] = result
-            if (err) {
-            } else {
-              var data = ret.data.payload
-              this.parentInfo = data
-            }
-          }
-        )
-      }
-    }, // 获取上级抽成比
     user (name) {
       return formatUsername(name)
     }, // 格式化用户名
@@ -928,7 +906,6 @@ export default {
     turnONedit () {
       this.$store.commit('startLoading')
       this.addGame()
-      this.getparentRate()
       this.$store.commit('startEdit')
     }, // 开启编辑
     changeContract () {
