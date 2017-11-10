@@ -120,17 +120,17 @@ $<template>
         </div>
       </div>
     </div>
-    <el-dialog title="战绩详细" :visible.sync="isOpenModal" style="text-align: center">
-      <div class="record-bg">
-        <div class="record-content">
-          <div v-for="(data,index) in recordIcon" :key="index" class="record-wrap">
-            <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low">
-                <img :src="item" class="record-icon">
-            </div>
-          </div>
-        </div>
-      </div>
-    </el-dialog>
+    <!--<el-dialog title="战绩详细" :visible.sync="isOpenModal" style="text-align: center">-->
+      <!--<div class="record-bg">-->
+        <!--<div class="record-content">-->
+          <!--<div v-for="(data,index) in recordIcon" :key="index" class="record-wrap">-->
+            <!--<div v-for="(item,indexChild) in data" :key="indexChild" class="record-low">-->
+                <!--<img :src="item" class="record-icon">-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</el-dialog>-->
   </div>
 </template>
 <script type="text/ecmascript-6">
