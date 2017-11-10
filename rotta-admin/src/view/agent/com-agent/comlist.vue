@@ -8,7 +8,7 @@
         <gocreate></gocreate>
       </div>
     	<div class="comresult">
-        	<el-table stripe :data="comlist">
+        	<el-table stripe :data="comlist" @sort-change="defineSort">
             <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
             </el-table-column>
             <!-- <el-table-column type="expand" width="20">
@@ -56,18 +56,18 @@
                 <span>{{formatMSN(scope.row.msn)}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="上级线路商" prop="" align="center" sortable>
+            <el-table-column label="上级线路商" prop="parent" align="center" sortable="custom">
               <template scope="scope">
                 <span @click="goComParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{scope.row.parentDisplayName}}</span>
                 <span v-if="scope.row.parent === '01'">直属于平台</span>
               </template>
             </el-table-column>
-            <el-table-column label="商户抽成比" prop="rate" align="center" sortable>
+            <el-table-column label="商户抽成比" prop="rate" align="center" sortable="custom">
             	<template scope="scope">
               	<span>{{(scope.row.rate)}}%</span>
               </template>
             </el-table-column>
-            <el-table-column label="剩余点数" prop="balance" align="center" sortable>
+            <el-table-column label="剩余点数" prop="balance" align="center" sortable="custom">
               <template scope="scope">
               	<span>{{points(scope.row.balance)}}</span>
                 <div>
@@ -84,17 +84,17 @@
                 </template>
             </el-table-column>
             
-            <el-table-column label="创建时间" prop="createdAt" align="center" width="120" sortable>
+            <el-table-column label="创建时间" prop="createdAt" align="center" width="120" sortable="custom">
   			      <template scope="scope">
               	<span>{{Time(scope.row.createdAt)}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="最后登录时间" prop="loginAt" align="center" width="150" sortable>
+            <el-table-column label="最后登录时间" prop="loginAt" align="center" width="150" sortable="custom">
   			      <template scope="scope">
               	<span style="word-break:normal">{{Time(scope.row.loginAt)}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="状态" align="center" prop="status" sortable width="90" >
+            <el-table-column label="状态" align="center" prop="status" sortable="custom" width="90" >
               <template scope="scope">
                 <span>{{Status(scope.row.status)}}</span>
               </template>
@@ -168,6 +168,10 @@ export default {
   },
   data () {
     return {
+      sort: {
+        sortkey: '',
+        sortway: ''
+      },
       nowSize: 20,
       nowPage: 1
     }
@@ -183,7 +187,49 @@ export default {
       return comlist
     }
   },
+  watch: {
+    sort: {
+      handler: function (val, oldVal) {
+        if (val && val.sortkey != null && val.sortway != null) {
+          this.$store.commit('startLoading')
+          var data = {
+            query: {},
+            sortkey: val.sortkey,
+            sort: val.sortway.slice(0,4)
+          }
+          invoke({
+            url: api.merchants,
+            method: api.post,
+            data: data
+          }).then(
+            result => {
+              const [err, ret] = result
+              if (err) {
+                this.$store.commit('closeLoading')
+                this.$message({
+                  message: err.msg,
+                  type: 'warning'
+                })
+              } else {
+                var data = ret.data.payload
+                this.$store.commit({
+                  type: 'recordComlist',
+                  data: data
+                })
+                this.$store.commit('closeLoading')
+              }
+            }
+          )
+        }
+      },
+      deep:true
+    }
+  },
   methods: {
+    defineSort (col) {
+      this.sort.sortkey = col.prop
+      this.sort.sortway = col.order
+    }, // 后端排序
     formatMSN (msn) {
       return formatMSN(msn)
     }, // 格式化线路号

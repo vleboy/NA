@@ -8,7 +8,7 @@
       <gocreate></gocreate>
     </div>
     <div class="outresult">
-        <el-table stripe :data="outlist" @sort-change="fuckthis">
+        <el-table stripe :data="outlist" @sort-change="defineSort">
           <el-table-column label="序号" prop="rank" align="center" width="65" type="index">
           </el-table-column>
           <!-- <el-table-column type="expand" width="20">
@@ -212,10 +212,10 @@ export default {
     }
   },
   methods: {
-    fuckthis (col) {
+    defineSort (col) {
       this.sort.sortkey = col.prop
       this.sort.sortway = col.order
-    },
+    }, // 后端排序
     goOutParent (parent) {
       // console.log('上级线路商', parent)
       this.$store.commit({
