@@ -937,6 +937,7 @@ export default {
             type: 'error'
           })
       } else {
+        this.$store.commit('startLoading')
         wrong = !wrong
         this.loading = true
         var outdetailID = ''
@@ -973,10 +974,12 @@ export default {
                 message: err.msg,
                 type: 'warning'
               })
+              this.$store.commit('closeLoading')
               this.loading = false
             } else {
               var data = ret.data.payload
               this.$store.commit('closeEdit')
+              this.$store.commit('closeLoading')
               this.loading = false
               this.$message({
                 message: '修改成功',

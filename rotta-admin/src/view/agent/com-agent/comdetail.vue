@@ -806,6 +806,7 @@ export default {
             type: 'error'
           })
       } else {
+        this.$store.commit('startLoading')
         wrong = !wrong
         this.loading = true
         var comdetailID = ''
@@ -842,11 +843,12 @@ export default {
                 message: err.msg,
                 type: 'warning'
               })
+              this.$store.commit('closeLoading')
               this.loading = false
             } else {
               var data = ret.data.payload
-              // console.log(data)
               this.$store.commit('closeEdit')
+              this.$store.commit('closeLoading')
               this.loading = false
               this.$message({
                 message: '修改成功',
