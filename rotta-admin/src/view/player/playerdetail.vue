@@ -2,7 +2,7 @@ $<template>
   <div class="playerdetail">
     <div class="playdetailform">
       <div class="my-title">
-        <h2>{{userName}}</h2>
+        <h2>{{userName}} <el-button  type="text" @click="accountDetail()">查看流水账详单</el-button></h2>
       </div>
       <div class="baseinfo">
         <h4>基本信息</h4>
@@ -39,34 +39,64 @@ $<template>
             <el-date-picker
               v-model="amountDate"
               type="daterange"
+              align="right"
+              :picker-options="pickerOptions"
               placeholder="选择日期范围">
             </el-date-picker>
             <el-button type="primary" @click="searchAmount">搜索</el-button>
           </el-col>
         </div>
         <div class="countinfo-form">
-          <el-table border :data="dataList">
-            <el-table-column prop="date" label="序号" width="65" align="center" type="index"></el-table-column>
+          <el-table :data="dataList">
+            <el-table-column prop="billId" label="流水号" width="120" align="center"></el-table-column>
             <el-table-column prop="nowPoints" label="账户余额" width="120" align="center">
               <template scope="scope">
                 {{(scope.row.originalAmount+scope.row.amount)|currency}}
               </template>
             </el-table-column>
-            <el-table-column label="交易点数" width="120" align="center">
+            <el-table-column label="进入时间" :formatter="getBtime" width="180" align="center"></el-table-column>
+            <el-table-column label="退出时间" :formatter="getAtime" width="180" align="center"></el-table-column>
+            <el-table-column prop="typeName" label="交易类型" width="120" align="center"></el-table-column>
+            <el-table-column prop="originalAmount" label="入账金额" width="120" align="center">
               <template scope="scope">
-                <span :class="{'-p-green':scope.row.action ==1,'-p-red':scope.row.action ==-1}">{{scope.row.amount|currency}}</span>
+                {{scope.row.originalAmount|currency}}
               </template>
             </el-table-column>
-            <el-table-column label="交易时间" :formatter="getAtime" width="180" align="center"></el-table-column>
-            <el-table-column prop="typeName" label="交易类型" width="120" align="center"></el-table-column>
-            <el-table-column label="交易详情(原账+当前操作额=现在余额)"  align="center">
+            <el-table-column prop="typeName" label="游戏金额" width="120" align="center">
               <template scope="scope">
-                <span>{{scope.row.originalAmount}}</span><span :class="{'-p-green':scope.row.action ==1,'-p-red':scope.row.action ==-1}">
-                <span v-if="scope.row.action==1">+</span>{{scope.row.amount}}</span>=<span>{{(scope.row.originalAmount+scope.row.amount)|currency}}</span>
+                <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}">
+                  {{scope.row.amount|currency}}
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="typeName" label="出账金额" width="120" align="center">
+              <template scope="scope">
+                <span>{{(scope.row.originalAmount+scope.row.amount)|currency}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="帐类型" align="center">
+              <template scope="scope">
+                <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}">
+                  {{(scope.row.amount>=0) ? '玩家赢' : '玩家输'}}
+                </span>
               </template>
             </el-table-column>
             <el-table-column prop="operator" label="操作人" width="160" align="center"></el-table-column>
-            <el-table-column prop="remark" label="备注" align="center"></el-table-column>
+            <el-table-column label="备注" align="center">
+              <template scope="scope">
+                <el-popover trigger="hover" placement="bottom-start">
+                  <p>{{ scope.row.remark === 'NULL!' ? '' : scope.row.remark}}</p>
+                  <div slot="reference" class="g-text-ellipsis" style="width: 80px;">
+                    {{ scope.row.remark }}
+                  </div>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" align="center">
+              <template scope="scope">
+                <el-button  type="text" v-if="scope.row.kindId==40000" @click="billDetail(scope.row)">查看详单</el-button>
+              </template>
+            </el-table-column>
           </el-table>
           <div style="text-align: right;margin:2rem 0">
             <el-pagination layout="prev, pager, next, sizes, jumper" :total="detailInfo.list.length"
@@ -78,7 +108,7 @@ $<template>
     </div>
   </div>
 </template>
-<script>
+<script type="text/ecmascript-6">
 import { detailTime, formatUserName } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
@@ -100,7 +130,34 @@ export default {
       isShowRadio: false, // 切换数据来源
       isGetSearch: false, // 判断是否从搜索点入
       detailList: [],
-      searchArray: []
+      searchArray: [],
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近三天',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 2);
+            picker.$emit('pick', [start, end]);
+          }
+        },{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
+            picker.$emit('pick', [start, end]);
+          }
+        },{
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      }
     }
   },
   mounted () {
@@ -160,8 +217,11 @@ export default {
   },
   methods: {
     getAtime (row, col) {
-      return detailTime(row.updateAt)
-    }, // 格式化创建时间
+      return detailTime(row.createAt)
+    }, // 格式化退出时间
+    getBtime (row, col) {
+      return detailTime(row.joinTime)
+    }, // 格式化进入时间
     getNowsize (size) {
       this.nowSize = size
       // console.log('当前每页:' + size)
@@ -228,6 +288,13 @@ export default {
         }
       }
       this.detailList.list = this.searchArray
+    },
+    billDetail (row) {
+      localStorage.setItem('playerBillId', row.billId)
+      this.$router.push('playerBill')
+    },
+    accountDetail () {
+      this.$router.push('playerAccount')
     }
   },
   filters:{   //过滤器，所有数字保留两位小数
@@ -239,21 +306,20 @@ export default {
 </script>
 
 <style scpoed>
-  .my-title{text-align: center}
+  .playerdetail .my-title{text-align: center}
   h2{font-size: 2.5rem;color: #5a5a5a;padding-top: 2rem;}
-  .baseinfo,
+  .playerdetail .baseinfo,
   .countinfo{padding: 0 2rem;margin: 0 auto;vertical-align: baseline;}
 
-  .baseinfo-form,
-  .countinfo-form{background-color: #f5f5f5;padding-left: 2rem;font-size: 0.8rem;overflow: hidden}
+  .playerdetail .baseinfo-form, .countinfo-form{background-color: #f5f5f5;padding-left: 2rem;font-size: 0.8rem;overflow: hidden}
 
-  .baseinfo-form span{display: inline-block;padding: 2.2rem 0}
-  .countinfo-form{padding: 2rem;}
+  .playerdetail .baseinfo-form span{display: inline-block;padding: 2.2rem 0}
+  .playerdetail .countinfo-form{padding: 2rem;}
 
-  .countinfo-title{background-color: #f5f5f5;font-size: 1.1rem;padding: 2rem; overflow: hidden}
-  .countinfo-center{background-color: #f5f5f5;font-size: 1.1rem;padding:0 2rem; overflow: hidden}
-  h4{font-size: 1.3rem;font-weight: normal;padding: 1.5rem 0;color: #5a5a5a}
-  .justfy2{font-size: 1rem;padding-right: 1rem;}
+  .playerdetail .countinfo-title{background-color: #f5f5f5;font-size: 1.1rem;padding: 2rem; overflow: hidden}
+  .playerdetail .countinfo-center{background-color: #f5f5f5;font-size: 1.1rem;padding:0 2rem; overflow: hidden}
+  .playerdetail h4{font-size: 1.3rem;font-weight: normal;padding: 1.5rem 0;color: #5a5a5a}
+  .playerdetail .justfy2{font-size: 1rem;padding-right: 1rem;}
   .-p-green{color: #00CC00}
   .-p-red{color: #FF3300}
 </style>

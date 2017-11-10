@@ -19,7 +19,9 @@ const front = {
 
   other: other_URL, // other接口 （针对老曾）
 
-  stateMachine: stateMachine_URL // stateMachine接口
+  stateMachine: stateMachine_URL, // stateMachine接口
+
+  playerExt: playerExt_URL // playerExt接口
 }
 
 const api = {
@@ -177,6 +179,13 @@ const api = {
   //stateMachine
 
   uploadImg: front.stateMachine + front.stage + '/upload', // 上传图片获取签证
+
+  //playerExt
+  playerAccount: front.playerExt + front.stage + '/player/bill/flow', // 下注返奖流水(查看流水账详单)
+
+  playerBill: front.playerExt + front.stage + '/player/bill/detail', // 账单流水详情信息(查看账单详细)
+
+  playerRecord: front.playerExt + front.stage + '/player/bill/record', // 战绩
 
   // methods
 
