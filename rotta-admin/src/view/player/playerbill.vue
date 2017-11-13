@@ -281,7 +281,7 @@ export default {
   .playBill .record-bg{
     background-repeat:no-repeat!important;
     background-size: 100% auto!important;
-    height: 480px;
+    height: 500px;
     position: relative;
   }
   .playBill .record-content{
@@ -309,6 +309,7 @@ export default {
     color: #fff;
   }
   .playBill .record-low{
+    display: block;
     width: 114px;
   }
   .playBill .tlzm .tlzm-low{
