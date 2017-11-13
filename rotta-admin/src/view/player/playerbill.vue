@@ -85,25 +85,27 @@ $<template>
       </div>
     </div>
     <el-dialog title="战绩详细" :visible.sync="isOpenModal" class="g-text-center">
-      <div class="record-bg" :class="{'record-tlzm':gameType=='40001','record-xcl':gameType=='40002'}">
-        <div class="record-content">
-          <div v-for="(data,index) in recordArray" :key="index" class="record-wrap">
-            <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low">
+      <div v-loading.body="dialogLoading" element-loading-text="加载中...">
+        <div class="record-bg" :class="{'record-tlzm':gameType=='40001','record-xcl':gameType=='40002'}">
+          <div class="record-content">
+            <div v-for="(data,index) in recordArray" :key="index" class="record-wrap">
+              <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low">
                 <img :src="`../../../static/playerBill/${gameTypeNum}/${item}.png`" class="record-icon">
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="record-footer">
-        <el-col :span="8">
-          余额：&ensp;{{itemRecord.balance|currency}}
-        </el-col>
-        <el-col :span="8">
-          赢得：&ensp;{{itemRecord.reAmount|currency}}
-        </el-col>
-        <el-col :span="8">
-          总赌注：&ensp;{{itemRecord.amount|currency}}
-        </el-col>
+        <div class="record-footer">
+          <el-col :span="8">
+            余额：&ensp;{{itemRecord.balance|currency}}
+          </el-col>
+          <el-col :span="8">
+            赢得：&ensp;{{itemRecord.reAmount|currency}}
+          </el-col>
+          <el-col :span="8">
+            总赌注：&ensp;{{itemRecord.amount|currency}}
+          </el-col>
+        </div>
       </div>
     </el-dialog>
   </div>
@@ -128,6 +130,7 @@ export default {
       searchItem: '',
       allAmount: 0,
       isOpenModal: false,
+      dialogLoading: false,
       detailList: [],
       searchArray: [],
       gameType: {},
@@ -209,6 +212,7 @@ export default {
     },
     openModal(data) {
       this.isOpenModal = true
+//      this.dialogLoading = true
       this.itemRecord = data
       this.itemRecord.amount = Math.abs(this.itemRecord.amount)
       invoke({
@@ -229,9 +233,11 @@ export default {
           } else {
             this.gameType = res.data.data.gameId
             this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)
-            this.recordArray = this.split_array(this.playerRecordList.viewGrid,5)
+            this.recordArray = this.split_array(this.playerRecordList.viewGrid,3)
+            console.log(this.recordArray )
           }
           this.$store.commit('closeLoading')
+          this.dialogLoading = false
         }
       )
     },
@@ -276,27 +282,28 @@ export default {
   .record-bg{
     background-repeat:no-repeat!important;
     background-size: 100% auto!important;
-    height: 500px;
+    height: 480px;
     position: relative;
   }
   .record-content{
     position: absolute;
-    top: 20%;
+    top: 24%;
     /*left: 1%;*/
     width: 100%;
   }
   .record-wrap{
-
+    display: inline-block;
+    position: relative;
+    left: 10px;
   }
   .record-footer{
     overflow: hidden;
     background-color: #000;
-    padding: 10px 0;
+    padding: 9px 0;
     color: #fff;
   }
   .record-low{
-    display: inline-block;
-    width: 120px;
+    width: 114px;
   }
   .record-icon{
     width: 100%;
