@@ -75,7 +75,7 @@ $<template>
         <div class="countinfo-form">
           <el-table stripe :data="dataList" @selection-change="selectionChange" @sort-change="sortFun">
             <el-table-column type="selection" width="60" align="center"></el-table-column>
-            <el-table-column prop="sn" label="流水号" align="center"></el-table-column>
+            <el-table-column prop="sn" label="流水号" width="300" align="center"></el-table-column>
             <el-table-column prop="createdAt" label="日期" :formatter="getAtime" sortable="custom" align="center"></el-table-column>
             <el-table-column label="交易类型" align="center">
               <template scope="scope">
