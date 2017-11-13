@@ -11,8 +11,8 @@
         <div class="searchBtn">
           <el-button type="primary" @click="startSearch">搜索</el-button>
           <el-button @click="resetSearch">重置</el-button>
-          <el-button type="text" @click="show = !show" v-show="show">收起 <i class="el-icon-arrow-down"></i></el-button>
-          <el-button type="text" @click="show = !show" v-show="!show">展开 <i class="el-icon-arrow-up"></i></el-button>
+          <el-button type="text" @click="show = !show" v-show="show">收起 <i class="el-icon-arrow-up"></i></el-button>
+          <el-button type="text" @click="show = !show" v-show="!show">展开 <i class="el-icon-arrow-down"></i></el-button>
         </div>
         <el-collapse-transition>
               <div v-if="show" class="moreBox">
