@@ -15,5 +15,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.dashboard
+  position relative
+  width 100%
 </style>
 

@@ -16,5 +16,17 @@ export default {
     .catch(error => {
       Message.error(error.response.data.err.msg)
     })
+  },
+  navbar: ({commit}) => {
+    Axios({
+      method: 'get',
+      url: 'static/data/navbar.json'
+    })
+    .then(res => {
+      console.log(res)
+    })
+    .catch(error => {
+      Message.error(error.response.data.err.msg)
+    })
   }
 }
