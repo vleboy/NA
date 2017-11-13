@@ -321,10 +321,10 @@ export default {
   .playBill .tlzm .tlzm-icon{
     width: 74%;
   }
-  .record-tlzm{
+  .playBill .record-tlzm{
     background: url("../../../static/playerBill/tlzm-bg.png");
   }
-  .record-xcl{
+  .playBill .record-xcl{
     background: url("../../../static/playerBill/xcl-bg.png");
   }
   .playBill .el-dialog--small{
