@@ -59,7 +59,7 @@ export default {
     if (!is_weixin() && !is_QQInnerBro()) {
       this.show = false
       if(isAndroid){
-        window.location.href = 'http://www.na77.com/NAGame.apk'
+        window.location.href = 'http://oss.na12345.com/NAGame1500.apk'
       } else if(isiOS){
         // axios.get(`${url}/dev/ipquery`)
         // .then(function (res) {
