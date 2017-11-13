@@ -50,7 +50,7 @@ export default{
     getGameType () {
       this.$store.commit('startLoading')
       invoke({
-        url: api.allGames,
+        url: api.gameType,
         method: api.post,
         data: {
           parent: localStorage.loginRole == 1 ? '' : localStorage.loginId
