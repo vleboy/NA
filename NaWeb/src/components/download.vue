@@ -23,7 +23,7 @@
   height: 100%;
   position: relative;
   background: url('../assets/download.jpg') no-repeat;
-  background-size: cover;
+  background-size: 100%;
   .content {
     position: absolute;
     top: 84%;
