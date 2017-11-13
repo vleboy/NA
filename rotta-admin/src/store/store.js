@@ -402,7 +402,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          context.commit('ajaxCount')
+          context.commit('countAjax')
           context.commit({
             type: 'recordPersonal_info',
             data: data
