@@ -87,10 +87,10 @@ $<template>
     <el-dialog title="战绩详细" :visible.sync="isOpenModal" class="g-text-center">
       <div v-loading.body="dialogLoading" element-loading-text="加载中...">
         <div class="record-bg" :class="{'record-tlzm':gameType=='40001','record-xcl':gameType=='40002'}">
-          <div class="record-content">
-            <div v-for="(data,index) in recordArray" :key="index" class="record-wrap">
-              <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low">
-                <img :src="`../../../static/playerBill/${gameTypeNum}/${item}.png`" class="record-icon">
+          <div class="record-content" :class="{'tlzm':gameType=='40001'}">
+            <div v-for="(data,index) in recordArray" :key="index" class="record-wrap" :class="{'tlzm-wrap':gameType=='40001'}">
+              <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low" :class="{'tlzm-low':gameType=='40001'}">
+                <img :src="`../../../static/playerBill/${gameTypeNum}/${item}.png`" class="record-icon" :class="{'tlzm-icon':gameType=='40001'}">
               </div>
             </div>
           </div>
@@ -290,10 +290,17 @@ export default {
     /*left: 1%;*/
     width: 100%;
   }
+  .playBill .tlzm{
+    top:28%;
+  }
   .playBill .record-wrap{
     display: inline-block;
     position: relative;
     left: 10px;
+  }
+  .playBill .tlzm .tlzm-wrap{
+    top:20%;
+    left: 0;
   }
   .playBill .record-footer{
     overflow: hidden;
@@ -304,8 +311,14 @@ export default {
   .playBill .record-low{
     width: 114px;
   }
+  .playBill .tlzm .tlzm-low{
+    width: 127px;
+  }
   .playBill .record-icon{
     width: 100%;
+  }
+  .playBill .tlzm .tlzm-icon{
+    width: 74%;
   }
   .record-tlzm{
     background: url("../../../static/playerBill/tlzm-bg.png");
