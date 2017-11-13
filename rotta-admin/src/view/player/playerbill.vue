@@ -95,7 +95,7 @@ $<template>
             </div>
           </div>
         </div>
-        <div class="record-footer">
+        <div class="record-footer" v-if='recordArray.length'>
           <el-col :span="8">
             余额：&ensp;{{itemRecord.balance|currency}}
           </el-col>
@@ -106,6 +106,7 @@ $<template>
             总赌注：&ensp;{{itemRecord.amount|currency}}
           </el-col>
         </div>
+        <div v-else class="no-record">战绩截图同步中，请稍后在查看</div>
       </div>
     </el-dialog>
   </div>
@@ -211,8 +212,9 @@ export default {
       this.playerBillDetailList = this.searchArray
     },
     openModal(data) {
+      this.recordArray = []
       this.isOpenModal = true
-//      this.dialogLoading = true
+      this.dialogLoading = true
       this.itemRecord = data
       this.itemRecord.amount = Math.abs(this.itemRecord.amount)
       invoke({
@@ -231,9 +233,11 @@ export default {
               type: 'error'
             })
           } else {
-            this.gameType = res.data.data.gameId
-            this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)
-            this.recordArray = this.split_array(this.playerRecordList.viewGrid,3)
+            if (res.data.data != null) {
+              this.gameType = res.data.data.gameId
+              this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)
+              this.recordArray = this.split_array(this.playerRecordList.viewGrid,3)
+            }
           }
           this.$store.commit('closeLoading')
           this.dialogLoading = false
@@ -290,7 +294,6 @@ export default {
   .playBill .record-content{
     position: absolute;
     top: 24%;
-    /*left: 1%;*/
     width: 100%;
   }
   .playBill .tlzm{
@@ -332,5 +335,12 @@ export default {
   }
   .playBill .el-dialog--small{
     width: 940px;
+  }
+  .playBill .no-record {
+    position: absolute;
+    top: 48%;
+    left: 25%;
+    font-size: 30px;
+    font-weight: bold;
   }
 </style>
