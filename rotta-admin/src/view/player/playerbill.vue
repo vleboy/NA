@@ -291,7 +291,7 @@ export default {
     width: 100%;
   }
   .playBill .tlzm{
-    top:28%;
+    top:23%;
   }
   .playBill .record-wrap{
     display: inline-block;
@@ -313,13 +313,13 @@ export default {
     width: 114px;
   }
   .playBill .tlzm .tlzm-low{
-    width: 127px;
+    width: 130px;
   }
   .playBill .record-icon{
     width: 100%;
   }
   .playBill .tlzm .tlzm-icon{
-    width: 74%;
+    width: 80%;
   }
   .playBill .record-tlzm{
     background: url("../../../static/playerBill/tlzm-bg.png");
