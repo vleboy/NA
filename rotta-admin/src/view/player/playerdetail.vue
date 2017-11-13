@@ -48,20 +48,20 @@ $<template>
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="billId" label="流水号" width="120" align="center"></el-table-column>
-            <el-table-column prop="nowPoints" label="账户余额" width="120" align="center">
-              <template scope="scope">
-                {{(scope.row.originalAmount+scope.row.amount)|currency}}
-              </template>
-            </el-table-column>
-            <el-table-column label="进入时间" :formatter="getBtime" width="180" align="center"></el-table-column>
-            <el-table-column label="退出时间" :formatter="getAtime" width="180" align="center"></el-table-column>
+            <!--<el-table-column prop="billId" label="流水号" width="120" align="center"></el-table-column>-->
+            <!--<el-table-column prop="nowPoints" label="账户余额" width="120" align="center">-->
+              <!--<template scope="scope">-->
+                <!--{{(scope.row.originalAmount+scope.row.amount)|currency}}-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column label="进入时间" :formatter="getBtime" width="180" align="center"></el-table-column>-->
+            <!--<el-table-column label="退出时间" :formatter="getAtime" width="180" align="center"></el-table-column>-->
             <el-table-column prop="typeName" label="交易类型" width="120" align="center"></el-table-column>
-            <el-table-column prop="originalAmount" label="入账金额" width="120" align="center">
-              <template scope="scope">
-                {{scope.row.originalAmount|currency}}
-              </template>
-            </el-table-column>
+            <!--<el-table-column prop="originalAmount" label="入账金额" width="120" align="center">-->
+              <!--<template scope="scope">-->
+                <!--{{scope.row.originalAmount|currency}}-->
+              <!--</template>-->
+            <!--</el-table-column>-->
             <el-table-column prop="typeName" label="游戏金额" width="120" align="center">
               <template scope="scope">
                 <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}">
@@ -76,9 +76,10 @@ $<template>
             </el-table-column>
             <el-table-column label="帐类型" align="center">
               <template scope="scope">
-                <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}">
+                <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}" v-if="scope.row.kindId!=-1&&scope.row.kindId!=-3">
                   {{(scope.row.amount>=0) ? '玩家赢' : '玩家输'}}
                 </span>
+                <span v-else>-</span>
               </template>
             </el-table-column>
             <el-table-column prop="operator" label="操作人" width="160" align="center"></el-table-column>
