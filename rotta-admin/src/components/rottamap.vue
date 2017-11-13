@@ -262,7 +262,7 @@ export default {
           <span>
             <span>
               <span>
-                <img src="/static/icon-manager.svg" style="vertical-align: -0.05rem;margin-right:0.3rem"></img>
+                <img src="/static/icon-manager.png" style="vertical-align: -0.15rem;margin-right:0.3rem"></img>
                 {node.label}
               </span>
             </span>
@@ -276,7 +276,7 @@ export default {
         return (
           <span>
             <span>
-                <img src="/static/icon-merchant.svg" style="vertical-align: -0.2rem;margin-right:0.3rem"></img>
+                <img src="/static/icon-merchant.png" style="vertical-align: -0.25rem;margin-right:0.3rem"></img>
               {node.label}
             </span>
             <div style="float:right;display:none;margin-right:1rem" class="renderZone">
@@ -288,7 +288,7 @@ export default {
         return (
           <span>
             <span>
-              <img src="/static/icon-player.svg" style="vertical-align: -0.2rem;margin-right:0.1rem"></img>
+              <img src="/static/icon-player.png" style="vertical-align: -0.2rem;margin-right:0.1rem"></img>
               {node.label}
             </span>
           </span>
