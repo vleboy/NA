@@ -234,7 +234,6 @@ export default {
             this.gameType = res.data.data.gameId
             this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)
             this.recordArray = this.split_array(this.playerRecordList.viewGrid,3)
-            console.log(this.recordArray )
           }
           this.$store.commit('closeLoading')
           this.dialogLoading = false
@@ -279,33 +278,33 @@ export default {
   .playBill h4{font-size: 1.3rem;font-weight: normal;padding: 1.5rem 0;color: #5a5a5a;display: inline-block}
   .-p-green{color: #00CC00}
   .-p-red{color: #FF3300}
-  .record-bg{
+  .playBill .record-bg{
     background-repeat:no-repeat!important;
     background-size: 100% auto!important;
     height: 480px;
     position: relative;
   }
-  .record-content{
+  .playBill .record-content{
     position: absolute;
     top: 24%;
     /*left: 1%;*/
     width: 100%;
   }
-  .record-wrap{
+  .playBill .record-wrap{
     display: inline-block;
     position: relative;
     left: 10px;
   }
-  .record-footer{
+  .playBill .record-footer{
     overflow: hidden;
     background-color: #000;
     padding: 9px 0;
     color: #fff;
   }
-  .record-low{
+  .playBill .record-low{
     width: 114px;
   }
-  .record-icon{
+  .playBill .record-icon{
     width: 100%;
   }
   .record-tlzm{
