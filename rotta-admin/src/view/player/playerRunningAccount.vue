@@ -73,16 +73,16 @@ $<template>
       </div>
       <div class="countinfo">
         <div class="countinfo-form">
-          <el-table stripe :data="dataList" @selection-change="selectionChange">
+          <el-table stripe :data="dataList" @selection-change="selectionChange" @sort-change="sortFun">
             <el-table-column type="selection" width="60" align="center"></el-table-column>
             <el-table-column prop="sn" label="流水号" align="center"></el-table-column>
-            <el-table-column label="日期" :formatter="getAtime" sortable align="center"></el-table-column>
+            <el-table-column prop="createdAt" label="日期" :formatter="getAtime" sortable="custom" align="center"></el-table-column>
             <el-table-column label="交易类型" align="center">
               <template scope="scope">
                 {{typeList[scope.row.type]}}
               </template>
             </el-table-column>
-            <el-table-column label="帐变前余额" sortable align="center">
+            <el-table-column prop="originalAmount" label="帐变前余额" sortable="custom" align="center">
               <template scope="scope">
                 {{(scope.row.originalAmount)|currency}}
               </template>
@@ -120,17 +120,6 @@ $<template>
         </div>
       </div>
     </div>
-    <!--<el-dialog title="战绩详细" :visible.sync="isOpenModal" style="text-align: center">-->
-      <!--<div class="record-bg">-->
-        <!--<div class="record-content">-->
-          <!--<div v-for="(data,index) in recordIcon" :key="index" class="record-wrap">-->
-            <!--<div v-for="(item,indexChild) in data" :key="indexChild" class="record-low">-->
-                <!--<img :src="item" class="record-icon">-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</el-dialog>-->
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -171,6 +160,7 @@ export default {
       amountDate: [], // 时间日期选择
       playerAccountList: [], // 玩家流水账列表
       playerRecordList: [], // 玩家战绩列表
+      sortInfo: {} // 排序
     }
   },
   mounted () {
@@ -217,7 +207,9 @@ export default {
           type: this.radioType,
           action: this.radioMoney,
           startTime: this.amountDate.length ? this.startDate : '',
-          endTime: this.amountDate.length ? this.endDate : ''
+          endTime: this.amountDate.length ? this.endDate : '',
+          sort: this.sortInfo.sort,
+          sortKey: this.sortInfo.sortKey
         }
       }).then(
         result => {
@@ -321,7 +313,17 @@ export default {
       }
       formatterNum = (numOne || num).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
       return numTwo ? `${formatterNum}.${numTwo}` : `${formatterNum}.00`
-    } // 千位符格式化
+    }, // 千位符格式化
+    sortFun (col){
+      if(col.prop!=null){
+        this.sortInfo.sortKey = col.prop
+        this.sortInfo.sort = col.order== 'ascending' ? 'asce':'desc';
+        this.getPlayerAccount()
+      } else {
+        this.sortInfo.sortKey = ''
+        this.sortInfo.sort = ''
+      }
+    }
   },
   filters:{   //过滤器，所有数字保留两位小数
     currency(value){

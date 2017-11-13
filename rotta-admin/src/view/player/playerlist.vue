@@ -34,7 +34,7 @@
           <el-button type="primary" @click="allChangeState(1)">批量开启</el-button>
         </el-col>
       </el-row>
-      <el-table stripe :data="getItems" @selection-change="selectionChange">
+      <el-table stripe :data="getItems" @selection-change="selectionChange" @sort-change="sortFun">
         <el-table-column type="selection" width="60" align="center">
         </el-table-column>
         <el-table-column prop="userNameParent" label="用户名" align="center">
@@ -58,7 +58,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="balance" label="点数" sortable show-overflow-tooltip align="center">
+        <el-table-column prop="balance" label="点数" sortable="custom" show-overflow-tooltip align="center">
         </el-table-column>
         <el-table-column prop="updateAt" label="最近登录游戏时间" :formatter="getAtime" align="center">
         </el-table-column>
@@ -78,7 +78,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import { invoke } from '@/libs/fetchLib'
   import { formatUserName, unFormatUserName, detailTime } from '@/behavior/format'
   import api from '@/api/api'
@@ -101,6 +101,7 @@
         checkedArray: [],
         names: [],
         searchInfo: {},
+        sortInfo: {},
         role: localStorage.loginRole // 相应角色的权限（区分商户、线路商、平台角色）
       }
     },
@@ -249,6 +250,16 @@
       resultSearch () {
         this.searchInfo = {}
         this.getPlayList()
+      },
+      sortFun (col){
+        if(col.prop!=null){
+          this.searchInfo.sortKey = col.prop
+          this.searchInfo.sort = col.order== 'ascending' ? 'asce':'desc';
+          this.getPlayList()
+        } else {
+          this.searchInfo.sortKey = ''
+          this.searchInfo.sort = ''
+        }
       }
     }
   }
