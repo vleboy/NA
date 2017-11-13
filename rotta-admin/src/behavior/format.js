@@ -75,17 +75,17 @@ export const billType = function (type) {
 
 export const formatPoints = function (points) {
   points = points.toString()
-  if (/[^0-9\.]/.test(points)) {  
-    return "invalid value";  
+  if (/[^0-9\.]/.test(points)) {
+    return "invalid value";
   }
-  points = points.replace(/^(\d*)$/, "$1.");  
-  points = (points + "00").replace(/(\d*\.\d\d)\d*/, "$1");  
-  points = points.replace(".", ",");  
-  var re = /(\d)(\d{3},)/;  
-  while (re.test(points)) {  
-      points = points.replace(re, "$1,$2");  
-  }  
-  points = points.replace(/,(\d\d)$/, ".$1");  
+  points = points.replace(/^(\d*)$/, "$1.");
+  points = (points + "00").replace(/(\d*\.\d\d)\d*/, "$1");
+  points = points.replace(".", ",");
+  var re = /(\d)(\d{3},)/;
+  while (re.test(points)) {
+      points = points.replace(re, "$1,$2");
+  }
+  points = points.replace(/,(\d\d)$/, ".$1");
   return points
 } // 格式化点数
 
@@ -127,3 +127,17 @@ export const unFormatUserName = function (name, data) {
   const userName = data.split('】')
   return `${parentName[0]}_${userName[1]}`
 } // 将用户名格式化为xxx_xxx格式
+
+export const thousandFormatter = function (num) {
+  num = (num-0).toFixed(2);
+  let toString = num.toString()
+  let numOne = ''
+  let numTwo = ''
+  let formatterNum = ''
+  if(toString.indexOf('.')>-1){
+    [numOne,numTwo] = toString.split('.')
+  }
+  formatterNum = (numOne || num).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+  return numTwo ? `${formatterNum}.${numTwo}` : `${formatterNum}.00`
+} // 重置千位符
+

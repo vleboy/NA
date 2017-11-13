@@ -19,7 +19,7 @@ $<template>
       <div class="countinfo">
         <h4>消费信息</h4>
         <div class="countinfo-title">
-          <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{detailInfo.balance|currency}}</span></span>
+          <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(detailInfo.balance)}}</span></span>
           <el-button type="text" style="margin-right: 1rem" @click="getPlayerDetail">刷新</el-button>
           <el-radio-group v-model="radioInfo" @change="changeRadio()">
             <el-radio-button label="0">全部</el-radio-button>
@@ -32,7 +32,7 @@ $<template>
         </div>
         <div class="countinfo-center">
           <el-col :span="5">
-            <span>花费总点数 : <span class="-p-red">{{allAmountFun|currency}}</span></span>
+            <span>花费总点数 : <span class="-p-red">{{formatPoints(allAmountFun)}}</span></span>
           </el-col>
 
           <el-col :span="7" style="float: right; text-align: right">
@@ -51,7 +51,7 @@ $<template>
             <el-table-column prop="billId" label="流水号" width="120" align="center"></el-table-column>
             <el-table-column prop="nowPoints" label="账户余额" width="120" align="center">
               <template scope="scope">
-                {{(scope.row.originalAmount+scope.row.amount)|currency}}
+                {{formatPoints(scope.row.originalAmount+scope.row.amount)}}
               </template>
             </el-table-column>
             <el-table-column label="进入时间" :formatter="getBtime" width="180" align="center"></el-table-column>
@@ -59,19 +59,19 @@ $<template>
             <el-table-column prop="typeName" label="交易类型" width="120" align="center"></el-table-column>
             <el-table-column prop="originalAmount" label="入账金额" width="120" align="center">
               <template scope="scope">
-                {{scope.row.originalAmount|currency}}
+                {{formatPoints(scope.row.originalAmount)}}
               </template>
             </el-table-column>
             <el-table-column prop="typeName" label="游戏金额" width="120" align="center">
               <template scope="scope">
                 <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}">
-                  {{scope.row.amount|currency}}
+                  {{formatPoints(scope.row.amount)}}
                 </span>
               </template>
             </el-table-column>
             <el-table-column prop="typeName" label="出账金额" width="120" align="center">
               <template scope="scope">
-                <span>{{(scope.row.originalAmount+scope.row.amount)|currency}}</span>
+                <span>{{formatPoints(scope.row.originalAmount+scope.row.amount)}}</span>
               </template>
             </el-table-column>
             <el-table-column label="帐类型" align="center">
@@ -110,7 +110,7 @@ $<template>
   </div>
 </template>
 <script type="text/ecmascript-6">
-import { detailTime, formatUserName } from '@/behavior/format'
+import { detailTime, formatUserName, thousandFormatter } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 export default {
@@ -296,6 +296,9 @@ export default {
     },
     accountDetail () {
       this.$router.push('playerAccount')
+    },
+    formatPoints (num) {
+      return thousandFormatter(num)
     }
   },
   filters:{   //过滤器，所有数字保留两位小数

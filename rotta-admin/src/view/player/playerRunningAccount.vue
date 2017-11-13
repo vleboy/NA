@@ -84,26 +84,26 @@ $<template>
             </el-table-column>
             <el-table-column prop="originalAmount" label="帐变前余额" sortable="custom" align="center">
               <template scope="scope">
-                {{(scope.row.originalAmount)|currency}}
+                {{formatPoints(scope.row.originalAmount)}}
               </template>
             </el-table-column>
             <el-table-column label="本次发生金额（入）" align="center">
               <template scope="scope">
                 <span class="-p-green" v-if="scope.row.amount>=0">
-                   {{scope.row.amount|currency}}
+                   {{formatPoints(scope.row.amount)}}
                 </span>
               </template>
             </el-table-column>
             <el-table-column label="本次发生金额（出）" align="center">
               <template scope="scope">
                 <span class="-p-red" v-if="scope.row.amount<0">
-                  {{scope.row.amount|currency}}
+                  {{formatPoints(scope.row.amount)}}
                 </span>
               </template>
             </el-table-column>
             <el-table-column label="发生后金额"  align="center">
               <template scope="scope">
-                {{scope.row.balance|currency}}
+                {{formatPoints(scope.row.balance)}}
               </template>
             </el-table-column>
             <!--<el-table-column label="操作" align="center">-->
@@ -123,7 +123,7 @@ $<template>
   </div>
 </template>
 <script type="text/ecmascript-6">
-import { detailTime, formatUserName } from '@/behavior/format'
+import { detailTime, formatUserName, thousandFormatter } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 export default {
@@ -182,7 +182,7 @@ export default {
       for (let item of this.playerAccountList) {
         this.allAmount += item.amount
       }
-      return this.thousandFormatter(this.allAmount)
+      return thousandFormatter(this.allAmount)
     }
   },
   methods: {
@@ -297,23 +297,12 @@ export default {
       for (let item of this.checkedArray) {
         this.checkFormatNum += item.amount
       }
-      this.checkFormatNum = this.thousandFormatter(this.checkFormatNum)
+      this.checkFormatNum = thousandFormatter(this.checkFormatNum)
     }, //多选
     resetData () {
       this.radioMoney = '';
       this.radioType = '';
     }, // 重置筛选条件
-    thousandFormatter (num) {
-      let toString = num.toString()
-      let numOne = ''
-      let numTwo = ''
-      let formatterNum = ''
-      if(toString.indexOf('.')>-1){
-        [numOne,numTwo] = toString.split('.')
-      }
-      formatterNum = (numOne || num).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
-      return numTwo ? `${formatterNum}.${numTwo}` : `${formatterNum}.00`
-    }, // 千位符格式化
     sortFun (col){
       if(col.prop!=null){
         this.sortInfo.sortKey = col.prop
@@ -323,6 +312,9 @@ export default {
         this.sortInfo.sortKey = ''
         this.sortInfo.sort = ''
       }
+    },
+    formatPoints (num) {
+      return thousandFormatter(num)
     }
   },
   filters:{   //过滤器，所有数字保留两位小数

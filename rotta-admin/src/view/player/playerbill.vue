@@ -4,7 +4,7 @@ $<template>
       <div class="my-title">
         <h2>{{userName}} <el-button  type="text" @click="accountDetail()">查看流水账详单</el-button></h2>
         <h2>利润总额：<span :class="{'-p-green':playerBillDetailInfo.depSumAmount>=0,'-p-red':playerBillDetailInfo.depSumAmount<0}">
-          {{playerBillDetailInfo.depSumAmount|currency}}</span>
+          {{formatPoints(playerBillDetailInfo.depSumAmount)}}</span>
         </h2>
       </div>
       <div class="baseinfo">
@@ -17,9 +17,9 @@ $<template>
             <el-col :span="6"><span>avgRTP：{{playerBillDetailInfo.avgRTP|currency}}</span></el-col>
           </p>
           <p>
-            <el-col :span="6"><span>下注总额：{{playerBillDetailInfo.sumAmount|currency}}</span></el-col>
-            <el-col :span="6"><span>返还总额：{{playerBillDetailInfo.reSumAmount|currency}}</span></el-col>
-            <el-col :span="6"><span>利润总额：{{playerBillDetailInfo.depSumAmount|currency}}</span></el-col>
+            <el-col :span="6"><span>下注总额：{{formatPoints(playerBillDetailInfo.sumAmount)}}</span></el-col>
+            <el-col :span="6"><span>返还总额：{{formatPoints(playerBillDetailInfo.reSumAmount)}}</span></el-col>
+            <el-col :span="6"><span>利润总额：{{formatPoints(playerBillDetailInfo.depSumAmount)}}</span></el-col>
             <el-col :span="6"><span>洗码量：{{playerBillDetailInfo.mixNum}}</span></el-col>
           </p>
         </div>
@@ -39,25 +39,25 @@ $<template>
             <el-table-column label="下注时间" :formatter="getAtime" align="center"></el-table-column>
             <el-table-column label="结算前余额" align="center">
               <template scope="scope">
-                {{(scope.row.originalAmount)|currency}}
+                {{formatPoints(scope.row.originalAmount)}}
               </template>
             </el-table-column>
             <el-table-column label="下注金额" align="center">
               <template scope="scope">
-                {{scope.row.amount|currency}}
+                {{formatPoints(scope.row.amount)}}
               </template>
             </el-table-column>
             <el-table-column label="返还金额" align="center">
               <template scope="scope">
                 <span>
-                  {{scope.row.reAmount|currency}}
+                  {{formatPoints(scope.row.reAmount)}}
                 </span>
               </template>
             </el-table-column>
             <el-table-column label="净利润" align="center">
               <template scope="scope">
                 <span>
-                  {{scope.row.deAmount|currency}}
+                  {{formatPoints(scope.row.deAmount)}}
                 </span>
               </template>
             </el-table-column>
@@ -66,7 +66,7 @@ $<template>
             <el-table-column label="结算余额" align="center">
               <template scope="scope">
                 <span>
-                  {{scope.row.balance|currency}}
+                  {{formatPoints(scope.row.balance)}}
                 </span>
               </template>
             </el-table-column>
@@ -111,7 +111,7 @@ $<template>
   </div>
 </template>
 <script type="text/ecmascript-6">
-import { detailTime, formatUserName } from '@/behavior/format'
+import { detailTime, formatUserName, thousandFormatter } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 export default {
@@ -254,6 +254,9 @@ export default {
         result.push(arr.slice(i,i+len));
       }
       return result;
+    },
+    formatPoints (num) {
+      return thousandFormatter(num)
     }
   },
   filters:{   //过滤器，所有数字保留两位小数

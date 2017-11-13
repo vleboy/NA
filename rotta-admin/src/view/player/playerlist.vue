@@ -56,9 +56,12 @@
             <el-tag :type="scope.row.state ? 'success' : 'danger'">
               {{playerStatus[scope.row.state]}}
             </el-tag>
-          </template>
+          </template>formatPoints
         </el-table-column>
         <el-table-column prop="balance" label="点数" sortable="custom" show-overflow-tooltip align="center">
+          <template scope="scope">
+            {{formatPoints(scope.row.balance)}}
+          </template>
         </el-table-column>
         <el-table-column prop="updateAt" label="最近登录游戏时间" :formatter="getAtime" align="center">
         </el-table-column>
@@ -80,7 +83,7 @@
 
 <script type="text/ecmascript-6">
   import { invoke } from '@/libs/fetchLib'
-  import { formatUserName, unFormatUserName, detailTime } from '@/behavior/format'
+  import { formatUserName, unFormatUserName, detailTime, thousandFormatter } from '@/behavior/format'
   import api from '@/api/api'
   export default {
     beforeCreate () {
@@ -260,6 +263,9 @@
           this.searchInfo.sortKey = ''
           this.searchInfo.sort = ''
         }
+      },
+      formatPoints (num) {
+        return thousandFormatter(num)
       }
     }
   }
