@@ -25,6 +25,98 @@ export default new Router({
       path: '/dashboard',
       name: '仪表板',
       component: dashboard
+    },
+    {
+      path: '/board',
+      name: '看板',
+      component: dashboard
+    },
+    {
+      path: '/personal',
+      name: '个人中心',
+      component: dashboard
+    },
+    {
+      path: '/merchant',
+      name: '代理中心',
+      children: [
+        {
+          path: 'comlist',
+          name: '代理列表',
+          component: dashboard
+        }
+      ]
+    },
+    {
+      path: '/player',
+      name: '玩家中心',
+      children: [
+        {
+          path: 'agentPlayerList',
+          name: '玩家列表',
+          component: dashboard
+        }
+      ]
+    },
+    {
+      path: '/game',
+      name: '游戏中心',
+      children: [
+        {
+          path: 'gameBackstage',
+          name: '游戏后台',
+          component: dashboard
+        }
+      ]
+    },
+    {
+      path: '/setting',
+      name: '系统设置',
+      children: [
+        {
+          path: '/setting/loginLog',
+          name: '登录日志',
+          children: [
+            {
+              path: 'managerloginlist',
+              name: '管理员登录日志',
+              component: dashboard
+            },
+            {
+              path: 'merchantloginlist',
+              name: '代理登录日志',
+              component: dashboard
+            }
+          ]
+        },
+        {
+          path: '/setting/operatingLog',
+          name: '操作日志',
+          children: [
+            {
+              path: 'admindate',
+              name: '管理员操作日志',
+              component: dashboard
+            }
+          ]
+        },
+        {
+          path: '/setting/adminManager',
+          name: '管理员管理',
+          children: [
+            {
+              path: 'adminlist',
+              name: '管理员列表',
+              component: dashboard
+            },
+            {
+              path: 'addadmin',
+              name: '添加管理员',
+              component: dashboard
+            }
+          ]
+        }
+      ]
     }
   ]
 })

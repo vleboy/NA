@@ -1,14 +1,20 @@
 <template>
   <div class="dashboard">
+    <siderbar />
     <navbar />
   </div>
 </template>
 
 <script>
+import siderbar from 'components/siderbar/siderbar'
 import navbar from 'components/navbar/navbar'
 export default {
   name: 'dashboard',
+  mounted () {
+    console.log(this.$router.path)
+  },
   components: {
+    siderbar,
     navbar
   }
 }
