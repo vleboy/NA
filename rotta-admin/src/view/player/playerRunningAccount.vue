@@ -63,7 +63,7 @@ $<template>
       </div>
       <div class="account-total">
         <div class="total-all">
-          <i class="el-icon-information" style="color: #1c8de0;"></i> &ensp;共搜索到{{dataList.length || 0}}笔数据 &emsp;总计：
+          <i class="el-icon-information" style="color: #1c8de0;"></i> &ensp;共搜索到{{playerAccountList.length || 0}}笔数据 &emsp;总计：
           <span style="font-weight: bold">{{formatNum}} </span>元
         </div>
         <div class="total-check -p-red" v-if="checkedArray.length">
@@ -114,7 +114,8 @@ $<template>
           </el-table>
           <div style="text-align: right;margin:2rem 0">
             <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerAccountList.length"
-                           :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+                           :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"
+                           :current-page.sync="currentPage">
             </el-pagination>
           </div>
         </div>
@@ -140,6 +141,7 @@ export default {
       nowPage: 1,
       radioTime: '2',
       radioMoney: '',
+      currentPage: 1,
       radioType: '',
       monthDate: '', // 月份快捷选择
       startDate: '', // 开始时间搓
@@ -280,6 +282,7 @@ export default {
         this.radioTime = '';
         this.monthDate = '';
       }
+      this.currentPage = 1
       this.getPlayerAccount()
     }, //日期改变联动
     changeMonth (date) {
@@ -343,30 +346,4 @@ export default {
   h4{font-size: 1.3rem;font-weight: normal;padding: 1.5rem 0;color: #5a5a5a}
   .-p-green{color: #00CC00}
   .-p-red{color: #FF3300}
-  .record-bg{
-    background: url("../../../static/playerBill/xcl-bg.png") no-repeat;
-    /*background: url("../../../static/playerBill/tlzm-bg.png") no-repeat;*/
-    background-size: 100% auto;
-    height: 500px;
-    position: relative;
-  }
-  .record-content{
-    position: absolute;
-    top: 20%;
-    left: 1%;
-    width: 100%;
-  }
-  .record-wrap{
-
-  }
-  .record-low{
-    display: inline-block;
-    width: 120px;
-  }
-  .record-icon{
-    width: 100%;
-  }
-  .playerAccount .el-dialog--small{
-    width: 940px;
-  }
 </style>
