@@ -221,7 +221,11 @@ export default {
       return detailTime(row.createAt)
     }, // 格式化退出时间
     getBtime (row, col) {
-      return detailTime(row.joinTime)
+      if(row.joinTime) {
+        return detailTime(row.joinTime)
+      } else {
+        return '-'
+      }
     }, // 格式化进入时间
     getNowsize (size) {
       this.nowSize = size
