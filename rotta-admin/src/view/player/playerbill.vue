@@ -293,11 +293,11 @@ export default {
   }
   .playBill .record-content{
     position: absolute;
-    top: 24%;
+    top: 22%;
     width: 100%;
   }
   .playBill .tlzm{
-    top:23%;
+    top:18%;
   }
   .playBill .record-wrap{
     display: inline-block;
@@ -316,16 +316,16 @@ export default {
   }
   .playBill .record-low{
     display: block;
-    width: 114px;
+    width: 116px;
   }
   .playBill .tlzm .tlzm-low{
-    width: 130px;
+    width: 128px;
   }
   .playBill .record-icon{
     width: 100%;
   }
   .playBill .tlzm .tlzm-icon{
-    width: 80%;
+    width: 92%;
   }
   .playBill .record-tlzm{
     background: url("../../../static/playerBill/tlzm-bg.png");
