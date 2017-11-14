@@ -236,11 +236,16 @@ export default {
       // console.log('当前是第:' + page + '页')
     },
     changeRadio () {
-      if (!this.isGetSearch) {
-        this.amountDate = []
+//      if (!this.isGetSearch) {
+//        this.amountDate = []
+//      }
+      if(this.amountDate.length){
+        this.searchAmount()
+      } else {
+        this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
       }
       this.isShowRadio = true
-      this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
+
       if (this.radioInfo !== '0') {
         this.searchArray = []
         for (let item of this.detailList.list) {
@@ -283,16 +288,34 @@ export default {
       const [startDate, endDate] = this.amountDate
       this.isShowRadio = true
       this.isGetSearch = true
+//      console.log(this.amountDate)
       if (!this.amountDate.length) return this.$message.error('请选择时间段')
       this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
       this.searchArray = []
-      for (let item of this.detailList.list) {
-        if (new Date(item.updateAt).setHours(0,0,0,0) >= new Date(startDate).getTime() &&
-          (new Date(item.updateAt).setHours(0,0,0,0) <= new Date(endDate).getTime())) {
-          this.searchArray.push(item)
+      if(this.amountDate[0]==null || this.amountDate[1]==null) {
+        this.radioInfo = '0'
+        this.amountDate = []
+        this.detailList.list = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail)).list
+      } else {
+        for (let item of this.detailList.list) {
+          if (new Date(item.updateAt).setHours(0,0,0,0) >= new Date(startDate).getTime() &&
+            (new Date(item.updateAt).setHours(0,0,0,0) <= new Date(endDate).getTime())) {
+            this.searchArray.push(item)
+          }
+        }
+
+        // 这里是先选按钮 在过滤时间
+        if (this.radioInfo!=='0') {
+          this.detailList.list = []
+          for (let item of this.searchArray) {
+            if (item.kindId === Number(this.radioInfo)) {
+              this.detailList.list.push(item)
+            }
+          }
+        } else {
+          this.detailList.list = this.searchArray
         }
       }
-      this.detailList.list = this.searchArray
     },
     billDetail (row) {
       localStorage.setItem('playerBillId', row.billId)
