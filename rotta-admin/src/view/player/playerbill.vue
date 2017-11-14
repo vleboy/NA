@@ -89,8 +89,8 @@ $<template>
         <div class="record-bg" :class="{'record-tlzm':gameType=='40001','record-xcl':gameType=='40002'}">
           <div class="record-content" :class="{'tlzm':gameType=='40001'}">
             <div v-for="(data,index) in recordArray" :key="index" class="record-wrap" :class="{'tlzm-wrap':gameType=='40001'}">
-              <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low" :class="{'tlzm-low':gameType=='40001'}">
-                <img :src="`../../../static/playerBill/${gameTypeNum}/${item}.png`" class="record-icon" :class="{'tlzm-icon':gameType=='40001'}">
+              <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low" :class="{'tlzm-low':gameType=='40001', 'no-win':!item.isWin}">
+                <img :src="`../../../static/playerBill/${gameTypeNum}/${item.value}.png`" class="record-icon" :class="{'tlzm-icon':gameType=='40001'}">
               </div>
             </div>
           </div>
@@ -137,9 +137,11 @@ export default {
       gameType: {},
       playerBillDetailInfo: {}, //基本信息
       itemRecord: {}, //单个信息
+      finalRecord: [], //循环列表需要的战绩数组（最终版）
       playerBillDetailList: [], //列表信息
       playerRecordList: [], //战绩信息
       recordArray: [], //战绩二维数组
+      winCard: [], // 中奖数组位置
       copyList: []
     }
   },
@@ -213,8 +215,9 @@ export default {
     },
     openModal(data) {
       this.recordArray = []
+      this.finalRecord = []
       this.isOpenModal = true
-      this.dialogLoading = true
+//      this.dialogLoading = true
       this.itemRecord = data
       this.itemRecord.amount = Math.abs(this.itemRecord.amount)
       invoke({
@@ -237,6 +240,41 @@ export default {
               this.gameType = res.data.data.gameId
               this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)
               this.recordArray = this.split_array(this.playerRecordList.viewGrid,3)
+              if(this.playerRecordList.winGrid.length) {
+                for (let win of this.playerRecordList.winGrid) {
+                  this.winCard.push(win.winCard)
+                }
+                console.log(this.winCard, 'this.winCard')
+                this.winCard = this.playerRecordList.winGrid[0].winCard
+                for (let [parentIndex, data] of this.recordArray.entries()) {
+                  for (let [index, item] of data.entries()){
+                    if (this.winCard[parentIndex] == index){
+                      this.finalRecord.push({
+                        isWin: true,
+                        value: item
+                      })
+                    } else {
+                      this.finalRecord.push({
+                        isWin: false,
+                        value: item
+                      })
+                    }
+                  }
+                }
+                this.recordArray = this.split_array(this.finalRecord,3)
+                console.log(this.finalRecord, this.recordArray, this.playerRecordList,'11111')
+              } else {
+                for (let dataElse of this.recordArray) {
+                  for (let itemElse of dataElse){
+                    this.finalRecord.push({
+                      isWin: false,
+                      value: itemElse
+                    })
+                  }
+                }
+                this.recordArray = this.split_array(this.finalRecord,3)
+                console.log(this.finalRecord, this.recordArray, '22222')
+              }
             }
           }
           this.$store.commit('closeLoading')
@@ -342,5 +380,9 @@ export default {
     left: 25%;
     font-size: 30px;
     font-weight: bold;
+  }
+  .playBill .no-win{
+    background-color: #fbdebf;
+    opacity: 0.2;
   }
 </style>
