@@ -36,7 +36,7 @@
       <div class="countinfo">
         <h4>消费信息</h4>
         <div class="countinfo-title">
-          <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{detailInfo.balance|currency}}</span></span>
+          <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(detailInfo.balance)}}</span></span>
           <el-button type="text" @click="getPlayerDetail">刷新</el-button>
           <el-button type="text" @click="openModal(0)" v-if="detailInfo.state!=0">存点</el-button>
           <el-button type="text" @click="openModal(1)" v-if="detailInfo.state!=0">提点</el-button>
@@ -52,7 +52,7 @@
         </div>
         <div class="countinfo-center">
           <el-col :span="5">
-            <span>花费总点数 : <span class="g-color-red">{{allAmountFun|currency}}</span></span>
+            <span>花费总点数 : <span class="g-color-red">{{formatPoints(allAmountFun)}}</span></span>
           </el-col>
 
           <el-col :span="7" style="float: right; text-align: right">
@@ -69,12 +69,12 @@
             <el-table-column prop="date" label="序号" width="65" align="center" type="index"></el-table-column>
             <el-table-column prop="nowPoints" label="账户余额" width="120" align="center">
               <template scope="scope">
-                {{(scope.row.originalAmount+scope.row.amount)|currency}}
+                {{formatPoints(scope.row.originalAmount+scope.row.amount)}}
               </template>
             </el-table-column>
             <el-table-column label="交易点数" width="120" align="center">
               <template scope="scope">
-                <span :class="{'-p-green':scope.row.action ==1,'-p-red':scope.row.action ==-1}">{{scope.row.amount|currency}}</span>
+                <span :class="{'-p-green':scope.row.action ==1,'-p-red':scope.row.action ==-1}">{{formatPoints(scope.row.amount)}}</span>
               </template>
             </el-table-column>
             <el-table-column label="交易时间" :formatter="getAtime" width="180" align="center"></el-table-column>
@@ -132,7 +132,7 @@
   </div>
 </template>
 <script>
-import { detailTime, formatUsername } from '@/behavior/format'
+import { detailTime, formatUsername, thousandFormatter } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 export default {
@@ -392,7 +392,10 @@ export default {
         }
       }
       this.detailList.list = this.searchArray
-    }
+    },
+    formatPoints (num) {
+      return thousandFormatter(num)
+    } // 千位符格式化
   },
   filters:{   //过滤器，所有数字保留两位小数
     currency(value){

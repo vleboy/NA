@@ -27,7 +27,7 @@
           <el-button type="primary" @click="allChangeState(1)">批量解锁</el-button>
         </el-col>
       </el-row>
-      <el-table stripe :data="getItems" @selection-change="selectionChange">
+      <el-table stripe :data="getItems" @selection-change="selectionChange" @sort-change="sortFun">
         <el-table-column type="selection" width="60" align="center">
         </el-table-column>
         <el-table-column prop="userName" label="用户名" align="center">
@@ -37,16 +37,19 @@
             <span>{{formatRemark(scope.row.nickname)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="balance" label="点数" sortable show-overflow-tooltip align="center">
+        <el-table-column prop="balance" label="点数" sortable="custom" show-overflow-tooltip align="center">
+          <template scope="scope">
+            <span>{{formatPoints(scope.row.balance)}}</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="merchantName" label="直属代理" align="center" width="120"  sortable>
+        <el-table-column prop="merchantName" label="直属代理" align="center" width="120"  sortable="custom">
           <template scope="scope">
             <el-button type="text" @click="jumpAgentDetail(scope.row)">{{scope.row.merchantName}}</el-button>
           </template>
         </el-table-column>
-        <el-table-column width="200" prop="createAt" label="创建时间"  align="center" sortable :formatter="getAtime">
+        <el-table-column width="200" prop="createAt" label="创建时间"  align="center" sortable="custom" :formatter="getAtime">
         </el-table-column>
-        <el-table-column width="200" prop="updateAt"  label="最后登录时间" :formatter="getLastTime" align="center" sortable>
+        <el-table-column width="200" prop="updateAt"  label="最后登录时间" :formatter="getLastTime" align="center" sortable="custom">
         </el-table-column>
         <el-table-column label="状态" align="center">
           <template scope="scope">
@@ -109,8 +112,8 @@
   </div>
 </template>
 
-<script>
-  import { detailTime } from '@/behavior/format'
+<script type="text/ecmascript-6">
+  import { detailTime, thousandFormatter } from '@/behavior/format'
   import { invoke } from '@/libs/fetchLib'
   import api from '@/api/api'
   export default {
@@ -368,7 +371,20 @@
         })
         this.$store.commit('closeEdit')
         this.$router.push('comdetail')
-      }
+      },
+      sortFun (col){
+        if(col.prop!=null){
+          this.searchInfo.sortKey = col.prop
+          this.searchInfo.sort = col.order== 'ascending' ? 'asce':'desc';
+          this.getPlayList()
+        } else {
+          this.searchInfo.sortKey = ''
+          this.searchInfo.sort = ''
+        }
+      },
+      formatPoints (num) {
+        return thousandFormatter(num)
+      } // 千位符格式化
     }
   }
 </script>
