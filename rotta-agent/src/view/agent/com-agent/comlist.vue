@@ -12,7 +12,7 @@
       <div class="comlist">
           <!-- 当前代理 -->
           <div class="comresult">
-            <p class="listTitle">当前代理</p>
+            <p class="listTitle">当前代理: <span class="fontUrl" @click="backParent" v-if="selfUser.length > 0">返回上一级</span></p>
               <el-table stripe :data="selfUser">
                 <el-table-column label="管理员账号" prop="username" align="center">
                   <template scope="scope">
@@ -89,6 +89,7 @@
             </el-table>
           </div>
           <!-- 当前代理下级列表 -->
+          
           <div class="comresult">
             <div class="clearFix">
               <p class="listTitle" style="float:left">下级代理列表</p>
@@ -96,7 +97,8 @@
               <el-button type="primary" class="searchBtn" style="margin-right:0.5rem" @click="searchAgentlist">搜索</el-button>
               <el-input v-model="agentSearchData" placeholder="请输入搜索内容" class="input" style="float:right"></el-input>
             </div>
-              <el-table stripe :data="comlist" style="margin-top:1rem">
+              <recursion></recursion>
+             <!--  <el-table stripe :data="comlist" style="margin-top:1rem">
                 <el-table-column label="管理员账号" prop="username" align="center">
                   <template scope="scope">
                     <span class="fontUrl" @click="showChild(scope.row)">{{(scope.row.username)}}</span>
@@ -187,10 +189,10 @@
                         </el-button>
                     </template>
                 </el-table-column>
-            </el-table>
-            <div class="page">
+              </el-table> -->
+            <!-- <div class="page">
                 <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.comlist.length" :page-sizes="[10, 20]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"></el-pagination>
-            </div>
+            </div> -->
           </div>
           <!-- 当前代理所属玩家 -->
           <div class="comresult">
@@ -270,6 +272,7 @@
 </template>
 
 <script>
+import Recursion from '@/components/recursion-form' // 递归表格
 import Rottamap from '@/components/rottamap' // 组织架构
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
@@ -278,11 +281,16 @@ import { detailTime, formatStatus, formatContractPeriod, formatRemark, formatPoi
 export default {
   components: {
     Rottamap,
-    Billtransfer
+    Billtransfer,
+    Recursion
   },
   beforeCreate () {
     this.$store.commit('startLoading')
     this.$store.commit('returnLocalStorage')
+    this.$store.commit({
+        type: 'recordMapUser',
+        data: ''
+      })
     this.$store.commit({
       type: 'recordNowindex',
       data: 'comlist'
@@ -324,6 +332,27 @@ export default {
     } // 代理列表分页
   },
   methods: {
+    backParent () {
+      var parentId = this.selfUser[0].parent
+      this.$store.commit({
+        type: 'recordAgentId',
+        data: parentId
+      })
+      if (parentId == '01') {
+        this.$store.commit({
+          type: 'recordMapUser',
+          data: ''
+        })
+      } else {
+        this.$store.commit({
+          type: 'recordMapUser',
+          data: parentId
+        })
+      }
+      this.$store.dispatch('getSelfData')
+      this.$store.dispatch('getAgentPlayer')
+      this.$store.dispatch('getComlist')
+    }, // 从当前列表回到上一级
     resetAgentlist () {
       this.$store.dispatch('getComlist')
       this.agentSearchData = ''
