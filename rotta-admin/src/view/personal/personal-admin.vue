@@ -126,7 +126,7 @@
         </el-form>
         <div class="bottom-btn" v-if="isfinish === false">
           <el-button @click="cancel(passwordAbout)" class="distance">取 消</el-button>
-          <el-button type="primary" @click="postChange">继 续</el-button>
+          <el-button type="primary" @click="postChange" :loading="loading">继 续</el-button>
         </div>
         <div v-if="isfinish === true">
           <p class="success"><i class="el-icon-circle-check"></i>修改成功</p>
@@ -184,7 +184,7 @@ export default {
     }
   },
   data () {
-     var checkNewPassword = (rule, value, callback) => {
+    var checkNewPassword = (rule, value, callback) => {
       var password = function passwordLevel (password) {
         var Modes = 0
         for (let i = 0; i < password.length; i++) {
@@ -253,7 +253,7 @@ export default {
       }
     } // 验证重复输入密码
     return {
-      // ajaxCount: this.$store.state.ajaxCount, // 请求数
+      loading: false,
       nowSize: 20,
       nowPage: 1,
       passwordAbout: {
@@ -290,6 +290,7 @@ export default {
     }, // 重置修改
     postChange () {
       if (this.checknew === true && this.repeatNew === true) {
+        this.loading = true
         var data = {
           userId: this.adminInfo.userId,
           password: this.passwordAbout.newPassword
@@ -303,7 +304,9 @@ export default {
           result => {
             const [err, ret] = result
             if (err) {
+              this.loading = false
             } else {
+              this.loading = false
               var data = ret.data.payload
               // console.log(data)
               this.$store.dispatch('getPersonal_info')

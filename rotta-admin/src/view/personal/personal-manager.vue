@@ -15,7 +15,9 @@
             <p>
               <span>管理员账号: {{adminInfo.uname}}</span>
               <span>管理员姓名: {{adminInfo.adminName}}</span>
-              <span>管理员密码: {{adminInfo.password}}</span>
+              <span>管理员密码: {{adminInfo.password}}
+                <h5 class="newPassword" @click="newPassword">修改密码</h5>
+              </span>
             </p>
             <p>
               <span>管理员Email: {{adminInfo.adminEmail}}</span>
@@ -125,10 +127,32 @@
             </div>
         </div>
     </div>
+    <el-dialog title="修改密码" :visible.sync="changepassword" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" class="billTransfer">
+        <el-form :model="passwordAbout" :ref="passwordAbout" :rules="rules" label-width="100px" label-position="right" v-if="isfinish === false">
+            <el-form-item label="新密码" style="margin-left:10%" prop="newPassword">
+              <el-input placeholder="请输入新密码" v-model="passwordAbout.newPassword" class="passwordinput"></el-input>
+            </el-form-item>
+            <el-form-item label="重复新密码" style="margin-left:10%" prop="repeatNew">
+              <el-input placeholder="请重复新密码" v-model="passwordAbout.repeatNew" class="passwordinput"></el-input>
+            </el-form-item>
+        </el-form>
+        <div class="bottom-btn" v-if="isfinish === false">
+          <el-button @click="cancel(passwordAbout)" class="distance">取 消</el-button>
+          <el-button type="primary" @click="postChange" :loading="loading">继 续</el-button>
+        </div>
+        <div v-if="isfinish === true">
+          <p class="success"><i class="el-icon-circle-check"></i>修改成功</p>
+          <div style="text-align:center">
+            <el-button type="primary" @click="cancel(passwordAbout)">确定</el-button>
+          </div>
+        </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { detailTime, formatPoints, formatRemark } from '@/behavior/format'
+import {invoke} from '@/libs/fetchLib'
+import api from '@/api/api'
 export default {
   beforeCreate () {
     this.$store.commit('startLoading')
@@ -150,6 +174,7 @@ export default {
       return formatPoints(this.$store.state.variable.bills)
     },
     adminInfo () {
+      this.oldPassword = this.$store.state.variable.personalinfo.password
       var data = this.$store.state.variable.personalinfo
       return data
     },
@@ -171,14 +196,144 @@ export default {
     }
   },
   data () {
+    var checkNewPassword = (rule, value, callback) => {
+      var password = function passwordLevel (password) {
+        var Modes = 0
+        for (let i = 0; i < password.length; i++) {
+          Modes |= CharMode(password.charCodeAt(i))
+        }
+        return bitTotal(Modes)
+        // CharMode函数
+        function CharMode (iN) {
+          if (iN >= 48 && iN <= 57) {
+            return 1
+          } // 数字
+          if (iN >= 65 && iN <= 90) {
+            return 2
+          } // 大小写
+          if ((iN >= 97 && iN <= 122) || (iN >= 65 && iN <= 90)) {
+            return 4
+          } else {
+            return 8
+          } // 特殊字符
+        }
+        // bitTotal函数
+        function bitTotal (num) {
+          let modes = 0
+          for (let i = 0; i < 4; i++) {
+            if (num & 1) modes++
+            num >>>= 1
+          }
+          return modes
+        }
+      }
+      if (value === '') {
+        callback(new Error('密码不能为空'))
+        this.checknew = false
+      } if (value == this.oldPassword) {
+        callback(new Error('密码不能与原密码一致'))
+        this.checknew = false
+      } else if (value.length < 6) {
+        callback(new Error('密码不能少于6位'))
+        this.checknew = false
+      } else if (value.length > 16) {
+        callback(new Error('密码不能多于16位'))
+        this.checknew = false
+      } else {
+        var x = password(value)
+        if (x < 3) {
+          callback(new Error('密码必须包含大写字母、小写字母、数字、符号，中任意三种的组合'))
+          this.checknew = false
+        } else {
+          value = value.trim()
+          this.checknew = true
+          callback()
+        }
+      }
+    } // 验证密码
+    var checkRepeatNew = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请重复新密码'))
+        this.repeatNew = false
+      } else if (value !== this.passwordAbout.newPassword) {
+        callback(new Error('两次密码输入不一致'))
+        this.repeatNew = false
+      } else {
+        value = value.trim()
+        this.repeatNew = true
+        callback()
+      }
+    } // 验证重复输入密码
     return {
+      loading: false,
       nowSize: 20,
       nowPage: 1,
       loginUsername: localStorage.loginUsername,
-      loginLevel: localStorage.loginLevel
+      loginLevel: localStorage.loginLevel,
+      passwordAbout: {
+        newPassword: '', // 新密码
+        repeatNew: '' // 重复新密码
+      },
+      oldPassword: '', // 原密码
+      changepassword: false, // 是否开启修改密码对话框
+      isfinish: false, // 修改是否完成
+      checknew: false, // 检验新密码
+      repeatnew: false, // 检验重复新密码
+      rules: {
+        newPassword: [
+          {validator: checkNewPassword, trigger: 'blur'}
+        ],
+        repeatNew: [
+          {validator: checkRepeatNew, trigger: 'blur'}
+        ]
+      }
     }
   },
   methods: {
+    newPassword () {
+      this.changepassword = true
+      this.isfinish = false
+      this.passwordAbout = {
+        newPassword: '', // 新密码
+        repeatNew: '' // 重复新密码
+      }
+    }, // 唤起对话框
+    cancel () {
+      this.changepassword = false
+      this.$refs[this.passwordAbout].resetFields()
+    }, // 重置修改
+    postChange () {
+      if (this.checknew === true && this.repeatNew === true) {
+        this.loading = true
+        var data = {
+          userId: this.adminInfo.userId,
+          password: this.passwordAbout.newPassword
+        }
+        // console.log(data)
+        invoke({
+          url: api.changePassword,
+          method: api.post,
+          data: data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+              this.loading = false
+            } else {
+              this.loading = false
+              var data = ret.data.payload
+              this.$store.dispatch('getPersonal_info_manager')
+              this.isfinish = true
+            }
+          }
+        )
+      } else {
+        this.$message({
+          message: '请完善修改信息',
+          type: 'error'
+        })
+      }
+    }, // 修改密码
     formatTime (time) {
       return detailTime(time)
     },
@@ -215,6 +370,16 @@ export default {
 
 .personalcenter .manangeform span{display: inline-block;width: 25%;padding: 2rem 1.5rem 1.5rem 2rem;}
 .personalcenter h4{font-size: 1.8rem;font-weight: normal;padding: 2rem 0;color: #5a5a5a}
+.personalcenter .newPassword{margin-left: 0.5rem;color: #20a0ff;display: inline-block;font-size: 1rem;font-weight: normal;cursor: pointer;}
+.personalcenter .billTransfer .bottom-btn{text-align: center;}
+.personalcenter .billTransfer .distance{margin-right: 10%}
+.personalcenter .billTransfer .dialogInput{width: 80%}
+.personalcenter .billTransfer .success{text-align: center;margin-bottom: 2rem}
+.personalcenter .billTransfer .el-icon-circle-check{color: #00CC00;font-size: 1.5rem;vertical-align: -0.2rem;margin-right: 0.5rem}
+.personalcenter .billTransfer .success-content-one{text-align: center;margin-bottom: 2rem;color: #00CC00}
+.personalcenter .billTransfer .success-content-two{text-align: center;margin-bottom: 2rem;color: #FF3300}
+.personalcenter .billTransfer .passwordinput{max-width: 18rem;}
+.personalcenter .billTransfer .isforever{margin-left: 0.2rem}
 .personalcenter .right{float: right;margin-bottom: 1rem;padding-right: 2.6rem}
 .personalcenter .points{vertical-align: -0.75rem}
 .personalcenter .input{width: 20rem;margin-right: 0.4rem;}
