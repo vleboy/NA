@@ -12,107 +12,121 @@ const dashboard = (resolve) => {
     resolve(module)
   })
 }
+// 看板
+const board = (resolve) => {
+  import('view/board/board').then((module) => {
+    resolve(module)
+  })
+}
+// 个人中心
+const personal = (resolve) => {
+  import('view/personal/personal').then((module) => {
+    resolve(module)
+  })
+}
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: '登录界面',
       component: Login
     },
     {
-      path: '/dashboard',
+      path: '/',
       name: '仪表板',
-      component: dashboard
-    },
-    {
-      path: '/board',
-      name: '看板',
-      component: dashboard
-    },
-    {
-      path: '/personal',
-      name: '个人中心',
-      component: dashboard
-    },
-    {
-      path: '/merchant',
-      name: '代理中心',
+      component: dashboard,
       children: [
         {
-          path: 'comlist',
-          name: '代理列表',
-          component: dashboard
-        }
-      ]
-    },
-    {
-      path: '/player',
-      name: '玩家中心',
-      children: [
+          path: 'board',
+          name: '看板',
+          component: board
+        },
         {
-          path: 'agentPlayerList',
-          name: '玩家列表',
-          component: dashboard
-        }
-      ]
-    },
-    {
-      path: '/game',
-      name: '游戏中心',
-      children: [
+          path: '/personal',
+          name: '个人中心',
+          component: personal
+        },
         {
-          path: 'gameBackstage',
-          name: '游戏后台',
-          component: dashboard
-        }
-      ]
-    },
-    {
-      path: '/setting',
-      name: '系统设置',
-      children: [
-        {
-          path: '/setting/loginLog',
-          name: '登录日志',
+          path: '/merchant',
+          name: '代理中心',
           children: [
             {
-              path: 'managerloginlist',
-              name: '管理员登录日志',
-              component: dashboard
-            },
-            {
-              path: 'merchantloginlist',
-              name: '代理登录日志',
+              path: 'comlist',
+              name: '代理列表',
               component: dashboard
             }
           ]
         },
         {
-          path: '/setting/operatingLog',
-          name: '操作日志',
+          path: '/player',
+          name: '玩家中心',
           children: [
             {
-              path: 'admindate',
-              name: '管理员操作日志',
+              path: 'agentPlayerList',
+              name: '玩家列表',
               component: dashboard
             }
           ]
         },
         {
-          path: '/setting/adminManager',
-          name: '管理员管理',
+          path: '/game',
+          name: '游戏中心',
           children: [
             {
-              path: 'adminlist',
-              name: '管理员列表',
+              path: 'gameBackstage',
+              name: '游戏后台',
               component: dashboard
+            }
+          ]
+        },
+        {
+          path: '/setting',
+          name: '系统设置',
+          children: [
+            {
+              path: '/setting/loginLog',
+              name: '登录日志',
+              children: [
+                {
+                  path: 'managerloginlist',
+                  name: '管理员登录日志',
+                  component: dashboard
+                },
+                {
+                  path: 'merchantloginlist',
+                  name: '代理登录日志',
+                  component: dashboard
+                }
+              ]
             },
             {
-              path: 'addadmin',
-              name: '添加管理员',
-              component: dashboard
+              path: '/setting/operatingLog',
+              name: '操作日志',
+              children: [
+                {
+                  path: 'admindate',
+                  name: '管理员操作日志',
+                  component: dashboard
+                }
+              ]
+            },
+            {
+              path: '/setting/adminManager',
+              name: '管理员管理',
+              children: [
+                {
+                  path: 'adminlist',
+                  name: '管理员列表',
+                  component: dashboard
+                },
+                {
+                  path: 'addadmin',
+                  name: '添加管理员',
+                  component: dashboard
+                }
+              ]
             }
           ]
         }

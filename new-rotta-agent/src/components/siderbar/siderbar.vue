@@ -2,17 +2,16 @@
   <div class="siderbar">
     <h1><img src="../../../static/img/NAlogo.png" alt=""></h1>
     <el-menu
-      default-active="board"
-      class="el-menu-vertical-demo"
-      background-color="#545c64"
-      text-color="#fff"
-      :unique-opened="true"
-      active-text-color="#ffd04b">
+      default-active="managerloginlist" 
+      class="el-menu-vertical-demo" 
+      theme="dark"
+      :router="true"
+      :unique-opened="true">
       <el-menu-item index="board">看板</el-menu-item>
       <el-menu-item index="personal">个人中心</el-menu-item>
       <el-submenu index="1">
         <template slot="title">代理中心</template>
-        <el-menu-item index="comlist">代理列表</el-menu-item>
+        <el-menu-item index="/merchant/comlist">代理列表</el-menu-item>
       </el-submenu>
       <el-submenu index="2">
         <template slot="title">玩家中心</template>
@@ -60,7 +59,7 @@ export default {
   left 0
   z-index 1001
   overflow-y auto
-  background #555c65
+  background #334258
   h1
     text-align center
     img 

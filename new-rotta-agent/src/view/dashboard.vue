@@ -2,6 +2,9 @@
   <div class="dashboard">
     <siderbar />
     <navbar />
+    <div class="main-app">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -10,9 +13,6 @@ import siderbar from 'components/siderbar/siderbar'
 import navbar from 'components/navbar/navbar'
 export default {
   name: 'dashboard',
-  mounted () {
-    console.log(this.$router.path)
-  },
   components: {
     siderbar,
     navbar
@@ -24,5 +24,8 @@ export default {
 .dashboard
   position relative
   width 100%
+  .main-app
+    width calc(100% - 180px)
+    margin 90px 0 0 180px
 </style>
 
