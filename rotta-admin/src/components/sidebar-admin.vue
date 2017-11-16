@@ -27,6 +27,7 @@
                   <template slot="title">游戏中心</template>
                   <el-menu-item index="gamelist" v-show="userRight.gamelist.hasRight">游戏列表</el-menu-item>
                   <el-menu-item index="gameBackstage" v-show="userRight.gameBackstage.hasRight">游戏后台</el-menu-item>
+                  <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
               </el-submenu>
               <el-submenu index="4" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight || userRight.gameMailList.hasRight || userRight.boothList.hasRight || userRight.computerGame.hasRight">
                   <template slot="title">运营中心</template>
