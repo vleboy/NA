@@ -103,7 +103,7 @@ $<template>
             赢得：&ensp;{{itemRecord.totalGold|currency}}
           </el-col>
           <el-col :span="8">
-            总赌注：&ensp;{{itemRecord.bet|currency}}
+            总赌注：&ensp;{{(itemRecord.bet||mode)|currency}}
           </el-col>
         </div>
         <div v-else class="no-record">战绩截图同步中，请稍后在查看</div>
@@ -237,6 +237,7 @@ export default {
           } else {
             if (res.data.data != null) {
               this.gameType = res.data.data.gameId
+              this.mode = res.data.data.record.mode
               this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)  // 转化为JSON数组
               this.recordArray = this.split_array(this.playerRecordList.viewGrid,3) // 把数组分为3个为数组的二维数组
               this.itemRecord = JSON.parse(JSON.stringify(this.playerRecordList)) // 获取截图下面的数据统计信息
