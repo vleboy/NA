@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Commingsoon from '@/view/comming/commingSoon' // 功能未开通页面
 import Welcome from '@/view/welcome/welcome' // 欢迎页面
 
 import Board from '@/view/board/board' // 系统看板
@@ -61,6 +62,11 @@ export default new Router({
     {
       path: '*',
       redirect: '/welcome'
+    },
+    {
+      path: '/commingSoon',
+      name: '即将上线',
+      component: Commingsoon
     },
     {
       path: '/welcome',

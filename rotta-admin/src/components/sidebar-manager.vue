@@ -16,7 +16,7 @@
                   <el-submenu index="1-2">
                       <template slot="title">商户管理</template>
                       <el-menu-item index="comlist">商户列表</el-menu-item>
-                      <!-- <el-menu-item index="comcreate">创建商户</el-menu-item> -->
+                      <el-menu-item index="" @click="comingSoon">创建商户</el-menu-item>
                   </el-submenu>
               </el-submenu>
               <el-submenu index="2">
@@ -79,6 +79,11 @@ export default {
   computed: {
     nowindex () {
       return this.$store.state.variable.nowIndex
+    }
+  },
+  methods: {
+    comingSoon () {
+      this.$alert('该功能目前没有开通', '暂未开通')
     }
   }
 }
