@@ -28,6 +28,7 @@ import Addadvertise from '@/view/operation/advertise/addadvertise' // 广告列�
 import GameMailList from '@/view/operation/mailMgr/gameMailList' // 游戏邮件列表
 import HorseRaceLampList from '@/view/operation/horseRaceLampMgr/horseRaceLampList' // 跑马灯列表
 import GameNoticeList from '@/view/operation/gameNoticeMgr/gameNoticeList' // 游戏公告列表
+import VideoGameConfig from '@/view/operation/gameConfig/videoGameConfig' // 电子游戏配置
 
 import Manager from '@/view/property/manager' // 直属线路商报表
 import Merchant from '@/view/property/merchant' // 直属商户报表
@@ -259,6 +260,11 @@ export default new Router({
       path: '/computerGame',
       name: '电子游戏风控',
       component: ComputerGame
+    },
+    {
+      path: '/videoGameConfig',
+      name: '电子游戏配置',
+      component: VideoGameConfig
     }
   ]
 })

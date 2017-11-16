@@ -39,12 +39,10 @@
                       <template slot="title">活动管理</template>
                         <el-menu-item index=""></el-menu-item>
                   </el-submenu> -->
-                 <!--  <el-submenu index="4-3">
-                      <template slot="title">广告管理</template>
-                      <el-menu-item index="advertiselist">广告列表</el-menu-item>
-                      <el-menu-item index="advertisedetail">广告详情页</el-menu-item>
-                      <el-menu-item index="addadvertise">添加广告</el-menu-item>
-                  </el-submenu> -->
+                 <el-submenu index="4-3">
+                      <template slot="title">游戏配置</template>
+                      <el-menu-item index="videoGameConfig">电子游戏配置</el-menu-item>
+                  </el-submenu>
                   <el-submenu index="4-4" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">
                       <template slot="title">公告管理</template>
                        <el-menu-item index="gameNoticeList" v-show="userRight.gameNoticeList.hasRight">游戏公告列表</el-menu-item>
@@ -171,7 +169,7 @@ export default {
         gameMailList: {
           hasRight: false,
           name: '游戏邮件列表'
-        }, // 游戏邮件列表 
+        }, // 游戏邮件列表
         boothList: {
           hasRight: false,
           name: '展位列表'
