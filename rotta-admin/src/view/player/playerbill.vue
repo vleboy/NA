@@ -97,13 +97,13 @@ $<template>
         </div>
         <div class="record-footer" v-if='recordArray.length'>
           <el-col :span="8">
-            余额：&ensp;{{itemRecord.balance|currency}}
+            余额：&ensp;{{itemRecord.userBalance|currency}}
           </el-col>
           <el-col :span="8">
-            赢得：&ensp;{{itemRecord.reAmount|currency}}
+            赢得：&ensp;{{itemRecord.totalGold|currency}}
           </el-col>
           <el-col :span="8">
-            总赌注：&ensp;{{itemRecord.amount|currency}}
+            总赌注：&ensp;{{itemRecord.bet|currency}}
           </el-col>
         </div>
         <div v-else class="no-record">战绩截图同步中，请稍后在查看</div>
@@ -216,10 +216,9 @@ export default {
     openModal(data) {
       this.recordArray = []
       this.finalRecord = []
+      this.winCard = []
       this.isOpenModal = true
 //      this.dialogLoading = true
-      this.itemRecord = data
-      this.itemRecord.amount = Math.abs(this.itemRecord.amount)
       invoke({
         url: api.playerRecord,
         method: api.post,
@@ -238,32 +237,45 @@ export default {
           } else {
             if (res.data.data != null) {
               this.gameType = res.data.data.gameId
-              this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)
-              this.recordArray = this.split_array(this.playerRecordList.viewGrid,3)
-              if(this.playerRecordList.winGrid.length) {
+              this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)  // 转化为JSON数组
+              this.recordArray = this.split_array(this.playerRecordList.viewGrid,3) // 把数组分为3个为数组的二维数组
+              this.itemRecord = JSON.parse(JSON.stringify(this.playerRecordList)) // 获取截图下面的数据统计信息
+
+              if(this.playerRecordList.winGrid.length) {  // 中奖情况下
                 for (let win of this.playerRecordList.winGrid) {
                   this.winCard.push(win.winCard)
                 }
-                console.log(this.winCard, 'this.winCard')
-                this.winCard = this.playerRecordList.winGrid[0].winCard
-                for (let [parentIndex, data] of this.recordArray.entries()) {
-                  for (let [index, item] of data.entries()){
-                    if (this.winCard[parentIndex] == index){
-                      this.finalRecord.push({
-                        isWin: true,
-                        value: item
-                      })
-                    } else {
-                      this.finalRecord.push({
-                        isWin: false,
-                        value: item
-                      })
+
+                for(var i = 0; i < this.winCard.length; i++) {
+                  if(i>=1) { // 一次中奖有多条线情况下
+                    for (let [parentIndexMul, dataMul] of this.recordArray.entries()) {
+                      for (let [indexMul, itemMul] of dataMul.entries()){
+                        if (this.winCard[i][parentIndexMul] == indexMul && itemMul.isWin==false){
+                          itemMul.isWin = true
+                        }
+                      }
                     }
+                  } else { // 只有一条线中奖
+                    for (let [parentIndex, data] of this.recordArray.entries()) {
+                      for (let [index, item] of data.entries()){
+                        if (this.winCard[i][parentIndex] == index){
+                          this.finalRecord.push({
+                            isWin: true,
+                            value: item
+                          })
+                        } else {
+                          this.finalRecord.push({
+                            isWin: false,
+                            value: item
+                          })
+                        }
+                      }
+                    }
+                    this.recordArray = this.split_array(this.finalRecord,3)
                   }
                 }
                 this.recordArray = this.split_array(this.finalRecord,3)
-                console.log(this.finalRecord, this.recordArray, this.playerRecordList,'11111')
-              } else {
+              } else { // 未中奖情况下
                 for (let dataElse of this.recordArray) {
                   for (let itemElse of dataElse){
                     this.finalRecord.push({
@@ -272,8 +284,7 @@ export default {
                     })
                   }
                 }
-                this.recordArray = this.split_array(this.finalRecord,3)
-                console.log(this.finalRecord, this.recordArray, '22222')
+                this.recordArray = this.split_array(this.finalRecord,3) // 处理后又变成了一维数组，然后再次处理为二维数组
               }
             }
           }
