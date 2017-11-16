@@ -1,18 +1,16 @@
 <template>
-  <div class="board">
-    board
+  <div>
+    comlist
   </div>
 </template>
 
 <script>
 export default {
+  name: 'comlist'
 }
 </script>
 
 <style lang="stylus" scoped>
-.board
-  width 100%
-  background red
 </style>
 
 

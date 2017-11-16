@@ -3,7 +3,8 @@
     <siderbar />
     <navbar />
     <div class="main-app">
-      <router-view />
+      <router-view v-if="$route.path != '/'"/>
+      <span v-else>test</span>
     </div>
   </div>
 </template>

@@ -18,6 +18,16 @@ body
 	font-family Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif
 	font-size 14px
 	-webkit-font-smoothing antialiased
+
+a:focus,
+a:active 
+  outline none
+a,
+a:focus,
+a:hover
+  cursor pointer
+  color inherit
+  text-decoration none
 #app
   position relative
 </style>

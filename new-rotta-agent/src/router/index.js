@@ -24,6 +24,12 @@ const personal = (resolve) => {
     resolve(module)
   })
 }
+// 代理列表
+const comlist = (resolve) => {
+  import('view/merchant/comlist').then((module) => {
+    resolve(module)
+  })
+}
 Vue.use(Router)
 
 export default new Router({
@@ -35,7 +41,7 @@ export default new Router({
     },
     {
       path: '/',
-      name: '仪表板',
+      name: '首页',
       component: dashboard,
       children: [
         {
@@ -51,11 +57,12 @@ export default new Router({
         {
           path: '/merchant',
           name: '代理中心',
+          component: comlist,
           children: [
             {
-              path: 'comlist',
+              path: '/merchant/comlist',
               name: '代理列表',
-              component: dashboard
+              component: comlist
             }
           ]
         },
