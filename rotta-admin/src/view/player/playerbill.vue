@@ -242,50 +242,70 @@ export default {
               this.recordArray = this.split_array(this.playerRecordList.viewGrid,3) // 把数组分为3个为数组的二维数组
               this.itemRecord = JSON.parse(JSON.stringify(this.playerRecordList)) // 获取截图下面的数据统计信息
 
-              if(this.playerRecordList.winGrid.length) {  // 中奖情况下
-                for (let win of this.playerRecordList.winGrid) {
-                  this.winCard.push(win.winCard)
-                }
-
-                for(var i = 0; i < this.winCard.length; i++) {
-                  if(i>=1) { // 一次中奖有多条线情况下
-                    for (let [parentIndexMul, dataMul] of this.recordArray.entries()) {
-                      for (let [indexMul, itemMul] of dataMul.entries()){
-                        if (this.winCard[i][parentIndexMul] == indexMul && itemMul.isWin==false){
-                          itemMul.isWin = true
-                        }
-                      }
+              // 以下是处理图片中奖位置定位逻辑处理
+              if(this.playerRecordList.getFeatureChance) { // 进入免费局
+                for (let [parentIndexFree, dataFree] of this.recordArray.entries()) {
+                  for (let [indexFree, itemFree] of dataFree.entries()){
+                    if (this.playerRecordList.scatterGrid[parentIndexFree] == indexFree){
+                      this.finalRecord.push({
+                        isWin: true,
+                        value: itemFree
+                      })
+                    } else {
+                      this.finalRecord.push({
+                        isWin: false,
+                        value: itemFree
+                      })
                     }
-                  } else { // 只有一条线中奖
-                    for (let [parentIndex, data] of this.recordArray.entries()) {
-                      for (let [index, item] of data.entries()){
-                        if (this.winCard[i][parentIndex] == index){
-                          this.finalRecord.push({
-                            isWin: true,
-                            value: item
-                          })
-                        } else {
-                          this.finalRecord.push({
-                            isWin: false,
-                            value: item
-                          })
-                        }
-                      }
-                    }
-                    this.recordArray = this.split_array(this.finalRecord,3)
-                  }
-                }
-                this.recordArray = this.split_array(this.finalRecord,3)
-              } else { // 未中奖情况下
-                for (let dataElse of this.recordArray) {
-                  for (let itemElse of dataElse){
-                    this.finalRecord.push({
-                      isWin: false,
-                      value: itemElse
-                    })
                   }
                 }
                 this.recordArray = this.split_array(this.finalRecord,3) // 处理后又变成了一维数组，然后再次处理为二维数组
+              } else { //未进入免费局
+                if(this.playerRecordList.winGrid.length) {  // 中奖情况下
+                  for (let win of this.playerRecordList.winGrid) {
+                    this.winCard.push(win.winCard)
+                  }
+
+                  for(var i = 0; i < this.winCard.length; i++) {
+                    if(i>=1) { // 一次中奖有多条线情况下
+                      for (let [parentIndexMul, dataMul] of this.recordArray.entries()) {
+                        for (let [indexMul, itemMul] of dataMul.entries()){
+                          if (this.winCard[i][parentIndexMul] == indexMul && itemMul.isWin==false){
+                            itemMul.isWin = true
+                          }
+                        }
+                      }
+                    } else { // 只有一条线中奖
+                      for (let [parentIndex, data] of this.recordArray.entries()) {
+                        for (let [index, item] of data.entries()){
+                          if (this.winCard[i][parentIndex] == index){
+                            this.finalRecord.push({
+                              isWin: true,
+                              value: item
+                            })
+                          } else {
+                            this.finalRecord.push({
+                              isWin: false,
+                              value: item
+                            })
+                          }
+                        }
+                      }
+                      this.recordArray = this.split_array(this.finalRecord,3)
+                    }
+                  }
+                  this.recordArray = this.split_array(this.finalRecord,3)
+                } else { // 未中奖情况下
+                  for (let dataElse of this.recordArray) {
+                    for (let itemElse of dataElse){
+                      this.finalRecord.push({
+                        isWin: false,
+                        value: itemElse
+                      })
+                    }
+                  }
+                  this.recordArray = this.split_array(this.finalRecord,3) // 处理后又变成了一维数组，然后再次处理为二维数组
+                }
               }
             }
           }
