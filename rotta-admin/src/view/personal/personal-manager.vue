@@ -22,6 +22,7 @@
             <p>
               <span>管理员Email: {{adminInfo.adminEmail}}</span>
               <span>管理员联系方式: {{adminInfo.adminContact}}</span>
+              <span>管理员角色: API线路商</span>
             </p>
             <p>
               <span>上次登录时间: {{formatTime(adminInfo.loginAt)}}</span>
