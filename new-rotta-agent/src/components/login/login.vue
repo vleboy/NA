@@ -15,7 +15,7 @@
       </div>
     </el-form-item>
     <el-form-item style="width:100%;">
-      <el-button type="primary" style="width:100%;" @click="submitForm('loginForm')">登录</el-button>
+      <el-button type="primary" style="width:100%;" :loading="loading" @click="submitForm('loginForm')">登录</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -29,6 +29,7 @@ export default {
     return {
       codeImg: '',
       load: false,
+      loading: false,
       loginForm: {
         role: '1000',
         username: '',
@@ -78,8 +79,28 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.loginForm)
-          this.$store.dispatch('login', this.loginForm)
+          this.loading = true
+          this.$http({
+            method: 'post',
+            url: api.agentLogin,
+            data: this.loginForm
+          })
+          .then(res => {
+            this.loading = false
+            this.$router.push('/')
+            this.$message({
+              message: '登录成功',
+              type: 'success'
+            })
+            console.log(res)
+          })
+          .catch(error => {
+            this.loading = false
+            this.$message({
+              message: error.response.data.err.msg,
+              type: 'error'
+            })
+          })
         } else {
           console.log('error submit!!')
           return false

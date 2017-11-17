@@ -6,9 +6,6 @@ const state = {
 }
 
 const mutations = {
-  // 登录
-  [MUTATION_TYPE.LOGIN] (state, res) {
-  },
   [MUTATION_TYPE.ADD_VISITED_VIEWS] (state, view) {
     let newTabName = ++state.variable.tabIndex + ''
     if (state.variable.visitedViews.some(v => v.path === view.path)) {

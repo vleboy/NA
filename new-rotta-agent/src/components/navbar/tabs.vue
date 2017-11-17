@@ -1,6 +1,6 @@
 <template>
   <div class="tabs">
-    <el-tabs v-model="activeIndex" v-if ="activeIndex != null" type="card" closable @tab-click="onTabClick" @tab-remove="closeViewTabs">
+    <el-tabs v-model="activeIndex" v-if ="visitedViews.length > 0" type="card" closable @tab-click="onTabClick" @tab-remove="closeViewTabs">
       <el-tab-pane
         :key="item.name"
         v-for="(item, index) in Array.from(visitedViews)"

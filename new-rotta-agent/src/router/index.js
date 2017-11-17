@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store/'
 // 登录界面
 const Login = (resolve) => {
   import('components/login/login').then((module) => {
@@ -32,7 +33,8 @@ const comlist = (resolve) => {
 }
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/login',
@@ -45,7 +47,7 @@ export default new Router({
       component: dashboard,
       children: [
         {
-          path: 'board',
+          path: '/board',
           name: '看板',
           component: board
         },
@@ -71,7 +73,7 @@ export default new Router({
           name: '玩家中心',
           children: [
             {
-              path: 'agentPlayerList',
+              path: '/player/agentPlayerList',
               name: '玩家列表',
               component: dashboard
             }
@@ -82,7 +84,7 @@ export default new Router({
           name: '游戏中心',
           children: [
             {
-              path: 'gameBackstage',
+              path: '/game/gameBackstage',
               name: '游戏后台',
               component: dashboard
             }
@@ -97,12 +99,12 @@ export default new Router({
               name: '登录日志',
               children: [
                 {
-                  path: 'managerloginlist',
+                  path: '/setting/loginLog/loginLogmanagerloginlist',
                   name: '管理员登录日志',
                   component: dashboard
                 },
                 {
-                  path: 'merchantloginlist',
+                  path: '/setting/loginLog/merchantloginlist',
                   name: '代理登录日志',
                   component: dashboard
                 }
@@ -113,7 +115,7 @@ export default new Router({
               name: '操作日志',
               children: [
                 {
-                  path: 'admindate',
+                  path: '/setting/operatingLog/admindate',
                   name: '管理员操作日志',
                   component: dashboard
                 }
@@ -124,12 +126,12 @@ export default new Router({
               name: '管理员管理',
               children: [
                 {
-                  path: 'adminlist',
+                  path: '/setting/adminManager/adminlist',
                   name: '管理员列表',
                   component: dashboard
                 },
                 {
-                  path: 'addadmin',
+                  path: '/setting/adminManager/addadmin',
                   name: '添加管理员',
                   component: dashboard
                 }
@@ -141,3 +143,22 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  console.log(store.state.mutations.variable.token)
+  let token = store.state.mutations.variable.token
+  if (to.meta.requiresAuth) {
+    if (token) {
+      next()
+    } else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    }
+  } else {
+    next() // 如果无需token,那么随它去吧
+  }
+})
+
+export default router
