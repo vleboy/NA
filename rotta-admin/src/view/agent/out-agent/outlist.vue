@@ -4,8 +4,8 @@
     <div class="search">
       <searchbox></searchbox>
     </div>
-    <div v-if="loginUser == '01'">
-      <gocreate></gocreate>
+    <div>
+      <gocreate v-if="loginUser == '01'"></gocreate>
     </div>
     <div class="outresult">
         <el-table stripe :data="outlist" @sort-change="defineSort">
