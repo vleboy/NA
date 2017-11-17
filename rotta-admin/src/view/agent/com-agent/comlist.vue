@@ -4,7 +4,7 @@
     	<div class="search">
     		<searchbox></searchbox>
     	</div>
-      <div>
+      <div v-if="loginUser == '01'">
         <gocreate></gocreate>
       </div>
     	<div class="comresult">
@@ -168,6 +168,7 @@ export default {
   },
   data () {
     return {
+      loginUser: localStorage.loginRole,
       sort: {
         sortkey: '',
         sortway: ''

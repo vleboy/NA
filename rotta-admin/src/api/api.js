@@ -21,7 +21,9 @@ const front = {
 
   stateMachine: stateMachine_URL, // stateMachine接口
 
-  playerExt: playerExt_URL // playerExt接口
+  playerExt: playerExt_URL, // playerExt接口
+
+  vedioReport: vedioReport_URL // vedioGameReport接口
 }
 
 const api = {
@@ -187,6 +189,10 @@ const api = {
 
   playerRecord: front.playerExt + front.stage + '/player/bill/record', // 战绩
 
+  // videoReport
+  reportVedio: front.vedioReport + 'prod' + '/queryUserStat', // 平台用户电子游戏统计
+
+  playerVedio: front.vedioReport + 'prod' + '/queryPlayerStat', // 平台用户所属玩家电子游戏统计
   // methods
 
   get: 'get',

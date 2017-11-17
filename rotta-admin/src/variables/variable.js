@@ -138,7 +138,14 @@ const variable = {
   lastKey: '', // 后端分页结束键
 
   rightList: [], // 管理员权限列表
-  allRight: [] //管理员所有权限 
+  allRight: [], //管理员所有权限 
+
+  vedioGameData: {
+    nowList: [],
+    nowChildList: [],
+    nowPlayerlist: [],
+    nowUserID: ''
+  } // 电子游戏报表数据
 }
 
 export default {
