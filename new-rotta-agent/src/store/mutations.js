@@ -1,9 +1,4 @@
-import {
-  LOGIN,
-  ADD_VISITED_VIEWS,
-  ON_TAB_CLICK,
-  DEL_VISITED_VIEWS
-} from './mutation-types.js'
+import * as types from './mutation-types.js'
 import variable from './variable'
 import getters from './getters'
 const state = {
@@ -12,9 +7,9 @@ const state = {
 
 const mutations = {
   // 登录
-  [LOGIN] (state, res) {
+  [types.LOGIN] (state, res) {
   },
-  [ADD_VISITED_VIEWS] (state, view) {
+  [types.ADD_VISITED_VIEWS] (state, view) {
     let newTabName = ++state.variable.tabIndex + ''
     if (state.variable.visitedViews.some(v => v.path === view.path)) {
       state.variable.activeIndex = view.name
@@ -30,7 +25,7 @@ const mutations = {
     state.variable.visitedViews.push({ title: view.name, path: view.path, name: newTabName })
     state.variable.activeIndex = newTabName
   },
-  [DEL_VISITED_VIEWS] (state, targetName) {
+  [types.DEL_VISITED_VIEWS] (state, targetName) {
     let tabs = state.variable.visitedViews
     let activeName = state.variable.activeIndex
     if (activeName === targetName) {
@@ -46,7 +41,7 @@ const mutations = {
     state.variable.activeIndex = activeName
     state.variable.visitedViews = tabs.filter(tab => tab.name !== targetName)
   },
-  [ON_TAB_CLICK] (state, data) {
+  [types.ON_TAB_CLICK] (state, data) {
     state.variable.activeIndex = data
   }
 }
