@@ -1,6 +1,10 @@
 <template>
-  <div>
-    personal
+  <div class="g-page">
+    <p class="g_main_title g_center">主标题</p>
+    <p class="g_middle_title">表格标题</p>
+    <p class="g_normal_article">正文</p>
+    <p class="g_middle_title">表格标题</p>
+    <p class="g_normal_article">正文</p>
   </div>
 </template>
 
