@@ -718,10 +718,12 @@ const actions = {
   },
   getVedioNowlist (context) {
     var data = {
-      userId: localStorage.loginId
+      userId: ''
     }
-    if (state.variable.vedioGameData.nowUserID) {
+    if (state.variable.vedioGameData.nowUserID && state.variable.vedioGameData.nowUserID != '01') {
       data.userId = state.variable.vedioGameData.nowUserID
+    } else {
+      data.userId = localStorage.loginId
     }
     invoke({
       url: api.reportVedio,

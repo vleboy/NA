@@ -59,15 +59,21 @@
       <el-table :data="vedioNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="selection">
         </el-table-column>
-        <el-table-column label="用户名" prop="rank" align="center">
+        <el-table-column label="用户名" prop="username" align="center">
         </el-table-column>
-        <el-table-column label="昵称" prop="rank" align="center">
+        <el-table-column label="昵称" prop="nickname" align="center">
         </el-table-column>
-        <el-table-column label="交易次数" prop="rank" align="center">
+        <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
-        <el-table-column label="投注金额" prop="rank" align="center">
+        <el-table-column label="投注金额" prop="bet" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.bet)}}</span>
+          </template>
         </el-table-column>
-        <el-table-column label="输赢金额" prop="rank" align="center">
+        <el-table-column label="输赢金额" prop="winlose" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.winlose)}}</span>
+          </template>
         </el-table-column>
       </el-table>
       <div class="page">
@@ -78,6 +84,7 @@
   </div>
 </template>
 <script>
+import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     this.$store.commit({
@@ -122,7 +129,10 @@ export default {
       } else {
         return '商户'
       }
-    },
+    }, // 格式化用户类型
+    points (data) {
+      return formatPoints(data)
+    }, // 格式化点数
     checkUser (data) {
       this.$store.commit({
         type: 'recordVedioID',
@@ -132,18 +142,21 @@ export default {
       this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
       this.$store.dispatch('getVedioNowplayer')
-    },
+    }, // 查看当前用户信息
     goBack () {
-      var data = this.$store.state.variable.vedioGameData.nowList[0].parent
+      var data = this.$store.state.variable.vedioGameData.nowList.parent
       this.$store.commit({
         type: 'recordVedioID',
         data: data
       })
+      this.$store.commit({
+        type: 'recordVedioNowplayer',
+        data: []
+      })
       this.$store.commit('startLoading')
       this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
-      this.$store.dispatch('getVedioNowplayer')
-    }
+    } // 退回上一级
   }
 }
 </script>
