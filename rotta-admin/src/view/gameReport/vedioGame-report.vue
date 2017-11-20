@@ -15,16 +15,16 @@
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
-          <!-- <template scope="scope">
+          <template scope="scope">
             <span>{{points(scope.row.bet)}}</span>
-          </template> -->
+          </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
-          <!-- <template scope="scope">
+          <template scope="scope">
             <span>{{points(scope.row.winlose)}}</span>
-          </template> -->
+          </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="rank" align="center">
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
         </el-table-column>
       </el-table>
     </div>
@@ -46,16 +46,16 @@
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
-          <!-- <template scope="scope">
+          <template scope="scope">
             <span>{{points(scope.row.bet)}}</span>
-          </template> -->
+          </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
-          <!-- <template scope="scope">
+          <template scope="scope">
             <span>{{points(scope.row.winlose)}}</span>
-          </template> -->
+          </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="rank" align="center">
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
         </el-table-column>
       </el-table>
       <div class="page">
@@ -75,14 +75,14 @@
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
-          <!-- <template scope="scope">
+          <template scope="scope">
             <span>{{points(scope.row.bet)}}</span>
-          </template> -->
+          </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
-          <!-- <template scope="scope">
+          <template scope="scope">
             <span>{{points(scope.row.winlose)}}</span>
-          </template> -->
+          </template>
         </el-table-column>
       </el-table>
       <div class="page">
