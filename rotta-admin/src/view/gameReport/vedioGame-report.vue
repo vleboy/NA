@@ -14,22 +14,19 @@
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
-        <el-table-column label="投注金额" prop="rank" align="center">
-          <template scope="scope">
+        <el-table-column label="投注金额" prop="bet" align="center">
+          <!-- <template scope="scope">
             <span>{{points(scope.row.bet)}}</span>
-          </template>
+          </template> -->
         </el-table-column>
-        <el-table-column label="输赢金额" prop="rank" align="center">
-          <template scope="scope">
+        <el-table-column label="输赢金额" prop="winlose" align="center">
+          <!-- <template scope="scope">
             <span>{{points(scope.row.winlose)}}</span>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column label="获利比例" prop="rank" align="center">
         </el-table-column>
       </el-table>
-      <div class="page">
-          <el-pagination layout="prev, pager, next, sizes, jumper" :total="1"></el-pagination>
-        </div>
     </div>
 
     <div class="childlist">
@@ -46,14 +43,14 @@
         </el-table-column>
         <el-table-column label="管理员账号" prop="uname" align="center">
         </el-table-column>
-        <el-table-column label="交易次数" prop="rank" align="center">
+        <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
-        <el-table-column label="投注金额" prop="rank" align="center">
+        <el-table-column label="投注金额" prop="bet" align="center">
           <!-- <template scope="scope">
             <span>{{points(scope.row.bet)}}</span>
           </template> -->
         </el-table-column>
-        <el-table-column label="输赢金额" prop="rank" align="center">
+        <el-table-column label="输赢金额" prop="winlose" align="center">
           <!-- <template scope="scope">
             <span>{{points(scope.row.winlose)}}</span>
           </template> -->
@@ -62,7 +59,7 @@
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="1"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.vedioGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
       </div>
     </div>
 
@@ -78,18 +75,18 @@
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
-          <template scope="scope">
+          <!-- <template scope="scope">
             <span>{{points(scope.row.bet)}}</span>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
-          <template scope="scope">
+          <!-- <template scope="scope">
             <span>{{points(scope.row.winlose)}}</span>
-          </template>
+          </template> -->
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="1"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.vedioGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
       </div>
     </div>
 
@@ -121,14 +118,30 @@ export default {
       return arr
     },
     vedioNowchild () {
-      return this.$store.state.variable.vedioGameData.nowChildList
+      var nowchild = this.$store.state.variable.vedioGameData.nowChildList
+      if (this.childPage === 1) {
+        nowchild = this.$store.state.variable.vedioGameData.nowChildList.slice(0, this.childSize)
+      } else {
+        nowchild = this.$store.state.variable.vedioGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
+      }
+      return nowchild
     },
     vedioNowplayer () {
-      return this.$store.state.variable.vedioGameData.nowPlayerlist
+      var nowplayer = this.$store.state.variable.vedioGameData.nowPlayerlist
+      if (this.playerPage === 1) {
+        nowplayer = this.$store.state.variable.vedioGameData.nowPlayerlist.slice(0, this.playerSize)
+      } else {
+        nowplayer = this.$store.state.variable.vedioGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
+      }
+      return nowplayer
     }
   },
   data () {
     return {
+      childSize: 10,
+      childPage: 1,
+      playerSize: 20,
+      playerPage: 1,
       nowRole: ''
     }
   },
@@ -168,7 +181,19 @@ export default {
       this.$store.commit('startLoading')
       this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
-    } // 退回上一级
+    }, // 退回上一级
+    getChildsize (size) {
+      this.childSize = size
+    }, // 下级列表分页
+    getChildpage (page) {
+      this.childPage = page
+    }, // 下级列表分页
+    getPlayersize (size) {
+      this.playerSize = size
+    }, // 玩家列表分页
+    getPlayerpage (page) {
+      this.playerPage = page
+    }, // 玩家列表分页
   }
 }
 </script>
