@@ -12,11 +12,17 @@
         </el-table-column>
         <el-table-column label="管理员账号" prop="username" align="center">
         </el-table-column>
-        <el-table-column label="交易次数" prop="rank" align="center">
+        <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
         <el-table-column label="投注金额" prop="rank" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.bet)}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="rank" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.winlose)}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="rank" align="center">
         </el-table-column>
@@ -43,8 +49,14 @@
         <el-table-column label="交易次数" prop="rank" align="center">
         </el-table-column>
         <el-table-column label="投注金额" prop="rank" align="center">
+          <!-- <template scope="scope">
+            <span>{{points(scope.row.bet)}}</span>
+          </template> -->
         </el-table-column>
         <el-table-column label="输赢金额" prop="rank" align="center">
+          <!-- <template scope="scope">
+            <span>{{points(scope.row.winlose)}}</span>
+          </template> -->
         </el-table-column>
         <el-table-column label="获利比例" prop="rank" align="center">
         </el-table-column>
