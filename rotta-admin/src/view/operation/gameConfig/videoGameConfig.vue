@@ -16,7 +16,7 @@
     </el-row>
     <el-row>
       <el-col :span="10">
-        <div class="-p-text-left">线数</div>
+        <div class="-p-text-left -p-margin">线数</div>
         <el-select v-model="searchInfo" multiple placeholder="请选择" class="-p-text-right">
           <el-option
             v-for="item in options"
@@ -25,6 +25,12 @@
             :value="item.value">
           </el-option>
         </el-select>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="8" class="g-text-center">
+        <el-button type="primary">确定</el-button>
+        <el-button>重置</el-button>
       </el-col>
     </el-row>
   </div>
