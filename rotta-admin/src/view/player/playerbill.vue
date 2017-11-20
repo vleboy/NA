@@ -153,7 +153,7 @@ export default {
       return detailTime(this.playerBillDetailInfo.joinTime)
     },
     outTime () {
-      return detailTime(this.playerBillDetailInfo.createAt)
+      return detailTime(this.playerBillDetailInfo.createdAt)
     },
     dataList () {
       if (this.nowPage === 1) {
