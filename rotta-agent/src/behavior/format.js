@@ -74,19 +74,36 @@ export const billType = function (type) {
 } // 格式化交易类型
 
 export const formatPoints = function (points) {
-  points = points.toString()
-  if (/[^0-9\.]/.test(points)) {
-    return "invalid value";
+  if (Number(points) < 0) {
+    points = Math.abs(points)
+    points = points.toString()
+    if (/[^0-9\.]/.test(points)) {
+      return "invalid value";
+    }
+    points = points.replace(/^(\d*)$/, "$1.");
+    points = (points + "00").replace(/(\d*\.\d\d)\d*/, "$1");
+    points = points.replace(".", ",");
+    var re = /(\d)(\d{3},)/;
+    while (re.test(points)) {
+        points = points.replace(re, "$1,$2");
+    }
+    points = points.replace(/,(\d\d)$/, ".$1");
+    return '-' + points
+  } else {
+    points = points.toString()
+    if (/[^0-9\.]/.test(points)) {
+      return "invalid value";
+    }
+    points = points.replace(/^(\d*)$/, "$1.")
+    points = (points + "00").replace(/(\d*\.\d\d)\d*/, "$1")
+    points = points.replace(".", ",")
+    var re = /(\d)(\d{3},)/
+    while (re.test(points)) {
+      points = points.replace(re, "$1,$2")
+    }
+    points = points.replace(/,(\d\d)$/, ".$1")
+    return points
   }
-  points = points.replace(/^(\d*)$/, "$1.");
-  points = (points + "00").replace(/(\d*\.\d\d)\d*/, "$1");
-  points = points.replace(".", ",");
-  var re = /(\d)(\d{3},)/;
-  while (re.test(points)) {
-      points = points.replace(re, "$1,$2");
-  }
-  points = points.replace(/,(\d\d)$/, ".$1");
-  return points
 } // 格式化点数
 
 export const formatRemark = function (remark) {

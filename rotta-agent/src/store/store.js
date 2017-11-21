@@ -559,6 +559,84 @@ const actions = {
   },
   onTabClick({ commit }, view) {
     commit('ON_TAB_CLICK', view)
+  },
+  getVedioNowlist (context) {
+    var data = {
+      userId: ''
+    }
+    if (state.variable.vedioGameData.nowUserID && state.variable.vedioGameData.nowUserID != '01') {
+      data.userId = state.variable.vedioGameData.nowUserID
+    } else {
+      data.userId = localStorage.loginId
+    }
+    invoke({
+      url: api.reportVedio,
+      method: api.post,
+      data: data
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var data = ret.data.payload
+          context.commit({
+            type: 'recordVedioNowlist',
+            data: data
+          })
+          context.commit('closeLoading')
+        }
+      }
+    )
+  },
+  getVedioNowchild (context) {
+    var data = {
+      parent: '01'
+    }
+    if (state.variable.vedioGameData.nowUserID) {
+      data.parent = state.variable.vedioGameData.nowUserID
+    }
+    invoke({
+      url: api.reportVedio,
+      method: api.post,
+      data: data
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var data = ret.data.payload
+          context.commit({
+            type: 'recordVedioNowchild',
+            data: data
+          })
+        }
+      }
+    )
+  },
+  getVedioNowplayer (context) {
+    if (state.variable.vedioGameData.nowUserID == '01' || !state.variable.vedioGameData.nowUserID) {
+    } else {
+      var data = {
+        parentId: state.variable.vedioGameData.nowUserID
+      }
+      invoke({
+        url: api.playerVedio,
+        method: api.post,
+        data: data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var data = ret.data.payload
+            context.commit({
+              type: 'recordVedioNowplayer',
+              data: data
+            })
+          }
+        }
+      )
+    }
   }
 }
 
@@ -999,7 +1077,24 @@ const mutations = {
     state.variable.visitedViews = []
     state.variable.activeIndex = null
     state.variable.tabIndex = null
-  } // 清空Tab标签
+  }, // 清空Tab标签
+
+  recordVedioNowlist (state, payload){
+    state.variable.vedioGameData.nowList = payload.data
+  }, // 记录电子游戏总报表当前列表
+
+  recordVedioNowchild (state, payload){
+    state.variable.vedioGameData.nowChildList = payload.data
+  }, // 记录电子游戏总报表下级列表
+
+  recordVedioNowplayer (state, payload){
+    state.variable.vedioGameData.nowPlayerlist = payload.data
+  }, // 记录电子游戏总报表玩家列表
+
+  recordVedioID (state, payload) {
+    state.variable.vedioGameData.nowUserID = payload.data
+  } // 记录电子游戏总报表用户ID
+
 }
 
 export default new Vuex.Store({

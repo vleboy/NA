@@ -45,7 +45,7 @@ import AgentAddPlayer from '@/view/player/addPlayer' // 创建玩家
 import AgentPlayerStatistics from '@/view/player/playerStatistics' // 玩家统计
 
 import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
-
+import VedioGameReport from '@/view/gameReport/vedioGame-report' // 电子游戏报表
 // import tagWindow from '@/view/tags/tags' // 标签页
 Vue.use(Router)
 export default new Router({
@@ -200,6 +200,11 @@ export default new Router({
       path: '/gameBackstage',
       name: '游戏后台',
       component: GameBackstage
+    },
+    {
+      path: '/vedioGameReport',
+      name: '电子游戏总报表',
+      component: VedioGameReport
     }
     // {
     //   path: '/tagWindow',

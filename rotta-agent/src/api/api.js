@@ -15,7 +15,9 @@ const front = {
 
   hawkeye: hawkeye_URL, // hawkeye有关接口
 
-  stat: stat_URL // stat有关接口
+  stat: stat_URL, // stat有关接口
+
+  vedioReport: vedioReport_URL // vedioGameReport接口
 }
 
 const api = {
@@ -170,6 +172,9 @@ const api = {
 
   consumeAndIncome: front.stat + front.stage + '/statistics/consumeAndIncome', // 售出，收益
 
+  // videoReport
+  reportVedio: front.vedioReport + 'prod' + '/queryUserStat', // 平台用户电子游戏统计
+  playerVedio: front.vedioReport + 'prod' + '/queryPlayerStat', // 平台用户所属玩家电子游戏统计
   // methods
 
   get: 'get',

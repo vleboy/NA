@@ -34,7 +34,8 @@ module.exports = merge(baseWebpackConfig, {
 
       'hawkeye_URL': JSON.stringify('https://ajlhg1sv9j.execute-api.ap-southeast-1.amazonaws.com/'), // hawkeye有关接口
 
-      'stat_URL': JSON.stringify('https://jrryxhd7e4.execute-api.ap-southeast-1.amazonaws.com/') // stat有关接口
+      'stat_URL': JSON.stringify('https://jrryxhd7e4.execute-api.ap-southeast-1.amazonaws.com/'), // stat有关接口
+      'vedioReport_URL': JSON.stringify('https://3arhv5v2ak.execute-api.ap-southeast-1.amazonaws.com/') // vedioReport有关接口
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

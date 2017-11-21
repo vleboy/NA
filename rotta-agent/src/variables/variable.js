@@ -135,7 +135,14 @@ const variable = {
   agentPlayerName: '', // 代理页面直属玩家跳转至玩家详细保存userName
   visitedViews: [],
   activeIndex: null,
-  tabIndex: null
+  tabIndex: null,
+  vedioGameData: {
+    nowList: [],
+    nowChildList: [],
+    nowPlayerlist: [],
+    nowUserID: ''
+  } // 电子游戏报表数据
+
 }
 
 export default {
