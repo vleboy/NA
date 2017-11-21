@@ -181,6 +181,7 @@ export default {
       this.$store.commit('startLoading')
       this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
+      data !== '01' ? this.$store.dispatch('getVedioNowplayer') : ''
     }, // 退回上一级
     getChildsize (size) {
       this.childSize = size
