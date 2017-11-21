@@ -101,6 +101,7 @@
 </template>
 <script type="text/ecmascript-6">
   import { invoke } from '@/libs/fetchLib'
+  import { thousandFormatter } from '@/behavior/format'
   import api from '@/api/api'
   export default {
     beforeCreate () {
@@ -208,7 +209,7 @@
         return this.totalData
       },
       consumeNum () {
-        return this.thousandFormatter(this.dynamicNum)
+        return thousandFormatter(this.dynamicNum)
       }
     },
     methods: {
@@ -228,14 +229,14 @@
                 icon: this.statisticalIcon[index],
                 oneText: this.statisticalTextOne[index],
                 twoText: this.statisticalTextTwo[index],
-                oneNum: res ? this.thousandFormatter(res.data.oneNum) : '0',
-                twoNum: res ? this.thousandFormatter(res.data.twoNum) : '0'
+                oneNum: res ? res.data.type > 2 ? res.data.oneNum : thousandFormatter(res.data.oneNum) : '0.00',
+                twoNum: res ? res.data.type > 2 ? res.data.twoNum : thousandFormatter(res.data.twoNum) : '0.00'
               })
             } else {
               for (let item of this.totalData) {
                 if (res && (item.index === res.data.type)) {
-                  item.oneNum = this.thousandFormatter(res.data.oneNum)
-                  item.twoNum = this.thousandFormatter(res.data.twoNum)
+                  item.oneNum = res.data.type > 2 ? res.data.oneNum : thousandFormatter(res.data.oneNum)
+                  item.twoNum = res.data.type > 2 ? res.data.twoNum : thousandFormatter(res.data.twoNum)
                 }
               }
             }
@@ -464,17 +465,6 @@
         this.isGoConsumeAndIncome = false
         this.getConsumeAndIncome()
       }, // 售出收益日期筛选过滤切换
-      thousandFormatter (num) {
-        let toString = num.toString()
-        let numOne = ''
-        let numTwo = ''
-        let formatterNum = ''
-        if(toString.indexOf('.')>-1){
-          [numOne,numTwo] = toString.split('.')
-        }
-        formatterNum = (numOne || num).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
-        return numTwo ? `${formatterNum}.${numTwo}` : formatterNum
-      }, // 千位符格式化
       getWeek() {
         //按周日为一周的最后一天计算
         let date = new Date();
