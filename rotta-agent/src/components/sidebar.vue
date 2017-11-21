@@ -9,6 +9,7 @@
               <el-submenu index="1">
                 <template slot="title">代理中心</template>
                 <el-menu-item index="comlist">代理列表</el-menu-item>
+                <el-menu-item index="bfsetting">包房代理配置</el-menu-item>
               </el-submenu>
               <!-- <el-submenu index="1">
                   <template slot="title">代理中心</template>

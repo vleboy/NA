@@ -102,6 +102,8 @@ const api = {
   gameList: front.diana + front.stage + '/gameList', // 获取游戏列表
 
   changeGame: front.diana + front.stage + '/gameChangeStatus', // 操作游戏状态接口
+  bfSetting: front.diana + front.stage + '/configNew', // 包房代理配置
+  getBfSetting: front.diana + front.stage + '/configOne', // 获取包房代理配置
 
   // thor
 

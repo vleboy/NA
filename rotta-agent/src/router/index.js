@@ -11,6 +11,7 @@ import Outcreate from '@/view/agent/out-agent/outcreate' // 创建线路商
 import Comlist from '@/view/agent/com-agent/comlist' // 一般商户列表
 import Comdetail from '@/view/agent/com-agent/comdetail' // 一般商户详情页
 import Comcreate from '@/view/agent/com-agent/comcreate' // 创建一般商户
+import Bfsetting from '@/view/agent/setting/bf-setting' // 包房代理配置
 
 import Gamelist from '@/view/game/gamelist' // 游戏列表
 
@@ -80,6 +81,11 @@ export default new Router({
       path: '/comlist',
       name: '代理列表',
       component: Comlist
+    },
+    {
+      path: '/bfsetting',
+      name: '包房代理配置',
+      component: Bfsetting
     },
     {
       path: '/comdetail',
