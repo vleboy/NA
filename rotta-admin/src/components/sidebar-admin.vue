@@ -43,6 +43,11 @@
                       <template slot="title">游戏配置</template>
                       <el-menu-item index="videoGameConfig">电子游戏配置</el-menu-item>
                   </el-submenu> -->
+                  <el-submenu index="4-3">
+                    <template slot="title">神秘大奖</template>
+                    <el-menu-item index="prizePlayerList">玩家列表</el-menu-item>
+                    <el-menu-item index="prizeConfig">奖品配置</el-menu-item>
+                  </el-submenu>
                   <el-submenu index="4-4" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">
                       <template slot="title">公告管理</template>
                        <el-menu-item index="gameNoticeList" v-show="userRight.gameNoticeList.hasRight">游戏公告列表</el-menu-item>

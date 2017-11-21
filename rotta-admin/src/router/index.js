@@ -29,6 +29,8 @@ import GameMailList from '@/view/operation/mailMgr/gameMailList' // 游戏邮件
 import HorseRaceLampList from '@/view/operation/horseRaceLampMgr/horseRaceLampList' // 跑马灯列表
 import GameNoticeList from '@/view/operation/gameNoticeMgr/gameNoticeList' // 游戏公告列表
 import VideoGameConfig from '@/view/operation/gameConfig/videoGameConfig' // 电子游戏配置
+import PrizePlayerList from '@/view/operation/mysteriousPrize/prizeList' // 大奖玩家列表
+import PrizeConfig from '@/view/operation/mysteriousPrize/prizeConfig' // 神秘大奖奖品配置
 
 import Manager from '@/view/property/manager' // 直属线路商报表
 import Merchant from '@/view/property/merchant' // 直属商户报表
@@ -265,6 +267,16 @@ export default new Router({
       path: '/videoGameConfig',
       name: '电子游戏配置',
       component: VideoGameConfig
+    },
+    {
+      path: '/prizePlayerList',
+      name: '玩家列表',
+      component: PrizePlayerList
+    },
+    {
+      path: '/prizeConfig',
+      name: '奖品配置',
+      component: PrizeConfig
     }
   ]
 })

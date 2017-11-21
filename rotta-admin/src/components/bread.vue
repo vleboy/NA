@@ -117,6 +117,18 @@
       <el-breadcrumb-item><span  class="large">电子游戏配置</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'prizePlayerList'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>神秘大奖 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">玩家列表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'prizeConfig'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>神秘大奖 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">奖品配置</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'manager'" class="title">
       <el-breadcrumb-item>财务中心 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">直属线路商报表</span> </el-breadcrumb-item>

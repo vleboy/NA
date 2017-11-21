@@ -36,7 +36,8 @@ import store from '@/store/store'
 // } // 检查密码正则
 export const pattern = {
   positiveInteger: new RegExp(/^[0-9]*[1-9][0-9]*$/),  // 正整数
-  url: new RegExp(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&:/~+#]*[\w\-@?^=%&/~+#])?/) // url验证
+  url: new RegExp(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&:/~+#]*[\w\-@?^=%&/~+#])?/), // url验证
+  digitalRange : new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/) // 数字范围验证 （0.00-100.00）
 }
 // export const checkUsername = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/) // 检查用户名正则
 export const checkUsername = (rule, value, callback) => {
