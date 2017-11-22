@@ -11,7 +11,7 @@
                   <el-submenu index="1-1">
                       <template slot="title">线路商管理</template>
                       <el-menu-item index="outlist">线路商列表</el-menu-item>
-                      <!-- <el-menu-item index="outcreate">创建线路商</el-menu-item> -->
+                      <el-menu-item index="" @click="comingSoon">创建线路商</el-menu-item>
                   </el-submenu>
                   <el-submenu index="1-2">
                       <template slot="title">商户管理</template>
