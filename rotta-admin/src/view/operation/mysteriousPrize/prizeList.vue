@@ -79,6 +79,7 @@
         </el-table-column>
         <el-table-column prop="updateAt" label="大奖获取时间" :formatter="getAtime" align="center"></el-table-column>
         <el-table-column prop="updateAt" label="大奖领取时间" :formatter="getAtime" align="center"></el-table-column>
+        <el-table-column prop="operator" label="操作人" width="160" align="center"></el-table-column>
         <el-table-column label="操作" show-overflow-tooltip align="center">
           <template scope="scope">
             <el-button  type="text" @click="changeStatus(scope.row)">{{scope.row.state ? '领取' : '撤销领取'}}</el-button>
