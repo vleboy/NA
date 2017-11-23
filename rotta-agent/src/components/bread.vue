@@ -48,11 +48,6 @@
       <el-breadcrumb-item><span  class="large">代理列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-breadcrumb separator="/" v-if="nowindex === 'bfsetting'" class="title">
-      <el-breadcrumb-item>代理中心 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">包房代理配置</span> </el-breadcrumb-item>
-    </el-breadcrumb>
-
     <el-breadcrumb separator="/" v-if="nowindex === 'comcreate'" class="title">
       <el-breadcrumb-item>代理中心 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">创建代理</span> </el-breadcrumb-item>
@@ -166,6 +161,11 @@
     <el-breadcrumb separator="/" v-if="nowindex === 'vedioGameReport'" class="title">
       <el-breadcrumb-item>游戏中心 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">电子游戏总报表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'bfsetting'" class="title">
+      <el-breadcrumb-item>游戏中心</el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">包房代理游戏配置</span> </el-breadcrumb-item>
     </el-breadcrumb>
   </div>
 </template>

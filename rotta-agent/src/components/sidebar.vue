@@ -9,7 +9,6 @@
               <el-submenu index="1">
                 <template slot="title">代理中心</template>
                 <el-menu-item index="comlist">代理列表</el-menu-item>
-                <el-menu-item index="bfsetting">包房代理配置</el-menu-item>
               </el-submenu>
               <!-- <el-submenu index="1">
                   <template slot="title">代理中心</template>
@@ -50,6 +49,7 @@
                 <template slot="title">游戏中心</template>
                 <el-menu-item index="gameBackstage">游戏后台</el-menu-item>
                 <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
+                <el-menu-item index="bfsetting">包房代理游戏配置</el-menu-item>
               </el-submenu>
           </el-menu>
         </el-col>

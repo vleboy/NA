@@ -84,7 +84,7 @@ export default new Router({
     },
     {
       path: '/bfsetting',
-      name: '包房代理配置',
+      name: '包房代理游戏配置',
       component: Bfsetting
     },
     {
