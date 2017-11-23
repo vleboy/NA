@@ -1,9 +1,9 @@
 <template>
     <div class="comdetail">
-        <div class="comdetail-title">
-            <h2>{{comdetail.displayName}}</h2>
-        </div>
         <div class="simpleinfo" v-loading="infoLoading" element-loading-text="加载中">
+            <div class="comdetail-title">
+                <h2>{{comdetail.displayName}}</h2>
+            </div>
             <div class="parent">
                 <h4>基本信息</h4>
                 <p v-if="this.comdetail.parent !== '01'">所属线路商: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>

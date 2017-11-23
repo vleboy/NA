@@ -1,9 +1,9 @@
 <template>
     <div class="outdetail">
-        <div class="outdetail-title">
-            <h2>{{outdetail.displayName}}</h2>
-        </div>
         <div class="simpleinfo" v-loading="infoLoading" element-loading-text="加载中">
+            <div class="outdetail-title">
+                <h2>{{outdetail.displayName}}</h2>
+            </div>
             <h4>基本信息</h4>
             <div class="editform">
                 <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
