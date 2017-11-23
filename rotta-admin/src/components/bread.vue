@@ -219,6 +219,7 @@
 
     <el-breadcrumb separator="/" v-if="nowindex === 'vedioGameReport'" class="title">
       <el-breadcrumb-item>财务中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>电子游戏 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">电子游戏总报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 

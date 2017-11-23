@@ -230,6 +230,7 @@ export default {
         parentId: row.parent,
         parentName: row.parentDisplayName
       }
+      this.$store.commit('resetPartLoading')
       this.$store.commit({
         type: 'recordNowlistUser',
         data: user
