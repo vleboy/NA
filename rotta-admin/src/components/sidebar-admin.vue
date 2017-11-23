@@ -27,47 +27,50 @@
                   <template slot="title">游戏中心</template>
                   <el-menu-item index="gamelist" v-show="userRight.gamelist.hasRight">游戏列表</el-menu-item>
                   <el-menu-item index="gameBackstage" v-show="userRight.gameBackstage.hasRight">游戏后台</el-menu-item>
+              </el-submenu>
+              <el-submenu index="4">
+                  <template slot="title">财务中心</template>
                   <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
               </el-submenu>
-              <el-submenu index="4" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight || userRight.gameMailList.hasRight || userRight.boothList.hasRight || userRight.computerGame.hasRight">
+              <el-submenu index="5" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight || userRight.gameMailList.hasRight || userRight.boothList.hasRight || userRight.computerGame.hasRight">
                   <template slot="title">运营中心</template>
-                  <!-- <el-submenu index="4-1">
+                  <!-- <el-submenu index="5-1">
                       <template slot="title">赛事管理</template>
                         <el-menu-item index=""></el-menu-item>
                   </el-submenu>
-                  <el-submenu index="4-2">
+                  <el-submenu index="5-2">
                       <template slot="title">活动管理</template>
                         <el-menu-item index=""></el-menu-item>
                   </el-submenu> -->
-                 <!-- <el-submenu index="4-3">
+                 <!-- <el-submenu index="5-3">
                       <template slot="title">游戏配置</template>
                       <el-menu-item index="videoGameConfig">电子游戏配置</el-menu-item>
                   </el-submenu> -->
-                  <el-submenu index="4-3">
+                  <el-submenu index="5-3">
                     <template slot="title">神秘大奖</template>
                     <el-menu-item index="prizePlayerList">玩家列表</el-menu-item>
                     <el-menu-item index="prizeConfig">奖品配置</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="4-4" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">
+                  <el-submenu index="5-4" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">
                       <template slot="title">公告管理</template>
                        <el-menu-item index="gameNoticeList" v-show="userRight.gameNoticeList.hasRight">游戏公告列表</el-menu-item>
                        <el-menu-item index="horseRaceLampList" v-show="userRight.horseRaceLampList.hasRight">跑马灯列表</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="4-5" v-show="userRight.gameMailList.hasRight">
+                  <el-submenu index="5-5" v-show="userRight.gameMailList.hasRight">
                       <template slot="title">站内信管理</template>
                       <el-menu-item index="gameMailList">游戏邮件列表</el-menu-item>
                   </el-submenu>
 
-                  <el-submenu index="4-6" v-show="userRight.boothList.hasRight">
+                  <el-submenu index="5-6" v-show="userRight.boothList.hasRight">
                     <template slot="title">展位管理</template>
                     <el-menu-item index="boothList">展位列表</el-menu-item>
                   </el-submenu>
               </el-submenu>
-              <el-submenu index="5" v-show="userRight.computerGame.hasRight">
+              <el-submenu index="6" v-show="userRight.computerGame.hasRight">
                 <template slot="title">风控中心</template>
                 <el-menu-item index="computerGame">电子游戏风控</el-menu-item>
               </el-submenu>
-              <!-- <el-submenu index="5" v-show="this.userRight.finance === true">
+              <!-- <el-submenu index="6" v-show="this.userRight.finance === true">
                   <template slot="title">财务中心</template>
                   <el-menu-item index="manager">直属线路商报表</el-menu-item>
                   <el-menu-item index="merchant">直属商户报表</el-menu-item>
