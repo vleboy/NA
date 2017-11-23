@@ -692,6 +692,13 @@ export default {
   methods: {
     refreshCom () {
       // this.$store.commit('startLoading')
+      let _self = this
+      setTimeout(function(){
+        _self.$message({
+          type: 'success',
+          message: '刷新成功'
+        })
+      }, 2000)
       this.$store.dispatch('getComdetail_property')
     }, // 刷新商户详情页账单
     addGame () {

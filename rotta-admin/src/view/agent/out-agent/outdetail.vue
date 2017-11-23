@@ -801,14 +801,35 @@ export default {
   methods: {
     refreshOutmerchant () {
       // this.$store.commit('startLoading')
+      let _self = this
+      setTimeout(function(){
+        _self.$message({
+          type: 'success',
+          message: '刷新成功'
+        })
+      }, 2000)
       this.$store.dispatch('getOutdetail_child_merchants')
     }, // 刷新详情页下级商户账单
     refreshOutmanager () {
       // this.$store.commit('startLoading')
+      let _self = this
+      setTimeout(function(){
+        _self.$message({
+          type: 'success',
+          message: '刷新成功'
+        })
+      }, 2000)
       this.$store.dispatch('getOutdetail_child_managers')
     }, // 刷新详情页下级线路商账单
     refreshOut () {
       // this.$store.commit('startLoading')
+      let _self = this
+      setTimeout(function(){
+        _self.$message({
+          type: 'success',
+          message: '刷新成功'
+        })
+      }, 2000)
       this.$store.dispatch('getOutdetail_property')
     }, // 刷新该账户账单
     outYouWanted (ID) {
