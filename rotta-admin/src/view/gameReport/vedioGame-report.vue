@@ -24,7 +24,7 @@
             <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center">
+        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
         </el-table-column>
       </el-table>
     </div>
@@ -55,7 +55,7 @@
             <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center">
+        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
         </el-table-column>
       </el-table>
       <div class="page">
@@ -146,6 +146,9 @@ export default {
     }
   },
   methods: {
+    formatWinlose (data) {
+      return data.winloseRate * 100 + '%'
+    },
     userType (data) {
       if (data.role == '1') {
         return '管理员'
