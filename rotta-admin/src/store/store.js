@@ -276,6 +276,7 @@ const actions = {
           var data = ret.data.payload
           context.commit('countAjax')
           localStorage.setItem('parentID', data.parent)
+          state.variable.partLoading.infoLoading = false
           context.commit({
             type: 'recordComdetaildata',
             data: data
@@ -305,7 +306,7 @@ const actions = {
         } else {
           var data = ret.data.payload
           context.commit('countAjax')
-          // console.log('商户账户流水详情', data)
+          state.variable.partLoading.billLoading = false
           context.commit({
             type: 'recordComdetail_property',
             data: data

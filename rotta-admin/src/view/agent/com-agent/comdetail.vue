@@ -3,7 +3,7 @@
         <div class="comdetail-title">
             <h2>{{comdetail.displayName}}</h2>
         </div>
-        <div class="simpleinfo">
+        <div class="simpleinfo" v-loading="infoLoading" element-loading-text="加载中">
             <div class="parent">
                 <h4>基本信息</h4>
                 <p v-if="this.comdetail.parent !== '01'">所属线路商: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
@@ -187,7 +187,7 @@
                 </el-form>
             </div>
         </div>
-        <div class="manangeinfo">
+        <div class="manangeinfo" v-loading="infoLoading" element-loading-text="加载中">
             <h4>管理信息
             <div style="float:right;margin-right:2rem">
               <el-button type="primary" @click="submitEdit" :loading="loading" v-if="disable === false && loginUser != comdetail.username">提交修改</el-button>
@@ -293,7 +293,7 @@
                 </el-form>
             </div>
         </div>
-        <div class="propertyinfo">
+        <div class="propertyinfo" v-loading="billLoading" element-loading-text="加载中">
             <h4>财务信息</h4>
             <div class="propertyform">
                 <div class="propertyform-header">
@@ -380,7 +380,7 @@ export default {
     Billtransfer
   },
   beforeCreate () {
-    this.$store.commit('startLoading')
+    // this.$store.commit('startLoading')
     this.$store.commit('resetAjax')
     this.$store.commit('closeEdit')
     this.$store.commit({
@@ -394,6 +394,12 @@ export default {
   mounted () {
   },
   computed: {
+    infoLoading () {
+      return this.$store.state.variable.partLoading.infoLoading
+    },
+    billLoading () {
+      return this.$store.state.variable.partLoading.billLoading
+    },
     ajaxCount () {
       return this.$store.state.ajaxCount
     },
@@ -417,13 +423,13 @@ export default {
       return this.points(x)
     }
   },
-  watch: {
-    ajaxCount (val) {
-      if (val == 2) {
-        this.$store.commit('closeLoading')
-      }
-    }
-  },
+  // watch: {
+  //   ajaxCount (val) {
+  //     if (val == 2) {
+  //       this.$store.commit('closeLoading')
+  //     }
+  //   }
+  // },
   data () {
     var checkPassword = (rule, value, callback) => {
       var password = function passwordLevel (password) {

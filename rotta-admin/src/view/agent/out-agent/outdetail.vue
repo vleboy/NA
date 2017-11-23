@@ -856,7 +856,7 @@ export default {
       this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$router.push('comdetail')
-      this.$store.commit('startLoading')
+      this.$store.commit('resetPartLoading')
       this.$store.dispatch('getComdetail')
       this.$store.dispatch('getComdetail_property')
     }, // 详情页下级商户跳转
