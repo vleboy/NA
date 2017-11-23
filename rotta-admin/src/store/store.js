@@ -155,6 +155,7 @@ const actions = {
           var data = ret.data.payload
           context.commit('countAjax')
           localStorage.setItem('parentID', data.parent)
+          state.variable.partLoading.infoLoading = false
           context.commit({
             type: 'recordOutdetaildata',
             data: data
@@ -184,6 +185,7 @@ const actions = {
         } else {
           var data = ret.data.payload
           context.commit('countAjax')
+          state.variable.partLoading.billLoading = false
           context.commit({
             type: 'recordOutdetail_property',
             data: data
@@ -213,6 +215,7 @@ const actions = {
         } else {
           var data = ret.data.payload
           context.commit('countAjax')
+          state.variable.partLoading.form_one_Loading = false
           context.commit({
             type: 'recordOutdetail_child_managers',
             data: data
@@ -242,6 +245,7 @@ const actions = {
         } else {
           var data = ret.data.payload
           context.commit('countAjax')
+          state.variable.partLoading.form_two_Loading = false
           context.commit({
             type: 'recordOutdetail_child_merchants',
             data: data
@@ -797,6 +801,14 @@ const actions = {
 }
 
 const mutations = {
+  resetPartLoading (state, payload) {
+    state.variable.partLoading = {
+      infoLoading: true,
+      billLoading: true,
+      form_one_Loading: true,
+      form_two_Loading: true,
+    }
+  },
   resetAjax (state, payload) {
     state.ajaxCount = 0
   }, // 重置Ajax请求数

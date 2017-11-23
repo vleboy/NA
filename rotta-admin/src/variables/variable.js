@@ -105,6 +105,13 @@ const variable = {
     remark: ''
   }, // 减点明细
 
+  partLoading: {
+    infoLoading: true,
+    billLoading: true,
+    form_one_Loading: true,
+    form_two_Loading: true,
+  }, // 局部loading
+
   pointsIndex: '', // 加减点发起方式
   pointsObject: {}, // 对详情页用户发起加减点操作的下级信息
 

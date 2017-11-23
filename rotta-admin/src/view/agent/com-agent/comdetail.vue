@@ -691,7 +691,7 @@ export default {
   },
   methods: {
     refreshCom () {
-      this.$store.commit('startLoading')
+      // this.$store.commit('startLoading')
       this.$store.dispatch('getComdetail_property')
     }, // 刷新商户详情页账单
     addGame () {
@@ -744,7 +744,7 @@ export default {
       this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$router.push('outdetail')
-      this.$store.commit('startLoading')
+      this.$store.commit('resetPartLoading')
       this.$store.dispatch('getOutdetail')
       this.$store.dispatch('getOutdetail_property')
       this.$store.dispatch('getOutdetail_child_managers')

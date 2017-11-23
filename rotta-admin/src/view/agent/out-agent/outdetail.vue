@@ -3,7 +3,7 @@
         <div class="outdetail-title">
             <h2>{{outdetail.displayName}}</h2>
         </div>
-        <div class="simpleinfo">
+        <div class="simpleinfo" v-loading="infoLoading" element-loading-text="加载中">
             <h4>基本信息</h4>
             <div class="editform">
                 <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
@@ -146,7 +146,7 @@
                 </el-form>
             </div>
         </div>
-        <div class="manangeinfo">
+        <div class="manangeinfo" v-loading="infoLoading" element-loading-text="加载中">
             <h4>管理信息
               <div style="float:right;margin-right:2rem">
                 <el-button type="primary" @click="submitEdit" :loading="loading" v-if="disable == false && loginUser != outdetail.username">提交修改</el-button>
@@ -253,7 +253,7 @@
                 </el-form>
             </div>
         </div>
-        <div class="propertyinfo">
+        <div class="propertyinfo" v-loading="billLoading" element-loading-text="加载中">
             <h4>财务信息</h4>
             <div class="propertyform">
                 <div class="propertyform-header">
@@ -318,7 +318,7 @@
                     </div>
             </div>
         </div>
-        <div class="propertyinfo">
+        <div class="propertyinfo" v-loading="form_one_Loading" element-loading-text="加载中">
             <h4>下级线路商列表</h4>
             <div class="propertyform">
                 <div class="propertyform-header">
@@ -365,7 +365,7 @@
                 </div>
             </div>
         </div>
-        <div class="propertyinfo margin">
+        <div class="propertyinfo margin" v-loading="form_two_Loading" element-loading-text="加载中">
             <h4>拥有商户列表</h4>
             <div class="propertyform">
             <div class="propertyform-header">
@@ -428,7 +428,7 @@ export default {
     Billtransfer
   },
   beforeCreate () {
-    this.$store.commit('startLoading')
+    // this.$store.commit('startLoading')
     this.$store.commit('resetAjax')
     this.$store.commit('closeEdit')
     this.$store.commit({
@@ -444,6 +444,18 @@ export default {
   mounted () {
   },
   computed: {
+    infoLoading () {
+      return this.$store.state.variable.partLoading.infoLoading
+    },
+    billLoading () {
+      return this.$store.state.variable.partLoading.billLoading
+    },
+    form_one_Loading () {
+      return this.$store.state.variable.partLoading.form_one_Loading
+    },
+    form_two_Loading () {
+      return this.$store.state.variable.partLoading.form_two_Loading
+    },
     ajaxCount () {
       return this.$store.state.ajaxCount
     },
@@ -514,13 +526,6 @@ export default {
         }
       }
       return this.points(bills)
-    }
-  },
-  watch: {
-    ajaxCount (val) {
-      if (val == 4) {
-        this.$store.commit('closeLoading')
-      }
     }
   },
   data () {
@@ -795,15 +800,15 @@ export default {
   },
   methods: {
     refreshOutmerchant () {
-      this.$store.commit('startLoading')
+      // this.$store.commit('startLoading')
       this.$store.dispatch('getOutdetail_child_merchants')
     }, // 刷新详情页下级商户账单
     refreshOutmanager () {
-      this.$store.commit('startLoading')
+      // this.$store.commit('startLoading')
       this.$store.dispatch('getOutdetail_child_managers')
     }, // 刷新详情页下级线路商账单
     refreshOut () {
-      this.$store.commit('startLoading')
+      // this.$store.commit('startLoading')
       this.$store.dispatch('getOutdetail_property')
     }, // 刷新该账户账单
     outYouWanted (ID) {
@@ -815,7 +820,7 @@ export default {
       this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$router.push('outdetail')
-      this.$store.commit('startLoading')
+      this.$store.commit('resetPartLoading')
       this.$store.dispatch('getOutdetail')
       this.$store.dispatch('getOutdetail_property')
       this.$store.dispatch('getOutdetail_child_managers')
@@ -880,7 +885,7 @@ export default {
       this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$router.push('outdetail')
-      this.$store.commit('startLoading')
+      this.$store.commit('resetPartLoading')
       this.$store.dispatch('getOutdetail')
       this.$store.dispatch('getOutdetail_property')
       this.$store.dispatch('getOutdetail_child_managers')
