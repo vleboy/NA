@@ -11,42 +11,6 @@
         	<el-table stripe :data="comlist" @sort-change="defineSort">
             <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
             </el-table-column>
-            <!-- <el-table-column type="expand" width="20">
-                <template scope="props">
-                    <el-form label-position="left" inline>
-                        <el-form-item label="商户ID" class="moreinfo">
-                            <span>{{ props.row.userId }}</span>
-                        </el-form-item>
-                        <el-form-item label="商户邮箱" class="moreinfo">
-                            <span>{{ props.row.merchantEmail }}</span>
-                        </el-form-item>
-                        <el-form-item label="商户前端域名" class="moreinfo">
-                            <span @click="openURL(props.row.frontURL)" class="fontUrl">{{ props.row.frontURL }}</span>
-                        </el-form-item>
-                        <el-form-item label="商户白名单" class="moreinfo">
-                            <span>{{ (props.row.loginWhiteList) }}</span>
-                        </el-form-item>
-                        <el-form-item label="管理员账号" class="moreinfo">
-                            <span>{{ props.row.username.split('_')[1] }}</span>
-                        </el-form-item>
-                        <el-form-item label="管理员密码" class="moreinfo">
-                            <span>{{ props.row.password }}</span>
-                        </el-form-item>
-                        <el-form-item label="管理员姓名" class="moreinfo">
-                            <span>{{ props.row.hostName }}</span>
-                        </el-form-item>
-                        <el-form-item label="管理员联系方式" class="moreinfo">
-                            <span>{{ props.row.hostContact }}</span>
-                        </el-form-item>
-                        <el-form-item label="管理员邮箱" class="moreinfo">
-                            <span>{{ props.row.adminEmail }}</span>
-                        </el-form-item>
-                        <el-form-item label="商户生效时间" class="moreinfo">
-                            <span>{{ contractPeriod(props.row.contractPeriod) }}</span>
-                        </el-form-item>
-                    </el-form>
-                </template>
-            </el-table-column> -->
             <el-table-column label="商户标识" prop="suffix" align="center">
             </el-table-column>
             <el-table-column label="商户昵称" prop="displayName" align="center">
@@ -130,7 +94,7 @@
             </el-table-column>
         	</el-table>
         <div class="page">
-          <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.comlist.length" :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"></el-pagination>
+          <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.comlist.length" :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage" :current-page.sync="currentPage"></el-pagination>
         </div>
      	</div>
     </div>
@@ -178,6 +142,9 @@ export default {
     }
   },
   computed: {
+    currentPage () {
+      return this.$store.state.orignPage
+    },
     comlist () {
       var comlist = this.$store.state.variable.comlist
       if (this.nowPage === 1) {
