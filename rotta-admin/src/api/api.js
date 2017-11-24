@@ -94,6 +94,10 @@ const api = {
   subRoleNew: front.diana + front.stage + '/subRoleNew', // 新增权限角色
 
   subRoleDelete: front.diana + front.stage + '/subRoleDelete', // 删除权限角色
+
+  configMultList: front.diana + front.stage + '/configMultList', // 获取电子游戏配置列表
+
+  configMultNew: front.diana + front.stage + '/configMultNew', // 设置电子游戏配置列表
   // hulk
 
   billTransfer: front.hulk + front.stage + '/billTransfer', // 加减点接口

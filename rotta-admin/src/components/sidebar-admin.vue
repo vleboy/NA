@@ -42,10 +42,10 @@
                       <template slot="title">活动管理</template>
                         <el-menu-item index=""></el-menu-item>
                   </el-submenu> -->
-                 <!-- <el-submenu index="5-3">
+                 <el-submenu index="5-2">
                       <template slot="title">游戏配置</template>
                       <el-menu-item index="videoGameConfig">电子游戏配置</el-menu-item>
-                  </el-submenu> -->
+                  </el-submenu>
                   <el-submenu index="5-3">
                     <template slot="title">神秘大奖</template>
                     <el-menu-item index="prizePlayerList">玩家列表</el-menu-item>
