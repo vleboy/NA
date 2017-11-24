@@ -85,7 +85,7 @@
           </el-table-column>
         </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.outlist.length" :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.outlist.length" :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage" :current-page.sync="currentPage"></el-pagination>
       </div>
     </div>
   </div>
@@ -134,6 +134,9 @@ export default {
     }
   },
   computed: {
+    currentPage () {
+      return this.$store.state.orignPage
+    },
     outlist () {
       var outlist = this.$store.state.variable.outlist
       if (this.nowPage === 1) {

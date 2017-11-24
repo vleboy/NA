@@ -8,7 +8,8 @@ Vue.use(Vuex) // 全局注册
 const state = {
   variable,
   checkform,
-  ajaxCount: 0
+  ajaxCount: 0,
+  orignPage: 0
 }
 const getters = {
   visitedViews: state => state.variable.visitedViews
@@ -802,6 +803,9 @@ const actions = {
 }
 
 const mutations = {
+  resetPage (state, payload) {
+    state.orignPage = 1
+  },
   resetPartLoading (state, payload) {
     state.variable.partLoading = {
       infoLoading: true,

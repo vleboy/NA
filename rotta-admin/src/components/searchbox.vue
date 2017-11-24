@@ -138,6 +138,7 @@ export default {
   },
   methods: {
     startSearch () {
+      this.$store.commit('resetPage')
       if (this.condition.condition_four) {
         for (var i = this.condition.condition_four.length - 1; i >= 0; i--) {
           if (isNaN(this.condition.condition_four[i].toString())) {
@@ -162,6 +163,7 @@ export default {
       }
     },
     resetSearch () {
+      this.$store.commit('resetPage')
       this.condition = {
         condition_one: '',
         condition_two: '',
