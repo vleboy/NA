@@ -98,15 +98,6 @@ export default{
     this.getLineList()
   },
   data () {
-    var validateLineCount = (rule, value, callback) => {
-      if (!pattern.positiveInteger.exec(value) || value<0 || value>25) {
-        callback(new Error('请输入1-25的正整数'))
-        this.isfinish.lineCount = false
-      } else {
-        callback()
-        this.isfinish.lineCount = true
-      }
-    } // 线数
     return {
       nowSize: 20,
       nowPage: 1,
@@ -119,11 +110,6 @@ export default{
         lineCount: '', // 线数
         gameType: []
       }, // 创建列表
-      rules: {
-        lineCount: [
-          {validator: validateLineCount, trigger: 'blur'}
-        ]
-      }, // 列表验证规则
       lineBetList: ['0.01','0.25','0.5','1','1.25','2.5','3.75','5','10', '20', '25', '50', '100', '125', '200'], // 线注选项
       lineList: [],
       addInfo: [], // 最后提交的数据
@@ -207,6 +193,8 @@ export default{
     addVideoGame () {
       if (this.lineInfo.lineCount == ''){
         return this.$message.error('请输入线数')
+      } else if (!pattern.positiveInteger.exec(this.lineInfo.lineCount) || this.lineInfo.lineCount<0 || this.lineInfo.lineCount>25) {
+        return this.$message.error('请输入1-25的正整数')
       }
       if(this.isSending)return
       // 判断是否存在已经设置了线注和线数
