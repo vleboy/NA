@@ -196,7 +196,6 @@ export default {
         for (let item of fuck) {
           arr.push(item.gameUserId)
         }
-        arr = JSON.stringify(arr)
         let data = {
           gameUserIds: arr,
           query:{
@@ -214,10 +213,19 @@ export default {
             if (err) {
             } else {
               var data = ret.data.payload
-              console.log('asd',data)
-              context.commit({
+              let iteval = this.$store.state.variable.vedioGameData.nowPlayerlist
+              for (let outside of iteval) {
+                for (let inside of data) {
+                  if (outside.gameUserId == inside.gameUserId) {
+                    outside.bet = inside.bet
+                    outside.betCount = inside.betCount
+                    outside.winlose = inside.winlose
+                  }
+                }
+              }
+              this.$store.commit({
                 type: 'recordVedioNowplayer',
-                data: data
+                data: iteval
               })
             }
           }
