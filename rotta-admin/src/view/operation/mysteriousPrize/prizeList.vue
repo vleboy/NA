@@ -1,5 +1,5 @@
 <template>
-  <div class="playerlist">
+  <div class="prizeList">
     <div class="propList-search propList">
       <el-row class="transition-box">
         <el-col :span="10" class="g-text-right">
@@ -10,7 +10,7 @@
           <span>玩家昵称: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.nickname"></el-input>
         </el-col>
-        <el-button type="primary" @click="getPlayList">搜索</el-button>
+        <el-button type="primary" @click="getPrizeList">搜索</el-button>
         <el-button @click="resultSearch">重置</el-button>
       </el-row>
       <el-row class="transition-box" style="margin-top: 2rem">
@@ -28,26 +28,23 @@
         <span>获取时间: </span>
           <el-date-picker
             class="input"
-            v-model="searchInfo.dateTime"
+            v-model="dateTime"
             type="datetimerange"
             placeholder="选择时间范围">
           </el-date-picker>
         </el-col>
       </el-row>
     </div>
+
+    <div class="rebackinfo" style="margin-bottom: 28px">
+      <el-button type="primary" @click="goPrizeConfig()">奖品配置</el-button>
+    </div>
     <div class="rebackinfo">
-      <p>共搜索到 {{playerList.length || 0}} 条数据</p>
+      <p>共搜索到 {{prizeList.length || 0}} 条数据</p>
     </div>
     <div class="playerform">
-      <!--<el-row style="margin-bottom: 2rem">-->
-        <!--<el-col>-->
-          <!--<el-button type="primary" @click="allChangeState(0)">批量停用</el-button>-->
-          <!--<el-button type="primary" @click="allChangeState(1)">批量开启</el-button>-->
-        <!--</el-col>-->
-      <!--</el-row>-->
-      <el-table stripe :data="getItems" @selection-change="selectionChange" @sort-change="sortFun">
-        <!--<el-table-column type="selection" width="60" align="center"></el-table-column>-->
-        <el-table-column prop="userNameParent" label="用户名" align="center"></el-table-column>
+      <el-table stripe :data="getItems"  @sort-change="sortFun">
+        <el-table-column prop="userName" label="用户名" align="center"></el-table-column>
         <el-table-column prop="msn" label="线路号" show-overflow-tooltip align="center">
         </el-table-column>
         <el-table-column prop="merchantName" label="所属商户" align="center">
@@ -55,11 +52,7 @@
             {{ scope.row.merchantName === 'NULL!' ? '-' : scope.row.merchantName}}
           </template>
         </el-table-column>
-        <el-table-column prop="merchantName" label="所属游戏" align="center">
-          <template scope="scope">
-            {{ scope.row.merchantName === 'NULL!' ? '-' : scope.row.merchantName}}
-          </template>
-        </el-table-column>
+        <el-table-column prop="gameType" label="所属游戏" align="center"></el-table-column>
         <el-table-column prop="nickname" label="玩家昵称" align="center">
           <template scope="scope">
             {{ scope.row.nickname === 'NULL!' ? '-' : scope.row.nickname}}
@@ -67,27 +60,27 @@
         </el-table-column>
         <el-table-column label="状态" align="center">
           <template scope="scope">
-            <el-tag :type="scope.row.state ? 'success' : 'danger'">
-              {{playerStatus[scope.row.state]}}
+            <el-tag :type="scope.row.status ? 'success' : 'danger'">
+              {{playerStatus[scope.row.status]}}
             </el-tag>
-          </template>formatPoints
-        </el-table-column>
-        <el-table-column prop="balance" label="领取面值" sortable="custom"  align="center">
-          <template scope="scope">
-            {{formatPoints(scope.row.balance)}}
           </template>
         </el-table-column>
-        <el-table-column prop="updateAt" label="大奖获取时间" :formatter="getAtime" align="center"></el-table-column>
-        <el-table-column prop="updateAt" label="大奖领取时间" :formatter="getAtime" align="center"></el-table-column>
+        <el-table-column prop="amount" label="领取面值" align="center">
+          <template scope="scope">
+            {{formatPoints(scope.row.amount)}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="winAt" label="大奖获取时间" :formatter="getAtime" sortable="custom"  align="center"></el-table-column>
+        <el-table-column prop="receiveAt" label="大奖领取时间" :formatter="getBtime" sortable="custom"  align="center"></el-table-column>
         <el-table-column prop="operator" label="操作人" width="160" align="center"></el-table-column>
         <el-table-column label="操作" show-overflow-tooltip align="center">
           <template scope="scope">
-            <el-button  type="text" @click="changeStatus(scope.row)">{{scope.row.state ? '领取' : '撤销领取'}}</el-button>
+            <el-button  type="text" @click="changeStatus(scope.row)">{{scope.row.status ? '撤销领取' : '领取'}}</el-button>
           </template>
         </el-table-column>
       </el-table>
       <div style="text-align: right;margin:2rem 0">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerList.length"
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="prizeList.length"
                        :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
         </el-pagination>
       </div>
@@ -106,71 +99,70 @@
         type: 'recordNowindex',
         data: 'prizePlayerList'
       })
-      this.$store.commit('startLoading')
     },
     data () {
       return {
         nowSize: 20,
         nowPage: 1,
-        showSearch: false,
-        playerList: [],
-        playerStatus: ['已领取', '未领取'],
-        checkedArray: [],
-        names: [],
-        searchInfo: {},
-        sortInfo: {},
-        role: localStorage.loginRole // 相应角色的权限（区分商户、线路商、平台角色）
+        prizeList: [],
+        playerStatus: ['未领取', '已领取'],
+        dateTime: [],
+        searchInfo: {
+          userName: '',
+          nickname: '',
+          merchantName: '',
+          msn: ''
+        },
+        sortInfo: {}
       }
     },
     created () {
-      this.getPlayList()
+      this.getPrizeList()
     },
     computed: {
       getItems () {
         if (this.nowPage === 1) {
-          return this.playerList.slice(0, this.nowSize)
+          return this.prizeList.slice(0, this.nowSize)
         } else {
-          return this.playerList.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
+          return this.prizeList.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
         }
       }
     },
     methods: {
-      selectionChange (val) {
-        this.checkedArray = val
-        // console.log(this.checkedArray, '被选中的多选')
-      },
-      playDetail (row) {
-        localStorage.setItem('playerName', row.userName)
-        this.$store.commit('startLoading')
-        invoke({
-          url: api.getPlayDetail + '?' + 'userName' + '=' + row.userName,
-          method: api.get
-        }).then(
-          result => {
-            const [err, res] = result
-            if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
-            } else {
-              this.playerDetail = res.data
-              this.$store.commit({
-                type: 'playerDetail',
-                data: this.playerDetail
-              })
-            }
-            this.$router.push('playerdetail')
-            this.$store.commit('closeLoading')
+      getPrizeList () {
+        if(this.searchInfo.userName == ''){
+          delete this.searchInfo.userName
+        }
+        if (this.searchInfo.nickname == '') {
+          delete this.searchInfo.nickname
+        }
+        if (this.searchInfo.merchantName == '') {
+          delete this.searchInfo.merchantName
+        }
+        if (this.searchInfo.msn == '') {
+          delete this.searchInfo.msn
+        }
+        if (this.dateTime.length) {
+          if (this.dateTime[0]!=null){
+            this.dateTime = this.dateTime.map((item) => {
+              return item == 0 ?  '' : new Date(item).getTime()
+            })
+            this.searchInfo.winAt = this.dateTime
+          } else {
+            delete this.searchInfo.winAt
+            this.dateTime = []
           }
-        )
-      },
-      getPlayList () {
+        }
         this.$store.commit('startLoading')
         invoke({
-          url: api.getPlayList,
+          url: api.mysteryList,
           method: api.post,
-          data: this.searchInfo
+          data: {
+            code: "mystery",
+            sortkey: this.sortKey,
+            sort:this.sort,
+            query: this.searchInfo
+          }
         }).then(
           result => {
             const [err, res] = result
@@ -180,10 +172,7 @@
                 type: 'error'
               })
             } else {
-              for (let item of res.data.list) {
-                item.userNameParent = formatUserName(item.userName)
-              }
-              this.playerList = res.data.list
+              this.prizeList = res.data.payload
             }
             this.$store.commit('closeLoading')
           }
@@ -192,11 +181,12 @@
       changeStatus (row) {
         this.$store.commit('startLoading')
         invoke({
-          url: api.forzenPlay,
+          url: api.mysteryOperate,
           method: api.post,
           data: {
-            userName: row.userName,
-            state: row.state ? 0 : 1
+            sn: row.sn,
+            winAt: row.winAt,
+            status: row.status ? 0 : 1
           }
         }).then(
           result => {
@@ -208,74 +198,41 @@
               })
             } else if (res) {
               this.$message({
-                message: '状态改变成功',
+                message: '操作成功',
                 type: 'success'
               })
-              this.getPlayList()
+              this.getPrizeList()
             }
           }
         )
       }, // 更改玩家状态
-      allChangeState (num) {
-        if (!this.checkedArray.length) {
-          return this.$message({
-            message: '请选择需要批量操作的数据',
-            type: 'error'
-          })
-        }
-        this.checkedArray.forEach(item => {
-          this.names.push(item.userName)
-        })
-        this.$store.commit('startLoading')
-        invoke({
-          url: api.allForzenPlay,
-          method: api.post,
-          data: {
-            names: this.names,
-            state: num
-          }
-        }).then(
-          result => {
-            const [err, res] = result
-            if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
-            } else if (res) {
-              this.$message({
-                message: '状态改变成功',
-                type: 'success'
-              })
-              this.getPlayList()
-            }
-            this.names = []
-          }
-        )
+      goPrizeConfig () {
+        this.$router.push('prizeConfig')
       },
       getAtime (row, col) {
-        return detailTime(row.updateAt)
+        return detailTime(row.winAt)
+      }, // 格式化创建时间
+      getBtime (row, col) {
+        return row.receiveAt ? detailTime(row.receiveAt) : '-'
       }, // 格式化创建时间
       getNowsize (size) {
         this.nowSize = size
-        // console.log('当前每页:' + size)
       },
       getNowpage (page) {
         this.nowPage = page
-        // console.log('当前是第:' + page + '页')
       },
       resultSearch () {
         this.searchInfo = {}
-        this.getPlayList()
+        this.getPrizeList()
       },
       sortFun (col){
         if(col.prop!=null){
-          this.searchInfo.sortKey = col.prop
-          this.searchInfo.sort = col.order== 'ascending' ? 'asce':'desc';
-          this.getPlayList()
+          this.sortKey = col.prop
+          this.sort = col.order== 'ascending' ? 'asce':'desc';
+          this.getPrizeList()
         } else {
-          this.searchInfo.sortKey = ''
-          this.searchInfo.sort = ''
+          this.sortKey = ''
+          this.sort = ''
         }
       },
       formatPoints (num) {
@@ -286,10 +243,10 @@
 </script>
 
 <style scpoed>
-  .playerlist .propList{padding: 2rem;}
-  .playerlist .input{width: 80%}
-  .playerlist .propList-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
-  .playerlist .text-left{text-align: left}
-  .playerlist .rebackinfo{padding:0 2rem;}
-  .playerlist .playerform{padding: 2rem;margin:0 auto;}
+  .prizeList .propList{padding: 2rem;}
+  .prizeList .input{width: 80%}
+  .prizeList .propList-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
+  .prizeList .text-left{text-align: left}
+  .prizeList .rebackinfo{padding:0 2rem;}
+  .prizeList .playerform{padding: 2rem;margin:0 auto;}
 </style>

@@ -270,7 +270,7 @@ export default new Router({
     },
     {
       path: '/prizePlayerList',
-      name: '玩家列表',
+      name: '玩家中奖列表',
       component: PrizePlayerList
     },
     {

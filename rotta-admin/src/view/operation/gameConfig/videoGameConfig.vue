@@ -99,10 +99,7 @@ export default{
   },
   data () {
     var validateLineCount = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入线数'))
-        this.isfinish.lineCount = false
-      } else if (!pattern.positiveInteger.exec(value) || value<0 || value>25) {
+      if (!pattern.positiveInteger.exec(value) || value<0 || value>25) {
         callback(new Error('请输入1-25的正整数'))
         this.isfinish.lineCount = false
       } else {
@@ -208,6 +205,9 @@ export default{
       )
     },
     addVideoGame () {
+      if (this.lineInfo.lineCount == ''){
+        return this.$message.error('请输入线数')
+      }
       if(this.isSending)return
       // 判断是否存在已经设置了线注和线数
       if(this.storageInfo.content) {

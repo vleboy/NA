@@ -98,6 +98,10 @@ const api = {
   configMultList: front.diana + front.stage + '/configMultList', // 获取电子游戏配置列表
 
   configMultNew: front.diana + front.stage + '/configMultNew', // 设置电子游戏配置列表
+
+  configOne: front.diana + front.stage + '/configOne', // 查看神秘大奖
+
+  configNew: front.diana + front.stage + '/configNew ', // 新增神秘大奖
   // hulk
 
   billTransfer: front.hulk + front.stage + '/billTransfer', // 加减点接口
@@ -185,6 +189,10 @@ const api = {
   //stateMachine
 
   uploadImg: front.stateMachine + front.stage + '/upload', // 上传图片获取签证
+
+  mysteryList: front.stateMachine + front.stage + '/mysteryList', // 神秘大奖列表
+
+  mysteryOperate : front.stateMachine + front.stage + '/mysteryOperate ', // 操作神秘大奖
 
   //playerExt
   playerAccount: front.playerExt + front.stage + '/player/bill/flow', // 下注返奖流水(查看流水账详单)

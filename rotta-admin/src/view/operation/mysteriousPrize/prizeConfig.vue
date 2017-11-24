@@ -5,45 +5,45 @@
       <el-row>
         <el-col :span="12">配置生效时机：本次派奖后生效</el-col>
       </el-row>
-      <el-row>
-        <el-col :span="12" class="-p-c-height">上次派奖时间：2013年12月12日14：23：21</el-col>
-        <el-col :span="12" >当前奖池金额：20121.11&emsp;<el-button type="text">刷新</el-button></el-col>
-      </el-row>
+      <!--<el-row>-->
+        <!--<el-col :span="12" class="-p-c-height">上次派奖时间：2013年12月12日14：23：21</el-col>-->
+        <!--<el-col :span="12" >当前奖池金额：20121.11&emsp;<el-button type="text">刷新</el-button></el-col>-->
+      <!--</el-row>-->
     </div>
     <el-form :model="managerInfo" :rules="rules" ref="managerInfo" class="-p-c-form" label-width="150px"
              label-position="right">
-      <el-form-item label="真人杀数（%）" prop="gameName">
-        <el-input v-model="managerInfo.gameName" class="input" type="text" placeholder="范围在0.00~100.00之间"></el-input>
+      <el-form-item label="真人杀数（%）" prop="livekill">
+        <el-input v-model="managerInfo.livekill" class="input" type="text" placeholder="范围在0.00~100.00之间"></el-input>
       </el-form-item>
-      <el-form-item label="老虎机杀人数（%）" prop="gameRecommend">
-        <el-input v-model="managerInfo.gameRecommend" class="input" placeholder="范围在0.00~100.00之间"></el-input>
+      <el-form-item label="老虎机杀人数（%）" prop="videokill">
+        <el-input v-model="managerInfo.videokill" class="input" placeholder="范围在0.00~100.00之间"></el-input>
       </el-form-item>
-      <el-form-item label="街机杀数（%）" prop="kindId">
-        <el-input v-model="managerInfo.kindId" class="input" placeholder="范围在0.00~100.00之间" type="number" ></el-input>
+      <el-form-item label="街机杀数（%）" prop="arcadekill">
+        <el-input v-model="managerInfo.arcadekill" class="input" placeholder="范围在0.00~100.00之间" type="number" ></el-input>
       </el-form-item>
-      <el-form-item label="平均放线点数（%）" prop="ip">
-        <el-input v-model="managerInfo.ip" class="input" placeholder="范围在0.00~100.00之间"></el-input>
+      <el-form-item label="平均放线点数（%）" prop="avgLinePoint">
+        <el-input v-model="managerInfo.avgLinePoint" class="input" placeholder="范围在0.00~100.00之间"></el-input>
       </el-form-item>
-      <el-form-item label="派奖比例（%）" prop="ip">
-        <el-input v-model="managerInfo.ip" class="input" placeholder="范围在0.00~100.00之间"></el-input>
+      <el-form-item label="派奖比例（%）" prop="awardPercent">
+        <el-input v-model="managerInfo.awardPercent" class="input" placeholder="范围在0.00~100.00之间"></el-input>
       </el-form-item>
-      <el-form-item label="大奖池开始掉落额度" prop="ip">
-        <el-input v-model="managerInfo.ip" class="input" placeholder="范围在1.00~1000,000,000.00之间"></el-input>
+      <el-form-item label="大奖池开始掉落额度" prop="beginLimit">
+        <el-input v-model="managerInfo.beginLimit" class="input" placeholder="范围在1.00~1000,000,000.00之间"></el-input>
       </el-form-item>
-      <el-form-item label="大奖池额度上限" prop="ip">
-        <el-input v-model="managerInfo.ip" class="input" placeholder="范围在1.00~1000,000,000.00之间"></el-input>
+      <el-form-item label="大奖池额度上限" prop="upLimit">
+        <el-input v-model="managerInfo.upLimit" class="input" placeholder="范围在1.00~1000,000,000.00之间"></el-input>
       </el-form-item>
-      <el-form-item label="大奖池通知下限" prop="ip">
-        <el-input v-model="managerInfo.ip" class="input" placeholder="范围在1.00~1000,000,000.00之间"></el-input>
+      <el-form-item label="大奖池通知下限" prop="notifyLower">
+        <el-input v-model="managerInfo.notifyLower" class="input" placeholder="范围在1.00~1000,000,000.00之间"></el-input>
       </el-form-item>
-      <el-form-item label="大奖池通知时间间隔" prop="port">
-        <el-input v-model="managerInfo.port" class="input" type="number" placeholder="时间间隔为5s~1000,000s"></el-input>
+      <el-form-item label="大奖池通知时间间隔" prop="notifyInterval">
+        <el-input v-model="managerInfo.notifyInterval" class="input" type="number" placeholder="时间间隔为5s~1000,000s"></el-input>
       </el-form-item>
-      <el-form-item label="玩家抽奖修正值" prop="port">
-        <el-input v-model="managerInfo.port" class="input" type="number" placeholder="范围在0.00~1000，000.00之间"></el-input>
+      <el-form-item label="玩家抽奖修正值" prop="correctValue">
+        <el-input v-model="managerInfo.correctValue" class="input" type="number" placeholder="范围在1.00~10000.00之间"></el-input>
       </el-form-item>
-      <el-form-item label="本次开奖通知内容" prop="port">
-        <el-input v-model="managerInfo.port" class="input"  type="textarea" placeholder="通知内容为1-255字符（必填）" :maxlength='255'></el-input>
+      <el-form-item label="本次开奖通知内容" prop="notifyContent">
+        <el-input v-model="managerInfo.notifyContent" class="input"  type="textarea" placeholder="通知内容为1-255字符（必填）" :maxlength='255'></el-input>
       </el-form-item>
     </el-form>
     <div class="g-text-center -p-c-form">
@@ -66,164 +66,222 @@
       })
     },
     data () {
-      var validateGameName = (rule, value, callback) => {
-//        var regName = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
+      var validateLivekill = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入真人杀数'))
-          this.isfinish.gameName = false
+          this.isfinish.livekill = false
         } else if (!pattern.digitalRange.exec(value)) {
           callback(new Error('真人杀数比只能为0.00 - 100.00之间'))
-          this.isfinish.gameName = false
+          this.isfinish.livekill = false
         } else {
           callback()
-          this.isfinish.gameName = true
+          this.isfinish.livekill = true
         }
-      } // 游戏名称
-      var validateGameType = (rule, value, callback) => {
+      } // 真人杀数
+      var validateVideokill = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请选择游戏类别'))
+          callback(new Error('请输入老虎机杀数'))
+          this.isfinish.videokill = false
+        } else if (!pattern.digitalRange.exec(value)) {
+          callback(new Error('老虎机杀数比只能为0.00 - 100.00之间'))
+          this.isfinish.videokill = false
         } else {
           callback()
-          this.isfinish.gameType = true
+          this.isfinish.videokill = true
         }
-      } // 分类
-      var validateCompany = (rule, value, callback) => {
+      } // 老虎机杀数
+      var validateArcadekill = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请选择所属运营商'))
-          this.isfinish.company = false
+          callback(new Error('请输入街机杀数'))
+          this.isfinish.arcadekill = false
+        } else if (!pattern.digitalRange.exec(value)) {
+          callback(new Error('街机杀数比只能为0.00 - 100.00之间'))
+          this.isfinish.arcadekill = false
         } else {
           callback()
-          this.isfinish.company = true
+          this.isfinish.arcadekill = true
         }
-      } // 运营商
-      var validateGameRecommend = (rule, value, callback) => {
+      } // 街机杀数
+      var validateAvgLinePoint = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入游戏简介'))
-          this.isfinish.gameRecommend = false
-        } else if (value.length < 2) {
-          callback(new Error('必须为两位数'))
-          this.isfinish.gameRecommend = false
+          callback(new Error('请输入平均放线点数'))
+          this.isfinish.avgLinePoint = false
+        } else if (!pattern.digitalRange.exec(value)) {
+          callback(new Error('平均放线点数比只能为0.00 - 100.00之间'))
+          this.isfinish.avgLinePoint = false
         } else {
           callback()
-          this.isfinish.gameRecommend = true
+          this.isfinish.avgLinePoint = true
         }
-      } // 游戏简介
-      var validateIp = (rule, value, callback) => {
-        var ip = new RegExp(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/)
+      } // 平均放线点数
+      var validateAwardPercent = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入服务器'))
-          this.isfinish.ip = false
-        } else if (!ip.exec(value)) {
-          callback(new Error('请输入正确的服务器格式'))
-          this.isfinish.ip = false
+          callback(new Error('请输入派奖比例'))
+          this.isfinish.awardPercent = false
+        } else if (!pattern.digitalRange.exec(value)) {
+          callback(new Error('派奖比例比只能为0.00 - 100.00之间'))
+          this.isfinish.awardPercent = false
         } else {
           callback()
-          this.isfinish.ip = true
+          this.isfinish.awardPercent = true
         }
-      } // 服务器
-      var validatePort = (rule, value, callback) => {
+      } // 派奖比例
+      var validateBeginLimit = (rule, value, callback) => {
+        var ip = new RegExp(/^(1|[1-9]|[1-9]\d|1000000000)(\.\d{1,2}|\.{0})$/)
         if (value === '') {
-          callback(new Error('请输入端口'))
-          this.isfinish.port = false
-        } else if (value < 1 || value > 65535) {
-          callback(new Error('端口必须小于65535，大于1'))
-          this.isfinish.port = false
+          callback(new Error('请输入大奖池开始掉落额度'))
+          this.isfinish.beginLimit = false
+        } else if (!ip.exec(value) || this.managerInfo.beginLimit>1000000000) {
+          callback(new Error('大奖池开始掉落额度比只能为1.00~1000,000,000.00之间'))
+          this.isfinish.beginLimit = false
         } else {
           callback()
-          this.isfinish.port = true
+          this.isfinish.beginLimit = true
         }
-      } // 端口
-      var validateKindId = (rule, value, callback) => {
+      } // 大奖池开始掉落额度
+      var validateUpLimit = (rule, value, callback) => {
+        var ip = new RegExp(/^(1|[1-9]|[1-9]\d|1000000000)(\.\d{1,2}|\.{0})$/)
         if (value === '') {
-          callback(new Error('请输入KindId'))
-          this.isfinish.kindId = false
-        } else if (value < 0) {
-          callback(new Error('必须为正数'))
-          this.isfinish.kindId = false
-        } else if (value.length !== 5) {
-          callback(new Error('必须为五位数'))
-          this.isfinish.kindId = false
+          callback(new Error('请输入大奖池额度上限'))
+          this.isfinish.upLimit = false
+        } else if (!ip.exec(value) || this.managerInfo.upLimit>1000000000) {
+          callback(new Error('大奖池额度上限比只能为1.00~1000,000,000.00之间'))
+          this.isfinish.upLimit = false
         } else {
           callback()
-          this.isfinish.kindId = true
+          this.isfinish.upLimit = true
         }
-      } // 端口
+      } // 大奖池额度上限
+      var validateNotifyInterval = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入大奖池通知时间间隔'))
+          this.isfinish.notifyInterval = false
+        } else if (!pattern.positiveInteger.exec(value) || this.managerInfo.notifyInterval<5 || this.managerInfo.notifyInterval>1000000) {
+          callback(new Error('大奖池通知时间间隔比只能为5s~1000,000s'))
+          this.isfinish.notifyInterval = false
+        } else {
+          callback()
+          this.isfinish.notifyInterval = true
+        }
+      } // 大奖池通知时间间隔
+      var validateCorrectValue = (rule, value, callback) => {
+        var ip = new RegExp(/^(1|[1-9]|[1-9]\d|10000)(\.\d{1,2}|\.{0})$/)
+        if (value === '') {
+          callback(new Error('请输入玩家抽奖修正值'))
+          this.isfinish.correctValue = false
+        } else if (!ip.exec(value) || this.managerInfo.correctValue>10000) {
+          callback(new Error('玩家抽奖修正值比只能为1.00~10000.00之间'))
+          this.isfinish.correctValue = false
+        } else {
+          callback()
+          this.isfinish.correctValue = true
+        }
+      } // 玩家抽奖修正值
+      var validateNotifyLower = (rule, value, callback) => {
+        var ip = new RegExp(/^(1|[1-9]|[1-9]\d|1000000000)(\.\d{1,2}|\.{0})$/)
+        if (value === '') {
+          callback(new Error('请输入大奖池通知下限'))
+          this.isfinish.notifyLower = false
+        } else if (!ip.exec(value) || this.managerInfo.notifyLower>1000000000) {
+          callback(new Error('大奖池通知下限比只能为1.00~1000,000,000.00之间'))
+          this.isfinish.notifyLower = false
+        } else {
+          callback()
+          this.isfinish.notifyLower = true
+        }
+      } // 大奖池通知下限
+      var validateNotifyContent = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入本次开奖通知内容'))
+          this.isfinish.notifyContent = false
+        } else {
+          callback()
+          this.isfinish.notifyContent = true
+        }
+      } // 本次开奖通知内容
       return {
         isfinish: {
-          gameName: false,
-          gameType: false,
-          company: false,
-          port: false,
-          ip: false,
-          kindId: false,
-          gameRecommend: false
+          livekill: false,
+          videokill: false,
+          arcadekill: false,
+          avgLinePoint: false,
+          awardPercent: false,
+          beginLimit: false,
+          upLimit: false,
+          notifyInterval: false,
+          correctValue: false,
+          notifyLower: false,
+          notifyContent: false
         },
         managerInfo: {
-          gameName: '', // 名称
-          gameType: '', // 类别
-          company: '', // 运营商
-          port: '', // 端口
-          ip: '', // 服务器
-          kindId: '', // kindId
-          gameRecommend: '', // 简介
-          gameImg: '' // 游戏logo
+          livekill: '', // 真人杀数
+          videokill: '', // 老虎机杀数
+          arcadekill: '', // 街机杀数
+          avgLinePoint: '', // 平均放线点数
+          awardPercent: '', // 派奖比例
+          beginLimit: '', // 大奖池开始掉落额度
+          upLimit: '', // 大奖池额度上限
+          notifyInterval: '', // 大奖池通知时间间隔
+          correctValue: '', // 玩家抽奖修正值
+          notifyLower: '', // 大奖池通知下限
+          notifyContent: '', // 本次开奖通知内容
+          code: 'mystery'
         }, // 创建列表
         rules: {
-          gameName: [
-            {validator: validateGameName, trigger: 'blur'}
+          livekill: [
+            {validator: validateLivekill, trigger: 'blur'}
           ],
-          gameRecommend: [
-            {validator: validateGameRecommend, trigger: 'blur'}
+          videokill: [
+            {validator: validateVideokill, trigger: 'blur'}
           ],
-          gameType: [
-            {validator: validateGameType, trigger: 'blur'}
+          arcadekill: [
+            {validator: validateArcadekill, trigger: 'blur'}
           ],
-          company: [
-            {validator: validateCompany, trigger: 'blur'}
+          avgLinePoint: [
+            {validator: validateAvgLinePoint, trigger: 'blur'}
           ],
-          port: [
-            {validator: validatePort, trigger: 'blur'}
+          awardPercent: [
+            {validator: validateAwardPercent, trigger: 'blur'}
           ],
-          ip: [
-            {validator: validateIp, trigger: 'blur'}
+          beginLimit: [
+            {validator: validateBeginLimit, trigger: 'blur'}
           ],
-          kindId: [
-            {validator: validateKindId, trigger: 'blur'}
+          upLimit: [
+            {validator: validateUpLimit, trigger: 'blur'}
+          ],
+          notifyInterval: [
+            {validator: validateNotifyInterval, trigger: 'blur'}
+          ],
+          correctValue: [
+            {validator: validateCorrectValue, trigger: 'blur'}
+          ],
+          notifyLower: [
+            {validator: validateNotifyLower, trigger: 'blur'}
+          ],
+          notifyContent: [
+            {validator: validateNotifyContent, trigger: 'blur'}
           ]
-        }, // 列表验证规则
-        options: [],
-        fileList: [],
-        uploadAction: '',
-        imgFile:{},
-        form: {
-          key: '',
-          token: ''
-        },
-        dialogLoading: false
+        } // 列表验证规则
       }
     },
-    computed: {
-      companyOptions () {
-        return this.$store.state.variable.operatorList
-      }
+    created () {
+      this.getPrizeConfig()
     },
     methods: {
       postCreateform () {
-        if (!this.isfinish.gameName || !this.managerInfo.gameType || !this.managerInfo.company ||
-          !this.isfinish.port || !this.isfinish.ip || !this.isfinish.gameRecommend || !this.isfinish.kindId || !this.managerInfo.gameImg) {
+        if (!this.isfinish.livekill || !this.isfinish.videokill || !this.isfinish.arcadekill ||
+          !this.isfinish.avgLinePoint || !this.isfinish.awardPercent || !this.isfinish.beginLimit ||
+          !this.isfinish.upLimit || !this.isfinish.notifyInterval || !this.isfinish.correctValue ||
+          !this.isfinish.notifyLower || !this.isfinish.notifyContent) {
           this.$message({
-            message: '请完善创建信息',
+            message: '请完善配置信息',
             type: 'error'
           })
         } else {
           this.$store.commit('startLoading')
-          this.$store.state.variable.operatorList.forEach((item) => {
-            if (item.companyName === this.managerInfo.company) {
-              this.managerInfo.company = item
-            }
-          })
+
           invoke({
-            url: api.addGame,
+            url: api.configNew,
             method: api.post,
             data: this.managerInfo
           }).then((data) => {
@@ -234,25 +292,68 @@
                 type: 'error'
               })
             } else if (res) {
-              this.$store.commit({
-                type: 'getSuccessGame',
-                data: res.data.payload
+              this.$message({
+                message: '神秘大奖配置成功',
+                type: 'success'
               })
-              this.$store.commit('changeSteps')
+              this.$router.push('prizePlayerList')
             }
             this.$store.commit('closeLoading')
           })
         }
       },
+      getPrizeConfig () {
+        this.$store.commit('startLoading')
+        invoke({
+          url: api.configOne,
+          method: api.post,
+          data: {
+            code: "mystery"
+          }
+        }).then(
+          result => {
+            const [err, res] = result
+            if (err) {
+              this.$message({
+                message: err.msg,
+                type: 'error'
+              })
+            } else {
+              if(res.data.payload) {
+                this.managerInfo = res.data.payload
+                this.isfinish = {
+                  livekill: true,
+                  videokill: true,
+                  arcadekill: true,
+                  avgLinePoint: true,
+                  awardPercent: true,
+                  beginLimit: true,
+                  upLimit: true,
+                  notifyInterval: true,
+                  correctValue: true,
+                  notifyLower: true,
+                  notifyContent: true
+                }
+              }
+            }
+            this.$store.commit('closeLoading')
+          }
+        )
+      },
       resetData () {
-        this.managerInfo = {
-          gameName: '', // 名称
-          gameType: '', // 类别
-          company: '', // 运营商
-          port: '', // 端口
-          ip: '', // 服务器
-          gameRecommend: '', // 简介
-          gameImg: '' // 图片上传 （暂不实现）
+        this.managerInfo= {
+          livekill: '', // 真人杀数
+          videokill: '', // 老虎机杀数
+          arcadekill: '', // 街机杀数
+          avgLinePoint: '', // 平均放线点数
+          awardPercent: '', // 派奖比例
+          beginLimit: '', // 大奖池开始掉落额度
+          upLimit: '', // 大奖池额度上限
+          notifyInterval: '', // 大奖池通知时间间隔
+          correctValue: '', // 玩家抽奖修正值
+          notifyLower: '', // 大奖池通知下限
+          notifyContent: '', // 本次开奖通知内容
+          code: 'mystery'
         }
       }
     }

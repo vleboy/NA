@@ -48,7 +48,7 @@
                   </el-submenu>
                   <el-submenu index="5-3">
                     <template slot="title">神秘大奖</template>
-                    <el-menu-item index="prizePlayerList">玩家列表</el-menu-item>
+                    <el-menu-item index="prizePlayerList">玩家中奖列表</el-menu-item>
                     <el-menu-item index="prizeConfig">奖品配置</el-menu-item>
                   </el-submenu>
                   <el-submenu index="5-4" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">

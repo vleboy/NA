@@ -120,7 +120,7 @@
     <el-breadcrumb separator="/" v-if="nowindex === 'prizePlayerList'" class="title">
       <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
       <el-breadcrumb-item>神秘大奖 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">玩家列表</span> </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">玩家中奖列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'prizeConfig'" class="title">
