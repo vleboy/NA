@@ -127,11 +127,11 @@
         }
       } // 派奖比例
       var validateBeginLimit = (rule, value, callback) => {
-        var ip = new RegExp(/^(1|[1-9]|[1-9]\d|1000000000)(\.\d{1,2}|\.{0})$/)
+        var ip = new RegExp(/^\d+(\.\d{1,2})?$/)
         if (value === '') {
           callback(new Error('请输入大奖池开始掉落额度'))
           this.isfinish.beginLimit = false
-        } else if (!ip.exec(value) || this.managerInfo.beginLimit>1000000000) {
+        } else if (!ip.exec(value) || this.managerInfo.beginLimit>1000000000 ||  this.managerInfo.beginLimit<1) {
           callback(new Error('大奖池开始掉落额度比只能为1.00~1000,000,000.00之间'))
           this.isfinish.beginLimit = false
         } else {
@@ -140,11 +140,11 @@
         }
       } // 大奖池开始掉落额度
       var validateUpLimit = (rule, value, callback) => {
-        var ip = new RegExp(/^(1|[1-9]|[1-9]\d|1000000000)(\.\d{1,2}|\.{0})$/)
+        var ip = new RegExp(/^\d+(\.\d{1,2})?$/)
         if (value === '') {
           callback(new Error('请输入大奖池额度上限'))
           this.isfinish.upLimit = false
-        } else if (!ip.exec(value) || this.managerInfo.upLimit>1000000000) {
+        } else if (!ip.exec(value) || this.managerInfo.upLimit>1000000000 || this.managerInfo.upLimit<1) {
           callback(new Error('大奖池额度上限比只能为1.00~1000,000,000.00之间'))
           this.isfinish.upLimit = false
         } else {
@@ -165,11 +165,11 @@
         }
       } // 大奖池通知时间间隔
       var validateCorrectValue = (rule, value, callback) => {
-        var ip = new RegExp(/^(1|[1-9]|[1-9]\d|10000)(\.\d{1,2}|\.{0})$/)
+        var ip = new RegExp(/^\d+(\.\d{1,2})?$/)
         if (value === '') {
           callback(new Error('请输入玩家抽奖修正值'))
           this.isfinish.correctValue = false
-        } else if (!ip.exec(value) || this.managerInfo.correctValue>10000) {
+        } else if (!ip.exec(value) || this.managerInfo.correctValue>10000 || this.managerInfo.correctValue<1) {
           callback(new Error('玩家抽奖修正值比只能为1.00~10000.00之间'))
           this.isfinish.correctValue = false
         } else {
@@ -178,11 +178,11 @@
         }
       } // 玩家抽奖修正值
       var validateNotifyLower = (rule, value, callback) => {
-        var ip = new RegExp(/^(1|[1-9]|[1-9]\d|1000000000)(\.\d{1,2}|\.{0})$/)
+        var ip = new RegExp(/^\d+(\.\d{1,2})?$/)
         if (value === '') {
           callback(new Error('请输入大奖池通知下限'))
           this.isfinish.notifyLower = false
-        } else if (!ip.exec(value) || this.managerInfo.notifyLower>1000000000) {
+        } else if (!ip.exec(value) || this.managerInfo.notifyLower>1000000000 || this.managerInfo.notifyLower<1) {
           callback(new Error('大奖池通知下限比只能为1.00~1000,000,000.00之间'))
           this.isfinish.notifyLower = false
         } else {
