@@ -244,7 +244,7 @@
 
 <style scpoed>
   .prizeList .propList{padding: 2rem;}
-  .prizeList .input{width: 80%}
+  .prizeList .input{width: 80%!important;}
   .prizeList .propList-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
   .prizeList .text-left{text-align: left}
   .prizeList .rebackinfo{padding:0 2rem;}
