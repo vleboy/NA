@@ -20,7 +20,7 @@
               <el-input class="input" placeholder="请输入" v-model="condition.condition_three" ></el-input>
             </el-form-item>
             <el-form-item :label="searchTitle.titleFour">
-              <el-date-picker class="input" v-model="condition.condition_four" type="daterange" placeholder="选择日期范围" :editable="false"></el-date-picker>
+              <el-date-picker class="input" v-model="condition.condition_four" type="daterange" placeholder="选择日期时间范围" :editable="false"></el-date-picker>
             </el-form-item>
           </div>
         </el-collapse-transition>

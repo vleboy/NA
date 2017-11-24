@@ -2,7 +2,14 @@
   <div class="vedioGame-report">
 
     <div class="nowUserlist">
-      <p class="title">当前选择列表<span v-if="nowRole != 01" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
+      <div class="clearFix" style="margin-bottom:0.5rem">
+        <p class="title" style="float:left">当前选择列表<span v-if="nowRole != 01" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
+        <div style="float:right;margin-right:1rem">
+          <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围" :editable="false"></el-date-picker>
+          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem">查询</el-button>
+          <el-button>清空</el-button>
+        </div>
+      </div>
       <el-table :data="vedioNowlist" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="selection">
         </el-table-column>
@@ -138,6 +145,7 @@ export default {
   },
   data () {
     return {
+      searchDate: [],
       childSize: 10,
       childPage: 1,
       playerSize: 20,
@@ -203,6 +211,8 @@ export default {
 </script>
 
 <style scpoed>
+.vedioGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.vedioGame-report .input{width: 25rem}
 .vedioGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
 .vedioGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
 .vedioGame-report .nowUserlist,

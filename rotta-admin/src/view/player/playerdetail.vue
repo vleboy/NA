@@ -38,10 +38,10 @@ $<template>
           <el-col :span="7" style="float: right; text-align: right">
             <el-date-picker
               v-model="amountDate"
-              type="daterange"
+              type="datetimerange"
               align="right"
               :picker-options="pickerOptions"
-              placeholder="选择日期范围">
+              placeholder="选择日期时间范围">
             </el-date-picker>
             <el-button type="primary" @click="searchAmount">搜索</el-button>
           </el-col>
