@@ -78,10 +78,8 @@
             <el-table-column label="操作" align="center" width="80">
                 <template scope="scope">
                     <el-button type="text" class="myBtn" @click="checkUser(scope.$index, scope.row)">查看</el-button>
-                    <!-- <el-button type="text" class="myBtn" @click="editUser(scope.$index, scope.row)">编辑</el-button> -->
-                    <el-button type="text" class="myBtn" @click="">
                       <el-dropdown trigger="click">
-                        <span style="color:#20a0ff">更多</span>
+                        <span style="color:#20a0ff;cursor:pointer;">更多</span>
                           <el-dropdown-menu slot="dropdown">
                             <p @click="storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>加点</el-dropdown-item></p>
                             <p @click="withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>减点</el-dropdown-item></p>
@@ -89,7 +87,6 @@
                             <p @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>停用</el-dropdown-item></p>
                           </el-dropdown-menu>
                       </el-dropdown>
-                    </el-button>
                 </template>
             </el-table-column>
         	</el-table>
@@ -354,7 +351,7 @@ export default {
 </script>
 
 <style scoped>
-.comlist .search{width: 100%;height: 8rem}
+.comlist .search{width: 100%;height: 8rem;}
 .comlist .comresult{width: 99%;margin: 2rem auto}
 .comlist .moreinfo{float: left;width: 40%}
 .remarkBox{word-wrap: break-word; word-break: normal;width: 200px}

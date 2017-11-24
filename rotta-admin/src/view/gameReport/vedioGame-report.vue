@@ -6,8 +6,8 @@
         <p class="title" style="float:left">当前选择列表<span v-if="nowRole != 01" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
         <div style="float:right;margin-right:1rem">
           <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围" :editable="false"></el-date-picker>
-          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem">查询</el-button>
-          <el-button>清空</el-button>
+          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchPlayer">查询</el-button>
+          <el-button @click="resetSearch">清空</el-button>
         </div>
       </div>
       <el-table :data="vedioNowlist" stripe>
@@ -100,9 +100,15 @@
   </div>
 </template>
 <script>
+import { invoke } from '@/libs/fetchLib'
+import api from '@/api/api'
 import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
+    this.$store.commit({
+      type: 'recordVedioNowplayer',
+      data: []
+    })
     this.$store.commit({
       type: 'recordNowindex',
       data: 'vedioGameReport'
@@ -143,6 +149,15 @@ export default {
       return nowplayer
     }
   },
+  watch: {
+    searchDate (val) {
+      if (val[0] != null || val[1] != null) {
+        for (var i = val.length - 1; i >= 0; i--) {
+          this.searchDate[i] = new Date(this.searchDate[i].toString()).getTime()
+        }
+      }
+    }
+  },
   data () {
     return {
       searchDate: [],
@@ -167,8 +182,51 @@ export default {
       }
     }, // 格式化用户类型
     points (data) {
-      return formatPoints(''+data)
+      return formatPoints('' + data)
     }, // 格式化点数
+    searchPlayer () {
+      if (this.searchDate[0] == null || this.searchDate[1] == null) {
+        this.$message({
+          type: 'error',
+          message: '请选择搜索时间'
+        })
+      } else {
+        let arr = []
+        let fuck = this.$store.state.variable.vedioGameData.nowPlayerlist
+        for (let item of fuck) {
+          arr.push(item.gameUserId)
+        }
+        arr = JSON.stringify(arr)
+        let data = {
+          gameUserIds: arr,
+          query:{
+            createdAt: this.searchDate
+          }
+        }
+        let url = 'https://3arhv5v2ak.execute-api.ap-southeast-1.amazonaws.com/prod/calcPlayerStat'
+        invoke({
+          url: url,
+          method: api.post,
+          data: data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              console.log('asd',data)
+              context.commit({
+                type: 'recordVedioNowplayer',
+                data: data
+              })
+            }
+          }
+        )
+      }
+    }, // 搜索玩家
+    resetSearch () {
+      this.searchDate = []
+    }, // 重置搜索条件
     checkUser (data) {
       this.$store.commit({
         type: 'recordVedioID',
