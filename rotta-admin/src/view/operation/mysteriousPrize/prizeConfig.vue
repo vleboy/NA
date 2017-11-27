@@ -132,7 +132,7 @@
           callback(new Error('请输入大奖池开始掉落额度'))
           this.isfinish.beginLimit = false
         } else if (!ip.exec(value) || this.managerInfo.beginLimit>1000000000 ||  this.managerInfo.beginLimit<1) {
-          callback(new Error('大奖池开始掉落额度比只能为1.00~1000,000,000.00之间'))
+          callback(new Error('大奖池开始掉落额度比只能为1.00~1000000000.00之间'))
           this.isfinish.beginLimit = false
         } else {
           callback()
@@ -145,7 +145,7 @@
           callback(new Error('请输入大奖池额度上限'))
           this.isfinish.upLimit = false
         } else if (!ip.exec(value) || this.managerInfo.upLimit>1000000000 || this.managerInfo.upLimit<1) {
-          callback(new Error('大奖池额度上限比只能为1.00~1000,000,000.00之间'))
+          callback(new Error('大奖池额度上限比只能为1.00~1000000000.00之间'))
           this.isfinish.upLimit = false
         } else {
           callback()
@@ -157,7 +157,7 @@
           callback(new Error('请输入大奖池通知时间间隔'))
           this.isfinish.notifyInterval = false
         } else if (!pattern.positiveInteger.exec(value) || this.managerInfo.notifyInterval<5 || this.managerInfo.notifyInterval>1000000) {
-          callback(new Error('大奖池通知时间间隔比只能为5s~1000,000s'))
+          callback(new Error('大奖池通知时间间隔比只能为5s~1000000s'))
           this.isfinish.notifyInterval = false
         } else {
           callback()
@@ -183,7 +183,7 @@
           callback(new Error('请输入大奖池通知下限'))
           this.isfinish.notifyLower = false
         } else if (!ip.exec(value) || this.managerInfo.notifyLower>1000000000 || this.managerInfo.notifyLower<1) {
-          callback(new Error('大奖池通知下限比只能为1.00~1000,000,000.00之间'))
+          callback(new Error('大奖池通知下限比只能为1.00~1000000000.00之间'))
           this.isfinish.notifyLower = false
         } else {
           callback()
