@@ -72,7 +72,7 @@
         </el-table-column>
         <el-table-column prop="winAt" label="大奖获取时间" :formatter="getAtime" sortable="custom"  align="center"></el-table-column>
         <el-table-column prop="receiveAt" label="大奖领取时间" :formatter="getBtime" sortable="custom"  align="center"></el-table-column>
-        <el-table-column prop="operator" label="操作人" width="160" align="center"></el-table-column>
+        <el-table-column prop="operateNick" label="操作人" width="160" align="center"></el-table-column>
         <el-table-column label="操作" show-overflow-tooltip align="center">
           <template scope="scope">
             <el-button  type="text" @click="changeStatus(scope.row)">{{scope.row.status ? '撤销领取' : '领取'}}</el-button>
