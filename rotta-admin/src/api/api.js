@@ -205,8 +205,12 @@ const api = {
   reportVedio: front.vedioReport + 'prod' + '/queryUserStat', // 平台用户电子游戏统计
 
   playerVedio: front.vedioReport + 'prod' + '/queryPlayerStat', // 平台用户所属玩家电子游戏统计
-  // methods
 
+  calcUserStat: front.vedioReport + 'prod' + '/calcUserStat', // 电子游戏报表用户时间查询
+
+  calcPlayerStat: front.vedioReport + 'prod' + '/calcPlayerStat',  // 电子游戏报表玩家时间查询
+
+  // methods
   get: 'get',
 
   post: 'post'

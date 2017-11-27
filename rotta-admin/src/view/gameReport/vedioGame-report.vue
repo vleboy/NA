@@ -193,7 +193,6 @@ export default {
         })
       } else {
         this.loading = true
-        let url_child = 'https://3arhv5v2ak.execute-api.ap-southeast-1.amazonaws.com/prod/calcUserStat'
         let nowUser = this.$store.state.variable.vedioGameData.nowList
         let user_data = {
           role: nowUser.role,
@@ -203,7 +202,7 @@ export default {
           }
         }
         invoke({
-          url: url_child,
+          url: api.calcUserStat,
           method: api.post,
           data: user_data
         }).then(
@@ -236,7 +235,7 @@ export default {
               }
             }
             invoke({
-              url: url_child,
+              url: api.calcUserStat,
               method: api.post,
               data: child_data
             }).then(
@@ -268,7 +267,6 @@ export default {
         // 更新当前列表下级
         if (this.$store.state.variable.vedioGameData.nowPlayerlist.length > 0) {
           let player = this.$store.state.variable.vedioGameData.nowPlayerlist
-          let url_player = 'https://3arhv5v2ak.execute-api.ap-southeast-1.amazonaws.com/prod/calcPlayerStat'
           for (let item of player) {
             let player_data = {
               gameUserIds: [item.gameUserId],
@@ -277,7 +275,7 @@ export default {
               }
             }
             invoke({
-              url: url_player,
+              url: api.calcPlayerStat,
               method: api.post,
               data: player_data
             }).then(
