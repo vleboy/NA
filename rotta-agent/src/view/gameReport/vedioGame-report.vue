@@ -28,7 +28,7 @@
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.winlose)}}</span>
+            <span :class="Number(scope.row.winlose) >= 0 ? 'green' : 'red'">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
@@ -59,7 +59,7 @@
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.winlose)}}</span>
+            <span :class="Number(scope.row.winlose) >= 0 ? 'green' : 'red'">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
@@ -88,7 +88,7 @@
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.winlose)}}</span>
+            <span :class="Number(scope.row.winlose) >= 0 ? 'green' : 'red'">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -356,6 +356,8 @@ export default {
 </script>
 
 <style scpoed>
+.green{color: #00CC00}
+.red{color: #FF3300}
 .vedioGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
 .vedioGame-report .input{width: 25rem}
 .vedioGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
