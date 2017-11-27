@@ -74,7 +74,8 @@
       </el-table>
       <div style="text-align: right;margin:2rem 0">
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerList.length"
-                       :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+                       :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"
+                       :current-page.sync="currentPage">
         </el-pagination>
       </div>
     </div>
@@ -98,6 +99,7 @@
       return {
         nowSize: 20,
         nowPage: 1,
+        currentPage: 1,
         showSearch: false,
         playerList: [],
         playerStatus: ['已停用', '正常'],
@@ -153,6 +155,7 @@
       },
       getPlayList () {
         this.$store.commit('startLoading')
+        this.currentPage = 1
         invoke({
           url: api.getPlayList,
           method: api.post,
