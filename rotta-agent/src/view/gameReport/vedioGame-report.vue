@@ -28,7 +28,7 @@
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span :class="Number(scope.row.winlose) >= 0 ? 'green' : 'red'">{{points(scope.row.winlose)}}</span>
+            <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
@@ -59,7 +59,7 @@
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span :class="Number(scope.row.winlose) >= 0 ? 'green' : 'red'">{{points(scope.row.winlose)}}</span>
+            <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
@@ -71,7 +71,14 @@
     </div>
 
     <div class="playerlist">
-      <p class="title">所属玩家列表</p>
+      <div class="clearFix" style="margin-bottom:0.5rem">
+        <p class="title" style="float:left">所属玩家列表</p>
+        <div style="float:right;margin-right:1rem">
+          <el-input placeholder="请输入玩家用户名或昵称" class="input" v-model="playerData"></el-input>
+          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchPlayer" :loading="playerLoading">查询</el-button>
+          <el-button @click="resetPlayerSearch">清空</el-button>
+        </div>
+      </div>
       <el-table :data="vedioNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="selection">
         </el-table-column>
@@ -88,7 +95,7 @@
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span :class="Number(scope.row.winlose) >= 0 ? 'green' : 'red'">{{points(scope.row.winlose)}}</span>
+            <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -160,7 +167,9 @@ export default {
   },
   data () {
     return {
+      playerData: '',
       loading: false,
+      playerLoading: false,
       searchDate: [],
       childSize: 10,
       childPage: 1,
@@ -170,11 +179,62 @@ export default {
     }
   },
   methods: {
+    searchPlayer () {
+      if (!this.playerData) {
+        this.$message({
+          type: 'error',
+          message: '请输入玩家用户名或昵称'
+        })
+      } else if (this.$store.state.variable.vedioGameData.nowPlayerlist.length == 0) {
+        this.$message({
+          type: 'info',
+          message: '暂无玩家数据'
+        })
+      } else {
+        this.playerLoading = true
+        let data = {
+          parentId: this.$store.state.variable.vedioGameData.nowList.userId,
+          query: {
+            username: this.playerData
+          },
+          sortkey: 'createdAt',
+          sort: 'desc'
+        }
+        invoke({
+          url: api.playerVedio,
+          method: api.post,
+          data: data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              this.$store.commit({
+                type: 'recordVedioNowplayer',
+                data: data
+              })
+              this.playerLoading = false
+            }
+          }
+        )
+      }
+    }, // 搜索玩家数据
+    resetPlayerSearch () {
+      this.playerData = ''
+      this.$store.dispatch('getVedioNowplayer')
+    }, // 重置玩家搜索
     formatWinlose (data) {
       return (data.winloseRate * 100).toFixed(2) + '%'
     },
     userType (data) {
-      return '代理'
+      if (data.role == '1') {
+        return '管理员'
+      } else if (data.role == '10') {
+        return '线路商'
+      } else {
+        return '商户'
+      }
     }, // 格式化用户类型
     points (data) {
       return formatPoints('' + data)
@@ -356,8 +416,6 @@ export default {
 </script>
 
 <style scpoed>
-.green{color: #00CC00}
-.red{color: #FF3300}
 .vedioGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
 .vedioGame-report .input{width: 25rem}
 .vedioGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
