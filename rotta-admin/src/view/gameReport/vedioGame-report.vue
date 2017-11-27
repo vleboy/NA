@@ -6,7 +6,7 @@
         <p class="title" style="float:left">当前选择列表<span v-if="nowRole != 01" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
         <div style="float:right;margin-right:1rem">
           <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围" :editable="false"></el-date-picker>
-          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchPlayer">查询</el-button>
+          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData">查询</el-button>
           <el-button @click="resetSearch">清空</el-button>
         </div>
       </div>
@@ -170,7 +170,7 @@ export default {
   },
   methods: {
     formatWinlose (data) {
-      return data.winloseRate * 100 + '%'
+      return (data.winloseRate * 100).toFixed(2) + '%'
     },
     userType (data) {
       if (data.role == '1') {
@@ -184,56 +184,137 @@ export default {
     points (data) {
       return formatPoints('' + data)
     }, // 格式化点数
-    searchPlayer () {
+    searchData () {
       if (this.searchDate[0] == null || this.searchDate[1] == null) {
         this.$message({
           type: 'error',
           message: '请选择搜索时间'
         })
       } else {
-        let arr = []
-        let fuck = this.$store.state.variable.vedioGameData.nowPlayerlist
-        for (let item of fuck) {
-          arr.push(item.gameUserId)
-        }
-        let data = {
-          gameUserIds: arr,
-          query:{
+        let url_child = 'https://3arhv5v2ak.execute-api.ap-southeast-1.amazonaws.com/prod/calcUserStat'
+        let nowUser = this.$store.state.variable.vedioGameData.nowList
+        let user_data = {
+          role: nowUser.role,
+          userIds: [nowUser.userId],
+          query: {
             createdAt: this.searchDate
           }
         }
-        let url = 'https://3arhv5v2ak.execute-api.ap-southeast-1.amazonaws.com/prod/calcPlayerStat'
         invoke({
-          url: url,
+          url: url_child,
           method: api.post,
-          data: data
+          data: user_data
         }).then(
           result => {
             const [err, ret] = result
             if (err) {
             } else {
-              var data = ret.data.payload
-              let iteval = this.$store.state.variable.vedioGameData.nowPlayerlist
-              for (let outside of iteval) {
-                for (let inside of data) {
-                  if (outside.gameUserId == inside.gameUserId) {
-                    outside.bet = inside.bet
-                    outside.betCount = inside.betCount
-                    outside.winlose = inside.winlose
-                  }
-                }
-              }
+              var data = ret.data.payload[0]
+              let iteval = this.$store.state.variable.vedioGameData.nowList
+              iteval.bet = data.bet
+              iteval.betCount = data.betCount
+              iteval.winlose = data.winlose
+              iteval.winloseRate = data.winloseRate
               this.$store.commit({
-                type: 'recordVedioNowplayer',
+                type: 'recordVedioNowlist',
                 data: iteval
               })
             }
           }
         )
+        // 更新当前列表
+        if (this.$store.state.variable.vedioGameData.nowChildList.length > 0) {
+          let child = this.$store.state.variable.vedioGameData.nowChildList
+          for (let item of child) {
+            let child_data = {
+              role: item.role,
+              userIds: [item.userId],
+              query: {
+                createdAt: this.searchDate
+              }
+            }
+            invoke({
+              url: url_child,
+              method: api.post,
+              data: child_data
+            }).then(
+              result => {
+                const [err, ret] = result
+                if (err) {
+                } else {
+                  var data = ret.data.payload
+                  let iteval = this.$store.state.variable.vedioGameData.nowChildList
+                  for (let outside of iteval) {
+                    for (let inside of data) {
+                      if (outside.userId == inside.userId) {
+                        outside.bet = inside.bet
+                        outside.betCount = inside.betCount
+                        outside.winlose = inside.winlose
+                        outside.winloseRate = inside.winloseRate
+                      }
+                    }
+                  }
+                  this.$store.commit({
+                    type: 'recordVedioNowchild',
+                    data: iteval
+                  })
+                }
+              }
+            )
+          }
+        }
+        // 更新当前列表下级
+        if (this.$store.state.variable.vedioGameData.nowPlayerlist.length > 0) {
+          let player = this.$store.state.variable.vedioGameData.nowPlayerlist
+          let url_player = 'https://3arhv5v2ak.execute-api.ap-southeast-1.amazonaws.com/prod/calcPlayerStat'
+          for (let item of player) {
+            let player_data = {
+              gameUserIds: [item.gameUserId],
+              query: {
+                createdAt: this.searchDate
+              }
+            }
+            invoke({
+              url: url_player,
+              method: api.post,
+              data: player_data
+            }).then(
+              result => {
+                const [err, ret] = result
+                if (err) {
+                } else {
+                  var data = ret.data.payload
+                  let iteval = this.$store.state.variable.vedioGameData.nowPlayerlist
+                  for (let outside of iteval) {
+                    for (let inside of data) {
+                      if (outside.gameUserId == inside.gameUserId) {
+                        outside.bet = inside.bet
+                        outside.betCount = inside.betCount
+                        outside.winlose = inside.winlose
+                      }
+                    }
+                  }
+                  this.$store.commit({
+                    type: 'recordVedioNowplayer',
+                    data: iteval
+                  })
+                }
+              }
+            )
+          }
+        } // 更新当前列表玩家
+        this.$message({
+          type: 'success',
+          message: '查询完毕!'
+        })
       }
-    }, // 搜索玩家
+    }, // 按时间搜索
     resetSearch () {
       this.searchDate = []
+      this.$store.commit('startLoading')
+      this.$store.dispatch('getVedioNowlist')
+      this.$store.dispatch('getVedioNowchild')
+      this.$store.dispatch('getVedioNowplayer')
     }, // 重置搜索条件
     checkUser (data) {
       this.$store.commit({
