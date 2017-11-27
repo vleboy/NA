@@ -15,7 +15,7 @@
       <el-form-item label="真人杀数（%）" prop="livekill">
         <el-input v-model="managerInfo.livekill" class="input" type="text" placeholder="范围在0.00~100.00之间"></el-input>
       </el-form-item>
-      <el-form-item label="老虎机杀人数（%）" prop="videokill">
+      <el-form-item label="老虎机杀数（%）" prop="videokill">
         <el-input v-model="managerInfo.videokill" class="input" placeholder="范围在0.00~100.00之间"></el-input>
       </el-form-item>
       <el-form-item label="街机杀数（%）" prop="arcadekill">
