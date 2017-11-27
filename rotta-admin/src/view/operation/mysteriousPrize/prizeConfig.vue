@@ -341,6 +341,19 @@
         )
       },
       resetData () {
+        this.isfinish = {
+          livekill: false,
+          videokill: false,
+          arcadekill: false,
+          avgLinePoint: false,
+          awardPercent: false,
+          beginLimit: false,
+          upLimit: false,
+          notifyInterval: false,
+          correctValue: false,
+          notifyLower: false,
+          notifyContent: false
+        }
         this.managerInfo= {
           livekill: '', // 真人杀数
           videokill: '', // 老虎机杀数
