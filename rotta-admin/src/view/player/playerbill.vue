@@ -78,7 +78,8 @@ $<template>
           </el-table>
           <div style="text-align: right;margin:2rem 0">
             <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerBillDetailList.length"
-                           :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+                           :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"
+                           :current-page.sync="currentPage">
             </el-pagination>
           </div>
         </div>
@@ -127,6 +128,7 @@ export default {
     return {
       nowSize: 20,
       nowPage: 1,
+      currentPage: 1,
       radioInfo: '0',
       searchItem: '',
       allAmount: 0,
@@ -205,6 +207,7 @@ export default {
       )
     },
     searchAmount () {
+      this.currentPage = 1;
       this.searchArray = [];
       for (let item of this.copyList) {
         if (item.sn.indexOf(this.searchItem)>-1) {
