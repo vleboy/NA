@@ -297,15 +297,15 @@ export default {
             )
           }
         } // 更新当前列表玩家
+        let _self = this
+        setTimeout(function(){
+          _self.$message({
+            type: 'success',
+            message: '查询完毕!'
+          })
+          _self.loading = false
+        },3000)
       }
-      let _self = this
-      setTimeout(function(){
-        _self.$message({
-          type: 'success',
-          message: '查询完毕!'
-        })
-        _self.loading = false
-      },3000)
     }, // 按时间搜索
     resetSearch () {
       this.searchDate = []
