@@ -102,7 +102,9 @@ const api = {
   gameList: front.diana + front.stage + '/gameList', // 获取游戏列表
 
   changeGame: front.diana + front.stage + '/gameChangeStatus', // 操作游戏状态接口
+
   bfSetting: front.diana + front.stage + '/configNew', // 包房代理配置
+
   getBfSetting: front.diana + front.stage + '/configOne', // 获取包房代理配置
 
   // thor
@@ -176,7 +178,12 @@ const api = {
 
   // videoReport
   reportVedio: front.vedioReport + 'prod' + '/queryUserStat', // 平台用户电子游戏统计
+
   playerVedio: front.vedioReport + 'prod' + '/queryPlayerStat', // 平台用户所属玩家电子游戏统计
+
+  calcUserStat: front.vedioReport + 'prod' + '/calcUserStat', // 电子游戏报表用户时间查询
+
+  calcPlayerStat: front.vedioReport + 'prod' + '/calcPlayerStat',  // 电子游戏报表玩家时间查询
   // methods
 
   get: 'get',
