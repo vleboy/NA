@@ -16,9 +16,9 @@
       <el-table stripe :data="getItems">
         <el-table-column label="序号" align="center" type="index" width="65">
         </el-table-column>
-        <el-table-column label="商户" prop="displayName" align="center">
+        <el-table-column label="商户" prop="displayName" align="center" width="200">
         </el-table-column>
-        <el-table-column label="说明" align="center" width="400">
+        <el-table-column label="说明" align="center" >
           <template scope="scope">
             <div v-if="scope.row.content">
               <span v-for="(item,index) in scope.row.content.content" :key="index">
@@ -30,7 +30,7 @@
             <div v-else>-</div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" min-width="100">
+        <el-table-column label="操作" align="center" width="200">
           <template scope="scope">
             <el-button type="text" @click="openModal(scope.row)">编辑</el-button>
           </template>
@@ -44,7 +44,7 @@
     </div>
 
     <el-dialog title="电子游戏配置" :visible.sync="isOpenModal" class="g-text-center">
-      <el-form :model="lineInfo" :rules="rules" ref="lineInfo" class="-p-c-form" label-width="80px"
+      <el-form :model="lineInfo" ref="lineInfo" class="-p-c-form" label-width="80px"
                label-position="right">
         <el-form-item label="选择游戏" class="g-text-left">
           <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
