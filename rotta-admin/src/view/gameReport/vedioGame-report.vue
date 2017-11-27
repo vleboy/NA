@@ -6,7 +6,7 @@
         <p class="title" style="float:left">当前选择列表<span v-if="nowRole != 01" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
         <div style="float:right;margin-right:1rem">
           <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围" :editable="false"></el-date-picker>
-          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData">查询</el-button>
+          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData" :loading="loading">查询</el-button>
           <el-button @click="resetSearch">清空</el-button>
         </div>
       </div>
@@ -160,6 +160,7 @@ export default {
   },
   data () {
     return {
+      loading: false,
       searchDate: [],
       childSize: 10,
       childPage: 1,
@@ -191,6 +192,7 @@ export default {
           message: '请选择搜索时间'
         })
       } else {
+        this.loading = true
         let url_child = 'https://3arhv5v2ak.execute-api.ap-southeast-1.amazonaws.com/prod/calcUserStat'
         let nowUser = this.$store.state.variable.vedioGameData.nowList
         let user_data = {
@@ -310,7 +312,8 @@ export default {
           type: 'success',
           message: '查询完毕!'
         })
-      },2000)
+        _self.loading = false
+      },3000)
     }, // 按时间搜索
     resetSearch () {
       this.searchDate = []
