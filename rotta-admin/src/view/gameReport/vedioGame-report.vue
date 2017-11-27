@@ -303,11 +303,14 @@ export default {
             )
           }
         } // 更新当前列表玩家
-        this.$message({
+      }
+      let _self = this
+      setTimeout(function(){
+        _self.$message({
           type: 'success',
           message: '查询完毕!'
         })
-      }
+      },2000)
     }, // 按时间搜索
     resetSearch () {
       this.searchDate = []
