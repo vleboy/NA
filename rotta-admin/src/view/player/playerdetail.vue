@@ -31,8 +31,8 @@ $<template>
           </el-radio-group>
         </div>
         <div class="countinfo-center">
-          <el-col :span="5">
-            <span>花费总点数 : <span class="-p-red">{{formatPoints(allAmountFun)}}</span></span>
+          <el-col :span="16">
+            <span v-if='radioInfo!=-1'>输赢总计: <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">{{formatPoints(allAmountFun)}}</span></span>
           </el-col>
 
           <el-col :span="7" style="float: right; text-align: right">
@@ -204,18 +204,18 @@ export default {
       this.allAmount = 0
       if (!this.isShowRadio) {
         for (let item of this.playerDetailList.list) {
-          if (item.amount < 0) {
+          if (item.kindId != '-1') {
             this.allAmount = item.amount + this.allAmount
           }
         }
       } else {
         for (let item of this.detailList.list) {
-          if (item.amount < 0) {
+          if (item.kindId != '-1') {
             this.allAmount = item.amount + this.allAmount
           }
         }
       }
-      return Math.abs(this.allAmount)
+      return this.allAmount
     }
   },
   methods: {
