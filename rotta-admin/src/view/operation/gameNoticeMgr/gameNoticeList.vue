@@ -182,7 +182,7 @@ export default {
       // console.log(pattern.url.exec(this.noticeInfo.url), this.noticeInfo.url)
       if (!this.noticeInfo.adName) {
         return this.$message.error('请输入公告名称')
-      } else if (!pattern.url.exec(this.noticeInfo.url)) {
+      } else if (this.noticeInfo.url && !pattern.url.exec(this.noticeInfo.url)) {
         return this.$message.error('请输入格式正确的跳转链接')
       } else if (!this.noticeInfo.img) {
         return this.$message.error('请选择上传图片')
@@ -217,6 +217,7 @@ export default {
     },
     openModal (row = {}) {
       this.isOpenModal = true
+      this.isSending = false
       if (JSON.stringify(row) !== '{}') {
         this.fileList = []
         this.noticeInfo = JSON.parse(JSON.stringify(row))
