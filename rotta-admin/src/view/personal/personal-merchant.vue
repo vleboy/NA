@@ -1,9 +1,9 @@
-<template>
+ <template>
   <div class="personalcenter">
     <div style="text-align:center">
       <h2 style="font-size: 2rem;margin:1.5rem 0 0 0">{{adminInfo.uname}}</h2>
     </div>
-    <div class="manangeinfo">
+    <div class="manangeinfo" v-loading="infoLoading" element-loading-text="加载中">
         <h4 style="display:inline-block">管理信息</h4>
         <span style="margin-left:0.4rem" v-if="this.adminInfo.parent != '01'">
           所属线路商: {{adminInfo.parentDisplayName}}
@@ -30,7 +30,7 @@
             </p>
         </div>
     </div>
-    <div class="manager-copertion">
+    <div class="manager-copertion" v-loading="billLoading" element-loading-text="加载中">
         <h4>线路商管理员点数操作记录</h4>
         <div class="copertion-form">
             <div class="form-header">
@@ -156,7 +156,7 @@ import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
 export default {
   beforeCreate () {
-    this.$store.commit('startLoading')
+    this.$store.commit('resetPartLoading')
     this.$store.commit('resetAjax')
     this.$store.commit({
       type: 'recordNowindex',
@@ -168,6 +168,9 @@ export default {
     this.$store.dispatch('getPersonal_property')
   },
   computed: {
+    billLoading () {
+      return this.$store.state.variable.partLoading.billLoading
+    },
     ajaxCount () {
       return this.$store.state.ajaxCount
     },
@@ -191,8 +194,8 @@ export default {
   },
   watch: {
     ajaxCount (val) {
-      if (val == 3) {
-        this.$store.commit('closeLoading')
+      if (val == 2) {
+        this.infoLoading = false
       }
     }
   },
@@ -266,6 +269,7 @@ export default {
       }
     } // 验证重复输入密码
     return {
+      infoLoading: false,
       loading: false,
       nowSize: 20,
       nowPage: 1,

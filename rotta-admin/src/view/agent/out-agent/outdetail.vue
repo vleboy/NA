@@ -428,8 +428,7 @@ export default {
     Billtransfer
   },
   beforeCreate () {
-    // this.$store.commit('startLoading')
-    this.$store.commit('resetAjax')
+    this.$store.commit('resetPartLoading')
     this.$store.commit('closeEdit')
     this.$store.commit({
       type: 'recordNowindex',
@@ -455,9 +454,6 @@ export default {
     },
     form_two_Loading () {
       return this.$store.state.variable.partLoading.form_two_Loading
-    },
-    ajaxCount () {
-      return this.$store.state.ajaxCount
     },
     disable () {
       return this.$store.state.variable.isEdit

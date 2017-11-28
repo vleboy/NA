@@ -376,7 +376,6 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-          context.commit('closeLoading')
           this.$message({
             message: err.msg,
             type: 'warning'
@@ -384,12 +383,10 @@ const actions = {
         } else {
           var data = ret.data.payload
           context.commit('countAjax')
-          // console.log('管理员基本信息', data)
           context.commit({
             type: 'recordPersonal_info',
             data: data
           })
-          // context.commit('closeLoading')
         }
       }
     )
@@ -425,19 +422,17 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-          context.commit('closeLoading')
           this.$message({
             message: err.msg,
             type: 'warning'
           })
         } else {
           var data = ret.data.payload
-          
+          context.commit('countAjax')
           context.commit({
             type: 'recordPersonal_info',
             data: data
           })
-          context.commit('closeLoading')
         }
       }
     )
@@ -456,11 +451,11 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          context.commit('countAjax')
           context.commit({
             type: 'recordPersonal_property',
             data: data
           })
+          state.variable.partLoading.billLoading = false
         }
       }
     )
