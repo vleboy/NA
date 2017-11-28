@@ -22,7 +22,7 @@
             <el-input placeholder="请输入" v-model="condition.condition_two" ></el-input>
           </div>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="5">
           <div class="searchBtn">
             <el-button type="primary" @click="startSearch">搜索</el-button>
             <el-button @click="resetSearch">重置</el-button>
@@ -30,7 +30,7 @@
             <el-button type="text" @click="show = !show" v-show="!show">展开 <i class="el-icon-arrow-down"></i></el-button>
           </div>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
           <span class="hidden">1</span>
         </el-col>
       </el-row>
@@ -230,7 +230,7 @@ export default {
 
 <style scoped>
 .searchbox .hidden{opacity: 0;}
-.searchbox{text-align: center;padding-top: 2rem;background-color: #f5f5f5;min-height: 8rem;margin-top: 0.2rem}
+.searchbox{text-align: center;padding-top: 2rem;background-color: #f5f5f5;min-height: 9rem;margin-top: 0.2rem}
 .searchbox .input_label{line-height: 2.5rem}
 .searchbox .searchBtn{display: inline-block;}
 .searchbox .moreBox{margin-left: -14rem;}
