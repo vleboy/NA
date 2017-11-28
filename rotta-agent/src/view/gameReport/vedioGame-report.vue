@@ -11,7 +11,7 @@
         </div>
       </div>
       <el-table :data="vedioNowlist" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="selection">
+        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
         </el-table-column>
@@ -39,7 +39,7 @@
     <div class="childlist">
       <p class="title">下级列表</p>
       <el-table :data="vedioNowchild" stripe>
-        <el-table-column label="序号" prop="" align="center" width="75" type="selection">
+        <el-table-column label="序号" prop="" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
         </el-table-column>
@@ -80,7 +80,7 @@
         </div>
       </div>
       <el-table :data="vedioNowplayer" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="selection">
+        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="username" align="center">
         </el-table-column>
