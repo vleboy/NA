@@ -269,7 +269,7 @@ export default {
       }
     } // 验证重复输入密码
     return {
-      infoLoading: false,
+      infoLoading: true,
       loading: false,
       nowSize: 20,
       nowPage: 1,
