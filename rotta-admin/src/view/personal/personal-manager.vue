@@ -159,6 +159,10 @@ export default {
     this.$store.commit('resetPartLoading')
     this.$store.commit('resetAjax')
     this.$store.commit({
+      type: 'recordPersonal_property',
+      data: []
+    })
+    this.$store.commit({
       type: 'recordNowindex',
       data: 'personal'
     })
