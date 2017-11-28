@@ -305,6 +305,7 @@ export default {
     resetData () {
       this.radioMoney = '';
       this.radioType = '';
+      this.getPlayerAccount()
     }, // 重置筛选条件
     sortFun (col){
       if(col.prop!=null){
