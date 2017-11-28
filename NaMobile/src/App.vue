@@ -72,7 +72,7 @@ export default {
         // .catch(function (error) {
         //   console.log(error)
         // })
-        window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1500.plist'
+        window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1600.plist'
       }
     }else if (is_weixin() || is_QQInnerBro()) {
       this.show = true
