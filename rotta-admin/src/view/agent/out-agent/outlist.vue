@@ -4,7 +4,7 @@
     <div class="search">
       <searchbox></searchbox>
     </div>
-    <div>
+    <div >
       <gocreate v-if="loginUser == '1'"></gocreate>
     </div>
     <div class="outresult">
@@ -338,7 +338,7 @@ export default {
 
 <style scoped>
 .outlist .search{width: 100%;height: 8rem}
-.outlist .outresult{width: 99%;margin: 2rem auto}
+.outlist .outresult{width: 99%;margin: 1.5rem auto}
 .outlist .moreinfo{float: left;width: 40%}
 .remarkBox{word-wrap: break-word; word-break: normal;max-width: 200px;}
 .outlist .gamelist span{width: 100%;text-align: center;margin: 0.25rem 0;background-color: #fff;color: #000}

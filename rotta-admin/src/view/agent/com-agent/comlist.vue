@@ -352,7 +352,7 @@ export default {
 
 <style scoped>
 .comlist .search{width: 100%;height: 8rem;}
-.comlist .comresult{width: 99%;margin: 2rem auto}
+.comlist .comresult{width: 99%;margin: 1.5rem auto}
 .comlist .moreinfo{float: left;width: 40%}
 .remarkBox{word-wrap: break-word; word-break: normal;width: 200px}
 .comlist .gamelist span{width: 100%;text-align: center;margin: 0.25rem 0;background-color: #fff;color: #000}

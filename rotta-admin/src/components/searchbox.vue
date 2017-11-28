@@ -62,9 +62,11 @@
 
     </div>
 
-    <div class="searchCount" v-if="this.nowindex === 'outlist'">共搜索到 <span v-text="this.$store.state.variable.outlist.length"></span> 条数据</div>
+    <div>
+      <div class="searchCount" v-if="this.nowindex === 'outlist'">共搜索到 <span v-text="this.$store.state.variable.outlist.length"></span> 条数据</div>
 
-    <div class="searchCount" v-if="this.nowindex === 'comlist'">共搜索到 <span v-text="this.$store.state.variable.comlist.length"></span> 条数据</div>
+      <div class="searchCount" v-if="this.nowindex === 'comlist'">共搜索到 <span v-text="this.$store.state.variable.comlist.length"></span> 条数据</div>
+    </div>
 
   </div>
   
