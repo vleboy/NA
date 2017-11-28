@@ -12,7 +12,9 @@
       <div class="comlist">
           <!-- 当前代理 -->
           <div class="comresult">
-            <p class="listTitle">当前代理: <span class="fontUrl" @click="backParent" v-if="selfUser.length > 0">返回上一级</span></p>
+            <p class="listTitle">当前代理: 
+              <span class="fontUrl" @click="backParent" v-if="selfUser.length > 0 && nowUserId != loginId">返回上一级</span>
+            </p>
               <el-table stripe :data="selfUser">
                 <el-table-column label="管理员账号" prop="username" align="center">
                   <template scope="scope">
@@ -303,6 +305,8 @@ export default {
   },
   data () {
     return {
+      nowUserId: '',
+      loginId: localStorage.loginId,
       loginUser: localStorage.loginSuffix,
       nowSize: 10,
       nowPage: 1,
@@ -316,7 +320,10 @@ export default {
       return this.$store.state.variable.isSlider
     },
     selfUser () {
-      return this.$store.state.variable.selfData || []
+      if (this.$store.state.variable.selfData && this.$store.state.variable.selfData.length > 0) {
+        this.nowUserId = this.$store.state.variable.selfData[0].userId
+      }
+      return this.$store.state.variable.selfData
     },
     agentPlayerlist () {
       return this.$store.state.variable.agentPlayer
