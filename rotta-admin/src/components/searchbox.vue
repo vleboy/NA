@@ -1,33 +1,71 @@
 <template>
   <div>
     <div class="searchbox">
-      <el-form :inline="true" label-width='110px' label-position="right">
-        <el-form-item :label="searchTitle.titleOne">
-          <el-input class="input" placeholder="请输入" v-model="condition.condition_one" ></el-input>
-        </el-form-item>
-        <el-form-item :label="searchTitle.titleTwo">
-          <el-input class="input" placeholder="请输入" v-model="condition.condition_two" ></el-input>
-        </el-form-item>
-        <div class="searchBtn">
-          <el-button type="primary" @click="startSearch">搜索</el-button>
-          <el-button @click="resetSearch">重置</el-button>
-          <el-button type="text" @click="show = !show" v-show="show">收起 <i class="el-icon-arrow-up"></i></el-button>
-          <el-button type="text" @click="show = !show" v-show="!show">展开 <i class="el-icon-arrow-down"></i></el-button>
-        </div>
-        <el-collapse-transition>
-              <div v-if="show" class="moreBox">
-                <el-form-item :label="searchTitle.titleThree">
-              <el-input class="input" placeholder="请输入" v-model="condition.condition_three" ></el-input>
-            </el-form-item>
-            <el-form-item :label="searchTitle.titleFour">
-              <el-date-picker class="input" v-model="condition.condition_four" type="datetimerange" placeholder="选择日期范围" :editable="false"></el-date-picker>
-            </el-form-item>
+
+      <el-row>
+        <el-col :span="4">
+          <span class="hidden">1</span>
+        </el-col>
+        <el-col :span="2">
+          <span v-text="searchTitle.titleOne" class="input_label"></span>
+        </el-col>
+        <el-col :span="4">
+          <div class="">
+            <el-input placeholder="请输入" v-model="condition.condition_one" ></el-input>
           </div>
-        </el-collapse-transition>
-      </el-form>
+        </el-col>
+        <el-col :span="2">
+          <span v-text="searchTitle.titleTwo" class="input_label"></span>
+        </el-col>
+        <el-col :span="4">
+          <div class="">
+            <el-input placeholder="请输入" v-model="condition.condition_two" ></el-input>
+          </div>
+        </el-col>
+        <el-col :span="4">
+          <div class="searchBtn">
+            <el-button type="primary" @click="startSearch">搜索</el-button>
+            <el-button @click="resetSearch">重置</el-button>
+            <el-button type="text" @click="show = !show" v-show="show">收起 <i class="el-icon-arrow-up"></i></el-button>
+            <el-button type="text" @click="show = !show" v-show="!show">展开 <i class="el-icon-arrow-down"></i></el-button>
+          </div>
+        </el-col>
+        <el-col :span="5">
+          <span class="hidden">1</span>
+        </el-col>
+      </el-row>
+
+      <el-collapse-transition>
+        <el-row v-if="show">
+        <el-col :span="4">
+          <span class="hidden">1</span>
+        </el-col>
+        <el-col :span="2">
+          <span v-text="searchTitle.titleThree" class="input_label"></span>
+        </el-col>
+        <el-col :span="4">
+          <div class="">
+            <el-input placeholder="请输入" v-model="condition.condition_three" ></el-input>
+          </div>
+        </el-col>
+        <el-col :span="2">
+          <span v-text="searchTitle.titleFour" class="input_label"></span>
+        </el-col>
+        <el-col :span="5">
+          <el-date-picker v-model="condition.condition_four" type="datetimerange" placeholder="选择日期时间范围" :editable="false"></el-date-picker>
+        </el-col>
+        <el-col :span="5">
+          <span class="hidden">1</span>
+        </el-col>
+      </el-row>
+      </el-collapse-transition>
+
     </div>
+
     <div class="searchCount" v-if="this.nowindex === 'outlist'">共搜索到 <span v-text="this.$store.state.variable.outlist.length"></span> 条数据</div>
+
     <div class="searchCount" v-if="this.nowindex === 'comlist'">共搜索到 <span v-text="this.$store.state.variable.comlist.length"></span> 条数据</div>
+
   </div>
   
 </template>
@@ -191,7 +229,9 @@ export default {
 </script>
 
 <style scoped>
-.searchbox{text-align: center;padding-top: 2rem;background-color: #f5f5f5;height: 8rem;margin-top: 0.2rem}
+.searchbox .hidden{opacity: 0;}
+.searchbox{text-align: center;padding-top: 2rem;background-color: #f5f5f5;min-height: 8rem;margin-top: 0.2rem}
+.searchbox .input_label{line-height: 2.5rem}
 .searchbox .searchBtn{display: inline-block;}
 .searchbox .moreBox{margin-left: -14rem;}
 .searchbox .input{width: 15rem}
