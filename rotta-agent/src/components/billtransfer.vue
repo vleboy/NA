@@ -252,11 +252,14 @@ export default {
               // console.log('存点成功返回', data)
               this.loading = false
               this.isfinish = true
-              this.$store.dispatch('getComlist')
-              this.$store.dispatch('getSelfData')
-              this.$store.dispatch('getComdetail_property')
-              this.$store.dispatch('getComdetail_child')
-              this.$store.dispatch('getDetailPlayer')
+              if (this.$store.state.variable.nowIndex == 'comlist') {
+                this.$store.dispatch('getComlist')
+                this.$store.dispatch('getSelfData')
+              } else if (this.$store.state.variable.nowIndex == 'comdetail') {
+                this.$store.dispatch('getComdetail_property')
+                this.$store.dispatch('getComdetail_child')
+                this.$store.dispatch('getDetailPlayer')
+              }
             }
           }
         )
@@ -312,11 +315,14 @@ export default {
               // console.log('提点成功返回', data)
               this.loading = false
               this.isfinish = true
-              this.$store.dispatch('getComlist')
-              this.$store.dispatch('getSelfData')
-              this.$store.dispatch('getComdetail_property')
-              this.$store.dispatch('getComdetail_child')
-              this.$store.dispatch('getDetailPlayer')
+              if (this.$store.state.variable.nowIndex == 'comlist') {
+                this.$store.dispatch('getComlist')
+                this.$store.dispatch('getSelfData')
+              } else if (this.$store.state.variable.nowIndex == 'comdetail') {
+                this.$store.dispatch('getComdetail_property')
+                this.$store.dispatch('getComdetail_child')
+                this.$store.dispatch('getDetailPlayer')
+              }
             }
           }
         )
