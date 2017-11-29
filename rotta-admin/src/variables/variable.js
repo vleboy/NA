@@ -152,7 +152,14 @@ const variable = {
     nowChildList: [],
     nowPlayerlist: [],
     nowUserID: ''
-  } // 电子游戏报表数据
+  }, // 电子游戏报表数据
+
+  liveGameData: {
+    nowList: [],
+    nowChildList: [],
+    nowPlayerlist: [],
+    nowUserID: ''
+  } // 真人游戏报表数据
 }
 
 export default {

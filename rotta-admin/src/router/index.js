@@ -56,6 +56,7 @@ import BoothList from '@/view/operation/booth/boothList' // 展位管理
 import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
 
 import VedioGameReport from '@/view/gameReport/vedioGame-report' // 电子游戏报表
+import liveGameReport from '@/view/gameReport/liveGame-report' // 电子游戏报表
 
 import LineUp from '@/view/lineup/lineup' // 排队设置
 
@@ -252,6 +253,11 @@ export default new Router({
       path: '/vedioGameReport',
       name: '电子游戏总报表',
       component: VedioGameReport
+    },
+    {
+      path: '/liveGameReport',
+      name: '真人游戏总报表',
+      component: liveGameReport
     },
     {
       path: '/lineup',

@@ -223,6 +223,12 @@
       <el-breadcrumb-item><span  class="large">电子游戏总报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'liveGameReport'" class="title">
+      <el-breadcrumb-item>财务中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>真人游戏 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">真人游戏总报表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'lineup'" class="title">
       <el-breadcrumb-item>排队设置 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">排队设置</span> </el-breadcrumb-item>

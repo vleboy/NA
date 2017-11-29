@@ -1,5 +1,5 @@
 <template>
-  <div class="vedioGame-report">
+  <div class="liveGame-report">
 
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
@@ -10,7 +10,7 @@
           <el-button @click="resetSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="vedioNowlist" stripe>
+      <el-table :data="liveNowlist" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -31,14 +31,22 @@
             <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinloseRate">
+          <template scope="scope">
+            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
+          </template>
         </el-table-column>
       </el-table>
     </div>
 
     <div class="childlist">
       <p class="title">下级列表</p>
-      <el-table :data="vedioNowchild" stripe>
+      <el-table :data="liveNowchild" stripe>
         <el-table-column label="序号" prop="" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -62,11 +70,19 @@
             <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
+          <template scope="scope">
+            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
+          </template>
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.vedioGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.liveGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
       </div>
     </div>
 
@@ -79,12 +95,15 @@
           <el-button @click="resetPlayerSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="vedioNowplayer" stripe>
+      <el-table :data="liveNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="center">
         </el-table-column>
-        <el-table-column label="昵称" prop="nickname" align="center" :formatter="formatnickname">
+        <el-table-column label="昵称" prop="nickname" align="center">
+          <template scope="scope">
+            <span>{{formatNickname(scope.row.nickname)}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
@@ -100,7 +119,7 @@
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.vedioGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.liveGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
       </div>
     </div>
 
@@ -113,45 +132,45 @@ import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     this.$store.commit({
-      type: 'recordVedioNowplayer',
+      type: 'recordLiveNowplayer',
       data: []
     })
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'vedioGameReport'
+      data: 'liveGameReport'
     })
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
-      type: 'recordVedioID',
+      type: 'recordLiveID',
       data: ''
     })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getVedioNowlist')
-    this.$store.dispatch('getVedioNowchild')
-    this.$store.dispatch('getVedioNowplayer')
+    this.$store.dispatch('getLiveNowlist')
+    this.$store.dispatch('getLiveNowchild')
+    this.$store.dispatch('getLiveNowplayer')
   },
   computed:{
-    vedioNowlist () {
+    liveNowlist () {
       let arr = []
-      this.nowRole = this.$store.state.variable.vedioGameData.nowList.role
-      arr.push(this.$store.state.variable.vedioGameData.nowList)
+      this.nowRole = this.$store.state.variable.liveGameData.nowList.role
+      arr.push(this.$store.state.variable.liveGameData.nowList)
       return arr
     },
-    vedioNowchild () {
-      var nowchild = this.$store.state.variable.vedioGameData.nowChildList
+    liveNowchild () {
+      var nowchild = this.$store.state.variable.liveGameData.nowChildList
       if (this.childPage === 1) {
-        nowchild = this.$store.state.variable.vedioGameData.nowChildList.slice(0, this.childSize)
+        nowchild = this.$store.state.variable.liveGameData.nowChildList.slice(0, this.childSize)
       } else {
-        nowchild = this.$store.state.variable.vedioGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
+        nowchild = this.$store.state.variable.liveGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
       }
       return nowchild
     },
-    vedioNowplayer () {
-      var nowplayer = this.$store.state.variable.vedioGameData.nowPlayerlist
+    liveNowplayer () {
+      var nowplayer = this.$store.state.variable.liveGameData.nowPlayerlist
       if (this.playerPage === 1) {
-        nowplayer = this.$store.state.variable.vedioGameData.nowPlayerlist.slice(0, this.playerSize)
+        nowplayer = this.$store.state.variable.liveGameData.nowPlayerlist.slice(0, this.playerSize)
       } else {
-        nowplayer = this.$store.state.variable.vedioGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
+        nowplayer = this.$store.state.variable.liveGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
       }
       return nowplayer
     }
@@ -185,7 +204,7 @@ export default {
           type: 'error',
           message: '请输入玩家用户名或昵称'
         })
-      } else if (this.$store.state.variable.vedioGameData.nowPlayerlist.length == 0) {
+      } else if (this.$store.state.variable.liveGameData.nowPlayerlist.length == 0) {
         this.$message({
           type: 'info',
           message: '暂无玩家数据'
@@ -193,7 +212,7 @@ export default {
       } else {
         this.playerLoading = true
         let data = {
-          parentId: this.$store.state.variable.vedioGameData.nowList.userId,
+          parentId: this.$store.state.variable.liveGameData.nowList.userId,
           query: {
             username: this.playerData
           },
@@ -201,7 +220,7 @@ export default {
           sort: 'desc'
         }
         invoke({
-          url: api.playerVedio,
+          url: api.playerLive,
           method: api.post,
           data: data
         }).then(
@@ -211,7 +230,7 @@ export default {
             } else {
               var data = ret.data.payload
               this.$store.commit({
-                type: 'recordVedioNowplayer',
+                type: 'recordLiveNowplayer',
                 data: data
               })
               this.playerLoading = false
@@ -222,13 +241,13 @@ export default {
     }, // 搜索玩家数据
     resetPlayerSearch () {
       this.playerData = ''
-      this.$store.dispatch('getVedioNowplayer')
+      this.$store.dispatch('getLiveNowplayer')
     }, // 重置玩家搜索
-    formatWinlose (data) {
-      return (data.winloseRate * 100).toFixed(2) + '%'
+    formatWinloseRate (data) {
+      return data? (Number(data) * 100).toFixed(2) + '%' : '0.00' + '%'
     },
-    formatnickname (data) {
-      return data.nickname == 'NULL!' ? '-' : data.nick
+    formatNickname (data) {
+      return data == 'NULL!'? '-' : data
     },
     userType (data) {
       if (data.role == '1') {
@@ -250,8 +269,9 @@ export default {
         })
       } else {
         this.loading = true
-        let nowUser = this.$store.state.variable.vedioGameData.nowList
+        let nowUser = this.$store.state.variable.liveGameData.nowList
         let user_data = {
+          gameType: 30000,
           role: nowUser.role,
           userIds: [nowUser.userId],
           query: {
@@ -259,7 +279,7 @@ export default {
           }
         }
         invoke({
-          url: api.calcUserStatVedio,
+          url: api.calcUserStatLive,
           method: api.post,
           data: user_data
         }).then(
@@ -267,24 +287,26 @@ export default {
             const [err, ret] = result
             if (err) {
             } else {
+              let iteval = this.$store.state.variable.liveGameData.nowList
               var data = ret.data.payload[0]
-              let iteval = this.$store.state.variable.vedioGameData.nowList
               iteval.bet = data.bet
               iteval.betCount = data.betCount
               iteval.winlose = data.winlose
+              iteval.mixAmount = data.mixAmount
               iteval.winloseRate = data.winloseRate
               this.$store.commit({
-                type: 'recordVedioNowlist',
+                type: 'recordLiveNowlist',
                 data: iteval
               })
             }
           }
         )
         // 更新当前列表
-        if (this.$store.state.variable.vedioGameData.nowChildList.length > 0) {
-          let child = this.$store.state.variable.vedioGameData.nowChildList
+        if (this.$store.state.variable.liveGameData.nowChildList.length > 0) {
+          let child = this.$store.state.variable.liveGameData.nowChildList
           for (let item of child) {
             let child_data = {
+              gameType: 30000,
               role: item.role,
               userIds: [item.userId],
               query: {
@@ -292,7 +314,7 @@ export default {
               }
             }
             invoke({
-              url: api.calcUserStatVedio,
+              url: api.calcUserStatLive,
               method: api.post,
               data: child_data
             }).then(
@@ -301,19 +323,20 @@ export default {
                 if (err) {
                 } else {
                   var data = ret.data.payload
-                  let iteval = this.$store.state.variable.vedioGameData.nowChildList
+                  let iteval = this.$store.state.variable.liveGameData.nowChildList
                   for (let outside of iteval) {
                     for (let inside of data) {
                       if (outside.userId == inside.userId) {
                         outside.bet = inside.bet
                         outside.betCount = inside.betCount
                         outside.winlose = inside.winlose
+                        outside.mixAmount = inside.mixAmount
                         outside.winloseRate = inside.winloseRate
                       }
                     }
                   }
                   this.$store.commit({
-                    type: 'recordVedioNowchild',
+                    type: 'recordLiveNowchild',
                     data: iteval
                   })
                 }
@@ -322,17 +345,18 @@ export default {
           }
         }
         // 更新当前列表下级
-        if (this.$store.state.variable.vedioGameData.nowPlayerlist.length > 0) {
-          let player = this.$store.state.variable.vedioGameData.nowPlayerlist
+        if (this.$store.state.variable.liveGameData.nowPlayerlist.length > 0) {
+          let player = this.$store.state.variable.liveGameData.nowPlayerlist
           for (let item of player) {
             let player_data = {
-              gameUserIds: [item.gameUserId],
+              gameType: 30000,
+              gameUserIds: [item.userId],
               query: {
                 createdAt: this.searchDate
               }
             }
             invoke({
-              url: api.calcPlayerStatVedio,
+              url: api.calcPlayerStatLive,
               method: api.post,
               data: player_data
             }).then(
@@ -341,10 +365,10 @@ export default {
                 if (err) {
                 } else {
                   var data = ret.data.payload
-                  let iteval = this.$store.state.variable.vedioGameData.nowPlayerlist
+                  let iteval = this.$store.state.variable.liveGameData.nowPlayerlist
                   for (let outside of iteval) {
                     for (let inside of data) {
-                      if (outside.gameUserId == inside.gameUserId) {
+                      if (outside.userId == inside.gameUserId) {
                         outside.bet = inside.bet
                         outside.betCount = inside.betCount
                         outside.winlose = inside.winlose
@@ -352,7 +376,7 @@ export default {
                     }
                   }
                   this.$store.commit({
-                    type: 'recordVedioNowplayer',
+                    type: 'recordLiveNowplayer',
                     data: iteval
                   })
                 }
@@ -373,34 +397,34 @@ export default {
     resetSearch () {
       this.searchDate = []
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowlist')
-      this.$store.dispatch('getVedioNowchild')
-      this.$store.dispatch('getVedioNowplayer')
+      this.$store.dispatch('getLiveNowlist')
+      this.$store.dispatch('getLiveNowchild')
+      this.$store.dispatch('getLiveNowplayer')
     }, // 重置搜索条件
     checkUser (data) {
       this.$store.commit({
-        type: 'recordVedioID',
+        type: 'recordLiveID',
         data: data.userId
       })
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowlist')
-      this.$store.dispatch('getVedioNowchild')
-      this.$store.dispatch('getVedioNowplayer')
+      this.$store.dispatch('getLiveNowlist')
+      this.$store.dispatch('getLiveNowchild')
+      this.$store.dispatch('getLiveNowplayer')
     }, // 查看当前用户信息
     goBack () {
-      var data = this.$store.state.variable.vedioGameData.nowList.parent
+      var data = this.$store.state.variable.liveGameData.nowList.parent
       this.$store.commit({
-        type: 'recordVedioID',
+        type: 'recordLiveID',
         data: data
       })
       this.$store.commit({
-        type: 'recordVedioNowplayer',
+        type: 'recordLiveNowplayer',
         data: []
       })
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowlist')
-      this.$store.dispatch('getVedioNowchild')
-      data !== '01' ? this.$store.dispatch('getVedioNowplayer') : ''
+      this.$store.dispatch('getLiveNowlist')
+      this.$store.dispatch('getLiveNowchild')
+      data !== '01' ? this.$store.dispatch('getLiveNowplayer') : ''
     }, // 退回上一级
     getChildsize (size) {
       this.childSize = size
@@ -419,13 +443,13 @@ export default {
 </script>
 
 <style scpoed>
-.vedioGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
-.vedioGame-report .input{width: 25rem}
-.vedioGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
-.vedioGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
-.vedioGame-report .nowUserlist,
-.vedioGame-report .childlist,
-.vedioGame-report .playerlist{width: 99%;margin: 2rem auto}
-.vedioGame-report .fontUrl{cursor: pointer;color: #20a0ff}
-.vedioGame-report .fontUrl:hover{text-decoration: underline;}
+.liveGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.liveGame-report .input{width: 25rem}
+.liveGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+.liveGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
+.liveGame-report .nowUserlist,
+.liveGame-report .childlist,
+.liveGame-report .playerlist{width: 99%;margin: 2rem auto}
+.liveGame-report .fontUrl{cursor: pointer;color: #20a0ff}
+.liveGame-report .fontUrl:hover{text-decoration: underline;}
 </style>
