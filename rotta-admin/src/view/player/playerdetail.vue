@@ -31,11 +31,11 @@ $<template>
           </el-radio-group>
         </div>
         <div class="countinfo-center">
-          <el-col :span="16">
+          <el-col :span="12">
             <span v-if='radioInfo!=-1'>输赢总计: <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">{{formatPoints(allAmountFun)}}</span></span>
           </el-col>
 
-          <el-col :span="7" style="float: right; text-align: right">
+          <el-col :span="12" style="float: right; text-align: right">
             <el-date-picker
               v-model="amountDate"
               type="datetimerange"
