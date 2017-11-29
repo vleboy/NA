@@ -637,6 +637,84 @@ const actions = {
         }
       )
     }
+  },
+  getLiveNowlist (context) {
+    var data = {
+      userId: ''
+    }
+    if (state.variable.liveGameData.nowUserID && state.variable.liveGameData.nowUserID != '01') {
+      data.userId = state.variable.liveGameData.nowUserID
+    } else {
+      data.userId = localStorage.loginId
+    }
+    invoke({
+      url: api.reportLive,
+      method: api.post,
+      data: data
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var data = ret.data.payload
+          context.commit({
+            type: 'recordLiveNowlist',
+            data: data
+          })
+          context.commit('closeLoading')
+        }
+      }
+    )
+  },
+  getLiveNowchild (context) {
+    var data = {
+      parent: '01'
+    }
+    if (state.variable.liveGameData.nowUserID) {
+      data.parent = state.variable.liveGameData.nowUserID
+    }
+    invoke({
+      url: api.reportLive,
+      method: api.post,
+      data: data
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var data = ret.data.payload
+          context.commit({
+            type: 'recordLiveNowchild',
+            data: data
+          })
+        }
+      }
+    )
+  },
+  getLiveNowplayer (context) {
+    if (state.variable.liveGameData.nowUserID == '01' || !state.variable.liveGameData.nowUserID) {
+    } else {
+      var data = {
+        parentId: state.variable.liveGameData.nowUserID
+      }
+      invoke({
+        url: api.playerLive,
+        method: api.post,
+        data: data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var data = ret.data.payload
+            context.commit({
+              type: 'recordLiveNowplayer',
+              data: data
+            })
+          }
+        }
+      )
+    }
   }
 }
 
@@ -1093,7 +1171,23 @@ const mutations = {
 
   recordVedioID (state, payload) {
     state.variable.vedioGameData.nowUserID = payload.data
-  } // 记录电子游戏总报表用户ID
+  }, // 记录电子游戏总报表用户ID
+
+  recordLiveNowlist (state, payload){
+    state.variable.liveGameData.nowList = payload.data
+  }, // 记录真人游戏总报表当前列表
+
+  recordLiveNowchild (state, payload){
+    state.variable.liveGameData.nowChildList = payload.data
+  }, // 记录真人游戏总报表下级列表
+
+  recordLiveNowplayer (state, payload){
+    state.variable.liveGameData.nowPlayerlist = payload.data
+  }, // 记录真人游戏总报表玩家列表
+
+  recordLiveID (state, payload) {
+    state.variable.liveGameData.nowUserID = payload.data
+  } // 记录真人游戏总报表用户ID
 
 }
 

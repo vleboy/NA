@@ -256,7 +256,7 @@ export default {
           }
         }
         invoke({
-          url: api.calcUserStat,
+          url: api.calcUserStatVedio,
           method: api.post,
           data: user_data
         }).then(
@@ -289,7 +289,7 @@ export default {
               }
             }
             invoke({
-              url: api.calcUserStat,
+              url: api.calcUserStatVedio,
               method: api.post,
               data: child_data
             }).then(
@@ -329,7 +329,7 @@ export default {
               }
             }
             invoke({
-              url: api.calcPlayerStat,
+              url: api.calcPlayerStatVedio,
               method: api.post,
               data: player_data
             }).then(

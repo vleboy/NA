@@ -17,7 +17,9 @@ const front = {
 
   stat: stat_URL, // stat有关接口
 
-  vedioReport: vedioReport_URL // vedioGameReport接口
+  vedioReport: vedioReport_URL, // vedioGameReport接口
+
+  liveReport: liveReport_URL // liveReport接口
 }
 
 const api = {
@@ -181,9 +183,19 @@ const api = {
 
   playerVedio: front.vedioReport + 'prod' + '/queryPlayerStat', // 平台用户所属玩家电子游戏统计
 
-  calcUserStat: front.vedioReport + 'prod' + '/calcUserStat', // 电子游戏报表用户时间查询
+  calcUserStatVedio: front.vedioReport + 'prod' + '/calcUserStat', // 电子游戏报表用户时间查询
 
-  calcPlayerStat: front.vedioReport + 'prod' + '/calcPlayerStat',  // 电子游戏报表玩家时间查询
+  calcPlayerStatVedio: front.vedioReport + 'prod' + '/calcPlayerStat',  // 电子游戏报表玩家时间查询
+
+  // liveReport
+  reportLive: front.liveReport + 'dev' + '/queryUserStat', // 平台用户真人游戏统计
+
+  playerLive: front.liveReport + 'dev' + '/queryPlayerStat', // 平台用户所属玩家真人游戏统计
+
+  calcUserStatLive: front.liveReport + 'dev' + '/calcUserStat', // 真人游戏报表用户时间查询
+
+  calcPlayerStatLive: front.liveReport + 'dev' + '/calcPlayerStat',  // 真人游戏报表玩家时间查询
+
   // methods
 
   get: 'get',

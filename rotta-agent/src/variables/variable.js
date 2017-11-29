@@ -136,12 +136,20 @@ const variable = {
   visitedViews: [],
   activeIndex: null,
   tabIndex: null,
+  
   vedioGameData: {
     nowList: [],
     nowChildList: [],
     nowPlayerlist: [],
     nowUserID: ''
-  } // 电子游戏报表数据
+  }, // 电子游戏报表数据
+
+  liveGameData: {
+    nowList: [],
+    nowChildList: [],
+    nowPlayerlist: [],
+    nowUserID: ''
+  } // 真人游戏报表数据
 
 }
 

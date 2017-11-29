@@ -25,6 +25,7 @@
               <el-submenu index="3">
                 <template slot="title">财务中心</template>
                   <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
+                  <el-menu-item index="liveGameReport">真人游戏总报表</el-menu-item>
               </el-submenu>
               <el-submenu index="4">
                   <template slot="title">系统设置</template>
