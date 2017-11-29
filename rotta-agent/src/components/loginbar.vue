@@ -1,6 +1,6 @@
 <template>
   <div class="loginbar">
-    <!-- <div class="helpBox">
+    <!--  <div class="helpBox">
       <img src="/static/icon.png" alt="帮助" class="help-icon">
     </div> -->
     <!-- <span class="help" @click="showSlider">组织架构</span> -->
