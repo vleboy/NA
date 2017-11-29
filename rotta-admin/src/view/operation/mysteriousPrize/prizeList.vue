@@ -52,7 +52,11 @@
             {{ scope.row.merchantName === 'NULL!' ? '-' : scope.row.merchantName}}
           </template>
         </el-table-column>
-        <el-table-column prop="gameType" label="所属游戏" align="center"></el-table-column>
+        <el-table-column prop="gameType" label="所属游戏" align="center">
+          <template scope="scope">
+            {{gameTypeObj[scope.row.gameType]}}
+          </template>
+        </el-table-column>
         <el-table-column prop="nickname" label="玩家昵称" align="center">
           <template scope="scope">
             {{ scope.row.nickname === 'NULL!' ? '-' : scope.row.nickname}}
@@ -110,6 +114,18 @@
         nowPage: 1,
         prizeList: [],
         playerStatus: ['未领取', '已领取'],
+        gameTypeObj: {
+          '10001': '推锅',
+          '10002': '推筒子',
+          '20001': '四川麻将',
+          '20002': '山西麻将',
+          '30000': '真人视讯',
+          '30001': '百家乐',
+          '40000': '老虎机',
+          '40001': '罗塔之谜',
+          '40002': '小厨娘',
+          '41001': '街机马戏团'
+        },
         dateTime: [],
         searchInfo: {
           userName: '',
