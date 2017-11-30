@@ -226,7 +226,7 @@ export default new Router({
     },
     {
       path: '/boothList',
-      name: '展位管理',
+      name: '展位列表',
       component: BoothList
     },
     {

@@ -15,6 +15,23 @@
                   <el-menu-item index="gamelist">游戏列表</el-menu-item>
                   <el-menu-item index="gameBackstage">游戏后台</el-menu-item>
               </el-submenu>
+              <el-submenu index="4">
+                <template slot="title">运营中心</template>
+                <el-submenu index="4-1">
+                  <template slot="title">公告管理</template>
+                  <el-menu-item index="gameNoticeList">游戏公告列表</el-menu-item>
+                  <el-menu-item index="horseRaceLampList">跑马灯列表</el-menu-item>
+                </el-submenu>
+                <el-submenu index="4-2">
+                  <template slot="title">站内信管理</template>
+                  <el-menu-item index="gameMailList">游戏邮件列表</el-menu-item>
+                </el-submenu>
+                <el-submenu index="4-3">
+                  <template slot="title">展位管理</template>
+                  <el-menu-item index="boothList">展位列表</el-menu-item>
+                </el-submenu>
+              </el-submenu>
+
               <!-- <el-submenu index="4">
                   <template slot="title">运营中心</template>
               </el-submenu>
@@ -27,7 +44,7 @@
                         <el-menu-item index="helpdetail">帮助详情</el-menu-item>
                         <el-menu-item index="addhelp">新增帮助</el-menu-item>
                     </el-submenu>
-              </el-submenu> -->
+              </el-submenu>
               <el-submenu index="7">
                   <template slot="title">系统设置</template>
                   <!-- <el-submenu index="7-1">

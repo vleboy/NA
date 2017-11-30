@@ -83,7 +83,7 @@
             placeholder="选择日期时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="包含物品" label-width="100px">
+        <el-form-item label="包含物品" label-width="100px" v-if="role!='100'">
           <el-row>
             <el-col :span="8">
               <el-col :span="4">类型</el-col>
@@ -156,7 +156,7 @@ export default {
       type: 'recordNowindex',
       data: 'gameMailList'
     })
-    this.$store.commit('startLoading')
+//    this.$store.commit('startLoading')
   },
   created () {
     this.getMailList()
@@ -206,7 +206,8 @@ export default {
         disabledDate (time) {
           return time.getTime() < Date.now() - 3600 * 1000 * 24
         }
-      }
+      },
+      role: localStorage.loginRole // 相应角色的权限（区分商户、线路商、平台角色）
     }
   },
   computed: {
@@ -220,7 +221,7 @@ export default {
   },
   methods: {
     getMailList () {
-      this.$store.commit('startLoading')
+//      this.$store.commit('startLoading')
       invoke({
         url: api.getMailList,
         method: api.post
