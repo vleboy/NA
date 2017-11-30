@@ -813,6 +813,7 @@ const actions = {
       data: data
     })
     let user = result1[1].data.payload
+    context.commit('closeLoading')
     // 请求账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -841,7 +842,6 @@ const actions = {
       type: 'recordLiveNowlist',
       data: user
     })
-    context.commit('closeLoading')
   },
   async getLiveNowchild (context) {
     var data = {
