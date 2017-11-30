@@ -95,7 +95,7 @@ $<template>
             </el-table-column>
             <el-table-column label="操作" align="center">
               <template scope="scope">
-                <el-button  type="text" v-if="scope.row.kindId==40000" @click="billDetail(scope.row)">查看详单</el-button>
+                <el-button  type="text" v-if="scope.row.kindId==40000 || scope.row.kindId==30000" @click="billDetail(scope.row)">查看详单</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -322,6 +322,7 @@ export default {
     },
     billDetail (row) {
       localStorage.setItem('playerBillId', row.billId)
+      localStorage.setItem('playerGameType', row.gameType)
       this.$router.push('playerBill')
     },
     accountDetail () {

@@ -35,8 +35,12 @@ $<template>
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="sn" label="流水号" align="center"></el-table-column>
-            <el-table-column label="下注时间" :formatter="getAtime" align="center"></el-table-column>
+            <el-table-column prop="sn" label="流水号" align="center" width="250px"></el-table-column>
+            <el-table-column label="下注时间" align="center" width="200px">
+              <template scope="scope">
+                {{formatterTime(scope.row.createdAt)}}
+              </template>
+            </el-table-column>
             <el-table-column label="结算前余额" align="center">
               <template scope="scope">
                 {{formatPoints(scope.row.originalAmount)}}
@@ -72,7 +76,8 @@ $<template>
             </el-table-column>
             <el-table-column label="操作" align="center">
               <template scope="scope">
-                <el-button  type="text" @click="openModal(scope.row)">战绩截图</el-button>
+                <el-button  type="text" @click="openModal(scope.row)">
+                  {{gameTypeStatus?'战绩截图':'战绩详细'}}</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -86,7 +91,7 @@ $<template>
       </div>
     </div>
     <el-dialog title="战绩详细" :visible.sync="isOpenModal" class="g-text-center">
-      <div v-loading.body="dialogLoading" element-loading-text="加载中...">
+      <div v-if="gameTypeStatus">
         <div class="record-bg" :class="{'record-tlzm':gameType=='40001','record-xcl':gameType=='40002'}">
           <div class="record-content" :class="{'tlzm':gameType=='40001'}">
             <div v-for="(data,index) in recordArray" :key="index" class="record-wrap" :class="{'tlzm-wrap':gameType=='40001'}">
@@ -108,6 +113,48 @@ $<template>
           </el-col>
         </div>
         <div v-else class="no-record">战绩截图同步中，请稍后在查看</div>
+      </div>
+      <div v-else  v-loading.body="dialogLoading" element-loading-text="加载中...">
+        <el-row class="record-row">
+          <el-col :span="12">游戏名称：{{recordInfo.gameName}}</el-col>
+          <el-col :span="12" class="-row-left">投注编号：{{recordInfo.betId}}</el-col>
+        </el-row>
+        <el-row class="record-row">
+          <el-col :span="12">投注时间：{{formatterTime(recordInfo.betTime)}}</el-col>
+          <el-col :span="12" class="-row-left">派彩时间：{{formatterTime(recordInfo.settleTime)}}</el-col>
+        </el-row>
+        <el-row class="record-row">
+          <el-col :span="12">会员：{{recordInfo.userName}}</el-col>
+          <el-col :span="12" class="-row-left">游戏：{{recordInfo.gameTable}}</el-col>
+        </el-row>
+        <el-row class="record-row">
+          <el-col :span="12" v-if="gameType!='30003'">游戏结果：{{brandResult[recordInfo.bpresult]}}（庄：
+            <span v-for="(item,index) in recordInfo.b" :key="index">
+              <img style="width: 3%" :src="brandImg[item.m]">:{{brandList[item.n]}},
+            </span> 闲：
+             <span v-for="(item,index) in recordInfo.p" :key="index">
+              <img style="width: 3%" :src="brandImg[item.m]">:{{brandList[item.n]}},
+            </span>）
+          </el-col>
+          <el-col v-else :span="12">
+            游戏结果：{{recordInfo.roundResult}}
+          </el-col>
+          <el-col :span="12" class="-row-left">投注号码：{{recordInfo.betNum}}</el-col>
+        </el-row>
+        <el-row class="record-row">
+          <el-col :span="12">下注前余额：{{formatPoints(recordInfo.preBalance)}}</el-col>
+          <el-col :span="12" class="-row-left">投注金额：{{formatPoints(recordInfo.amount)}}</el-col>
+        </el-row>
+        <el-row class="record-row">
+          <el-col :span="12">赢/输：
+            <span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">
+              {{winLostState[recordInfo.winLostStatus]}}
+            </span>
+          </el-col>
+          <el-col :span="12" class="-row-left">输赢金额：
+            <span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">
+            {{formatPoints(recordInfo.winLostAmount)}}</span></el-col>
+        </el-row>
       </div>
     </el-dialog>
   </div>
@@ -134,9 +181,47 @@ export default {
       allAmount: 0,
       isOpenModal: false,
       dialogLoading: false,
+      gameTypeStatus: localStorage.playerGameType == '40000',
       detailList: [],
       searchArray: [],
+      winLostState:['取消','输','赢','和'],
+      brandImg:{
+        'C': '../../../static/playerBill/brand/C.png',
+        'D': '../../../static/playerBill/brand/D.png',
+        'H': '../../../static/playerBill/brand/H.png',
+        'S': '../../../static/playerBill/brand/S.png'
+      },// 牌型
+      brandList:{
+        '1': 'A',
+        '2': '2',
+        '3': '3',
+        '4': '4',
+        '5': '5',
+        '6': '6',
+        '7': '7',
+        '8': '8',
+        '9': '9',
+        '10': '10',
+        '11': 'J',
+        '12': 'Q',
+        '13': 'k'
+      },//牌型点数
+      brandResult:{
+        '0': '庄',
+        '1': '闲',
+        '2': '和',
+        '3': '庄、庄对',
+        '4': '庄、闲对',
+        '5': '和、庄对',
+        '6': '和、闲对',
+        '7': '闲、庄对',
+        '8': '闲、闲对',
+        '9': '庄、庄对、闲对',
+        '10': '和、庄对、闲对',
+        '11': '闲、庄对、闲对'
+      },//牌型点数
       gameType: {},
+      recordInfo: {},
       playerBillDetailInfo: {}, //基本信息
       itemRecord: {}, //单个信息
       finalRecord: [], //循环列表需要的战绩数组（最终版）
@@ -172,8 +257,8 @@ export default {
     }
   },
   methods: {
-    getAtime (row) {
-      return detailTime(row.createdAt)
+    formatterTime (row) {
+      return detailTime(row)
     }, // 格式化创建时间
     getNowsize (size) {
       this.nowSize = size
@@ -221,7 +306,7 @@ export default {
       this.finalRecord = []
       this.winCard = []
       this.isOpenModal = true
-//      this.dialogLoading = true
+      this.dialogLoading = true
       invoke({
         url: api.playerRecord,
         method: api.post,
@@ -238,10 +323,10 @@ export default {
               type: 'error'
             })
           } else {
-            if (res.data.data != null) {
-              this.gameType = res.data.data.gameId
-              this.mode = res.data.data.record.mode
-              this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)  // 转化为JSON数组
+            if (res.data.data != null && res.data.data.gameType=='40000') {
+              this.gameType =  res.data.data.gameId
+              this.mode =  res.data.data.record.mode
+              this.playerRecordList = JSON.parse( res.data.data.record.gameDetail)  // 转化为JSON数组
               this.recordArray = this.split_array(this.playerRecordList.viewGrid,3) // 把数组分为3个为数组的二维数组
               this.itemRecord = JSON.parse(JSON.stringify(this.playerRecordList)) // 获取截图下面的数据统计信息
 
@@ -310,6 +395,13 @@ export default {
                   this.recordArray = this.split_array(this.finalRecord,3) // 处理后又变成了一维数组，然后再次处理为二维数组
                 }
               }
+            } else if (res.data.data != null && res.data.data.gameType=='30000'){
+              this.gameType =  res.data.data.gameId
+              this.recordInfo = res.data.data.record
+              this.recordInfo.roundResult = JSON.parse(res.data.data.record.roundResult)
+              this.recordInfo.p = this.recordInfo.roundResult.p
+              this.recordInfo.b = this.recordInfo.roundResult.b
+              this.recordInfo.bpresult  = this.recordInfo.roundResult.bpresult
             }
           }
           this.$store.commit('closeLoading')
@@ -419,5 +511,13 @@ export default {
   .playBill .no-win{
     background-color: #fbdebf;
     opacity: 0.2;
+  }
+  .playBill .record-row {
+    padding: 20px;
+    padding-left: 50px;
+    text-align: left;
+  }
+  .playBill .-row-left {
+    padding-left: 100px;
   }
 </style>
