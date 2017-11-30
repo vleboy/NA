@@ -326,7 +326,7 @@ export default {
           let player = this.$store.state.variable.vedioGameData.nowPlayerlist
           for (let item of player) {
             let player_data = {
-              gameUserIds: [item.gameUserId],
+              gameUserIds: [item.userId],
               query: {
                 createdAt: this.searchDate
               }
