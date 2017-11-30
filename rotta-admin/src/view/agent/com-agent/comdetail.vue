@@ -94,7 +94,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="12">
+                        <el-col :span="7">
                             <div class="" style="float:left">
                                 <el-form-item label="商户游戏" v-show="disable == true">
                                     <div v-for="item in comdetail.gameList" style="display:inline-block;margin-left:0.25rem">
@@ -105,6 +105,16 @@
                                     <el-checkbox-group v-model="selectGame">
                                         <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
                                     </el-checkbox-group>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="7">
+                            <div class="">
+                                <el-form-item label="商户序列号">
+                                    {{comdetail.sn}}
                                 </el-form-item>
                             </div>
                         </el-col>
