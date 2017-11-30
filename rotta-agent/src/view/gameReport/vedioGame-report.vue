@@ -82,7 +82,7 @@
       <el-table :data="vedioNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
-        <el-table-column label="用户名" prop="username" align="center">
+        <el-table-column label="用户名" prop="userName" align="center">
         </el-table-column>
         <el-table-column label="昵称" prop="nickname" align="center">
         </el-table-column>
