@@ -5,7 +5,7 @@
       <div class="clearFix" style="margin-bottom:0.5rem">
         <p class="title" style="float:left">当前选择列表<span v-if="nowRole != 00" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
         <div style="float:right;margin-right:1rem">
-          <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围" :editable="false"></el-date-picker>
+          <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围(默认最近一周)" :editable="false"></el-date-picker>
           <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData" :loading="loading">查询</el-button>
           <el-button @click="resetSearch">清空</el-button>
         </div>
@@ -228,13 +228,7 @@ export default {
       return (data.winloseRate * 100).toFixed(2) + '%'
     },
     userType (data) {
-      if (data.role == '1') {
-        return '管理员'
-      } else if (data.role == '10') {
-        return '线路商'
-      } else {
-        return '商户'
-      }
+      return '代理'
     }, // 格式化用户类型
     points (data) {
       return formatPoints('' + data)
