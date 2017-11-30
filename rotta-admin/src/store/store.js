@@ -9,7 +9,9 @@ const state = {
   variable,
   checkform,
   ajaxCount: 0,
-  orignPage: 0
+  orignPage: 0,
+  startTime: '',
+  endTime: ''
 }
 const getters = {
   visitedViews: state => state.variable.visitedViews
@@ -795,8 +797,8 @@ const actions = {
       )
     }
   },
-  getLiveNowlist (context) {
-    var data = {
+  async getLiveNowlist (context) {
+    let data = {
       userId: ''
     }
     if (state.variable.liveGameData.nowUserID && state.variable.liveGameData.nowUserID != '01') {
@@ -804,78 +806,173 @@ const actions = {
     } else {
       data.userId = localStorage.loginId
     }
-    invoke({
+    // 请求基本信息
+    let result1 = await invoke({
       url: api.reportLive,
       method: api.post,
       data: data
-    }).then(
-      result => {
-        const [err, ret] = result
-        if (err) {
-        } else {
-          var data = ret.data.payload
-          context.commit({
-            type: 'recordLiveNowlist',
-            data: data
-          })
-          context.commit('closeLoading')
-        }
+    })
+    let user = result1[1].data.payload
+    // 请求账单信息
+    context.commit('getWeek')
+    let searchDate = []
+    searchDate = [state.startTime, state.endTime]
+    let searchData = {
+      gameType: 30000,
+      role: user.role,
+      userIds: [user.userId],
+      query: {
+        createdAt: searchDate
       }
-    )
+    }
+    let result2 = await invoke({
+      url: api.calcUserStatLive,
+      method: api.post,
+      data: searchData
+    })
+    let count = result2[1].data.payload[0]
+    // 更新账单至基本信息
+    user.bet = count.bet
+    user.betCount = count.betCount
+    user.winlose = count.winlose
+    user.mixAmount = count.mixAmount
+    user.winloseRate = count.winloseRate
+    context.commit({
+      type: 'recordLiveNowlist',
+      data: user
+    })
+    context.commit('closeLoading')
   },
-  getLiveNowchild (context) {
+  async getLiveNowchild (context) {
     var data = {
       parent: '01'
     }
     if (state.variable.liveGameData.nowUserID) {
       data.parent = state.variable.liveGameData.nowUserID
     }
-    invoke({
+    // 请求下级信息
+    let result1 = await invoke({
       url: api.reportLive,
       method: api.post,
       data: data
-    }).then(
-      result => {
-        const [err, ret] = result
-        if (err) {
-        } else {
-          var data = ret.data.payload
-          context.commit({
-            type: 'recordLiveNowchild',
-            data: data
-          })
+    })
+    let child = result1[1].data.payload
+    // 请求下级账单信息
+    context.commit('getWeek')
+    let searchDate = []
+    searchDate = [state.startTime, state.endTime]
+    for (let item of child) {
+      let child_data = {
+        gameType: 30000,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
         }
       }
-    )
-  },
-  getLiveNowplayer (context) {
-    if (state.variable.liveGameData.nowUserID == '01' || !state.variable.liveGameData.nowUserID) {
-    } else {
-      var data = {
-        parentId: state.variable.liveGameData.nowUserID
-      }
       invoke({
-        url: api.playerLive,
+        url: api.calcUserStatLive,
         method: api.post,
-        data: data
+        data: child_data
       }).then(
         result => {
           const [err, ret] = result
           if (err) {
           } else {
             var data = ret.data.payload
-            context.commit({
-              type: 'recordLiveNowplayer',
-              data: data
-            })
+            for (let outside of child) {
+              for (let inside of data) {
+                if (outside.userId == inside.userId) {
+                  outside.bet = inside.bet
+                  outside.betCount = inside.betCount
+                  outside.winlose = inside.winlose
+                  outside.mixAmount = inside.mixAmount
+                  outside.winloseRate = inside.winloseRate
+                }
+              }
+            }
           }
         }
       )
+    }
+    context.commit({
+      type: 'recordLiveNowchild',
+      data: child
+    })
+  },
+  async getLiveNowplayer (context) {
+    if (state.variable.liveGameData.nowUserID == '01' || !state.variable.liveGameData.nowUserID) {
+    } else {
+      // 请求所属玩家基本信息
+      var data = {
+        parentId: state.variable.liveGameData.nowUserID
+      }
+      let result1 = await invoke({
+        url: api.playerLive,
+        method: api.post,
+        data: data
+      })
+      let player = result1[1].data.payload
+
+      // 请求所属玩家账单信息
+      context.commit('getWeek')
+      let searchDate = []
+      searchDate = [state.startTime, state.endTime]
+      for (let item of player) {
+        let player_data = {
+          gameType: 30000,
+          gameUserIds: [item.userId],
+          query: {
+            createdAt: searchDate
+          }
+        }
+        invoke({
+          url: api.calcPlayerStatLive,
+          method: api.post,
+          data: player_data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              for (let outside of player) {
+                for (let inside of data) {
+                  if (outside.userId == inside.gameUserId) {
+                    outside.bet = inside.bet
+                    outside.betCount = inside.betCount
+                    outside.winlose = inside.winlose
+                  }
+                }
+              }
+            }
+          }
+        )
+      }
+      context.commit({
+        type: 'recordLiveNowplayer',
+        data: player
+      })
     }
   }
 }
 
 const mutations = {
+  getWeek(state, payload) {
+    //按周日为一周的最后一天计算
+    let date = new Date()
+    //今天是这周的第几天
+    let today = date.getDay()
+    //上周日距离今天的天数（负数表示）
+    let stepSunDay = -today + 1
+    // 如果今天是周日
+    if (today == 0) {
+      stepSunDay = -7
+    }
+    let time = date.getTime()
+    state.startTime = new Date(time + stepSunDay * 24 * 3600 * 1000).setHours(0, 0, 0, 0)
+    state.endTime = new Date(time + stepSunDay * 24 * 3600 * 1000).setHours(0, 0, 0, 0) + (7 * 24 * 3600 * 1000 - 1)
+  }, // 处理周次
   resetPage (state, payload) {
     state.orignPage = 1
   },

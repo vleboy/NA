@@ -82,7 +82,7 @@
       <el-table :data="vedioNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
-        <el-table-column label="用户名" prop="userName" align="center">
+        <el-table-column label="用户名" prop="username" align="center">
         </el-table-column>
         <el-table-column label="昵称" prop="nickname" align="center" :formatter="formatnickname">
         </el-table-column>
@@ -228,7 +228,7 @@ export default {
       return (data.winloseRate * 100).toFixed(2) + '%'
     },
     formatnickname (data) {
-      return data.nickname == 'NULL!' ? '-' : data.nick
+      return data.nickname == 'NULL!' ? '-' : data.nickname
     },
     userType (data) {
       if (data.role == '1') {
