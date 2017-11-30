@@ -221,7 +221,7 @@ export default {
   },
   methods: {
     getMailList () {
-//      this.$store.commit('startLoading')
+      this.$store.commit('startLoading')
       invoke({
         url: api.getMailList,
         method: api.post
