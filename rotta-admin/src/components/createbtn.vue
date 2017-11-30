@@ -119,7 +119,7 @@ export default {
     }, // 填写商户基本信息
     gosuccom () {
       this.loading = true
-      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.msn === false || this.$store.state.checkform.loginWhitelist === false || this.$store.state.checkform.frontURL === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.name === false || this.$store.state.checkform.userContact === false || this.$store.state.checkform.userEmail === false) {
+      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.msn === false || this.$store.state.checkform.loginWhitelist === false || this.$store.state.checkform.frontURL === false || this.$store.state.checkform.moneyURL === false || this.$store.state.checkform.registerURL === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.name === false || this.$store.state.checkform.userContact === false || this.$store.state.checkform.userEmail === false) {
         this.$message({
           message: '请完善配置信息',
           type: 'error'

@@ -25,12 +25,30 @@
       </el-form-item>
       <el-form-item label="商户域名" prop="frontURL">
         <el-input v-model="setcomInfo.frontURL" class="input" placeholder="请输入">
-          <el-select v-model="selectFront" slot="prepend" placeholder="请选择" style="width:6.5rem">
+          <el-select v-model="selectFront1" slot="prepend" placeholder="请选择" style="width:6.5rem">
             <el-option label="Http://" value="Http://"></el-option>
             <el-option label="Https://" value="Https://"></el-option>
           </el-select>
         </el-input>
-        <el-button type="text" class="" @click="checkURL">验证</el-button>
+        <el-button type="text" class="" @click="checkURL(selectFront1,setcomInfo.frontURL)">验证</el-button>
+      </el-form-item>
+      <el-form-item label="商户充值页面地址" prop="moneyURL">
+        <el-input v-model="setcomInfo.moneyURL" class="input" placeholder="请输入">
+          <el-select v-model="selectFront2" slot="prepend" placeholder="请选择" style="width:6.5rem">
+            <el-option label="Http://" value="Http://"></el-option>
+            <el-option label="Https://" value="Https://"></el-option>
+          </el-select>
+        </el-input>
+        <el-button type="text" class="" @click="checkURL(selectFront2,setcomInfo.moneyURL)">验证</el-button>
+      </el-form-item>
+      <el-form-item label="商户注册页面地址" prop="registerURL">
+        <el-input v-model="setcomInfo.registerURL" class="input" placeholder="请输入">
+          <el-select v-model="selectFront3" slot="prepend" placeholder="请选择" style="width:6.5rem">
+            <el-option label="Http://" value="Http://"></el-option>
+            <el-option label="Https://" value="Https://"></el-option>
+          </el-select>
+        </el-input>
+        <el-button type="text" class="" @click="checkURL(selectFront3,setcomInfo.registerURL)">验证</el-button>
       </el-form-item>
       <h2 class="title">配置商户后台管理员</h2>
       <el-form-item label="商户管理员用户名" prop="username">
@@ -186,8 +204,28 @@ export default {
         )
       }
     } // 验证商户线路号
+    var checkmoneyURL = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入域名'))
+        store.state.checkform.moneyURL = false
+      } else {
+        store.state.checkform.moneyURL = true
+        callback()
+      }
+    } // 验证商户充值域名
+    var checkregisterURL = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入域名'))
+        store.state.checkform.registerURL = false
+      } else {
+        store.state.checkform.registerURL = true
+        callback()
+      }
+    } // 验证商户注册域名
     return {
-      selectFront: '', // 前端域名前缀
+      selectFront1: '', // 前端域名前缀
+      selectFront2: '', // 充值域名前缀
+      selectFront3: '', // 注册域名前缀
       allGames: [], // 获取到的游戏列表
       setcomInfo: {
         rate: '', // 商户抽成比
@@ -196,6 +234,8 @@ export default {
         gameList: [], // 拥有游戏
         loginWhiteList: '', // 商户白名单
         frontURL: '', // 商户前端域名
+        moneyURL: '', // 商户充值域名
+        registerURL: '', // 商户注册域名
         username: '', // 商户管理员用户名
         password: '', // 商户管理员密码
         adminName: '', // 商户管理员姓名
@@ -235,6 +275,12 @@ export default {
         ],
         frontURL: [
           {validator: checkURL, trigger: 'blur'}
+        ],
+        moneyURL: [
+          {validator: checkmoneyURL, trigger: 'blur'}
+        ],
+        registerURL: [
+          {validator: checkregisterURL, trigger: 'blur'}
         ]
       }
     }
@@ -264,8 +310,8 @@ export default {
         }
       )
     },
-    checkURL () {
-      var url = this.selectFront + this.setcomInfo.frontURL
+    checkURL (http, data) {
+      var url = http + data
       window.open(url)
     }
   },
@@ -275,7 +321,9 @@ export default {
       if (!this.setcomInfo.loginWhiteList) {
         this.setcomInfo.loginWhiteList = '0.0.0.0'
       }
-      this.setcomInfo.frontURL = this.selectFront + this.setcomInfo.frontURL
+      this.setcomInfo.frontURL = this.selectFront1 + this.setcomInfo.frontURL
+      this.setcomInfo.moneyURL = this.selectFront2 + this.setcomInfo.moneyURL
+      this.setcomInfo.registerURL = this.selectFront3 + this.setcomInfo.registerURL
       this.$store.commit({
         type: 'recordComcreate',
         data: this.setcomInfo

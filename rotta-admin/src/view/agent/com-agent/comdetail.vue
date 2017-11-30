@@ -152,10 +152,26 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="12">
+                        <el-col :span="7">
                             <div class="">
-                                <el-form-item label="商户密匙">
-                                    <span>{{comdetail.apiKey}}</span>
+                                <el-form-item label="商户充值域名" v-show="disable == true">
+                                    {{comdetail.moneyURL}}
+                                </el-form-item>
+                                <el-form-item label="商户充值域名" prop="moneyURL" v-show="disable == false">
+                                    <el-input autosize v-model="comdetail.moneyURL"></el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                         <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="7">
+                            <div class="">
+                                <el-form-item label="商户注册域名" v-show="disable == true">
+                                    {{comdetail.registerURL}}
+                                </el-form-item>
+                                <el-form-item label="商户注册域名" prop="registerURL" v-show="disable == false">
+                                    <el-input autosize v-model="comdetail.registerURL"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -168,6 +184,16 @@
                                 </el-form-item>
                                 <el-form-item label="商户白名单" prop="loginWhiteList" v-show="disable == false">
                                     <el-input autosize v-model="comdetail.loginWhiteList"></el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <el-col :span="12">
+                            <div class="">
+                                <el-form-item label="商户密匙">
+                                    <span>{{comdetail.apiKey}}</span>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -618,6 +644,24 @@ export default {
         callback()
       }
     } // 验证前端域名
+    var moneyURL = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入域名'))
+        this.isfinish.moneyURL = false
+      } else {
+        this.isfinish.moneyURL = true
+        callback()
+      }
+    } // 验证充值域名
+    var registerURL = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入域名'))
+        this.isfinish.registerURL = false
+      } else {
+        this.isfinish.registerURL = true
+        callback()
+      }
+    } // 验证注册域名
     var checkContractPeriod = (rule, value, callback) => {
       if (value === 0) {
         this.isfinish.contractPeriod = true
@@ -656,7 +700,9 @@ export default {
         hostContact: true,
         contractPeriod: true,
         loginWhiteList: true,
-        frontURL: true
+        frontURL: true,
+        moneyURL: true,
+        registerURL: true,
       },
       rules: {
         password: [
@@ -673,6 +719,12 @@ export default {
         ],
         frontURL: [
           {validator: checkURL, trigger: 'change'}
+        ],
+        moneyURL: [
+          {validator: moneyURL, trigger: 'change'}
+        ],
+        registerURL: [
+          {validator: registerURL, trigger: 'change'}
         ],
         rate: [
           {validator: checkRate, trigger: 'change'}

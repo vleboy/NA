@@ -15,7 +15,9 @@ const checkform = {
   userContact: false,
   msn: false,
   loginWhitelist: true,
-  frontURL: false
+  frontURL: false,
+  moneytURL: false,
+  registerURL: false
 }
 export default {
   ...checkform
