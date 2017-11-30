@@ -813,6 +813,10 @@ const actions = {
       data: data
     })
     let user = result1[1].data.payload
+    context.commit({
+      type: 'recordLiveNowlist',
+      data: user
+    })
     context.commit('closeLoading')
     // 请求账单信息
     context.commit('getWeek')
