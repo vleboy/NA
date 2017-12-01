@@ -31,6 +31,20 @@
       <el-breadcrumb-item><span  class="large">玩家详细</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'playerBill'" class="title">
+      <el-breadcrumb-item>玩家中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>玩家列表 </el-breadcrumb-item>
+      <el-breadcrumb-item>玩家详情 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">玩家账单详情</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'playerAccount'" class="title">
+      <el-breadcrumb-item>玩家中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>玩家列表 </el-breadcrumb-item>
+      <el-breadcrumb-item>玩家详情 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">玩家流水账详情</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'outcreate'" class="title">
       <el-breadcrumb-item>商户中心 </el-breadcrumb-item>
       <el-breadcrumb-item>线路商管理 </el-breadcrumb-item>

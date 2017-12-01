@@ -125,6 +125,11 @@ export const formatUsername = function (name) {
   }
 } // 格式化用户名
 
+export const formatUserName = function (data) {
+  const name = data.split('_')
+  return `【${name[0]}】${name[1]}`
+} // 将用户名格式化为【XXX】XXX格式
+
 export const formatMSN = function (msn) {
   return ((parseFloat(msn) * 0.001).toFixed(3) + '').substring(2)
 } // 格式化用户名

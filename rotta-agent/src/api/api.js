@@ -19,7 +19,9 @@ const front = {
 
   vedioReport: vedioReport_URL, // vedioGameReport接口
 
-  liveReport: liveReport_URL // liveReport接口
+  liveReport: liveReport_URL, // liveReport接口
+
+  playerExt: playerExt_URL // playerExt接口
 }
 
 const api = {
@@ -195,6 +197,13 @@ const api = {
   calcUserStatLive: front.liveReport + 'dev' + '/calcUserStat', // 真人游戏报表用户时间查询
 
   calcPlayerStatLive: front.liveReport + 'dev' + '/calcPlayerStat',  // 真人游戏报表玩家时间查询
+
+  //playerExt
+  playerAccount: front.playerExt + front.stage + '/player/bill/flow', // 下注返奖流水(查看流水账详单)
+
+  playerBill: front.playerExt + front.stage + '/player/bill/detail', // 账单流水详情信息(查看账单详细)
+
+  playerRecord: front.playerExt + front.stage + '/player/bill/record', // 战绩
 
   // methods
 

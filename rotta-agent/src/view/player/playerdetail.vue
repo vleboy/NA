@@ -2,7 +2,7 @@
   <div class="playerdetail">
     <div class="playdetailform">
       <div class="my-title">
-        <h2>{{detailInfo.userName}}</h2>
+        <h2>{{detailInfo.userName}} <el-button type="text" @click="accountDetail()">查看流水账详单</el-button></h2>
       </div>
       <div class="baseinfo">
         <h4>基本信息</h4>
@@ -51,8 +51,8 @@
           </el-radio-group>
         </div>
         <div class="countinfo-center">
-          <el-col :span="5">
-            <span>花费总点数 : <span class="g-color-red">{{formatPoints(allAmountFun)}}</span></span>
+          <el-col :span="12">
+            <span v-if='radioInfo!=-2'>输赢总计: <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">{{formatPoints(allAmountFun)}}</span></span>
           </el-col>
 
           <el-col :span="7" style="float: right; text-align: right">
@@ -66,31 +66,42 @@
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="date" label="序号" width="65" align="center" type="index"></el-table-column>
+            <el-table-column prop="billId" label="流水号" width="120" align="center"></el-table-column>
             <el-table-column prop="nowPoints" label="账户余额" width="120" align="center">
               <template scope="scope">
                 {{formatPoints(scope.row.originalAmount+scope.row.amount)}}
               </template>
             </el-table-column>
-            <el-table-column label="交易点数" width="120" align="center">
-              <template scope="scope">
-                <span :class="{'-p-green':scope.row.action ==1,'-p-red':scope.row.action ==-1}">{{formatPoints(scope.row.amount)}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="交易时间" :formatter="getAtime" width="180" align="center"></el-table-column>
+            <el-table-column label="进入时间" :formatter="getBtime" width="180" align="center"></el-table-column>
+            <el-table-column label="退出时间" :formatter="getAtime" width="180" align="center"></el-table-column>
             <el-table-column prop="typeName" label="交易类型" width="120" align="center"></el-table-column>
-            <el-table-column label="交易详情(原账+当前操作额=现在余额)"  align="center">
+            <el-table-column prop="originalAmount" label="入账金额" width="120" align="center">
               <template scope="scope">
-                <span>{{scope.row.originalAmount}}</span><span :class="{'-p-green':scope.row.action ==1,'-p-red':scope.row.action ==-1}">
-                <span v-if="scope.row.action==1">+</span>{{scope.row.amount}}</span>=<span>{{(scope.row.originalAmount+scope.row.amount)|currency}}</span>
+                {{formatPoints(scope.row.originalAmount)}}
               </template>
             </el-table-column>
-            <el-table-column prop="" label="操作人" width="180" align="center">
+            <el-table-column prop="typeName" label="游戏金额" width="120" align="center">
               <template scope="scope">
-                <span>{{formatUser(scope.row.operator)}}</span>
+                <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}">
+                  {{formatPoints(scope.row.amount)}}
+                </span>
               </template>
             </el-table-column>
-            <el-table-column prop="remark" label="备注" align="center">
+            <el-table-column prop="typeName" label="出账金额" width="120" align="center">
+              <template scope="scope">
+                <span>{{formatPoints(scope.row.originalAmount+scope.row.amount)}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="帐类型" align="center">
+              <template scope="scope">
+                <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}" v-if="scope.row.kindId!=-1&&scope.row.kindId!=-3">
+                  {{(scope.row.amount>=0) ? '玩家赢' : '玩家输'}}
+                </span>
+                <span v-else>-</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="operator" label="操作人" width="160" align="center"></el-table-column>
+            <el-table-column label="备注" align="center">
               <template scope="scope">
                 <el-popover trigger="hover" placement="bottom-start" width="250">
                   <p>{{ scope.row.remark === 'NULL!' ? '' : scope.row.remark}}</p>
@@ -100,10 +111,16 @@
                 </el-popover>
               </template>
             </el-table-column>
+            <el-table-column label="操作" align="center">
+              <template scope="scope">
+                <el-button  type="text" v-if="scope.row.kindId==40000 || scope.row.kindId==30000" @click="billDetail(scope.row)">查看详单</el-button>
+              </template>
+            </el-table-column>
           </el-table>
           <div style="text-align: right;margin:2rem 0">
             <el-pagination layout="prev, pager, next, sizes, jumper" :total="detailInfo.list.length"
-                           :page-sizes="[5, 10]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+                           :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"
+                           :current-page.sync="currentPage">
             </el-pagination>
           </div>
         </div>
@@ -131,7 +148,7 @@
     </div>
   </div>
 </template>
-<script>
+<script type="text/ecmascript-6">
 import { detailTime, formatUsername, thousandFormatter } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
@@ -151,8 +168,9 @@ export default {
   },
   data () {
     return {
-      nowSize: 5,
+      nowSize: 20,
       nowPage: 1,
+      currentPage: 1,
       radioInfo: '0',
       password: '',
       amountDate: '',
@@ -213,18 +231,18 @@ export default {
       this.allAmount = 0
       if (!this.isShowRadio) {
         for (let item of this.playerDetailList.list) {
-          if (item.amount < 0 && (item.kindId!=-1)) {
+          if (item.kindId != '-2') {
             this.allAmount = item.amount + this.allAmount
           }
         }
       } else {
         for (let item of this.detailList.list) {
-          if (item.amount < 0 && (item.kindId!=-1)) {
+          if (item.kindId != '-2') {
             this.allAmount = item.amount + this.allAmount
           }
         }
       }
-      return Math.abs(this.allAmount)
+      return this.allAmount
     }
   },
   methods: {
@@ -275,8 +293,15 @@ export default {
       }
     },
     getAtime (row, col) {
-      return detailTime(row.updateAt)
-    }, // 格式化创建时间
+      return detailTime(row.createAt)
+    }, // 格式化退出时间
+    getBtime (row, col) {
+      if(row.joinTime) {
+        return detailTime(row.joinTime)
+      } else {
+        return '-'
+      }
+    }, // 格式化进入时间
     getNowsize (size) {
       this.nowSize = size
       // console.log('当前每页:' + size)
@@ -286,12 +311,17 @@ export default {
       // console.log('当前是第:' + page + '页')
     },
     changeRadio () {
+      this.currentPage = 1;
       this.isShowRadio = true
-      if (!this.isGetSearch) {
-        this.amountDate = []
+//      if (!this.isGetSearch) {
+//        this.amountDate = []
+//      }
+      if(this.amountDate.length){
+        this.searchAmount()
+      } else {
+        this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
       }
-      this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
-      this.amountDate = []
+//      this.amountDate = []
       if (this.radioInfo !== '0') {
         this.searchArray = []
         for (let item of this.detailList.list) {
@@ -380,22 +410,48 @@ export default {
     },
     searchAmount () {
       const [startDate, endDate] = this.amountDate
+      this.currentPage = 1;
       this.isShowRadio = true
       this.isGetSearch = true
       if (!this.amountDate.length) return this.$message.error('请选择时间段')
       this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
       this.searchArray = []
-      for (let item of this.detailList.list) {
-        if (new Date(item.updateAt).setHours(0,0,0,0) >= new Date(startDate).getTime() &&
-          (new Date(item.updateAt).setHours(0,0,0,0) <= new Date(endDate).getTime())) {
-          this.searchArray.push(item)
+      if(this.amountDate[0]==null || this.amountDate[1]==null) {
+        this.radioInfo = '0'
+        this.amountDate = []
+        this.detailList.list = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail)).list
+      } else {
+        for (let item of this.detailList.list) {
+          if (new Date(item.updateAt).setHours(0,0,0,0) >= new Date(startDate).getTime() &&
+            (new Date(item.updateAt).setHours(0,0,0,0) <= new Date(endDate).getTime())) {
+            this.searchArray.push(item)
+          }
+        }
+
+        // 这里是先选按钮 在过滤时间
+        if (this.radioInfo!=='0') {
+          this.detailList.list = []
+          for (let item of this.searchArray) {
+            if (item.kindId === Number(this.radioInfo)) {
+              this.detailList.list.push(item)
+            }
+          }
+        } else {
+          this.detailList.list = this.searchArray
         }
       }
-      this.detailList.list = this.searchArray
     },
     formatPoints (num) {
       return thousandFormatter(num)
-    } // 千位符格式化
+    }, // 千位符格式化
+    accountDetail () {
+      this.$router.push('playerAccount')
+    },
+    billDetail (row) {
+      localStorage.setItem('playerBillId', row.billId)
+      localStorage.setItem('playerGameType', row.gameType)
+      this.$router.push('playerBill')
+    }
   },
   filters:{   //过滤器，所有数字保留两位小数
     currency(value){

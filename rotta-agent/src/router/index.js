@@ -44,6 +44,8 @@ import AgentPlayerList from '@/view/player/playerlist' // 玩家列表
 import AgentPlayerDetail from '@/view/player/playerdetail' // 玩家详情页
 import AgentAddPlayer from '@/view/player/addPlayer' // 创建玩家
 import AgentPlayerStatistics from '@/view/player/playerStatistics' // 玩家统计
+import PlayerBill from '@/view/player/playerbill' // 玩家账单详情页
+import PlayerRunningAccount from '@/view/player/playerRunningAccount' // 玩家流水账详情页
 
 import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
 import VedioGameReport from '@/view/gameReport/vedioGame-report' // 电子游戏报表
@@ -217,6 +219,16 @@ export default new Router({
       path: '/liveGameReport',
       name: '真人游戏总报表',
       component: liveGameReport
+    },
+    {
+      path: '/playerBill',
+      name: '玩家账单详情',
+      component: PlayerBill
+    },
+    {
+      path: '/playerAccount',
+      name: '玩家流水账详情',
+      component: PlayerRunningAccount
     }
     // {
     //   path: '/tagWindow',
