@@ -9,7 +9,8 @@ const state = {
   variable,
   checkform,
   startTime: '',
-  endTime: ''
+  endTime: '',
+  ajaxCount: 0
 }
 
 const getters = {
@@ -285,12 +286,11 @@ const actions = {
           })
         } else {
           var data = ret.data.list
-          // console.log('代理玩家数据', data)
+          context.commit('countAjax')
           context.commit({
             type: 'recordDetailPlayer',
             data: data
           })
-          context.commit('closeLoading')
         }
       }
     )
@@ -317,19 +317,17 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-          context.commit('closeLoading')
           this.$message({
             message: err.msg,
             type: 'warning'
           })
         } else {
           var data = ret.data.payload
-          // console.log('详情页代理下级数据', data)
+          context.commit('countAjax')
           context.commit({
             type: 'recordComdetail_child',
             data: data
           })
-          context.commit('closeLoading')
         }
       }
     )
@@ -355,6 +353,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
+          context.commit('countAjax')
           localStorage.setItem('parentID', data.parent)
           context.commit({
             type: 'recordComdetaildata',
@@ -385,7 +384,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          // console.log('商户账户流水详情', data)
+          context.commit('countAjax')
           context.commit({
             type: 'recordComdetail_property',
             data: data
@@ -1074,6 +1073,12 @@ const actions = {
 }
 
 const mutations = {
+  resetAjax (state, payload) {
+    state.ajaxCount = 0
+  }, // 重置Ajax请求数
+  countAjax (state, payload) {
+    state.ajaxCount++
+  }, // Ajax计数
   getWeek(state, payload) {
     //按周日为一周的最后一天计算
     let date = new Date()

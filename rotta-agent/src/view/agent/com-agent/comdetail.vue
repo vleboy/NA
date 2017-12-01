@@ -3,209 +3,222 @@
         <div class="comdetail-title">
             <h2>{{comdetail.displayName}}</h2>
         </div>
-        <div class="simpleinfo">
-            <div class="parent">
-                <h4>基本信息</h4>
-                <p v-if="this.comdetail.parent !== '01' && this.$store.state.variable.comdetailID != loginId">所属代理: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
-                </p>
-                <p v-if="this.comdetail.parent !== '01' && this.$store.state.variable.comdetailID == loginId">所属代理: <span>{{comdetail.parentDisplayName}}</span>
-                </p>
-                <p v-if="this.comdetail.parent === '01'">所属代理: 无
-                </p>
-            </div>
-            <div class="editform">
-                <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
-                    <el-row>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="代理ID">
-                                    {{comdetail.displayId}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="" style="float:left">
-                                <el-form-item label="代理游戏" v-show="this.disable == true">
-                                    <div v-for="item in comdetail.gameList" style="display:inline-block;margin-left:0.25rem">
-                                        {{item.name}}
-                                    </div>
-                                </el-form-item>
-                                <el-form-item label="代理游戏" v-show="this.disable == false">
-                                    <el-checkbox-group v-model="selectGame">
-                                        <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
-                                    </el-checkbox-group>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="代理成数" v-show="this.disable == true">
-                                    {{comdetail.rate}}%
-                                </el-form-item>
-                                <el-form-item label="代理成数" prop="rate" v-show="this.disable == false">
-                                    <el-tooltip class="item" effect="dark" :content="rateContent" placement="top">
-                                      <el-input v-model="comdetail.rate">
-                                        <template slot="prepend">%</template>
-                                      </el-input>
-                                    </el-tooltip>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="电子游戏洗码比" v-show="this.disable == true">
-                                    {{comdetail.vedioMix}}%
-                                </el-form-item>
-                                <el-form-item label="电子游戏洗码比" prop="vedioMix" v-show="this.disable == false">
-                                    <el-tooltip class="item" effect="dark" :content="vedioMixContent" placement="top">
-                                      <el-input v-model="comdetail.vedioMix">
-                                        <template slot="prepend">%</template>
-                                      </el-input>
-                                    </el-tooltip>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="真人游戏洗码比" v-show="this.disable == true">
-                                    {{comdetail.liveMix}}%
-                                </el-form-item>
-                                <el-form-item label="真人游戏洗码比" prop="liveMix" v-show="this.disable == false">
-                                    <el-tooltip class="item" effect="dark" :content="liveMixContent" placement="top">
-                                      <el-input v-model="comdetail.liveMix">
-                                        <template slot="prepend">%</template>
-                                      </el-input>
-                                    </el-tooltip>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="创建时间">
-                                    {{formatTime(comdetail.createdAt)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="最后登录时间">
-                                    {{formatTime(comdetail.loginAt)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="18">
-                            <div class="">
-                                <el-form-item label="备注" v-show="this.disable == true">
-                                    <div style="word-wrap: break-word;word-break: normal;">{{Remark(comdetail.remark)}}</div>
-                                </el-form-item>
-                                <el-form-item label="备注" v-show="this.disable == false">
-                                    <el-input autosize v-model="comdetail.remark"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                </el-form>
-            </div>
+        <div class="parent" style="margin-left:1rem">
+            <h4>基本信息
+                <span class="transition-icon" @click="show1 = !show1">
+                    <span v-if="!show1">展开</span>
+                    <span v-if="show1">收起</span>
+                </span>
+            </h4>
+            <p v-if="this.comdetail.parent !== '01' && this.$store.state.variable.comdetailID != loginId">所属代理: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
+            </p>
+            <p v-if="this.comdetail.parent !== '01' && this.$store.state.variable.comdetailID == loginId">所属代理: <span>{{comdetail.parentDisplayName}}</span>
+            </p>
+            <p v-if="this.comdetail.parent === '01'">所属代理: 无
+            </p>
         </div>
-        <div class="manangeinfo">
-            <h4>管理信息
+        <el-collapse-transition>
+            <div class="simpleinfo" v-show="show1">
+                <div class="editform">
+                    <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
+                        <el-row>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="代理ID">
+                                        {{comdetail.displayId}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="" style="float:left">
+                                    <el-form-item label="代理游戏" v-show="this.disable == true">
+                                        <div v-for="item in comdetail.gameList" style="display:inline-block;margin-left:0.25rem">
+                                            {{item.name}}
+                                        </div>
+                                    </el-form-item>
+                                    <el-form-item label="代理游戏" v-show="this.disable == false">
+                                        <el-checkbox-group v-model="selectGame">
+                                            <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
+                                        </el-checkbox-group>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="代理成数" v-show="this.disable == true">
+                                        {{comdetail.rate}}%
+                                    </el-form-item>
+                                    <el-form-item label="代理成数" prop="rate" v-show="this.disable == false">
+                                        <el-tooltip class="item" effect="dark" :content="rateContent" placement="top">
+                                          <el-input v-model="comdetail.rate">
+                                            <template slot="prepend">%</template>
+                                          </el-input>
+                                        </el-tooltip>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="电子游戏洗码比" v-show="this.disable == true">
+                                        {{comdetail.vedioMix}}%
+                                    </el-form-item>
+                                    <el-form-item label="电子游戏洗码比" prop="vedioMix" v-show="this.disable == false">
+                                        <el-tooltip class="item" effect="dark" :content="vedioMixContent" placement="top">
+                                          <el-input v-model="comdetail.vedioMix">
+                                            <template slot="prepend">%</template>
+                                          </el-input>
+                                        </el-tooltip>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="真人游戏洗码比" v-show="this.disable == true">
+                                        {{comdetail.liveMix}}%
+                                    </el-form-item>
+                                    <el-form-item label="真人游戏洗码比" prop="liveMix" v-show="this.disable == false">
+                                        <el-tooltip class="item" effect="dark" :content="liveMixContent" placement="top">
+                                          <el-input v-model="comdetail.liveMix">
+                                            <template slot="prepend">%</template>
+                                          </el-input>
+                                        </el-tooltip>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="创建时间">
+                                        {{formatTime(comdetail.createdAt)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="最后登录时间">
+                                        {{formatTime(comdetail.loginAt)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="18">
+                                <div class="">
+                                    <el-form-item label="备注" v-show="this.disable == true">
+                                        <div style="word-wrap: break-word;word-break: normal;">{{Remark(comdetail.remark)}}</div>
+                                    </el-form-item>
+                                    <el-form-item label="备注" v-show="this.disable == false">
+                                        <el-input autosize v-model="comdetail.remark"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </div>
+            </div>
+        </el-collapse-transition>
+        <h4 style="margin-left:1rem">管理信息
+            <span class="transition-icon" @click="show2 = !show2">
+                <span v-if="!show2">展开</span>
+                <span v-if="show2">收起</span>
+            </span>
             <div style="float:right;margin-right:2rem">
               <el-button type="primary" @click="submitEdit" :loading="loading" v-if="this.disable === false">提交修改</el-button>
               <el-button type="primary" @click="turnONedit" v-if="this.disable === true && this.$store.state.variable.comdetailID != loginId">编辑</el-button>
             </div>
-          </h4>
-            <div class="manangeform" v-if="this.$store.state.variable.isEdit === false">
-                <p class="manager-one">
-                    <span>管理员账号: {{(comdetail.username)}}</span>
-                    <span>管理员密码: ********</span>
-                </p>
-                <p class="manager-three">
-                    <span>生效时间: {{contractPeriod(comdetail.contractPeriod)}}</span>
-                    <span>上次登录时间: {{formatTime(comdetail.loginAt)}}</span>
-                    <span>上次登录IP: {{comdetail.lastIP}}</span>
-                </p>
+        </h4>
+        <el-collapse-transition>
+            <div class="manangeinfo" v-show="show2">
+                <div class="manangeform" v-if="this.$store.state.variable.isEdit === false">
+                    <p class="manager-one">
+                        <span>管理员账号: {{(comdetail.username)}}</span>
+                        <span>管理员密码: ********</span>
+                    </p>
+                    <p class="manager-three">
+                        <span>生效时间: {{contractPeriod(comdetail.contractPeriod)}}</span>
+                        <span>上次登录时间: {{formatTime(comdetail.loginAt)}}</span>
+                        <span>上次登录IP: {{comdetail.lastIP}}</span>
+                    </p>
+                </div>
+                <div class="editform" v-if="this.$store.state.variable.isEdit === true">
+                    <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
+                        <el-row>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="管理员账号">
+                                        {{(comdetail.username)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="管理员密码" v-show="this.disable == true">
+                                        ********
+                                    </el-form-item>
+                                    <el-form-item label="管理员密码" prop="password" v-show="this.disable == false">
+                                        <el-input v-model="comdetail.password" type="password">
+                                        </el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="8">
+                                <div class="">
+                                    <el-form-item label="生效时间" v-show="this.disable == true">
+                                        ********
+                                    </el-form-item>
+                                    <el-form-item label="生效时间" prop="contractPeriod" v-show="this.disable == false">
+                                        <el-date-picker v-model="comdetail.contractPeriod" type="daterange" label="生效时间" :disabled="comdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
+                                        <el-checkbox v-model="comdetail.isforever" @change="changeContract">永久</el-checkbox>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="上次登录时间">
+                                        {{formatTime(comdetail.loginAt)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="上次登录IP">
+                                        {{comdetail.lastIP}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </div>
             </div>
-            <div class="editform" v-if="this.$store.state.variable.isEdit === true">
-                <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
-                    <el-row>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="管理员账号">
-                                    {{(comdetail.username)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="管理员密码" v-show="this.disable == true">
-                                    ********
-                                </el-form-item>
-                                <el-form-item label="管理员密码" prop="password" v-show="this.disable == false">
-                                    <el-input v-model="comdetail.password" type="password">
-                                    </el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="8">
-                            <div class="">
-                                <el-form-item label="生效时间" v-show="this.disable == true">
-                                    ********
-                                </el-form-item>
-                                <el-form-item label="生效时间" prop="contractPeriod" v-show="this.disable == false">
-                                    <el-date-picker v-model="comdetail.contractPeriod" type="daterange" label="生效时间" :disabled="comdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
-                                    <el-checkbox v-model="comdetail.isforever" @change="changeContract">永久</el-checkbox>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="上次登录时间">
-                                    {{formatTime(comdetail.loginAt)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="">
-                                <el-form-item label="上次登录IP">
-                                    {{comdetail.lastIP}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                </el-form>
-            </div>
-        </div>
+        </el-collapse-transition>
         <div class="propertyinfo">
             <h4>财务信息</h4>
             <div class="propertyform">
@@ -409,6 +422,7 @@ export default {
     Billtransfer
   },
   beforeCreate () {
+    this.$store.commit('resetAjax')
     this.$store.commit('startLoading')
     this.$store.commit({
       type: 'recordNowindex',
@@ -430,9 +444,17 @@ export default {
       } else {
         this.isfinish.gameList = false
       }
+    },
+    ajaxCount (val) {
+      if (val == 4) {
+        this.$store.commit('closeLoading')
+      }
     }
   },
   computed: {
+    ajaxCount () {
+      return this.$store.state.ajaxCount
+    },
     rateContent () {
       var content = this.parentInfo.rate
       return '上级代理成数为 ' + content + '%'
@@ -637,6 +659,8 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      show1: false, // 默认关闭信息展示,
+      show2: false, // 默认关闭信息展示,
       gameList: [], // 上级拥有的游戏(包含所有的对象)
       parentGamelist: [], // 上级拥有的游戏(只带名字的)
       selectGame: [], // 修改游戏选中值(只带名字的)
@@ -730,8 +754,9 @@ export default {
         data: this.comdetail.parent
       })
       this.disable = true
-      this.$router.push('comdetail')
+      this.$store.commit('resetAjax')
       this.$store.commit('startLoading')
+      this.$router.push('comdetail')
       this.$store.commit('closeEdit')
       this.$store.dispatch('getComdetail')
       this.$store.dispatch('getComdetail_property')
@@ -745,8 +770,9 @@ export default {
         data: link
       })
       this.disable = true
-      this.$router.push('comdetail')
+      this.$store.commit('resetAjax')
       this.$store.commit('startLoading')
+      this.$router.push('comdetail')
       this.$store.dispatch('getComdetail')
       this.$store.dispatch('getComdetail_property')
       this.$store.dispatch('getComdetail_child')
@@ -1172,4 +1198,6 @@ export default {
   .comdetail .gorouter{cursor: pointer;color: #20a0ff}
 
   .comdetail .editIcon{cursor: pointer;color: #20a0ff;display: inline-block}
+
+  .comdetail .transition-icon{cursor: pointer;color: #20a0ff;font-size: 1.2rem;margin-left: 1rem}
 </style>
