@@ -180,7 +180,7 @@ export default {
       }
     },
     lastTime () {
-      return detailTime(this.$store.state.variable.playerDetail.createAt)
+      return detailTime(this.$store.state.variable.playerDetail.updateAt)
     },
     dataList () {
       if (!this.isShowRadio) { // 主要是处理从层级关系跳转至玩家详细的逻辑
