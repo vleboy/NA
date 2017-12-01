@@ -99,6 +99,9 @@
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="center">
+          <template scope="scope">
+            <el-button type="text" @click="goPlayDetail(scope.row.userName)">{{scope.row.userName}}</el-button>
+          </template>
         </el-table-column>
         <el-table-column label="昵称" prop="nickname" align="center">
           <template scope="scope">
@@ -438,6 +441,33 @@ export default {
     getPlayerpage (page) {
       this.playerPage = page
     }, // 玩家列表分页
+    goPlayDetail (row) {
+      localStorage.setItem('playerName', row)
+      this.$store.commit('startLoading')
+      invoke({
+        url: api.getPlayDetail + '?' + 'userName' + '=' + row,
+        method: api.get
+      }).then(
+        result => {
+        const [err, res] = result
+        if (err) {
+          this.$message({
+            message: err.msg,
+            type: 'error'
+          })
+        } else {
+          this.playerDetail = res.data
+          this.$store.commit({
+          type: 'playerDetail',
+          data: this.playerDetail
+        })
+      }
+      this.$router.push('playerdetail')
+      this.$store.commit('closeLoading')
+     }
+    )
+    }
+
   }
 }
 </script>
