@@ -52,7 +52,7 @@
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
         </el-table-column>
         <el-table-column label="昵称" prop="displayName" align="center">
-           <template scope="scope">
+          <template scope="scope">
             <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.displayName}}</span>
           </template>
         </el-table-column>
@@ -100,7 +100,7 @@
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="center">
           <template scope="scope">
-            <el-button type="text" @click="goPlayDetail(scope.row.userName)">{{scope.row.userName}}</el-button>
+            <span class="fontUrl" @click="goPlayDetail(scope.row.userName)">{{scope.row.userName}}</span>
           </template>
         </el-table-column>
         <el-table-column label="昵称" prop="nickname" align="center">
@@ -458,16 +458,15 @@ export default {
         } else {
           this.playerDetail = res.data
           this.$store.commit({
-          type: 'playerDetail',
-          data: this.playerDetail
-        })
-      }
-      this.$router.push('playerdetail')
-      this.$store.commit('closeLoading')
-     }
-    )
+            type: 'playerDetail',
+            data: this.playerDetail
+          })
+        }
+        this.$router.push('playerdetail')
+        this.$store.commit('closeLoading')
+        }
+      )
     }
-
   }
 }
 </script>
