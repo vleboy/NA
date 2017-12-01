@@ -1,236 +1,249 @@
 <template>
     <div class="comdetail">
-        <div class="simpleinfo" v-loading="infoLoading" element-loading-text="加载中">
+        <div class="simpleinfo">
             <div class="comdetail-title">
                 <h2>{{comdetail.displayName}}</h2>
             </div>
             <div class="parent">
-                <h4>基本信息</h4>
+                <h4>基本信息
+                    <span class="transition-icon" @click="show1 = !show1">
+                        <span v-if="!show1">展开</span>
+                        <span v-if="show1">收起</span>
+                    </span>
+                </h4>
                 <p v-if="this.comdetail.parent !== '01'">所属线路商: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
                 </p>
             </div>
-            <div class="editform">
-                <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="商户ID">
-                                    {{comdetail.displayId}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="上级商户">
-                                    {{user(comdetail.parentName)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="商户标识">
-                                    {{comdetail.suffix}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="负责人" v-show="disable == true">
-                                    {{(comdetail.hostName)}}
-                                </el-form-item>
-                                <el-form-item label="负责人" prop="hostName" v-show="disable == false">
-                                    <el-input v-model="comdetail.hostName"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="负责人联系方式" v-show="disable == true">
-                                    {{comdetail.hostContact}}
-                                </el-form-item>
-                                <el-form-item label="负责人联系方式" prop="hostContact" v-show="disable == false">
-                                    <el-input v-model="comdetail.hostContact"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="抽成比" v-show="disable == true">
-                                    {{comdetail.rate}}%
-                                </el-form-item>
-                                <el-form-item label="抽成比" prop="rate" v-show="disable == false">
-                                  <el-input v-model="comdetail.rate">
-                                    <template slot="prepend">%</template>
-                                  </el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="商户Email" v-show="disable == true">
-                                    {{comdetail.merchantEmail}}
-                                </el-form-item>
-                                <el-form-item label="商户Email" prop="merchantEmail" v-show="disable == false">
-                                    <el-input v-model="comdetail.merchantEmail"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="" style="float:left">
-                                <el-form-item label="商户游戏" v-show="disable == true">
-                                    <div v-for="item in comdetail.gameList" style="display:inline-block;margin-left:0.25rem">
-                                        {{item.name}}
-                                    </div>
-                                </el-form-item>
-                                <el-form-item label="商户游戏" v-show="disable == false">
-                                    <el-checkbox-group v-model="selectGame">
-                                        <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
-                                    </el-checkbox-group>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="商户序列号">
-                                    {{comdetail.sn}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="创建时间">
-                                    {{formatTime(comdetail.createdAt)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="最后登录时间">
-                                    {{formatTime(comdetail.loginAt)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="线路号">
-                                    {{msn(comdetail.msn)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="商户前端域名" v-show="disable == true">
-                                    {{comdetail.frontURL}}
-                                </el-form-item>
-                                <el-form-item label="商户前端域名" prop="frontURL" v-show="disable == false">
-                                    <el-input autosize v-model="comdetail.frontURL"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="商户充值域名" v-show="disable == true">
-                                    {{comdetail.moneyURL}}
-                                </el-form-item>
-                                <el-form-item label="商户充值域名" prop="moneyURL" v-show="disable == false">
-                                    <el-input autosize v-model="comdetail.moneyURL"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                         <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="商户注册域名" v-show="disable == true">
-                                    {{comdetail.registerURL}}
-                                </el-form-item>
-                                <el-form-item label="商户注册域名" prop="registerURL" v-show="disable == false">
-                                    <el-input autosize v-model="comdetail.registerURL"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="商户白名单" v-show="disable == true">
-                                    {{comdetail.loginWhiteList}}
-                                </el-form-item>
-                                <el-form-item label="商户白名单" prop="loginWhiteList" v-show="disable == false">
-                                    <el-input autosize v-model="comdetail.loginWhiteList"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="12">
-                            <div class="">
-                                <el-form-item label="商户密匙">
-                                    <span>{{comdetail.apiKey}}</span>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="18">
-                            <div class="">
-                                <el-form-item label="备注" v-show="disable == true">
-                                    <div style="word-wrap: break-word;word-break: normal;">{{Remark(comdetail.remark)}}</div>
-                                </el-form-item>
-                                <el-form-item label="备注" v-show="disable == false">
-                                    <el-input autosize v-model="comdetail.remark"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                </el-form>
-            </div>
+            <el-collapse-transition>
+                <div class="editform" v-show="show1">
+                    <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="商户ID">
+                                        {{comdetail.displayId}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="上级商户">
+                                        {{user(comdetail.parentName)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="商户标识">
+                                        {{comdetail.suffix}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="负责人" v-show="disable == true">
+                                        {{(comdetail.hostName)}}
+                                    </el-form-item>
+                                    <el-form-item label="负责人" prop="hostName" v-show="disable == false">
+                                        <el-input v-model="comdetail.hostName"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="负责人联系方式" v-show="disable == true">
+                                        {{comdetail.hostContact}}
+                                    </el-form-item>
+                                    <el-form-item label="负责人联系方式" prop="hostContact" v-show="disable == false">
+                                        <el-input v-model="comdetail.hostContact"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="抽成比" v-show="disable == true">
+                                        {{comdetail.rate}}%
+                                    </el-form-item>
+                                    <el-form-item label="抽成比" prop="rate" v-show="disable == false">
+                                      <el-input v-model="comdetail.rate">
+                                        <template slot="prepend">%</template>
+                                      </el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="商户Email" v-show="disable == true">
+                                        {{comdetail.merchantEmail}}
+                                    </el-form-item>
+                                    <el-form-item label="商户Email" prop="merchantEmail" v-show="disable == false">
+                                        <el-input v-model="comdetail.merchantEmail"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="" style="float:left">
+                                    <el-form-item label="商户游戏" v-show="disable == true">
+                                        <div v-for="item in comdetail.gameList" style="display:inline-block;margin-left:0.25rem">
+                                            {{item.name}}
+                                        </div>
+                                    </el-form-item>
+                                    <el-form-item label="商户游戏" v-show="disable == false">
+                                        <el-checkbox-group v-model="selectGame">
+                                            <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
+                                        </el-checkbox-group>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="商户序列号">
+                                        {{comdetail.sn}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="创建时间">
+                                        {{formatTime(comdetail.createdAt)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="最后登录时间">
+                                        {{formatTime(comdetail.loginAt)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="线路号">
+                                        {{msn(comdetail.msn)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="商户前端域名" v-show="disable == true">
+                                        {{comdetail.frontURL}}
+                                    </el-form-item>
+                                    <el-form-item label="商户前端域名" prop="frontURL" v-show="disable == false">
+                                        <el-input autosize v-model="comdetail.frontURL"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="商户充值域名" v-show="disable == true">
+                                        {{comdetail.moneyURL}}
+                                    </el-form-item>
+                                    <el-form-item label="商户充值域名" prop="moneyURL" v-show="disable == false">
+                                        <el-input autosize v-model="comdetail.moneyURL"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                             <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="商户注册域名" v-show="disable == true">
+                                        {{comdetail.registerURL}}
+                                    </el-form-item>
+                                    <el-form-item label="商户注册域名" prop="registerURL" v-show="disable == false">
+                                        <el-input autosize v-model="comdetail.registerURL"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="商户白名单" v-show="disable == true">
+                                        {{comdetail.loginWhiteList}}
+                                    </el-form-item>
+                                    <el-form-item label="商户白名单" prop="loginWhiteList" v-show="disable == false">
+                                        <el-input autosize v-model="comdetail.loginWhiteList"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="12">
+                                <div class="">
+                                    <el-form-item label="商户密匙">
+                                        <span>{{comdetail.apiKey}}</span>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="18">
+                                <div class="">
+                                    <el-form-item label="备注" v-show="disable == true">
+                                        <div style="word-wrap: break-word;word-break: normal;">{{Remark(comdetail.remark)}}</div>
+                                    </el-form-item>
+                                    <el-form-item label="备注" v-show="disable == false">
+                                        <el-input autosize v-model="comdetail.remark"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </div>
+            </el-collapse-transition>
+            
         </div>
-        <div class="manangeinfo" v-loading="infoLoading" element-loading-text="加载中">
+        <div class="manangeinfo">
             <h4>管理信息
-            <div style="float:right;margin-right:2rem">
-              <el-button type="primary" @click="submitEdit" :loading="loading" v-if="disable === false && loginUser != comdetail.username">提交修改</el-button>
-              <el-button type="primary" @click="turnONedit" v-if="disable === true && loginUser != comdetail.username">编辑</el-button>
-            </div>
+                <span class="transition-icon" @click="show2 = !show2">
+                    <span v-if="!show2">展开</span>
+                    <span v-if="show2">收起</span>
+                </span>
+                <div style="float:right;margin-right:2rem">
+                  <el-button type="primary" @click="submitEdit" :loading="loading" v-if="disable === false && loginUser != comdetail.username">提交修改</el-button>
+                  <el-button type="primary" @click="turnONedit" v-if="disable === true && loginUser != comdetail.username">编辑</el-button>
+                </div>
           </h4>
-            <div class="editform">
+          <el-collapse-transition>
+            <div class="editform" v-show="show2">
                 <el-form label-width='110px' label-position="right" :model="comdetail" ref="comdetail" :rules="rules">
                     <el-row>
                         <el-col :span="7">
@@ -313,8 +326,9 @@
                                 </el-form-item>
                             </div>
                         </el-col>
-                    </el-row>
-                    <el-row>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
                         <el-col :span="7">
                             <div class="">
                                 <el-form-item label="管理员联系方式" v-show="disable == true">
@@ -328,8 +342,10 @@
                     </el-row>
                 </el-form>
             </div>
+          </el-collapse-transition>
+            
         </div>
-        <div class="propertyinfo" v-loading="billLoading" element-loading-text="加载中">
+        <div class="propertyinfo">
             <h4>财务信息</h4>
             <div class="propertyform">
                 <div class="propertyform-header">
@@ -416,7 +432,7 @@ export default {
     Billtransfer
   },
   beforeCreate () {
-    // this.$store.commit('startLoading')
+    this.$store.commit('startLoading')
     this.$store.commit('resetAjax')
     this.$store.commit('closeEdit')
     this.$store.commit({
@@ -430,12 +446,6 @@ export default {
   mounted () {
   },
   computed: {
-    infoLoading () {
-      return this.$store.state.variable.partLoading.infoLoading
-    },
-    billLoading () {
-      return this.$store.state.variable.partLoading.billLoading
-    },
     ajaxCount () {
       return this.$store.state.ajaxCount
     },
@@ -459,13 +469,13 @@ export default {
       return this.points(x)
     }
   },
-  // watch: {
-  //   ajaxCount (val) {
-  //     if (val == 2) {
-  //       this.$store.commit('closeLoading')
-  //     }
-  //   }
-  // },
+  watch: {
+    ajaxCount (val) {
+      if (val == 2) {
+        this.$store.commit('closeLoading')
+      }
+    }
+  },
   data () {
     var checkPassword = (rule, value, callback) => {
       var password = function passwordLevel (password) {
@@ -685,6 +695,8 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      show1: false, // 默认关闭信息展示
+      show2: false, // 默认关闭信息展示
       loginUser: localStorage.loginUsername, // 登录用户角色
       pickerOptions: {
         disabledDate (time) {
@@ -1018,4 +1030,6 @@ export default {
   .comdetail .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
 
   .remarkBox{word-wrap: break-word; word-break: normal;width: 200px}
+
+  .comdetail .transition-icon{cursor: pointer;color: #20a0ff;font-size: 1.2rem;margin-left: 1rem}
 </style>

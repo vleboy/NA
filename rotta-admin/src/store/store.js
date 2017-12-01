@@ -158,7 +158,6 @@ const actions = {
           var data = ret.data.payload
           context.commit('countAjax')
           localStorage.setItem('parentID', data.parent)
-          state.variable.partLoading.infoLoading = false
           context.commit({
             type: 'recordOutdetaildata',
             data: data
@@ -188,7 +187,6 @@ const actions = {
         } else {
           var data = ret.data.payload
           context.commit('countAjax')
-          state.variable.partLoading.billLoading = false
           context.commit({
             type: 'recordOutdetail_property',
             data: data
@@ -218,7 +216,6 @@ const actions = {
         } else {
           var data = ret.data.payload
           context.commit('countAjax')
-          state.variable.partLoading.form_one_Loading = false
           context.commit({
             type: 'recordOutdetail_child_managers',
             data: data
@@ -248,7 +245,6 @@ const actions = {
         } else {
           var data = ret.data.payload
           context.commit('countAjax')
-          state.variable.partLoading.form_two_Loading = false
           context.commit({
             type: 'recordOutdetail_child_merchants',
             data: data
@@ -277,8 +273,8 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
+          context.commit('countAjax')
           localStorage.setItem('parentID', data.parent)
-          state.variable.partLoading.infoLoading = false
           context.commit({
             type: 'recordComdetaildata',
             data: data
@@ -307,7 +303,7 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          state.variable.partLoading.billLoading = false
+          context.commit('countAjax')
           context.commit({
             type: 'recordComdetail_property',
             data: data

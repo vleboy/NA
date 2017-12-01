@@ -1,259 +1,272 @@
 <template>
     <div class="outdetail">
-        <div class="simpleinfo" v-loading="infoLoading" element-loading-text="加载中">
+        <div class="simpleinfo">
             <div class="outdetail-title">
                 <h2>{{outdetail.displayName}}</h2>
             </div>
-            <h4>基本信息</h4>
-            <div class="editform">
-                <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="线路商ID">
-                                    {{outdetail.displayId}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="上级线路商">
-                                    <span v-if="outdetail.parentRole != '1'">
-                                      <span v-if="this.outdetail.parent != '01' && this.loginLevel < this.outdetail.level" @click="goParent()" class="goParent">{{outdetail.parentDisplayName}}</span>
-                                      <span v-if="this.outdetail.parent != '01' && this.loginLevel >= this.outdetail.level">
-                                        {{outdetail.parentDisplayName}}</span>
-                                    </span>
-                                    <span v-if="outdetail.parentRole == '1'">
-                                        直属于平台
-                                    </span>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="线路商标识">
-                                    {{outdetail.suffix}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="负责人" v-show="disable == true">
-                                    {{outdetail.hostName}}
-                                </el-form-item>
-                                <el-form-item label="负责人" prop="hostName" v-show="disable == false">
-                                    <el-input v-model="outdetail.hostName"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="负责人联系方式" v-show="disable == true">
-                                    {{outdetail.hostContact}}
-                                </el-form-item>
-                                <el-form-item label="负责人联系方式" prop="hostContact" v-show="disable == false">
-                                    <el-input v-model="outdetail.hostContact"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="抽成比" v-show="disable == true">
-                                    {{outdetail.rate}}%
-                                </el-form-item>
-                                <el-form-item label="抽成比" prop="rate" v-show="disable == false">  
-                                  <el-input v-model="outdetail.rate">
-                                    <template slot="prepend">%</template>
-                                  </el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="" style="float:left">
-                                <el-form-item label="线路商游戏" v-show="disable == true">
-                                    <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
-                                        {{item.name}}
-                                    </div>
-                                </el-form-item>
-                                <el-form-item label="线路商游戏" v-show="disable == false">
-                                    <el-checkbox-group v-model="selectGame">
-                                        <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
-                                    </el-checkbox-group>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="线路商Email" v-show="disable == true">
-                                    {{outdetail.managerEmail}}
-                                </el-form-item>
-                                <el-form-item label="线路商Email" prop="managerEmail" v-show="disable == false">
-                                    <el-input v-model="outdetail.managerEmail"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="创建时间">
-                                    {{formatTime(outdetail.createdAt)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="最后登录时间">
-                                    {{formatTime(outdetail.loginAt)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="18">
-                            <div class="">
-                                <el-form-item label="备注" v-show="disable == true">
-                                    <div style="word-wrap: break-word;word-break: normal;">{{Remark(outdetail.remark)}}</div>
-                                </el-form-item>
-                                <el-form-item label="备注" v-show="disable == false">
-                                    <el-input autosize v-model="outdetail.remark"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                </el-form>
-            </div>
+            <h4>基本信息
+                <span class="transition-icon" @click="show1 = !show1">
+                    <span v-if="!show1">展开</span>
+                    <span v-if="show1">收起</span>
+                </span>
+            </h4>
+            <el-collapse-transition>
+                <div class="editform" v-show="show1">
+                    <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="线路商ID">
+                                        {{outdetail.displayId}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="上级线路商">
+                                        <span v-if="outdetail.parentRole != '1'">
+                                          <span v-if="this.outdetail.parent != '01' && this.loginLevel < this.outdetail.level" @click="goParent()" class="goParent">{{outdetail.parentDisplayName}}</span>
+                                          <span v-if="this.outdetail.parent != '01' && this.loginLevel >= this.outdetail.level">
+                                            {{outdetail.parentDisplayName}}</span>
+                                        </span>
+                                        <span v-if="outdetail.parentRole == '1'">
+                                            直属于平台
+                                        </span>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="线路商标识">
+                                        {{outdetail.suffix}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="负责人" v-show="disable == true">
+                                        {{outdetail.hostName}}
+                                    </el-form-item>
+                                    <el-form-item label="负责人" prop="hostName" v-show="disable == false">
+                                        <el-input v-model="outdetail.hostName"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="负责人联系方式" v-show="disable == true">
+                                        {{outdetail.hostContact}}
+                                    </el-form-item>
+                                    <el-form-item label="负责人联系方式" prop="hostContact" v-show="disable == false">
+                                        <el-input v-model="outdetail.hostContact"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="抽成比" v-show="disable == true">
+                                        {{outdetail.rate}}%
+                                    </el-form-item>
+                                    <el-form-item label="抽成比" prop="rate" v-show="disable == false">  
+                                      <el-input v-model="outdetail.rate">
+                                        <template slot="prepend">%</template>
+                                      </el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="" style="float:left">
+                                    <el-form-item label="线路商游戏" v-show="disable == true">
+                                        <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
+                                            {{item.name}}
+                                        </div>
+                                    </el-form-item>
+                                    <el-form-item label="线路商游戏" v-show="disable == false">
+                                        <el-checkbox-group v-model="selectGame">
+                                            <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
+                                        </el-checkbox-group>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="线路商Email" v-show="disable == true">
+                                        {{outdetail.managerEmail}}
+                                    </el-form-item>
+                                    <el-form-item label="线路商Email" prop="managerEmail" v-show="disable == false">
+                                        <el-input v-model="outdetail.managerEmail"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="创建时间">
+                                        {{formatTime(outdetail.createdAt)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="最后登录时间">
+                                        {{formatTime(outdetail.loginAt)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="18">
+                                <div class="">
+                                    <el-form-item label="备注" v-show="disable == true">
+                                        <div style="word-wrap: break-word;word-break: normal;">{{Remark(outdetail.remark)}}</div>
+                                    </el-form-item>
+                                    <el-form-item label="备注" v-show="disable == false">
+                                        <el-input autosize v-model="outdetail.remark"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </div>
+            </el-collapse-transition>
         </div>
-        <div class="manangeinfo" v-loading="infoLoading" element-loading-text="加载中">
+        <div class="manangeinfo">
             <h4>管理信息
+                <span class="transition-icon" @click="show2 = !show2">
+                    <span v-if="!show2">展开</span>
+                    <span v-if="show2">收起</span>
+                </span>
               <div style="float:right;margin-right:2rem">
                 <el-button type="primary" @click="submitEdit" :loading="loading" v-if="disable == false && loginUser != outdetail.username">提交修改</el-button>
                 <el-button type="primary" @click="turnONedit" v-if="disable == true && loginUser != outdetail.username">编辑</el-button>
               </div>
             </h4>
-            <div class="editform">
-                <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="管理员账号">
-                                    {{user(outdetail.username)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="管理员姓名" v-show="disable == true">
-                                    {{outdetail.adminName}}
-                                </el-form-item>
-                                <el-form-item label="管理员姓名" prop="adminName" v-show="disable == false">
-                                    <el-input v-model="outdetail.adminName"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="管理员密码" v-show="disable == true">
-                                    {{outdetail.password}}
-                                </el-form-item>
-                                <el-form-item label="管理员密码" prop="password" v-show="disable == false">
-                                    <el-input v-model="outdetail.password">
-                                        <el-button slot="append" @click="randomPassword">生成</el-button>
-                                    </el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="管理员Email" v-show="disable == true">
-                                    {{outdetail.adminEmail}}
-                                </el-form-item>
-                                <el-form-item label="管理员Email" prop="adminEmail" v-show="disable == false">
-                                    <el-input v-model="outdetail.adminEmail"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="管理员联系方式" v-show="disable == true">
-                                    {{outdetail.adminContact}}
-                                </el-form-item>
-                                <el-form-item label="管理员联系方式" prop="adminContact" v-show="disable == false">
-                                    <el-input v-model="outdetail.adminContact"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="生效时间" v-show="disable == true">
-                                    {{contractPeriod(outdetail.contractPeriod)}}
-                                </el-form-item>
-                                <el-form-item label="生效时间" prop="contractPeriod" v-show="disable == false">
-                                    <el-date-picker v-model="outdetail.contractPeriod" type="daterange" label="生效时间" :disabled="outdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
-                                    <el-checkbox v-model="outdetail.isforever" @change="changeContract">永久</el-checkbox>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="上次登录时间">
-                                    {{formatTime(outdetail.loginAt)}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="上次登录IP">
-                                    {{outdetail.lastIP}}
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                    </el-row>
-                </el-form>
-            </div>
+            <el-collapse-transition>
+                <div class="editform" v-show="show2">
+                    <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="管理员账号">
+                                        {{user(outdetail.username)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="管理员姓名" v-show="disable == true">
+                                        {{outdetail.adminName}}
+                                    </el-form-item>
+                                    <el-form-item label="管理员姓名" prop="adminName" v-show="disable == false">
+                                        <el-input v-model="outdetail.adminName"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="管理员密码" v-show="disable == true">
+                                        {{outdetail.password}}
+                                    </el-form-item>
+                                    <el-form-item label="管理员密码" prop="password" v-show="disable == false">
+                                        <el-input v-model="outdetail.password">
+                                            <el-button slot="append" @click="randomPassword">生成</el-button>
+                                        </el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="管理员Email" v-show="disable == true">
+                                        {{outdetail.adminEmail}}
+                                    </el-form-item>
+                                    <el-form-item label="管理员Email" prop="adminEmail" v-show="disable == false">
+                                        <el-input v-model="outdetail.adminEmail"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="管理员联系方式" v-show="disable == true">
+                                        {{outdetail.adminContact}}
+                                    </el-form-item>
+                                    <el-form-item label="管理员联系方式" prop="adminContact" v-show="disable == false">
+                                        <el-input v-model="outdetail.adminContact"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="生效时间" v-show="disable == true">
+                                        {{contractPeriod(outdetail.contractPeriod)}}
+                                    </el-form-item>
+                                    <el-form-item label="生效时间" prop="contractPeriod" v-show="disable == false">
+                                        <el-date-picker v-model="outdetail.contractPeriod" type="daterange" label="生效时间" :disabled="outdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
+                                        <el-checkbox v-model="outdetail.isforever" @change="changeContract">永久</el-checkbox>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="上次登录时间">
+                                        {{formatTime(outdetail.loginAt)}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="上次登录IP">
+                                        {{outdetail.lastIP}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                </div>
+            </el-collapse-transition>
         </div>
-        <div class="propertyinfo" v-loading="billLoading" element-loading-text="加载中">
+        <div class="propertyinfo">
             <h4>财务信息</h4>
             <div class="propertyform">
                 <div class="propertyform-header">
@@ -318,7 +331,7 @@
                     </div>
             </div>
         </div>
-        <div class="propertyinfo" v-loading="form_one_Loading" element-loading-text="加载中">
+        <div class="propertyinfo">
             <h4>下级线路商列表</h4>
             <div class="propertyform">
                 <div class="propertyform-header">
@@ -365,7 +378,7 @@
                 </div>
             </div>
         </div>
-        <div class="propertyinfo margin" v-loading="form_two_Loading" element-loading-text="加载中">
+        <div class="propertyinfo margin">
             <h4>拥有商户列表</h4>
             <div class="propertyform">
             <div class="propertyform-header">
@@ -428,7 +441,8 @@ export default {
     Billtransfer
   },
   beforeCreate () {
-    this.$store.commit('resetPartLoading')
+    this.$store.commit('resetAjax')
+    this.$store.commit('startLoading')
     this.$store.commit('closeEdit')
     this.$store.commit({
       type: 'recordNowindex',
@@ -443,17 +457,8 @@ export default {
   mounted () {
   },
   computed: {
-    infoLoading () {
-      return this.$store.state.variable.partLoading.infoLoading
-    },
-    billLoading () {
-      return this.$store.state.variable.partLoading.billLoading
-    },
-    form_one_Loading () {
-      return this.$store.state.variable.partLoading.form_one_Loading
-    },
-    form_two_Loading () {
-      return this.$store.state.variable.partLoading.form_two_Loading
+    ajaxCount () {
+      return this.$store.state.ajaxCount
     },
     disable () {
       return this.$store.state.variable.isEdit
@@ -522,6 +527,13 @@ export default {
         }
       }
       return this.points(bills)
+    }
+  },
+  watch: {
+    ajaxCount (val) {
+      if (val == 4) {
+        this.$store.commit('closeLoading')
+      }
     }
   },
   data () {
@@ -727,6 +739,8 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      show1: false, // 默认关闭信息展示,
+      show2: false, // 默认关闭信息展示,
       loginUser: localStorage.loginUsername, // 登录用户角色
       loginLevel: Number(localStorage.loginLevel), // 登陆用户等级
       pickerOptions: {
@@ -837,7 +851,7 @@ export default {
       this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$router.push('outdetail')
-      this.$store.commit('resetPartLoading')
+      this.$store.commit('startLoading')
       this.$store.dispatch('getOutdetail')
       this.$store.dispatch('getOutdetail_property')
       this.$store.dispatch('getOutdetail_child_managers')
@@ -851,8 +865,8 @@ export default {
       })
       this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
+      this.$store.commit('startLoading')
       this.$router.push('comdetail')
-      this.$store.commit('resetPartLoading')
       this.$store.dispatch('getComdetail')
       this.$store.dispatch('getComdetail_property')
     }, // 详情页下级商户跳转
@@ -902,7 +916,7 @@ export default {
       this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$router.push('outdetail')
-      this.$store.commit('resetPartLoading')
+      this.$store.commit('startLoading')
       this.$store.dispatch('getOutdetail')
       this.$store.dispatch('getOutdetail_property')
       this.$store.dispatch('getOutdetail_child_managers')
@@ -1186,4 +1200,6 @@ export default {
     .outdetail .goParent:hover{text-decoration: underline;text-decoration-color: #108EE9}
 
     .outdetail .gorouter{cursor: pointer;color: #20a0ff}
+
+    .outdetail .transition-icon{cursor: pointer;color: #20a0ff;font-size: 1.2rem;margin-left: 1rem}
 </style>
