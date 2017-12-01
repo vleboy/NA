@@ -409,28 +409,28 @@ export default {
       this.$store.dispatch('getLiveNowplayer')
     }, // 查看当前用户信息
     goPlayDetail (row) {
-      localStorage.setItem('playerName', row)
       this.$store.commit('startLoading')
+      localStorage.setItem('playerName', row)
       invoke({
         url: api.getPlayerDetail + '?' + 'userName' + '=' + row,
         method: api.get
       }).then(
         result => {
-        const [err, res] = result
-        if (err) {
-          this.$message({
-            message: err.msg,
-            type: 'error'
-          })
-        } else {
-          this.playerDetail = res.data
-          this.$store.commit({
-            type: 'playerDetail',
-            data: this.playerDetail
-          })
-        }
-        this.$router.push('playerdetail')
-        this.$store.commit('closeLoading')
+          const [err, res] = result
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            let playerDetail = res.data
+            this.$store.commit({
+              type: 'playerDetail',
+              data: playerDetail
+            })
+          }
+          this.$router.push('agentPlayerDetail')
+          this.$store.commit('closeLoading')
         }
       )
     }, // 跳转至玩家详情
