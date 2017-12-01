@@ -613,10 +613,22 @@ const actions = {
   }, // 电子游戏当前列表
   async getVedioNowchild (context) {
     var data = {
-      parent: '01'
+      parent: ''
     }
-    if (state.variable.vedioGameData.nowUserID) {
-      data.parent = state.variable.vedioGameData.nowUserID
+    if (localStorage.loginSuffix == 'Agent') {
+      // 代理管理员登录
+      if (state.variable.vedioGameData.nowUserID) {
+        data.parent = state.variable.vedioGameData.nowUserID
+      } else {
+        data.parent = '01'
+      }
+    } else {
+      // 普通代理登录
+      if (state.variable.vedioGameData.nowUserID) {
+        data.parent = state.variable.vedioGameData.nowUserID
+      } else {
+        data.parent = localStorage.loginId
+      }
     }
     // 请求下级信息
     let result1 = await invoke({
@@ -668,12 +680,71 @@ const actions = {
     })
   }, // 电子游戏下级列表
   async getVedioNowplayer (context) {
-    if (state.variable.vedioGameData.nowUserID == '01' || !state.variable.vedioGameData.nowUserID) {
-    } else {
-      // 请求所属玩家基本信息
-      var data = {
-        parentId: state.variable.vedioGameData.nowUserID
+    if (localStorage.loginSuffix == 'Agent') {
+      // 代理管理员登录
+      if (state.variable.vedioGameData.nowUserID == '01' || !state.variable.vedioGameData.nowUserID) {
+      } else {
+        // 请求所属玩家基本信息
+        var data = {
+          parentId: state.variable.vedioGameData.nowUserID
+        }
+        let result1 = await invoke({
+          url: api.playerLive,
+          method: api.post,
+          data: data
+        })
+        let player = result1[1].data.payload
+        // 请求所属玩家账单信息
+        context.commit('getWeek')
+        let searchDate = []
+        searchDate = [state.startTime, state.endTime]
+        for (let item of player) {
+          let player_data = {
+            gameType: 40000,
+            gameUserIds: [item.userId],
+            query: {
+              createdAt: searchDate
+            }
+          }
+          invoke({
+            url: api.calcPlayerStatLive,
+            method: api.post,
+            data: player_data
+          }).then(
+            result => {
+              const [err, ret] = result
+              if (err) {
+              } else {
+                var data = ret.data.payload
+                for (let outside of player) {
+                  for (let inside of data) {
+                    if (outside.userId == inside.gameUserId) {
+                      outside.bet = inside.bet
+                      outside.betCount = inside.betCount
+                      outside.winlose = inside.winlose
+                    }
+                  }
+                }
+              }
+            }
+          )
+        }
+        context.commit({
+          type: 'recordVedioNowplayer',
+          data: player
+        })
       }
+    } else {
+      // 普通代理登录
+      var data = {
+        parentId: ''
+      }
+      if (state.variable.vedioGameData.nowUserID == '01' || !state.variable.vedioGameData.nowUserID) {
+        data.parentId = localStorage.loginId
+      } else {
+        data.parentId = state.variable.vedioGameData.nowUserID
+      }
+      // 请求所属玩家基本信息
       let result1 = await invoke({
         url: api.playerLive,
         method: api.post,
@@ -773,75 +844,193 @@ const actions = {
   }, // 真人游戏当前列表
   async getLiveNowchild (context) {
     var data = {
-      parent: '01'
+      parent: ''
     }
-    if (state.variable.liveGameData.nowUserID) {
-      data.parent = state.variable.liveGameData.nowUserID
-    }
-    // 请求下级信息
-    let result1 = await invoke({
-      url: api.reportLive,
-      method: api.post,
-      data: data
-    })
-    let child = result1[1].data.payload
-    // 请求下级账单信息
-    context.commit('getWeek')
-    let searchDate = []
-    searchDate = [state.startTime, state.endTime]
-    for (let item of child) {
-      let child_data = {
-        gameType: 30000,
-        role: item.role,
-        userIds: [item.userId],
-        query: {
-          createdAt: searchDate
-        }
+    if (localStorage.loginSuffix == 'Agent') {
+      // 代理管理员登录
+      if (state.variable.liveGameData.nowUserID) {
+        data.parent = state.variable.liveGameData.nowUserID
+      } else {
+        data.parent = '01'
       }
-      invoke({
-        url: api.calcUserStatLive,
+      let result1 = await invoke({
+        url: api.reportLive,
         method: api.post,
-        data: child_data
-      }).then(
-        result => {
-          const [err, ret] = result
-          if (err) {
-          } else {
-            var data = ret.data.payload
-            for (let outside of child) {
-              for (let inside of data) {
-                if (outside.userId == inside.userId) {
-                  outside.bet = inside.bet
-                  outside.betCount = inside.betCount
-                  outside.winlose = inside.winlose
-                  outside.mixAmount = inside.mixAmount
-                  outside.winloseRate = inside.winloseRate
+        data: data
+      })
+      let child = result1[1].data.payload
+      // 请求下级账单信息
+      context.commit('getWeek')
+      let searchDate = []
+      searchDate = [state.startTime, state.endTime]
+      for (let item of child) {
+        let child_data = {
+          gameType: 30000,
+          role: item.role,
+          userIds: [item.userId],
+          query: {
+            createdAt: searchDate
+          }
+        }
+        invoke({
+          url: api.calcUserStatLive,
+          method: api.post,
+          data: child_data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              for (let outside of child) {
+                for (let inside of data) {
+                  if (outside.userId == inside.userId) {
+                    outside.bet = inside.bet
+                    outside.betCount = inside.betCount
+                    outside.winlose = inside.winlose
+                    outside.mixAmount = inside.mixAmount
+                    outside.winloseRate = inside.winloseRate
+                  }
                 }
               }
             }
           }
+        )
+      }
+      context.commit({
+        type: 'recordLiveNowchild',
+        data: child
+      })
+    } else {
+      // 普通代理登录
+      if (state.variable.liveGameData.nowUserID) {
+        data.parent = state.variable.liveGameData.nowUserID
+      } else {
+        data.parent = localStorage.loginId
+      }
+      // 请求下级信息
+      let result1 = await invoke({
+        url: api.reportLive,
+        method: api.post,
+        data: data
+      })
+      let child = result1[1].data.payload
+      // 请求下级账单信息
+      context.commit('getWeek')
+      let searchDate = []
+      searchDate = [state.startTime, state.endTime]
+      for (let item of child) {
+        let child_data = {
+          gameType: 30000,
+          role: item.role,
+          userIds: [item.userId],
+          query: {
+            createdAt: searchDate
+          }
         }
-      )
+        invoke({
+          url: api.calcUserStatLive,
+          method: api.post,
+          data: child_data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              for (let outside of child) {
+                for (let inside of data) {
+                  if (outside.userId == inside.userId) {
+                    outside.bet = inside.bet
+                    outside.betCount = inside.betCount
+                    outside.winlose = inside.winlose
+                    outside.mixAmount = inside.mixAmount
+                    outside.winloseRate = inside.winloseRate
+                  }
+                }
+              }
+            }
+          }
+        )
+      }
+      context.commit({
+        type: 'recordLiveNowchild',
+        data: child
+      })
     }
-    context.commit({
-      type: 'recordLiveNowchild',
-      data: child
-    })
   }, // 真人游戏下级列表
   async getLiveNowplayer (context) {
-    if (state.variable.liveGameData.nowUserID == '01' || !state.variable.liveGameData.nowUserID) {
-    } else {
-      // 请求所属玩家基本信息
-      var data = {
-        parentId: state.variable.liveGameData.nowUserID
+    if (localStorage.loginSuffix == 'Agent') {
+      // 代理管理员登录
+      if (state.variable.liveGameData.nowUserID == '01' || !state.variable.liveGameData.nowUserID) {
+      } else {
+        // 请求所属玩家基本信息
+        var data = {
+          parentId: state.variable.liveGameData.nowUserID
+        }
+        let result1 = await invoke({
+          url: api.playerLive,
+          method: api.post,
+          data: data
+        })
+        let player = result1[1].data.payload
+        // 请求所属玩家账单信息
+        context.commit('getWeek')
+        let searchDate = []
+        searchDate = [state.startTime, state.endTime]
+        for (let item of player) {
+          let player_data = {
+            gameType: 30000,
+            gameUserIds: [item.userId],
+            query: {
+              createdAt: searchDate
+            }
+          }
+          invoke({
+            url: api.calcPlayerStatLive,
+            method: api.post,
+            data: player_data
+          }).then(
+            result => {
+              const [err, ret] = result
+              if (err) {
+              } else {
+                var data = ret.data.payload
+                for (let outside of player) {
+                  for (let inside of data) {
+                    if (outside.userId == inside.gameUserId) {
+                      outside.bet = inside.bet
+                      outside.betCount = inside.betCount
+                      outside.winlose = inside.winlose
+                    }
+                  }
+                }
+              }
+            }
+          )
+        }
+        context.commit({
+          type: 'recordLiveNowplayer',
+          data: player
+        })
       }
+    } else {
+      // 普通代理登录
+      var data = {
+        parentId: ''
+      }
+      if (state.variable.liveGameData.nowUserID == '01' || !state.variable.liveGameData.nowUserID) {
+        data.parentId = localStorage.loginId
+      } else {
+        data.parentId = state.variable.liveGameData.nowUserID
+      }
+      // 请求所属玩家基本信息
       let result1 = await invoke({
         url: api.playerLive,
         method: api.post,
         data: data
       })
       let player = result1[1].data.payload
-
       // 请求所属玩家账单信息
       context.commit('getWeek')
       let searchDate = []

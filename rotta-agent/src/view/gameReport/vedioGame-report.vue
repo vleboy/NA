@@ -3,7 +3,7 @@
 
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
-        <p class="title" style="float:left">当前选择列表<span v-if="nowRole != 00" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
+        <p class="title" style="float:left">当前选择列表<span v-if="nowId != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
         <div style="float:right;margin-right:1rem">
           <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围(默认最近一周)" :editable="false"></el-date-picker>
           <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData" :loading="loading">查询</el-button>
@@ -136,7 +136,7 @@ export default {
   computed:{
     vedioNowlist () {
       let arr = []
-      this.nowRole = this.$store.state.variable.vedioGameData.nowList.parent
+      this.nowId = this.$store.state.variable.vedioGameData.nowList.userId
       arr.push(this.$store.state.variable.vedioGameData.nowList)
       return arr
     },
@@ -178,7 +178,8 @@ export default {
       childPage: 1,
       playerSize: 20,
       playerPage: 1,
-      nowRole: ''
+      nowId: '',
+      loginId: localStorage.loginId
     }
   },
   methods: {
