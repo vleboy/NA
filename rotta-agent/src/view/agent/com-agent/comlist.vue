@@ -100,101 +100,6 @@
               <el-input v-model="agentSearchData" placeholder="请输入搜索内容" class="input" style="float:right"></el-input>
             </div>
               <recursion></recursion>
-             <!--  <el-table stripe :data="comlist" style="margin-top:1rem">
-                <el-table-column label="管理员账号" prop="username" align="center">
-                  <template scope="scope">
-                    <span class="fontUrl" @click="showChild(scope.row)">{{(scope.row.username)}}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column label="代理昵称" prop="displayName" align="center">
-                </el-table-column>
-                <el-table-column label="上级代理" prop="parent" align="center" sortable>
-                  <template scope="scope">
-                      <span @click="goParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{(scope.row.parentDisplayName)}}</span>
-                      <span v-if="scope.row.parent === '01'">直属于平台</span>
-                  </template>
-                </el-table-column>
-                <el-table-column label="代理游戏" prop="gamelist" align="center" width="110">
-                    <template scope="scope">
-                        <div slot="reference" class="gamelist">
-                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column label="代理成数" prop="rate" align="center" sortable>
-                    <template scope="scope">
-                        <span>{{(scope.row.rate)}}%</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="电子游戏洗码比" prop="vedioMix" align="center" sortable>
-                    <template scope="scope">
-                        <span>{{(scope.row.vedioMix)}}%</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="真人视讯洗码比" prop="liveMix" align="center" sortable>
-                    <template scope="scope">
-                        <span>{{(scope.row.liveMix)}}%</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="剩余点数" align="center" sortable prop="balance">
-                    <template scope="scope">
-                        <span>{{points(scope.row.balance)}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="创建时间" prop="createdAt" align="center" width="120" sortable>
-                    <template scope="scope">
-                        <span>{{Time(scope.row.createdAt)}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="状态" align="center" prop="status" sortable width="90">
-                    <template scope="scope">
-                        <el-tag :type="scope.row.status ? 'success' : 'danger'">
-                            {{Status(scope.row.status)}}
-                        </el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column label="备注" align="center" width="65">
-                    <template scope="scope">
-                        <el-popover trigger="hover" placement="bottom">
-                            <div class="remarkBox">
-                                <p>{{ Remark(scope.row.remark) }}</p>
-                            </div>
-                            <div slot="reference" class="">
-                                <el-icon name="search" style="color:#108ee9"></el-icon>
-                            </div>
-                        </el-popover>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作" align="center" width="80">
-                    <template scope="scope">
-                      <el-button type="text" class="myBtn" @click="storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">存点</el-button>
-                      <el-button type="text" class="myBtn" @click="withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">提点</el-button>
-                        <el-button type="text" class="myBtn" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">解锁</el-button>
-                        <el-button type="text" class="myBtn" @click="">
-                            <el-dropdown trigger="click">
-                                <span style="color:#20a0ff">更多</span>
-                                <el-dropdown-menu slot="dropdown">
-                                    <p @click="editUser(scope.$index, scope.row)">
-                                        <el-dropdown-item>编辑</el-dropdown-item>
-                                    </p>
-                                    <p @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">
-                                        <el-dropdown-item>锁定</el-dropdown-item>
-                                    </p>
-                                    <p @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1 && scope.row.parentName != 'XYZBF'">
-                                        <el-dropdown-item>创建代理</el-dropdown-item>
-                                    </p>
-                                    <p @click="createPlayer(scope.$index, scope.row)" v-if="scope.row.status === 1">
-                                        <el-dropdown-item>创建玩家</el-dropdown-item>
-                                    </p>
-                                </el-dropdown-menu>
-                            </el-dropdown>
-                        </el-button>
-                    </template>
-                </el-table-column>
-              </el-table> -->
-            <!-- <div class="page">
-                <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.comlist.length" :page-sizes="[10, 20]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"></el-pagination>
-            </div> -->
           </div>
           <!-- 当前代理所属玩家 -->
           <div class="comresult">
@@ -289,6 +194,18 @@ export default {
   beforeCreate () {
     this.$store.commit('startLoading')
     this.$store.commit('returnLocalStorage')
+    this.$store.commit({
+      type: 'recordComlist',
+      data: []
+    })
+    this.$store.commit({
+      type: 'recordSelfData',
+      data: []
+    })
+    this.$store.commit({
+      type: 'recordAgentPlayer',
+      data: []
+    })
     this.$store.commit({
         type: 'recordMapUser',
         data: ''

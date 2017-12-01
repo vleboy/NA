@@ -79,7 +79,11 @@ export default {
         }
       }
     )
-    this.merchantInfo.parent = this.$store.state.variable.nowParent
+    if (this.$store.state.variable.nowParent == localStorage.loginId) {
+      this.merchantInfo.parent = ''
+    } else {
+      this.merchantInfo.parent = this.$store.state.variable.nowParent
+    }
   },
   data () {
     return {

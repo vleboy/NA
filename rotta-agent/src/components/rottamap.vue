@@ -29,6 +29,10 @@ import api from '@/api/api'
 export default {
   beforeCreate () {
     this.$store.commit('returnLocalStorage')
+    this.$store.commit({
+      type: 'recordMap',
+      data: []
+    })
   },
   created () {
     this.$store.dispatch('getMap')

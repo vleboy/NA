@@ -214,7 +214,6 @@ const actions = {
             })
           } else {
             var data = ret.data.payload
-            // console.log('该代理详细数据', data)
             context.commit({
               type: 'recordSelfData',
               data: data
