@@ -212,7 +212,6 @@ export default {
             type: 'recordOutdetailID',
             data: data.id
           })
-          this.$store.commit('startLoading')
           this.$router.push('outdetail')
           this.$store.commit('closeEdit')
           this.$store.dispatch('getOutdetail')
@@ -224,13 +223,11 @@ export default {
             type: 'recordComdetailID',
             data: data.id
           })
-          this.$store.commit('startLoading')
           this.$router.push('comdetail')
           this.$store.commit('closeEdit')
           this.$store.dispatch('getComdetail')
           this.$store.dispatch('getComdetail_property')
         } else if (data.role == '10000') {
-          this.$store.commit('startLoading')
           localStorage.setItem('playerName', data.userName)
           invoke({
             url: api.getPlayDetail + '?' + 'userName' + '=' + data.userName,
