@@ -21,8 +21,7 @@ const front = {
 
   stateMachine: stateMachine_URL, // stateMachine接口
 
-  playerExt: playerExt_URL, // playerExt接口
-
+  playerExt: playerExt_URL // playerExt接口
 }
 
 const api = {

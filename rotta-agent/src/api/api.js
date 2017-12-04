@@ -178,7 +178,7 @@ const api = {
 
   reportInfo: front.stat + front.stage + '/queryUserStat', // 平台报表用户统计
 
-  reportplayer: front.stat + front.stage + '/queryPlayerStat', // 平台报表用户所属玩家统计
+  reportPlayer: front.stat + front.stage + '/queryPlayerStat', // 平台报表用户所属玩家统计
 
   calcUserStat: front.stat + front.stage + '/calcUserStat', // 报表用户时间查询
 
