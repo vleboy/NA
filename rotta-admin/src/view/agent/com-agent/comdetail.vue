@@ -862,6 +862,8 @@ export default {
       return billType(bill)
     },
     turnONedit () {
+      this.show1 = true
+      this.show2 = true
       this.$store.commit('startLoading')
       this.addGame()
       this.$store.commit('startEdit')
@@ -936,6 +938,8 @@ export default {
               var data = ret.data.payload
               this.$store.commit('closeEdit')
               this.$store.commit('closeLoading')
+              this.show1 = false
+              this.show2 = false
               this.loading = false
               this.$message({
                 message: '修改成功',

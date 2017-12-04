@@ -1014,6 +1014,8 @@ export default {
         )
       }
       this.disable = false
+      this.show1 = true
+      this.show2 = true
       this.$store.commit('startEdit')
     }, // 开启编辑
     changeContract () {
@@ -1081,6 +1083,8 @@ export default {
               // console.log(data)
               this.disable = true
               this.$store.commit('closeEdit')
+              this.show1 = false
+              this.show2 = false
               this.loading = false
               this.$message({
                 message: '修改成功',
