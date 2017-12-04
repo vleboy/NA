@@ -36,8 +36,6 @@ module.exports = merge(baseWebpackConfig, {
 
       'stat_URL': JSON.stringify('https://jrryxhd7e4.execute-api.ap-southeast-1.amazonaws.com/'), // stat有关接口
 
-      'report_URL': JSON.stringify('https://jrryxhd7e4.execute-api.ap-southeast-1.amazonaws.com/'), // report有关接口
-
       'playerExt_URL': JSON.stringify('https://6b797cehg3.execute-api.ap-southeast-1.amazonaws.com/') // playerExt有关接口
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
