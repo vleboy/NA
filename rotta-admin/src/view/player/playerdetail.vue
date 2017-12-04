@@ -87,7 +87,7 @@ $<template>
               <template scope="scope">
                 <el-popover trigger="hover" placement="bottom-start">
                   <p>{{ scope.row.remark === 'NULL!' ? '' : scope.row.remark}}</p>
-                  <div slot="reference" class="g-text-ellipsis" style="width: 80px;">
+                  <div slot="reference" class="g-text-ellipsis" style="width: 68px;">
                     {{ scope.row.remark }}
                   </div>
                 </el-popover>
