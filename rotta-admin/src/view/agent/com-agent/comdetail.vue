@@ -171,9 +171,9 @@
                             <el-col :span="7">
                                 <div class="">
                                     <el-form-item label="商户充值域名" v-show="disable == true">
-                                        {{comdetail.moneyURL}}
+                                        {{formatNull(comdetail.moneyURL)}}
                                     </el-form-item>
-                                    <el-form-item label="商户充值域名" prop="moneyURL" v-show="disable == false">
+                                    <el-form-item label="商户充值域名" v-show="disable == false">
                                         <el-input autosize v-model="comdetail.moneyURL"></el-input>
                                     </el-form-item>
                                 </div>
@@ -184,9 +184,9 @@
                             <el-col :span="7">
                                 <div class="">
                                     <el-form-item label="商户注册域名" v-show="disable == true">
-                                        {{comdetail.registerURL}}
+                                        {{formatNull(comdetail.registerURL)}}
                                     </el-form-item>
-                                    <el-form-item label="商户注册域名" prop="registerURL" v-show="disable == false">
+                                    <el-form-item label="商户注册域名" v-show="disable == false">
                                         <el-input autosize v-model="comdetail.registerURL"></el-input>
                                     </el-form-item>
                                 </div>
@@ -664,24 +664,24 @@ export default {
         callback()
       }
     } // 验证前端域名
-    var moneyURL = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入域名'))
-        this.isfinish.moneyURL = false
-      } else {
-        this.isfinish.moneyURL = true
-        callback()
-      }
-    } // 验证充值域名
-    var registerURL = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入域名'))
-        this.isfinish.registerURL = false
-      } else {
-        this.isfinish.registerURL = true
-        callback()
-      }
-    } // 验证注册域名
+    // var moneyURL = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('请输入域名'))
+    //     this.isfinish.moneyURL = false
+    //   } else {
+    //     this.isfinish.moneyURL = true
+    //     callback()
+    //   }
+    // } // 验证充值域名
+    // var registerURL = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('请输入域名'))
+    //     this.isfinish.registerURL = false
+    //   } else {
+    //     this.isfinish.registerURL = true
+    //     callback()
+    //   }
+    // } // 验证注册域名
     var checkContractPeriod = (rule, value, callback) => {
       if (value === 0) {
         this.isfinish.contractPeriod = true
@@ -742,12 +742,12 @@ export default {
         frontURL: [
           {validator: checkURL, trigger: 'change'}
         ],
-        moneyURL: [
-          {validator: moneyURL, trigger: 'change'}
-        ],
-        registerURL: [
-          {validator: registerURL, trigger: 'change'}
-        ],
+        // moneyURL: [
+        //   {validator: moneyURL, trigger: 'change'}
+        // ],
+        // registerURL: [
+        //   {validator: registerURL, trigger: 'change'}
+        // ],
         rate: [
           {validator: checkRate, trigger: 'change'}
         ],
@@ -770,6 +770,13 @@ export default {
     }
   },
   methods: {
+    formatNull (data) {
+      if (data == 'NULL!') {
+        return ''
+      } else {
+        return data
+      }
+    }, // 格式化为空的数据
     refreshCom () {
       // this.$store.commit('startLoading')
       let _self = this

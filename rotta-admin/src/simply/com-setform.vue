@@ -32,8 +32,8 @@
         </el-input>
         <el-button type="text" class="" @click="checkURL(selectFront1,setcomInfo.frontURL)">验证</el-button>
       </el-form-item>
-      <el-form-item label="商户充值页面地址" prop="moneyURL">
-        <el-input v-model="setcomInfo.moneyURL" class="input" placeholder="请输入">
+      <el-form-item label="商户充值页面地址">
+        <el-input v-model="setcomInfo.moneyURL" class="input" placeholder="选填">
           <el-select v-model="selectFront2" slot="prepend" placeholder="请选择" style="width:6.5rem">
             <el-option label="Http://" value="Http://"></el-option>
             <el-option label="Https://" value="Https://"></el-option>
@@ -41,8 +41,8 @@
         </el-input>
         <el-button type="text" class="" @click="checkURL(selectFront2,setcomInfo.moneyURL)">验证</el-button>
       </el-form-item>
-      <el-form-item label="商户注册页面地址" prop="registerURL">
-        <el-input v-model="setcomInfo.registerURL" class="input" placeholder="请输入">
+      <el-form-item label="商户注册页面地址">
+        <el-input v-model="setcomInfo.registerURL" class="input" placeholder="选填">
           <el-select v-model="selectFront3" slot="prepend" placeholder="请选择" style="width:6.5rem">
             <el-option label="Http://" value="Http://"></el-option>
             <el-option label="Https://" value="Https://"></el-option>
@@ -204,24 +204,24 @@ export default {
         )
       }
     } // 验证商户线路号
-    var checkmoneyURL = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入域名'))
-        store.state.checkform.moneyURL = false
-      } else {
-        store.state.checkform.moneyURL = true
-        callback()
-      }
-    } // 验证商户充值域名
-    var checkregisterURL = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入域名'))
-        store.state.checkform.registerURL = false
-      } else {
-        store.state.checkform.registerURL = true
-        callback()
-      }
-    } // 验证商户注册域名
+    // var checkmoneyURL = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('请输入域名'))
+    //     store.state.checkform.moneyURL = false
+    //   } else {
+    //     store.state.checkform.moneyURL = true
+    //     callback()
+    //   }
+    // } // 验证商户充值域名
+    // var checkregisterURL = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('请输入域名'))
+    //     store.state.checkform.registerURL = false
+    //   } else {
+    //     store.state.checkform.registerURL = true
+    //     callback()
+    //   }
+    // } // 验证商户注册域名
     return {
       selectFront1: '', // 前端域名前缀
       selectFront2: '', // 充值域名前缀
@@ -275,13 +275,13 @@ export default {
         ],
         frontURL: [
           {validator: checkURL, trigger: 'blur'}
-        ],
-        moneyURL: [
-          {validator: checkmoneyURL, trigger: 'blur'}
-        ],
-        registerURL: [
-          {validator: checkregisterURL, trigger: 'blur'}
         ]
+        // moneyURL: [
+        //   {validator: checkmoneyURL, trigger: 'blur'}
+        // ],
+        // registerURL: [
+        //   {validator: checkregisterURL, trigger: 'blur'}
+        // ]
       }
     }
   },
