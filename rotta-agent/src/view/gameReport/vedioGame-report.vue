@@ -205,7 +205,7 @@ export default {
           sort: 'desc'
         }
         invoke({
-          url: api.playerVedio,
+          url: api.reportPlayer,
           method: api.post,
           data: data
         }).then(

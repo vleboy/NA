@@ -224,7 +224,7 @@ export default {
           sort: 'desc'
         }
         invoke({
-          url: api.playerLive,
+          url: api.reportPlayer,
           method: api.post,
           data: data
         }).then(
