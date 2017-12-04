@@ -48,11 +48,7 @@ var webpackConfig = merge(baseWebpackConfig, {
 
       'stateMachine_URL': JSON.stringify('https://3y68duvxk7.execute-api.ap-southeast-1.amazonaws.com/'), // StateMachine有关接口
 
-      'playerExt_URL': JSON.stringify('https://g9a85tmah2.execute-api.ap-southeast-1.amazonaws.com/'), // playerExt有关接口
-
-      'vedioReport_URL': JSON.stringify('https://z2fjmv7aq2.execute-api.ap-southeast-1.amazonaws.com/'), // vedioReport有关接口
-
-      'liveReport_URL': JSON.stringify('https://7fmj5t2yhf.execute-api.ap-southeast-1.amazonaws.com/') // liveReport有关接口
+      'playerExt_URL': JSON.stringify('https://g9a85tmah2.execute-api.ap-southeast-1.amazonaws.com/') // playerExt有关接口
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

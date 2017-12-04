@@ -17,10 +17,6 @@ const front = {
 
   stat: stat_URL, // stat有关接口
 
-  vedioReport: vedioReport_URL, // vedioGameReport接口
-
-  liveReport: liveReport_URL, // liveReport接口
-
   playerExt: playerExt_URL // playerExt接口
 }
 
@@ -180,23 +176,13 @@ const api = {
 
   consumeAndIncome: front.stat + front.stage + '/statistics/consumeAndIncome', // 售出，收益
 
-  // videoReport
-  reportVedio: front.vedioReport + 'prod' + '/queryUserStat', // 平台用户电子游戏统计
+  reportInfo: front.stat + front.stage + '/queryUserStat', // 平台报表用户统计
 
-  playerVedio: front.vedioReport + 'prod' + '/queryPlayerStat', // 平台用户所属玩家电子游戏统计
+  reportplayer: front.stat + front.stage + '/queryPlayerStat', // 平台报表用户所属玩家统计
 
-  calcUserStatVedio: front.vedioReport + 'prod' + '/calcUserStat', // 电子游戏报表用户时间查询
+  calcUserStat: front.stat + front.stage + '/calcUserStat', // 报表用户时间查询
 
-  calcPlayerStatVedio: front.vedioReport + 'prod' + '/calcPlayerStat',  // 电子游戏报表玩家时间查询
-
-  // liveReport
-  reportLive: front.liveReport + 'dev' + '/queryUserStat', // 平台用户真人游戏统计
-
-  playerLive: front.liveReport + 'dev' + '/queryPlayerStat', // 平台用户所属玩家真人游戏统计
-
-  calcUserStatLive: front.liveReport + 'dev' + '/calcUserStat', // 真人游戏报表用户时间查询
-
-  calcPlayerStatLive: front.liveReport + 'dev' + '/calcPlayerStat',  // 真人游戏报表玩家时间查询
+  calcPlayerStat: front.stat + front.stage + '/calcPlayerStat',  // 报表玩家时间查询
 
   //playerExt
   playerAccount: front.playerExt + front.stage + '/player/bill/flow', // 下注返奖流水(查看流水账详单)

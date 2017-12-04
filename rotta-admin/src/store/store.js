@@ -724,7 +724,7 @@ const actions = {
     }
     // 请求基本信息
     let result1 = await invoke({
-      url: api.reportLive,
+      url: api.reportInfo,
       method: api.post,
       data: data
     })
@@ -747,7 +747,7 @@ const actions = {
       }
     }
     let result2 = await invoke({
-      url: api.calcUserStatLive,
+      url: api.calcUserStat,
       method: api.post,
       data: searchData
     })
@@ -771,7 +771,7 @@ const actions = {
     }
     // 请求下级信息
     let result1 = await invoke({
-      url: api.reportLive,
+      url: api.reportInfo,
       method: api.post,
       data: data
     })
@@ -790,7 +790,7 @@ const actions = {
         }
       }
       invoke({
-        url: api.calcUserStatLive,
+        url: api.calcUserStat,
         method: api.post,
         data: child_data
       }).then(
@@ -826,7 +826,7 @@ const actions = {
         parentId: state.variable.vedioGameData.nowUserID
       }
       let result1 = await invoke({
-        url: api.playerLive,
+        url: api.reportPlayer,
         method: api.post,
         data: data
       })
@@ -844,7 +844,7 @@ const actions = {
           }
         }
         invoke({
-          url: api.calcPlayerStatLive,
+          url: api.calcPlayerStat,
           method: api.post,
           data: player_data
         }).then(
@@ -883,7 +883,7 @@ const actions = {
     }
     // 请求基本信息
     let result1 = await invoke({
-      url: api.reportLive,
+      url: api.reportInfo,
       method: api.post,
       data: data
     })
@@ -906,7 +906,7 @@ const actions = {
       }
     }
     let result2 = await invoke({
-      url: api.calcUserStatLive,
+      url: api.calcUserStat,
       method: api.post,
       data: searchData
     })
@@ -931,7 +931,7 @@ const actions = {
     }
     // 请求下级信息
     let result1 = await invoke({
-      url: api.reportLive,
+      url: api.reportInfo,
       method: api.post,
       data: data
     })
@@ -950,7 +950,7 @@ const actions = {
         }
       }
       invoke({
-        url: api.calcUserStatLive,
+        url: api.calcUserStat,
         method: api.post,
         data: child_data
       }).then(
@@ -987,7 +987,7 @@ const actions = {
         parentId: state.variable.liveGameData.nowUserID
       }
       let result1 = await invoke({
-        url: api.playerLive,
+        url: api.reportPlayer,
         method: api.post,
         data: data
       })
@@ -1006,7 +1006,7 @@ const actions = {
           }
         }
         invoke({
-          url: api.calcPlayerStatLive,
+          url: api.calcPlayerStat,
           method: api.post,
           data: player_data
         }).then(

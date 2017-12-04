@@ -204,7 +204,7 @@ export default {
           sort: 'desc'
         }
         invoke({
-          url: api.playerVedio,
+          url: api.reportPlayer,
           method: api.post,
           data: data
         }).then(
@@ -255,6 +255,7 @@ export default {
         this.loading = true
         let nowUser = this.$store.state.variable.vedioGameData.nowList
         let user_data = {
+          gameType: 40000,
           role: nowUser.role,
           userIds: [nowUser.userId],
           query: {
@@ -262,7 +263,7 @@ export default {
           }
         }
         invoke({
-          url: api.calcUserStatVedio,
+          url: api.calcUserStat,
           method: api.post,
           data: user_data
         }).then(
@@ -288,6 +289,7 @@ export default {
           let child = this.$store.state.variable.vedioGameData.nowChildList
           for (let item of child) {
             let child_data = {
+              gameType: 40000,
               role: item.role,
               userIds: [item.userId],
               query: {
@@ -295,7 +297,7 @@ export default {
               }
             }
             invoke({
-              url: api.calcUserStatVedio,
+              url: api.calcUserStat,
               method: api.post,
               data: child_data
             }).then(
@@ -329,13 +331,14 @@ export default {
           let player = this.$store.state.variable.vedioGameData.nowPlayerlist
           for (let item of player) {
             let player_data = {
+              gameType: 40000,
               gameUserIds: [item.userId],
               query: {
                 createdAt: this.searchDate
               }
             }
             invoke({
-              url: api.calcPlayerStatVedio,
+              url: api.calcPlayerStat,
               method: api.post,
               data: player_data
             }).then(

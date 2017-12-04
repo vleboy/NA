@@ -223,7 +223,7 @@ export default {
           sort: 'desc'
         }
         invoke({
-          url: api.playerLive,
+          url: api.reportPlayer,
           method: api.post,
           data: data
         }).then(
@@ -282,7 +282,7 @@ export default {
           }
         }
         invoke({
-          url: api.calcUserStatLive,
+          url: api.calcUserStat,
           method: api.post,
           data: user_data
         }).then(
@@ -317,7 +317,7 @@ export default {
               }
             }
             invoke({
-              url: api.calcUserStatLive,
+              url: api.calcUserStat,
               method: api.post,
               data: child_data
             }).then(
@@ -359,7 +359,7 @@ export default {
               }
             }
             invoke({
-              url: api.calcPlayerStatLive,
+              url: api.calcPlayerStat,
               method: api.post,
               data: player_data
             }).then(

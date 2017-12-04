@@ -23,9 +23,6 @@ const front = {
 
   playerExt: playerExt_URL, // playerExt接口
 
-  vedioReport: vedioReport_URL, // vedioGameReport接口
-
-  liveReport: liveReport_URL // liveReport接口
 }
 
 const api = {
@@ -182,6 +179,14 @@ const api = {
 
   consumeAndIncome: front.stat + front.stage + '/statistics/consumeAndIncome', // 售出，收益
 
+  reportInfo: front.stat + front.stage + '/queryUserStat', // 平台报表用户统计
+
+  reportPlayer: front.stat + front.stage + '/queryPlayerStat', // 平台报表用户所属玩家统计
+
+  calcUserStat: front.stat + front.stage + '/calcUserStat', // 报表用户时间查询
+
+  calcPlayerStat: front.stat + front.stage + '/calcPlayerStat',  // 报表玩家时间查询
+
   //other
 
   statisticsGame: front.other + 'g40001/gamestats', // 获取风控中心电子游戏顶部统计数据接口
@@ -202,24 +207,6 @@ const api = {
   playerBill: front.playerExt + front.stage + '/player/bill/detail', // 账单流水详情信息(查看账单详细)
 
   playerRecord: front.playerExt + front.stage + '/player/bill/record', // 战绩
-
-  // videoReport
-  reportVedio: front.vedioReport + 'prod' + '/queryUserStat', // 平台用户电子游戏统计
-
-  playerVedio: front.vedioReport + 'prod' + '/queryPlayerStat', // 平台用户所属玩家电子游戏统计
-
-  calcUserStatVedio: front.vedioReport + 'prod' + '/calcUserStat', // 电子游戏报表用户时间查询
-
-  calcPlayerStatVedio: front.vedioReport + 'prod' + '/calcPlayerStat',  // 电子游戏报表玩家时间查询
-
-  // liveReport
-  reportLive: front.liveReport + 'dev' + '/queryUserStat', // 平台用户真人游戏统计
-
-  playerLive: front.liveReport + 'dev' + '/queryPlayerStat', // 平台用户所属玩家真人游戏统计
-
-  calcUserStatLive: front.liveReport + 'dev' + '/calcUserStat', // 真人游戏报表用户时间查询
-
-  calcPlayerStatLive: front.liveReport + 'dev' + '/calcPlayerStat',  // 真人游戏报表玩家时间查询
 
   // methods
   get: 'get',
