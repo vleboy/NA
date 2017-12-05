@@ -6,14 +6,46 @@
           GAME DOWNLOAD
         </h2>
         <div class="download-address">
-            <div class="android"><a href="http://oss.na12345.com/NAGame1600.apk"><img src="../assets/e1.png" alt=""></a></div>
-            <div class="ios"><a href="itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1600.plist"><img src="../assets/e2.png" alt=""></a></div>
+          <div v-if="isChina">
+            <div class="android"><a href="http://natest001.oss-cn-hongkong.aliyuncs.com/NAGame1700.apk"><img src="../assets/e1.png" alt=""></a></div>
+            <div class="ios"><a href="itms-services://?action=download-manifest&url=https://natest001.oss-cn-hongkong.aliyuncs.com/autoinstall1700.plist"><img src="../assets/e2.png" alt=""></a></div>
+          </div>
+          <div v-else>
+            <div class="android"><a href="http://oss.na12345.com/NAGame1700.apk"><img src="../assets/e1.png" alt=""></a></div>
+            <div class="ios"><a href="itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1700.plist"><img src="../assets/e2.png"alt=""></a></div>
+          </div>
         </div>
       </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+export default {
+  mounted () {
+    this.getIp ()
+  },
+  data () {
+    return {
+      isChina: false
+    }
+  },
+  methods: {
+    getIp () {
+      axios.get('https://844sz7nr7l.execute-api.ap-southeast-1.amazonaws.com/dev/ipquery')
+        .then(function (res) {
+          if(res.data.payload.data.country === '中国'){
+            this.isChina = true
+          } else {
+            this.isChina = false
+          }
+        })
+        .catch(function (error) {
+          alert(error)
+        });
+    }
+  }
+}
 
 </script>
 
