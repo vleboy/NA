@@ -139,22 +139,22 @@ $<template>
           <el-col v-else :span="12">
             游戏结果：{{recordInfo.roundResult}}
           </el-col>
-          <el-col :span="12" class="-row-left">投注号码：{{recordInfo.betNum}}</el-col>
+          <el-col :span="12" class="-row-left">玩家下注：{{recordInfo.betNum}}</el-col>
         </el-row>
-        <el-row class="record-row">
-          <el-col :span="12">下注前余额：{{formatPoints(recordInfo.preBalance)}}</el-col>
-          <el-col :span="12" class="-row-left">投注金额：{{formatPoints(recordInfo.amount)}}</el-col>
-        </el-row>
-        <el-row class="record-row">
-          <el-col :span="12">赢/输：
-            <span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">
-              {{winLostState[recordInfo.winLostStatus]}}
-            </span>
-          </el-col>
-          <el-col :span="12" class="-row-left">输赢金额：
-            <span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">
-            {{formatPoints(recordInfo.winLostAmount)}}</span></el-col>
-        </el-row>
+        <!--<el-row class="record-row">-->
+          <!--<el-col :span="12">下注前余额：{{formatPoints(recordInfo.preBalance)}}</el-col>-->
+          <!--<el-col :span="12" class="-row-left">投注金额：{{formatPoints(recordInfo.amount)}}</el-col>-->
+        <!--</el-row>-->
+        <!--<el-row class="record-row">-->
+          <!--<el-col :span="12">赢/输：-->
+            <!--<span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">-->
+              <!--{{winLostState[recordInfo.winLostStatus]}}-->
+            <!--</span>-->
+          <!--</el-col>-->
+          <!--<el-col :span="12" class="-row-left">输赢金额：-->
+            <!--<span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">-->
+            <!--{{formatPoints(recordInfo.winLostAmount)}}</span></el-col>-->
+        <!--</el-row>-->
       </div>
     </el-dialog>
   </div>
