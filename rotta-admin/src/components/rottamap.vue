@@ -208,13 +208,13 @@ export default {
       }
       if (data.id || data.userId) {
         if (data.role === '10') {
-          this.$store.commit('resetPartLoading')
           this.$store.commit({
             type: 'recordOutdetailID',
             data: data.id
           })
           this.$router.push('outdetail')
           this.$store.commit('closeEdit')
+          this.$store.commit('startLoading')
           this.$store.dispatch('getOutdetail')
           this.$store.dispatch('getOutdetail_property')
           this.$store.dispatch('getOutdetail_child_managers')
@@ -224,7 +224,7 @@ export default {
             type: 'recordComdetailID',
             data: data.id
           })
-          this.$store.commit('resetPartLoading')
+          this.$store.commit('startLoading')
           this.$router.push('comdetail')
           this.$store.commit('closeEdit')
           this.$store.dispatch('getComdetail')
