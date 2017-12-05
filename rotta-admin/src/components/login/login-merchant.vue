@@ -15,8 +15,8 @@
         <el-form-item label="密码" prop="">
           <el-input class="input" type="password" v-model="userInfo.password" placeholder="请输入" :maxlength='16'></el-input>
         </el-form-item>
-        <el-form-item label="商户标识" prop="">
-          <el-input class="input" v-model="userInfo.suffix" placeholder="请输入"></el-input>
+        <el-form-item label="线路号" prop="">
+          <el-input class="input" v-model="userInfo.msn" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="验证码" class="captcha-form">
           <el-input placeholder="请输入" class="captcha-input" v-model="userInfo.captcha" :maxlength='4'></el-input>
@@ -33,10 +33,9 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
-// import { checkUsername, checkPassword, checkCaptcha, checkSuffix } from '@/behavior/regexp'
 export default {
   name: 'login',
   computed: {
@@ -52,7 +51,7 @@ export default {
         role: '100',
         username: '', // 用户名
         password: '', // 密码
-        suffix: '', // 商户标识
+        msn: '', // 商户线路号
         captcha: '', // 验证码
         getcode: '' // 获取到的验证码
       },
@@ -61,16 +60,16 @@ export default {
   },
   methods: {
     getcaptcha () {
-      if (!this.userInfo.username || !this.userInfo.suffix) {
+      if (!this.userInfo.username) {
         this.$message({
-          message: '请输入用户名和商户标识以获取验证码',
+          message: '请输入用户名以获取验证码',
           type: 'error'
         })
       } else {
         if (this.codeFetching) return
         var user = {
           usage: 'login',
-          relKey: this.userInfo.suffix.trim() + '_' + this.userInfo.username.trim()
+          relKey: parseInt(this.userInfo.msn.trim()).toString() + '_' + this.userInfo.username.trim()
         }
         this.codeFetching = true
         invoke({
@@ -95,6 +94,9 @@ export default {
     login () {
       this.$store.commit('startLoading')
       var log = this.userInfo
+      log.username = log.username.trim()
+      log.password = log.password.trim()
+      log.msn = log.msn.trim()
       invoke({
         url: api.login,
         method: api.post,
