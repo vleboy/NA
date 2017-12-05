@@ -2,6 +2,7 @@
  * Created by Administrator on 2017/11/2 0002.
  */
 
+var isChina = ''
 
 var os = function () {
     var ua = navigator.userAgent,
@@ -31,7 +32,7 @@ var os = function () {
 }();
 
 getWindowHeight()
-
+getIp()
 //获取高度及样式
 function getWindowHeight() {
     if (os.isPc) {
@@ -89,4 +90,23 @@ function iosModal () {
 function closeModal(){
     $('.active-modal').addClass('modal-bg');
     $('.active-modal-bg').addClass('modal-bg');
+}
+
+
+function getIp () {
+    $.ajax({
+        type : "GET",
+        url : "https://844sz7nr7l.execute-api.ap-southeast-1.amazonaws.com/dev/ipquery",
+        data : {},
+        success : function(result) {//返回数据根据结果进行相应的处理
+            if(result.payload.data.country === '中国') {
+                $('.isChina').removeClass('isChina');
+            } else {
+                $('.isNoChina').removeClass('isNoChina');
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert('获取IP地址失败，请稍后刷新！');
+        }
+    });
 }

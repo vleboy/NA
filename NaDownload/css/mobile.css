@@ -37,6 +37,14 @@
     display: none;
 }
 
+.isNoChina{
+    display: none;
+}
+
+.isChina{
+    display: none;
+}
+
 .mobile_img{
     width: 100%;
 }
