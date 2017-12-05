@@ -32,12 +32,13 @@ export default {
   },
   methods: {
     getIp () {
+      let _self = this
       axios.get('https://844sz7nr7l.execute-api.ap-southeast-1.amazonaws.com/dev/ipquery')
         .then(function (res) {
           if(res.data.payload.data.country === '中国'){
-            this.isChina = true
+            _self.isChina = true
           } else {
-            this.isChina = false
+            _self.isChina = false
           }
         })
         .catch(function (error) {

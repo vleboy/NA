@@ -1,0 +1,54 @@
+<template>
+  <div class="home-cooperation">
+    <div class="container">
+      <div class="company-item" v-for = "lists in companyLists ">
+        <ul class="flex">
+          <li v-for="item in lists"><img :src="item.url" alt="1"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'home-cooperation',
+  data () {
+    return {
+      companyLists: [
+        [
+          { url: require('@/assets/img/company1.png') },
+          { url: require('@/assets/img/company2.png') },
+          { url: require('@/assets/img/company3.png') },
+          { url: require('@/assets/img/company4.png') },
+          { url: require('@/assets/img/company5.png') }
+        ],
+        [
+          { url: require('@/assets/img/company1.png') },
+          { url: require('@/assets/img/company2.png') },
+          { url: require('@/assets/img/company3.png') },
+          { url: require('@/assets/img/company4.png') }
+        ]
+      ]
+    }
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+.home-cooperation
+  background url('../assets/img/cooperation.png') no-repeat
+  background-size cover
+  padding 60px 0
+  .company-item
+    margin 30px 0 30px
+    padding 60px 15px
+    background #ffffff
+    border-radius 7px 
+    ul
+      li
+        width 20%
+        margin 0 45px
+</style>
+
+
