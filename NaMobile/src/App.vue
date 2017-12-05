@@ -59,20 +59,29 @@ export default {
     if (!is_weixin() && !is_QQInnerBro()) {
       this.show = false
       if(isAndroid){
-        window.location.href = 'http://oss.na12345.com/NAGame1600.apk'
+        axios.get(`${url}/dev/ipquery`)
+          .then(function (res) {
+            if(res.data.payload.data.country === '中国'){
+              window.location.href = 'http://natest001.oss-cn-hongkong.aliyuncs.com/NAGame1700.apk'
+            } else {
+              window.location.href = 'http://oss.na12345.com/NAGame1700.apk'
+            }
+          })
+          .catch(function (error) {
+            console.log(error)
+          });
       } else if(isiOS){
-        // axios.get(`${url}/dev/ipquery`)
-        // .then(function (res) {
-        //   if(res.data.payload.data.country === '中国'){
-        //     window.location.href = 'itms-services://?action=download-manifest&url=https://natest001.oss-cn-hongkong.aliyuncs.com/autoinstall_aliyun_1316.plist'
-        //   } else {
-        //     window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1316.plist'
-        //   }
-        // })
-        // .catch(function (error) {
-        //   console.log(error)
-        // })
-        window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1600.plist'
+         axios.get(`${url}/dev/ipquery`)
+         .then(function (res) {
+           if(res.data.payload.data.country === '中国'){
+             window.location.href = 'itms-services://?action=download-manifest&url=http://natest001.oss-cn-hongkong.aliyuncs.com/autoinstall1700.plist'
+           } else {
+             window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1700.plist'
+           }
+         })
+         .catch(function (error) {
+           console.log(error)
+         })
       }
     }else if (is_weixin() || is_QQInnerBro()) {
       this.show = true
