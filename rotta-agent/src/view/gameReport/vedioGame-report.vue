@@ -74,7 +74,7 @@
       <div class="clearFix" style="margin-bottom:0.5rem">
         <p class="title" style="float:left">所属玩家列表</p>
         <div style="float:right;margin-right:1rem">
-          <el-input placeholder="请输入玩家用户名或昵称" class="input" v-model="playerData"></el-input>
+          <el-input placeholder="请输入玩家用户名" class="input" v-model="playerData"></el-input>
           <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchPlayer" :loading="playerLoading">查询</el-button>
           <el-button @click="resetPlayerSearch">清空</el-button>
         </div>
@@ -188,7 +188,7 @@ export default {
       if (!this.playerData) {
         this.$message({
           type: 'error',
-          message: '请输入玩家用户名或昵称'
+          message: '请输入玩家用户名'
         })
       } else if (this.$store.state.variable.vedioGameData.nowPlayerlist.length == 0) {
         this.$message({
@@ -200,7 +200,7 @@ export default {
         let data = {
           parentId: this.$store.state.variable.vedioGameData.nowList.userId,
           query: {
-            username: this.playerData
+            userName: this.playerData
           },
           sortkey: 'createdAt',
           sort: 'desc'
