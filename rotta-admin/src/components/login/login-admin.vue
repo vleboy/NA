@@ -124,6 +124,9 @@ export default {
               data: info
             })
             var key = success.token.substring(0,6)
+            let loginTime = new Date()
+            loginTime = new Date(loginTime.toString()).getTime()
+            localStorage.setItem('loginTime', loginTime)
             localStorage.setItem('loginToken', success.token)
             localStorage.setItem('loginLevel', success.level)
             localStorage.setItem('loginId', success.userId)

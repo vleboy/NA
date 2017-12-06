@@ -63,7 +63,7 @@ import LineUp from '@/view/lineup/lineup' // 排队设置
 import ComputerGame from '@/view/riskManagement/computerGame' // 电子游戏风控
 
 Vue.use(Router)
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '*',
@@ -286,3 +286,13 @@ export default new Router({
     }
   ]
 })
+// router.beforeEach((to,from,next) => {
+//   let loginTime = localStorage.loginTime
+//   let nowTime = new Date()
+//   nowTime = new Date(nowTime.toString()).getTime()
+//   console.log('现在时间',nowTime)
+//   console.log('登录时间',loginTime)
+//   next()
+// })
+
+export default router

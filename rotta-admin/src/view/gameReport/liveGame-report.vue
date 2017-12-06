@@ -134,6 +134,7 @@ import api from '@/api/api'
 import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
+    localStorage.removeItem('searchTime')
     this.$store.commit({
       type: 'recordLiveNowplayer',
       data: []
@@ -271,6 +272,7 @@ export default {
           message: '请选择搜索时间'
         })
       } else {
+        localStorage.setItem('searchTime',this.searchDate)
         this.loading = true
         let nowUser = this.$store.state.variable.liveGameData.nowList
         let user_data = {
@@ -399,6 +401,7 @@ export default {
     }, // 按时间搜索
     resetSearch () {
       this.searchDate = []
+      localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
       this.$store.dispatch('getLiveNowlist')
       this.$store.dispatch('getLiveNowchild')
@@ -467,6 +470,9 @@ export default {
         }
       )
     }
+  },
+  beforeDestroy () {
+    localStorage.removeItem('searchTime')
   }
 }
 </script>

@@ -115,6 +115,7 @@ import api from '@/api/api'
 import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
+    localStorage.removeItem('searchTime')
     this.$store.commit({
       type: 'recordVedioNowplayer',
       data: []
@@ -252,6 +253,7 @@ export default {
           message: '请选择搜索时间'
         })
       } else {
+        localStorage.setItem('searchTime',this.searchDate)
         this.loading = true
         let nowUser = this.$store.state.variable.vedioGameData.nowList
         let user_data = {
@@ -378,6 +380,7 @@ export default {
     }, // 按时间搜索
     resetSearch () {
       this.searchDate = []
+      localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
       this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
@@ -446,6 +449,9 @@ export default {
     getPlayerpage (page) {
       this.playerPage = page
     }, // 玩家列表分页
+  },
+  beforeDestroy () {
+    localStorage.removeItem('searchTime')
   }
 }
 </script>

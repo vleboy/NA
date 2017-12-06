@@ -737,7 +737,11 @@ const actions = {
     // 请求账单信息
     context.commit('getWeek')
     let searchDate = []
-    searchDate = [state.startTime, state.endTime]
+    if (localStorage.searchTime) {
+      searchDate = localStorage.searchTime
+    } else {
+      searchDate = [state.startTime, state.endTime]
+    }
     let searchData = {
       gameType: 40000,
       role: user.role,
@@ -779,7 +783,11 @@ const actions = {
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
-    searchDate = [state.startTime, state.endTime]
+    if (localStorage.searchTime) {
+      searchDate = localStorage.searchTime
+    } else {
+      searchDate = [state.startTime, state.endTime]
+    }
     for (let item of child) {
       let child_data = {
         gameType: 40000,
@@ -834,7 +842,11 @@ const actions = {
       // 请求所属玩家账单信息
       context.commit('getWeek')
       let searchDate = []
-      searchDate = [state.startTime, state.endTime]
+      if (localStorage.searchTime) {
+        searchDate = localStorage.searchTime
+      } else {
+        searchDate = [state.startTime, state.endTime]
+      }
       for (let item of player) {
         let player_data = {
           gameType: 40000,
@@ -896,7 +908,11 @@ const actions = {
     // 请求账单信息
     context.commit('getWeek')
     let searchDate = []
-    searchDate = [state.startTime, state.endTime]
+    if (localStorage.searchTime) {
+      searchDate = localStorage.searchTime
+    } else {
+      searchDate = [state.startTime, state.endTime]
+    }
     let searchData = {
       gameType: 30000,
       role: user.role,
@@ -939,7 +955,11 @@ const actions = {
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
-    searchDate = [state.startTime, state.endTime]
+    if (localStorage.searchTime) {
+      searchDate = localStorage.searchTime
+    } else {
+      searchDate = [state.startTime, state.endTime]
+    }
     for (let item of child) {
       let child_data = {
         gameType: 30000,
@@ -996,7 +1016,11 @@ const actions = {
       // 请求所属玩家账单信息
       context.commit('getWeek')
       let searchDate = []
-      searchDate = [state.startTime, state.endTime]
+      if (localStorage.searchTime) {
+        searchDate = localStorage.searchTime
+      } else {
+        searchDate = [state.startTime, state.endTime]
+      }
       for (let item of player) {
         let player_data = {
           gameType: 30000,

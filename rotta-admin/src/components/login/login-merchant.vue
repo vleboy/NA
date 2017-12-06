@@ -134,6 +134,9 @@ export default {
               type: 'recordUserinfo',
               data: info
             })
+            let loginTime = new Date()
+            loginTime = new Date(loginTime.toString()).getTime()
+            localStorage.setItem('loginTime', loginTime)
             localStorage.setItem('loginToken', success.token)
             localStorage.setItem('loginLevel', success.level)
             localStorage.setItem('loginId', success.userId)
