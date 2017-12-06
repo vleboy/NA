@@ -1,6 +1,9 @@
 <template>
   <div class="home">
     <!-- <Banner /> -->
+    <home-service-plan />
+    <homeDownload />
+    <home-contactus />
     <home-cooperation />
     <home-footer />
   </div>
@@ -9,11 +12,17 @@
 <script>
 import homeFooter from '@/components/home-footer'
 import homeCooperation from '@/components/home-cooperation'
+import homeContactus from '@/components/home-contactus'
+import homeDownload from '@/components/home-download'
+import homeServicePlan from '@/components/home-service-plan'
 export default {
   name: 'Home',
   components: {
     homeFooter,
-    homeCooperation
+    homeCooperation,
+    homeContactus,
+    homeDownload,
+    homeServicePlan
   }
 }
 </script>

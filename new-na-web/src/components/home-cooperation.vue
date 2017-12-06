@@ -2,7 +2,7 @@
   <div class="home-cooperation">
     <div class="container">
       <div class="company-item" v-for = "lists in companyLists ">
-        <ul class="flex">
+        <ul>
           <li v-for="item in lists"><img :src="item.url" alt="1"></li>
         </ul>
       </div>
@@ -46,9 +46,10 @@ export default {
     background #ffffff
     border-radius 7px 
     ul
+      display flex
       li
-        width 20%
-        margin 0 45px
+        flex-basis 20%
+        padding  0 45px
 </style>
 
 

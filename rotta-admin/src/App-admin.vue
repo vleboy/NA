@@ -22,7 +22,10 @@
       <!-- 主内容区路由 -->
       <div :class="{'main-right-true': isSlider, 'main-right-false': !isSlider }" id="routerBox" @click="closeMap">
         <div class="right-content">
-            <router-view v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'></router-view>
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive" v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'></router-view>
+          </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive" v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'></router-view>
         </div>
       </div>
       <!-- 层级关系 -->

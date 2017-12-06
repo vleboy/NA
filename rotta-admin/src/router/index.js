@@ -117,7 +117,10 @@ const router = new Router({
     {
       path: '/playerlist',
       name: '玩家列表',
-      component: Playerlist
+      component: Playerlist,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/playerdetail',
