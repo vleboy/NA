@@ -62,6 +62,9 @@
 import Createbtn from '@/components/createbtn'
 import { formatContractPeriod, formatRemark, formatGamelist } from '@/behavior/format'
 export default {
+  beforeCreate () {
+    this.$store.commit('startLoading')
+  },
   components: {
     Createbtn
   },

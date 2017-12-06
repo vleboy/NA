@@ -1338,10 +1338,12 @@ const mutations = {
 
   recordOutsuccess (state, payload) {
     state.variable.outsuccess = payload.data
+    state.variable.isloading = false
   }, // 记录线路商注册成功后返回数据
 
   recordComsuccess (state, payload) {
     state.variable.comsuccess = payload.data
+    state.variable.isloading = false
   }, // 记录一般商户注册成功后返回数据
 
   recordOutdetaildata (state, payload) {

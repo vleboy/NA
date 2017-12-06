@@ -104,7 +104,7 @@ export default {
         setTimeout(function(){
           self.loading = false
           self.$store.commit('changeSteps')
-        },5000)
+        },3000)
       }
     }, // 配置线路商信息
     gosetcom () {
@@ -130,7 +130,7 @@ export default {
         setTimeout(function(){
           self.loading = false
           self.$store.commit('changeSteps')
-        },5000)
+        },3000)
       }
     }, // 配置商户信息
     goOutlist () {
