@@ -107,7 +107,7 @@
 
     <el-breadcrumb separator="/" v-if="nowindex === 'gameMailList'" class="title">
       <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
-      <el-breadcrumb-item>站内信管理 </el-breadcrumb-item>
+      <el-breadcrumb-item>邮件管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">游戏邮件列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
