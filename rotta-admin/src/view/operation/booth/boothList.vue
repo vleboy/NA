@@ -102,7 +102,7 @@
         </el-form-item>
         <el-form-item label="选择物品" label-width="110px">
           <el-select v-model="boothInfo.prop" placeholder="请选择上架物品" filterable clearable :disabled="!isCheckGoods" style="width: 100%">
-            <el-option v-for="(item, index) in propList" :key="index" :laber="item.toolName"
+            <el-option v-for="(item, index) in oldPropList" :key="index" :laber="item.toolName"
                        :value="item.toolName" v-if="boothInfo.contentType==1">
             </el-option>
             <el-option v-for="(item, index) in packageList" :key="index" :laber="item.packageName"
@@ -138,7 +138,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import { detailTime } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
