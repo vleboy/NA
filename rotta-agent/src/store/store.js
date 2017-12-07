@@ -582,11 +582,12 @@ const actions = {
         data: user
       })
     }
+    context.commit('closeLoading')
     // 请求账单信息
     context.commit('getWeek')
     let searchDate = []
     if (localStorage.searchTime) {
-      searchDate = localStorage.searchTime
+      searchDate = JSON.parse(localStorage.searchTime)
     } else {
       searchDate = [state.startTime, state.endTime]
     }
@@ -646,7 +647,7 @@ const actions = {
     context.commit('getWeek')
     let searchDate = []
     if (localStorage.searchTime) {
-      searchDate = localStorage.searchTime
+      searchDate = JSON.parse(localStorage.searchTime)
     } else {
       searchDate = [state.startTime, state.endTime]
     }
@@ -691,7 +692,7 @@ const actions = {
   async getVedioNowplayer (context) {
     if (localStorage.loginSuffix == 'Agent') {
       // 代理管理员登录
-      if (state.variable.vedioGameData.nowUserID == '01' || !state.variable.vedioGameData.nowUserID) {
+      if (!state.variable.vedioGameData.nowUserID) {
       } else {
         // 请求所属玩家基本信息
         var data = {
@@ -707,7 +708,7 @@ const actions = {
         context.commit('getWeek')
         let searchDate = []
         if (localStorage.searchTime) {
-          searchDate = localStorage.searchTime
+          searchDate = JSON.parse(localStorage.searchTime)
         } else {
           searchDate = [state.startTime, state.endTime]
         }
@@ -752,7 +753,7 @@ const actions = {
       var data = {
         parentId: ''
       }
-      if (state.variable.vedioGameData.nowUserID == '01' || !state.variable.vedioGameData.nowUserID) {
+      if (!state.variable.vedioGameData.nowUserID) {
         data.parentId = localStorage.loginId
       } else {
         data.parentId = state.variable.vedioGameData.nowUserID
@@ -768,7 +769,7 @@ const actions = {
       context.commit('getWeek')
       let searchDate = []
       if (localStorage.searchTime) {
-        searchDate = localStorage.searchTime
+        searchDate = JSON.parse(localStorage.searchTime)
       } else {
         searchDate = [state.startTime, state.endTime]
       }
@@ -836,7 +837,7 @@ const actions = {
     context.commit('getWeek')
     let searchDate = []
     if (localStorage.searchTime) {
-      searchDate = localStorage.searchTime
+      searchDate = JSON.parse(localStorage.searchTime)
     } else {
       searchDate = [state.startTime, state.endTime]
     }
@@ -888,7 +889,7 @@ const actions = {
       context.commit('getWeek')
       let searchDate = []
       if (localStorage.searchTime) {
-        searchDate = localStorage.searchTime
+        searchDate = JSON.parse(localStorage.searchTime)
       } else {
         searchDate = [state.startTime, state.endTime]
       }
@@ -948,7 +949,7 @@ const actions = {
       context.commit('getWeek')
       let searchDate = []
       if (localStorage.searchTime) {
-        searchDate = localStorage.searchTime
+        searchDate = JSON.parse(localStorage.searchTime)
       } else {
         searchDate = [state.startTime, state.endTime]
       }
@@ -995,7 +996,7 @@ const actions = {
   async getLiveNowplayer (context) {
     if (localStorage.loginSuffix == 'Agent') {
       // 代理管理员登录
-      if (state.variable.liveGameData.nowUserID == '01' || !state.variable.liveGameData.nowUserID) {
+      if (!state.variable.liveGameData.nowUserID) {
       } else {
         // 请求所属玩家基本信息
         var data = {
@@ -1011,7 +1012,7 @@ const actions = {
         context.commit('getWeek')
         let searchDate = []
         if (localStorage.searchTime) {
-          searchDate = localStorage.searchTime
+          searchDate = JSON.parse(localStorage.searchTime)
         } else {
           searchDate = [state.startTime, state.endTime]
         }
@@ -1056,7 +1057,7 @@ const actions = {
       var data = {
         parentId: ''
       }
-      if (state.variable.liveGameData.nowUserID == '01' || !state.variable.liveGameData.nowUserID) {
+      if (!state.variable.liveGameData.nowUserID) {
         data.parentId = localStorage.loginId
       } else {
         data.parentId = state.variable.liveGameData.nowUserID
@@ -1072,7 +1073,7 @@ const actions = {
       context.commit('getWeek')
       let searchDate = []
       if (localStorage.searchTime) {
-        searchDate = localStorage.searchTime
+        searchDate = JSON.parse(localStorage.searchTime)
       } else {
         searchDate = [state.startTime, state.endTime]
       }
