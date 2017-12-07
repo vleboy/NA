@@ -576,11 +576,12 @@ const actions = {
       data: data
     })
     let user = result1[1].data.payload
-    context.commit({
-      type: 'recordVedioNowlist',
-      data: user
-    })
-    context.commit('closeLoading')
+    if (state.variable.vedioGameData.nowUserID == user.userId) {
+      context.commit({
+        type: 'recordVedioNowlist',
+        data: user
+      })
+    }
     // 请求账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -603,15 +604,17 @@ const actions = {
       data: searchData
     })
     let count = result2[1].data.payload[0]
-    // 更新账单至基本信息
-    user.bet = count.bet
-    user.betCount = count.betCount
-    user.winlose = count.winlose
-    user.winloseRate = count.winloseRate
-    context.commit({
-      type: 'recordVedioNowlist',
-      data: user
-    })
+    if (state.variable.vedioGameData.nowUserID == count.userId) {
+      // 更新账单至基本信息
+      user.bet = count.bet
+      user.betCount = count.betCount
+      user.winlose = count.winlose
+      user.winloseRate = count.winloseRate
+      context.commit({
+        type: 'recordVedioNowlist',
+        data: user
+      })
+    }
   }, // 电子游戏当前列表
   async getVedioNowchild (context) {
     var data = {
@@ -822,10 +825,12 @@ const actions = {
       data: data
     })
     let user = result1[1].data.payload
-    context.commit({
-      type: 'recordLiveNowlist',
-      data: user
-    })
+    if (state.variable.liveGameData.nowUserID == user.userId) {
+      context.commit({
+        type: 'recordLiveNowlist',
+        data: user
+      })
+    }
     context.commit('closeLoading')
     // 请求账单信息
     context.commit('getWeek')
@@ -849,16 +854,18 @@ const actions = {
       data: searchData
     })
     let count = result2[1].data.payload[0]
-    // 更新账单至基本信息
-    user.bet = count.bet
-    user.betCount = count.betCount
-    user.winlose = count.winlose
-    user.mixAmount = count.mixAmount
-    user.winloseRate = count.winloseRate
-    context.commit({
-      type: 'recordLiveNowlist',
-      data: user
-    })
+    if (state.variable.liveGameData.nowUserID == count.userId) {
+      // 更新账单至基本信息
+      user.bet = count.bet
+      user.betCount = count.betCount
+      user.winlose = count.winlose
+      user.mixAmount = count.mixAmount
+      user.winloseRate = count.winloseRate
+      context.commit({
+        type: 'recordLiveNowlist',
+        data: user
+      })
+    }
   }, // 真人游戏当前列表
   async getLiveNowchild (context) {
     var data = {
