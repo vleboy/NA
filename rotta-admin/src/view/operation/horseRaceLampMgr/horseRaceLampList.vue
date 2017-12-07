@@ -174,8 +174,8 @@ export default {
               type: 'error'
             })
           } else {
-            this.horseRaceLampList = res.data.list
-            this.searchArray = res.data.list
+            this.horseRaceLampList = res.data.list.Items
+            this.searchArray = res.data.list.Items
           }
           this.$store.commit('closeLoading')
         }

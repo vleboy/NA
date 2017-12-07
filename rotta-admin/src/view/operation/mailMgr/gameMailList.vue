@@ -234,8 +234,8 @@ export default {
               type: 'error'
             })
           } else {
-            this.mailList = res.data.list
-            this.searchArray = res.data.list
+            this.mailList = res.data.list.Items
+            this.searchArray = res.data.list.Items
           }
           this.$store.commit('closeLoading')
         }
