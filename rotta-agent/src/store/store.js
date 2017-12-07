@@ -593,7 +593,7 @@ const actions = {
     }
     let searchData = {
       gameType: 40000,
-      role: user.role,
+      role: user.suffix == 'Agent'? '-1000': user.role,
       userIds: [user.userId],
       query: {
         createdAt: searchDate
@@ -843,7 +843,7 @@ const actions = {
     }
     let searchData = {
       gameType: 30000,
-      role: user.role,
+      role: user.suffix == 'Agent'? '-1000': user.role,
       userIds: [user.userId],
       query: {
         createdAt: searchDate

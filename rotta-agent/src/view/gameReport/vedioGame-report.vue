@@ -250,7 +250,7 @@ export default {
         let nowUser = this.$store.state.variable.vedioGameData.nowList
         let user_data = {
           gameType: 40000,
-          role: nowUser.role,
+          role: nowUser.suffix == 'Agent'? '-1000': nowUser.role,
           userIds: [nowUser.userId],
           query: {
             createdAt: this.searchDate
