@@ -272,7 +272,7 @@ export default {
           message: '请选择搜索时间'
         })
       } else {
-        localStorage.setItem('searchTime',this.searchDate)
+        localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
         this.loading = true
         let nowUser = this.$store.state.variable.liveGameData.nowList
         let user_data = {
@@ -419,6 +419,9 @@ export default {
     }, // 查看当前用户信息
     goBack () {
       var data = this.$store.state.variable.liveGameData.nowList.parent
+      if (data == '01') {
+        data = ''
+      }
       this.$store.commit({
         type: 'recordLiveID',
         data: data

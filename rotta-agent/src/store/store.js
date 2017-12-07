@@ -564,7 +564,7 @@ const actions = {
     let data = {
       userId: ''
     }
-    if (state.variable.vedioGameData.nowUserID && state.variable.vedioGameData.nowUserID != '01') {
+    if (state.variable.vedioGameData.nowUserID) {
       data.userId = state.variable.vedioGameData.nowUserID
     } else {
       data.userId = localStorage.loginId
@@ -576,7 +576,7 @@ const actions = {
       data: data
     })
     let user = result1[1].data.payload
-    if (state.variable.vedioGameData.nowUserID == user.userId) {
+    if (user.userId == state.variable.vedioGameData.nowUserID || !state.variable.vedioGameData.nowUserID && user.userId == localStorage.loginId) {
       context.commit({
         type: 'recordVedioNowlist',
         data: user
@@ -604,7 +604,7 @@ const actions = {
       data: searchData
     })
     let count = result2[1].data.payload[0]
-    if (state.variable.vedioGameData.nowUserID == count.userId) {
+    if (count.userId == state.variable.vedioGameData.nowUserID || !state.variable.vedioGameData.nowUserID && count.userId == localStorage.loginId) {
       // 更新账单至基本信息
       user.bet = count.bet
       user.betCount = count.betCount
@@ -813,7 +813,7 @@ const actions = {
     let data = {
       userId: ''
     }
-    if (state.variable.liveGameData.nowUserID && state.variable.liveGameData.nowUserID != '01') {
+    if (state.variable.liveGameData.nowUserID) {
       data.userId = state.variable.liveGameData.nowUserID
     } else {
       data.userId = localStorage.loginId
@@ -825,7 +825,7 @@ const actions = {
       data: data
     })
     let user = result1[1].data.payload
-    if (state.variable.liveGameData.nowUserID == user.userId) {
+    if (user.userId == state.variable.liveGameData.nowUserID || !state.variable.liveGameData.nowUserID && user.userId == localStorage.loginId) {
       context.commit({
         type: 'recordLiveNowlist',
         data: user
@@ -854,7 +854,7 @@ const actions = {
       data: searchData
     })
     let count = result2[1].data.payload[0]
-    if (state.variable.liveGameData.nowUserID == count.userId) {
+    if (count.userId == state.variable.liveGameData.nowUserID || !state.variable.liveGameData.nowUserID && count.userId == localStorage.loginId) {
       // 更新账单至基本信息
       user.bet = count.bet
       user.betCount = count.betCount
