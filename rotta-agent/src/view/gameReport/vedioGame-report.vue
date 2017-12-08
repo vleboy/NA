@@ -42,7 +42,7 @@
         </el-table-column>
         <el-table-column label="代理占成" prop="rate" align="center">
           <template scope="scope">
-            <span>{{formatPercent(scope.row.rate)}}</span>
+            <span>{{(scope.row.rate) + '%'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="代理交公司" prop="nowSubmit" align="center">
@@ -89,7 +89,7 @@
         </el-table-column>
         <el-table-column label="代理占成" prop="rate" align="center">
           <template scope="scope">
-            <span>{{formatPercent(scope.row.rate)}}</span>
+            <span>{{(scope.row.rate) + '%'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="代理交公司" prop="nowSubmit" align="center">

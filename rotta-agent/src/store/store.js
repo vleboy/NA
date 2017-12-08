@@ -576,8 +576,6 @@ const actions = {
       data: data
     })
     let user = result1[1].data.payload
-    user.vedioMix = parseInt(user.vedioMix)/100
-    user.rate = parseInt(user.rate)/100
     user.nowBouns = '0.00'
     user.nowallBet = '0.00'
     user.nowSubmit = '0.00'
@@ -618,7 +616,8 @@ const actions = {
       user.winloseRate = count.winloseRate
       user.nowBouns = (Number(count.bet) * user.vedioMix).toFixed(2)
       user.nowallBet = (Number(count.bet) * user.vedioMix + Number(count.winlose)).toFixed(2)
-      user.nowSubmit = ((Number(count.bet) * user.vedioMix + Number(count.winlose)) * (1 - user.rate)).toFixed(2)
+      user.nowSubmit = ((Number(count.bet) * user.vedioMix + Number(count.winlose)) * (1 - user.rate/100)).toFixed(2)
+      console.log('user',user)
       context.commit({
         type: 'recordVedioNowlist',
         data: user
@@ -651,9 +650,8 @@ const actions = {
       data: data
     })
     let child = result1[1].data.payload
+    console.log('下级',child)
     for (let item of child) {
-      item.vedioMix = parseInt(item.vedioMix)/100
-      item.rate = parseInt(item.rate)/100
       item.nowBouns = '0.00'
       item.nowallBet = '0.00'
       item.nowSubmit = '0.00'
@@ -699,13 +697,14 @@ const actions = {
                   outside.winloseRate = inside.winloseRate
                   outside.nowBouns = (Number(inside.bet) * outside.vedioMix).toFixed(2)
                   outside.nowallBet = (Number(inside.bet) * outside.vedioMix + Number(inside.winlose)).toFixed(2)
-                  outside.nowSubmit = ((Number(inside.bet) * outside.vedioMix + Number(inside.winlose)) * (1 - outside.rate)).toFixed(2)
+                  outside.nowSubmit = ((Number(inside.bet) * outside.vedioMix + Number(inside.winlose)) * (1 - outside.rate/100)).toFixed(2)
                 }
               }
             }
             match_data = match_data.filter(item => {
               return item.betCount > 0
             })
+            console.log('match_data',match_data)
             context.commit({
               type: 'recordVedioNowchild',
               data: match_data
