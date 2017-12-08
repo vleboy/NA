@@ -31,6 +31,22 @@
             <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="返水比例" prop="vedioMix" align="center">
+          <template scope="scope">
+            <span>{{formatPercent(scope.row.vedioMix)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="佣金" prop="nowBouns" align="center">
+        </el-table-column>
+        <el-table-column label="代理总金额" prop="nowallBet" align="center">
+        </el-table-column>
+        <el-table-column label="代理占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{formatPercent(scope.row.rate)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理交公司" prop="nowSubmit" align="center">
+        </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
         </el-table-column>
       </el-table>
@@ -61,6 +77,22 @@
           <template scope="scope">
             <span>{{points(scope.row.winlose)}}</span>
           </template>
+        </el-table-column>
+        <el-table-column label="返水比例" prop="vedioMix" align="center">
+          <template scope="scope">
+            <span>{{formatPercent(scope.row.vedioMix)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="佣金" prop="nowBouns" align="center">
+        </el-table-column>
+        <el-table-column label="代理总金额" prop="nowallBet" align="center">
+        </el-table-column>
+        <el-table-column label="代理占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{formatPercent(scope.row.rate)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理交公司" prop="nowSubmit" align="center">
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
         </el-table-column>
@@ -238,6 +270,9 @@ export default {
     points (data) {
       return formatPoints('' + data)
     }, // 格式化点数
+    formatPercent (data) {
+      return data * 100 + '%'
+    }, // 格式化百分数
     searchData () {
       if (this.searchDate[0] == null || this.searchDate[1] == null) {
         this.$message({
@@ -245,6 +280,7 @@ export default {
           message: '请选择搜索时间'
         })
       } else {
+        this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
         this.$store.dispatch('getVedioNowlist')
         this.$store.dispatch('getVedioNowchild')

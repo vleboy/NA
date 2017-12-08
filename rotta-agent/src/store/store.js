@@ -576,6 +576,11 @@ const actions = {
       data: data
     })
     let user = result1[1].data.payload
+    user.vedioMix = parseInt(user.vedioMix)/100
+    user.rate = parseInt(user.rate)/100
+    user.nowBouns = '0.00'
+    user.nowallBet = '0.00'
+    user.nowSubmit = '0.00'
     if (user.userId == state.variable.vedioGameData.nowUserID || !state.variable.vedioGameData.nowUserID && user.userId == localStorage.loginId) {
       context.commit({
         type: 'recordVedioNowlist',
@@ -611,6 +616,9 @@ const actions = {
       user.betCount = count.betCount
       user.winlose = count.winlose
       user.winloseRate = count.winloseRate
+      user.nowBouns = (Number(count.bet) * user.vedioMix).toFixed(2)
+      user.nowallBet = (Number(count.bet) * user.vedioMix + Number(count.winlose)).toFixed(2)
+      user.nowSubmit = ((Number(count.bet) * user.vedioMix + Number(count.winlose)) * (1 - user.rate)).toFixed(2)
       context.commit({
         type: 'recordVedioNowlist',
         data: user
@@ -643,6 +651,13 @@ const actions = {
       data: data
     })
     let child = result1[1].data.payload
+    for (let item of child) {
+      item.vedioMix = parseInt(item.vedioMix)/100
+      item.rate = parseInt(item.rate)/100
+      item.nowBouns = '0.00'
+      item.nowallBet = '0.00'
+      item.nowSubmit = '0.00'
+    }
     context.commit({
       type: 'copyVedioNowchild',
       data: child
@@ -682,6 +697,9 @@ const actions = {
                   outside.betCount = inside.betCount
                   outside.winlose = inside.winlose
                   outside.winloseRate = inside.winloseRate
+                  outside.nowBouns = (Number(inside.bet) * outside.vedioMix).toFixed(2)
+                  outside.nowallBet = (Number(inside.bet) * outside.vedioMix + Number(inside.winlose)).toFixed(2)
+                  outside.nowSubmit = ((Number(inside.bet) * outside.vedioMix + Number(inside.winlose)) * (1 - outside.rate)).toFixed(2)
                 }
               }
             }
