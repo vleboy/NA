@@ -182,7 +182,6 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          // console.log('代理列表数据', data)
           context.commit({
             type: 'recordComlist',
             data: data
@@ -251,12 +250,10 @@ const actions = {
             })
           } else {
             var data = ret.data.list
-            // console.log('代理玩家数据', data)
             context.commit({
               type: 'recordAgentPlayer',
               data: data
             })
-            // context.commit('closeLoading')
           }
         }
       )
@@ -302,7 +299,6 @@ const actions = {
     } else {
       comdetailID = state.variable.comdetailID
     }
-    // console.log('查看的用户id:', comdetailID)
     var data = {
       parent: comdetailID,
       query: {},
@@ -339,7 +335,6 @@ const actions = {
     } else {
       comdetailID = state.variable.comdetailID
     }
-    // console.log('查看的用户id:', comdetailID)
     invoke({
       url: api.agentdetail + '/' + comdetailID,
       method: api.get
@@ -405,7 +400,6 @@ const actions = {
         if (err) {
         } else {
           var data = ret.data.payload.balance
-          // console.log(data)
           context.commit({
             type: 'recordPersonal_Bills',
             data: data
@@ -430,7 +424,6 @@ const actions = {
         if (err) {
         } else {
           var data = ret.data.payload
-          // console.log(data)
           context.commit({
             type: 'recordComParent_Bills',
             data: data
@@ -456,7 +449,6 @@ const actions = {
         if (res) {
         } else {
           var list = ret.data.payload.Items
-          // console.log('管理员操作日志是', list)
           context.commit({
             type: 'recordAdmin_cooperDate',
             data: list
@@ -482,7 +474,6 @@ const actions = {
         if (err) {
         } else {
           var list = ret.data.payload
-          // console.log('管理员列表是: ', list)
           context.commit({
             type: 'recordAdminlist',
             data: list
@@ -510,7 +501,6 @@ const actions = {
         if (res) {
         } else {
           var list = ret.data.payload.Items
-          // console.log('线路商登录日志是', list)
           context.commit({
             type: 'recordManager_LoginList',
             data: list
@@ -538,7 +528,6 @@ const actions = {
         if (res) {
         } else {
           var list = ret.data.payload.Items
-          // console.log('线路商登录日志是', list)
           context.commit({
             type: 'recordMerchant_LoginList',
             data: list
@@ -617,7 +606,6 @@ const actions = {
       user.nowBouns = (Number(count.bet) * user.vedioMix).toFixed(2)
       user.nowallBet = (Number(count.bet) * user.vedioMix + Number(count.winlose)).toFixed(2)
       user.nowSubmit = ((Number(count.bet) * user.vedioMix + Number(count.winlose)) * (1 - user.rate/100)).toFixed(2)
-      console.log('user',user)
       context.commit({
         type: 'recordVedioNowlist',
         data: user
@@ -650,7 +638,6 @@ const actions = {
       data: data
     })
     let child = result1[1].data.payload
-    console.log('下级',child)
     for (let item of child) {
       item.nowBouns = '0.00'
       item.nowallBet = '0.00'
@@ -704,7 +691,6 @@ const actions = {
             match_data = match_data.filter(item => {
               return item.betCount > 0
             })
-            console.log('match_data',match_data)
             context.commit({
               type: 'recordVedioNowchild',
               data: match_data
@@ -1260,7 +1246,6 @@ const mutations = {
         }
       })
     })
-    // console.log('agent', state.variable.agentSearchData)
   }, // 代理中心代理列表搜索
 
   playerCondition(state, payload) {
@@ -1277,7 +1262,6 @@ const mutations = {
         }
       })
     })
-    // console.log('player', state.variable.playerSearchData)
   }, // 代理中心玩家列表搜索
 
   recordAgentId (state, payload) {
@@ -1345,7 +1329,6 @@ const mutations = {
 
   recordNowindex (state, payload) {
     state.variable.nowIndex = payload.data
-    // console.log('当前页面是:', state.variable.nowIndex)
   }, // 记录当前所在页面
 
   recordOutlist (state, payload) {
@@ -1360,7 +1343,6 @@ const mutations = {
 
   postSearch_conditon (state, payload) {
     state.variable.condition = payload.data
-    // console.log('搜索条件是', state.variable.condition)
   }, // 记录搜索条件
 
   searchOutlist () {
@@ -1446,7 +1428,6 @@ const mutations = {
       ...state.variable.outcreate,
       ...payload.data
     }
-    // console.log(state.variable.outcreate)
   }, // 记录线路商注册数据
 
   recordComcreate (state, payload) {
@@ -1454,7 +1435,6 @@ const mutations = {
       ...state.variable.comcreate,
       ...payload.data
     }
-    // console.log(state.variable.comcreate)
   }, // 记录一般商户注册数据
 
   recordOutsuccess (state, payload) {
@@ -1540,7 +1520,6 @@ const mutations = {
 
   getpointsObject (state, payload) {
     state.variable.dialogObj = payload.data
-    // console.log('存提点下级的信息是', state.variable.dialogObj)
   }, // 获取存提点对象数据
 
   startEdit (state, payload) {

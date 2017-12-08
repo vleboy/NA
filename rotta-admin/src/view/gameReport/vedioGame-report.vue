@@ -253,6 +253,7 @@ export default {
           message: '请选择搜索时间'
         })
       } else {
+        this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
         this.$store.dispatch('getVedioNowlist')
         this.$store.dispatch('getVedioNowchild')
