@@ -158,6 +158,8 @@ const api = {
 
   toolSetPrice : front.thor + front.stage + '/toolSetPrice ', // 道具定价
 
+  boothReplace  : front.thor + front.stage + '/seatTigger ', // 展位替换
+
   // hawkeye
 
   addMail: front.hawkeye + front.stage + '/email/add', // 添加邮件

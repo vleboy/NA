@@ -26,13 +26,13 @@
         <el-table-column label="商户最低定价下浮百分比" prop="lowerRatio" align="center"></el-table-column>
         <el-table-column label="商户最高定价上浮百分比" prop="comeUpRatio" align="center">
           <template scope="scope">
-            <p>{{ scope.row.comeUpRatio === 'NULL!' ? '' : scope.row.comeUpRatio}}</p>
+            <p>{{ scope.row.comeUpRatio === 'NULL!' ? '无限制' : scope.row.comeUpRatio}}</p>
           </template>
         </el-table-column>
         <el-table-column label="备注" align="center" >
           <template scope="scope">
             <el-popover trigger="hover" placement="bottom-start" width="250">
-              <p>{{ scope.row.remark === 'NULL!' ? '无限制' : scope.row.remark}}</p>
+              <p>{{ scope.row.remark === 'NULL!' ? '' : scope.row.remark}}</p>
               <div slot="reference" class="">
                 <el-icon name="search" style="color:#108ee9"></el-icon>
               </div>

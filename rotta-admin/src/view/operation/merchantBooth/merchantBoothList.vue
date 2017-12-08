@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="boothList -search">
+  <div class="merchantBoothList">
+    <div class="merchantBoothList -search">
       <el-row class="transition-box">
         <el-col :span="10">
           <span>物品ID: </span>
@@ -28,7 +28,7 @@
         <el-button type="primary" @click="openModal()">物品上架</el-button>
       </el-col>
     </div>
-    <div class="boothList">
+    <div>
       <el-table stripe :data="getItems">
         <el-table-column label="展位" prop="order" align="center" width="90">
         </el-table-column>
@@ -93,7 +93,14 @@
           <!--</el-select>-->
         <!--</el-form-item>-->
         <el-form-item label="展位编号" label-width="110px" >
-          <el-input v-model="boothInfo.order" placeholder="请输入展位编号" type="number" :maxlength='20'></el-input>
+          <div class="g-text-left" v-if="!isNewProp">{{boothInfo.order}}</div>
+          <div class="g-text-left" v-else>
+            <el-radio-group v-model="replaceType">
+              <el-radio-button v-for="(item, index) in boothPositionList" :key="index" :label="item.value" :disabled="item.disabled">
+                {{item.name}}
+              </el-radio-button>
+            </el-radio-group>
+          </div>
         </el-form-item>
         <el-form-item label="物品类型" label-width="110px" >
           <el-select v-model="boothInfo.contentType" placeholder="请选择物品类型" clearable style="width: 100%"
@@ -111,20 +118,31 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="物品售价" label-width="110px" >
+
+        <el-form-item label="物品总价" label-width="110px" v-if="boothInfo.contentType==1">
+          <el-tooltip effect="dark" :content="tipsRatio" placement="right">
+            <el-input v-model="boothInfo.price" placeholder="请输入物品售价" type="number" :maxlength='100000000'></el-input>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="物品总价" label-width="110px" v-else>
           <el-input v-model="boothInfo.price" placeholder="请输入物品售价" type="number" :maxlength='100000000'></el-input>
         </el-form-item>
         <el-form-item label="物品数量" label-width="110px" >
-          <el-input v-model="boothInfo.sum" placeholder="请输入物品数量" type="number" :maxlength='100000000'></el-input>
+          <el-input v-model="boothInfo.sum" placeholder="请输入物品数量" type="number" :maxlength='100000000' ></el-input>
         </el-form-item>
         <el-form-item label="是否促销" label-width="110px" style="text-align: left">
           <el-checkbox v-model="isChecked"></el-checkbox>
         </el-form-item>
         <el-form-item label="自定义图标" label-width="110px" style="text-align: left">
-          <el-checkbox v-model="isCheckedIcon"></el-checkbox>
+          <el-checkbox v-model="isShowIcon"></el-checkbox>
         </el-form-item>
-        <el-form-item label="图标名称" label-width="110px" v-if="isCheckedIcon">
-          <el-input v-model="boothInfo.icon" placeholder="请输入图标名称" :maxlength='20'></el-input>
+        <el-form-item label="图标名称" label-width="110px" v-if="isShowIcon">
+          <el-col :span="8" v-for="(item,index) of iconImg" :key="index"  >
+            <div class="-icon">
+              <img :src="item.img" class="-icon-img">
+              <el-button :class="{'active':item.isIconChecked}" @click="checkIcon(item)">{{item.value}}</el-button>
+            </div>
+          </el-col>
         </el-form-item>
         <el-form-item label="备注" label-width="110px" >
           <el-input v-model="boothInfo.remark" type="textarea" :rows="4" auto-complete="off" placeholder="请输入备注"
@@ -142,14 +160,18 @@
         <el-form-item label="当前展位" label-width="110px">
           <div style="text-align: left">{{replaceInfo.order}}</div>
         </el-form-item>
-        <el-form-item label="替换编号" label-width="110px" >
-          <el-input v-model="boothInfo.order" placeholder="请输入展位编号" type="number" :maxlength='20'></el-input>
+        <el-form-item label="需要替换的展位" label-width="110px"  class="g-text-left">
+          <el-radio-group v-model="replaceType" @change="changeTypeReplace()">
+            <el-radio-button v-for="(item, index) in boothReplaceList" :key="index" :label="item.value" :disabled="item.disabled">
+              {{item.name}}
+            </el-radio-button>
+          </el-radio-group>
         </el-form-item>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="isBoothReplace = false">取 消</el-button>
-        <el-button type="primary" :load="isSending" @click="submitProp(boothInfo.seatId)">{{isSending ? '提交中' : '确 定'}}</el-button>
+        <el-button type="primary" :load="isSending" @click="boothReplace()">{{isSending ? '提交中' : '确 定'}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -183,8 +205,9 @@ export default {
       isBoothReplace: false,// 展位替换modal
       isSending: false,
       isChecked: false, // 是否促销
-      isCheckedIcon: false, // 自定义图标
+      isShowIcon: false, // 自定义图标
       isCheckGoods: false,
+      isNewProp: false, // 是否是从新增里点击进入
       radioInfo: this.$store.state.variable.boothType || '1',
       boothType: [],
       goodsType: [
@@ -220,7 +243,104 @@ export default {
         toolName: '',
         toolId: ''
       },
-      searchArray: [] // 暂时加储
+      searchArray: [], // 暂时加储
+      replaceType: '', // 展位编号替换位置
+      replaceStorage: '', // 展位替换暂存数据
+      afterReplaceSeatId: '', // 展位替换后的ID
+      allPriceUp: '', // 上浮最高总价
+      allPriceLow: '', // 下浮最低总价
+      iconImg:[
+        {
+          id: 1,
+          value: 'RoomCard1',
+          img: 'https://d38xgux2jezyfx.cloudfront.net/RoomCard1.png',
+          isIconChecked: false
+        },
+        {
+          id: 2,
+          value: 'RoomCard2',
+          img: 'https://d38xgux2jezyfx.cloudfront.net/RoomCard2.png',
+          isIconChecked: false
+        },
+        {
+          id: 3,
+          value: 'RoomCard3',
+          img: 'https://d38xgux2jezyfx.cloudfront.net/RoomCard3.png',
+          isIconChecked: false
+        },
+        {
+          id: 4,
+          value: 'RoomCard4',
+          img: 'https://d38xgux2jezyfx.cloudfront.net/RoomCard4.png',
+          isIconChecked: false
+        },
+        {
+          id: 5,
+          value: 'RoomCard5',
+          img: 'https://d38xgux2jezyfx.cloudfront.net/RoomCard5.png',
+          isIconChecked: false
+        },
+        {
+          id: 6,
+          value: 'RoomCard6',
+          img: 'https://d38xgux2jezyfx.cloudfront.net/RoomCard6.png',
+          isIconChecked: false
+        }
+      ], // 自定义图标路径
+      boothPositionList: [
+        {
+          value: 1,
+          name: '1号展位',
+          disabled: false
+        },{
+          value: 2,
+          name: '2号展位',
+          disabled: false
+        },{
+          value: 3,
+          name: '3号展位',
+          disabled: false
+        },{
+          value: 4,
+          name: '4号展位',
+          disabled: false
+        },{
+          value: 5,
+          name: '5号展位',
+          disabled: false
+        },{
+          value: 6,
+          name: '6号展位',
+          disabled: false
+        }
+      ], //展位
+      boothReplaceList: [
+        {
+          value: 1,
+          name: '1号展位',
+          disabled: true
+        },{
+          value: 2,
+          name: '2号展位',
+          disabled: true
+        },{
+          value: 3,
+          name: '3号展位',
+          disabled: true
+        },{
+          value: 4,
+          name: '4号展位',
+          disabled: true
+        },{
+          value: 5,
+          name: '5号展位',
+          disabled: true
+        },{
+          value: 6,
+          name: '6号展位',
+          disabled: true
+        }
+      ]
     }
   },
   computed: {
@@ -230,6 +350,23 @@ export default {
       } else {
         return this.boothList.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
       }
+    },
+    tipsRatio () {
+      let toolLow = ''
+      let toolUp = ''
+      let status = ''
+      let price = ''
+      this.oldPropList.forEach(item => {
+        if (item.toolName === this.boothInfo.prop) {
+          toolLow = item.lowerRatio*0.01
+          toolUp = item.comeUpRatio*0.01
+          status = item.status
+          price = item.toolPrice
+          this.allPriceLow = (1-toolLow) > 0 ? (this.boothInfo.sum!='' ? (1-toolLow)*price*this.boothInfo.sum : (1-toolLow)*price) : 0
+          this.allPriceUp = this.boothInfo.sum!='' ? toolUp*price*this.boothInfo.sum : toolUp*price
+        }
+      })
+      return `物品总价的最低价格为：${this.allPriceLow},最高价格为：${this.allPriceUp}`
     }
   },
   methods: {
@@ -251,6 +388,23 @@ export default {
             })
           } else {
             this.boothList = res.data.payload
+
+            for (let item of this.boothList) {
+              for (let item1 of this.boothPositionList){
+                if (item.order == item1.value){
+                    item1.disabled = true
+                }
+              }
+            }
+
+            for (let item2 of this.boothList) {
+              for (let item3 of this.boothReplaceList){
+                if (item2.order == item3.value){
+                    item3.disabled = false
+                }
+              }
+            }
+            this.replaceStorage = this.boothReplaceList
             this.searchArray = res.data.payload
           }
           this.$store.commit('closeLoading')
@@ -279,6 +433,7 @@ export default {
     },
     submitProp (id) {
       this.boothInfo.seatStatus = this.isChecked ? '2' : '1'
+      this.boothInfo.order = this.replaceType || this.boothInfo.order
       if (this.boothInfo.contentType === 1) {
         this.oldPropList.forEach(item => {
           if (item.toolName === this.boothInfo.prop) {
@@ -294,21 +449,16 @@ export default {
       }
       if (!this.boothInfo.seatType) {
         return this.$message.error('请选择展位')
-      }
-      else if (!this.boothInfo.order) {
+      } else if (!this.boothInfo.order) {
         return this.$message.error('请输入展位编号')
-      }
-      else if (!pattern.positiveInteger.exec(this.boothInfo.order)) {
-        return this.$message.error('展位编号为正整数')
-      }
-      else if (!this.boothInfo.content) {
+      } else if (!this.boothInfo.content) {
         return this.$message.error('请选择物品')
       } else if (!this.boothInfo.price) {
-        return this.$message.error('请输入物品售价')
+        return this.$message.error('请输入物品总价')
+      } else if (this.boothInfo.price>this.allPriceUp || this.boothInfo.price<this.allPriceLow) {
+        return this.$message.error('请输入在物品范围总价之内的价格')
       } else if (!this.boothInfo.sum) {
         return this.$message.error('请输入物品数量')
-      } else if (!pattern.positiveInteger.exec(this.boothInfo.price) || this.boothInfo.price > 100000000) {
-        return this.$message.error('物品售价范围为1-1000,000,00的正整数')
       } else if (!pattern.positiveInteger.exec(this.boothInfo.sum) || this.boothInfo.sum > 100000000) {
         return this.$message.error('物品数量范围为1-1000,000,00的正整数')
       }
@@ -377,13 +527,16 @@ export default {
       })
     }, // 删除
     openModal (row = {}) {
+      this.replaceType = ''
       this.isAddProp = true
       this.boothInfo = JSON.parse(JSON.stringify(row))
       if (JSON.stringify(row) !== '{}') {
         this.boothInfo.remark = this.boothInfo.remark === 'NULL!' ? '' : this.boothInfo.remark
         this.isChecked = this.boothInfo.seatStatus === 2
+        this.isShowIcon = this.boothInfo.icon != "NULL!" // 看是否设定了自定义图标
         this.boothInfo.prop = (this.boothInfo.content.toolName || this.boothInfo.content.packageName)
         this.isCheckGoods = true
+        this.isNewProp = false
       } else {
         this.boothInfo = {
           seatType: 2,
@@ -396,7 +549,24 @@ export default {
           contentType: '',
           content: ''
         }
+        this.isShowIcon = false
         this.isChecked = false
+        this.isNewProp = true
+      }
+
+      // 根据是否有自定义图标初始化icon图标的选择情况
+      if (!this.isShowIcon){
+        for (let item of this.iconImg) {
+          item.isIconChecked = false
+        }
+      } else {
+        for (let item of this.iconImg) {
+          if(this.boothInfo.icon == item.value){
+            item.isIconChecked = true
+          } else {
+            item.isIconChecked = false
+          }
+        }
       }
     },
     startSearch () {
@@ -511,20 +681,91 @@ export default {
       }
     }, // 改变展品类型
     openModalReplace (row) {
+      this.replaceType = ''
       this.isBoothReplace = true
       this.replaceInfo = JSON.parse(JSON.stringify(row))
-    }
+      this.boothReplaceList = JSON.parse(JSON.stringify(this.replaceStorage))
+
+      for (let item4 of this.boothReplaceList){
+        if (row.order == item4.value){
+          item4.disabled = true
+        }
+      }
+    }, //打开展位替换窗口
+    changeTypeReplace () {
+      for (let item of this.boothList) {
+        if (item.order == this.replaceType){
+          this.afterReplaceSeatId = item.seatId
+        }
+      }
+    }, // 根据选中的展位找出替换后的id
+    checkIcon (item) {
+      for(let data of this.iconImg) {
+         if(item.id == data.id){
+           item.isIconChecked = !item.isChecked
+         } else {
+           data.isIconChecked = false
+         }
+      }
+      this.boothInfo.icon = item.isIconChecked ? item.value : ''
+    }, // 选中icon
+    boothReplace () {
+      this.$store.commit('startLoading')
+      invoke({
+        url: api.boothReplace,
+        method: api.post,
+        data: {
+          beforeSeatId: this.replaceInfo.seatId,
+          beforeOrder: this.replaceInfo.order,
+          afterSeatId: this.afterReplaceSeatId,
+          afterOrder: this.replaceType
+        }
+      }).then(
+        result => {
+          const [err, res] = result
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            this.$message.success('展位替换成功')
+            this.getBoothList()
+            this.isBoothReplace = false
+          }
+          this.$store.commit('closeLoading')
+        }
+      )
+    } //  展位替换提交
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .boothList{padding: 2rem;}
-  .-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
-  .input{width: 80%}
-  .searchResult{padding: 1rem 2rem}
-  .-booth-searchResult{overflow: hidden; padding: 0 2rem}
-  .justfy1{margin:0 2rem;}
-  .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
+<style scoped lang="less">
+
+  .merchantBoothList{
+    padding: 2rem;
+    .-search{background-color: #f5f5f5; text-align: center }
+    .input{width: 80%}
+    .searchResult{padding: 2rem 0}
+    .-booth-searchResult{overflow: hidden; padding-bottom:2rem}
+    .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
+    .-icon{
+      display: inline-block;
+      overflow: hidden;
+      width: 120px;
+
+      .-icon-img{
+        width: 60%;
+      }
+    }
+    .active{
+      color: #fff;
+      background-color: #13ce66;
+      border-color: #13ce66;
+    }
+  }
+
+
 </style>
