@@ -268,122 +268,9 @@ export default {
         })
       } else {
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.loading = true
-        let nowUser = this.$store.state.variable.liveGameData.nowList
-        let user_data = {
-          gameType: 30000,
-          role: nowUser.suffix == 'Agent'? '-1000': nowUser.role,
-          userIds: [nowUser.userId],
-          query: {
-            createdAt: this.searchDate
-          }
-        }
-        invoke({
-          url: api.calcUserStat,
-          method: api.post,
-          data: user_data
-        }).then(
-          result => {
-            const [err, ret] = result
-            if (err) {
-            } else {
-              let iteval = this.$store.state.variable.liveGameData.nowList
-              var data = ret.data.payload[0]
-              iteval.bet = data.bet
-              iteval.betCount = data.betCount
-              iteval.winlose = data.winlose
-              iteval.mixAmount = data.mixAmount
-              iteval.winloseRate = data.winloseRate
-              this.$store.commit({
-                type: 'recordLiveNowlist',
-                data: iteval
-              })
-            }
-          }
-        )
-        // 更新当前列表
-        if (this.$store.state.variable.liveGameData.nowChildList.length > 0) {
-          let child = this.$store.state.variable.liveGameData.nowChildList
-          for (let item of child) {
-            let child_data = {
-              gameType: 30000,
-              role: item.role,
-              userIds: [item.userId],
-              query: {
-                createdAt: this.searchDate
-              }
-            }
-            invoke({
-              url: api.calcUserStat,
-              method: api.post,
-              data: child_data
-            }).then(
-              result => {
-                const [err, ret] = result
-                if (err) {
-                } else {
-                  var data = ret.data.payload
-                  let iteval = this.$store.state.variable.liveGameData.nowChildList
-                  for (let outside of iteval) {
-                    for (let inside of data) {
-                      if (outside.userId == inside.userId) {
-                        outside.bet = inside.bet
-                        outside.betCount = inside.betCount
-                        outside.winlose = inside.winlose
-                        outside.mixAmount = inside.mixAmount
-                        outside.winloseRate = inside.winloseRate
-                      }
-                    }
-                  }
-                  this.$store.commit({
-                    type: 'recordLiveNowchild',
-                    data: iteval
-                  })
-                }
-              }
-            )
-          }
-        }
-        // 更新当前列表下级
-        if (this.$store.state.variable.liveGameData.nowPlayerlist.length > 0) {
-          let player = this.$store.state.variable.liveGameData.nowPlayerlist
-          for (let item of player) {
-            let player_data = {
-              gameType: 30000,
-              gameUserIds: [item.userId],
-              query: {
-                createdAt: this.searchDate
-              }
-            }
-            invoke({
-              url: api.calcPlayerStat,
-              method: api.post,
-              data: player_data
-            }).then(
-              result => {
-                const [err, ret] = result
-                if (err) {
-                } else {
-                  var data = ret.data.payload
-                  let iteval = this.$store.state.variable.liveGameData.nowPlayerlist
-                  for (let outside of iteval) {
-                    for (let inside of data) {
-                      if (outside.userId == inside.gameUserId) {
-                        outside.bet = inside.bet
-                        outside.betCount = inside.betCount
-                        outside.winlose = inside.winlose
-                      }
-                    }
-                  }
-                  this.$store.commit({
-                    type: 'recordLiveNowplayer',
-                    data: iteval
-                  })
-                }
-              }
-            )
-          }
-        } // 更新当前列表玩家
+        this.$store.dispatch('getLiveNowlist')
+        this.$store.dispatch('getLiveNowchild')
+        this.$store.dispatch('getLiveNowplayer')
         let _self = this
         setTimeout(function(){
           _self.$message({
@@ -406,6 +293,14 @@ export default {
       this.$store.commit({
         type: 'recordLiveID',
         data: data.userId
+      })
+      this.$store.commit({
+        type: 'recordLiveNowchild',
+        data: []
+      })
+      this.$store.commit({
+        type: 'recordLiveNowplayer',
+        data: []
       })
       this.$store.commit('startLoading')
       this.$store.dispatch('getLiveNowlist')
@@ -446,6 +341,10 @@ export default {
       this.$store.commit({
         type: 'recordLiveID',
         data: data
+      })
+      this.$store.commit({
+        type: 'recordLiveNowchild',
+        data: []
       })
       this.$store.commit({
         type: 'recordLiveNowplayer',

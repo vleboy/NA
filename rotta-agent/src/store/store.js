@@ -643,6 +643,10 @@ const actions = {
       data: data
     })
     let child = result1[1].data.payload
+    context.commit({
+      type: 'copyVedioNowchild',
+      data: child
+    }) // 备份数据
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -670,7 +674,8 @@ const actions = {
           if (err) {
           } else {
             var data = ret.data.payload
-            for (let outside of child) {
+            let match_data = state.variable.vedioGameData.copyNowChildList
+            for (let outside of match_data) {
               for (let inside of data) {
                 if (outside.userId == inside.userId) {
                   outside.bet = inside.bet
@@ -680,14 +685,17 @@ const actions = {
                 }
               }
             }
+            match_data = match_data.filter(item => {
+              return item.betCount > 0
+            })
+            context.commit({
+              type: 'recordVedioNowchild',
+              data: match_data
+            })
           }
         }
       )
     }
-    context.commit({
-      type: 'recordVedioNowchild',
-      data: child
-    })
   }, // 电子游戏下级列表
   async getVedioNowplayer (context) {
     if (localStorage.loginSuffix == 'Agent') {
@@ -704,6 +712,10 @@ const actions = {
           data: data
         })
         let player = result1[1].data.payload
+        context.commit({
+          type: 'copyVedioNowplayer',
+          data: player
+        })
         // 请求所属玩家账单信息
         context.commit('getWeek')
         let searchDate = []
@@ -730,7 +742,8 @@ const actions = {
               if (err) {
               } else {
                 var data = ret.data.payload
-                for (let outside of player) {
+                let match_data = state.variable.vedioGameData.copyNowPlayerlist
+                for (let outside of match_data) {
                   for (let inside of data) {
                     if (outside.userId == inside.gameUserId) {
                       outside.bet = inside.bet
@@ -739,14 +752,17 @@ const actions = {
                     }
                   }
                 }
+                match_data = match_data.filter(item => {
+                  return item.betCount > 0
+                })
+                context.commit({
+                  type: 'recordVedioNowplayer',
+                  data: match_data
+                })
               }
             }
           )
         }
-        context.commit({
-          type: 'recordVedioNowplayer',
-          data: player
-        })
       }
     } else {
       // 普通代理登录
@@ -765,6 +781,10 @@ const actions = {
         data: data
       })
       let player = result1[1].data.payload
+      context.commit({
+        type: 'copyVedioNowplayer',
+        data: player
+      })
       // 请求所属玩家账单信息
       context.commit('getWeek')
       let searchDate = []
@@ -791,7 +811,8 @@ const actions = {
             if (err) {
             } else {
               var data = ret.data.payload
-              for (let outside of player) {
+              let match_data = state.variable.vedioGameData.copyNowPlayerlist
+              for (let outside of match_data) {
                 for (let inside of data) {
                   if (outside.userId == inside.gameUserId) {
                     outside.bet = inside.bet
@@ -800,14 +821,17 @@ const actions = {
                   }
                 }
               }
+              match_data = match_data.filter(item => {
+                return item.betCount > 0
+              })
+              context.commit({
+                type: 'recordVedioNowplayer',
+                data: match_data
+              })
             }
           }
         )
       }
-      context.commit({
-        type: 'recordVedioNowplayer',
-        data: player
-      })
     }
   }, // 电子游戏所属玩家列表
   async getLiveNowlist (context) {
@@ -885,6 +909,10 @@ const actions = {
         data: data
       })
       let child = result1[1].data.payload
+      context.commit({
+        type: 'copyLiveNowchild',
+        data: child
+      }) // 数据备份
       // 请求下级账单信息
       context.commit('getWeek')
       let searchDate = []
@@ -912,7 +940,8 @@ const actions = {
             if (err) {
             } else {
               var data = ret.data.payload
-              for (let outside of child) {
+              let match_data = state.variable.liveGameData.copyNowChildList
+              for (let outside of match_data) {
                 for (let inside of data) {
                   if (outside.userId == inside.userId) {
                     outside.bet = inside.bet
@@ -923,14 +952,17 @@ const actions = {
                   }
                 }
               }
+              match_data = match_data.filter(item => {
+                return item.betCount > 0
+              })
+              context.commit({
+                type: 'recordLiveNowchild',
+                data: match_data
+              })
             }
           }
         )
       }
-      context.commit({
-        type: 'recordLiveNowchild',
-        data: child
-      })
     } else {
       // 普通代理登录
       if (state.variable.liveGameData.nowUserID) {
@@ -945,6 +977,10 @@ const actions = {
         data: data
       })
       let child = result1[1].data.payload
+      context.commit({
+        type: 'copyLiveNowchild',
+        data: child
+      }) // 数据备份
       // 请求下级账单信息
       context.commit('getWeek')
       let searchDate = []
@@ -972,7 +1008,8 @@ const actions = {
             if (err) {
             } else {
               var data = ret.data.payload
-              for (let outside of child) {
+              let match_data = state.variable.liveGameData.copyNowChildList
+              for (let outside of match_data) {
                 for (let inside of data) {
                   if (outside.userId == inside.userId) {
                     outside.bet = inside.bet
@@ -983,14 +1020,17 @@ const actions = {
                   }
                 }
               }
+              match_data = match_data.filter(item => {
+                return item.betCount > 0
+              })
+              context.commit({
+                type: 'recordLiveNowchild',
+                data: match_data
+              })
             }
           }
         )
       }
-      context.commit({
-        type: 'recordLiveNowchild',
-        data: child
-      })
     }
   }, // 真人游戏下级列表
   async getLiveNowplayer (context) {
@@ -1008,6 +1048,10 @@ const actions = {
           data: data
         })
         let player = result1[1].data.payload
+        context.commit({
+          type: 'copyLiveNowplayer',
+          data: player
+        }) // 数据备份
         // 请求所属玩家账单信息
         context.commit('getWeek')
         let searchDate = []
@@ -1034,7 +1078,8 @@ const actions = {
               if (err) {
               } else {
                 var data = ret.data.payload
-                for (let outside of player) {
+                let match_data = state.variable.liveGameData.copyNowPlayerlist
+                for (let outside of match_data) {
                   for (let inside of data) {
                     if (outside.userId == inside.gameUserId) {
                       outside.bet = inside.bet
@@ -1043,14 +1088,17 @@ const actions = {
                     }
                   }
                 }
+                match_data = match_data.filter(item => {
+                  return item.betCount > 0
+                })
+                context.commit({
+                  type: 'recordLiveNowplayer',
+                  data: match_data
+                })
               }
             }
           )
         }
-        context.commit({
-          type: 'recordLiveNowplayer',
-          data: player
-        })
       }
     } else {
       // 普通代理登录
@@ -1069,6 +1117,10 @@ const actions = {
         data: data
       })
       let player = result1[1].data.payload
+      context.commit({
+        type: 'copyLiveNowplayer',
+        data: player
+      }) // 数据备份
       // 请求所属玩家账单信息
       context.commit('getWeek')
       let searchDate = []
@@ -1095,7 +1147,8 @@ const actions = {
             if (err) {
             } else {
               var data = ret.data.payload
-              for (let outside of player) {
+              let match_data = state.variable.liveGameData.copyNowPlayerlist
+              for (let outside of match_data) {
                 for (let inside of data) {
                   if (outside.userId == inside.gameUserId) {
                     outside.bet = inside.bet
@@ -1104,14 +1157,17 @@ const actions = {
                   }
                 }
               }
+              match_data = match_data.filter(item => {
+                return item.betCount > 0
+              })
+              context.commit({
+                type: 'recordLiveNowplayer',
+                data: match_data
+              })
             }
           }
         )
       }
-      context.commit({
-        type: 'recordLiveNowplayer',
-        data: player
-      })
     }
   } // 真人游戏所属玩家列表
 }
@@ -1584,9 +1640,17 @@ const mutations = {
     state.variable.vedioGameData.nowChildList = payload.data
   }, // 记录电子游戏总报表下级列表
 
+  copyVedioNowchild (state, payload){
+    state.variable.vedioGameData.copyNowChildList = payload.data
+  }, // 备份电子游戏总报表下级列表
+
   recordVedioNowplayer (state, payload){
     state.variable.vedioGameData.nowPlayerlist = payload.data
   }, // 记录电子游戏总报表玩家列表
+
+  copyVedioNowplayer (state, payload){
+    state.variable.vedioGameData.copyNowPlayerlist = payload.data
+  }, // 备份电子游戏总报表玩家列表
 
   recordVedioID (state, payload) {
     state.variable.vedioGameData.nowUserID = payload.data
@@ -1600,9 +1664,17 @@ const mutations = {
     state.variable.liveGameData.nowChildList = payload.data
   }, // 记录真人游戏总报表下级列表
 
+  copyLiveNowchild (state, payload){
+    state.variable.liveGameData.copyNowChildList = payload.data
+  }, // 备份真人游戏总报表下级列表
+
   recordLiveNowplayer (state, payload){
     state.variable.liveGameData.nowPlayerlist = payload.data
   }, // 记录真人游戏总报表玩家列表
+
+  copyLiveNowplayer (state, payload){
+    state.variable.liveGameData.copyNowPlayerlist = payload.data
+  }, // 备份真人游戏总报表玩家列表
 
   recordLiveID (state, payload) {
     state.variable.liveGameData.nowUserID = payload.data

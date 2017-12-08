@@ -246,120 +246,9 @@ export default {
         })
       } else {
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.loading = true
-        let nowUser = this.$store.state.variable.vedioGameData.nowList
-        let user_data = {
-          gameType: 40000,
-          role: nowUser.suffix == 'Agent'? '-1000': nowUser.role,
-          userIds: [nowUser.userId],
-          query: {
-            createdAt: this.searchDate
-          }
-        }
-        invoke({
-          url: api.calcUserStat,
-          method: api.post,
-          data: user_data
-        }).then(
-          result => {
-            const [err, ret] = result
-            if (err) {
-            } else {
-              var data = ret.data.payload[0]
-              let iteval = this.$store.state.variable.vedioGameData.nowList
-              iteval.bet = data.bet
-              iteval.betCount = data.betCount
-              iteval.winlose = data.winlose
-              iteval.winloseRate = data.winloseRate
-              this.$store.commit({
-                type: 'recordVedioNowlist',
-                data: iteval
-              })
-            }
-          }
-        )
-        // 更新当前列表
-        if (this.$store.state.variable.vedioGameData.nowChildList.length > 0) {
-          let child = this.$store.state.variable.vedioGameData.nowChildList
-          for (let item of child) {
-            let child_data = {
-              gameType: 40000,
-              role: item.role,
-              userIds: [item.userId],
-              query: {
-                createdAt: this.searchDate
-              }
-            }
-            invoke({
-              url: api.calcUserStat,
-              method: api.post,
-              data: child_data
-            }).then(
-              result => {
-                const [err, ret] = result
-                if (err) {
-                } else {
-                  var data = ret.data.payload
-                  let iteval = this.$store.state.variable.vedioGameData.nowChildList
-                  for (let outside of iteval) {
-                    for (let inside of data) {
-                      if (outside.userId == inside.userId) {
-                        outside.bet = inside.bet
-                        outside.betCount = inside.betCount
-                        outside.winlose = inside.winlose
-                        outside.winloseRate = inside.winloseRate
-                      }
-                    }
-                  }
-                  this.$store.commit({
-                    type: 'recordVedioNowchild',
-                    data: iteval
-                  })
-                }
-              }
-            )
-          }
-        }
-        // 更新当前列表下级
-        if (this.$store.state.variable.vedioGameData.nowPlayerlist.length > 0) {
-          let player = this.$store.state.variable.vedioGameData.nowPlayerlist
-          for (let item of player) {
-            let player_data = {
-              gameType: 40000,
-              gameUserIds: [item.userId],
-              query: {
-                createdAt: this.searchDate
-              }
-            }
-            invoke({
-              url: api.calcPlayerStat,
-              method: api.post,
-              data: player_data
-            }).then(
-              result => {
-                const [err, ret] = result
-                if (err) {
-                } else {
-                  var data = ret.data.payload
-                  let iteval = this.$store.state.variable.vedioGameData.nowPlayerlist
-                  for (let outside of iteval) {
-                    for (let inside of data) {
-                      if (outside.gameUserId == inside.gameUserId) {
-                        outside.bet = inside.bet
-                        outside.betCount = inside.betCount
-                        outside.winlose = inside.winlose
-                      }
-                    }
-                  }
-                  this.$store.commit({
-                    type: 'recordVedioNowplayer',
-                    data: iteval
-                  })
-                }
-              }
-            )
-          }
-        } // 更新当前列表玩家
+        this.$store.dispatch('getVedioNowlist')
+        this.$store.dispatch('getVedioNowchild')
+        this.$store.dispatch('getVedioNowplayer')
         let _self = this
         setTimeout(function(){
           _self.$message({
@@ -382,6 +271,14 @@ export default {
       this.$store.commit({
         type: 'recordVedioID',
         data: data.userId
+      })
+      this.$store.commit({
+        type: 'recordVedioNowchild',
+        data: []
+      })
+      this.$store.commit({
+        type: 'recordVedioNowplayer',
+        data: []
       })
       this.$store.commit('startLoading')
       this.$store.dispatch('getVedioNowlist')
@@ -422,6 +319,10 @@ export default {
       this.$store.commit({
         type: 'recordVedioID',
         data: data
+      })
+      this.$store.commit({
+        type: 'recordVedioNowchild',
+        data: []
       })
       this.$store.commit({
         type: 'recordVedioNowplayer',

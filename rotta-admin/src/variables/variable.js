@@ -150,14 +150,18 @@ const variable = {
   vedioGameData: {
     nowList: [],
     nowChildList: [],
+    copyNowChildList: [], // 用户下级数据备份
     nowPlayerlist: [],
+    copyNowChildList: [], // 用户所属玩家备份
     nowUserID: ''
   }, // 电子游戏报表数据
 
   liveGameData: {
     nowList: [],
     nowChildList: [],
+    copyNowChildList: [], // 用户下级数据备份
     nowPlayerlist: [],
+    copyNowChildList: [], // 用户所属玩家备份
     nowUserID: ''
   } // 真人游戏报表数据
 }
