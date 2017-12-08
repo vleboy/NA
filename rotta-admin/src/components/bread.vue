@@ -129,6 +129,16 @@
       <el-breadcrumb-item><span  class="large">奖品配置</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'businessRecord'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">商户运营记录</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'propPrice'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">道具定价</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'manager'" class="title">
       <el-breadcrumb-item>财务中心 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">直属线路商报表</span> </el-breadcrumb-item>
@@ -206,7 +216,13 @@
       <el-breadcrumb-item><span  class="large">线路号列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
-   <el-breadcrumb separator="/" v-if="nowindex === 'boothList'" class="title">
+    <el-breadcrumb separator="/" v-if="nowindex === 'boothList'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>展位管理 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">展位列表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'merchantBoothList'" class="title">
       <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
       <el-breadcrumb-item>展位管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">展位列表</span> </el-breadcrumb-item>

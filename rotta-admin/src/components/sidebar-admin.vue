@@ -66,6 +66,8 @@
                     <template slot="title">展位管理</template>
                     <el-menu-item index="boothList">展位列表</el-menu-item>
                   </el-submenu>
+                  <el-menu-item index="businessRecord">商户运营记录</el-menu-item>
+                  <el-menu-item index="propPrice">道具定价</el-menu-item>
               </el-submenu>
               <el-submenu index="6" v-show="userRight.computerGame.hasRight">
                 <template slot="title">风控中心</template>

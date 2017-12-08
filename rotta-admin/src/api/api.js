@@ -154,6 +154,10 @@ const api = {
 
   packageList: front.thor + front.stage + '/packageList', // 礼包列表
 
+  seatAllList : front.thor + front.stage + '/seatAllList ', // 商户运营记录展位列表
+
+  toolSetPrice : front.thor + front.stage + '/toolSetPrice ', // 道具定价
+
   // hawkeye
 
   addMail: front.hawkeye + front.stage + '/email/add', // 添加邮件

@@ -28,7 +28,7 @@
                 </el-submenu>
                 <el-submenu index="4-3">
                   <template slot="title">展位管理</template>
-                  <el-menu-item index="boothList">展位列表</el-menu-item>
+                  <el-menu-item index="merchantBoothList">展位列表</el-menu-item>
                 </el-submenu>
               </el-submenu>
 

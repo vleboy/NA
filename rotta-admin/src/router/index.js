@@ -31,6 +31,9 @@ import GameNoticeList from '@/view/operation/gameNoticeMgr/gameNoticeList' // �
 import VideoGameConfig from '@/view/operation/gameConfig/videoGameConfig' // 电子游戏配置
 import PrizePlayerList from '@/view/operation/mysteriousPrize/prizeList' // 大奖玩家列表
 import PrizeConfig from '@/view/operation/mysteriousPrize/prizeConfig' // 神秘大奖奖品配置
+import BusinessRecord from '@/view/operation/businessRecord/businessRecordList' // 商户记录
+import PropPrize from '@/view/operation/propPrize/propPrizeList' // 道具定价
+import MerchantBoothList from '@/view/operation/merchantBooth/merchantBoothList' // 商户的展位列表
 
 import Manager from '@/view/property/manager' // 直属线路商报表
 import Merchant from '@/view/property/merchant' // 直属商户报表
@@ -286,7 +289,22 @@ const router = new Router({
       path: '/prizeConfig',
       name: '奖品配置',
       component: PrizeConfig
-    }
+    },
+    {
+      path: '/businessRecord',
+      name: '商户运营记录',
+      component: BusinessRecord
+    },
+    {
+      path: '/propPrice',
+      name: '道具定价',
+      component:PropPrize
+    },
+    {
+      path: '/merchantBoothList',
+      name: '展位列表',
+      component:MerchantBoothList
+    }// 针对商户的展位
   ]
 })
 // router.beforeEach((to,from,next) => {
