@@ -1,6 +1,6 @@
 <template>
 <div class="map" id="sliderMap">
-    <i class="el-icon-arrow-left" @click='closeMap' v-if="this.isSlider === true"></i>
+    <i class="el-icon-arrow-left" @click='closeMap' v-if="this.isSlider"></i>
     <div class="map-content">
       <el-input placeholder="输入代理昵称查询" v-model="filterText" class="mapInput">
       </el-input>

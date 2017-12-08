@@ -2,7 +2,7 @@
  <div class="agent-comlist">
     <i class="el-icon-arrow-right" @click="showMap" v-if="this.isSlider === false"></i>
     <transition name="fade">
-      <div class="rottamap" v-if="this.isSlider === true">
+      <div class="rottamap" v-show="this.isSlider === true">
           <div class="rottamap-content">
               <rottamap></rottamap>
           </div>
@@ -207,9 +207,9 @@ export default {
       data: []
     })
     this.$store.commit({
-        type: 'recordMapUser',
-        data: ''
-      })
+      type: 'recordMapUser',
+      data: ''
+    })
     this.$store.commit({
       type: 'recordNowindex',
       data: 'comlist'
