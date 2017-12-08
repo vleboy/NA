@@ -58,7 +58,7 @@ export default {
   .service-plan-items
     justify-content space-between
     .service-plan-item
-      flex-basis 30%;
+      flex-basis 30%
       border-radius 6px 
       text-align center
       padding 40px 30px

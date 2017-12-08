@@ -1,5 +1,6 @@
 <template>
   <div class="banner">
+    <home-menu />
     <swiper :options="swiperOption">
       <swiper-slide v-for="item in banners" :key="item.index">
         <img :src="item.banner" alt="">
@@ -11,8 +12,9 @@
 
 <script>
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import homeMenu from './home-menu'
 export default {
-  name: 'banner',
+  name: 'home-banner',
   data () {
     return {
       swiperOption: {
@@ -25,15 +27,16 @@ export default {
         }
       },
       banners: [
-       { banner: require('@/assets/img/banner1.jpg') },
-       { banner: require('@/assets/img/banner2.jpg') },
-       { banner: require('@/assets/img/banner3.jpg') }
+      //  {banner: require('@/assets/img/banner1.jpg') },
+      //  {banner: require('@/assets/img/banner2.jpg') },
+        {banner: require('@/assets/img/banner1.jpg')}
       ]
     }
   },
   components: {
     swiper,
-    swiperSlide
+    swiperSlide,
+    homeMenu
   }
 }
 </script>
@@ -42,13 +45,13 @@ export default {
 .banner
   position relative
   width 100%
-  height 900px
   .swiper-container
     width 100%
-    height 100%
     .swiper-pagination
       position absolute
       bottom 30px
+    .swiper-slide
+      height auto
   img 
     width 100%
     height 100%
