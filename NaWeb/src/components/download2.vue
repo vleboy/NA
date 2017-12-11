@@ -7,12 +7,12 @@
         </h2>
         <div class="download-address">
           <div v-if="isChina">
-            <div class="android"><a href="http://natest001.oss-cn-hongkong.aliyuncs.com/NAGame1700.apk"><img src="../assets/e1.png" alt=""></a></div>
-            <div class="ios"><a href="itms-services://?action=download-manifest&url=https://natest001.oss-cn-hongkong.aliyuncs.com/autoinstall1700.plist"><img src="../assets/e2.png" alt=""></a></div>
+            <div class="android"><a href="http://natest001.oss-cn-hongkong.aliyuncs.com/NAGame1800.apk"><img src="../assets/e1.png" alt=""></a></div>
+            <div class="ios"><a  href="itms-services://?action=download-manifest&url=https://natest001.oss-cn-hongkong.aliyuncs.com/autoinstall1800.plist"><img src="../assets/e2.png" alt=""></a></div>
           </div>
           <div v-else>
-            <div class="android"><a href="http://oss.na12345.com/NAGame1700.apk"><img src="../assets/e1.png" alt=""></a></div>
-            <div class="ios"><a href="itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1700.plist"><img src="../assets/e2.png"alt=""></a></div>
+            <div class="android"><a href="http://oss.na12345.com/NAGame1800.apk"><img src="../assets/e1.png" alt=""></a></div>
+            <div class="ios"><a href="itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1800.plist"><img src="../assets/e2.png"alt=""></a></div>
           </div>
         </div>
       </div>
