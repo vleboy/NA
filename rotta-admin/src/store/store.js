@@ -713,20 +713,20 @@ const actions = {
   onTabClick({ commit }, view) {
     commit('ON_TAB_CLICK', view)
   },
-  async getVedioNowlist (context) {
-    let data = {
+  async getVedioNowchild (context) {
+    // 请求当前基本信息
+    let require = {
       userId: ''
     }
     if (state.variable.vedioGameData.nowUserID) {
-      data.userId = state.variable.vedioGameData.nowUserID
+      require.userId = state.variable.vedioGameData.nowUserID
     } else {
-      data.userId = localStorage.loginId
+      require.userId = localStorage.loginId
     }
-    // 请求基本信息
     let result1 = await invoke({
       url: api.reportInfo,
       method: api.post,
-      data: data
+      data: require
     })
     let user = result1[1].data.payload
     if (user.userId == state.variable.vedioGameData.nowUserID || !state.variable.vedioGameData.nowUserID && user.userId == localStorage.loginId) {
@@ -735,42 +735,7 @@ const actions = {
         data: user
       })
     }
-    context.commit('closeLoading')
-    // 请求账单信息
-    context.commit('getWeek')
-    let searchDate = []
-    if (localStorage.searchTime) {
-      searchDate = JSON.parse(localStorage.searchTime)
-    } else {
-      searchDate = [state.startTime, state.endTime]
-    }
-    let searchData = {
-      gameType: 40000,
-      role: user.role,
-      userIds: [user.userId],
-      query: {
-        createdAt: searchDate
-      }
-    }
-    let result2 = await invoke({
-      url: api.calcUserStat,
-      method: api.post,
-      data: searchData
-    })
-    let count = result2[1].data.payload[0]
-    if (count.userId == state.variable.vedioGameData.nowUserID || !state.variable.vedioGameData.nowUserID && count.userId == localStorage.loginId) {
-      // 更新账单至基本信息
-      user.bet = count.bet
-      user.betCount = count.betCount
-      user.winlose = count.winlose
-      user.winloseRate = count.winloseRate
-      context.commit({
-        type: 'recordVedioNowlist',
-        data: user
-      })
-    }
-  }, // 电子游戏当前列表
-  async getVedioNowchild (context) {
+    // 请求下级基本信息
     var data = {
       parent: '01'
     }
@@ -778,16 +743,12 @@ const actions = {
       data.parent = state.variable.vedioGameData.nowUserID
     }
     // 请求下级信息
-    let result1 = await invoke({
+    let result2 = await invoke({
       url: api.reportInfo,
       method: api.post,
       data: data
     })
-    let child = result1[1].data.payload
-    context.commit({
-      type: 'copyVedioNowchild',
-      data: child
-    }) // 备份数据
+    let child = result2[1].data.payload
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -796,6 +757,13 @@ const actions = {
     } else {
       searchDate = [state.startTime, state.endTime]
     }
+    context.commit('resetVedioNowchild')
+    let count = {
+      bet: 0,
+      betCount: 0,
+      winlose: 0,
+      winloseRate: 0
+    } // 当前用户下级账单总额
     for (let item of child) {
       let child_data = {
         gameType: 40000,
@@ -814,32 +782,28 @@ const actions = {
           const [err, ret] = result
           if (err) {
           } else {
-            var data = ret.data.payload
-            let match_data = state.variable.vedioGameData.copyNowChildList
-            for (let outside of match_data) {
-              for (let inside of data) {
-                if (outside.userId == inside.userId) {
-                  outside.bet = inside.bet
-                  outside.betCount = inside.betCount
-                  outside.winlose = inside.winlose
-                  outside.winloseRate = inside.winloseRate
-                }
+            context.commit('closeLoading')
+            var data = ret.data.payload[0]
+            if (data) {
+              if (item.userId == data.userId) {
+                item.bet = data.bet
+                item.betCount = data.betCount
+                item.winlose = data.winlose
+                item.winloseRate = data.winloseRate
+                context.commit({
+                  type: 'recordVedioNowchild',
+                  data: item
+                })  
               }
             }
-            match_data = match_data.filter(item => {
-              return item.betCount > 0
-            })
-            context.commit({
-              type: 'recordVedioNowchild',
-              data: match_data
-            })
           }
         }
       )
     }
-  }, // 电子游戏下级列表
+  }, // 电子游戏下级列表(综合计算上级)
   async getVedioNowplayer (context) {
     if (state.variable.vedioGameData.nowUserID == '01' || !state.variable.vedioGameData.nowUserID) {
+      context.commit('resetVedioNowplayer')
     } else {
       // 请求所属玩家基本信息
       var data = {
@@ -851,10 +815,6 @@ const actions = {
         data: data
       })
       let player = result1[1].data.payload
-      context.commit({
-        type: 'copyVedioNowplayer',
-        data: player
-      })
       // 请求所属玩家账单信息
       context.commit('getWeek')
       let searchDate = []
@@ -863,6 +823,7 @@ const actions = {
       } else {
         searchDate = [state.startTime, state.endTime]
       }
+      context.commit('resetVedioNowplayer')
       for (let item of player) {
         let player_data = {
           gameType: 40000,
@@ -880,44 +841,41 @@ const actions = {
             const [err, ret] = result
             if (err) {
             } else {
-              var data = ret.data.payload
-              let match_data = state.variable.vedioGameData.copyNowPlayerlist
-              for (let outside of match_data) {
-                for (let inside of data) {
-                  if (outside.userId == inside.gameUserId) {
-                    outside.bet = inside.bet
-                    outside.betCount = inside.betCount
-                    outside.winlose = inside.winlose
-                  }
+              context.commit('closeLoading')
+              var data = ret.data.payload[0]
+              if (data) {
+                if (item.userId == data.gameUserId) {
+                  item.bet = data.bet
+                  item.betCount = data.betCount
+                  item.winlose = data.winlose
+                  context.commit({
+                    type: 'recordVedioNowplayer',
+                    data: item
+                  })  
                 }
               }
-              match_data = match_data.filter(item => {
-                return item.betCount > 0
-              })
-              context.commit({
-                type: 'recordVedioNowplayer',
-                data: match_data
-              })
             }
           }
         )
       }
+      context.commit('closeLoading')
     }
-  }, // 电子游戏所属玩家列表
-  async getLiveNowlist (context) {
-    let data = {
+  }, // 电子游戏所属玩家列表(综合计算上级)
+  async getLiveNowchild (context) {
+    // 请求当前用户基本信息
+    let nowdata = {
       userId: ''
     }
     if (state.variable.liveGameData.nowUserID) {
-      data.userId = state.variable.liveGameData.nowUserID
+      nowdata.userId = state.variable.liveGameData.nowUserID
     } else {
-      data.userId = localStorage.loginId
+      nowdata.userId = localStorage.loginId
     }
     // 请求基本信息
     let result1 = await invoke({
       url: api.reportInfo,
       method: api.post,
-      data: data
+      data: nowdata
     })
     let user = result1[1].data.payload
     if (user.userId == state.variable.liveGameData.nowUserID || !state.variable.liveGameData.nowUserID && user.userId == localStorage.loginId) {
@@ -926,60 +884,20 @@ const actions = {
         data: user
       })
     }
-    context.commit('closeLoading')
-    // 请求账单信息
-    context.commit('getWeek')
-    let searchDate = []
-    if (localStorage.searchTime) {
-      searchDate = JSON.parse(localStorage.searchTime)
-    } else {
-      searchDate = [state.startTime, state.endTime]
-    }
-    let searchData = {
-      gameType: 30000,
-      role: user.role,
-      userIds: [user.userId],
-      query: {
-        createdAt: searchDate
-      }
-    }
-    let result2 = await invoke({
-      url: api.calcUserStat,
-      method: api.post,
-      data: searchData
-    })
-    let count = result2[1].data.payload[0]
-    if (count.userId == state.variable.liveGameData.nowUserID || !state.variable.liveGameData.nowUserID && count.userId == localStorage.loginId) {
-      // 更新账单至基本信息
-      user.bet = count.bet
-      user.betCount = count.betCount
-      user.winlose = count.winlose
-      user.mixAmount = count.mixAmount
-      user.winloseRate = count.winloseRate
-      context.commit({
-        type: 'recordLiveNowlist',
-        data: user
-      })
-    }
-  }, // 真人游戏当前列表
-  async getLiveNowchild (context) {
+
+    // 请求下级信息
     var data = {
       parent: '01'
     }
     if (state.variable.liveGameData.nowUserID) {
       data.parent = state.variable.liveGameData.nowUserID
     }
-    // 请求下级信息
-    let result1 = await invoke({
+    let result2 = await invoke({
       url: api.reportInfo,
       method: api.post,
       data: data
     })
-    let child = result1[1].data.payload
-    context.commit({
-      type: 'copyLiveNowchild',
-      data: child
-    }) // 数据备份
+    let child = result2[1].data.payload
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -988,6 +906,7 @@ const actions = {
     } else {
       searchDate = [state.startTime, state.endTime]
     }
+    context.commit('resetLiveNowchild')
     for (let item of child) {
       let child_data = {
         gameType: 30000,
@@ -1006,26 +925,21 @@ const actions = {
           const [err, ret] = result
           if (err) {
           } else {
-            var data = ret.data.payload
-            let match_data = state.variable.liveGameData.copyNowChildList
-            for (let outside of match_data) {
-              for (let inside of data) {
-                if (outside.userId == inside.userId) {
-                  outside.bet = inside.bet
-                  outside.betCount = inside.betCount
-                  outside.winlose = inside.winlose
-                  outside.mixAmount = inside.mixAmount
-                  outside.winloseRate = inside.winloseRate
-                }
+            context.commit('closeLoading')
+            var data = ret.data.payload[0]
+            if (data) {
+              if (item.userId == data.userId) {
+                item.bet = data.bet
+                item.betCount = data.betCount
+                item.winlose = data.winlose
+                item.winloseRate = data.winloseRate
+                item.mixAmount = data.mixAmount
+                context.commit({
+                  type: 'recordLiveNowchild',
+                  data: item
+                })  
               }
             }
-            match_data = match_data.filter(item => {
-              return item.betCount > 0
-            })
-            context.commit({
-              type: 'recordLiveNowchild',
-              data: match_data
-            })
           }
         }
       )
@@ -1044,10 +958,6 @@ const actions = {
         data: data
       })
       let player = result1[1].data.payload
-      context.commit({
-        type: 'copyLiveNowplayer',
-        data: player
-      }) // 数据备份
       // 请求所属玩家账单信息
       context.commit('getWeek')
       let searchDate = []
@@ -1056,6 +966,7 @@ const actions = {
       } else {
         searchDate = [state.startTime, state.endTime]
       }
+      context.commit('resetLiveNowplayer')
       for (let item of player) {
         let player_data = {
           gameType: 30000,
@@ -1073,24 +984,19 @@ const actions = {
             const [err, ret] = result
             if (err) {
             } else {
-              var data = ret.data.payload
-              let match_data = state.variable.liveGameData.copyNowPlayerlist
-              for (let outside of match_data) {
-                for (let inside of data) {
-                  if (outside.userId == inside.gameUserId) {
-                    outside.bet = inside.bet
-                    outside.betCount = inside.betCount
-                    outside.winlose = inside.winlose
-                  }
+              context.commit('closeLoading')
+              var data = ret.data.payload[0]
+              if (data) {
+                if (item.userId == data.gameUserId) {
+                  item.bet = data.bet
+                  item.betCount = data.betCount
+                  item.winlose = data.winlose
+                  context.commit({
+                    type: 'recordLiveNowplayer',
+                    data: item
+                  })  
                 }
               }
-              match_data = match_data.filter(item => {
-                return item.betCount > 0
-              })
-              context.commit({
-                type: 'recordLiveNowplayer',
-                data: match_data
-              })
             }
           }
         )
@@ -1736,20 +1642,26 @@ const mutations = {
   }, // 记录电子游戏总报表当前列表
 
   recordVedioNowchild (state, payload){
-    state.variable.vedioGameData.nowChildList = payload.data
+    state.variable.vedioGameData.nowChildList.push(payload.data)
+    state.variable.vedioGameData.nowList.bet += payload.data.bet
+    state.variable.vedioGameData.nowList.betCount += payload.data.betCount
+    state.variable.vedioGameData.nowList.winlose += payload.data.winlose
   }, // 记录电子游戏总报表下级列表
 
-  copyVedioNowchild (state, payload){
-    state.variable.vedioGameData.copyNowChildList = payload.data
-  }, // 备份电子游戏总报表下级列表
+  resetVedioNowchild (state, payload){
+    state.variable.vedioGameData.nowChildList = []
+  }, // 初始化电子游戏总报表下级列表
 
   recordVedioNowplayer (state, payload){
-    state.variable.vedioGameData.nowPlayerlist = payload.data
+    state.variable.vedioGameData.nowPlayerlist.push(payload.data)
+    state.variable.vedioGameData.nowList.bet += payload.data.bet
+    state.variable.vedioGameData.nowList.betCount += payload.data.betCount
+    state.variable.vedioGameData.nowList.winlose += payload.data.winlose
   }, // 记录电子游戏总报表玩家列表
 
-  copyVedioNowplayer (state, payload){
-    state.variable.vedioGameData.copyNowPlayerlist = payload.data
-  }, // 备份电子游戏总报表玩家列表
+  resetVedioNowplayer (state, payload){
+    state.variable.vedioGameData.nowPlayerlist = []
+  }, // 初始化电子游戏总报表下级列表
 
   recordVedioID (state, payload) {
     state.variable.vedioGameData.nowUserID = payload.data
@@ -1760,20 +1672,27 @@ const mutations = {
   }, // 记录真人游戏总报表当前列表
 
   recordLiveNowchild (state, payload){
-    state.variable.liveGameData.nowChildList = payload.data
+    state.variable.liveGameData.nowChildList.push(payload.data)
+    state.variable.liveGameData.nowList.bet += payload.data.bet
+    state.variable.liveGameData.nowList.betCount += payload.data.betCount
+    state.variable.liveGameData.nowList.winlose += payload.data.winlose
+    state.variable.liveGameData.nowList.mixAmount += payload.data.mixAmount
   }, // 记录真人游戏总报表下级列表
 
-  copyLiveNowchild (state, payload){
-    state.variable.liveGameData.copyNowChildList = payload.data
-  }, // 备份真人游戏总报表下级列表
+  resetLiveNowchild (state, payload){
+    state.variable.liveGameData.nowChildList = []
+  }, // 初始化真人游戏总报表下级列表
 
   recordLiveNowplayer (state, payload){
-    state.variable.liveGameData.nowPlayerlist = payload.data
+    state.variable.liveGameData.nowPlayerlist.push(payload.data)
+    state.variable.liveGameData.nowList.bet += payload.data.bet
+    state.variable.liveGameData.nowList.betCount += payload.data.betCount
+    state.variable.liveGameData.nowList.winlose += payload.data.winlose
   }, // 记录真人游戏总报表玩家列表
 
-  copyLiveNowplayer (state, payload){
-    state.variable.liveGameData.copyNowPlayerlist = payload.data
-  }, // 备份真人游戏总报表玩家列表
+  resetLiveNowplayer (state, payload){
+    state.variable.liveGameData.nowPlayerlist = []
+  }, // 初始化真人游戏总报表玩家列表
 
   recordLiveID (state, payload) {
     state.variable.liveGameData.nowUserID = payload.data
