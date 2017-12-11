@@ -28,12 +28,34 @@
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.winlose)}}</span>
+            <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码比" prop="liveMix" align="center">
+          <template scope="scope">
+            <span>{{formatPercent(scope.row.liveMix)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
           <template scope="scope">
             <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码佣金" prop="nowBouns" align="center">
+        </el-table-column>
+        <el-table-column label="代理总金额" prop="nowallBet" align="center">  
+          <template scope="scope">
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{scope.row.nowallBet}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate) + '%'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理交公司" prop="nowSubmit" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{scope.row.nowSubmit}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinloseRate">
@@ -67,12 +89,34 @@
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.winlose)}}</span>
+            <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码比" prop="liveMix" align="center">
+          <template scope="scope">
+            <span>{{formatPercent(scope.row.liveMix)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
           <template scope="scope">
             <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码佣金" prop="nowBouns" align="center">
+        </el-table-column>
+        <el-table-column label="代理总金额" prop="nowallBet" align="center">  
+          <template scope="scope">
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{scope.row.nowallBet}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate) + '%'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理交公司" prop="nowSubmit" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{scope.row.nowSubmit}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
@@ -118,6 +162,23 @@
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
             <span>{{points(scope.row.winlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码比" prop="liveMix" align="center">
+          <template scope="scope">
+            <span>{{formatPercent(scope.row.liveMix)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码佣金" prop="nowBouns" align="center">
+        </el-table-column>
+        <el-table-column label="会员总金额" prop="nowallBet" align="center">  
+          <template scope="scope">
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{scope.row.nowallBet}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -254,6 +315,12 @@ export default {
     formatNickname (data) {
       return data == 'NULL!'? '-' : data
     },
+    points (data) {
+      return formatPoints('' + data)
+    }, // 格式化点数
+    formatPercent (data) {
+      return data * 100 + '%'
+    }, // 格式化百分数
     userType (data) {
       return '代理'
     }, // 格式化用户类型
@@ -385,4 +452,7 @@ export default {
 .liveGame-report .playerlist{width: 99%;margin: 2rem auto}
 .liveGame-report .fontUrl{cursor: pointer;color: #20a0ff}
 .liveGame-report .fontUrl:hover{text-decoration: underline;}
+
+.green{color: #00CC00}
+.red{color: #FF3300}
 </style>

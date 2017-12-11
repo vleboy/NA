@@ -715,6 +715,10 @@ const actions = {
           data: data
         })
         let player = result1[1].data.payload
+        for (let item of player) {
+          item.nowBouns = '0.00'
+          item.nowallBet = '0.00'
+        }
         context.commit({
           type: 'copyVedioNowplayer',
           data: player
@@ -752,6 +756,8 @@ const actions = {
                       outside.bet = inside.bet
                       outside.betCount = inside.betCount
                       outside.winlose = inside.winlose
+                      outside.nowBouns = (Number(inside.bet) * outside.vedioMix).toFixed(2)
+                      outside.nowallBet = (Number(inside.bet) * outside.vedioMix + Number(inside.winlose)).toFixed(2)
                     }
                   }
                 }
@@ -784,6 +790,10 @@ const actions = {
         data: data
       })
       let player = result1[1].data.payload
+      for (let item of player) {
+        item.nowBouns = '0.00'
+        item.nowallBet = '0.00'
+      }
       context.commit({
         type: 'copyVedioNowplayer',
         data: player
@@ -821,6 +831,8 @@ const actions = {
                     outside.bet = inside.bet
                     outside.betCount = inside.betCount
                     outside.winlose = inside.winlose
+                    outside.nowBouns = (Number(inside.bet) * outside.vedioMix).toFixed(2)
+                    outside.nowallBet = (Number(inside.bet) * outside.vedioMix + Number(inside.winlose)).toFixed(2)
                   }
                 }
               }
@@ -853,6 +865,9 @@ const actions = {
       data: data
     })
     let user = result1[1].data.payload
+    user.nowBouns = '0.00'
+    user.nowallBet = '0.00'
+    user.nowSubmit = '0.00'
     if (user.userId == state.variable.liveGameData.nowUserID || !state.variable.liveGameData.nowUserID && user.userId == localStorage.loginId) {
       context.commit({
         type: 'recordLiveNowlist',
@@ -889,6 +904,9 @@ const actions = {
       user.winlose = count.winlose
       user.mixAmount = count.mixAmount
       user.winloseRate = count.winloseRate
+      user.nowBouns = (Number(count.mixAmount) * user.liveMix).toFixed(2)
+      user.nowallBet = (Number(count.mixAmount) * user.liveMix + Number(count.winlose)).toFixed(2)
+      user.nowSubmit = ((Number(count.mixAmount) * user.liveMix + Number(count.winlose)) * (1 - user.rate/100)).toFixed(2)
       context.commit({
         type: 'recordLiveNowlist',
         data: user
@@ -912,6 +930,11 @@ const actions = {
         data: data
       })
       let child = result1[1].data.payload
+      for (let item of child) {
+        item.nowBouns = '0.00'
+        item.nowallBet = '0.00'
+        item.nowSubmit = '0.00'
+      }
       context.commit({
         type: 'copyLiveNowchild',
         data: child
@@ -952,6 +975,9 @@ const actions = {
                     outside.winlose = inside.winlose
                     outside.mixAmount = inside.mixAmount
                     outside.winloseRate = inside.winloseRate
+                    outside.nowBouns = (Number(inside.mixAmount) * outside.liveMix).toFixed(2)
+                    outside.nowallBet = (Number(inside.mixAmount) * outside.liveMix + Number(inside.winlose)).toFixed(2)
+                    outside.nowSubmit = ((Number(inside.mixAmount) * outside.liveMix + Number(inside.winlose)) * (1 - outside.rate/100)).toFixed(2)
                   }
                 }
               }
@@ -980,6 +1006,11 @@ const actions = {
         data: data
       })
       let child = result1[1].data.payload
+      for (let item of child) {
+        item.nowBouns = '0.00'
+        item.nowallBet = '0.00'
+        item.nowSubmit = '0.00'
+      }
       context.commit({
         type: 'copyLiveNowchild',
         data: child
@@ -1020,6 +1051,9 @@ const actions = {
                     outside.winlose = inside.winlose
                     outside.mixAmount = inside.mixAmount
                     outside.winloseRate = inside.winloseRate
+                    outside.nowBouns = (Number(inside.mixAmount) * outside.liveMix).toFixed(2)
+                    outside.nowallBet = (Number(inside.mixAmount) * outside.liveMix + Number(inside.winlose)).toFixed(2)
+                    outside.nowSubmit = ((Number(inside.mixAmount) * outside.liveMix + Number(inside.winlose)) * (1 - outside.rate/100)).toFixed(2)
                   }
                 }
               }
@@ -1051,6 +1085,10 @@ const actions = {
           data: data
         })
         let player = result1[1].data.payload
+        for (let item of player) {
+          item.nowBouns = '0.00'
+          item.nowallBet = '0.00'
+        }
         context.commit({
           type: 'copyLiveNowplayer',
           data: player
@@ -1088,6 +1126,9 @@ const actions = {
                       outside.bet = inside.bet
                       outside.betCount = inside.betCount
                       outside.winlose = inside.winlose
+                      outside.mixAmount = inside.mixAmount
+                      outside.nowBouns = (Number(inside.mixAmount) * outside.liveMix).toFixed(2)
+                      outside.nowallBet = (Number(inside.mixAmount) * outside.liveMix + Number(inside.winlose)).toFixed(2)
                     }
                   }
                 }
@@ -1120,6 +1161,10 @@ const actions = {
         data: data
       })
       let player = result1[1].data.payload
+      for (let item of player) {
+        item.nowBouns = '0.00'
+        item.nowallBet = '0.00'
+      }
       context.commit({
         type: 'copyLiveNowplayer',
         data: player
@@ -1157,6 +1202,9 @@ const actions = {
                     outside.bet = inside.bet
                     outside.betCount = inside.betCount
                     outside.winlose = inside.winlose
+                    outside.mixAmount = inside.mixAmount
+                    outside.nowBouns = (Number(inside.mixAmount) * outside.liveMix).toFixed(2)
+                    outside.nowallBet = (Number(inside.mixAmount) * outside.liveMix + Number(inside.winlose)).toFixed(2)
                   }
                 }
               }
