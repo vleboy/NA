@@ -119,13 +119,10 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="物品总价" label-width="110px" v-if="boothInfo.contentType==1">
+        <el-form-item label="物品总价" label-width="110px">
           <el-tooltip effect="dark" :content="tipsRatio" placement="right">
             <el-input v-model="boothInfo.price" placeholder="请输入物品售价" type="number" :maxlength='100000000'></el-input>
           </el-tooltip>
-        </el-form-item>
-        <el-form-item label="物品总价" label-width="110px" v-else>
-          <el-input v-model="boothInfo.price" placeholder="请输入物品售价" type="number" :maxlength='100000000'></el-input>
         </el-form-item>
         <el-form-item label="物品数量" label-width="110px" >
           <el-input v-model="boothInfo.sum" placeholder="请输入物品数量" type="number" :maxlength='100000000' ></el-input>
@@ -340,7 +337,7 @@ export default {
           name: '6号展位',
           disabled: true
         }
-      ]
+      ]  // 也是展位
     }
   },
   computed: {
@@ -352,21 +349,34 @@ export default {
       }
     },
     tipsRatio () {
-      let toolLow = ''
-      let toolUp = ''
-      let status = ''
-      let price = ''
-      this.oldPropList.forEach(item => {
-        if (item.toolName === this.boothInfo.prop) {
-          toolLow = item.lowerRatio*0.01
-          toolUp = item.comeUpRatio*0.01
-          status = item.status
-          price = item.toolPrice
-          this.allPriceLow = (1-toolLow) > 0 ? (this.boothInfo.sum!='' ? (1-toolLow)*price*this.boothInfo.sum : (1-toolLow)*price) : 0
-          this.allPriceUp = this.boothInfo.sum!='' ? toolUp*price*this.boothInfo.sum : toolUp*price
-        }
-      })
-      return `物品总价的最低价格为：${this.allPriceLow},最高价格为：${this.allPriceUp}`
+      let toolLow, toolUp, price= ''
+      if (this.boothInfo.contentType ===1) {
+        this.oldPropList.forEach(item => {
+          if (item.toolName === this.boothInfo.prop) {
+            toolLow = item.lowerRatio*0.01
+            toolUp = item.comeUpRatio*0.01
+            price = item.toolPrice
+            this.allPriceLow = (1-toolLow) > 0 ? (this.boothInfo.sum!='' ? (1-toolLow)*price*this.boothInfo.sum : (1-toolLow)*price) : 0
+            this.allPriceUp = this.boothInfo.sum!='' ? toolUp*price*this.boothInfo.sum : toolUp*price
+          }
+        })
+      } else if (this.boothInfo.contentType ===2){
+        this.allPriceLow = 0
+        this.allPriceUp = 0
+        this.packageList.forEach(item => {
+          if (item.packageName === this.boothInfo.prop) {
+            for (let data of item.content){
+              toolLow = data.lowerRatio*0.01
+              toolUp = data.comeUpRatio*0.01
+              price = data.toolPrice
+              this.allPriceLow = ((1-toolLow) > 0 ? (this.boothInfo.sum!='' ? (1-toolLow)*price*this.boothInfo.sum : (1-toolLow)*price) : 0) + this.allPriceLow
+              this.allPriceUp = (this.boothInfo.sum!='' ? toolUp*price*this.boothInfo.sum : toolUp*price) + this.allPriceUp
+            }
+          }
+        })
+      }
+
+      return `物品总价的最低价格为：${this.allPriceLow||0},最高价格为：${this.allPriceUp||0}`
     }
   },
   methods: {
