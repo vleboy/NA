@@ -1,6 +1,5 @@
 <template>
   <div class="vedioGame-report">
-
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
         <p class="title" style="float:left">当前选择列表<span v-if="nowRole != 01" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
@@ -31,6 +30,13 @@
             <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="商户占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate) + '%'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="商户交公司" prop="submit" align="center">
+        </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
         </el-table-column>
       </el-table>
@@ -60,6 +66,16 @@
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
             <span>{{points(scope.row.winlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="商户占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate) + '%'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="商户交公司" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.winlose * (1 - scope.row.rate/100)).toFixed(2)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
@@ -106,7 +122,6 @@
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.vedioGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -116,10 +131,8 @@ import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     localStorage.removeItem('searchTime')
-    this.$store.commit({
-      type: 'recordVedioNowplayer',
-      data: []
-    })
+    this.$store.commit('resetVedioNowchild')
+    this.$store.commit('resetVedioNowplayer')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'vedioGameReport'
@@ -130,7 +143,6 @@ export default {
       data: ''
     })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getVedioNowlist')
     this.$store.dispatch('getVedioNowchild')
     this.$store.dispatch('getVedioNowplayer')
   },
@@ -138,7 +150,10 @@ export default {
     vedioNowlist () {
       let arr = []
       this.nowRole = this.$store.state.variable.vedioGameData.nowList.role
-      arr.push(this.$store.state.variable.vedioGameData.nowList)
+      let data = this.$store.state.variable.vedioGameData.nowList
+      this.$store.state.variable.vedioGameData.nowList.winloseRate = (this.$store.state.variable.vedioGameData.nowList.winlose / this.$store.state.variable.vedioGameData.nowList.bet)
+      this.$store.state.variable.vedioGameData.nowList.submit = (this.$store.state.variable.vedioGameData.nowList.winlose * (1 - (this.$store.state.variable.vedioGameData.nowList.rate/100).toFixed(2)))
+      arr.push(data)
       return arr
     },
     vedioNowchild () {
@@ -255,7 +270,7 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.$store.dispatch('getVedioNowlist')
+        // this.$store.dispatch('getVedioNowlist')
         this.$store.dispatch('getVedioNowchild')
         this.$store.dispatch('getVedioNowplayer')
         let _self = this
@@ -272,7 +287,7 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowlist')
+      // this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
       this.$store.dispatch('getVedioNowplayer')
     }, // 重置搜索条件
@@ -281,16 +296,9 @@ export default {
         type: 'recordVedioID',
         data: data.userId
       })
-      this.$store.commit({
-        type: 'recordVedioNowchild',
-        data: []
-      })
-      this.$store.commit({
-        type: 'recordVedioNowplayer',
-        data: []
-      })
+      this.$store.commit('resetVedioNowchild')
+      this.$store.commit('resetVedioNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
       this.$store.dispatch('getVedioNowplayer')
     }, // 查看当前用户信息
@@ -329,16 +337,9 @@ export default {
         type: 'recordVedioID',
         data: data
       })
-      this.$store.commit({
-        type: 'recordVedioNowchild',
-        data: []
-      })
-      this.$store.commit({
-        type: 'recordVedioNowplayer',
-        data: []
-      })
+      this.$store.commit('resetVedioNowchild')
+      this.$store.commit('resetVedioNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
       data !== '01' ? this.$store.dispatch('getVedioNowplayer') : ''
     }, // 退回上一级

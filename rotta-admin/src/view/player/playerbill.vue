@@ -35,7 +35,7 @@ $<template>
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="roundId" label="局号" align="center" width="250px"></el-table-column>
+            <el-table-column prop="sn" label="流水号" align="center" width="250px"></el-table-column>
             <el-table-column label="下注时间" align="center" width="200px">
               <template scope="scope">
                 {{formatterTime(scope.row.createdAt)}}

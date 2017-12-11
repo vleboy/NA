@@ -31,12 +31,19 @@
             <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="商户占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate) + '%'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="商户交公司" prop="submit" align="center">
+        </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
           <template scope="scope">
             <span>{{points(scope.row.mixAmount)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinloseRate">
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
             <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
           </template>
@@ -68,6 +75,16 @@
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
             <span>{{points(scope.row.winlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="商户占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate) + '%'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="商户交公司" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.winlose * (1 - scope.row.rate/100)).toFixed(2)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
@@ -135,10 +152,8 @@ import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     localStorage.removeItem('searchTime')
-    this.$store.commit({
-      type: 'recordLiveNowplayer',
-      data: []
-    })
+    this.$store.commit('resetLiveNowchild')
+    this.$store.commit('resetLiveNowplayer')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'liveGameReport'
@@ -149,7 +164,6 @@ export default {
       data: ''
     })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getLiveNowlist')
     this.$store.dispatch('getLiveNowchild')
     this.$store.dispatch('getLiveNowplayer')
   },
@@ -157,6 +171,9 @@ export default {
     liveNowlist () {
       let arr = []
       this.nowRole = this.$store.state.variable.liveGameData.nowList.role
+      let data = this.$store.state.variable.liveGameData.nowList
+      this.$store.state.variable.liveGameData.nowList.winloseRate = (this.$store.state.variable.liveGameData.nowList.winlose / this.$store.state.variable.liveGameData.nowList.bet)
+      this.$store.state.variable.liveGameData.nowList.submit = (this.$store.state.variable.liveGameData.nowList.winlose * (1 - (this.$store.state.variable.liveGameData.nowList.rate/100).toFixed(2)))
       arr.push(this.$store.state.variable.liveGameData.nowList)
       return arr
     },
@@ -274,7 +291,6 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.$store.dispatch('getLiveNowlist')
         this.$store.dispatch('getLiveNowchild')
         this.$store.dispatch('getLiveNowplayer')
         let _self = this
@@ -291,7 +307,6 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getLiveNowlist')
       this.$store.dispatch('getLiveNowchild')
       this.$store.dispatch('getLiveNowplayer')
     }, // 重置搜索条件
@@ -300,16 +315,9 @@ export default {
         type: 'recordLiveID',
         data: data.userId
       })
-      this.$store.commit({
-        type: 'recordLiveNowchild',
-        data: []
-      })
-      this.$store.commit({
-        type: 'recordLiveNowplayer',
-        data: []
-      })
+      this.$store.commit('resetLiveNowchild')
+      this.$store.commit('resetLiveNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getLiveNowlist')
       this.$store.dispatch('getLiveNowchild')
       this.$store.dispatch('getLiveNowplayer')
     }, // 查看当前用户信息
@@ -322,16 +330,9 @@ export default {
         type: 'recordLiveID',
         data: data
       })
-      this.$store.commit({
-        type: 'recordLiveNowchild',
-        data: []
-      })
-      this.$store.commit({
-        type: 'recordLiveNowplayer',
-        data: []
-      })
+      this.$store.commit('resetLiveNowchild')
+      this.$store.commit('resetLiveNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getLiveNowlist')
       this.$store.dispatch('getLiveNowchild')
       data !== '01' ? this.$store.dispatch('getLiveNowplayer') : ''
     }, // 退回上一级
