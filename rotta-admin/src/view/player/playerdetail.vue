@@ -336,6 +336,13 @@ export default {
     currency(value){
       return (value-0).toFixed(2);
     }
+  },
+  watch: {
+    '$route': function (_new, _old) {
+      if (_old.fullPath === '/playerlist') {
+        this.getPlayerDetail(localStorage.playerName)
+      }
+    }
   }
 }
 </script>

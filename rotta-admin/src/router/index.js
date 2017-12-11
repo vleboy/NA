@@ -128,7 +128,10 @@ const router = new Router({
     {
       path: '/playerdetail',
       name: '玩家详情',
-      component: Playerdetail
+      component: Playerdetail,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/playerBill',
@@ -258,7 +261,10 @@ const router = new Router({
     {
       path: '/vedioGameReport',
       name: '电子游戏总报表',
-      component: VedioGameReport
+      component: VedioGameReport,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/liveGameReport',
@@ -298,12 +304,12 @@ const router = new Router({
     {
       path: '/propPrice',
       name: '道具定价',
-      component:PropPrize
+      component: PropPrize
     },
     {
       path: '/merchantBoothList',
       name: '展位列表',
-      component:MerchantBoothList
+      component: MerchantBoothList
     }// 针对商户的展位
   ]
 })
