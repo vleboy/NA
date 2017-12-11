@@ -7,25 +7,17 @@
               <el-menu-item index="board">看板</el-menu-item>
               <el-menu-item index="personal">个人中心</el-menu-item>
               <el-submenu index="1">
+                <template slot="title">输赢报表</template>
+                  <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
+                  <el-menu-item index="liveGameReport">真人游戏总报表</el-menu-item>
+              </el-submenu>
+              <el-submenu index="2">
                 <template slot="title">代理中心</template>
                 <el-menu-item index="comlist">代理列表</el-menu-item>
               </el-submenu>
-              <!-- <el-submenu index="1">
-                  <template slot="title">代理中心</template>
-                  <el-submenu index="1-2">
-                      <template slot="title">代理管理</template>
-                      <el-menu-item index="comlist">代理列表</el-menu-item>
-                      <el-menu-item index="comcreate">创建代理</el-menu-item>
-                  </el-submenu>
-              </el-submenu> -->
-              <el-submenu index="2">
+              <el-submenu index="3">
                 <template slot="title">玩家中心</template>
                 <el-menu-item index="agentPlayerList">玩家列表</el-menu-item>
-              </el-submenu>
-              <el-submenu index="3">
-                <template slot="title">财务中心</template>
-                  <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
-                  <el-menu-item index="liveGameReport">真人游戏总报表</el-menu-item>
               </el-submenu>
               <el-submenu index="4">
                   <template slot="title">系统设置</template>

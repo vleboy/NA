@@ -244,7 +244,11 @@ export default {
       this.$store.dispatch('getVedioNowplayer')
     }, // 重置玩家搜索
     formatWinlose (data) {
-      return (data.winloseRate * 100).toFixed(2) + '%'
+      if (data.winloseRate) {
+        return (data.winloseRate * 100).toFixed(2) + '%'
+      } else {
+        return '0.00%'
+      }
     },
     formatnickname (data) {
       return data.nickname == 'NULL!' ? '-' : data.nickname
