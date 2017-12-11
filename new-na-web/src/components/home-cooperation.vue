@@ -1,7 +1,7 @@
 <template>
   <div class="home-cooperation">
     <div class="container">
-      <div class="company-item" v-for = "lists in companyLists ">
+      <div class="company-item boxs" v-for = "lists in companyLists ">
         <ul>
           <li v-for="item in lists"><img :src="item.url" alt="1"></li>
         </ul>

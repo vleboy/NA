@@ -4,7 +4,7 @@
       <h2>服务方案</h2>
       <div class="line"><i></i></div>
       <div class="service-plan-desc">为保障商户利益，降低运营风险，NA配备了完善的服务体系，及时快速的为商户解决问题</div>
-      <div class="service-plan-items flex">
+      <div class="service-plan-items flex boxs">
         <div class="service-plan-item">
           <div class="service-icon"><img src="../assets/img/service1.png" alt=""></div>
           <div class="service-title">点对点营销服务体系</div>
@@ -82,5 +82,25 @@ export default {
         font-weight bold 
       .service-desc
         font-size 15px
+@media (min-width: 768px) and (max-width: 1200px)
+  .home-service-plan
+    padding 55px 0 60px
+    h2
+      margin-bottom 18px
+      font-size 34px
+    .service-plan-desc
+      font-size 14px
+      margin-bottom 60px
+    .service-plan-items
+      .service-plan-item
+        .service-icon
+          max-width 42px
+          max-height 42px
+          margin-bottom 38px
+        .service-title
+          font-size 18px
+          margin-bottom 23px
+        .service-desc
+          font-size 12px
 </style>
 

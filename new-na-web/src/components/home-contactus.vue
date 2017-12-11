@@ -4,7 +4,7 @@
       <h2>联系我们</h2>
       <div class="line"><i></i></div>
       <div class="contact-desc">7x24小时客服为您服务</div>
-      <div class="contact-us-container flex">
+      <div class="contact-us-container flex boxs">
         <div class="contact-us-form">
           <div class="field is-horizontal">
             <div class="field-body">
@@ -55,11 +55,11 @@
             FOLLOW US ON SOCIAL NETWORK
           </div>
           <div class="us-info-share">
-            <span>1</span>
-            <span>1</span>
-            <span>1</span>
-            <span>1</span>
-            <span>1</span>
+            <span><img src="../assets/img/Instagram.png" alt=""></span>
+            <span><img src="../assets/img/Twitter.png" alt=""></span>
+            <span><img src="../assets/img/Facebook.png" alt=""></span>
+            <span><img src="../assets/img/Google.png" alt=""></span>
+            <span><img src="../assets/img/Linkedin.png" alt=""></span>
           </div>
         </div>
       </div>
@@ -128,6 +128,6 @@ export default {
           width 17px
           height 17px
           margin-left 20px
-          background red
+          cursor pointer
 </style>
 

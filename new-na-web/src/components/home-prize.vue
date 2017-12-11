@@ -1,7 +1,7 @@
 <template>
   <div class="home-prize">
     <div class="container">
-      <div class="home-prize-box">
+      <div class="home-prize-box boxs">
         <div class="prize-number">
           <div class="prize-title">NA BONUS 神秘大奖奖池</div>
           <div class="prize-numbers">CNY 2000</div>
@@ -70,5 +70,19 @@ export default {
         height 100%
         margin 0 15px
         background #dedede
+@media (min-width: 768px) and (max-width: 1200px)
+  .home-prize
+    .home-prize-box
+      .players
+        width 50%
+        margin-left 45px
+        ul
+          width 100%
+        ul:last-child
+          display none
+        .line
+          display none
+      .prize-number
+        width 50%
 </style>
 

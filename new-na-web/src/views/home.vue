@@ -2,20 +2,22 @@
   <div class="home">
     <home-banner />
     <home-prize />
-    <home-platform />
-    <home-video-player />
-    <home-advantage />
+    <section><home-platform /></section>
+    <section><home-video-player /></section>
+    <section> <home-advantage /></section>
     <home-news />
-    <home-dynamic />
-    <home-service-plan />
-    <home-download />
-    <home-contactus />
-    <home-cooperation />
-    <home-footer />
+    <section><home-dynamic /></section>
+    <section><home-service-plan /></section>
+    <section> <home-download /></section>
+    <section><home-contactus /></section>
+    <section><home-cooperation /></section>
+    <section><home-footer /></section>  
   </div>
 </template>
 
 <script>
+import $ from 'jquery'
+
 import homeFooter from '@/components/home-footer'
 import homeCooperation from '@/components/home-cooperation'
 import homeContactus from '@/components/home-contactus'
@@ -43,6 +45,33 @@ export default {
     homePlatform,
     homePrize,
     homeBanner
+  },
+  mounted () {
+    // let lists = document.querySelectorAll('.boxs')
+    // window.addEventListener('scroll', () => {
+    //   let ScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    //   console.log(ScrollTop,lists[0].clientY)
+    //   lists.forEach((item) => {
+    //     if (ScrollTop >= item.offsetTop - 80) {
+    //       item.setAttribute('class', item.getAttribute("class").concat(' animate'))
+    //     }
+    //   })
+    // })
+    var Panels = $('section')
+    if (Panels.length) {
+      $(window).on('scroll', function () {
+        var ScrollTop = $(window).scrollTop()
+        for (var i = 0; i < Panels.length; i++) {
+          if (ScrollTop >= Panels.eq(i).offset().top - 700) {
+            Panels.eq(i).find('.boxs').addClass('animate')
+            if (i === 2) {
+              Panels.eq(i).find('.advantage-img').addClass('animationRight')
+              Panels.eq(i).find('.advantage-items').addClass('animationLeft')
+            }
+          }
+        }
+      })
+    }
   }
 }
 </script>

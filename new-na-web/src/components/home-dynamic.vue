@@ -6,7 +6,7 @@
       <div class="dynamic-desc">新亚洲集团成⽴于2012年，是⼀家主要经营互联⽹平台业务的专业博彩公司。
 公司是由菲律宾政府认可的发牌及监管机构 PAGCOR颁发软件系统经权威认证，
 集团旗下所有游戏皆受菲律宾政府的监管与保护，正规合法，公平公正。</div>
-      <div class="dynamic-items flex">
+      <div class="dynamic-items flex boxs">
         <div class="dynamic-item" v-for="item in news">
           <a href="">
             <div class="card-img"><img :src="item.img" alt=""></div>
@@ -95,6 +95,7 @@ export default {
         .card-box
           position relative
           height 300px
+          padding 1rem 1rem
           transition height 0.5s
           h3
             font-size 20px
@@ -116,5 +117,19 @@ export default {
             margin-bottom 40px
             &:hover
               background #FECB16
+@media (min-width: 768px) and (max-width: 1200px)
+  .home-dynamic
+    h2
+      margin-top 50px
+      margin-bottom 18px
+      font-size 34px
+    .dynamic-desc
+      font-size 14px
+      margin 0  auto 50px
+    .dynamic-items
+      .dynamic-item
+        flex-basis 30%
+      .dynamic-item:last-child
+        display none
 </style>
 

@@ -56,6 +56,19 @@ export default {
         background #000000
         border-right 3px solid #FFCB16
         border-bottom none
+@media (min-width: 768px) and (max-width: 1200px)
+  .home-menu
+    width 170px
+    h1
+      max-width 90px
+      padding 30px 0 10px
+      p
+        font-size 18px
+    nav
+      ul
+        li
+          height 30px
+          font-size 12px
 </style>
 
 

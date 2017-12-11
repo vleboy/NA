@@ -5,7 +5,7 @@
       <div class="line"><i></i></div>
       <div class="advantage-desc">NA是站在您与玩家的角度考虑问题的平台商，想您所想、急您所急 
 为您在产品上面打造更便捷更完善的功能您的需求就是我们的需要，请您及时告知我们！</div>
-      <div class="advantage-box flex">
+      <div class="advantage-box flex boxs">
         <div class="advantage-items">
           <ul>
             <li v-for="item in advantageLists">
@@ -69,7 +69,6 @@ export default {
     overflow hidden
     .advantage-items
       width 77%
-      animation: bounceLeft 2s ease both
       ul
         display flex
         padding 90px 0
@@ -84,6 +83,7 @@ export default {
           border-bottom 10px solid #FFCB16
           .desc-cn
             font-size 16px
+            margin-top 5px
           .desc-en
             font-size 12px
         li:last-child
@@ -91,7 +91,10 @@ export default {
     .advantage-img
       width 23%
       position relative
-      animation: bounceRight 1.5s ease both
+.animationLeft
+  animation: bounceLeft 2s ease both
+.animationRight
+  animation: bounceRight 1.5s ease both
 @keyframes bounceRight
     0%
       opacity 0
@@ -112,5 +115,26 @@ export default {
     100% 
       opacity 1
       transform translateX(0%)
+@media (min-width: 768px) and (max-width: 1200px)
+  .home-advantage
+    padding-bottom 50px
+    h2
+      margin-top 50px
+      margin-bottom 18px
+      font-size 34px
+    .advantage-desc
+      font-size 14px
+      margin 0 auto 45px
+    .advantage-box
+      .advantage-items
+        width 100%
+        ul
+          padding 0
+          li
+           flex-basis 20%
+           text-align center
+          margin  0 auto
+      .advantage-img
+        display none
 </style>
 

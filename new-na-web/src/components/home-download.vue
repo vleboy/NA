@@ -6,7 +6,7 @@
         <p>NA提供IOS与安卓两个版本的APP</p>
         <p>立即下载NA游戏平台，让手机成为您的移动线上赌场！</p>
       </div>
-      <div class="download-button">
+      <div class="download-button boxs">
         <a href="javascript:;">
           <img src="../assets/img/iosButton.png" alt="">
           <div class="code-box">

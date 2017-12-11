@@ -5,7 +5,7 @@
       <div class="line"><i></i></div>
       <div class="platform-desc">NA游戏平台，是NA娱乐旗下针对博彩行业开发的综合型游戏平台。NA整合上下游各方资源，各国游戏研发团队为NA定制打造各类博彩游戏，
 拥有真人直播、赛事、电子游戏、棋牌游戏等，为玩家提供全新的游戏体验，让玩家能通过NA游戏平台享受到博彩的乐趣。</div>
-      <div class="platform-box flex">
+      <div class="platform-box flex boxs">
         <div class="platform-items">
           <div class="platform-item" v-for="item in platformLists[0]">
             <div class="platform-item-img" @mouseover="hoverIn(item)"><img :src="item.img" alt=""></div>
@@ -123,6 +123,10 @@ export default {
             color #666666
             font-size 14px
     .platform-img
+      display flex
+      flex-direction column
+      align-items center
+      justify-content center
     .bounce-enter-active
       animation Wanimate 1.5s ease both
     .bounce-leave-active
@@ -137,6 +141,26 @@ export default {
       100%
         opacity 1
         transform translateY(0%)
+@media (min-width: 768px) and (max-width: 1200px)
+  .home-platform
+    h2
+      margin-top 50px
+      margin-bottom 18px
+      font-size 34px
+    .platform-desc
+      font-size 14px
+    .platform-box
+      .platform-items
+        .platform-item
+          .platform-item-img
+            width 46px
+            height 46px
+          .platform-item-desc
+            .platform-item-title
+              font-size 1rem
+            .platform-item-msg
+              font-size 11px
+
 </style>
 
 

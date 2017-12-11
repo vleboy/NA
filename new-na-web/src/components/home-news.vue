@@ -1,5 +1,5 @@
 <template>
-  <div class="home-news">
+  <div class="home-news boxs">
     <img src="../assets/img/news.png" alt="">
   </div>
 </template>
