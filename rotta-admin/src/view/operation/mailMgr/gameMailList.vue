@@ -26,7 +26,7 @@
         </el-table-column>
         <el-table-column label="邮件内容" prop="content" align="center" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column label="包含物品" prop="desc" align="center" :show-overflow-tooltip="true">
+        <el-table-column label="包含物品" prop="desc" align="center" :show-overflow-tooltip="true" v-if="role!='100'">
           <template scope="scope">
             <div v-if="scope.row.tools.length" v-for="(item, index) in scope.row.tools" style="padding-right:0.5rem;display: inline-block">
               <span>{{item.toolName}} x {{item.sum}}</span>;
