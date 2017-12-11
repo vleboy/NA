@@ -120,9 +120,9 @@
           <el-checkbox v-model="isChecked"></el-checkbox>
         </el-form-item>
         <el-form-item label="自定义图标" label-width="110px" style="text-align: left">
-          <el-checkbox v-model="isCheckedIcon"></el-checkbox>
+          <el-checkbox v-model="isShowIcon"></el-checkbox>
         </el-form-item>
-        <el-form-item label="图标名称" label-width="110px" v-if="isCheckedIcon">
+        <el-form-item label="图标名称" label-width="110px" v-if="isShowIcon">
           <el-input v-model="boothInfo.icon" placeholder="请输入图标名称" :maxlength='20'></el-input>
         </el-form-item>
         <el-form-item label="备注" label-width="110px" >
@@ -165,7 +165,7 @@ export default {
       isAddProp: false,
       isSending: false,
       isChecked: false, // 是否促销
-      isCheckedIcon: false, // 自定义图标
+      isShowIcon: false, // 是否显示自定义图标
       isCheckGoods: false,
       radioInfo: this.$store.state.variable.boothType || '1',
       boothType: [],
@@ -261,7 +261,7 @@ export default {
     submitProp (id) {
       this.boothInfo.seatStatus = this.isChecked ? '2' : '1'
       if (this.boothInfo.contentType === 1) {
-        this.propList.forEach(item => {
+        this.oldPropList.forEach(item => {
           if (item.toolName === this.boothInfo.prop) {
             this.boothInfo.content = item
           }
@@ -358,6 +358,7 @@ export default {
       this.isAddProp = true
       this.boothInfo = JSON.parse(JSON.stringify(row))
       if (JSON.stringify(row) !== '{}') {
+        this.isShowIcon = this.boothInfo.icon != "NULL!" // 看是否设定了自定义图
         this.boothInfo.remark = this.boothInfo.remark === 'NULL!' ? '' : this.boothInfo.remark
         this.isChecked = this.boothInfo.seatStatus === 2
         this.boothInfo.prop = (this.boothInfo.content.toolName || this.boothInfo.content.packageName)
@@ -374,6 +375,7 @@ export default {
           contentType: '',
           content: ''
         }
+        this.isShowIcon = false
         this.isChecked = false
       }
     },
