@@ -23,7 +23,7 @@
                   <el-menu-item index="horseRaceLampList">跑马灯列表</el-menu-item>
                 </el-submenu>
                 <el-submenu index="4-2">
-                  <template slot="title">站内信管理</template>
+                  <template slot="title">邮件管理</template>
                   <el-menu-item index="gameMailList">游戏邮件列表</el-menu-item>
                 </el-submenu>
                 <el-submenu index="4-3">
