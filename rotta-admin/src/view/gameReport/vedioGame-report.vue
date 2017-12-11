@@ -36,6 +36,9 @@
           </template>
         </el-table-column>
         <el-table-column label="商户交公司" prop="submit" align="center">
+          <template scope="scope">
+            <span>{{formatBills(scope.row.submit)}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
         </el-table-column>
@@ -152,7 +155,7 @@ export default {
       this.nowRole = this.$store.state.variable.vedioGameData.nowList.role
       let data = this.$store.state.variable.vedioGameData.nowList
       this.$store.state.variable.vedioGameData.nowList.winloseRate = (this.$store.state.variable.vedioGameData.nowList.winlose / this.$store.state.variable.vedioGameData.nowList.bet)
-      this.$store.state.variable.vedioGameData.nowList.submit = (this.$store.state.variable.vedioGameData.nowList.winlose * (1 - (this.$store.state.variable.vedioGameData.nowList.rate/100).toFixed(2)))
+      this.$store.state.variable.vedioGameData.nowList.submit = (this.$store.state.variable.vedioGameData.nowList.winlose * (1 - (this.$store.state.variable.vedioGameData.nowList.rate/100)
       arr.push(data)
       return arr
     },
@@ -252,6 +255,9 @@ export default {
     },
     formatnickname (data) {
       return data.nickname == 'NULL!' ? '-' : data.nickname
+    },
+    formatBills (data) {
+      data? data.toFixed(2) : '0.00'
     },
     userType (data) {
       if (data.role == '1') {
