@@ -788,7 +788,7 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
-                item.winloseRate = data.winloseRate
+                item.winloseRate = (data.winlose / data.bet).toFixed(4)
                 context.commit({
                   type: 'recordVedioNowchild',
                   data: item
@@ -847,6 +847,7 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
+                  item.winloseRate = (data.winlose / data.bet).toFixed(4)
                   context.commit({
                     type: 'recordVedioNowplayer',
                     data: item
@@ -931,8 +932,8 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
-                item.winloseRate = data.winloseRate
                 item.mixAmount = data.mixAmount
+                item.winloseRate = (data.winlose / data.mixAmount).toFixed(4)
                 context.commit({
                   type: 'recordLiveNowchild',
                   data: item
@@ -990,6 +991,7 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
+                  item.winloseRate = (data.winlose / data.mixAmount).toFixed(4)
                   context.commit({
                     type: 'recordLiveNowplayer',
                     data: item

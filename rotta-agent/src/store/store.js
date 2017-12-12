@@ -638,10 +638,10 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
-                item.winloseRate = data.winloseRate
                 item.nowBouns = (Number(data.bet) * item.vedioMix/100).toFixed(2)
                 item.nowallBet = (Number(data.bet) * item.vedioMix/100 + Number(data.winlose)).toFixed(2)
                 item.nowSubmit = ((Number(data.bet) * item.vedioMix/100 + Number(data.winlose)) * (1 - item.rate/100)).toFixed(2)
+                item.winloseRate = (nowallBet / Number(data.bet)).toFixed(4)
                 context.commit({
                   type: 'recordVedioNowchild',
                   data: item
@@ -707,6 +707,7 @@ const actions = {
                     item.winlose = data.winlose
                     item.nowBouns = (Number(data.bet) * item.vedioMix/100).toFixed(2)
                     item.nowallBet = (Number(data.bet) * item.vedioMix/100 + Number(data.winlose)).toFixed(2)
+                    item.winloseRate = (item.nowallBet / Number(data.bet)).toFixed(4)
                     context.commit({
                       type: 'recordVedioNowplayer',
                       data: item
@@ -774,6 +775,7 @@ const actions = {
                   item.winlose = data.winlose
                   item.nowBouns = (Number(data.bet) * item.vedioMix/100).toFixed(2)
                   item.nowallBet = (Number(data.bet) * item.vedioMix/100 + Number(data.winlose)).toFixed(2)
+                  item.winloseRate = (item.nowallBet / Number(data.bet)).toFixed(4)
                   context.commit({
                     type: 'recordVedioNowplayer',
                     data: item
@@ -868,10 +870,10 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
-                  item.winloseRate = data.winloseRate
                   item.nowBouns = (Number(data.mixAmount) * item.liveMix/100).toFixed(2)
                   item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose)).toFixed(2)
                   item.nowSubmit = ((Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose)) * (1 - item.rate/100)).toFixed(2)
+                  item.winloseRate = (item.nowallBet / Number(data.mixAmount)).toFixed(4)
                   context.commit({
                     type: 'recordLiveNowchild',
                     data: item
@@ -936,10 +938,10 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
-                  item.winloseRate = data.winloseRate
                   item.nowBouns = (Number(data.mixAmount) * item.liveMix/100).toFixed(2)
                   item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose)).toFixed(2)
                   item.nowSubmit = ((Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose)) * (1 - item.rate/100)).toFixed(2)
+                  item.winloseRate = (item.nowallBet / Number(data.mixAmount)).toFixed(4)
                   context.commit({
                     type: 'recordLiveNowchild',
                     data: item
@@ -1001,12 +1003,13 @@ const actions = {
                 var data = ret.data.payload[0]
                 if (data) {
                   if (item.userId == data.gameUserId) {
-                    item.bet = data.bet
-                    item.betCount = data.betCount
-                    item.winlose = data.winlose
-                    item.mixAmount = data.mixAmount
-                    item.nowBouns = (Number(data.mixAmount) * item.liveMix/100)
-                    item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose))
+                    item.bet = data.bet.toFixed(2)
+                    item.betCount = data.betCount.toFixed(2)
+                    item.winlose = data.winlose.toFixed(2)
+                    item.mixAmount = data.mixAmount.toFixed(2)
+                    item.nowBouns = (Number(data.mixAmount) * item.liveMix/100).toFixed(2)
+                    item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose)).toFixed(2)
+                    item.winloseRate = (item.nowallBet / Number(data.mixAmount)).toFixed(4)
                     context.commit({
                       type: 'recordLiveNowplayer',
                       data: item
@@ -1073,8 +1076,9 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
-                  item.nowBouns = (Number(data.mixAmount) * item.liveMix/100)
-                  item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose))
+                  item.nowBouns = (Number(data.mixAmount) * item.liveMix/100).toFixed(2)
+                  item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose)).toFixed(2)
+                  item.winloseRate = (item.nowallBet / Number(data.mixAmount)).toFixed(4)
                   context.commit({
                     type: 'recordLiveNowplayer',
                     data: item
