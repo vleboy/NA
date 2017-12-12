@@ -21,7 +21,7 @@
       </div>
       <!-- 主内容区路由 -->
       <div class="main-right" id="routerBox">
-        <div class="right-content" v-loading.body="loading" element-loading-text="正在为您加载" style='z-index:2000'>
+        <div class="right-content">
           <keep-alive>
             <router-view v-if="$route.meta.keepAlive"></router-view>
           </keep-alive>
