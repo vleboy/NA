@@ -8,7 +8,7 @@
         <div class="download-address">
           <div v-if="isChina">
             <div class="android"><a href="http://a1.na12345.com/NAGame/Update/Android/NAGame.apk"><img src="../assets/e1.png" alt=""></a></div>
-            <div class="ios"><a  href="itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1800.plist"><img src="../assets/e2.png" alt=""></a></div>
+            <div class="ios"><a  href="itms-services://?action=download-manifest&url=https://a1.na12345.com/NAGame/Update/IOS/autoIntall.plist"><img src="../assets/e2.png" alt=""></a></div>
           </div>
           <div v-else>
             <div class="android"><a href="http://oss.na12345.com/NAGame1800.apk"><img src="../assets/e1.png" alt=""></a></div>

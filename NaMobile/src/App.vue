@@ -74,7 +74,7 @@ export default {
          axios.get(`${url}/dev/ipquery`)
          .then(function (res) {
            if(res.data.payload.data.country === '中国'){
-             window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1800.plist'
+             window.location.href = 'itms-services://?action=download-manifest&url=https://a1.na12345.com/NAGame/Update/IOS/autoIntall.plist'
            } else {
              window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1800.plist'
            }

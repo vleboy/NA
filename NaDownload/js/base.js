@@ -106,7 +106,7 @@ function getIp () {
             }
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
-            alert('获取IP地址失败，请稍后刷新！');
+            $('.isChina').removeClass('isChina');
         }
     });
 }
