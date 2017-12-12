@@ -339,7 +339,7 @@ export default {
   },
   watch: {
     '$route': function (_new, _old) {
-      if (_old.fullPath === '/playerlist') {
+      if (_old.fullPath === '/playerlist' || _old.fullPath ==='/vedioGameReport' || _old.fullPath ==='/liveGameReport') {
         this.getPlayerDetail(localStorage.playerName)
       }
     }

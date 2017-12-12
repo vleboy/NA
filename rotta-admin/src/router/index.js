@@ -269,7 +269,10 @@ const router = new Router({
     {
       path: '/liveGameReport',
       name: '真人游戏总报表',
-      component: liveGameReport
+      component: liveGameReport,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/lineup',
