@@ -62,7 +62,7 @@ export default {
         axios.get(`${url}/dev/ipquery`)
           .then(function (res) {
             if(res.data.payload.data.country === '中国'){
-              window.location.href = 'http://natest001.oss-cn-hongkong.aliyuncs.com/NAGame1800.apk'
+              window.location.href = 'http://a1.na12345.com/NAGame/Update/Android/NAGame.apk'
             } else {
               window.location.href = 'http://oss.na12345.com/NAGame1800.apk'
             }
@@ -74,7 +74,7 @@ export default {
          axios.get(`${url}/dev/ipquery`)
          .then(function (res) {
            if(res.data.payload.data.country === '中国'){
-             window.location.href = 'itms-services://?action=download-manifest&url=https://natest001.oss-cn-hongkong.aliyuncs.com/autoinstall1800.plist'
+             window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1800.plist'
            } else {
              window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1800.plist'
            }
