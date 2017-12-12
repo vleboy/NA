@@ -136,12 +136,18 @@ const router = new Router({
     {
       path: '/playerBill',
       name: '玩家账单详情',
-      component: playerBill
+      component: playerBill,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/playerAccount',
       name: '玩家流水账详情',
-      component: playerRunningAccount
+      component: playerRunningAccount,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/gamelist',
