@@ -172,7 +172,7 @@ export default {
       let arr = []
       this.nowRole = this.$store.state.variable.liveGameData.nowList.role
       let data = this.$store.state.variable.liveGameData.nowList
-      data.winloseRate = (data.winlose / data.bet).toFixed(4)
+      data.winloseRate = (data.winlose / data.mixAmount).toFixed(4)
       data.submit = (data.winlose * (1 - data.rate/100)).toFixed(2)
       arr.push(data)
       return arr
