@@ -33,7 +33,7 @@
         </el-table-column>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
-            <span>{{formatPercent(scope.row.vedioMix)}}</span>
+            <span>{{(scope.row.vedioMix) + '%'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -53,7 +53,10 @@
             <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{scope.row.nowSubmit}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
+          <template scope="scope">
+            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -86,7 +89,7 @@
         </el-table-column>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
-            <span>{{formatPercent(scope.row.vedioMix)}}</span>
+            <span>{{(scope.row.vedioMix) + '%'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -106,7 +109,10 @@
             <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{scope.row.nowSubmit}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
+          <template scope="scope">
+            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
+          </template>
         </el-table-column>
       </el-table>
       <div class="page">
@@ -147,7 +153,7 @@
         </el-table-column>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
-            <span>{{formatPercent(scope.row.vedioMix)}}</span>
+            <span>{{(scope.row.vedioMix) + '%'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -172,10 +178,8 @@ import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     localStorage.removeItem('searchTime')
-    this.$store.commit({
-      type: 'recordVedioNowplayer',
-      data: []
-    })
+    this.$store.commit('resetVedioNowchild')
+    this.$store.commit('resetVedioNowplayer')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'vedioGameReport'
@@ -186,7 +190,6 @@ export default {
       data: ''
     })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getVedioNowlist')
     this.$store.dispatch('getVedioNowchild')
     this.$store.dispatch('getVedioNowplayer')
   },
@@ -194,7 +197,12 @@ export default {
     vedioNowlist () {
       let arr = []
       this.nowId = this.$store.state.variable.vedioGameData.nowList.userId
-      arr.push(this.$store.state.variable.vedioGameData.nowList)
+      let data = this.$store.state.variable.vedioGameData.nowList
+      data.nowBouns = (data.vedioMix/100 * data.bet).toFixed(2) // 洗码佣金
+      data.nowallBet = ((data.vedioMix/100 * data.bet) + data.winlose).toFixed(2) // 代理总金额
+      data.nowSubmit = (((data.vedioMix/100 * data.bet) + data.winlose) * (1 - data.vedioMix/100)).toFixed(2) // 代理交公司
+      data.winloseRate = (data.nowSubmit / data.bet) // 获利比例
+      arr.push(data)
       return arr
     },
     vedioNowchild () {
@@ -285,8 +293,8 @@ export default {
       this.playerData = ''
       this.$store.dispatch('getVedioNowplayer')
     }, // 重置玩家搜索
-    formatWinlose (data) {
-      return (data.winloseRate * 100).toFixed(2) + '%'
+    formatWinloseRate (data) {
+      return data ? (data * 100).toFixed(2) + '%' : '0.00%'
     },
     userType (data) {
       return '代理'
@@ -295,7 +303,7 @@ export default {
       return formatPoints('' + data)
     }, // 格式化点数
     formatPercent (data) {
-      return data * 100 + '%'
+      return data ? data * 100 + '%' : '0.00%'
     }, // 格式化百分数
     searchData () {
       if (this.searchDate[0] == null || this.searchDate[1] == null) {
@@ -306,7 +314,6 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.$store.dispatch('getVedioNowlist')
         this.$store.dispatch('getVedioNowchild')
         this.$store.dispatch('getVedioNowplayer')
         let _self = this
@@ -323,7 +330,6 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
       this.$store.dispatch('getVedioNowplayer')
     }, // 重置搜索条件
@@ -332,16 +338,9 @@ export default {
         type: 'recordVedioID',
         data: data.userId
       })
-      this.$store.commit({
-        type: 'recordVedioNowchild',
-        data: []
-      })
-      this.$store.commit({
-        type: 'recordVedioNowplayer',
-        data: []
-      })
+      this.$store.commit('resetVedioNowchild')
+      this.$store.commit('resetVedioNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
       this.$store.dispatch('getVedioNowplayer')
     }, // 查看当前用户信息
@@ -380,16 +379,9 @@ export default {
         type: 'recordVedioID',
         data: data
       })
-      this.$store.commit({
-        type: 'recordVedioNowchild',
-        data: []
-      })
-      this.$store.commit({
-        type: 'recordVedioNowplayer',
-        data: []
-      })
+      this.$store.commit('resetVedioNowchild')
+      this.$store.commit('resetVedioNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowlist')
       this.$store.dispatch('getVedioNowchild')
       data !== '01' ? this.$store.dispatch('getVedioNowplayer') : ''
     }, // 退回上一级

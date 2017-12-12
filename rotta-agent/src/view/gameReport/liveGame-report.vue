@@ -33,7 +33,7 @@
         </el-table-column>
         <el-table-column label="洗码比" prop="liveMix" align="center">
           <template scope="scope">
-            <span>{{formatPercent(scope.row.liveMix)}}</span>
+            <span>{{(scope.row.liveMix) + '%'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
@@ -58,7 +58,7 @@
             <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{scope.row.nowSubmit}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinloseRate">
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
             <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
           </template>
@@ -94,7 +94,7 @@
         </el-table-column>
         <el-table-column label="洗码比" prop="liveMix" align="center">
           <template scope="scope">
-            <span>{{formatPercent(scope.row.liveMix)}}</span>
+            <span>{{(scope.row.liveMix) + '%'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
@@ -166,7 +166,7 @@
         </el-table-column>
         <el-table-column label="洗码比" prop="liveMix" align="center">
           <template scope="scope">
-            <span>{{formatPercent(scope.row.liveMix)}}</span>
+            <span>{{(scope.row.liveMix) + '%'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
@@ -196,10 +196,8 @@ import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     localStorage.removeItem('searchTime')
-    this.$store.commit({
-      type: 'recordLiveNowplayer',
-      data: []
-    })
+    this.$store.commit('resetLiveNowchild')
+    this.$store.commit('resetLiveNowplayer')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'liveGameReport'
@@ -210,7 +208,6 @@ export default {
       data: ''
     })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getLiveNowlist')
     this.$store.dispatch('getLiveNowchild')
     this.$store.dispatch('getLiveNowplayer')
   },
@@ -218,7 +215,12 @@ export default {
     liveNowlist () {
       let arr = []
       this.nowId = this.$store.state.variable.liveGameData.nowList.userId
-      arr.push(this.$store.state.variable.liveGameData.nowList)
+      let data = this.$store.state.variable.liveGameData.nowList
+      data.nowBouns = (data.liveMix/100 * data.mixAmount).toFixed(2) // 洗码佣金
+      data.nowallBet = (data.liveMix/100 * data.mixAmount + data.winlose).toFixed(2) // 代理总金额
+      data.nowSubmit = ((data.liveMix/100 * data.mixAmount + data.winlose) * (1 - data.liveMix/100)).toFixed(2) // 代理交公司
+      data.winloseRate = (data.nowSubmit / data.mixAmount) // 获利比例
+      arr.push(data)
       return arr
     },
     liveNowchild () {
@@ -310,7 +312,7 @@ export default {
       this.$store.dispatch('getLiveNowplayer')
     }, // 重置玩家搜索
     formatWinloseRate (data) {
-      return data? (Number(data) * 100).toFixed(2) + '%' : '0.00' + '%'
+      return data? (data * 100).toFixed(2) + '%' : '0.00%'
     },
     formatNickname (data) {
       return data == 'NULL!'? '-' : data
@@ -319,7 +321,7 @@ export default {
       return formatPoints('' + data)
     }, // 格式化点数
     formatPercent (data) {
-      return data * 100 + '%'
+      return data? data * 100 + '%' : '0.00%'
     }, // 格式化百分数
     userType (data) {
       return '代理'
@@ -336,7 +338,6 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.$store.dispatch('getLiveNowlist')
         this.$store.dispatch('getLiveNowchild')
         this.$store.dispatch('getLiveNowplayer')
         let _self = this
@@ -353,7 +354,6 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getLiveNowlist')
       this.$store.dispatch('getLiveNowchild')
       this.$store.dispatch('getLiveNowplayer')
     }, // 重置搜索条件
@@ -362,16 +362,9 @@ export default {
         type: 'recordLiveID',
         data: data.userId
       })
-      this.$store.commit({
-        type: 'recordLiveNowchild',
-        data: []
-      })
-      this.$store.commit({
-        type: 'recordLiveNowplayer',
-        data: []
-      })
+      this.$store.commit('resetLiveNowchild')
+      this.$store.commit('resetLiveNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getLiveNowlist')
       this.$store.dispatch('getLiveNowchild')
       this.$store.dispatch('getLiveNowplayer')
     }, // 查看当前用户信息
@@ -410,16 +403,9 @@ export default {
         type: 'recordLiveID',
         data: data
       })
-      this.$store.commit({
-        type: 'recordLiveNowchild',
-        data: []
-      })
-      this.$store.commit({
-        type: 'recordLiveNowplayer',
-        data: []
-      })
+      this.$store.commit('resetLiveNowchild')
+      this.$store.commit('resetLiveNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getLiveNowlist')
       this.$store.dispatch('getLiveNowchild')
       data !== '01' ? this.$store.dispatch('getLiveNowplayer') : ''
     }, // 退回上一级
