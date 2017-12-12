@@ -6,33 +6,34 @@
               <div class="logo"><img style=" width: 60%;" src="static/NAlogo.png"></div>
               <el-menu-item index="board" v-show="userRight.board.hasRight">看板</el-menu-item>
               <el-menu-item index="personal" v-show="userRight.personal.hasRight">个人中心</el-menu-item>
-              <el-submenu index="1" v-show="userRight.managerList.hasRight || userRight.outcreate.hasRight || userRight.merchantList.hasRight || userRight.comcreate.hasRight">
+              <el-submenu index="1">
+                  <template slot="title">输赢报表</template>
+                  <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
+                  <el-menu-item index="liveGameReport">真人游戏总报表</el-menu-item>
+              </el-submenu>
+              <el-submenu index="2" v-show="userRight.managerList.hasRight || userRight.outcreate.hasRight || userRight.merchantList.hasRight || userRight.comcreate.hasRight">
                   <template slot="title">商户中心</template>
-                  <el-submenu index="1-1" v-show="userRight.managerList.hasRight || userRight.outcreate.hasRight">
+                  <el-submenu index="2-1" v-show="userRight.managerList.hasRight || userRight.outcreate.hasRight">
                       <template slot="title">线路商管理</template>
                       <el-menu-item index="outlist" v-show="userRight.managerList.hasRight">线路商列表</el-menu-item>
                       <el-menu-item index="outcreate" v-show="userRight.outcreate.hasRight">创建线路商</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="1-2" v-show="userRight.merchantList.hasRight || userRight.comcreate.hasRight">
+                  <el-submenu index="2-2" v-show="userRight.merchantList.hasRight || userRight.comcreate.hasRight">
                       <template slot="title">商户管理</template>
                       <el-menu-item index="comlist" v-show="userRight.merchantList.hasRight">商户列表</el-menu-item>
                       <el-menu-item index="comcreate" v-show="userRight.comcreate.hasRight">创建商户</el-menu-item>
                   </el-submenu>
               </el-submenu>
-              <el-submenu index="2" v-show="userRight.playerlist.hasRight">
+              <el-submenu index="3" v-show="userRight.playerlist.hasRight">
                   <template slot="title">玩家中心</template>
                   <el-menu-item index="playerlist">玩家列表</el-menu-item>
               </el-submenu>
-              <el-submenu index="3" v-show="userRight.gamelist.hasRight || userRight.gameBackstage.hasRight">
+              <el-submenu index="4" v-show="userRight.gamelist.hasRight || userRight.gameBackstage.hasRight">
                   <template slot="title">游戏中心</template>
                   <el-menu-item index="gamelist" v-show="userRight.gamelist.hasRight">游戏列表</el-menu-item>
                   <el-menu-item index="gameBackstage" v-show="userRight.gameBackstage.hasRight">游戏后台</el-menu-item>
               </el-submenu>
-              <el-submenu index="4">
-                  <template slot="title">财务中心</template>
-                  <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
-                  <el-menu-item index="liveGameReport">真人游戏总报表</el-menu-item>
-              </el-submenu>
+              
               <el-submenu index="5" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight || userRight.gameMailList.hasRight || userRight.boothList.hasRight || userRight.computerGame.hasRight">
                   <template slot="title">运营中心</template>
                   <!-- <el-submenu index="5-1">

@@ -64,7 +64,6 @@ const actions = {
     if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0 && state.variable.condition.condition_four[0] != null) {
       data.query.createdAt = state.variable.condition.condition_four
     }
-    // console.log('data', data)
     invoke({
       url: api.managers,
       method: api.post,
