@@ -311,7 +311,7 @@ const router = new Router({
     },
     {
       path: '/merchantBoothList',
-      name: '展位列表',
+      name: '商户展位列表',
       component: MerchantBoothList
     }// 针对商户的展位
   ]
