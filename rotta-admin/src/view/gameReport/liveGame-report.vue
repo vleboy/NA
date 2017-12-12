@@ -265,7 +265,7 @@ export default {
       this.$store.dispatch('getLiveNowplayer')
     }, // 重置玩家搜索
     formatWinloseRate (data) {
-      return data? (Number(data) * 100).toFixed(2) + '%' : '0.00' + '%'
+      return data && !isNaN(data) ? (Number(data) * 100).toFixed(2) + '%' : '0.00' + '%'
     },
     formatNickname (data) {
       return data == 'NULL!'? '-' : data

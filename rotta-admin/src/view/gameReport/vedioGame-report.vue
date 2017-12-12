@@ -247,7 +247,12 @@ export default {
       if (data.winloseRate) {
         return (data.winloseRate * 100).toFixed(2) + '%'
       } else {
-        return '0.00%'
+        let result = (data.winloseRate * 100).toFixed(2)
+        if (!isNaN(result)) {
+          return result + '%'
+        } else {
+          return '0.00%'
+        }
       }
     },
     formatnickname (data) {

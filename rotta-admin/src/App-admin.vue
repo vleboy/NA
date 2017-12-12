@@ -23,7 +23,7 @@
       <div :class="{'main-right-true': isSlider, 'main-right-false': !isSlider }" id="routerBox" @click="closeMap">
         <div class="right-content">
           <keep-alive>
-            <router-view v-if="$route.meta.keepAlive" v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'></router-view>
+            <router-view v-if="$route.meta.keepAlive"></router-view>
           </keep-alive>
           <router-view v-if="!$route.meta.keepAlive" v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'></router-view>
         </div>

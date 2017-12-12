@@ -568,6 +568,7 @@ const actions = {
     user.nowBouns = '0.00'
     user.nowallBet = '0.00'
     user.nowSubmit = '0.00'
+    user.winloseRate = '0.00'
     if (user.userId == state.variable.vedioGameData.nowUserID || !state.variable.vedioGameData.nowUserID && user.userId == localStorage.loginId) {
       context.commit({
         type: 'recordVedioNowlist',
@@ -603,6 +604,7 @@ const actions = {
       item.nowBouns = '0.00'
       item.nowallBet = '0.00'
       item.nowSubmit = '0.00'
+      item.winloseRate = '0.00'
     }
     // 请求下级账单信息
     context.commit('getWeek')
@@ -641,7 +643,7 @@ const actions = {
                 item.nowBouns = (Number(data.bet) * item.vedioMix/100).toFixed(2)
                 item.nowallBet = (Number(data.bet) * item.vedioMix/100 + Number(data.winlose)).toFixed(2)
                 item.nowSubmit = ((Number(data.bet) * item.vedioMix/100 + Number(data.winlose)) * (1 - item.rate/100)).toFixed(2)
-                item.winloseRate = (nowallBet / Number(data.bet)).toFixed(4)
+                item.winloseRate = (item.nowallBet / Number(data.bet)).toFixed(4)
                 context.commit({
                   type: 'recordVedioNowchild',
                   data: item
@@ -807,6 +809,7 @@ const actions = {
     user.nowBouns = '0.00'
     user.nowallBet = '0.00'
     user.nowSubmit = '0.00'
+    user.winloseRate = '0.00'
     if (user.userId == state.variable.liveGameData.nowUserID || !state.variable.liveGameData.nowUserID && user.userId == localStorage.loginId) {
       context.commit({
         type: 'recordLiveNowlist',
@@ -834,6 +837,7 @@ const actions = {
         item.nowBouns = '0.00'
         item.nowallBet = '0.00'
         item.nowSubmit = '0.00'
+        item.winloseRate = '0.00'
       }
       // 请求下级账单信息
       context.commit('getWeek')
@@ -902,6 +906,7 @@ const actions = {
         item.nowBouns = '0.00'
         item.nowallBet = '0.00'
         item.nowSubmit = '0.00'
+        item.winloseRate = '0.00'
       }
       // 请求下级账单信息
       context.commit('getWeek')

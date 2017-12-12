@@ -1,6 +1,5 @@
 <template>
   <div class="vedioGame-report">
-
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
         <p class="title" style="float:left">当前选择列表<span v-if="nowId != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
@@ -168,7 +167,6 @@
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.vedioGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -177,6 +175,7 @@ import api from '@/api/api'
 import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
+    this.$store.commit('startLoading')
     localStorage.removeItem('searchTime')
     this.$store.commit('resetVedioNowchild')
     this.$store.commit('resetVedioNowplayer')
@@ -189,7 +188,6 @@ export default {
       type: 'recordVedioID',
       data: ''
     })
-    this.$store.commit('startLoading')
     this.$store.dispatch('getVedioNowchild')
     this.$store.dispatch('getVedioNowplayer')
   },
@@ -294,7 +292,7 @@ export default {
       this.$store.dispatch('getVedioNowplayer')
     }, // 重置玩家搜索
     formatWinloseRate (data) {
-      return data ? (data * 100).toFixed(2) + '%' : '0.00%'
+      return data && !isNaN(data) ? (data * 100).toFixed(2) + '%' : '0.00%'
     },
     userType (data) {
       return '代理'
