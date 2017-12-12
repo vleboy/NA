@@ -151,8 +151,8 @@ export default {
       let arr = []
       this.nowRole = this.$store.state.variable.vedioGameData.nowList.role
       let data = this.$store.state.variable.vedioGameData.nowList
-      this.$store.state.variable.vedioGameData.nowList.winloseRate = (this.$store.state.variable.vedioGameData.nowList.winlose / this.$store.state.variable.vedioGameData.nowList.bet)
-      this.$store.state.variable.vedioGameData.nowList.submit = (this.$store.state.variable.vedioGameData.nowList.winlose * (1 - (this.$store.state.variable.vedioGameData.nowList.rate/100))).toFixed(2)
+      data.winloseRate = (data.winlose / data.bet).toFixed(4)
+      data.submit = (data.winlose * (1 - data.rate/100)).toFixed(2)
       arr.push(data)
       return arr
     },

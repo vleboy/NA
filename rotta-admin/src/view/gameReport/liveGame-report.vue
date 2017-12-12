@@ -172,9 +172,9 @@ export default {
       let arr = []
       this.nowRole = this.$store.state.variable.liveGameData.nowList.role
       let data = this.$store.state.variable.liveGameData.nowList
-      this.$store.state.variable.liveGameData.nowList.winloseRate = (this.$store.state.variable.liveGameData.nowList.winlose / this.$store.state.variable.liveGameData.nowList.bet)
-      this.$store.state.variable.liveGameData.nowList.submit = (this.$store.state.variable.liveGameData.nowList.winlose * (1 - (this.$store.state.variable.liveGameData.nowList.rate/100))).toFixed(2)
-      arr.push(this.$store.state.variable.liveGameData.nowList)
+      data.winloseRate = (data.winlose / data.bet).toFixed(4)
+      data.submit = (data.winlose * (1 - data.rate/100)).toFixed(2)
+      arr.push(data)
       return arr
     },
     liveNowchild () {
