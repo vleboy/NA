@@ -58,6 +58,14 @@
             </el-tag>
           </template>formatPoints
         </el-table-column>
+        <el-table-column label="游戏状态" align="center">
+          <template scope="scope">
+            <el-tag :type="scope.row.gameState==3 ? 'success' : 'gray'">
+              <div v-if="scope.row.gameState==3">{{gameTypeArray[scope.row.gameId]}}</div>
+              <div v-else>未在游戏中</div>
+            </el-tag>
+          </template>formatPoints
+        </el-table-column>
         <el-table-column prop="balance" label="点数" sortable="custom" show-overflow-tooltip align="center">
           <template scope="scope">
             {{formatPoints(scope.row.balance)}}
@@ -107,7 +115,26 @@
         names: [],
         searchInfo: {},
         sortInfo: {},
-        role: localStorage.loginRole // 相应角色的权限（区分商户、线路商、平台角色）
+        role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）
+        gameTypeArray: {
+          '10000': '棋牌游戏',
+          '10001': '棋牌游戏-推锅',
+          '10002': '棋牌游戏-推筒子',
+          '20000': '麻将游戏',
+          '20001': '麻将游戏-四川麻将',
+          '20002': '麻将游戏-山西麻将',
+          '30000': '真人游戏',
+          '30001': '真人游戏-百家乐',
+          '30002': '真人游戏-龙虎',
+          '30003': '真人游戏-轮盘',
+          '30004': '真人游戏-骰宝',
+          '40000': '电子游戏',
+          '40001': '电子游戏-塔罗之谜',
+          '40002': '电子游戏-小厨娘',
+          '41001': '电子游戏-街机',
+          '50000': '街机游戏',
+          '50001': '街机游戏-深林小妖'
+        }
       }
     },
     created () {
