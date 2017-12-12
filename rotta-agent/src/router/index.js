@@ -188,12 +188,18 @@ export default new Router({
     {
       path: '/agentPlayerList',
       name: '玩家列表',
-      component: AgentPlayerList
+      component: AgentPlayerList,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/agentPlayerDetail',
       name: '玩家详情',
-      component: AgentPlayerDetail
+      component: AgentPlayerDetail,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/addPlayer',
@@ -213,12 +219,18 @@ export default new Router({
     {
       path: '/vedioGameReport',
       name: '电子游戏总报表',
-      component: VedioGameReport
+      component: VedioGameReport,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/liveGameReport',
       name: '真人游戏总报表',
-      component: liveGameReport
+      component: liveGameReport,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/playerBill',

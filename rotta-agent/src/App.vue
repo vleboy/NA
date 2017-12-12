@@ -22,7 +22,10 @@
       <!-- 主内容区路由 -->
       <div class="main-right" id="routerBox">
         <div class="right-content" v-loading.body="loading" element-loading-text="正在为您加载" style='z-index:2000'>
-          <router-view></router-view>
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive" v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'></router-view>
+          </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive" v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'></router-view>
         </div>
       </div>
       <!-- 组织架构 -->
