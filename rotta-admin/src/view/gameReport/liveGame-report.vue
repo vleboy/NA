@@ -174,6 +174,7 @@ export default {
       let data = this.$store.state.variable.liveGameData.nowList
       data.winloseRate = (data.winlose / data.mixAmount).toFixed(4)
       data.submit = (data.winlose * (1 - data.rate/100)).toFixed(2)
+      console.log(data)
       arr.push(data)
       return arr
     },

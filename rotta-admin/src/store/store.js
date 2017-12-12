@@ -991,7 +991,7 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
-                  item.winloseRate = (data.winlose / data.mixAmount).toFixed(4)
+                  item.mixAmount = data.mixAmount
                   context.commit({
                     type: 'recordLiveNowplayer',
                     data: item
@@ -1689,6 +1689,7 @@ const mutations = {
     state.variable.liveGameData.nowList.bet += payload.data.bet
     state.variable.liveGameData.nowList.betCount += payload.data.betCount
     state.variable.liveGameData.nowList.winlose += payload.data.winlose
+    state.variable.liveGameData.nowList.mixAmount += payload.data.mixAmount
   }, // 记录真人游戏总报表玩家列表
 
   resetLiveNowplayer (state, payload){
