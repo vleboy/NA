@@ -219,7 +219,7 @@ export default {
       data.nowBouns = (data.liveMix/100 * data.mixAmount).toFixed(2) // 洗码佣金
       data.nowallBet = (data.liveMix/100 * data.mixAmount + data.winlose).toFixed(2) // 代理总金额
       data.nowSubmit = ((data.liveMix/100 * data.mixAmount + data.winlose) * (1 - data.liveMix/100)).toFixed(2) // 代理交公司
-      data.winloseRate = (data.nowSubmit / data.mixAmount) // 获利比例
+      data.winloseRate = (data.nowallBet / data.mixAmount) // 获利比例
       arr.push(data)
       return arr
     },

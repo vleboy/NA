@@ -201,7 +201,7 @@ export default {
       data.nowBouns = (data.vedioMix/100 * data.bet).toFixed(2) // 洗码佣金
       data.nowallBet = ((data.vedioMix/100 * data.bet) + data.winlose).toFixed(2) // 代理总金额
       data.nowSubmit = (((data.vedioMix/100 * data.bet) + data.winlose) * (1 - data.vedioMix/100)).toFixed(2) // 代理交公司
-      data.winloseRate = (data.nowSubmit / data.bet) // 获利比例
+      data.winloseRate = (data.nowallBet / data.bet) // 获利比例
       arr.push(data)
       return arr
     },

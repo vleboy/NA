@@ -1005,8 +1005,8 @@ const actions = {
                     item.betCount = data.betCount
                     item.winlose = data.winlose
                     item.mixAmount = data.mixAmount
-                    item.nowBouns = (Number(data.mixAmount) * item.liveMix/100).toFixed(2)
-                    item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose)).toFixed(2)
+                    item.nowBouns = (Number(data.mixAmount) * item.liveMix/100)
+                    item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose))
                     context.commit({
                       type: 'recordLiveNowplayer',
                       data: item
@@ -1073,8 +1073,8 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
-                  item.nowBouns = (Number(data.mixAmount) * item.liveMix/100).toFixed(2)
-                  item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose)).toFixed(2)
+                  item.nowBouns = (Number(data.mixAmount) * item.liveMix/100)
+                  item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose))
                   context.commit({
                     type: 'recordLiveNowplayer',
                     data: item
