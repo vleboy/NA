@@ -1008,13 +1008,13 @@ const actions = {
                 var data = ret.data.payload[0]
                 if (data) {
                   if (item.userId == data.gameUserId) {
-                    item.bet = data.bet.toFixed(2)
-                    item.betCount = data.betCount.toFixed(2)
-                    item.winlose = data.winlose.toFixed(2)
-                    item.mixAmount = data.mixAmount.toFixed(2)
-                    item.nowBouns = (Number(data.mixAmount) * item.liveMix/100).toFixed(2)
-                    item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose)).toFixed(2)
-                    item.winloseRate = (item.nowallBet / Number(data.mixAmount)).toFixed(4)
+                    item.bet = data.bet
+                    item.betCount = data.betCount
+                    item.winlose = data.winlose
+                    item.mixAmount = data.mixAmount
+                    item.nowBouns = (data.mixAmount * item.liveMix/100).toFixed(2)
+                    item.nowallBet = (data.mixAmount * item.liveMix/100 + data.winlose).toFixed(2)
+                    item.winloseRate = (item.nowallBet / data.mixAmount).toFixed(4)
                     context.commit({
                       type: 'recordLiveNowplayer',
                       data: item
@@ -1080,10 +1080,10 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
-                  item.mixAmount = data.mixAmount
-                  item.nowBouns = (Number(data.mixAmount) * item.liveMix/100).toFixed(2)
-                  item.nowallBet = (Number(data.mixAmount) * item.liveMix/100 + Number(data.winlose)).toFixed(2)
-                  item.winloseRate = (item.nowallBet / Number(data.mixAmount)).toFixed(4)
+                  item.mixAmount = data.mixAmount 
+                  item.nowBouns = (data.mixAmount * item.liveMix/100).toFixed(2)
+                  item.nowallBet = (data.mixAmount * item.liveMix/100 + data.winlose).toFixed(2)
+                  item.winloseRate = (item.nowallBet / data.mixAmount).toFixed(4)
                   context.commit({
                     type: 'recordLiveNowplayer',
                     data: item
