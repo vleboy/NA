@@ -35,7 +35,7 @@ $<template>
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="roundId" label="局号" align="center" width="250px"></el-table-column>
+            <el-table-column prop="sn" label="流水号" align="center" width="250px"></el-table-column>
             <el-table-column label="下注时间" align="center" width="200px">
               <template scope="scope">
                 {{formatterTime(scope.row.createdAt)}}
@@ -141,20 +141,20 @@ $<template>
           </el-col>
           <el-col :span="12" class="-row-left">投注号码：{{recordInfo.betNum}}</el-col>
         </el-row>
-        <el-row class="record-row">
-          <el-col :span="12">下注前余额：{{formatPoints(recordInfo.preBalance)}}</el-col>
-          <el-col :span="12" class="-row-left">投注金额：{{formatPoints(recordInfo.amount)}}</el-col>
-        </el-row>
-        <el-row class="record-row">
-          <el-col :span="12">赢/输：
-            <span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">
-              {{winLostState[recordInfo.winLostStatus]}}
-            </span>
-          </el-col>
-          <el-col :span="12" class="-row-left">输赢金额：
-            <span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">
-            {{formatPoints(recordInfo.winLostAmount)}}</span></el-col>
-        </el-row>
+        <!--<el-row class="record-row">-->
+          <!--<el-col :span="12">下注前余额：{{formatPoints(recordInfo.preBalance)}}</el-col>-->
+          <!--<el-col :span="12" class="-row-left">投注金额：{{formatPoints(recordInfo.amount)}}</el-col>-->
+        <!--</el-row>-->
+        <!--<el-row class="record-row">-->
+          <!--<el-col :span="12">赢/输：-->
+            <!--<span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">-->
+              <!--{{winLostState[recordInfo.winLostStatus]}}-->
+            <!--</span>-->
+          <!--</el-col>-->
+          <!--<el-col :span="12" class="-row-left">输赢金额：-->
+            <!--<span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">-->
+            <!--{{formatPoints(recordInfo.winLostAmount)}}</span></el-col>-->
+        <!--</el-row>-->
       </div>
     </el-dialog>
   </div>
