@@ -131,5 +131,9 @@ export default {
         flex-basis 30%
       .dynamic-item:last-child
         display none
+@media (max-width: 768px)
+  .home-dynamic
+    .dynamic-items
+      flex-direction column
 </style>
 

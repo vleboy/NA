@@ -176,7 +176,7 @@
         // console.log(this.checkedArray, '被选中的多选')
       },
       playDetail (row) {
-        this.$store.commit('startLoading')
+        // this.$store.commit('startLoading')
         localStorage.setItem('playerName', row.userName)
         invoke({
           url: `${api.getPlayerDetail}?userName=${row.userName}`,
@@ -197,7 +197,7 @@
               })
             }
             this.$router.push('agentPlayerDetail')
-            this.$store.commit('closeLoading')
+            // this.$store.commit('closeLoading')
           }
         )
       },

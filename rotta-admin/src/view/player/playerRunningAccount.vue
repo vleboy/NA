@@ -201,7 +201,7 @@ export default {
       // console.log('当前是第:' + page + '页')
     },
     getPlayerAccount () {
-      this.$store.commit('startLoading');
+      // this.$store.commit('startLoading');
       invoke({
         url: api.playerAccount,
         method: api.post,
@@ -225,7 +225,7 @@ export default {
           } else {
             this.playerAccountList = res.data.list
           }
-          this.$store.commit('closeLoading')
+          // this.$store.commit('closeLoading')
         }
       )
     },
@@ -325,6 +325,13 @@ export default {
   filters:{   //过滤器，所有数字保留两位小数
     currency(value){
       return (value-0).toFixed(2);
+    }
+  },
+  watch: {
+    '$route': function (_new, _old) {
+      if (_old.fullPath === 'playerdetail'){
+         this.changeTime()
+      }
     }
   }
 }
