@@ -235,12 +235,18 @@ export default new Router({
     {
       path: '/playerBill',
       name: '玩家账单详情',
-      component: PlayerBill
+      component: PlayerBill,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/playerAccount',
       name: '玩家流水账详情',
-      component: PlayerRunningAccount
+      component: PlayerRunningAccount,
+      meta: {
+        keepAlive: true
+      }
     }
     // {
     //   path: '/tagWindow',

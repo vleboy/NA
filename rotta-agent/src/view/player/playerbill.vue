@@ -14,13 +14,13 @@ $<template>
             <el-col :span="6"><span>账单号：{{playerBillDetailInfo.billId}}</span></el-col>
             <el-col :span="6"><span>进入时间：{{goTime}}</span></el-col>
             <el-col :span="6"><span>退出时间：{{outTime}}</span></el-col>
-            <el-col :span="6"><span>avgRTP：{{playerBillDetailInfo.avgRTP|currency}}</span></el-col>
+            <el-col :span="6"><span>avgRTP：{{playerBillDetailInfo.avgRTP||0}}</span></el-col>
           </p>
           <p>
             <el-col :span="6"><span>下注总额：{{formatPoints(playerBillDetailInfo.sumAmount)}}</span></el-col>
             <el-col :span="6"><span>返还总额：{{formatPoints(playerBillDetailInfo.reSumAmount)}}</span></el-col>
             <el-col :span="6"><span>利润总额：{{formatPoints(playerBillDetailInfo.depSumAmount)}}</span></el-col>
-            <el-col :span="6"><span>洗码量：{{playerBillDetailInfo.mixNum}}</span></el-col>
+            <el-col :span="6"><span>洗码量：{{playerBillDetailInfo.mixNum||0}}</span></el-col>
           </p>
         </div>
       </div>
@@ -222,7 +222,12 @@ export default {
       },//牌型点数
       gameType: {},
       recordInfo: {},
-      playerBillDetailInfo: {}, //基本信息
+      playerBillDetailInfo: {
+        depSumAmount: 0,
+        mixNum: 0,
+        reSumAmount: 0,
+        sumAmount: 0
+      }, //基本信息
       itemRecord: {}, //单个信息
       finalRecord: [], //循环列表需要的战绩数组（最终版）
       playerBillDetailList: [], //列表信息
@@ -431,6 +436,13 @@ export default {
   filters:{   //过滤器，所有数字保留两位小数
     currency(value){
       return (value-0).toFixed(2);
+    }
+  },
+  watch: {
+    '$route': function (_new, _old) {
+      if (_old.fullPath === '/agentPlayerDetail') {
+        this.getPlayerBillDetail()
+      }
     }
   }
 }
