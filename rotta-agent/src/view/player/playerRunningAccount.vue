@@ -329,7 +329,7 @@ export default {
   },
   watch: {
     '$route': function (_new, _old) {
-      if (_old.fullPath === 'playerdetail'){
+      if (_old.fullPath === '/playerdetail'){
          this.changeTime()
       }
     }
