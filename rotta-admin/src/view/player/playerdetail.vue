@@ -122,6 +122,12 @@ export default {
       data: 'playerdetail'
     })
   },
+  activated: function () {
+    this.$store.commit({
+      type: 'recordNowindex',
+      data: 'playerdetail'
+    })
+  },
   data () {
     return {
       nowSize: 20,

@@ -4,7 +4,7 @@
       <div class="home-prize-box boxs">
         <div class="prize-number">
           <div class="prize-title">NA BONUS 神秘大奖奖池</div>
-          <div class="prize-numbers">CNY 2000</div>
+          <div class="prize-numbers">CNY 20200</div>
         </div>
         <div class="players">
           <ul>
@@ -86,10 +86,22 @@ export default {
         width 50%
 @media (max-width: 768px)
   .home-prize
+    padding 0
+    .container
+      padding 0
     .home-prize-box
       flex-direction column
+      .prize-number
+        padding 10px 10px
+        border none
+        .prize-title
+          font-size 17px
+        .prize-numbers
+          font-size 20px
       .players
-        margin 30px 0 0
+        margin 0
+        padding 20px 20px
+        font-size 16px
         ul
           width 100%
         ul:last-child

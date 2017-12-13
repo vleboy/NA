@@ -146,6 +146,12 @@ export default {
     this.$store.dispatch('getVedioNowchild')
     this.$store.dispatch('getVedioNowplayer')
   },
+  activated: function () {
+    this.$store.commit({
+      type: 'recordNowindex',
+      data: 'vedioGameReport'
+    })
+  },
   computed:{
     vedioNowlist () {
       let arr = []

@@ -160,6 +160,12 @@ export default {
       data: 'agentPlayerDetail'
     })
   },
+  activated: function () {
+    this.$store.commit({
+      type: 'recordNowindex',
+      data: 'agentPlayerDetail'
+    })
+  },
   mounted () {
     // console.log(localStorage.playerName, 'localStorage.playerName')
     if(!this.$store.state.variable.playerDetail.length){

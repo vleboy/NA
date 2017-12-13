@@ -125,6 +125,12 @@
       })
       this.$store.commit('startLoading')
     },
+    activated: function () {
+      this.$store.commit({
+        type: 'recordNowindex',
+        data: 'agentPlayerList'
+      })
+    },
     data () {
       return {
         nowSize: 20,

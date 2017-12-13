@@ -234,14 +234,12 @@
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'vedioGameReport'" class="title">
-      <el-breadcrumb-item>财务中心 </el-breadcrumb-item>
-      <el-breadcrumb-item>电子游戏 </el-breadcrumb-item>
+      <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">电子游戏总报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'liveGameReport'" class="title">
-      <el-breadcrumb-item>财务中心 </el-breadcrumb-item>
-      <el-breadcrumb-item>真人游戏 </el-breadcrumb-item>
+      <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">真人游戏总报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 

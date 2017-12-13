@@ -75,8 +75,8 @@ export default {
     width 100%
     height auto
     h1
-      max-width 75px
-      padding 15px 0
+      max-width 37.5px
+      padding 7.5px 0
       p
         display none
     nav

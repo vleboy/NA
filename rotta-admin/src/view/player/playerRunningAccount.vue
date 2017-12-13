@@ -135,6 +135,12 @@ export default {
       data: 'playerAccount'
     })
   },
+  activated: function () {
+    this.$store.commit({
+      type: 'recordNowindex',
+      data: 'playerAccount'
+    })
+  },
   data () {
     return {
       nowSize: 20,

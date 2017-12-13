@@ -156,7 +156,16 @@ export default {
               font-size 1rem
             .platform-item-msg
               font-size 11px
-
+@media (max-width: 768px)
+  .home-platform
+    h2
+      margin-top 1.4rem
+      font-size 20px
+    .platform-desc
+      width 100%
+      font-size 1rem
+    .platform-box
+      display none
 </style>
 
 

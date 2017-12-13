@@ -103,6 +103,12 @@
       })
       this.$store.commit('startLoading')
     },
+    activated: function () {
+      this.$store.commit({
+        type: 'recordNowindex',
+        data: 'playerlist'
+      })
+    },
     data () {
       return {
         nowSize: 20,

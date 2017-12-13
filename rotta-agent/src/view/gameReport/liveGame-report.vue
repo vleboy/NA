@@ -211,6 +211,12 @@ export default {
     this.$store.dispatch('getLiveNowchild')
     this.$store.dispatch('getLiveNowplayer')
   },
+  activated: function () {
+    this.$store.commit({
+      type: 'recordNowindex',
+      data: 'liveGameReport'
+    })
+  },
   computed:{
     liveNowlist () {
       let arr = []

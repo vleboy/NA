@@ -171,6 +171,12 @@ export default {
       data: 'playerBill'
     })
   },
+  activated: function () {
+    this.$store.commit({
+      type: 'recordNowindex',
+      data: 'playerBill'
+    })
+  },
   data () {
     return {
       nowSize: 20,
