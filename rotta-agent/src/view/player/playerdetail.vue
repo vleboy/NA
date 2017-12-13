@@ -255,7 +255,7 @@ export default {
     },
     getPlayerDetail (param) {
       this.amountDate = []
-      let name = this.detailInfo.userName || param
+      let name = localStorage.playerName || param || this.detailInfo.userName
       // this.$store.commit('startLoading')
       invoke({
         url: `${api.getPlayerDetail}?userName=${name}`,
@@ -460,7 +460,7 @@ export default {
   },
   watch: {
     '$route': function (_new, _old) {
-      if (_old.fullPath === '/playerlist' || _old.fullPath ==='/vedioGameReport' || _old.fullPath ==='/liveGameReport') {
+      if (_old.fullPath === '/agentPlayerList' || _old.fullPath ==='/vedioGameReport' || _old.fullPath ==='/liveGameReport') {
         this.getPlayerDetail(localStorage.playerName)
       }
     }
