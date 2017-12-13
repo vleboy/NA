@@ -178,7 +178,7 @@ export default {
       }
     },
     userName () {
-      return formatUserName(localStorage.playerName)
+      return formatUserName(this.$store.state.variable.playerDetail.userName || localStorage.playerName)
     },
     formatNum () {
       this.allAmount = 0
@@ -330,7 +330,8 @@ export default {
   watch: {
     '$route': function (_new, _old) {
       if (_old.fullPath === '/playerdetail'){
-         this.changeTime()
+        console.log(1111,111)
+         this.changeDate()
       }
     }
   }
