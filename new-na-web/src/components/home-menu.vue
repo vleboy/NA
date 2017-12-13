@@ -69,6 +69,18 @@ export default {
         li
           height 30px
           font-size 12px
+@media (max-width: 768px)
+  .home-menu
+    position fixed
+    width 100%
+    height auto
+    h1
+      max-width 75px
+      padding 15px 0
+      p
+        display none
+    nav
+      display none
 </style>
 
 

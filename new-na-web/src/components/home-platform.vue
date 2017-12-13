@@ -15,10 +15,8 @@
             </div>
           </div>
         </div>
-        <div class="platform-img" :class="{ test1: item.title ===lag }" v-for="(item, index) in imgLists" v-show="item.title ===lag">
-          <transition-group name="bounce">
-            <img :src="item.img" alt="" :key="index">
-          </transition-group>
+        <div class="platform-img" :class="{ bounce: item.title ===lag }" v-for="(item, index) in imgLists" v-show="item.title ===lag">
+          <img :src="item.img" alt="" :key="index">
         </div>
         <div class="platform-items">
           <div class="platform-item" v-for="item in platformLists[1]">
@@ -127,10 +125,8 @@ export default {
       flex-direction column
       align-items center
       justify-content center
-    .bounce-enter-active
+    .bounce
       animation Wanimate 1.5s ease both
-    .bounce-leave-active
-      animation Wanimate 1.5s ease both 
     @keyframes Wanimate 
       0%
         opacity 0

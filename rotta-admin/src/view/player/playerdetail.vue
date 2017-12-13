@@ -262,7 +262,7 @@ export default {
     getPlayerDetail (param) {
       let name = this.$store.state.variable.playerDetail.userName || param
       this.amountDate = []
-      this.$store.commit('startLoading')
+      // this.$store.commit('startLoading')
       invoke({
         url: `${api.getPlayDetail}?userName=${name}`,
         method: api.get
@@ -282,7 +282,7 @@ export default {
             this.detailList = res.data
             this.changeRadio()
           }
-          this.$store.commit('closeLoading')
+          // this.$store.commit('closeLoading')
         }
       )
     },

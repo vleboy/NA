@@ -84,5 +84,17 @@ export default {
           display none
       .prize-number
         width 50%
+@media (max-width: 768px)
+  .home-prize
+    .home-prize-box
+      flex-direction column
+      .players
+        margin 30px 0 0
+        ul
+          width 100%
+        ul:last-child
+          display none
+        .line
+          display none
 </style>
 

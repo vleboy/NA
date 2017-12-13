@@ -57,7 +57,8 @@ export default {
       margin-left 60px 
       position relative
       .code-box
-        display none
+        // display none
+        opacity 0
         position absolute
         bottom 95px
         width 230px
@@ -65,7 +66,7 @@ export default {
         border-radius 5px 
         background #ffffff
         padding 5px 5px
-        transition .5s
+        transition opacity 1s
         .code
           width 100%
           height 100%
@@ -79,8 +80,24 @@ export default {
             height 14px
             background url('../assets/img/arrow.png') no-repeat
       &:hover .code-box
-        display block
-
-
+        // display block
+        opacity 1
+@media (min-width: 768px) and (max-width: 1200px)
+  .home-download
+    padding 95px 0
+    h2
+      font-size 34px
+    .download-desc
+      font-size 14px
+      margin 0 auto 60px
+    .download-button
+      a
+        img 
+          width 85%
+        .code-box
+          width 170px
+          height 170px
+          bottom 85px
+          left 20px
 </style>
 

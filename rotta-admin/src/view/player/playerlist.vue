@@ -156,7 +156,7 @@
       },
       playDetail (row) {
         localStorage.setItem('playerName', row.userName)
-        this.$store.commit('startLoading')
+        // this.$store.commit('startLoading')
         invoke({
           url: api.getPlayDetail + '?' + 'userName' + '=' + row.userName,
           method: api.get
@@ -176,7 +176,7 @@
               })
             }
             this.$router.push('playerdetail')
-            this.$store.commit('closeLoading')
+            // this.$store.commit('closeLoading')
           }
         )
       },

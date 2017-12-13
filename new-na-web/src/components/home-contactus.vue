@@ -129,5 +129,28 @@ export default {
           height 17px
           margin-left 20px
           cursor pointer
+@media (min-width: 768px) and (max-width: 1200px)
+  .contact-us
+    h2
+      margin-top 50px
+      margin-bottom 18px
+      font-size 34px
+    .contact-desc
+      font-size 14px
+      margin 0  auto 50px
+    .contact-us-container
+      margin-bottom 65px
+      .contact-us-form
+        font-size 13px
+        .is-submit
+          font-size 18px
+      .us-info
+        font-size 12px
+        .us-info-title
+          font-size 18px
+        .us-info-share
+          span
+            width 14px
+            height 14px
 </style>
 

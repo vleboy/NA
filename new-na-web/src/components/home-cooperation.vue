@@ -50,6 +50,9 @@ export default {
       li
         flex-basis 20%
         padding  0 45px
+@media (min-width: 768px) and (max-width: 1200px)
+  .home-cooperation
+    padding 20px 0
 </style>
 
 
