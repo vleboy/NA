@@ -686,7 +686,7 @@ const actions = {
         for (let item of player) {
           let player_data = {
             gameType: 40000,
-            gameUserIds: [item.userId],
+            gameUserNames: [item.userName],
             query: {
               createdAt: searchDate
             }
@@ -703,7 +703,7 @@ const actions = {
                 context.commit('closeLoading')
                 var data = ret.data.payload[0]
                 if (data) {
-                  if (item.userId == data.gameUserId) {
+                  if (item.userName == data.userName) {
                     item.bet = data.bet
                     item.betCount = data.betCount
                     item.winlose = data.winlose
@@ -754,7 +754,7 @@ const actions = {
       for (let item of player) {
         let player_data = {
           gameType: 40000,
-          gameUserIds: [item.userId],
+          gameUserNames: [item.userName],
           query: {
             createdAt: searchDate
           }
@@ -771,7 +771,7 @@ const actions = {
               context.commit('closeLoading')
               var data = ret.data.payload[0]
               if (data) {
-                if (item.userId == data.gameUserId) {
+                if (item.userName == data.userName) {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
@@ -990,7 +990,7 @@ const actions = {
         for (let item of player) {
           let player_data = {
             gameType: 30000,
-            gameUserIds: [item.userId],
+            gameUserNames: [item.userName],
             query: {
               createdAt: searchDate
             }
@@ -1007,7 +1007,7 @@ const actions = {
                 context.commit('closeLoading')
                 var data = ret.data.payload[0]
                 if (data) {
-                  if (item.userId == data.gameUserId) {
+                  if (item.userName == data.userName) {
                     item.bet = data.bet
                     item.betCount = data.betCount
                     item.winlose = data.winlose
@@ -1059,7 +1059,7 @@ const actions = {
       for (let item of player) {
         let player_data = {
           gameType: 30000,
-          gameUserIds: [item.userId],
+          gameUserNames: [item.userName],
           query: {
             createdAt: searchDate
           }
@@ -1076,7 +1076,7 @@ const actions = {
               context.commit('closeLoading')
               var data = ret.data.payload[0]
               if (data) {
-                if (item.userId == data.gameUserId) {
+                if (item.userName == data.userName) {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
