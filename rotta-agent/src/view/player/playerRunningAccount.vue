@@ -145,7 +145,7 @@ export default {
     return {
       nowSize: 20,
       nowPage: 1,
-      radioTime: '2',
+      radioTime: '1',
       radioMoney: '',
       currentPage: 1,
       radioType: '',
