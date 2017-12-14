@@ -102,5 +102,20 @@ export default {
           margin-bottom 23px
         .service-desc
           font-size 12px
+@media (max-width: 768px)
+  .home-service-plan
+    padding 46px 0 44px
+    h2
+      font-size 1.4rem
+    .service-plan-desc
+      margin-bottom 30px
+    .service-plan-items
+      flex-direction column
+      .service-plan-item
+        margin-bottom 25px
+        // .service-icon, .service-title
+        //   margin-bottom 20px
+        .service-desc
+          font-size 14px
 </style>
 

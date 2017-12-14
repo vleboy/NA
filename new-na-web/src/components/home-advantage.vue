@@ -136,5 +136,30 @@ export default {
           margin  0 auto
       .advantage-img
         display none
+@media (max-width: 768px)
+  .home-advantage
+    padding-bottom 20px
+    h2
+      margin-top 1.4rem
+      font-size 20px
+    .advantage-desc
+      width 100%
+      margin 0 auto 15px
+    .advantage-box
+      .advantage-items
+        width 100%
+        ul
+          padding 0
+          flex-direction column
+          li
+            border-left 10px solid #FFCB16
+            border-right 10px solid #FFCB16
+            border-bottom 1px solid #FFCB16
+            border-top 1px solid #FFCB16
+            margin-bottom 10px
+          li:last-child
+            border-right 10px solid #FFCB16
+      .advantage-img
+        display none
 </style>
 

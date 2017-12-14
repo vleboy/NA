@@ -4,7 +4,7 @@
       <h2>联系我们</h2>
       <div class="line"><i></i></div>
       <div class="contact-desc">7x24小时客服为您服务</div>
-      <div class="contact-us-container flex boxs">
+      <div class="contact-us-container boxs">
         <div class="contact-us-form">
           <div class="field is-horizontal">
             <div class="field-body">
@@ -97,6 +97,7 @@ export default {
     margin-bottom 80px
   .contact-us-container
     margin-bottom 80px
+    display flex
     justify-content space-between
     .contact-us-form
       width 50%
@@ -152,5 +153,24 @@ export default {
           span
             width 14px
             height 14px
+@media (max-width: 768px)
+  .contact-us
+    h2
+      margin-top 1.4rem
+      margin-bottom 18px
+      font-size 20px
+    .contact-desc
+      margin-bottom 20px
+    .contact-us-container
+      flex-direction column
+      .contact-us-form
+        width 100%
+        margin-bottom 20px
+      .us-info
+        width 100%
+        text-align left 
+        .us-info-share
+          span:first-child
+            margin-left 0
 </style>
 

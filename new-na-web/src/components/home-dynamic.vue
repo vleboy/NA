@@ -88,6 +88,7 @@ export default {
           overflow hidden
           transition height 0.5s
           img 
+            width 100%
             display block
             opacity 1
             transform scale(1)
@@ -133,7 +134,26 @@ export default {
         display none
 @media (max-width: 768px)
   .home-dynamic
+    .container
+      padding 0
+    h2
+      margin-top 1.4rem
+      font-size 20px
+    .dynamic-desc
+      width 100%
+      padding 0 10px
+      margin-bottom 30px
     .dynamic-items
       flex-direction column
+      margin-bottom 0
+      .dynamic-item
+        a
+          pointer-events none
+          .card-box
+            height auto
+            img 
+              width 100%
+          .card-img
+            height auto
 </style>
 

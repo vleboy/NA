@@ -28,6 +28,24 @@
           </div>
         </div>
       </div>
+      <div class="mobile-box">
+        <ul>
+          <li v-for="mobile in mobileLists">
+            <div class="mobile-desc">
+              <div class="mobile-desc-left">
+                <div class="mobile-left">
+                   <img :src="mobile.icon" alt="">
+                </div>
+                <p>{{mobile.title}}</p>
+              </div>
+              <div class="mobile-desc-right">{{mobile.msg}}</div>
+            </div>
+            <div class="mobile-img">
+              <img :src="mobile.img" alt="">
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +71,12 @@ export default {
         {img: require('../assets/img/game.jpg'), title: '电子游戏'},
         {img: require('../assets/img/chess.jpg'), title: '棋牌游戏'},
         {img: require('../assets/img/sports.jpg'), title: '体育赛事'}
+      ],
+      mobileLists: [
+        {icon: require('../assets/img/live2.png'), img: require('../assets/img/live.jpg'), title: '真人LIVE', msg: '真人荷官游戏体验，亲临现场的感觉，全新上线B27、免佣等投注模式，为您创造更多样的玩法。'},
+        {icon: require('../assets/img/game2.png'), img: require('../assets/img/game.jpg'), title: '电子游戏', msg: '老虎机、水果机、动物乐园、打鱼等多样化的电子游戏，根据全球受欢迎程度，每月更新2款以上。'},
+        {icon: require('../assets/img/chess2.png'), img: require('../assets/img/chess.jpg'), title: '棋牌游戏', msg: '多种类别的棋牌游戏，满足各地域不同的需求，开房者还可自由配置游戏模式、抽水模式等参数。'},
+        {icon: require('../assets/img/sports2.png'), img: require('../assets/img/sports.jpg'), title: '体育赛事', msg: '健全的的体育博彩系统，拥有超过50种不同类型的体育走地赛事，每月超过10,000场赛事预播及直播。'}
       ]
     }
   },
@@ -100,6 +124,8 @@ export default {
     font-size 1rem
     color #666666
     margin 0  auto 80px
+  .mobile-box
+    display none 
   .platform-box
     justify-content space-between
     .platform-items
@@ -158,14 +184,45 @@ export default {
               font-size 11px
 @media (max-width: 768px)
   .home-platform
+    .container
+      padding 0
     h2
       margin-top 1.4rem
       font-size 20px
     .platform-desc
       width 100%
       font-size 1rem
+      margin-bottom 20px
+      padding 0 10px
     .platform-box
       display none
+    .mobile-box
+      display block
+      ul
+        display flex
+        flex-direction: column
+        width 100%
+        li
+          width 100%
+          .mobile-desc
+            display flex
+            background #FECB16
+            padding 10px 10px
+            .mobile-desc-left
+              flex-basis 50%
+              display flex
+              flex-direction column
+              align-items center
+              justify-content center
+              .mobile-left
+                width 30px
+                margin 0 auto
+                font-size 0
+              p
+                font-size 14px
+            .mobile-desc-right
+              padding-left 20px
+              font-size 16px
 </style>
 
 

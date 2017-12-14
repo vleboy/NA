@@ -53,6 +53,17 @@ export default {
 @media (min-width: 768px) and (max-width: 1200px)
   .home-cooperation
     padding 20px 0
+@media (max-width: 768px)
+  .home-cooperation
+    padding 20px 0
+    .company-item
+      ul
+        justify-content: space-between
+        li
+          flex-basis 30%
+          padding 0
+        li:nth-last-child(2)
+          display none
 </style>
 
 

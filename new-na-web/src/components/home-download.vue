@@ -99,5 +99,24 @@ export default {
           height 170px
           bottom 85px
           left 20px
+@media (max-width: 768px)
+  .home-download
+    padding 1.4rem 0
+    overflow hidden
+    h2
+      font-size 20px
+    .download-desc
+      width 100%
+      font-size 14px
+      margin-bottom 40px
+    .download-button
+      justify-content space-between
+      a
+        pointer-events none
+        margin 0
+        img 
+          width 80%
+      a:last-child
+        display none
 </style>
 

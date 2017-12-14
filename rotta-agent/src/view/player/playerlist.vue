@@ -371,9 +371,10 @@
         )
       },
       jumpAgentDetail (row) {
+        console.log(row)
         this.$store.commit({
           type: 'recordComdetailID',
-          data: row.parent
+          data: row.userId
         })
         this.$store.commit('closeEdit')
         this.$router.push('comdetail')

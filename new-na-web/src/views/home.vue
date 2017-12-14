@@ -4,14 +4,14 @@
     <home-prize />
     <section><home-platform /></section>
     <section><home-video-player /></section>
-    <!-- <section> <home-advantage /></section>
+    <section> <home-advantage /></section>
     <home-news />
     <section><home-dynamic /></section>
     <section><home-service-plan /></section>
     <section> <home-download /></section>
     <section><home-contactus /></section>
     <section><home-cooperation /></section>
-    <section><home-footer /></section>   -->
+    <section><home-footer /></section>  
   </div>
 </template>
 
