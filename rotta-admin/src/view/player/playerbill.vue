@@ -28,14 +28,14 @@ $<template>
         <div class="countinfo-center">
           <h4>账单流水详情信息</h4>
           <el-col :span="12" style="float: right; text-align: right;margin-top: 14px">
-            <el-input v-model="searchItem" placeholder="请输入流水号" style="width:60%"></el-input>
+            <el-input v-model="searchItem" placeholder="请输入局ID" style="width:60%"></el-input>
             <el-button type="primary" @click="searchAmount">搜索</el-button>
             <el-button type="primary" @click="resetAmount" style="margin-left: 0">重置</el-button>
           </el-col>
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="sn" label="流水号" align="center" width="250px"></el-table-column>
+            <el-table-column prop="roundId" label="局ID" align="center" width="250px"></el-table-column>
             <el-table-column label="下注时间" align="center" width="200px">
               <template scope="scope">
                 {{formatterTime(scope.row.createdAt)}}
@@ -76,8 +76,7 @@ $<template>
             </el-table-column>
             <el-table-column label="操作" align="center">
               <template scope="scope">
-                <el-button  type="text" @click="openModal(scope.row)">
-                  {{gameTypeStatus?'战绩截图':'战绩详细'}}</el-button>
+                <el-button  type="text" @click="openModal(scope.row)">查看战绩</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -91,7 +90,7 @@ $<template>
       </div>
     </div>
     <el-dialog title="战绩详细" :visible.sync="isOpenModal" class="g-text-center">
-      <div v-if="gameTypeStatus">
+      <div v-if="gameTypeStatus =='40000'">
         <div class="record-bg" :class="{'record-tlzm':gameType=='40001','record-xcl':gameType=='40002'}">
           <div class="record-content" :class="{'tlzm':gameType=='40001'}">
             <div v-for="(data,index) in recordArray" :key="index" class="record-wrap" :class="{'tlzm-wrap':gameType=='40001'}">
@@ -114,7 +113,7 @@ $<template>
         </div>
         <div v-else class="no-record">战绩截图同步中，请稍后在查看</div>
       </div>
-      <div v-else  v-loading.body="dialogLoading" element-loading-text="加载中...">
+      <div v-if="gameTypeStatus =='30000'"  v-loading.body="dialogLoading" element-loading-text="加载中...">
         <el-row class="record-row">
           <el-col :span="12">游戏名称：{{recordInfo.gameName}}</el-col>
           <el-col :span="12" class="-row-left">投注编号：{{recordInfo.betId}}</el-col>
@@ -156,6 +155,7 @@ $<template>
             <!--{{formatPoints(recordInfo.winLostAmount)}}</span></el-col>-->
         <!--</el-row>-->
       </div>
+      <ArcadeModal ref="childMethod" v-if="gameTypeStatus =='50000'" :dataProp="propChild"></ArcadeModal>
     </el-dialog>
   </div>
 </template>
@@ -163,7 +163,9 @@ $<template>
 import { detailTime, formatUserName, thousandFormatter } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
+import ArcadeModal from '@/components/record/arcadeModal'
 export default {
+  components: {ArcadeModal},
   beforeCreate () {
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
@@ -187,7 +189,6 @@ export default {
       allAmount: 0,
       isOpenModal: false,
       dialogLoading: false,
-      gameTypeStatus: localStorage.playerGameType == '40000',
       detailList: [],
       searchArray: [],
       winLostState:['取消','输','赢','和'],
@@ -240,7 +241,8 @@ export default {
       playerRecordList: [], //战绩信息
       recordArray: [], //战绩二维数组
       winCard: [], // 中奖数组位置
-      copyList: []
+      copyList: [],
+      propChild: {} // 组件通信传递
     }
   },
   mounted () {
@@ -265,6 +267,9 @@ export default {
     },
     gameTypeNum () {
       return this.gameType == '40002' ? "xcl" : "tlzm"
+    },
+    gameTypeStatus () {
+      return this.$store.state.variable.playerGameType || localStorage.playerGameType
     }
   },
   methods: {
@@ -306,119 +311,129 @@ export default {
       this.currentPage = 1;
       this.searchArray = [];
       for (let item of this.copyList) {
-        if (item.sn.indexOf(this.searchItem)>-1) {
+        if (item.roundId.indexOf(this.searchItem)>-1) {
           this.searchArray.push(item)
         }
       }
       this.playerBillDetailList = this.searchArray
     },
     openModal(data) {
+      this.propChild = data;
       this.recordArray = []
       this.finalRecord = []
       this.winCard = []
       this.isOpenModal = true
       this.dialogLoading = true
-      invoke({
-        url: api.playerRecord,
-        method: api.post,
-        data: {
-          userName: localStorage.playerName,
-          betId: data.businessKey
-        }
-      }).then(
-        result => {
-          const [err, res] = result
-          if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
-          } else {
-            if (res.data.data != null && res.data.data.gameType=='40000') {
-              this.gameType =  res.data.data.gameId
-              this.mode =  res.data.data.record.mode
-              this.playerRecordList = JSON.parse( res.data.data.record.gameDetail)  // 转化为JSON数组
-              this.recordArray = this.split_array(this.playerRecordList.viewGrid,3) // 把数组分为3个为数组的二维数组
-              this.itemRecord = JSON.parse(JSON.stringify(this.playerRecordList)) // 获取截图下面的数据统计信息
+      console.log(this.gameTypeStatus, 'this.gameTypeStatus')
+      if(this.gameTypeStatus == '30000' || this.gameTypeStatus == '40000'){
+        invoke({
+          url: api.playerRecord,
+          method: api.post,
+          data: {
+            userName: localStorage.playerName,
+            betId: data.businessKey
+          }
+        }).then(
+          result => {
+            const [err, res] = result
+            if (err) {
+              this.$message({
+                message: err.msg,
+                type: 'error'
+              })
+            } else {
+              if (res.data.data != null && res.data.data.gameType=='40000') {
+                this.gameType =  res.data.data.gameId
+                this.mode =  res.data.data.record.mode
+                this.playerRecordList = JSON.parse( res.data.data.record.gameDetail)  // 转化为JSON数组
+                this.recordArray = this.split_array(this.playerRecordList.viewGrid,3) // 把数组分为3个为数组的二维数组
+                this.itemRecord = JSON.parse(JSON.stringify(this.playerRecordList)) // 获取截图下面的数据统计信息
 
-              // 以下是处理图片中奖位置定位逻辑处理
-              if(this.playerRecordList.getFeatureChance) { // 进入免费局
-                for (let [parentIndexFree, dataFree] of this.recordArray.entries()) {
-                  for (let [indexFree, itemFree] of dataFree.entries()){
-                    if (this.playerRecordList.scatterGrid[parentIndexFree] == indexFree){
-                      this.finalRecord.push({
-                        isWin: true,
-                        value: itemFree
-                      })
-                    } else {
-                      this.finalRecord.push({
-                        isWin: false,
-                        value: itemFree
-                      })
-                    }
-                  }
-                }
-                this.recordArray = this.split_array(this.finalRecord,3) // 处理后又变成了一维数组，然后再次处理为二维数组
-              } else { //未进入免费局
-                if(this.playerRecordList.winGrid.length) {  // 中奖情况下
-                  for (let win of this.playerRecordList.winGrid) {
-                    this.winCard.push(win.winCard)
-                  }
-
-                  for(var i = 0; i < this.winCard.length; i++) {
-                    if(i>=1) { // 一次中奖有多条线情况下
-                      for (let [parentIndexMul, dataMul] of this.recordArray.entries()) {
-                        for (let [indexMul, itemMul] of dataMul.entries()){
-                          if (this.winCard[i][parentIndexMul] == indexMul && itemMul.isWin==false){
-                            itemMul.isWin = true
-                          }
-                        }
+                // 以下是处理图片中奖位置定位逻辑处理
+                if(this.playerRecordList.getFeatureChance) { // 进入免费局
+                  for (let [parentIndexFree, dataFree] of this.recordArray.entries()) {
+                    for (let [indexFree, itemFree] of dataFree.entries()){
+                      if (this.playerRecordList.scatterGrid[parentIndexFree] == indexFree){
+                        this.finalRecord.push({
+                          isWin: true,
+                          value: itemFree
+                        })
+                      } else {
+                        this.finalRecord.push({
+                          isWin: false,
+                          value: itemFree
+                        })
                       }
-                    } else { // 只有一条线中奖
-                      for (let [parentIndex, data] of this.recordArray.entries()) {
-                        for (let [index, item] of data.entries()){
-                          if (this.winCard[i][parentIndex] == index){
-                            this.finalRecord.push({
-                              isWin: true,
-                              value: item
-                            })
-                          } else {
-                            this.finalRecord.push({
-                              isWin: false,
-                              value: item
-                            })
-                          }
-                        }
-                      }
-                      this.recordArray = this.split_array(this.finalRecord,3)
-                    }
-                  }
-                  this.recordArray = this.split_array(this.finalRecord,3)
-                } else { // 未中奖情况下
-                  for (let dataElse of this.recordArray) {
-                    for (let itemElse of dataElse){
-                      this.finalRecord.push({
-                        isWin: false,
-                        value: itemElse
-                      })
                     }
                   }
                   this.recordArray = this.split_array(this.finalRecord,3) // 处理后又变成了一维数组，然后再次处理为二维数组
+                } else { //未进入免费局
+                  if(this.playerRecordList.winGrid.length) {  // 中奖情况下
+                    for (let win of this.playerRecordList.winGrid) {
+                      this.winCard.push(win.winCard)
+                    }
+
+                    for(var i = 0; i < this.winCard.length; i++) {
+                      if(i>=1) { // 一次中奖有多条线情况下
+                        for (let [parentIndexMul, dataMul] of this.recordArray.entries()) {
+                          for (let [indexMul, itemMul] of dataMul.entries()){
+                            if (this.winCard[i][parentIndexMul] == indexMul && itemMul.isWin==false){
+                              itemMul.isWin = true
+                            }
+                          }
+                        }
+                      } else { // 只有一条线中奖
+                        for (let [parentIndex, data] of this.recordArray.entries()) {
+                          for (let [index, item] of data.entries()){
+                            if (this.winCard[i][parentIndex] == index){
+                              this.finalRecord.push({
+                                isWin: true,
+                                value: item
+                              })
+                            } else {
+                              this.finalRecord.push({
+                                isWin: false,
+                                value: item
+                              })
+                            }
+                          }
+                        }
+                        this.recordArray = this.split_array(this.finalRecord,3)
+                      }
+                    }
+                    this.recordArray = this.split_array(this.finalRecord,3)
+                  } else { // 未中奖情况下
+                    for (let dataElse of this.recordArray) {
+                      for (let itemElse of dataElse){
+                        this.finalRecord.push({
+                          isWin: false,
+                          value: itemElse
+                        })
+                      }
+                    }
+                    this.recordArray = this.split_array(this.finalRecord,3) // 处理后又变成了一维数组，然后再次处理为二维数组
+                  }
                 }
+              } else if (res.data.data != null && res.data.data.gameType=='30000'){ // 真人视讯
+                this.gameType =  res.data.data.gameId
+                this.recordInfo = res.data.data.record
+                this.recordInfo.roundResult = JSON.parse(res.data.data.record.roundResult)
+                this.recordInfo.p = this.recordInfo.roundResult.p
+                this.recordInfo.b = this.recordInfo.roundResult.b
+                this.recordInfo.bpresult  = this.recordInfo.roundResult.bpresult
+              } else if (res.data.data != null && res.data.data.gameType=='50000'){ // 真人视讯
+//              this.$refs.childMethod.getRecordSLXY()
               }
-            } else if (res.data.data != null && res.data.data.gameType=='30000'){
-              this.gameType =  res.data.data.gameId
-              this.recordInfo = res.data.data.record
-              this.recordInfo.roundResult = JSON.parse(res.data.data.record.roundResult)
-              this.recordInfo.p = this.recordInfo.roundResult.p
-              this.recordInfo.b = this.recordInfo.roundResult.b
-              this.recordInfo.bpresult  = this.recordInfo.roundResult.bpresult
             }
+            this.$store.commit('closeLoading')
+            this.dialogLoading = false
           }
-          this.$store.commit('closeLoading')
-          this.dialogLoading = false
-        }
-      )
+        )
+      } else {
+        setTimeout(()=>{
+          this.$refs.childMethod.getRecordSLXY()
+        },0)
+      }
     },
     accountDetail (){
       this.$router.push('playerAccount')

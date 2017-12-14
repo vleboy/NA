@@ -715,7 +715,7 @@ const actions = {
                       data: item
                     })
                   }
-                } 
+                }
               }
             }
           )
@@ -953,7 +953,7 @@ const actions = {
                   })
                 }
               }
-            }  
+            }
           }
         )
       }
@@ -1080,7 +1080,7 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
-                  item.mixAmount = data.mixAmount 
+                  item.mixAmount = data.mixAmount
                   item.nowBouns = (data.mixAmount * item.liveMix/100).toFixed(2)
                   item.nowallBet = (data.mixAmount * item.liveMix/100 + data.winlose).toFixed(2)
                   item.winloseRate = (item.nowallBet / data.mixAmount).toFixed(4)
@@ -1611,7 +1611,11 @@ const mutations = {
 
   recordLiveID (state, payload) {
     state.variable.liveGameData.nowUserID = payload.data
-  } // 记录真人游戏总报表用户ID
+  },// 记录真人游戏总报表用户ID
+
+  playerGameType (state, payload) {
+    state.variable.playerGameType = payload.data
+  } // 记录玩家游戏类别
 
 }
 

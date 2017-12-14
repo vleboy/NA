@@ -145,7 +145,7 @@ const variable = {
   lastKey: '', // 后端分页结束键
 
   rightList: [], // 管理员权限列表
-  allRight: [], //管理员所有权限 
+  allRight: [], //管理员所有权限
 
   vedioGameData: {
     nowList: [],
@@ -163,7 +163,9 @@ const variable = {
     nowPlayerlist: [],
     copyNowChildList: [], // 用户所属玩家备份
     nowUserID: ''
-  } // 真人游戏报表数据
+  }, // 真人游戏报表数据
+
+  playerGameType: '' // 玩家玩的游戏类别（大类）
 }
 
 export default {

@@ -66,7 +66,7 @@
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="billId" label="流水号" width="120" align="center"></el-table-column>
+            <el-table-column prop="billId" label="账单号" width="120" align="center"></el-table-column>
             <el-table-column prop="nowPoints" label="账户余额" width="120" align="center">
               <template scope="scope">
                 {{formatPoints(scope.row.originalAmount+scope.row.amount)}}

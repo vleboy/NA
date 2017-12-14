@@ -2,7 +2,7 @@ const variable = {
   agentSearchData: '', // 代理中心代理搜索条件
   playerSearchData: '', // 代理中心玩家搜索条件
   mapUser: '', // 组织架构当前选中项
-  selfData: [], // 代理列表自己的数据 
+  selfData: [], // 代理列表自己的数据
   agentPlayer: [], // 代理所属玩家
   copyagentPlayer: [], // 代理所属玩家拷贝数据
   listId: '', // 代理列表代理Id
@@ -136,7 +136,7 @@ const variable = {
   visitedViews: [],
   activeIndex: null,
   tabIndex: null,
-  
+
   vedioGameData: {
     nowList: [],
     nowChildList: [],
@@ -153,7 +153,9 @@ const variable = {
     nowPlayerlist: [],
     copyNowChildList: [], // 用户所属玩家备份
     nowUserID: ''
-  } // 真人游戏报表数据
+  }, // 真人游戏报表数据
+
+  playerGameType: '' // 玩家玩的游戏类别（大类）
 
 }
 

@@ -607,7 +607,7 @@ const actions = {
     if (state.variable.condition.condition_four && state.variable.condition.condition_four.length > 0 && state.variable.condition.condition_four[0] != null) {
       data.query.createdAt = state.variable.condition.condition_four
     }
-    // console.log('data', data) 
+    // console.log('data', data)
     invoke({
       url: api.adminList,
       method: api.post,
@@ -792,7 +792,7 @@ const actions = {
                 context.commit({
                   type: 'recordVedioNowchild',
                   data: item
-                })  
+                })
               }
             }
           }
@@ -851,7 +851,7 @@ const actions = {
                   context.commit({
                     type: 'recordVedioNowplayer',
                     data: item
-                  })  
+                  })
                 }
               }
             }
@@ -937,7 +937,7 @@ const actions = {
                 context.commit({
                   type: 'recordLiveNowchild',
                   data: item
-                })  
+                })
               }
             }
           }
@@ -995,7 +995,7 @@ const actions = {
                   context.commit({
                     type: 'recordLiveNowplayer',
                     data: item
-                  })  
+                  })
                 }
               }
             }
@@ -1698,7 +1698,11 @@ const mutations = {
 
   recordLiveID (state, payload) {
     state.variable.liveGameData.nowUserID = payload.data
-  } // 记录真人游戏总报表用户ID
+  }, // 记录真人游戏总报表用户ID
+
+  playerGameType (state, payload) {
+    state.variable.playerGameType = payload.data
+  } // 记录玩家游戏类别
 }
 
 export default new Vuex.Store({
