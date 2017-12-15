@@ -118,14 +118,13 @@
             </el-option>
           </el-select>
         </el-form-item>
-
+        <el-form-item label="物品数量" label-width="110px" >
+          <el-input v-model="boothInfo.sum" placeholder="请输入物品数量" type="number" :maxlength='100000000' ></el-input>
+        </el-form-item>
         <el-form-item label="物品总价" label-width="110px">
           <el-tooltip effect="dark" :content="tipsRatio" placement="right">
             <el-input v-model="boothInfo.price" placeholder="请输入物品售价" type="number" :maxlength='100000000'></el-input>
           </el-tooltip>
-        </el-form-item>
-        <el-form-item label="物品数量" label-width="110px" >
-          <el-input v-model="boothInfo.sum" placeholder="请输入物品数量" type="number" :maxlength='100000000' ></el-input>
         </el-form-item>
         <el-form-item label="是否促销" label-width="110px" style="text-align: left">
           <el-checkbox v-model="isChecked"></el-checkbox>
