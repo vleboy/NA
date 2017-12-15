@@ -788,6 +788,7 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
+                item.submit = (data.winlose * (1 - item.rate/100)).toFixed(2)
                 item.winloseRate = (data.winlose / data.bet).toFixed(4)
                 context.commit({
                   type: 'recordVedioNowchild',
@@ -884,7 +885,6 @@ const actions = {
         data: user
       })
     }
-
     // 请求下级信息
     var data = {
       parent: '01'
@@ -933,6 +933,7 @@ const actions = {
                 item.betCount = data.betCount
                 item.winlose = data.winlose
                 item.mixAmount = data.mixAmount
+                item.submit = (data.winlose * (1 - item.rate/100)).toFixed(2)
                 item.winloseRate = (data.winlose / data.mixAmount).toFixed(4)
                 context.commit({
                   type: 'recordLiveNowchild',

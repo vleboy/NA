@@ -19,15 +19,18 @@
         <el-table-column label="管理员账号" prop="username" align="center">
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
+          <template scope="scope">
+            <span :class="[Number(flashNumber.betCount) > 0 ? 'green' : 'red']">{{flashNumber.betCount}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.bet)}}</span>
+            <span :class="[Number(flashNumber.bet) > 0 ? 'green' : 'red']">{{points(flashNumber.bet)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.winlose)}}</span>
+            <span :class="[Number(flashNumber.winlose) > 0 ? 'green' : 'red']">{{points(flashNumber.winlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="商户占成" prop="rate" align="center">
@@ -36,8 +39,14 @@
           </template>
         </el-table-column>
         <el-table-column label="商户交公司" prop="submit" align="center">
+          <template scope="scope">
+            <span :class="[Number(flashNumber.submit) > 0 ? 'green' : 'red']">{{points(flashNumber.submit)}}</span>
+          </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
+          <template scope="scope">
+            <span :class="[Number(flashNumber.winloseRate) > 0 ? 'green' : 'red']">{{flashNumber.winloseRate}} %</span>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -60,12 +69,12 @@
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.bet)}}</span>
+            <span :class="[Number(scope.row.bet) > 0 ? 'green' : 'red']">{{points(scope.row.bet)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.winlose)}}</span>
+            <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="商户占成" prop="rate" align="center">
@@ -73,12 +82,15 @@
             <span>{{(scope.row.rate) + '%'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户交公司" align="center">
+        <el-table-column label="商户交公司" align="center" prop="submit">
           <template scope="scope">
-            <span>{{(scope.row.winlose * (1 - scope.row.rate/100)).toFixed(2)}}</span>
+            <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{scope.row.submit}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center" :formatter="formatWinlose">
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.winloseRate) > 0 ? 'green' : 'red']">{{formatWinloseRate(scope.row.winloseRate)}}</span>
+          </template>
         </el-table-column>
       </el-table>
       <div class="page">
@@ -125,6 +137,7 @@
   </div>
 </template>
 <script>
+import TWEEN from '@tweenjs/tween.js'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 import { formatPoints } from '@/behavior/format'
@@ -153,14 +166,19 @@ export default {
     })
   },
   computed:{
-    vedioNowlist () {
-      let arr = []
-      this.nowRole = this.$store.state.variable.vedioGameData.nowList.role
+    rollNumber () {
       let data = this.$store.state.variable.vedioGameData.nowList
-      data.winloseRate = (data.winlose / data.bet).toFixed(4)
       data.submit = (data.winlose * (1 - data.rate/100)).toFixed(2)
-      arr.push(data)
-      return arr
+      data.winloseRate = (data.winlose / data.bet) * 100
+      return data
+    },
+    vedioNowlist () {
+      let arr = ''
+      this.nowRole = this.$store.state.variable.vedioGameData.nowList.role
+      let data = [this.$store.state.variable.vedioGameData.nowList]
+      data[0].winloseRate = (data[0].winlose / data[0].bet).toFixed(4)
+      data[0].submit = (data[0].winlose * (1 - data[0].rate/100)).toFixed(2)
+      return data
     },
     vedioNowchild () {
       var nowchild = this.$store.state.variable.vedioGameData.nowChildList
@@ -188,10 +206,87 @@ export default {
           this.searchDate[i] = new Date(this.searchDate[i].toString()).getTime()
         }
       }
+    },
+    'rollNumber.bet' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.bet = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.betCount' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.betCount = this._object.tweeningNumber.toFixed(0)
+        }).start()
+      animate()
+    },
+    'rollNumber.winlose' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.winlose = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.submit' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.submit = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.winloseRate' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.winloseRate = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
     }
   },
   data () {
     return {
+      flashNumber: {
+        bet: 0,
+        betCount: 0,
+        submit: 0,
+        winlose: 0,
+        winloseRate: 0
+      },
       playerData: '',
       loading: false,
       playerLoading: false,
@@ -260,6 +355,9 @@ export default {
           return '0.00%'
         }
       }
+    },
+    formatWinloseRate (data) {
+      return data && !isNaN(data) ? (Number(data) * 100).toFixed(2) + '%' : '0.00' + '%'
     },
     formatnickname (data) {
       return data.nickname == 'NULL!' ? '-' : data.nickname
@@ -387,4 +485,7 @@ export default {
 .vedioGame-report .playerlist{width: 99%;margin: 2rem auto}
 .vedioGame-report .fontUrl{cursor: pointer;color: #20a0ff}
 .vedioGame-report .fontUrl:hover{text-decoration: underline;}
+
+.green{color: #00CC00}
+.red{color: #FF3300}
 </style>
