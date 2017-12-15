@@ -1112,6 +1112,7 @@ const actions = {
       data: arcadeNow
     })
     let user = result1[1].data.payload
+    user.arcadeMix = 1
     user.nowBouns = '0.00'
     user.nowallBet = '0.00'
     user.nowSubmit = '0.00'
@@ -1148,6 +1149,7 @@ const actions = {
     })
     let child = result2[1].data.payload
     for (let item of child) {
+      item.arcadeMix = 1
       item.nowBouns = '0.00'
       item.nowallBet = '0.00'
       item.nowSubmit = '0.00'
@@ -1218,6 +1220,7 @@ const actions = {
         })
         let player = result1[1].data.payload
         for (let item of player) {
+          item.arcadeMix = 1
           item.nowBouns = '0.00'
           item.nowallBet = '0.00'
         }
@@ -1286,6 +1289,7 @@ const actions = {
       })
       let player = result1[1].data.payload
       for (let item of player) {
+        item.arcadeMix = 1
         item.nowBouns = '0.00'
         item.nowallBet = '0.00'
       }
