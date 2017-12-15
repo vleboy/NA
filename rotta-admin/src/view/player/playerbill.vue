@@ -324,7 +324,7 @@ export default {
       this.winCard = []
       this.isOpenModal = true
       this.dialogLoading = true
-      console.log(this.gameTypeStatus, 'this.gameTypeStatus')
+//      console.log(this.gameTypeStatus, 'this.gameTypeStatus')
       if(this.gameTypeStatus == '30000' || this.gameTypeStatus == '40000'){
         invoke({
           url: api.playerRecord,
