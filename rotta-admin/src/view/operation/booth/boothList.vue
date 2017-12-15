@@ -110,11 +110,11 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="物品售价" label-width="110px" >
-          <el-input v-model="boothInfo.price" placeholder="请输入物品售价" type="number" :maxlength='100000000'></el-input>
-        </el-form-item>
         <el-form-item label="物品数量" label-width="110px" >
           <el-input v-model="boothInfo.sum" placeholder="请输入物品数量" type="number" :maxlength='100000000'></el-input>
+        </el-form-item>
+        <el-form-item label="物品售价" label-width="110px" >
+          <el-input v-model="boothInfo.price" placeholder="请输入物品售价" type="number" :maxlength='100000000'></el-input>
         </el-form-item>
         <el-form-item label="是否促销" label-width="110px" style="text-align: left">
           <el-checkbox v-model="isChecked"></el-checkbox>
@@ -260,6 +260,7 @@ export default {
     },
     submitProp (id) {
       this.boothInfo.seatStatus = this.isChecked ? '2' : '1'
+      this.boothInfo.icon = this.isShowIcon ? this.boothInfo.icon : ''
       if (this.boothInfo.contentType === 1) {
         this.oldPropList.forEach(item => {
           if (item.toolName === this.boothInfo.prop) {
@@ -289,6 +290,8 @@ export default {
         return this.$message.error('物品售价范围为1-1000,000,00的正整数')
       } else if (!pattern.positiveInteger.exec(this.boothInfo.sum) || this.boothInfo.sum > 100000000) {
         return this.$message.error('物品数量范围为1-1000,000,00的正整数')
+      } else if (this.isShowIcon && (!this.boothInfo.icon || this.boothInfo.icon=='NULL!')) {
+        return this.$message.error('请选择自定义图标')
       }
       if (this.isSending) return // 防止重复提交
       this.isSending = true
