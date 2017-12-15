@@ -371,7 +371,7 @@
         )
       },
       jumpAgentDetail (row) {
-        console.log(row)
+//        console.log(row)
         this.$store.commit({
           type: 'recordComdetailID',
           data: row.parent
