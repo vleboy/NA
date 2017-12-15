@@ -173,11 +173,8 @@ export default {
       return data
     },
     vedioNowlist () {
-      let arr = ''
       this.nowRole = this.$store.state.variable.vedioGameData.nowList.role
       let data = [this.$store.state.variable.vedioGameData.nowList]
-      data[0].winloseRate = (data[0].winlose / data[0].bet).toFixed(4)
-      data[0].submit = (data[0].winlose * (1 - data[0].rate/100)).toFixed(2)
       return data
     },
     vedioNowchild () {

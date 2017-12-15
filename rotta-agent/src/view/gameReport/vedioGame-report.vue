@@ -19,15 +19,18 @@
         <el-table-column label="管理员账号" prop="username" align="center">
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
+          <template scope="scope">
+            <span :class="[Number(flashNumber.betCount) > 0 ? 'green' : 'red']">{{flashNumber.betCount}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.bet)}}</span>
+            <span :class="[Number(flashNumber.bet) > 0 ? 'green' : 'red']">{{points(flashNumber.bet)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
+            <span :class="[Number(flashNumber.winlose) > 0 ? 'green' : 'red']">{{points(flashNumber.winlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
@@ -39,7 +42,7 @@
         </el-table-column>
         <el-table-column label="代理总金额" prop="nowallBet" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{scope.row.nowallBet}}</span>
+            <span :class="[Number(flashNumber.nowallBet) > 0 ? 'green' : 'red']">{{flashNumber.nowallBet}}</span>
           </template>
         </el-table-column>
         <el-table-column label="代理占成" prop="rate" align="center">
@@ -47,14 +50,14 @@
             <span>{{(scope.row.rate) + '%'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="代理交公司" prop="nowSubmit" align="center">
+        <el-table-column label="代理交公司" prop="submit" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{scope.row.nowSubmit}}</span>
+            <span :class="[Number(flashNumber.submit) > 0 ? 'green' : 'red']">{{points(flashNumber.submit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
-            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
+            <span :class="[Number(flashNumber.winloseRate) > 0 ? 'green' : 'red']">{{flashNumber.winloseRate}} %</span>
           </template>
         </el-table-column>
       </el-table>
@@ -172,6 +175,7 @@
 <script>
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
+import TWEEN from '@tweenjs/tween.js'
 import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
@@ -198,16 +202,18 @@ export default {
     })
   },
   computed:{
-    vedioNowlist () {
-      let arr = []
-      this.nowId = this.$store.state.variable.vedioGameData.nowList.userId
+    rollNumber () {
       let data = this.$store.state.variable.vedioGameData.nowList
       data.nowBouns = (data.vedioMix/100 * data.bet).toFixed(2) // 洗码佣金
       data.nowallBet = ((data.vedioMix/100 * data.bet) + data.winlose).toFixed(2) // 代理总金额
       data.nowSubmit = (((data.vedioMix/100 * data.bet) + data.winlose) * (1 - data.vedioMix/100)).toFixed(2) // 代理交公司
       data.winloseRate = (data.nowallBet / data.bet).toFixed(4) // 获利比例
-      arr.push(data)
-      return arr
+      return data
+    },
+    vedioNowlist () {
+      this.nowRole = this.$store.state.variable.vedioGameData.nowList.role
+      let data = [this.$store.state.variable.vedioGameData.nowList]
+      return data
     },
     vedioNowchild () {
       var nowchild = this.$store.state.variable.vedioGameData.nowChildList
@@ -235,10 +241,102 @@ export default {
           this.searchDate[i] = new Date(this.searchDate[i].toString()).getTime()
         }
       }
+    },
+    'rollNumber.bet' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.bet = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.betCount' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.betCount = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.submit' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.submit = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.winlose' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.winlose = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.winloseRate' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.winloseRate = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.nowallBet' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.nowallBet = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
     }
   },
   data () {
     return {
+      flashNumber: {
+        bet: 0,
+        betCount: 0,
+        submit: 0,
+        winlose: 0,
+        winloseRate: 0,
+        nowallBet: 0
+      },
       playerData: '',
       loading: false,
       playerLoading: false,
