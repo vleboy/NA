@@ -49,7 +49,8 @@ import PlayerRunningAccount from '@/view/player/playerRunningAccount' // 玩家�
 
 import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
 import VedioGameReport from '@/view/gameReport/vedioGame-report' // 电子游戏报表
-import liveGameReport from '@/view/gameReport/liveGame-report' // 真人游戏报表
+import LiveGameReport from '@/view/gameReport/liveGame-report' // 真人游戏报表
+import ArcadeGameReport from '@/view/gameReport/arcadeGame-report' // 真人游戏报表
 // import tagWindow from '@/view/tags/tags' // 标签页
 Vue.use(Router)
 export default new Router({
@@ -227,7 +228,15 @@ export default new Router({
     {
       path: '/liveGameReport',
       name: '真人游戏总报表',
-      component: liveGameReport,
+      component: LiveGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/arcadeGameReport',
+      name: '街机游戏总报表',
+      component: ArcadeGameReport,
       meta: {
         keepAlive: true
       }

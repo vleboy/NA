@@ -10,6 +10,7 @@
                 <template slot="title">输赢报表</template>
                   <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
                   <el-menu-item index="liveGameReport">真人游戏总报表</el-menu-item>
+                  <el-menu-item index="arcadeGameReport">街机游戏总报表</el-menu-item>
               </el-submenu>
               <el-submenu index="2">
                 <template slot="title">代理中心</template>

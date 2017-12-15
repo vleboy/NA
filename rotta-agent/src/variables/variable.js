@@ -155,6 +155,15 @@ const variable = {
     nowUserID: ''
   }, // 真人游戏报表数据
 
+  arcadeGameData: {
+    nowList: [],
+    nowChildList: [],
+    copyNowChildList: [], // 用户下级数据备份
+    nowPlayerlist: [],
+    copyNowChildList: [], // 用户所属玩家备份
+    nowUserID: ''
+  }, // 街机游戏报表数据
+
   playerGameType: '' // 玩家玩的游戏类别（大类）
 
 }
