@@ -2,7 +2,7 @@ $<template>
   <div class="playBill">
     <div class="playdetailform">
       <div class="my-title">
-        <h2>{{playerBillDetailInfo.userName}} <el-button  type="text" @click="accountDetail()">查看流水账详单</el-button></h2>
+        <h2>{{playerBillDetailInfo.userName}}</h2>
         <h2>利润总额：<span :class="{'-p-green':playerBillDetailInfo.depSumAmount>=0,'-p-red':playerBillDetailInfo.depSumAmount<0}">
           {{formatPoints(playerBillDetailInfo.depSumAmount)}}</span>
         </h2>

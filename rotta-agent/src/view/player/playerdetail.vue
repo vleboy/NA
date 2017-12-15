@@ -45,7 +45,7 @@
             <el-radio-button label="10000">棋牌游戏</el-radio-button>
             <el-radio-button label="40000">电子游戏</el-radio-button>
             <el-radio-button label="30000">真人视讯</el-radio-button>
-            <!-- <el-radio-button label="-1">中心钱包</el-radio-button> -->
+            <el-radio-button label="50000">街机游戏</el-radio-button>
             <el-radio-button label="-2">代理操作</el-radio-button>
             <el-radio-button label="-3">商城</el-radio-button>
           </el-radio-group>
@@ -113,7 +113,7 @@
             </el-table-column>
             <el-table-column label="操作" align="center">
               <template scope="scope">
-                <el-button  type="text" v-if="scope.row.kindId==40000 || scope.row.kindId==30000" @click="billDetail(scope.row)">查看详单</el-button>
+                <el-button  type="text" v-if="scope.row.kindId==40000 || scope.row.kindId==30000 || scope.row.kindId==50000" @click="billDetail(scope.row)">查看详单</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -456,6 +456,10 @@ export default {
     billDetail (row) {
       localStorage.setItem('playerBillId', row.billId)
       localStorage.setItem('playerGameType', row.gameType)
+      this.$store.commit({
+        type: 'playerGameType',
+        data: row.gameType
+      })
       this.$router.push('playerBill')
     }
   },
