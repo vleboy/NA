@@ -311,33 +311,7 @@ export default {
           disabled: false
         }
       ], //展位
-      boothReplaceList: [
-        {
-          value: 1,
-          name: '1号展位',
-          disabled: true
-        },{
-          value: 2,
-          name: '2号展位',
-          disabled: true
-        },{
-          value: 3,
-          name: '3号展位',
-          disabled: true
-        },{
-          value: 4,
-          name: '4号展位',
-          disabled: true
-        },{
-          value: 5,
-          name: '5号展位',
-          disabled: true
-        },{
-          value: 6,
-          name: '6号展位',
-          disabled: true
-        }
-      ]  // 也是展位
+      boothReplaceList: [] //展位
     }
   },
   computed: {
@@ -406,15 +380,6 @@ export default {
                 }
               }
             }
-
-            for (let item2 of this.boothList) {
-              for (let item3 of this.boothReplaceList){
-                if (item2.order == item3.value){
-                    item3.disabled = false
-                }
-              }
-            }
-            this.replaceStorage = this.boothReplaceList
             this.searchArray = res.data.payload
           }
           this.$store.commit('closeLoading')
@@ -694,12 +659,10 @@ export default {
       this.replaceType = ''
       this.isBoothReplace = true
       this.replaceInfo = JSON.parse(JSON.stringify(row))
-      this.boothReplaceList = JSON.parse(JSON.stringify(this.replaceStorage))
+      this.boothReplaceList = JSON.parse(JSON.stringify(this.boothPositionList))
 
       for (let item4 of this.boothReplaceList){
-        if (row.order == item4.value){
-          item4.disabled = true
-        }
+        item4.disabled = false
       }
     }, //打开展位替换窗口
     changeTypeReplace () {
