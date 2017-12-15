@@ -371,7 +371,7 @@ export default {
             })
           } else {
             this.boothList = res.data.payload
-
+            this.resultData()
             for (let item of this.boothList) {
               for (let item1 of this.boothPositionList){
                 if (item.order == item1.value){
@@ -407,6 +407,7 @@ export default {
     },
     submitProp (id) {
       this.boothInfo.seatStatus = this.isChecked ? '2' : '1'
+      this.boothInfo.icon = this.isShowIcon ? this.boothInfo.icon : ''
       this.boothInfo.order = this.replaceType || this.boothInfo.order
       if (this.boothInfo.contentType === 1) {
         this.oldPropList.forEach(item => {
@@ -427,7 +428,7 @@ export default {
         return this.$message.error('请输入展位编号')
       } else if (!this.boothInfo.content) {
         return this.$message.error('请选择物品')
-      } else if (!this.boothInfo.price) {
+      } else if (this.boothInfo.price!='0'&&!this.boothInfo.price) {
         return this.$message.error('请输入物品总价')
       } else if (this.boothInfo.price>this.allPriceUp || this.boothInfo.price<this.allPriceLow) {
         return this.$message.error('请输入在物品范围总价之内的价格')
@@ -435,6 +436,8 @@ export default {
         return this.$message.error('请输入物品数量')
       } else if (!pattern.positiveInteger.exec(this.boothInfo.sum) || this.boothInfo.sum > 100000000) {
         return this.$message.error('物品数量范围为1-1000,000,00的正整数')
+      } else if (this.isShowIcon && (!this.boothInfo.icon || this.boothInfo.icon=='NULL!')) {
+        return this.$message.error('请选择自定义图标')
       }
       if (this.isSending) return // 防止重复提交
       this.isSending = true
@@ -658,10 +661,14 @@ export default {
       this.replaceType = ''
       this.isBoothReplace = true
       this.replaceInfo = JSON.parse(JSON.stringify(row))
+      this.resultData()
       this.boothReplaceList = JSON.parse(JSON.stringify(this.boothPositionList))
-
       for (let item4 of this.boothReplaceList){
-        item4.disabled = false
+        if(item4.value == this.replaceInfo.order){
+          item4.disabled = true
+        } else {
+          item4.disabled = false
+        }
       }
     }, //打开展位替换窗口
     changeTypeReplace () {
@@ -708,7 +715,12 @@ export default {
           this.$store.commit('closeLoading')
         }
       )
-    } //  展位替换提交
+    }, //  展位替换提交
+    resultData () {
+      for (let item4 of this.boothPositionList){
+        item4.disabled = false
+      }
+    } // 初始化boothPositionList的数据
   }
 }
 </script>
