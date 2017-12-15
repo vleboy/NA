@@ -374,7 +374,7 @@
         console.log(row)
         this.$store.commit({
           type: 'recordComdetailID',
-          data: row.userId
+          data: row.parent
         })
         this.$store.commit('closeEdit')
         this.$router.push('comdetail')
