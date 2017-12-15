@@ -41,6 +41,8 @@
         </el-table-column>
         <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime">
         </el-table-column>
+        <el-table-column label="发送时间" prop="sendTime" :formatter="getBtime">
+        </el-table-column>
         <el-table-column label="状态" align="center" >
           <template scope="scope">
             <el-tag type="success">正常</el-tag>
@@ -326,6 +328,9 @@ export default {
     },
     getAtime (row, col) {
       return detailTime(row.createdAt)
+    }, // 格式化创建时间
+    getBtime (row, col) {
+      return detailTime(row.sendTime)
     }, // 格式化创建时间
     getNowsize (size) {
       this.nowSize = size
