@@ -949,6 +949,7 @@ export default {
         type: 'localPlayerInfoAgent',
         data: player
       })
+      localStorage.setItem('playerName', player)
       this.$store.commit('startLoading')
       invoke({
         url: `${api.getPlayDetail}?userName=${player}`,
