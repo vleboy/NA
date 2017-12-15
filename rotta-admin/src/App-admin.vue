@@ -1,6 +1,6 @@
 <template>
   <div id="app" v-on:keyup.113 = "showMap">
-    <!-- 登录框 -->
+    <!--  登录框 -->
     <div v-if='islogin === false' style="width:100%;height:100%">
       <login></login>
     </div>
