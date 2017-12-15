@@ -1004,7 +1004,157 @@ const actions = {
         )
       }
     }
-  } // 真人游戏所属玩家列表
+  }, // 真人游戏所属玩家列表
+  async getArcadeNowchild (context) {
+    // 请求当前基本信息
+    let require = {
+      userId: ''
+    }
+    if (state.variable.arcadeGameData.nowUserID) {
+      require.userId = state.variable.arcadeGameData.nowUserID
+    } else {
+      require.userId = localStorage.loginId
+    }
+    let result1 = await invoke({
+      url: api.reportInfo,
+      method: api.post,
+      data: require
+    })
+    let user = result1[1].data.payload
+    if (user.userId == state.variable.arcadeGameData.nowUserID || !state.variable.arcadeGameData.nowUserID && user.userId == localStorage.loginId) {
+      context.commit({
+        type: 'recordArcadeNowlist',
+        data: user
+      })
+    }
+    // 请求下级基本信息
+    var data = {
+      parent: '01'
+    }
+    if (state.variable.arcadeGameData.nowUserID) {
+      data.parent = state.variable.arcadeGameData.nowUserID
+    }
+    // 请求下级信息
+    let result2 = await invoke({
+      url: api.reportInfo,
+      method: api.post,
+      data: data
+    })
+    let child = result2[1].data.payload
+    // 请求下级账单信息
+    context.commit('getWeek')
+    let searchDate = []
+    if (localStorage.searchTime) {
+      searchDate = JSON.parse(localStorage.searchTime)
+    } else {
+      searchDate = [state.startTime, state.endTime]
+    }
+    context.commit('resetArcadeNowchild')
+    let count = {
+      bet: 0,
+      betCount: 0,
+      winlose: 0,
+      winloseRate: 0
+    } // 当前用户下级账单总额
+    for (let item of child) {
+      let child_data = {
+        gameType: 50000,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
+        }
+      }
+      invoke({
+        url: api.calcUserStat,
+        method: api.post,
+        data: child_data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            context.commit('closeLoading')
+            var data = ret.data.payload[0]
+            if (data) {
+              if (item.userId == data.userId) {
+                item.bet = data.bet
+                item.betCount = data.betCount
+                item.winlose = data.winlose
+                item.submit = (data.winlose * (1 - item.rate/100)).toFixed(2)
+                item.winloseRate = (data.winlose / data.bet).toFixed(4)
+                context.commit({
+                  type: 'recordArcadeNowchild',
+                  data: item
+                })
+              }
+            }
+          }
+        }
+      )
+    }
+  }, // 街机游戏下级列表(综合计算上级)
+  async getArcadeNowplayer (context) {
+    if (state.variable.arcadeGameData.nowUserID == '01' || !state.variable.arcadeGameData.nowUserID) {
+      context.commit('resetArcadeNowplayer')
+    } else {
+      // 请求所属玩家基本信息
+      var data = {
+        parentId: state.variable.arcadeGameData.nowUserID
+      }
+      let result1 = await invoke({
+        url: api.reportPlayer,
+        method: api.post,
+        data: data
+      })
+      let player = result1[1].data.payload
+      // 请求所属玩家账单信息
+      context.commit('getWeek')
+      let searchDate = []
+      if (localStorage.searchTime) {
+        searchDate = JSON.parse(localStorage.searchTime)
+      } else {
+        searchDate = [state.startTime, state.endTime]
+      }
+      context.commit('resetArcadeNowplayer')
+      for (let item of player) {
+        let player_data = {
+          gameType: 50000,
+          gameUserNames: [item.userName],
+          query: {
+            createdAt: searchDate
+          }
+        }
+        invoke({
+          url: api.calcPlayerStat,
+          method: api.post,
+          data: player_data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              context.commit('closeLoading')
+              var data = ret.data.payload[0]
+              if (data) {
+                if (item.userName == data.userName) {
+                  item.bet = data.bet
+                  item.betCount = data.betCount
+                  item.winlose = data.winlose
+                  item.winloseRate = (data.winlose / data.bet).toFixed(4)
+                  context.commit({
+                    type: 'recordArcadeNowplayer',
+                    data: item
+                  })
+                }
+              }
+            }
+          }
+        )
+      }
+      context.commit('closeLoading')
+    }
+  } // 街机游戏所属玩家列表(综合计算上级)
 }
 
 const mutations = {
@@ -1700,6 +1850,36 @@ const mutations = {
   recordLiveID (state, payload) {
     state.variable.liveGameData.nowUserID = payload.data
   }, // 记录真人游戏总报表用户ID
+
+  recordArcadeNowlist (state, payload){
+    state.variable.arcadeGameData.nowList = payload.data
+  }, // 记录街机游戏总报表当前列表
+
+  recordArcadeNowchild (state, payload){
+    state.variable.arcadeGameData.nowChildList.push(payload.data)
+    state.variable.arcadeGameData.nowList.bet += payload.data.bet
+    state.variable.arcadeGameData.nowList.betCount += payload.data.betCount
+    state.variable.arcadeGameData.nowList.winlose += payload.data.winlose
+  }, // 记录街机游戏总报表下级列表
+
+  resetArcadeNowchild (state, payload){
+    state.variable.arcadeGameData.nowChildList = []
+  }, // 初始化街机游戏总报表下级列表
+
+  recordArcadeNowplayer (state, payload){
+    state.variable.arcadeGameData.nowPlayerlist.push(payload.data)
+    state.variable.arcadeGameData.nowList.bet += payload.data.bet
+    state.variable.arcadeGameData.nowList.betCount += payload.data.betCount
+    state.variable.arcadeGameData.nowList.winlose += payload.data.winlose
+  }, // 记录街机游戏总报表玩家列表
+
+  resetArcadeNowplayer (state, payload){
+    state.variable.arcadeGameData.nowPlayerlist = []
+  }, // 初始化街机游戏总报表下级列表
+
+  recordArcadeID (state, payload) {
+    state.variable.arcadeGameData.nowUserID = payload.data
+  }, // 记录街机游戏总报表用户ID
 
   playerGameType (state, payload) {
     state.variable.playerGameType = payload.data
