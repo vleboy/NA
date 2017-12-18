@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Login from '@/components/login' // 登陆页面
+
 import Welcome from '@/view/welcome/welcome' // 欢迎页面
 
 import Board from '@/view/board/board' // 系统看板
@@ -51,13 +53,20 @@ import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
 import VedioGameReport from '@/view/gameReport/vedioGame-report' // 电子游戏报表
 import LiveGameReport from '@/view/gameReport/liveGame-report' // 真人游戏报表
 import ArcadeGameReport from '@/view/gameReport/arcadeGame-report' // 真人游戏报表
-// import tagWindow from '@/view/tags/tags' // 标签页
+
+import { Message } from 'element-ui'
+import store from '@/store/store'
 Vue.use(Router)
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '*',
       redirect: '/welcome'
+    },
+    {
+      path: '/login',
+      name: '登陆页面',
+      component: Login
     },
     {
       path: '/welcome',
@@ -395,3 +404,22 @@ export default new Router({
     // }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  let loginTime = Number(localStorage.loginTime)
+  let nowTime = new Date().getTime()
+  if (nowTime - loginTime >= 5000) {
+    store.state.variable.islogin = false
+    store.state.variable.isloading = false
+    store.state.variable.visitedViews = []
+    store.state.variable.activeIndex = null
+    store.state.variable.tabIndex = null
+    localStorage.clear()
+    Message.warning('您的Token已过期,请重新登录')
+    next('/login')
+  } else {
+    next()
+  }
+})
+
+export default router

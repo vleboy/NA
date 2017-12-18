@@ -1,12 +1,8 @@
 <template>
-  <div id="app" v-on:keyup.113 = "showMap">
-    <!-- 登录框 -->
-    <div v-if='islogin === false' style="width:100%;height:100%">
-      <login></login>
-    </div>
-    <div v-if='islogin === true' style="width:100%;height:100%">
+  <div id="app">
+    <div style="width:100%;height:100%">
       <!-- 顶部条 -->
-      <div class="top Noprint" >
+      <div class="top Noprint" v-if="islogin">
         <div class="top-header">
           <bread class="Noprint"></bread>
           <loginbar class="Noprint"></loginbar>
@@ -14,7 +10,7 @@
         <div class="tab"><Tab class="Noprint"></Tab></div>
       </div>
       <!-- 左侧导航条 -->
-      <div class="main-left">
+      <div class="main-left" v-if="islogin">
           <div class="left-content">
             <sidebar class="Noprint"></sidebar>
           </div>
@@ -28,7 +24,6 @@
           <router-view v-if="!$route.meta.keepAlive"></router-view>
         </div>
       </div>
-      <!-- 组织架构 -->
     </div>
   </div>
 </template>
@@ -37,10 +32,8 @@ import Sidebar from '@/components/sidebar' // 导航条组件
 import Bread from '@/components/bread' // 面包屑组件
 import Tab from '@/components/tabs' // 面包屑组件
 import Loginbar from '@/components/loginbar' // 顶部条组件
-import Login from '@/components/login' // 登录框组件
 export default {
   components: {
-    Login,
     Loginbar,
     Bread,
     Sidebar,

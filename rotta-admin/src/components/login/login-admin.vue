@@ -35,18 +35,13 @@
 import crypto from '@/crypto/crypto'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
-// import { checkUsername, checkPassword, checkCaptcha } from '@/behavior/regexp'
 export default {
   name: 'login',
-  computed: {
-    loading () {
-      return this.$store.state.variable.isloading
-    }
-  },
   mounted () {
   },
   data () {
     return {
+      loading: false,
       userInfo: {
         role: '1',
         username: '', // 用户名
@@ -90,7 +85,7 @@ export default {
       }
     }, // 获取验证码
     login () {
-      this.$store.commit('startLoading')
+      this.loading = true
       var log = this.userInfo
       invoke({
         url: api.login,
@@ -100,10 +95,11 @@ export default {
         result => {
           const [err, ret] = result
           if (err) {
-            this.$store.commit('closeLoading')
+            this.loading = false
             this.getcaptcha()
           } else {
             var success = ret.data.payload
+            this.loading = false
             this.$message({
               message: '登录成功',
               type: 'success'
@@ -124,8 +120,7 @@ export default {
               data: info
             })
             var key = success.token.substring(0,6)
-            let loginTime = new Date()
-            loginTime = new Date(loginTime.toString()).getTime()
+            let loginTime = new Date().getTime() 
             localStorage.setItem('loginTime', loginTime)
             localStorage.setItem('loginToken', success.token)
             localStorage.setItem('loginLevel', success.level)
@@ -153,13 +148,13 @@ export default {
   align-items: center;
   -webkit-justify-content: center;
   justify-content: center;
-  height: 100%;
+  height: 90%;
   width: 100%;
 }
 /**/
-.login .login-left{flex: 0.4; text-align: right;}
+.login .login-left{flex: 0.35; text-align: right;}
 .login .login-center{flex: 0.1; text-align: center}
-.login .login-right{flex: 0.5; text-align: left;}
+.login .login-right{flex: 0.55; text-align: left;}
 /**/
 .login .title-big{font-size: 3rem;}
 .login .title-small{font-size: 1.2rem;margin-top: 0.5rem}

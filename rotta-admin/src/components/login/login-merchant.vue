@@ -161,13 +161,13 @@ export default {
   align-items: center;
   -webkit-justify-content: center;
   justify-content: center;
-  height: 100%;
+  height: 90%;
   width: 100%;
 }
 /**/
-.login-left{flex: 0.4; text-align: right;}
+.login-left{flex: 0.35; text-align: right;}
 .login-center{flex: 0.1; text-align: center}
-.login-right{flex: 0.5; text-align: left;}
+.login-right{flex: 0.55; text-align: left;}
 /**/
 .title-big{font-size: 3rem;}
 .title-small{font-size: 1.2rem;margin-top: 0.5rem}

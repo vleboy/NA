@@ -1,12 +1,8 @@
 <template>
   <div id="app" v-on:keyup.113 = "showMap">
-    <!-- 登录框 -->
-    <div v-if='islogin === false' style="width:100%;height:100%">
-      <login></login>
-    </div>
-    <div v-if='islogin === true' style="width:100%;height:100%">
+    <div style="width:100%;height:100%">
       <!-- 顶部条 -->
-      <div class="top Noprint" >
+      <div class="top Noprint" v-if="islogin">
         <div class="top-header">
           <bread class="Noprint"></bread>
           <loginbar class="Noprint"></loginbar>
@@ -14,7 +10,7 @@
         <div class="tab"><Tab class="Noprint"></Tab></div>
       </div>
       <!-- 左侧导航条 -->
-      <div class="main-left">
+      <div class="main-left" v-if="islogin">
           <div class="left-content">
             <sidebar class="Noprint"></sidebar>
           </div>
@@ -26,7 +22,7 @@
         </div>
       </div>
       <!-- 层级关系 -->
-      <transition name="fade">
+      <transition name="fade" v-if="islogin">
         <div class="main-map" v-if="this.isSlider === true">
           <rottamap></rottamap>
         </div>
@@ -40,11 +36,9 @@ import Sidebar from '@/components/sidebar-merchant' // 导航条组件
 import Bread from '@/components/bread' // 面包屑组件
 import Tab from '@/components/tabs' // 标签页组件
 import Loginbar from '@/components/loginbar' // 顶部条组件
-import Login from '@/components/login/login-merchant' // 登录框组件
 export default {
   components: {
     Rottamap,
-    Login,
     Loginbar,
     Bread,
     Sidebar,

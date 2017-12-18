@@ -37,15 +37,11 @@ import api from '@/api/api'
 // import { checkUsername, checkPassword, checkCaptcha } from '@/behavior/regexp'
 export default {
   name: 'login',
-  computed: {
-    loading () {
-      return this.$store.state.variable.isloading
-    }
-  },
   mounted () {
   },
   data () {
     return {
+      loading: false,
       userInfo: {
         role: '1000',
         username: '', // 用户名
@@ -90,7 +86,7 @@ export default {
       }
     }, // 获取验证码
     login () {
-      this.$store.commit('startLoading')
+      this.loading = true
       var log = this.userInfo
       invoke({
         url: api.login,
@@ -104,18 +100,17 @@ export default {
               message: err.msg,
               type: 'error'
             })
-            this.$store.commit('closeLoading')
+            this.loading = false
             this.userInfo.captcha = ''
             this.userInfo.getcode = ''
             this.getcaptcha()
           } else {
             var success = ret.data.payload
-            // console.log('登录成功返回数据', success)
             this.$message({
               message: '登录成功',
               type: 'success'
             })
-            this.$store.commit('closeLoading')
+            this.loading = false
             this.$store.commit({
               type: 'recordToken',
               data: success.token
@@ -130,6 +125,8 @@ export default {
               type: 'recordUserinfo',
               data: info
             })
+            let loginTime = new Date().getTime() 
+            localStorage.setItem('loginTime', loginTime)
             localStorage.setItem('loginToken', success.token)
             localStorage.setItem('loginLevel', success.level)
             localStorage.setItem('loginSuffix', success.suffix)
@@ -157,13 +154,13 @@ export default {
   align-items: center;
   -webkit-justify-content: center;
   justify-content: center;
-  height: 100%;
+  height: 90%;
   width: 100%;
 }
 /**/
-.login .login-left{flex: 0.4; text-align: right;}
+.login .login-left{flex: 0.35; text-align: right;}
 .login .login-center{flex: 0.1; text-align: center}
-.login .login-right{flex: 0.5; text-align: left;}
+.login .login-right{flex: 0.55; text-align: left;}
 /**/
 .title-big{font-size: 3rem;}
 .title-small{font-size: 1.2rem;margin-top: 0.5rem}

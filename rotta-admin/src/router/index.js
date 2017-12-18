@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import LoginAdmin from '@/components/login/login-admin' // 管理员登陆页面
+import LoginManager from '@/components/login/login-manager' // 线路商登陆页面
+import LoginMerchant from '@/components/login/login-merchant' // 商户登陆页面
+
 import Commingsoon from '@/view/comming/commingSoon' // 功能未开通页面
 import Welcome from '@/view/welcome/welcome' // 欢迎页面
 
@@ -66,12 +70,29 @@ import LineUp from '@/view/lineup/lineup' // 排队设置
 
 import ComputerGame from '@/view/riskManagement/computerGame' // 电子游戏风控
 
+import { Message } from 'element-ui'
+import store from '@/store/store'
 Vue.use(Router)
 const router = new Router({
   routes: [
     {
       path: '*',
       redirect: '/welcome'
+    },
+    {
+      path: '/login-admin',
+      name: '管理员登陆',
+      component: LoginAdmin
+    },
+    {
+      path: '/login-manager',
+      name: '线路商登录',
+      component: LoginManager
+    },
+    {
+      path: '/login-merchant',
+      name: '商户登录',
+      component: LoginMerchant
     },
     {
       path: '/commingSoon',
@@ -331,13 +352,29 @@ const router = new Router({
     }// 针对商户的展位
   ]
 })
-// router.beforeEach((to,from,next) => {
-//   let loginTime = localStorage.loginTime
-//   let nowTime = new Date()
-//   nowTime = new Date(nowTime.toString()).getTime()
-//   console.log('现在时间',nowTime)
-//   console.log('登录时间',loginTime)
-//   next()
-// })
+router.beforeEach((to, from, next) => {
+  let loginTime = Number(localStorage.loginTime)
+  let nowTime = new Date().getTime()
+  if (nowTime - loginTime >= 43200000) {
+    store.state.variable.islogin = false
+    store.state.variable.isloading = false
+    store.state.variable.visitedViews = []
+    store.state.variable.activeIndex = null
+    store.state.variable.tabIndex = null
+    Message.warning('您的Token已过期,请重新登录')
+    let path = ''
+    if (localStorage.loginRole == '1') {
+      path = '/login-admin'
+    } else if (localStorage.loginRole == '10') {
+      path = '/login-manager'
+    } else {
+      path = '/login-merchant'
+    }
+    localStorage.clear()
+    next(path)
+  } else {
+    next()
+  }
+})
 
 export default router

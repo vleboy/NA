@@ -78,7 +78,13 @@ export default {
           type: 'recordNowindex',
           data: 'board'
         })
-        this.$router.push('welcome')
+        if (localStorage.loginRole == '1') {
+          this.$router.push('login-admin')
+        } else if (localStorage.loginRole == '10') {
+          this.$router.push('login-manager')
+        } else {
+          this.$router.push('login-merchant')
+        }
         this.$store.commit('resetTab')
         this.$store.commit('logout')
         localStorage.clear()
