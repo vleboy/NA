@@ -372,6 +372,9 @@ router.beforeEach((to, from, next) => {
     }
     localStorage.clear()
     next(path)
+  } else if (localStorage.loginRole == '1' || localStorage.loginRole == '10' || localStorage.loginRole == '100') {
+    store.state.variable.islogin = true
+    next()
   } else {
     next()
   }

@@ -417,6 +417,9 @@ router.beforeEach((to, from, next) => {
     localStorage.clear()
     Message.warning('您的Token已过期,请重新登录')
     next('/login')
+  } else if (localStorage.loginRole == '1000') {
+    store.state.variable.islogin = true
+    next()
   } else {
     next()
   }
