@@ -169,7 +169,11 @@ export default {
     rollNumber () {
       let data = this.$store.state.variable.vedioGameData.nowList
       data.submit = (data.winlose * (1 - data.rate/100)).toFixed(2)
-      data.winloseRate = (data.winlose / data.bet) * 100
+      if (isNaN(data.winlose / data.bet) * 100) {
+        data.winloseRate = 0
+      } else {
+        data.winloseRate = (data.winlose / data.bet) * 100
+      }
       return data
     },
     vedioNowlist () {

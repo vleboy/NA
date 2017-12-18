@@ -184,7 +184,11 @@ export default {
     rollNumber () {
       let data = this.$store.state.variable.liveGameData.nowList
       data.submit = (data.winlose * (1 - data.rate/100)).toFixed(2)
-      data.winloseRate = (data.winlose * 100 / data.mixAmount).toFixed(4)
+      if (isNaN(data.winlose * 100 / data.mixAmount)) {
+        data.winloseRate = 0
+      } else {
+        data.winloseRate = (data.winlose * 100 / data.mixAmount).toFixed(4)
+      }
       return data
     },
     liveNowlist () {
