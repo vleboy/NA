@@ -20,7 +20,7 @@
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.betCount) > 0 ? 'green' : 'red']">{{flashNumber.betCount}}</span>
+            <span>{{flashNumber.betCount}}</span>
           </template>
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
@@ -217,7 +217,7 @@ export default {
       } // 洗码佣金
       data.nowallBet = ((data.vedioMix/100 * data.bet) + data.winlose).toFixed(2) // 代理总金额
       data.nowSubmit = (((data.vedioMix/100 * data.bet) + data.winlose) * (1 - data.vedioMix/100)).toFixed(2) // 代理交公司
-      data.winloseRate = (data.nowallBet / data.bet).toFixed(4) // 获利比例
+      data.winloseRate = (data.nowallBet * 100 / data.bet).toFixed(4) // 获利比例
       return data
     },
     vedioNowlist () {
@@ -276,7 +276,7 @@ export default {
         TWEEN.update(time)
       }
       new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.betCount = this._object.tweeningNumber.toFixed(2)
+          vm.flashNumber.betCount = this._object.tweeningNumber.toFixed(0)
         }).start()
       animate()
     },

@@ -20,7 +20,7 @@
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.betCount) > 0 ? 'green' : 'red']">{{flashNumber.betCount}}</span>
+            <span>{{flashNumber.betCount}}</span>
           </template>
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
