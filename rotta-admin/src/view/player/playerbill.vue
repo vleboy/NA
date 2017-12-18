@@ -90,71 +90,8 @@ $<template>
       </div>
     </div>
     <el-dialog title="战绩详细" :visible.sync="isOpenModal" class="g-text-center">
-      <div v-if="gameTypeStatus =='40000'">
-        <div class="record-bg" :class="{'record-tlzm':gameType=='40001','record-xcl':gameType=='40002'}">
-          <div class="record-content" :class="{'tlzm':gameType=='40001'}">
-            <div v-for="(data,index) in recordArray" :key="index" class="record-wrap" :class="{'tlzm-wrap':gameType=='40001'}">
-              <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low" :class="{'tlzm-low':gameType=='40001', 'no-win':!item.isWin}">
-                <img :src="`../../../static/playerBill/${gameTypeNum}/${item.value}.png`" class="record-icon" :class="{'tlzm-icon':gameType=='40001'}">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="record-footer" v-if='recordArray.length'>
-          <el-col :span="8">
-            余额：&ensp;{{itemRecord.userBalance|currency}}
-          </el-col>
-          <el-col :span="8">
-            赢得：&ensp;{{itemRecord.totalGold|currency}}
-          </el-col>
-          <el-col :span="8">
-            总赌注：&ensp;{{(itemRecord.bet||mode)|currency}}
-          </el-col>
-        </div>
-        <div v-else class="no-record">战绩截图同步中，请稍后在查看</div>
-      </div>
-      <div v-if="gameTypeStatus =='30000'"  v-loading.body="dialogLoading" element-loading-text="加载中...">
-        <el-row class="record-row">
-          <el-col :span="12">游戏名称：{{recordInfo.gameName}}</el-col>
-          <el-col :span="12" class="-row-left">投注编号：{{recordInfo.betId}}</el-col>
-        </el-row>
-        <el-row class="record-row">
-          <el-col :span="12">投注时间：{{formatterTime(recordInfo.betTime)}}</el-col>
-          <el-col :span="12" class="-row-left">派彩时间：{{formatterTime(recordInfo.settleTime)}}</el-col>
-        </el-row>
-        <el-row class="record-row">
-          <el-col :span="12">会员：{{recordInfo.userName}}</el-col>
-          <el-col :span="12" class="-row-left">游戏：{{recordInfo.gameTable}}</el-col>
-        </el-row>
-        <el-row class="record-row">
-          <el-col :span="12" v-if="gameType!='30003'">游戏结果：{{brandResult[recordInfo.bpresult]}}（庄：
-            <span v-for="(item,index) in recordInfo.b" :key="index">
-              <img style="width: 3%" :src="brandImg[item.m]">:{{brandList[item.n]}},
-            </span> 闲：
-             <span v-for="(item,index) in recordInfo.p" :key="index">
-              <img style="width: 3%" :src="brandImg[item.m]">:{{brandList[item.n]}},
-            </span>）
-          </el-col>
-          <el-col v-else :span="12">
-            游戏结果：{{recordInfo.roundResult}}
-          </el-col>
-          <el-col :span="12" class="-row-left">玩家下注：{{recordInfo.betNum}}</el-col>
-        </el-row>
-        <!--<el-row class="record-row">-->
-          <!--<el-col :span="12">下注前余额：{{formatPoints(recordInfo.preBalance)}}</el-col>-->
-          <!--<el-col :span="12" class="-row-left">投注金额：{{formatPoints(recordInfo.amount)}}</el-col>-->
-        <!--</el-row>-->
-        <!--<el-row class="record-row">-->
-          <!--<el-col :span="12">赢/输：-->
-            <!--<span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">-->
-              <!--{{winLostState[recordInfo.winLostStatus]}}-->
-            <!--</span>-->
-          <!--</el-col>-->
-          <!--<el-col :span="12" class="-row-left">输赢金额：-->
-            <!--<span :class="{'-p-red':recordInfo.winLostStatus=='1','-p-green':recordInfo.winLostStatus=='2'}">-->
-            <!--{{formatPoints(recordInfo.winLostAmount)}}</span></el-col>-->
-        <!--</el-row>-->
-      </div>
+      <OneArmBanditModal ref="childMethod" v-if="gameTypeStatus =='40000'" :dataProp="propChild"></OneArmBanditModal>
+      <RealLifeModal ref="childMethod" v-if="gameTypeStatus =='30000'" :dataProp="propChild"></RealLifeModal>
       <ArcadeModal ref="childMethod" v-if="gameTypeStatus =='50000'" :dataProp="propChild"></ArcadeModal>
     </el-dialog>
   </div>
@@ -164,8 +101,10 @@ import { detailTime, formatUserName, thousandFormatter } from '@/behavior/format
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 import ArcadeModal from '@/components/record/arcadeModal'
+import RealLifeModal from '@/components/record/realLifeModal'
+import OneArmBanditModal from '@/components/record/oneArmBanditModal'
 export default {
-  components: {ArcadeModal},
+  components: {ArcadeModal, RealLifeModal, OneArmBanditModal},
   beforeCreate () {
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
@@ -184,63 +123,17 @@ export default {
       nowSize: 20,
       nowPage: 1,
       currentPage: 1,
-      radioInfo: '0',
       searchItem: '',
       allAmount: 0,
       isOpenModal: false,
-      dialogLoading: false,
-      detailList: [],
       searchArray: [],
-      winLostState:['取消','输','赢','和'],
-      brandImg:{
-        'C': '../../../static/playerBill/brand/C.png',
-        'D': '../../../static/playerBill/brand/D.png',
-        'H': '../../../static/playerBill/brand/H.png',
-        'S': '../../../static/playerBill/brand/S.png'
-      },// 牌型
-      brandList:{
-        '1': 'A',
-        '2': '2',
-        '3': '3',
-        '4': '4',
-        '5': '5',
-        '6': '6',
-        '7': '7',
-        '8': '8',
-        '9': '9',
-        '10': '10',
-        '11': 'J',
-        '12': 'Q',
-        '13': 'k'
-      },//牌型点数
-      brandResult:{
-        '0': '庄',
-        '1': '闲',
-        '2': '和',
-        '3': '庄、庄对',
-        '4': '庄、闲对',
-        '5': '和、庄对',
-        '6': '和、闲对',
-        '7': '闲、庄对',
-        '8': '闲、闲对',
-        '9': '庄、庄对、闲对',
-        '10': '和、庄对、闲对',
-        '11': '闲、庄对、闲对'
-      },//牌型点数
-      gameType: {},
-      recordInfo: {},
       playerBillDetailInfo: {
         depSumAmount: 0,
         mixNum: 0,
         reSumAmount: 0,
         sumAmount: 0
       }, //基本信息
-      itemRecord: {}, //单个信息
-      finalRecord: [], //循环列表需要的战绩数组（最终版）
       playerBillDetailList: [], //列表信息
-      playerRecordList: [], //战绩信息
-      recordArray: [], //战绩二维数组
-      winCard: [], // 中奖数组位置
       copyList: [],
       propChild: {} // 组件通信传递
     }
@@ -264,9 +157,6 @@ export default {
     },
     userName () {
       return formatUserName(localStorage.playerName)
-    },
-    gameTypeNum () {
-      return this.gameType == '40002' ? "xcl" : "tlzm"
     },
     gameTypeStatus () {
       return this.$store.state.variable.playerGameType || localStorage.playerGameType
@@ -319,117 +209,16 @@ export default {
     },
     openModal(data) {
       this.propChild = data;
-      this.recordArray = []
-      this.finalRecord = []
-      this.winCard = []
       this.isOpenModal = true
-      this.dialogLoading = true
-//      console.log(this.gameTypeStatus, 'this.gameTypeStatus')
-      if(this.gameTypeStatus == '30000' || this.gameTypeStatus == '40000'){
-        invoke({
-          url: api.playerRecord,
-          method: api.post,
-          data: {
-            userName: localStorage.playerName,
-            betId: data.businessKey
-          }
-        }).then(
-          result => {
-            const [err, res] = result
-            if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
-            } else {
-              if (res.data.data != null && res.data.data.gameType=='40000') {
-                this.gameType =  res.data.data.gameId
-                this.mode =  res.data.data.record.mode
-                this.playerRecordList = JSON.parse( res.data.data.record.gameDetail)  // 转化为JSON数组
-                this.recordArray = this.split_array(this.playerRecordList.viewGrid,3) // 把数组分为3个为数组的二维数组
-                this.itemRecord = JSON.parse(JSON.stringify(this.playerRecordList)) // 获取截图下面的数据统计信息
-
-                // 以下是处理图片中奖位置定位逻辑处理
-                if(this.playerRecordList.getFeatureChance) { // 进入免费局
-                  for (let [parentIndexFree, dataFree] of this.recordArray.entries()) {
-                    for (let [indexFree, itemFree] of dataFree.entries()){
-                      if (this.playerRecordList.scatterGrid[parentIndexFree] == indexFree){
-                        this.finalRecord.push({
-                          isWin: true,
-                          value: itemFree
-                        })
-                      } else {
-                        this.finalRecord.push({
-                          isWin: false,
-                          value: itemFree
-                        })
-                      }
-                    }
-                  }
-                  this.recordArray = this.split_array(this.finalRecord,3) // 处理后又变成了一维数组，然后再次处理为二维数组
-                } else { //未进入免费局
-                  if(this.playerRecordList.winGrid.length) {  // 中奖情况下
-                    for (let win of this.playerRecordList.winGrid) {
-                      this.winCard.push(win.winCard)
-                    }
-
-                    for(var i = 0; i < this.winCard.length; i++) {
-                      if(i>=1) { // 一次中奖有多条线情况下
-                        for (let [parentIndexMul, dataMul] of this.recordArray.entries()) {
-                          for (let [indexMul, itemMul] of dataMul.entries()){
-                            if (this.winCard[i][parentIndexMul] == indexMul && itemMul.isWin==false){
-                              itemMul.isWin = true
-                            }
-                          }
-                        }
-                      } else { // 只有一条线中奖
-                        for (let [parentIndex, data] of this.recordArray.entries()) {
-                          for (let [index, item] of data.entries()){
-                            if (this.winCard[i][parentIndex] == index){
-                              this.finalRecord.push({
-                                isWin: true,
-                                value: item
-                              })
-                            } else {
-                              this.finalRecord.push({
-                                isWin: false,
-                                value: item
-                              })
-                            }
-                          }
-                        }
-                        this.recordArray = this.split_array(this.finalRecord,3)
-                      }
-                    }
-                    this.recordArray = this.split_array(this.finalRecord,3)
-                  } else { // 未中奖情况下
-                    for (let dataElse of this.recordArray) {
-                      for (let itemElse of dataElse){
-                        this.finalRecord.push({
-                          isWin: false,
-                          value: itemElse
-                        })
-                      }
-                    }
-                    this.recordArray = this.split_array(this.finalRecord,3) // 处理后又变成了一维数组，然后再次处理为二维数组
-                  }
-                }
-              } else if (res.data.data != null && res.data.data.gameType=='30000'){ // 真人视讯
-                this.gameType =  res.data.data.gameId
-                this.recordInfo = res.data.data.record
-                this.recordInfo.roundResult = JSON.parse(res.data.data.record.roundResult)
-                this.recordInfo.p = this.recordInfo.roundResult.p
-                this.recordInfo.b = this.recordInfo.roundResult.b
-                this.recordInfo.bpresult  = this.recordInfo.roundResult.bpresult
-              } else if (res.data.data != null && res.data.data.gameType=='50000'){ // 真人视讯
-//              this.$refs.childMethod.getRecordSLXY()
-              }
-            }
-            this.$store.commit('closeLoading')
-            this.dialogLoading = false
-          }
-        )
-      } else {
+      if (this.gameTypeStatus == '40000') {
+        setTimeout(()=>{
+          this.$refs.childMethod.getOneArmBandit()
+        },0)
+      } else if (this.gameTypeStatus == '30000') {
+        setTimeout(()=>{
+          this.$refs.childMethod.getRealLife()
+        },0)
+      } else if (this.gameTypeStatus == '50000') {
         setTimeout(()=>{
           this.$refs.childMethod.getRecordSLXY()
         },0)
@@ -483,74 +272,7 @@ export default {
   .playBill h4{font-size: 1.3rem;font-weight: normal;padding: 1.5rem 0;color: #5a5a5a;display: inline-block}
   .-p-green{color: #00CC00}
   .-p-red{color: #FF3300}
-  .playBill .record-bg{
-    background-repeat:no-repeat!important;
-    background-size: 100% auto!important;
-    height: 500px;
-    position: relative;
-  }
-  .playBill .record-content{
-    position: absolute;
-    top: 22%;
-    width: 100%;
-  }
-  .playBill .tlzm{
-    top:18%;
-  }
-  .playBill .record-wrap{
-    display: inline-block;
-    position: relative;
-    left: 10px;
-  }
-  .playBill .tlzm .tlzm-wrap{
-    top:20%;
-    left: 0;
-  }
-  .playBill .record-footer{
-    overflow: hidden;
-    background-color: #000;
-    padding: 9px 0;
-    color: #fff;
-  }
-  .playBill .record-low{
-    display: block;
-    width: 116px;
-  }
-  .playBill .tlzm .tlzm-low{
-    width: 128px;
-  }
-  .playBill .record-icon{
-    width: 100%;
-  }
-  .playBill .tlzm .tlzm-icon{
-    width: 92%;
-  }
-  .playBill .record-tlzm{
-    background: url("../../../static/playerBill/tlzm-bg.png");
-  }
-  .playBill .record-xcl{
-    background: url("../../../static/playerBill/xcl-bg.png");
-  }
   .playBill .el-dialog--small{
     width: 940px;
-  }
-  .playBill .no-record {
-    position: absolute;
-    top: 48%;
-    left: 25%;
-    font-size: 30px;
-    font-weight: bold;
-  }
-  .playBill .no-win{
-    background-color: #fbdebf;
-    opacity: 0.2;
-  }
-  .playBill .record-row {
-    padding: 20px;
-    padding-left: 50px;
-    text-align: left;
-  }
-  .playBill .-row-left {
-    padding-left: 100px;
   }
 </style>
