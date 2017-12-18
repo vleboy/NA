@@ -70,13 +70,10 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        this.$store.commit('closeLoading')
         this.$message({
           type: 'success',
           message: '您已退出登录!'
-        })
-        this.$store.commit({
-          type: 'recordNowindex',
-          data: 'board'
         })
         if (localStorage.loginRole == '1') {
           this.$router.push('login-admin')
