@@ -216,12 +216,12 @@ export default {
         data.nowBouns = (data.vedioMix/100 * data.bet).toFixed(2)
       } // 洗码佣金
       data.nowallBet = ((data.vedioMix/100 * data.bet) + data.winlose).toFixed(2) // 代理总金额
-      data.nowSubmit = (((data.vedioMix/100 * data.bet) + data.winlose) * (1 - data.vedioMix/100)).toFixed(2) // 代理交公司
+      data.nowSubmit = (((data.vedioMix/100 * data.bet) + data.winlose) * (1 - data.rate/100)).toFixed(2) // 代理交公司
       data.winloseRate = (data.nowallBet * 100 / data.bet).toFixed(4) // 获利比例
       return data
     },
     vedioNowlist () {
-      this.nowRole = this.$store.state.variable.vedioGameData.nowList.role
+      this.nowId = this.$store.state.variable.vedioGameData.nowList.userId
       let data = [this.$store.state.variable.vedioGameData.nowList]
       return data
     },

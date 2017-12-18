@@ -229,12 +229,12 @@ export default {
       }
       data.nowBouns = (data.liveMix/100 * data.bet).toFixed(2) // 洗码佣金
       data.nowallBet = (Number(data.mixAmount) * data.liveMix/100 + Number(data.winlose)).toFixed(2)
-      data.nowSubmit = (((data.liveMix/100 * data.bet) + data.winlose) * (1 - data.liveMix/100)).toFixed(2) // 代理交公司
+      data.nowSubmit = (((data.liveMix/100 * data.bet) + data.winlose) * (1 - data.rate/100)).toFixed(2) // 代理交公司
       data.winloseRate = (data.nowallBet * 100 / Number(data.mixAmount)).toFixed(4)
       return data
     },
     liveNowlist () {
-      this.nowRole = this.$store.state.variable.liveGameData.nowList.role
+      this.nowId = this.$store.state.variable.vedioGameData.nowList.userId
       let data = [this.$store.state.variable.liveGameData.nowList]
       return data
     },
