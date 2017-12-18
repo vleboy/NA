@@ -38,15 +38,11 @@ import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 export default {
   name: 'login',
-  computed: {
-    loading () {
-      return this.$store.state.variable.isloading
-    }
-  },
   mounted () {
   },
   data () {
     return {
+      loading: false,
       userInfo: {
         role: '100',
         username: '', // 用户名
@@ -92,7 +88,7 @@ export default {
       }
     }, // 获取验证码
     login () {
-      this.$store.commit('startLoading')
+      this.loading = true
       var log = this.userInfo
       log.username = log.username.trim()
       log.password = log.password.trim()
@@ -109,9 +105,8 @@ export default {
               message: err.msg,
               type: 'error'
             })
-//            this.userInfo.captcha = ''
             this.getcaptcha()
-            this.$store.commit('closeLoading')
+            this.loading = false
           } else {
             var success = ret.data.payload
             
@@ -119,7 +114,7 @@ export default {
               message: '登录成功',
               type: 'success'
             })
-            this.$store.commit('closeLoading')
+            this.loading = false
             this.$store.commit({
               type: 'recordToken',
               data: success.token
