@@ -75,12 +75,12 @@
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.bet) > 0 ? 'green' : 'red']">{{points(scope.row.bet)}}</span>
+            <span :class="[Number(scope.row.bet) > 0 ? 'green' : 'red']">{{points(scope.row.bet)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
+            <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="商户占成" prop="rate" align="center">
