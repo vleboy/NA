@@ -265,10 +265,10 @@ export default {
   .countinfo{padding: 0 2rem;margin: 0 auto;vertical-align: baseline;}
 
   .playBill .baseinfo-form{background-color: #f5f5f5;padding: 2rem;font-size: 0.8rem;overflow: hidden}
-  .playBill .countinfo-form{background-color: #fff;padding-left: 0;font-size: 0.8rem;overflow: hidden}
+  .playBill .countinfo-form{background-color: #fff;padding:0;font-size: 0.8rem;overflow: hidden}
 
   .playBill p{overflow: hidden}
-  .playBill .countinfo-center{font-size: 1.1rem;overflow: hidden}
+  .playBill .countinfo-center{font-size: 1.1rem;overflow: hidden;background-color: #ffffff;padding: 0}
   .playBill h4{font-size: 1.3rem;font-weight: normal;padding: 1.5rem 0;color: #5a5a5a;display: inline-block}
   .-p-green{color: #00CC00}
   .-p-red{color: #FF3300}
