@@ -107,12 +107,12 @@
         </el-table-column>
         <el-table-column label="洗码佣金" prop="nowBouns" align="center">
           <template scope="scope">
-            <span>{{formatFix(scope.row.nowBouns)}}</span>
+            <span>{{points(scope.row.nowBouns)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="代理总金额" prop="nowallBet" align="center">  
           <template scope="scope">
-            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{formatFix(scope.row.nowallBet)}}</span>
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="代理占成" prop="rate" align="center">
@@ -122,7 +122,7 @@
         </el-table-column>
         <el-table-column label="代理交公司" prop="nowSubmit" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{formatFix(scope.row.nowSubmit)}}</span>
+            <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{points(scope.row.nowSubmit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
@@ -182,12 +182,12 @@
         </el-table-column>
         <el-table-column label="洗码佣金" prop="nowBouns" align="center">
           <template scope="scope">
-            <span>{{formatFix(scope.row.nowBouns)}}</span>
+            <span>{{points(scope.row.nowBouns)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="会员总金额" prop="nowallBet" align="center">  
           <template scope="scope">
-            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{formatFix(scope.row.nowallBet)}}</span>
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -464,9 +464,6 @@ export default {
     formatNickname (data) {
       return data == 'NULL!'? '-' : data
     },
-    formatFix (data) {
-      return isNaN(data.toFixed(2)) ? '0.00' : data.toFixed(2)
-    }, // 格式化保留两位
     points (data) {
       return formatPoints('' + data)
     }, // 格式化点数
