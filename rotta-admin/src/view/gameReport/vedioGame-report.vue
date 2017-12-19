@@ -84,7 +84,7 @@
         </el-table-column>
         <el-table-column label="商户交公司" align="center" prop="submit">
           <template scope="scope">
-            <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{scope.row.submit}}</span>
+            <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">

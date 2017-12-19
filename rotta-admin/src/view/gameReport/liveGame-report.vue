@@ -90,7 +90,7 @@
         </el-table-column>
         <el-table-column label="商户交公司" align="center" prop="submit">
           <template scope="scope">
-            <span>{{scope.row.submit}}</span>
+            <span>{{points(scope.row.submit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
