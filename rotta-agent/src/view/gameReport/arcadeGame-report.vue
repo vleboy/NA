@@ -99,7 +99,7 @@
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.nowBouns)}}</span>
+            <span>{{formatFix(scope.row.nowBouns)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="代理总金额" prop="nowallBet" align="center">  
@@ -166,7 +166,7 @@
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.nowBouns)}}</span>
+            <span>{{formatFix(scope.row.nowBouns)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="会员总金额" prop="nowallBet" align="center">

@@ -244,7 +244,7 @@ export default {
       return data
     },
     liveNowlist () {
-      this.nowId = this.$store.state.variable.vedioGameData.nowList.userId
+      this.nowId = this.$store.state.variable.liveGameData.nowList.userId
       let data = [this.$store.state.variable.liveGameData.nowList]
       return data
     },
