@@ -77,7 +77,19 @@ const router = new Router({
   routes: [
     {
       path: '*',
-      redirect: '/welcome'
+      redirect: to => {
+        const { hash, params, query } = to
+        if (location.href.indexOf('admin') != -1 && !localStorage.loginRole) {
+          return { path: '/login-admin', query: null }
+        } else if (location.href.indexOf('manager') != -1 && !localStorage.loginRole) {
+          return { path: '/login-manager', query: null }
+        } else if (location.href.indexOf('merchant') != -1 && !localStorage.loginRole) {
+          return { path: '/login-merchant', query: null }
+        } else {
+          store.state.variable.islogin = true
+          return { path: '/welcome', query: null }
+        }
+      }
     },
     {
       path: '/login-admin',
@@ -372,9 +384,6 @@ router.beforeEach((to, from, next) => {
     }
     localStorage.clear()
     next(path)
-  } else if (localStorage.loginRole == '1' || localStorage.loginRole == '10' || localStorage.loginRole == '100') {
-    store.state.variable.islogin = true
-    next()
   } else {
     next()
   }
