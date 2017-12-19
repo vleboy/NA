@@ -233,7 +233,7 @@ export default {
       if (!data.liveMix) {
         data.liveMix = 0
       }
-      data.nowBouns = data.liveMix/100 * data.bet // 洗码佣金
+      data.nowBouns = data.liveMix/100 * data.mixAmount // 洗码佣金
       data.nowallBet = data.mixAmount * data.liveMix/100 + data.winlose
       data.nowSubmit = ((data.liveMix/100 * data.bet) + data.winlose) * (1 - data.rate/100) // 代理交公司
       if (isNaN((data.mixAmount * data.liveMix/100 + data.winlose) * 100 / data.mixAmount)) {
