@@ -106,10 +106,13 @@
           </template>
         </el-table-column>
         <el-table-column label="洗码佣金" prop="nowBouns" align="center">
+          <template scope="scope">
+            <span>{{formatFix(scope.row.nowBouns)}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="代理总金额" prop="nowallBet" align="center">  
           <template scope="scope">
-            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{scope.row.nowallBet}}</span>
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{formatFix(scope.row.nowallBet)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="代理占成" prop="rate" align="center">
@@ -119,7 +122,7 @@
         </el-table-column>
         <el-table-column label="代理交公司" prop="nowSubmit" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{scope.row.nowSubmit}}</span>
+            <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{formatFix(scope.row.nowSubmit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
@@ -178,10 +181,13 @@
           </template>
         </el-table-column>
         <el-table-column label="洗码佣金" prop="nowBouns" align="center">
+          <template scope="scope">
+            <span>{{formatFix(scope.row.nowBouns)}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="会员总金额" prop="nowallBet" align="center">  
           <template scope="scope">
-            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{scope.row.nowallBet}}</span>
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{formatFix(scope.row.nowallBet)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -227,10 +233,14 @@ export default {
       if (!data.liveMix) {
         data.liveMix = 0
       }
-      data.nowBouns = (data.liveMix/100 * data.bet).toFixed(2) // 洗码佣金
-      data.nowallBet = (Number(data.mixAmount) * data.liveMix/100 + Number(data.winlose)).toFixed(2)
-      data.nowSubmit = (((data.liveMix/100 * data.bet) + data.winlose) * (1 - data.rate/100)).toFixed(2) // 代理交公司
-      data.winloseRate = (data.nowallBet * 100 / Number(data.mixAmount)).toFixed(4)
+      data.nowBouns = data.liveMix/100 * data.bet // 洗码佣金
+      data.nowallBet = data.mixAmount * data.liveMix/100 + data.winlose
+      data.nowSubmit = ((data.liveMix/100 * data.bet) + data.winlose) * (1 - data.rate/100) // 代理交公司
+      if (isNaN((data.mixAmount * data.liveMix/100 + data.winlose) * 100 / data.mixAmount)) {
+        data.winloseRate = 0
+      } else {
+        data.winloseRate = (data.mixAmount * data.liveMix/100 + data.winlose) * 100 / data.mixAmount
+      } // 获利比例
       return data
     },
     liveNowlist () {
@@ -454,6 +464,9 @@ export default {
     formatNickname (data) {
       return data == 'NULL!'? '-' : data
     },
+    formatFix (data) {
+      return isNaN(data.toFixed(2)) ? '0.00' : data.toFixed(2)
+    }, // 格式化保留两位
     points (data) {
       return formatPoints('' + data)
     }, // 格式化点数

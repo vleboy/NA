@@ -171,7 +171,7 @@ export default {
       if (!data.rate) {
         data.rate = 0
       }
-      data.submit = (data.winlose * (1 - data.rate/100)).toFixed(2)
+      data.submit = (data.winlose * (1 - data.rate/100))
       if (isNaN(data.winlose / data.bet) * 100) {
         data.winloseRate = 0
       } else {
@@ -180,11 +180,8 @@ export default {
       return data
     },
     arcadeNowlist () {
-      let arr = ''
       this.nowRole = this.$store.state.variable.arcadeGameData.nowList.role
       let data = [this.$store.state.variable.arcadeGameData.nowList]
-      data[0].winloseRate = (data[0].winlose / data[0].bet).toFixed(4)
-      data[0].submit = (data[0].winlose * (1 - data[0].rate/100)).toFixed(2)
       return data
     },
     arcadeNowchild () {

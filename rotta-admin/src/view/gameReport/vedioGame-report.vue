@@ -171,7 +171,7 @@ export default {
       if (!data.rate) {
         data.rate = 0
       }
-      data.submit = (data.winlose * (1 - data.rate/100)).toFixed(2)
+      data.submit = (data.winlose * (1 - data.rate/100))
       if (isNaN(data.winlose / data.bet) * 100) {
         data.winloseRate = 0
       } else {
