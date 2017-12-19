@@ -79,13 +79,13 @@ const router = new Router({
       path: '*',
       redirect: to => {
         const { hash, params, query } = to
-        if (location.href.indexOf('admin') != -1 && !localStorage.loginRole || location.href.indexOf('4801')!= -1 && !localStorage.loginRole) {
+        if (location.href.indexOf('admin') != -1 && !localStorage.loginToken || location.href.indexOf('4801')!= -1 && !localStorage.loginToken) {
           return { path: '/login-admin', query: null }
-        } else if (location.href.indexOf('manager') != -1 && !localStorage.loginRole || location.href.indexOf('4802')!= -1 && !localStorage.loginRole) {
+        } else if (location.href.indexOf('manager') != -1 && !localStorage.loginToken || location.href.indexOf('4802')!= -1 && !localStorage.loginToken) {
           return { path: '/login-manager', query: null }
-        } else if (location.href.indexOf('merchant') != -1 && !localStorage.loginRole || location.href.indexOf('4803')!= -1 && !localStorage.loginRole) {
+        } else if (location.href.indexOf('merchant') != -1 && !localStorage.loginToken || location.href.indexOf('4803')!= -1 && !localStorage.loginToken) {
           return { path: '/login-merchant', query: null }
-        } else if (localStorage.loginRole) {
+        } else if (localStorage.loginToken) {
           return { path: '/welcome', query: null }
         }
       }
@@ -375,39 +375,44 @@ router.beforeEach((to, from, next) => {
     if (location.href.indexOf('admin') != -1 || location.href.indexOf('4801') != -1) {
       localStorage.setItem('loginRole', '1')
       path = '/login-admin'
+      next(path)
     } else if (location.href.indexOf('manager') != -1 || location.href.indexOf('4802') != -1) {
       localStorage.setItem('loginRole', '10')
       path = '/login-manager'
+      next(path)
     } else if (location.href.indexOf('merchant') != -1 || location.href.indexOf('4803') != -1) {
       localStorage.setItem('loginRole', '100')
       path = '/login-merchant'
-    }
-    next(path)
-  } else {
-    let loginTime = Number(localStorage.loginTime)
-    let nowTime = new Date().getTime()
-    if (nowTime - loginTime >= 43200000) {
-      store.state.variable.islogin = false
-      store.state.variable.isloading = false
-      store.state.variable.visitedViews = []
-      store.state.variable.activeIndex = null
-      store.state.variable.tabIndex = null
-      Message.warning('您的Token已过期,请重新登录')
-      let path = ''
-      if (localStorage.loginRole == '1') {
-        path = '/login-admin'
-      } else if (localStorage.loginRole == '10') {
-        path = '/login-manager'
-      } else {
-        path = '/login-merchant'
-      }
-      localStorage.clear()
       next(path)
+    }
+  } else {
+    let loginTime = ''
+    if (localStorage.loginTime) {
+      loginTime = Number(localStorage.loginTime)
+      let nowTime = new Date().getTime()
+      if (nowTime - loginTime >= 43200000) {
+        store.state.variable.islogin = false
+        store.state.variable.isloading = false
+        store.state.variable.visitedViews = []
+        store.state.variable.activeIndex = null
+        store.state.variable.tabIndex = null
+        Message.warning('您的Token已过期,请重新登录')
+        let path = ''
+        if (localStorage.loginRole == '1') {
+          path = '/login-admin'
+        } else if (localStorage.loginRole == '10') {
+          path = '/login-manager'
+        } else {
+          path = '/login-merchant'
+        }
+        localStorage.clear()
+        next(path)
+      }
     } else {
       next()
     }
   }
-  
 })
 
 export default router
+
