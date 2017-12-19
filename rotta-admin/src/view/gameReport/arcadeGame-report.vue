@@ -25,7 +25,7 @@
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.bet) > 0 ? 'green' : 'red']">{{points(flashNumber.bet)}}</span>
+            <span>{{points(flashNumber.bet)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
@@ -45,7 +45,7 @@
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.winloseRate) > 0 ? 'green' : 'red']">{{flashNumber.winloseRate}} %</span>
+            <span>{{flashNumber.winloseRate}} %</span>
           </template>
         </el-table-column>
       </el-table>
@@ -69,7 +69,7 @@
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.bet) > 0 ? 'green' : 'red']">{{points(scope.row.bet)}}</span>
+            <span>{{points(scope.row.bet)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
@@ -89,7 +89,7 @@
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.winloseRate) > 0 ? 'green' : 'red']">{{formatWinloseRate(scope.row.winloseRate)}}</span>
+            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
           </template>
         </el-table-column>
       </el-table>

@@ -26,7 +26,7 @@
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.bet) > 0 ? 'green' : 'red']">{{points(flashNumber.bet)}}</span>
+            <span>{{points(flashNumber.bet)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
@@ -46,12 +46,12 @@
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.mixAmount) > 0 ? 'green' : 'red']">{{points(flashNumber.mixAmount)}}</span>
+            <span>{{points(flashNumber.mixAmount)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.winloseRate) > 0 ? 'green' : 'red']">{{flashNumber.winloseRate}} %</span>
+            <span>{{flashNumber.winloseRate}} %</span>
           </template>
         </el-table-column>
       </el-table>
@@ -75,7 +75,7 @@
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.bet) > 0 ? 'green' : 'red']">{{points(scope.row.bet)}}</span>
+            <span>{{points(scope.row.bet)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
@@ -90,17 +90,17 @@
         </el-table-column>
         <el-table-column label="商户交公司" align="center" prop="submit">
           <template scope="scope">
-            <span>{{points(scope.row.submit)}}</span>
+            <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.mixAmount) > 0 ? 'green' : 'red']">{{points(scope.row.mixAmount)}}</span>
+            <span>{{points(scope.row.mixAmount)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.winloseRate) > 0 ? 'green' : 'red']">{{formatWinloseRate(scope.row.winloseRate)}}</span>
+            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -140,7 +140,7 @@
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.winlose)}}</span>
+            <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
