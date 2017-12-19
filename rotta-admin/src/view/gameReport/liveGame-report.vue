@@ -143,6 +143,11 @@
             <span>{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="page">
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.liveGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>

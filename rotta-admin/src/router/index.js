@@ -390,7 +390,7 @@ router.beforeEach((to, from, next) => {
     if (localStorage.loginTime) {
       loginTime = Number(localStorage.loginTime)
       let nowTime = new Date().getTime()
-      if (nowTime - loginTime >= 5000) {
+      if (nowTime - loginTime >= 43200000) {
         store.state.variable.islogin = false
         store.state.variable.isloading = false
         store.state.variable.visitedViews = []
