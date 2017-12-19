@@ -61,7 +61,14 @@ const router = new Router({
   routes: [
     {
       path: '*',
-      redirect: '/welcome'
+      redirect: to => {
+        const { hash, params, query } = to
+        if (location.href.indexOf('agent') != -1 && !localStorage.loginToken || location.href.indexOf('5500')!= -1 && !localStorage.loginToken) {
+          return { path: '/login', query: null }
+        } else {
+          return { path: '/welcome', query: null }
+        }
+      }
     },
     {
       path: '/login',
@@ -406,21 +413,30 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  let loginTime = Number(localStorage.loginTime)
-  let nowTime = new Date().getTime()
-  if (nowTime - loginTime >= 43200000) {
+  if (!localStorage.loginRole) {
     store.state.variable.islogin = false
     store.state.variable.isloading = false
     store.state.variable.visitedViews = []
     store.state.variable.activeIndex = null
     store.state.variable.tabIndex = null
-    localStorage.clear()
-    Message.warning('您的Token已过期,请重新登录')
+    localStorage.setItem('loginRole', '1000')
     next('/login')
-  } else if (localStorage.loginRole == '1000') {
-    store.state.variable.islogin = true
-    next()
   } else {
+    let loginTime = ''
+    if (localStorage.loginTime) {
+      loginTime = Number(localStorage.loginTime)
+      let nowTime = new Date().getTime()
+      if (nowTime - loginTime >= 5000) {
+        store.state.variable.islogin = false
+        store.state.variable.isloading = false
+        store.state.variable.visitedViews = []
+        store.state.variable.activeIndex = null
+        store.state.variable.tabIndex = null
+        Message.warning('您的Token已过期,请重新登录')
+        localStorage.clear()
+        next('/login')
+      }
+    }
     next()
   }
 })
