@@ -234,7 +234,7 @@ export default {
       return data
     },
     arcadeNowlist () {
-      this.nowId = this.$store.state.variable.vedioGameData.nowList.userId
+      this.nowId = this.$store.state.variable.arcadeGameData.nowList.userId
       let data = [this.$store.state.variable.arcadeGameData.nowList]
       return data
     },
