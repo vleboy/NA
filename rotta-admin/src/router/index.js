@@ -79,14 +79,13 @@ const router = new Router({
       path: '*',
       redirect: to => {
         const { hash, params, query } = to
-        if (location.href.indexOf('admin') != -1 && !localStorage.loginRole) {
+        if (location.href.indexOf('admin') != -1 && !localStorage.loginRole || location.href.indexOf('4801')!= -1 && !localStorage.loginRole) {
           return { path: '/login-admin', query: null }
-        } else if (location.href.indexOf('manager') != -1 && !localStorage.loginRole) {
+        } else if (location.href.indexOf('manager') != -1 && !localStorage.loginRole || location.href.indexOf('4802')!= -1 && !localStorage.loginRole) {
           return { path: '/login-manager', query: null }
-        } else if (location.href.indexOf('merchant') != -1 && !localStorage.loginRole) {
+        } else if (location.href.indexOf('merchant') != -1 && !localStorage.loginRole || location.href.indexOf('4803')!= -1 && !localStorage.loginRole) {
           return { path: '/login-merchant', query: null }
-        } else {
-          store.state.variable.islogin = true
+        } else if (localStorage.loginRole) {
           return { path: '/welcome', query: null }
         }
       }
@@ -365,9 +364,7 @@ const router = new Router({
   ]
 })
 router.beforeEach((to, from, next) => {
-  let loginTime = Number(localStorage.loginTime)
-  let nowTime = new Date().getTime()
-  if (nowTime - loginTime >= 43200000) {
+  if (!localStorage.loginRole) {
     store.state.variable.islogin = false
     store.state.variable.isloading = false
     store.state.variable.visitedViews = []
@@ -375,18 +372,42 @@ router.beforeEach((to, from, next) => {
     store.state.variable.tabIndex = null
     Message.warning('您的Token已过期,请重新登录')
     let path = ''
-    if (localStorage.loginRole == '1') {
+    if (location.href.indexOf('admin') != -1 || location.href.indexOf('4801') != -1) {
+      localStorage.setItem('loginRole', '1')
       path = '/login-admin'
-    } else if (localStorage.loginRole == '10') {
+    } else if (location.href.indexOf('manager') != -1 || location.href.indexOf('4802') != -1) {
+      localStorage.setItem('loginRole', '10')
       path = '/login-manager'
-    } else {
+    } else if (location.href.indexOf('merchant') != -1 || location.href.indexOf('4803') != -1) {
+      localStorage.setItem('loginRole', '100')
       path = '/login-merchant'
     }
-    localStorage.clear()
     next(path)
   } else {
-    next()
+    let loginTime = Number(localStorage.loginTime)
+    let nowTime = new Date().getTime()
+    if (nowTime - loginTime >= 43200000) {
+      store.state.variable.islogin = false
+      store.state.variable.isloading = false
+      store.state.variable.visitedViews = []
+      store.state.variable.activeIndex = null
+      store.state.variable.tabIndex = null
+      Message.warning('您的Token已过期,请重新登录')
+      let path = ''
+      if (localStorage.loginRole == '1') {
+        path = '/login-admin'
+      } else if (localStorage.loginRole == '10') {
+        path = '/login-manager'
+      } else {
+        path = '/login-merchant'
+      }
+      localStorage.clear()
+      next(path)
+    } else {
+      next()
+    }
   }
+  
 })
 
 export default router
