@@ -195,7 +195,7 @@ export default {
       if (isNaN(data.winlose * 100 / data.mixAmount)) {
         data.winloseRate = 0
       } else {
-        data.winloseRate = (data.winlose * 100 / data.mixAmount).toFixed(4)
+        data.winloseRate = ((data.winlose / data.mixAmount) * 100).toFixed(4)
       }
       return data
     },
