@@ -56,7 +56,7 @@
             <el-tag :type="scope.row.state ? 'success' : 'danger'">
               {{playerStatus[scope.row.state]}}
             </el-tag>
-          </template>formatPoints
+          </template>
         </el-table-column>
         <el-table-column label="游戏状态" align="center">
           <template scope="scope">
@@ -64,7 +64,7 @@
               <div v-if="scope.row.gameState==3">{{gameTypeArray[scope.row.gameId]}}</div>
               <div v-else>未在游戏中</div>
             </el-tag>
-          </template>formatPoints
+          </template>
         </el-table-column>
         <el-table-column prop="balance" label="点数" sortable="custom" show-overflow-tooltip align="center">
           <template scope="scope">
