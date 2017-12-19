@@ -39,6 +39,9 @@
           </template>
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
+          <template scope="scope">
+            <span>{{formatFix(scope.row.nowBouns)}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="代理总金额" prop="nowallBet" align="center">
           <template scope="scope">
@@ -50,9 +53,9 @@
             <span>{{(scope.row.rate) + '%'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="代理交公司" prop="submit" align="center">
+        <el-table-column label="代理交公司" prop="nowSubmit" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.submit) > 0 ? 'green' : 'red']">{{points(flashNumber.submit)}}</span>
+            <span :class="[Number(flashNumber.nowSubmit) > 0 ? 'green' : 'red']">{{points(flashNumber.nowSubmit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
@@ -222,7 +225,7 @@ export default {
         data.nowBouns = data.arcadeMix/100 * data.bet
       } // 洗码佣金
       data.nowallBet = (data.arcadeMix/100 * data.bet) + data.winlose // 代理总金额
-      data.nowSubmit = ((data.arcadeMix/100 * data.bet) + data.winlose) * (1 - data.rate/100) // 代理交公司
+      data.nowSubmit = data.winlose * (1 - data.rate/100) // 代理交公司
       if (isNaN((data.arcadeMix/100 * data.bet) + data.winlose * 100 / data.bet)) {
         data.winloseRate = 0
       } else {
@@ -290,7 +293,7 @@ export default {
         }).start()
       animate()
     },
-    'rollNumber.submit' (newValue, oldValue) {
+    'rollNumber.nowSubmit' (newValue, oldValue) {
       if (!oldValue) {
         oldValue = 0
       }
@@ -300,7 +303,7 @@ export default {
         TWEEN.update(time)
       }
       new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.submit = this._object.tweeningNumber.toFixed(2)
+          vm.flashNumber.nowSubmit = this._object.tweeningNumber.toFixed(2)
         }).start()
       animate()
     },
@@ -315,6 +318,20 @@ export default {
       }
       new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
           vm.flashNumber.winlose = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.nowBouns' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.nowBouns = this._object.tweeningNumber.toFixed(2)
         }).start()
       animate()
     },
@@ -352,10 +369,11 @@ export default {
       flashNumber: {
         bet: 0,
         betCount: 0,
-        submit: 0,
+        nowSubmit: 0,
         winlose: 0,
         winloseRate: 0,
-        nowallBet: 0
+        nowallBet: 0,
+        nowBouns: 0
       },
       playerData: '',
       loading: false,
@@ -421,6 +439,9 @@ export default {
     userType (data) {
       return '代理'
     }, // 格式化用户类型
+    formatFix (data) {
+      return isNaN(data.toFixed(2)) ? '0.00' : data.toFixed(2)
+    }, // 格式化金额
     points (data) {
       return formatPoints('' + data)
     }, // 格式化点数
