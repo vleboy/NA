@@ -36,7 +36,13 @@ export const invoke = async (cfg) => {
       Message.warning('您的网络不稳定,请重试')
     }
     if (e.response && e.response.data.code == 90001) {
-      router.push('board')
+      if (localStorage.loginRole == '1') {
+        router.push('login-admin')
+      } else if (localStorage.loginRole == '10') {
+        router.push('login-manager')
+      } else if (localStorage.loginRole == '100') {
+        router.push('login-merchant')
+      }
       store.state.variable.islogin = false
       store.state.variable.isloading = false
       store.state.variable.visitedViews = []
