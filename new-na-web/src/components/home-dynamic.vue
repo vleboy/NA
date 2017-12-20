@@ -28,9 +28,9 @@ export default {
   data () {
     return {
       news: [
-        {img: require('../assets/img/dynamic1.png'), title: 'NA新闻标题01', msg: '基本的新闻摘要放在这里，如需了解全文，请点击下方链接，进入全文页面，详细查看该新闻内容，此处4条为最新的发布动态，按照时间优先级排序、替代。'},
-        {img: require('../assets/img/dynamic1.png'), title: 'NA新闻标题01', msg: '基本的新闻摘要放在这里，如需了解全文，请点击下方链接，进入全文页面，详细查看该新闻内容，此处4条为最新的发布动态，按照时间优先级排序、替代。'},
-        {img: require('../assets/img/dynamic1.png'), title: 'NA新闻标题01', msg: '基本的新闻摘要放在这里，如需了解全文，请点击下方链接，进入全文页面，详细查看该新闻内容，此处4条为最新的发布动态，按照时间优先级排序、替代。'},
+        {img: require('../assets/img/news.png'), title: 'API旗舰版接口服务', msg: '1、包含基础版所有功能。2、在APP内添加注册、充值按钮，玩家可直接点击按钮跳转到注册、充值页面进行相关操作，注册与充值页面均为商户自有页面3、商户后台运营接入服务，商户可使用自有的运营后台，接入NAGaming平台，更便于商户管理习惯，暨商户运营后台原本的数据（玩家账号管理、玩家信息管理、充值管理、财务管理等）依然在商户运营后台操作，NA平台游戏数据的管理在NA后台操作。4、开放APP站内邮件、公告栏等通知系统，建立商户与玩家之间更好的沟通，提供更灵活的运营支持。5、开放APP商城配置权限，商户可在NAGaming设定的基础上，自由配置商城内道具价值。'},
+        {img: require('../assets/img/news1.png'), title: '全站棋牌游戏限免房卡活动', msg: '为了让玩家能尽享游戏，熟悉NAGaming的棋牌规则及体验，我们推出棋牌游戏限免房卡的互动，供大家体验。活动时间：2017年x月 - 2017年x月参与游戏：推锅、推筒子、牌九、四川麻将、山西麻将活动规则：活动时间内，全站棋牌游戏取消房卡消费，玩家可直接进入标有 “限时免费” 的游戏，建立房间，邀上三五好友，尽享游戏乐趣。'},
+        {img: require('../assets/img/news2.png'), title: '独有神秘奖励机制  更添玩家互动粘度', msg: 'NAGaming对全平台游戏设置神秘⼤奖，将收益的30%作为平台奖金池，根据当日流⽔数据算法随机掉落到玩家账户，并附带掉落特效，任何接入NA平台的商户均可让玩家免费享受该奖项，该神秘奖的款项由NA全权支付。该神秘⼤奖是NA独有的⼀种奖项，可作为线路商推⼴的噱头，⽐如当⽇平台整体流⽔达到100万时，会随机掉落到某2个玩家每⼈5000元现金奖励。'},
         {img: require('../assets/img/dynamic1.png'), title: 'NA新闻标题01', msg: '基本的新闻摘要放在这里，如需了解全文，请点击下方链接，进入全文页面，详细查看该新闻内容，此处4条为最新的发布动态，按照时间优先级排序、替代。'}
       ]
     }
@@ -65,17 +65,12 @@ export default {
     justify-content space-between
     margin-bottom 40px
     .dynamic-item
-      flex-basis 23%
+      width 23%
       color #222222
-      display flex
-      flex-direction column
-      align-items center
-      justify-content center
-      cursor pointer
+      &:hover 
+         box-shadow 0 0 50px rgba(0, 0, 0, 0.3)
       a
         transition box-shadow 0.5s
-        &:hover
-          box-shadow 0 0 50px rgba(0, 0, 0, 0.3)
         &:hover .card-img
           height 130px
         &:hover .card-img img
@@ -101,10 +96,19 @@ export default {
           h3
             font-size 20px
             color #444444
+            width 99%
+            overflow hidden
+            text-overflow ellipsis
+            white-space nowrap
           p
             font-size 13px
             color #888888
             margin-bottom 40px
+            overflow:hidden;
+            text-overflow ellipsis 
+            display -webkit-box
+            -webkit-line-clamp 5
+            -webkit-box-orient vertical
           button
             font-size 14px
             padding 10px 45px
@@ -147,6 +151,14 @@ export default {
       flex-direction column
       margin-bottom 0
       .dynamic-item
+        width 100%
+        display flex
+        flex-direction column
+        align-items center
+        justify-content center
+        cursor pointer
+        margin-bottom 0
+        pointer-events none
         a
           pointer-events none
           .card-box

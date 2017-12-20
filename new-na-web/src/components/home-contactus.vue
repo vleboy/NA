@@ -44,12 +44,13 @@
         <div class="us-info">
           <div class="us-info-title">公司信息</div>
           <div class="us-info-item"> 
-            <p>123 WEST STREET, MELBOURNE</p>
-            <p>VICTORIA 3000 AUSTRALIA</p>
+            <p>San Miguel Avenue corner Shaw Boulevard,</p>
+            <p>Ortigas Center, Ortigas Center, </p>
+            <p>Pasig City, Metro Manila, 菲律宾</p>
           </div>
           <div class="us-info-item"> 
-            <p>TEL : +61012345678</p>
-            <p>EMAIL : MAIL@ZERODEGREE.COM</p>
+            <p>SKYPE: XINASIA_2</p>
+            <p>EMAIL: NEWASIA@NA77.COM</p>
           </div>
           <div class="us-info-item">
             FOLLOW US ON SOCIAL NETWORK

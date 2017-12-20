@@ -145,9 +145,6 @@
         } else if (value < 0) {
           callback(new Error('必须为正数'))
           this.isfinish.kindId = false
-        } else if (value.length !== 5) {
-          callback(new Error('必须为五位数'))
-          this.isfinish.kindId = false
         } else {
           callback()
           this.isfinish.kindId = true
