@@ -8,7 +8,7 @@
       </div>
       <div class="download-button boxs">
         <a href="javascript:;">
-          <img src="../assets/img/iosButton.png" alt="">
+          <img src="../../assets/img/iosButton.png" alt="">
           <div class="code-box">
             <div class="code">
               <div class="arrow"></div>
@@ -16,7 +16,7 @@
           </div>
         </a>
         <a href="javascript:;">
-          <img src="../assets/img/androidButton.png" alt="">
+          <img src="../../assets/img/androidButton.png" alt="">
           <div class="code-box">
             <div class="code">
               <div class="arrow"></div>
@@ -24,7 +24,7 @@
           </div>
         </a>
         <a href="http://dl.haima.me/download/DXDown/win/Z001/Droid4XInstaller.exe">
-          <img src="../assets/img/windowsButton.png" alt="">
+          <img src="../../assets/img/windowsButton.png" alt="">
         </a>
       </div>
     </div>
@@ -39,7 +39,7 @@ export default {
 
 <style lang="stylus" scoped>
 .home-download
-  background url('../assets/img/downloadBg.jpg') no-repeat
+  background url('../../assets/img/downloadBg.jpg') no-repeat
   background-size cover
   color #FFFFFF
   text-align center
@@ -70,7 +70,7 @@ export default {
         .code
           width 100%
           height 100%
-          background url('../assets/img/code.jpg') no-repeat
+          background url('../../assets/img/code.jpg') no-repeat
           background-size cover
           .arrow
             position absolute
@@ -78,7 +78,7 @@ export default {
             left 50%
             width 16px
             height 14px
-            background url('../assets/img/arrow.png') no-repeat
+            background url('../../assets/img/arrow.png') no-repeat
       &:hover .code-box
         // display block
         opacity 1

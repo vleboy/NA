@@ -1,6 +1,6 @@
 <template>
   <div class="home-news boxs">
-    <img src="../assets/img/news.png" alt="">
+    <img src="../../assets/img/newsBanner.png" alt="">
   </div>
 </template>
 

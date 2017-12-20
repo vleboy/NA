@@ -1,12 +1,20 @@
 <template>
   <div id="app">
+    <home-banner />
     <router-view/>
+    <home-footer />
   </div>
 </template>
 
 <script>
+import homeBanner from '@/components/home/home-banner'
+import homeFooter from '@/components/home/home-footer'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    homeBanner,
+    homeFooter
+  }
 }
 </script>
 

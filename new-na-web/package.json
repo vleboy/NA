@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "bulma": "^0.6.1",
+    "compression-webpack-plugin": "^1.1.2",
     "fastclick": "^1.0.6",
     "nprogress": "^0.2.0",
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^3.0.2",
+    "vue-meta": "^1.4.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

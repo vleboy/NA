@@ -4,7 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Fastclick from 'fastclick'
+import Meta from 'vue-meta'
 
+Vue.use(Meta, {
+  keyName: 'head'
+})
 Fastclick.attach(document.body)
 Vue.config.productionTip = false
 

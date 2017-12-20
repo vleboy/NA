@@ -6,17 +6,17 @@
       <div class="service-plan-desc">为保障商户利益，降低运营风险，NA配备了完善的服务体系，及时快速的为商户解决问题</div>
       <div class="service-plan-items flex boxs">
         <div class="service-plan-item">
-          <div class="service-icon"><img src="../assets/img/service1.png" alt=""></div>
+          <div class="service-icon"><img src="../../assets/img/service1.png" alt=""></div>
           <div class="service-title">点对点营销服务体系</div>
           <div class="service-desc">NA指派专人与线路商一对一服务，包活营销活动、事件营销、品牌建设 等服务，将在人力与财力上给予支持。</div>
         </div>
         <div class="service-plan-item">
-          <div class="service-icon"><img src="../assets/img/service2.png" alt=""></div>
+          <div class="service-icon"><img src="../../assets/img/service2.png" alt=""></div>
           <div class="service-title">客户支持与技术提升</div>
           <div class="service-desc">一站式的客户支持服务和平台技术 提升，保障客户接入后的安全、稳 定和业务连续性。</div>
         </div>
         <div class="service-plan-item">
-          <div class="service-icon"><img src="../assets/img/service3.png" alt=""></div>
+          <div class="service-icon"><img src="../../assets/img/service3.png" alt=""></div>
           <div class="service-title">咨询规划与设计实施</div>
           <div class="service-desc">帮助客户构筑从战略到转化的桥梁，通过平台架构的顶层设计，引领企业移动数据化转型。</div>
         </div>
@@ -33,7 +33,7 @@ export default {
 
 <style lang="stylus" scoped>
 .home-service-plan
-  background url('../assets/img/servicePlan.jpg') no-repeat
+  background url('../../assets/img/servicePlan.jpg') no-repeat
   background-size cover
   color #FFFFFF
   text-align center

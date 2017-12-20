@@ -57,26 +57,26 @@ export default {
     return {
       platformLists: [
         [
-          {img: require('../assets/img/live.png'), title: '真人LIVE', msg: '真人荷官游戏体验，亲临现场的感觉，全新上线B27、免佣等投注模式，为您创造更多样的玩法。'},
-          {img: require('../assets/img/game.png'), title: '电子游戏', msg: '老虎机、水果机、动物乐园、打鱼等多样化的电子游戏，根据全球受欢迎程度，每月更新2款以上。'}
+          {img: require('@/assets/img/live.png'), title: '真人LIVE', msg: '真人荷官游戏体验，亲临现场的感觉，全新上线B27、免佣等投注模式，为您创造更多样的玩法。'},
+          {img: require('@/assets/img/game.png'), title: '电子游戏', msg: '老虎机、水果机、动物乐园、打鱼等多样化的电子游戏，根据全球受欢迎程度，每月更新2款以上。'}
         ],
         [
-          {img: require('../assets/img/chess.png'), title: '棋牌游戏', msg: '多种类别的棋牌游戏，满足各地域不同的需求，开房者还可自由配置游戏模式、抽水模式等参数。'},
-          {img: require('../assets/img/sports.png'), title: '体育赛事', msg: '健全的的体育博彩系统，拥有超过50种不同类型的体育走地赛事，每月超过10,000场赛事预播及直播。'}
+          {img: require('@/assets/img/chess.png'), title: '棋牌游戏', msg: '多种类别的棋牌游戏，满足各地域不同的需求，开房者还可自由配置游戏模式、抽水模式等参数。'},
+          {img: require('@/assets/img/sports.png'), title: '体育赛事', msg: '健全的的体育博彩系统，拥有超过50种不同类型的体育走地赛事，每月超过10,000场赛事预播及直播。'}
         ]
       ],
       lag: '真人LIVE',
       imgLists: [
-        {img: require('../assets/img/live.jpg'), title: '真人LIVE'},
-        {img: require('../assets/img/game.jpg'), title: '电子游戏'},
-        {img: require('../assets/img/chess.jpg'), title: '棋牌游戏'},
-        {img: require('../assets/img/sports.jpg'), title: '体育赛事'}
+        {img: require('@/assets/img/live.jpg'), title: '真人LIVE'},
+        {img: require('@/assets/img/game.jpg'), title: '电子游戏'},
+        {img: require('@/assets/img/chess.jpg'), title: '棋牌游戏'},
+        {img: require('@/assets/img/sports.jpg'), title: '体育赛事'}
       ],
       mobileLists: [
-        {icon: require('../assets/img/live2.png'), img: require('../assets/img/live.jpg'), title: '真人LIVE', msg: '真人荷官游戏体验，亲临现场的感觉，全新上线B27、免佣等投注模式，为您创造更多样的玩法。'},
-        {icon: require('../assets/img/game2.png'), img: require('../assets/img/game.jpg'), title: '电子游戏', msg: '老虎机、水果机、动物乐园、打鱼等多样化的电子游戏，根据全球受欢迎程度，每月更新2款以上。'},
-        {icon: require('../assets/img/chess2.png'), img: require('../assets/img/chess.jpg'), title: '棋牌游戏', msg: '多种类别的棋牌游戏，满足各地域不同的需求，开房者还可自由配置游戏模式、抽水模式等参数。'},
-        {icon: require('../assets/img/sports2.png'), img: require('../assets/img/sports.jpg'), title: '体育赛事', msg: '健全的的体育博彩系统，拥有超过50种不同类型的体育走地赛事，每月超过10,000场赛事预播及直播。'}
+        {icon: require('@/assets/img/live2.png'), img: require('@/assets/img/live.jpg'), title: '真人LIVE', msg: '真人荷官游戏体验，亲临现场的感觉，全新上线B27、免佣等投注模式，为您创造更多样的玩法。'},
+        {icon: require('@/assets/img/game2.png'), img: require('@/assets/img/game.jpg'), title: '电子游戏', msg: '老虎机、水果机、动物乐园、打鱼等多样化的电子游戏，根据全球受欢迎程度，每月更新2款以上。'},
+        {icon: require('@/assets/img/chess2.png'), img: require('@/assets/img/chess.jpg'), title: '棋牌游戏', msg: '多种类别的棋牌游戏，满足各地域不同的需求，开房者还可自由配置游戏模式、抽水模式等参数。'},
+        {icon: require('@/assets/img/sports2.png'), img: require('@/assets/img/sports.jpg'), title: '体育赛事', msg: '健全的的体育博彩系统，拥有超过50种不同类型的体育走地赛事，每月超过10,000场赛事预播及直播。'}
       ]
     }
   },

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import progress from 'nprogress'
 
 import Home from '@/views/home'
-import About from '@/views/about'
+import Ascendant from '@/views/Ascendant'
 
 Vue.use(Router)
 
@@ -20,9 +20,9 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/About',
-      name: 'About',
-      component: About
+      path: '/Ascendant',
+      name: 'Ascendant',
+      component: Ascendant
     }
   ]
 })

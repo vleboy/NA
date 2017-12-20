@@ -56,11 +56,11 @@
             FOLLOW US ON SOCIAL NETWORK
           </div>
           <div class="us-info-share">
-            <span><img src="../assets/img/Instagram.png" alt=""></span>
-            <span><img src="../assets/img/Twitter.png" alt=""></span>
-            <span><img src="../assets/img/Facebook.png" alt=""></span>
-            <span><img src="../assets/img/Google.png" alt=""></span>
-            <span><img src="../assets/img/Linkedin.png" alt=""></span>
+            <span><img src="../../assets/img/Instagram.png" alt=""></span>
+            <span><img src="../../assets/img/Twitter.png" alt=""></span>
+            <span><img src="../../assets/img/Facebook.png" alt=""></span>
+            <span><img src="../../assets/img/Google.png" alt=""></span>
+            <span><img src="../../assets/img/Linkedin.png" alt=""></span>
           </div>
         </div>
       </div>

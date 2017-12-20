@@ -7,6 +7,9 @@
 
 <script>
 export default {
+  head: {
+    title: 'NA优势'
+  }
 }
 </script>
 

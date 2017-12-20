@@ -10,14 +10,14 @@
         <div class="footer-header-items column is-4">
            <div class="footer-header-title">Share with Love</div>
            <ul>
-             <li><img src="../assets/img/Shape11.png" alt=""></li>
-             <li><img src="../assets/img/Shape3.png" alt=""></li>
-             <li><img src="../assets/img/Shape6.png" alt=""></li>
+             <li><img src="../../assets/img/Shape11.png" alt=""></li>
+             <li><img src="../../assets/img/Shape3.png" alt=""></li>
+             <li><img src="../../assets/img/Shape6.png" alt=""></li>
            </ul>
          </div>
 
          <div class="footer-header-items footer-hearer-icon column is-4">
-          <img src="../assets/img/footericon.png" alt="">
+          <img src="../../assets/img/footericon.png" alt="">
          </div>
        </div>
     </div>

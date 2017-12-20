@@ -2,13 +2,13 @@
   <div class="page">
     <div class="home-menu">
       <h1>
-        <img src="../assets/img/logo.png" alt="">
+        <img src="../../assets/img/logo.png" alt="">
         <p>新亚洲集团</p>
       </h1>
       <nav>
         <ul>
-          <li class="active">首页</li>
-          <li>NA优势</li>
+          <li :class="{active: $route.path === '/'}"><router-link to="/">{{$router.path}}首页</router-link></li>
+          <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">NA优势</router-link></li>
           <li>创新产品</li>
           <li>NA游戏</li>
           <li>服务方案</li>
@@ -27,17 +27,19 @@
             <span></span>
           </div>
         </div>
-        <h1><img src="../assets/img/logo.png" alt=""></h1>
+        <h1><img src="../../assets/img/logo.png" alt=""></h1>
       </div>
 
-      <ul class="mobile" v-show="showMenu">
-        <li class="active">NA优势</li>
-        <li>创新产品</li>
-        <li>NA游戏</li>
-        <li>服务方案</li>
-        <li>联系我们</li>
-        <li>游戏下载</li>
-      </ul>
+      <transition name="mobileShow">
+        <ul class="mobile" v-show="showMenu">
+          <li class="active">NA优势</li>
+          <li>创新产品</li>
+          <li>NA游戏</li>
+          <li>服务方案</li>
+          <li>联系我们</li>
+          <li>游戏下载</li>
+        </ul>
+      </transition>
     </div>
   </div>
 </template>
@@ -51,6 +53,9 @@ export default {
     return {
       showMenu: false
     }
+  },
+  mounted () {
+    console.log(this.$route)
   },
   methods: {
     showView () {
@@ -145,7 +150,7 @@ export default {
     color #ffffff
 
   .mobile
-    height 100%
+    height 100vh
     display flex
     flex-direction column
     align-items center
@@ -159,4 +164,8 @@ export default {
       padding 15px 0
   .active
     color #FFCB16
+  .mobileShow-enter-active, .mobileShow-leave-active
+    transition opacity .5s
+  .mobileShow-enter, .mobileShow-leave-to
+    opacity 0
 </style>

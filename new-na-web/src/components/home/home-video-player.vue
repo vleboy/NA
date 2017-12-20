@@ -1,7 +1,7 @@
 <template>
   <div class="home-video-player" @click="playVideo">
-    <video poster="/static/videoBg.png">
-      <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+    <video poster="/static/videoBg.jpg">
+      <source src="" type="video/mp4">
       您的浏览器不能使用最新的视频播放方式呢
     </video>
   </div>
@@ -34,7 +34,7 @@ export default {
   video
     width 100%
     max-height 680px
-    background url('/static/videoBg.png') no-repeat
+    background url('/static/videoBg.jpg') no-repeat
     background-size cover
 </style>
 

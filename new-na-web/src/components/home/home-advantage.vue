@@ -16,7 +16,7 @@
           </ul>
         </div>
         <div class="advantage-img">
-          <img src="../assets/img/advantageRight.png" alt="">
+          <img src="../../assets/img/advantageRight.png" alt="">
         </div>
       </div>
     </div>
@@ -28,11 +28,11 @@ export default {
   data () {
     return {
       advantageLists: [
-        {icon: require('../assets/img/advantage1.png'), descCn: '强大的移动端', descEn: 'Powerful mobile version'},
-        {icon: require('../assets/img/advantage2.png'), descCn: '专业的技术团队', descEn: 'Professional technical team'},
-        {icon: require('../assets/img/advantage3.png'), descCn: '完善的经营分析系统', descEn: 'Perfect operating analysis'},
-        {icon: require('../assets/img/advantage4.png'), descCn: '严谨的权限管理系统', descEn: 'Rigorous access management'},
-        {icon: require('../assets/img/advantage5.png'), descCn: '7x24小时支持服务', descEn: '24/7 Support service'}
+        {icon: require('@/assets/img/advantage1.png'), descCn: '强大的移动端', descEn: 'Powerful mobile version'},
+        {icon: require('@/assets/img/advantage2.png'), descCn: '专业的技术团队', descEn: 'Professional technical team'},
+        {icon: require('@/assets/img/advantage3.png'), descCn: '完善的经营分析系统', descEn: 'Perfect operating analysis'},
+        {icon: require('@/assets/img/advantage4.png'), descCn: '严谨的权限管理系统', descEn: 'Rigorous access management'},
+        {icon: require('@/assets/img/advantage5.png'), descCn: '7x24小时支持服务', descEn: '24/7 Support service'}
       ]
     }
   }

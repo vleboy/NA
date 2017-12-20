@@ -1,7 +1,13 @@
 <template>
   <div class="home-cooperation">
     <div class="container">
-      <div class="company-item boxs" v-for = "lists in companyLists ">
+      <div class="company-item boxs pc" v-for = "lists in companyLists ">
+        <ul>
+          <li v-for="item in lists"><img :src="item.url" alt="1"></li>
+        </ul>
+      </div>
+
+      <div class="company-item boxs mobile" v-for = "lists in companyLists2 ">
         <ul>
           <li v-for="item in lists"><img :src="item.url" alt="1"></li>
         </ul>
@@ -24,10 +30,31 @@ export default {
           { url: require('@/assets/img/company5.png') }
         ],
         [
+          { url: require('@/assets/img/company6.png') },
+          { url: require('@/assets/img/company7.png') },
+          { url: require('@/assets/img/company8.png') },
+          { url: require('@/assets/img/company9.png') },
+          { url: require('@/assets/img/company10.png') }
+        ]
+      ],
+      companyLists2: [
+        [
           { url: require('@/assets/img/company1.png') },
           { url: require('@/assets/img/company2.png') },
-          { url: require('@/assets/img/company3.png') },
-          { url: require('@/assets/img/company4.png') }
+          { url: require('@/assets/img/company3.png') }
+        ],
+        [
+          { url: require('@/assets/img/company4.png') },
+          { url: require('@/assets/img/company5.png') },
+          { url: require('@/assets/img/company6.png') }
+        ],
+        [
+          { url: require('@/assets/img/company7.png') },
+          { url: require('@/assets/img/company8.png') },
+          { url: require('@/assets/img/company9.png') }
+        ],
+        [
+          { url: require('@/assets/img/company10.png') }
         ]
       ]
     }
@@ -37,7 +64,7 @@ export default {
 
 <style lang="stylus" scoped>
 .home-cooperation
-  background url('../assets/img/cooperation.png') no-repeat
+  background url('../../assets/img/cooperation.png') no-repeat
   background-size cover
   padding 60px 0
   .company-item
@@ -50,6 +77,10 @@ export default {
       li
         flex-basis 20%
         padding  0 45px
+  .pc
+    display block
+  .mobile
+    display none
 @media (min-width: 768px) and (max-width: 1200px)
   .home-cooperation
     padding 20px 0
@@ -62,8 +93,10 @@ export default {
         li
           flex-basis 30%
           padding 0
-        li:nth-last-child(2)
-          display none
+    .pc
+      display none
+    .mobile
+      display block
 </style>
 
 
