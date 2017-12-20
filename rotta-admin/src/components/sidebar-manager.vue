@@ -7,23 +7,29 @@
               <el-menu-item index="board">看板</el-menu-item>
               <el-menu-item index="personal">个人中心</el-menu-item>
               <el-submenu index="1">
+                  <template slot="title">输赢报表</template>
+                  <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
+                  <el-menu-item index="liveGameReport">真人游戏总报表</el-menu-item>
+                  <el-menu-item index="arcadeGameReport">街机游戏总报表</el-menu-item>
+              </el-submenu>
+              <el-submenu index="2">
                   <template slot="title">商户中心</template>
-                  <el-submenu index="1-1">
+                  <el-submenu index="2-1">
                       <template slot="title">线路商管理</template>
                       <el-menu-item index="outlist">线路商列表</el-menu-item>
                       <el-menu-item index="" @click="comingSoon">创建线路商</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="1-2">
+                  <el-submenu index="2-2">
                       <template slot="title">商户管理</template>
                       <el-menu-item index="comlist">商户列表</el-menu-item>
                       <el-menu-item index="" @click="comingSoon">创建商户</el-menu-item>
                   </el-submenu>
               </el-submenu>
-              <el-submenu index="2">
+              <el-submenu index="3">
                   <template slot="title">玩家中心</template>
                   <el-menu-item index="playerlist">玩家列表</el-menu-item>
               </el-submenu>
-              <el-submenu index="3">
+              <el-submenu index="4">
                   <template slot="title">游戏中心</template>
                   <el-menu-item index="gamelist">游戏列表</el-menu-item>
                   <el-menu-item index="gameBackstage">游戏后台</el-menu-item>

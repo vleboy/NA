@@ -2,7 +2,7 @@
   <div class="vedioGame-report">
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
-        <p class="title" style="float:left">当前选择列表<span v-if="nowRole != 01" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
+        <p class="title" style="float:left">当前选择列表<span v-if="nowRole != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
         <div style="float:right;margin-right:1rem">
           <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围(默认最近一周)" :editable="false"></el-date-picker>
           <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData" :loading="loading">搜索</el-button>
@@ -51,7 +51,7 @@
       </el-table>
     </div>
 
-    <div class="childlist">
+    <div class="childlist" v-if="loginRole != '100'">
       <p class="title">下级列表</p>
       <el-table :data="vedioNowchild" stripe>
         <el-table-column label="序号" prop="" align="center" width="75" type="index">
@@ -180,7 +180,7 @@ export default {
       return data
     },
     vedioNowlist () {
-      this.nowRole = this.$store.state.variable.vedioGameData.nowList.role
+      this.nowRole = this.$store.state.variable.vedioGameData.nowList.userId
       let data = [this.$store.state.variable.vedioGameData.nowList]
       return data
     },
@@ -299,7 +299,9 @@ export default {
       childPage: 1,
       playerSize: 20,
       playerPage: 1,
-      nowRole: ''
+      nowRole: '',
+      loginId: localStorage.loginId,
+      loginRole: localStorage.loginRole
     }
   },
   methods: {

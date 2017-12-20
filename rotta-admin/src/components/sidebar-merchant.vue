@@ -6,6 +6,12 @@
               <div class="logo"><img style=" width: 60%;" src="static/NAlogo.png"></div>
               <el-menu-item index="board">看板</el-menu-item>
               <el-menu-item index="personal">个人中心</el-menu-item>
+              <el-submenu index="1">
+                  <template slot="title">输赢报表</template>
+                  <el-menu-item index="vedioGameReport">电子游戏总报表</el-menu-item>
+                  <el-menu-item index="liveGameReport">真人游戏总报表</el-menu-item>
+                  <el-menu-item index="arcadeGameReport">街机游戏总报表</el-menu-item>
+              </el-submenu>
               <el-submenu index="2">
                   <template slot="title">玩家中心</template>
                   <el-menu-item index="playerlist">玩家列表</el-menu-item>
