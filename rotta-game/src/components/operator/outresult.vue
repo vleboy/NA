@@ -1,36 +1,49 @@
 <template>
   <div class="outresult">
     <el-table stripe :data="companyList">
-        <el-table-column label="序号" prop="companyName" align="center" width="65" type="index">
-        </el-table-column>
-        <el-table-column label="运营商名称" prop="companyName" align="center">
-        </el-table-column>
-        <!--<el-table-column label="合作模式" prop="rate" :formatter='getRate' align="center">-->
-        <!--</el-table-column>-->
-        <el-table-column label="联系方式" prop="companyContactWay" align="center">
-        </el-table-column>
-        <el-table-column label="运营商邮箱" prop="companyEmail" align="center">
-        </el-table-column>
-        <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" align="center" min-width="95">
-        </el-table-column>
-        </el-table-column>
-        <el-table-column label="状态" align="center" prop="status" :formatter="getStatus" width="90">
-        </el-table-column>
-        <el-table-column label="备注" align="center" width="65">
-          <template scope="scope">
-            <el-popover trigger="hover" placement="bottom-start" width="250">
-              <p>{{scope.row.remark == 'NULL!' ? '' : scope.row.remark}}</p>
-              <div slot="reference" class="">
-                <el-icon name="search" style="color:#108ee9"></el-icon>
-              </div>
-            </el-popover>
-          </template>
-        </el-table-column>
+      <el-table-column label="序号" prop="companyName" align="center" width="65" type="index">
+      </el-table-column>
+      <el-table-column label="运营商名称" prop="companyName" align="center">
+      </el-table-column>
+      <el-table-column label="运营商标识" prop="companyIden" align="center">
+      </el-table-column>
+      <el-table-column label="运营商接入类型" prop="companyType" align="center">
+        <template scope="scope">
+          {{companyTypeArray[scope.row.companyType-1]}}
+        </template>
+      </el-table-column>
+      <el-table-column label="联系方式" prop="companyContactWay" align="center">
+      </el-table-column>
+      <el-table-column label="运营商邮箱" prop="companyEmail" align="center">
+      </el-table-column>
+      <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" align="center" min-width="95">
+      </el-table-column>
+      </el-table-column>
+      <el-table-column label="状态" align="center" prop="companyStatus" width="90">
+        <template scope="scope">
+          <el-tag :type="scope.row.companyStatus ? 'success' : 'danger'">
+            {{status[scope.row.companyStatus]}}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="key" align="center" prop="companyKey" width="190">
+      </el-table-column>
+      <el-table-column label="备注" align="center" width="65">
+        <template scope="scope">
+          <el-popover trigger="hover" placement="bottom-start" width="250">
+            <p>{{scope.row.remark == 'NULL!' ? '' : scope.row.remark}}</p>
+            <div slot="reference" class="">
+              <el-icon name="search" style="color:#108ee9"></el-icon>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" min-width="65">
-            <template scope="scope">
-                <el-button type="text"  @click="goDetail(scope.row)">查看</el-button>
-                <el-button type="text"  @click="editOperator(scope.row)">编辑</el-button>
-            </template>
+        <template scope="scope">
+          <el-button type="text"  @click="goDetail(scope.row)">查看</el-button>
+          <el-button type="text"  @click="editOperator(scope.row)">编辑</el-button>
+          <el-button type="text"  @click="operation(scope.row)">{{scope.row.companyStatus ? '停用':'启用'}}</el-button>
+        </template>
         </el-table-column>
     </el-table>
     <div class="page">
@@ -58,6 +71,7 @@ export default {
     return {
       nowSize: 5,
       nowPage: 1,
+      companyTypeArray: ['A类','B类'],
       status: ['锁定', '正常']
     }
   },
@@ -71,9 +85,6 @@ export default {
     }
   },
   methods: {
-    getStatus (row, col) {
-      return this.status[row.companyStatus]
-    }, // 格式化登录状态
     getAtime (row, col) {
       var now = new Date(parseFloat(row.createdAt)) + ''
       var formatprev = dateformat(now, 'isoDate')
@@ -108,6 +119,43 @@ export default {
         type: 'storageOperatorItem',
         data: item
       })
+    },
+    operation (data) {
+      this.$confirm(`${data.companyStatus ? '此操作将停用该运营商下的所有游戏， 是否继续？' : '此操作将启用该运营商，旗下所有游戏将生效，是否继续？'}`,
+        '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$store.commit('startLoading')
+        invoke({
+          url: api.changeCompany,
+          method: api.post,
+          data:{
+            companyName: data.companyName,
+            companyId: data.companyId,
+            status: data.companyStatus ? 0 : 1
+          }
+        }).then((data) => {
+          let [err, res] = data
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            this.$store.dispatch('getOperatorList')
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            });
+          }
+          this.$store.commit('closeLoading')
+        })
+      });
+    },
+    getCompanyList () {
+
     },
     getNowsize (size) {
       this.nowSize = size

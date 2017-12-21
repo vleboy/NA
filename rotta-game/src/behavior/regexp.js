@@ -1,6 +1,15 @@
 import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
 import store from '@/store/store'
+
+export const pattern = {
+  positiveInteger: new RegExp(/^[0-9]*[1-9][0-9]*$/),  // 正整数
+  url: new RegExp(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&:/~+#]*[\w\-@?^=%&/~+#])?/), // url验证
+  digitalRange : new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/), // 数字范围验证 （0.00-100.00）
+  positive : new RegExp(/^[0-9]+([.]{1}[0-9]{1,2})?$/), // 正数，保留两位小数点
+  nonChinese : new RegExp(/^[\w\s]+$/) // 非中文验证
+}
+
 export const checkUsername = (rule, value, callback) => {
   var username = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
   if (value === '') {
