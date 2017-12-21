@@ -40,15 +40,9 @@ import api from '@/api/api'
 // import { checkUsername, checkPassword, checkCaptcha, checkSuffix } from '@/behavior/regexp'
 export default {
   name: 'login',
-  computed: {
-    loading () {
-      return this.$store.state.variable.isloading
-    }
-  },
-  mounted () {
-  },
   data () {
     return {
+      loading: false,
       userInfo: {
         role: '10',
         username: '', // 用户名
@@ -94,7 +88,7 @@ export default {
       }
     }, // 获取验证码
     login () {
-      this.$store.commit('startLoading')
+      this.loading = true
       var log = this.userInfo
       invoke({
         url: api.login,
@@ -111,7 +105,7 @@ export default {
             this.userInfo.captcha = ''
             this.userInfo.getcode = ''
             this.getcaptcha()
-            this.$store.commit('closeLoading')
+            this.loading = false
           } else {
             var success = ret.data.payload
             // console.log('登录成功返回数据', success)
@@ -119,7 +113,7 @@ export default {
               message: '登录成功',
               type: 'success'
             })
-            this.$store.commit('closeLoading')
+            this.loading = false
             this.$store.commit({
               type: 'recordToken',
               data: success.token

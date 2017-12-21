@@ -413,6 +413,11 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.path == '/login') {
+    if (localStorage.loginId) {
+      next('/welcome')
+    }
+  }
   if (!localStorage.loginRole) {
     store.state.variable.islogin = false
     store.state.variable.isloading = false
