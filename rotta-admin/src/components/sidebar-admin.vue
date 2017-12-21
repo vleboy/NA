@@ -45,11 +45,11 @@
                       <template slot="title">活动管理</template>
                         <el-menu-item index=""></el-menu-item>
                   </el-submenu> -->
-                 <el-submenu index="5-2">
-                      <template slot="title">游戏配置</template>
-                      <el-menu-item index="videoGameConfig">电子游戏配置</el-menu-item>
+                  <el-submenu index="5-2">
+                    <template slot="title">NA游戏配置</template>
+                    <el-menu-item index="videoGameConfig">NA电子游戏配置</el-menu-item>
                   </el-submenu>
-                 <el-submenu index="5-3">
+                  <el-submenu index="5-3">
                     <template slot="title">神秘大奖</template>
                     <el-menu-item index="prizePlayerList">玩家中奖列表</el-menu-item>
                     <el-menu-item index="prizeConfig">奖品配置</el-menu-item>
@@ -73,7 +73,7 @@
               </el-submenu>
               <el-submenu index="6" v-show="userRight.computerGame.hasRight">
                 <template slot="title">风控中心</template>
-                <el-menu-item index="computerGame">电子游戏风控</el-menu-item>
+                <el-menu-item index="computerGame">NA电子游戏</el-menu-item>
               </el-submenu>
               <!-- <el-submenu index="6" v-show="this.userRight.finance === true">
                   <template slot="title">财务中心</template>

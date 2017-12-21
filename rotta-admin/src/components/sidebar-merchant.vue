@@ -53,7 +53,7 @@
               </el-submenu>
               <el-submenu index="7">
                   <template slot="title">系统设置</template>
-                  <!-- <el-submenu index="7-1">
+                  <el-submenu index="7-1">
                       <template slot="title">登录日志</template>
                       <el-menu-item index="">玩家登录日志</el-menu-item>
                       <el-menu-item index="merchantloginlist">商户登录日志</el-menu-item>
