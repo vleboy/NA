@@ -87,6 +87,8 @@ const api = {
 
   changeCompany: front.diana + front.stage + '/companyChangeStatus',
 
+  companySelect: front.diana + front.stage + '/companySelect', // 获取运营商标识
+
   // hulk
 
   billTransfer: front.hulk + front.stage + '/billTransfer', // 存提点接口

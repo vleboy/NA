@@ -39,6 +39,8 @@ const variable = {
 
   operatorItem: '', // 游戏运营商单条数据存储
 
+  gameOneItem: '', // 游戏列表单条数据存储
+
   isEdit: false
 }
 

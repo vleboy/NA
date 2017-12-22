@@ -15,12 +15,22 @@ const getters = {
 }
 const actions = {
   getGamelist (context) {
+    if(state.variable.getSearchGame.gameName == ''){
+      delete state.variable.getSearchGame.gameName
+    }
+    if (!state.variable.getSearchGame.createdDate || state.variable.getSearchGame.createdDate == null) {
+      delete state.variable.getSearchGame.createdDate
+    }
+    if(state.variable.getSearchGame.companyIden == '' || state.variable.getSearchGame.companyIden == '全部'){
+      delete state.variable.getSearchGame.companyIden
+    }
     context.commit('startLoading')
     invoke({
       url: api.gameList,
       method: api.post,
       data: {
-        gameType: null
+        gameType: null,
+        query: state.variable.getSearchGame
       }
     }).then(
       result => {
@@ -198,28 +208,6 @@ const mutations = {
     state.variable.getSearchGame = payload.data
   }, // 获取游戏搜索条件
 
-  gamelistSearch () {
-    state.variable.gameList = state.variable.searchOld
-    if (state.variable.getSearchGame.gameName) {
-      state.variable.gameList = state.variable.gameList.filter(item => {
-        return item.gameName === state.variable.getSearchGame.gameName
-      })
-    } else if (state.variable.getSearchGame.company) {
-      state.variable.gameList = state.variable.gameList.filter(item => {
-        return item.company.companyName === state.variable.getSearchGame.company
-      })
-    } else if (state.variable.getSearchGame.Email) {
-      state.variable.gameList = state.variable.gameList.filter(item => {
-        return item.merchantEmail === state.variable.getSearchGame.Email
-      })
-    } else if (state.variable.getSearchGame.createAt) {
-      state.variable.gameList = state.variable.gameList.filter(item => {
-        var formatprev = dateformat(new Date(parseFloat(item.createdAt)), 'isoDate')
-        return formatprev === dateformat(new Date(parseFloat(state.variable.getSearchGame.createAt)), 'isoDate')
-      })
-    }
-  }, // 搜索商户列表数据
-
   changeSteps () {
     state.variable.steps = 2
   }, // 改变步骤条状态
@@ -273,6 +261,10 @@ const mutations = {
   storageOperatorItem (state, payload) {
     state.variable.operatorItem = payload.data
   }, // 单个游戏运营商数据存储
+
+  storageGameOneItem (state, payload) {
+    state.variable.gameOneItem = payload.data
+  }, // 单个游戏列表存储
 
   resetTab (state) {
     state.variable.visitedViews = []

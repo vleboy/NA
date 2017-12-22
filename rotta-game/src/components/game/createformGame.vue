@@ -4,23 +4,26 @@
     <el-form :model="managerInfo" :rules="rules" ref="managerInfo" class="createform" label-width="150px"
              label-position="right">
       <el-form-item label="游戏名称" prop="gameName">
-        <el-input v-model="managerInfo.gameName" class="input" type="text" placeholder="请输入" :maxlength='20'></el-input>
+        <el-input v-model="managerInfo.gameName" class="input" type="text" :disabled="this.$store.state.variable.isEdit" placeholder="请输入游戏名称" :maxlength='20'></el-input>
+      </el-form-item>
+      <el-form-item label="游戏标识" prop="gameIden">
+        <el-input v-model="managerInfo.gameIden" class="input" type="text" :disabled="this.$store.state.variable.isEdit" placeholder="请输入游戏标识" :maxlength='20'></el-input>
       </el-form-item>
       <el-form-item label="游戏简介" prop="gameRecommend">
-        <el-input v-model="managerInfo.gameRecommend" class="input" placeholder="请输入" type="textarea" :maxlength='200'></el-input>
+        <el-input v-model="managerInfo.gameRecommend" class="input" placeholder="请输入游戏简介" type="textarea" :maxlength='200'></el-input>
       </el-form-item>
-      <el-form-item label="KindId" prop="kindId">
-        <el-input v-model="managerInfo.kindId" class="input" placeholder="请输入" type="number" :maxlength='5'></el-input>
-      </el-form-item>
-      <el-form-item label="所属分类" prop="gameType">
-        <el-select v-model="managerInfo.gameType" placeholder="请选择" clearable class="input">
-          <el-option v-for="item in options" :key="item.code" :label="item.name" :value="item.code" class="select-width"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="所属运营商" prop="company">
-        <el-select v-model="managerInfo.company" placeholder="请选择" clearable class="input" :change="changeCompany()">
+      <el-form-item label="所属运营商" prop="companyName">
+        <el-select v-model="managerInfo.companyName" placeholder="请选择所属运营商" clearable class="input" @change="changeCompany">
           <el-option v-for="item in companyOptions" :key="item.companyName" :value="item.companyName" class="select-width"></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="游戏类别" prop="gameType">
+      <el-select v-model="managerInfo.gameType" placeholder="请选择游戏类别" clearable class="input">
+        <el-option v-for="item in gameTypeOptions" :key="item.code" :label="item.name" :value="item.code" class="select-width"></el-option>
+      </el-select>
+      </el-form-item>
+      <el-form-item label="KindId" prop="kindId">
+        <el-input v-model="managerInfo.kindId" class="input" :disabled="this.$store.state.variable.isEdit" placeholder="请输入KindId(范围1-9999)" type="number" :maxlength='5'></el-input>
       </el-form-item>
       <el-form-item label="key" v-if="companyKey">
         <el-tag type="danger">{{companyKey}}</el-tag>
@@ -41,10 +44,16 @@
         <div class="el-upload__tip">只能上传一张jpg/png文件，且不超过1M</div>
       </el-form-item>
       <el-form-item label="服务器" prop="ip">
-        <el-input v-model="managerInfo.ip" class="input" placeholder="请输入 （如：xxx.xxx.xxx.xxx）"></el-input>
+        <el-input v-model="managerInfo.ip" class="input" placeholder="请输入ip地址 （如：xxx.xxx.xxx.xxx）"></el-input>
       </el-form-item>
       <el-form-item label="端口" prop="port">
-        <el-input v-model="managerInfo.port" class="input" type="number" placeholder="请输入"></el-input>
+        <el-input v-model="managerInfo.port" class="input" type="number" placeholder="请输入端口号"></el-input>
+      </el-form-item>
+      <el-form-item label="网页游戏" style="text-align: left">
+        <el-checkbox v-model="isShowWebGame"></el-checkbox>
+      </el-form-item>
+      <el-form-item label="网页地址" v-if="isShowWebGame">
+        <el-input v-model="managerInfo.gameLink" placeholder="请输入网页游戏地址"></el-input>
       </el-form-item>
     </el-form>
     <div class="stepbtn createform">
@@ -57,6 +66,7 @@
 
 <script type="text/ecmascript-6">
   import { invoke } from '@/libs/fetchLib'
+  import { pattern } from '@/behavior/regexp'
   import api from '@/api/api'
   export default {
     name: 'createform',
@@ -142,12 +152,27 @@
         if (value === '') {
           callback(new Error('请输入KindId'))
           this.isfinish.kindId = false
-        } else if (value < 0) {
-          callback(new Error('必须为正数'))
+        } else if (!pattern.positiveInteger.exec(value) || value > 9999) {
+          callback(new Error('必须为正整数，范围在1-9999之间'))
           this.isfinish.kindId = false
         } else {
           callback()
           this.isfinish.kindId = true
+        }
+      } // kindID
+      var validateGameIden = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入游戏标识'))
+          this.isfinish.gameIden = false
+        } else if (!pattern.nonChinese.exec(value)) {
+          callback(new Error('请输入字母或者数字'))
+          this.isfinish.gameIden = false
+        } else if (value.length > 10) {
+          callback(new Error('标识长度最多为10位'))
+          this.isfinish.gameIden = false
+        } else {
+          callback()
+          this.isfinish.gameIden = true
         }
       } // 端口
       return {
@@ -158,7 +183,8 @@
           port: false,
           ip: false,
           kindId: false,
-          gameRecommend: false
+          gameRecommend: false,
+          gameIden: false
         },
         managerInfo: {
           gameName: '', // 名称
@@ -168,7 +194,12 @@
           ip: '', // 服务器
           kindId: '', // kindId
           gameRecommend: '', // 简介
-          gameImg: '' // 游戏logo
+          gameImg: '', // 游戏logo
+          gameLink: '', // 网页游戏链接
+          isWebGame: '', // 网页游戏标识
+          gameIden: '', // 标识
+          companyIden: '', // 运营商标识
+          companyName: '' // 运营商名称
         }, // 创建列表
         rules: {
           gameName: [
@@ -191,6 +222,9 @@
           ],
           kindId: [
             {validator: validateKindId, trigger: 'blur'}
+          ],
+          gameIden: [
+            {validator: validateGameIden, trigger: 'blur'}
           ]
         }, // 列表验证规则
         options: [],
@@ -201,7 +235,11 @@
           key: '',
           token: ''
         },
-        dialogLoading: false
+        dialogLoading: false,
+        isShowWebGame: false,
+        gameTypeOptions: [],
+        companyIden: '',
+        companyKey: ''
       }
     },
     computed: {
@@ -210,23 +248,57 @@
       }
     },
     created () {
-      this.getGameType()
+      const storeInfo = this.$store.state.variable.gameOneItem
+      if (this.$store.state.variable.isEdit) {
+        this.managerInfo = {
+          gameId: storeInfo.gameId,
+          gameName: storeInfo.gameName, // 运营商名称
+          gameIden: storeInfo.gameIden, // 运营商名标识
+          gameRecommend: storeInfo.gameRecommend, // 简介
+          kindId: storeInfo.kindId, // kindId
+          gameType: storeInfo.gameType, // 游戏类别
+          gameImg: storeInfo.gameImg, // logo
+          ip: storeInfo.ip, // 服务器ip
+          isWebGame: storeInfo.isWebGame, // 是否是网页游戏
+          port: storeInfo.port, // 端口
+          gameLink: storeInfo.gameLink, // 链接
+          company: storeInfo.company // 游戏厂商规则
+        }
+        this.isShowWebGame = storeInfo.isWebGame == '1'
+
+        this.isfinish = {
+          gameName: true,
+          gameType: true,
+          company: true,
+          port: true,
+          ip: true,
+          kindId: true,
+          gameRecommend: true,
+          gameIden: true
+        }
+      }
     },
     methods: {
       postCreateform () {
-        if (!this.isfinish.gameName || !this.managerInfo.gameType || !this.managerInfo.company ||
+        if (!this.isfinish.gameName || !this.managerInfo.gameType  || !this.isfinish.gameIden ||
           !this.isfinish.port || !this.isfinish.ip || !this.isfinish.gameRecommend || !this.isfinish.kindId || !this.managerInfo.gameImg) {
           this.$message({
             message: '请完善创建信息',
             type: 'error'
           })
         } else {
-          this.$store.commit('startLoading')
           this.$store.state.variable.operatorList.forEach((item) => {
-            if (item.companyName === this.managerInfo.company) {
+            if (item.companyName === this.managerInfo.companyName) {
               this.managerInfo.company = item
+              this.managerInfo.companyIden = item.companyIden
             }
           })
+          if (this.isShowWebGame && !this.managerInfo.gameLink) {
+            return this.$message.error('请输入网页游戏链接')
+          }
+          this.managerInfo.isWebGame = this.isShowWebGame ? '1' : '0'
+          this.managerInfo.gameLink = this.isShowWebGame ? this.managerInfo.gameLink : ''
+          this.$store.commit('startLoading')
           invoke({
             url: api.addGame,
             method: api.post,
@@ -257,24 +329,35 @@
           port: '', // 端口
           ip: '', // 服务器
           gameRecommend: '', // 简介
-          gameImg: '' // 图片上传 （暂不实现）
+          gameImg: '', // 图片上传 （暂不实现）
+          gameLink: '', // 网页游戏链接
+          isWebGame: '', // 网页游戏标识
+          gameIden: '', // 标识
+          companyIden: '', // 运营商标识
+          companyName: '' // 运营商名称
         }
       },
       changeCompany () {
-        if (this.managerInfo.company) {
-          this.companyOptions.forEach(item => {
-            if (item.companyName === this.managerInfo.company) {
+        if (this.managerInfo.companyName) {
+          for(let item of this.companyOptions) {
+            if (item.companyName === this.managerInfo.companyName) {
               this.companyKey = item.companyKey
+              this.companyIden = item.companyIden
             }
-          })
+          }
+          this.getGameType()
         } else {
           this.companyKey = ''
         }
       }, // 处理select选择后联动
       getGameType () {
+        this.managerInfo.gameType = ''
         invoke({
-          url: api.allGames,
-          method: api.post
+          url: api.gameBigType,
+          method: api.post,
+          data: {
+            companyIden: this.companyIden
+          }
         })
         .then(res => {
           const [err, ret] = res
@@ -284,9 +367,8 @@
               type: 'error'
             })
           } else {
-            this.options = ret.data.payload
+            this.gameTypeOptions = ret.data.payload
           }
-          this.$store.commit('closeLoading')
         })
       },
       requestHeader () {
@@ -372,7 +454,7 @@
   .outcreate{margin-bottom: 4rem}
   .createform{width:52.5rem;margin: 0 auto;}
   .input{width: 100%  ;}
-  .select-width{max-width: 336px}
+  /*.select-width{max-width: 336px}*/
   .title{font-weight: normal;color: #5a5a5a;margin: 1rem 0 2rem 0;text-align: center;margin-left: -30rem}
   .stepbtn{text-align: center}
 </style>

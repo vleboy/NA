@@ -7,21 +7,36 @@
       <el-table stripe :data="gameItems">
         <el-table-column label="游戏名称" prop="gameName" align="center">
         </el-table-column>
+        <el-table-column label="游戏标识" prop="gameIden" align="center">
+        </el-table-column>
         <el-table-column label="分类" :formatter="getType" align="center">
         </el-table-column>
         <el-table-column label="所属运营商" prop="company.companyName" align="center">
         </el-table-column>
-        <!--<el-table-column label="游戏消耗总点数" prop="points" align="center">-->
-        <!--</el-table-column>-->
+        <el-table-column label="所属运营商标识" prop="companyIden" align="center">
+        </el-table-column>
+        <el-table-column label="网页游戏" prop="isWebGame" align="center">
+          <template scope="scope">
+            {{scope.row.isWebGame!='0' ? '是' : '否' }}
+          </template>
+        </el-table-column>
         <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" >
         </el-table-column>
         </el-table-column>
-        <el-table-column label="状态" align="center" :formatter="gameState">
+        <el-table-column label="状态" align="center">
+          <template scope="scope">
+            <el-tag :type="scope.row.gameStatus ? 'success' : 'danger'">
+              {{gameStatus[scope.row.gameStatus]}}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="服务器ip" prop="ip" align="center">
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template scope="scope">
+            <el-button type="text" class="myBtn" @click="gameOperation(scope.row)">{{scope.row.gameStatus ? '停用':'启用'}}</el-button>
             <el-button type="text" class="myBtn" @click="goDetail(scope.row)">查看</el-button>
-            <!--<el-button type="text" class="myBtn" @click="editUser(scope.$index, scope.row)">更多</el-button>-->
+            <!--<el-button type="text" class="myBtn" @click="goUpdate(scope.row)">编辑</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -57,7 +72,7 @@ export default {
       nowSize: 20,
       nowPage: 1,
       gameTypeList: [],
-      gameStatus: ['删除', '上线', '下线', '维护', '故障']
+      gameStatus: ['下线', '正常']
     }
   },
   computed: {
@@ -75,6 +90,15 @@ export default {
   methods: {
     goCreate () {
       this.$router.push('addGame')
+      this.$store.commit('isCloseEdit')
+    },
+    goUpdate(item){
+      this.$router.push('addGame')
+      this.$store.commit('isOpenEdit')
+      this.$store.commit({
+        type: 'storageGameOneItem',
+        data: item
+      })
     },
     getAtime (row, col) {
       var now = new Date(parseFloat(row.createdAt))
@@ -138,6 +162,51 @@ export default {
     getNowpage (page) {
       this.nowPage = page
       console.log('当前是第:' + page + '页')
+    },
+    gameOperation (data) {
+      this.$confirm(`${data.gameStatus ? '此操作将停用该游戏！服务器会踢掉所有正在此游戏的玩家，并且停用游戏！， 是否继续？' :
+        '此操作将启用该游戏，是否继续？'}`,
+        '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+        this.$store.commit('startLoading')
+        invoke({
+          url: api.changeGame,
+          method: api.post,
+          data:{
+            gameType: data.gameType,
+            gameId: data.gameId,
+            status: data.gameStatus ? 0 : 1
+          }
+        }).then((data) => {
+          let [err, res] = data
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            this.$store.dispatch('getGamelist')
+            this.$message({
+              type: 'success',
+              message: '操作成功!'
+            });
+          }
+          this.$store.commit('closeLoading')
+        })
+      });
+    },
+    changeRadio () {
+      this.$store.commit({
+        type: 'gerSearchcondition',
+        data: {
+          id:2,
+          val: this.companyInfo
+        }
+      })
+      this.$store.dispatch('getGamelist')
     }
   },
   components: {
@@ -148,7 +217,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .outresult{padding: 2rem;}
+  .outresult{padding: 2rem; padding-top: 10px}
   .searchResult{padding: 1rem 2rem}
   .justfy1{margin:0 2rem;}
   .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
