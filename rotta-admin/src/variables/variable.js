@@ -115,7 +115,8 @@ const variable = {
   pointsIndex: '', // 加减点发起方式
   pointsObject: {}, // 对详情页用户发起加减点操作的下级信息
 
-  gameListData: [], // 游戏中心游戏类型列表
+  companyList: [], // 游戏中心游戏运营商
+  companyGame: [], // 游戏中心游戏运营商游戏
 
   managerLoginList: [], // 线路商登录日志
   copyManagerLoginList: [], // 线路商登录日志副本

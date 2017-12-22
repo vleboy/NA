@@ -16,10 +16,28 @@
         <el-button type="text" class="" @click="randomMSN">试试手气</el-button>
       </el-form-item>
       <el-form-item label="商户拥有的游戏">
-        <el-select v-model="setcomInfo.gameList" multiple placeholder="请选择" clearable class="input">
-            <el-option v-for="item in allGames" :key="item" :label="item.name" :value="item" style="max-width:336px"></el-option>
+        <el-select v-model="setcomInfo.selectCompany" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
+            <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:10rem"></el-option>
         </el-select>
+
+        <el-select v-model="setcomInfo.selectGame" placeholder="请选择" clearable style="width:10rem;">
+            <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:10rem"></el-option>
+        </el-select>
+
+        <el-button type="text" @click="addGame">添加</el-button>
       </el-form-item>
+      <el-form-item label="" prop="username">
+        <el-table :data="setcomInfo.showSelect" border style="width: 35rem;margin-left:-9rem">
+          <el-table-column prop="company" align="center" label="公司"></el-table-column>
+          <el-table-column prop="gameName" align="center" label="游戏"></el-table-column>
+          <el-table-column align="center" label="操作">
+            <template scope="scope">
+              <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer">删除</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-form-item>
+
       <el-form-item label="商户API白名单" prop="loginWhiteList">
         <el-input v-model="setcomInfo.loginWhiteList" placeholder="请输入IP地址或IP范围,一行一个规则,每行以分号结尾,0.0.0.0为不限制任何IP" type="textarea" :rows="4" class="input" :maxlength="200"></el-input>
       </el-form-item>
@@ -109,7 +127,7 @@ export default {
       data.parent = this.$store.state.variable.comcreate.parent
     }
     invoke({
-      url: api.gameType,
+      url: api.companySelect,
       method: api.post,
       data: data
     }).then(
@@ -118,8 +136,10 @@ export default {
         if (err) {
         } else {
           var data = ret.data.payload
-          // console.log(data)
-          this.allGames = data
+          for (let item of data) {
+            item.client = item.client + '游戏'
+          }
+          this.CompanyList = data
         }
       }
     )
@@ -204,30 +224,16 @@ export default {
         )
       }
     } // 验证商户线路号
-    // var checkmoneyURL = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('请输入域名'))
-    //     store.state.checkform.moneyURL = false
-    //   } else {
-    //     store.state.checkform.moneyURL = true
-    //     callback()
-    //   }
-    // } // 验证商户充值域名
-    // var checkregisterURL = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('请输入域名'))
-    //     store.state.checkform.registerURL = false
-    //   } else {
-    //     store.state.checkform.registerURL = true
-    //     callback()
-    //   }
-    // } // 验证商户注册域名
     return {
       selectFront1: '', // 前端域名前缀
       selectFront2: '', // 充值域名前缀
       selectFront3: '', // 注册域名前缀
-      allGames: [], // 获取到的游戏列表
+      CompanyList: [], // 游戏大类列表
+      CompanyGame: [], // 厂商的游戏列表
       setcomInfo: {
+        selectCompany: '', // 选择的游戏厂商
+        selectGame: '', // 选择的厂商的游戏
+        showSelect: [], // 列表展示数据
         rate: '', // 商户抽成比
         points: '', // 初始代理点数
         msn: '', // 线路号
@@ -276,12 +282,38 @@ export default {
         frontURL: [
           {validator: checkURL, trigger: 'blur'}
         ]
-        // moneyURL: [
-        //   {validator: checkmoneyURL, trigger: 'blur'}
-        // ],
-        // registerURL: [
-        //   {validator: checkregisterURL, trigger: 'blur'}
-        // ]
+      }
+    }
+  },
+  watch: {
+    'setcomInfo.selectCompany' (val) {
+      if (val) {
+        this.CompanyGame = []
+        this.setcomInfo.selectGame = ''
+        invoke({
+          url: api.gameBigType,
+          method: api.post,
+          data: {
+            companyIden: val
+          }
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              this.CompanyGame = data
+            }
+          }
+        )
+      } else {
+        this.CompanyGame = []
+        this.setcomInfo.selectGame = ''
+      }
+    },
+    'setcomInfo.gameList' (val) {
+      if (val) {
+        console.log('当前选择', val)
       }
     }
   },
@@ -313,20 +345,67 @@ export default {
     checkURL (http, data) {
       var url = http + data
       window.open(url)
+    },
+    addGame () {
+      if (this.setcomInfo.selectCompany && this.setcomInfo.selectGame) {
+        let data = {
+          company: this.setcomInfo.selectCompany,
+          gameName: this.setcomInfo.selectGame.name,
+        }
+        if (this.setcomInfo.showSelect.length == 0) {
+          let select = this.setcomInfo.selectGame
+          select.selectCompany = this.setcomInfo.selectCompany
+          this.setcomInfo.gameList.push(select)
+          this.setcomInfo.showSelect.push(data)
+        } else {
+          let repeat = false
+          for (let item of this.setcomInfo.showSelect) {
+            if (item.gameName == data.gameName) {
+              repeat = true
+              this.$message({
+                type: 'info',
+                message: '您已选择该游戏'
+              })
+            }
+          }
+          if (!repeat) {
+            let select = this.setcomInfo.selectGame
+            select.selectCompany = this.setcomInfo.selectCompany
+            this.setcomInfo.gameList.push(select)
+            this.setcomInfo.showSelect.push(data)
+          }
+        }
+      } else {
+        this.$message({
+          type: 'warning',
+          message: '请完善选择游戏！'
+        })
+      }
+    },
+    deleteGame (data) {
+      this.setcomInfo.showSelect = this.setcomInfo.showSelect.filter(item => {
+        return item.gameName != data.gameName
+      })
+      this.setcomInfo.gameList = this.setcomInfo.gameList.filter(item => {
+        return item.name != data.gameName
+      })
     }
   },
   beforeDestroy () {
     if (!this.setcomInfo.rate || !this.setcomInfo.points || !this.setcomInfo.msn || !this.setcomInfo.frontURL || !this.setcomInfo.username || !this.setcomInfo.password || !this.setcomInfo.adminName || !this.setcomInfo.adminEmail || !this.setcomInfo.adminContact) {
     } else {
-      if (!this.setcomInfo.loginWhiteList) {
-        this.setcomInfo.loginWhiteList = '0.0.0.0'
+      let data = this.setcomInfo
+      delete data.selectGame
+      delete data.showSelect
+      if (!data.loginWhiteList) {
+        data.loginWhiteList = '0.0.0.0'
       }
-      this.setcomInfo.frontURL = this.selectFront1 + this.setcomInfo.frontURL
-      this.setcomInfo.moneyURL = this.selectFront2 + this.setcomInfo.moneyURL
-      this.setcomInfo.registerURL = this.selectFront3 + this.setcomInfo.registerURL
+      data.frontURL = this.selectFront1 + this.setcomInfo.frontURL
+      data.moneyURL = this.selectFront2 + this.setcomInfo.moneyURL
+      data.registerURL = this.selectFront3 + this.setcomInfo.registerURL
       this.$store.commit({
         type: 'recordComcreate',
-        data: this.setcomInfo
+        data: data
       })
       var comcreate = this.$store.state.variable.comcreate
       invoke({

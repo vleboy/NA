@@ -478,7 +478,7 @@ const actions = {
       }
     )
   }, // 获取管理员个人中心余额
-  getGameType (context) {
+  getCompanyList (context) {
     let data = {
       parent: localStorage.loginId
     }
@@ -486,7 +486,7 @@ const actions = {
       data.parent = '01'
     }
     invoke({
-      url: api.gameType,
+      url: api.companySelect,
       method: api.post,
       data: data
     }).then(
@@ -499,15 +499,44 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          context.commit('countAjax')
+          for (let item of data) {
+            item.client = item.client + '游戏'
+          }
+          context.commit('closeLoading')
           context.commit({
-            type: 'recordGamelistData',
+            type: 'recordCompanyList',
             data: data
           })
         }
       }
     )
-  }, // 获取该用户游戏中心的游戏类型
+  }, // 获取该用户游戏中心的游戏运营商
+  getCompanyGame (context) {
+    let data = {
+      companyIden: localStorage.nowCompany
+    }
+    invoke({
+      url: api.gameBigType,
+      method: api.post,
+      data: data
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+          this.$message({
+            message: err.msg,
+            type: 'warning'
+          })
+        } else {
+          var data = ret.data.payload
+          context.commit({
+            type: 'recordCompanyGame',
+            data: data
+          })
+        }
+      }
+    )
+  }, // 获取该用户游戏中心的游戏运营商游戏
   getManager_LoginList (context) {
     var checklogin = {
       role: '10',
@@ -1743,9 +1772,13 @@ const mutations = {
     state.variable.isfinish = false
   }, // 初始化加减点状态
 
-  recordGamelistData (state, payload) {
-    state.variable.gameListData = payload.data
-  }, // 获取所有游戏列表数据
+  recordCompanyList (state, payload) {
+    state.variable.companyList = payload.data
+  }, // 获取游戏中心游戏运营商数据
+
+  recordCompanyGame (state, payload) {
+    state.variable.companyGame = payload.data
+  }, // 获取游戏中心游戏运营商游戏
 
   recordPersonal_bills (state, payload) {
     state.variable.bills = payload.data

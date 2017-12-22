@@ -101,16 +101,9 @@
                                 <span class="hidden">1</span>
                             </el-col>
                             <el-col :span="7">
-                                <div class="" style="float:left">
-                                    <el-form-item label="商户游戏" v-show="disable == true">
-                                        <div v-for="item in comdetail.gameList" style="display:inline-block;margin-left:0.25rem">
-                                            {{item.name}}
-                                        </div>
-                                    </el-form-item>
-                                    <el-form-item label="商户游戏" v-show="disable == false">
-                                        <el-checkbox-group v-model="selectGame">
-                                            <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
-                                        </el-checkbox-group>
+                                <div class="">
+                                    <el-form-item label="商户密匙">
+                                        <span>{{comdetail.apiKey}}</span>
                                     </el-form-item>
                                 </div>
                             </el-col>
@@ -203,16 +196,6 @@
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="1">
-                                <span class="hidden">1</span>
-                            </el-col>
-                            <el-col :span="12">
-                                <div class="">
-                                    <el-form-item label="商户密匙">
-                                        <span>{{comdetail.apiKey}}</span>
-                                    </el-form-item>
-                                </div>
-                            </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="18">
@@ -229,7 +212,35 @@
                     </el-form>
                 </div>
             </el-collapse-transition>
-            
+        </div>
+        <div class="manangeinfo">
+            <h4>游戏信息
+                <span class="transition-icon" @click="show3 = !show3">
+                    <span v-if="!show3">展开</span>
+                    <span v-if="show3">收起</span>
+                </span>
+            </h4>
+            <el-collapse-transition>
+                <div class="editform" v-show="show3">
+                    <el-select v-model="selcetCompany" placeholder="请选择" clearable style="width:12rem;margin-right:0.5rem;margin-left:6rem" v-show="!disable">
+                        <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:12rem"></el-option>
+                    </el-select>
+                    <el-select v-model="selectGame" placeholder="请选择" clearable style="width:12rem;" v-show="!disable">
+                        <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:12rem"></el-option>
+                    </el-select>
+                    <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
+                    <el-table :data="comdetail.gameList" border style="width: 40rem;margin-top:1rem">
+                      <el-table-column prop="company" align="center" label="公司"></el-table-column>
+                      <el-table-column prop="name" align="center" label="游戏"></el-table-column>
+                      <el-table-column align="center" label="操作">
+                        <template scope="scope">
+                          <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer" v-show="!disable">删除</span>
+                          <span v-show="disable">请编辑</span>
+                        </template>
+                      </el-table-column>
+                    </el-table>
+                </div>
+            </el-collapse-transition>
         </div>
         <div class="manangeinfo">
             <h4>管理信息
@@ -343,7 +354,6 @@
                 </el-form>
             </div>
           </el-collapse-transition>
-            
         </div>
         <div class="propertyinfo">
             <h4>财务信息</h4>
@@ -444,6 +454,30 @@ export default {
     this.$store.dispatch('getComdetail_property')
   },
   mounted () {
+    let data = {
+      parent: this.$store.state.variable.comdetaildata.parent
+    }
+    invoke({
+      url: api.companySelect,
+      method: api.post,
+      data: data
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+          this.$message({
+            message: err.msg,
+            type: 'warning'
+          })
+        } else {
+          var data = ret.data.payload
+          for (let item of data) {
+            item.client = item.client + '游戏'
+          }
+          this.CompanyList = data
+        }
+      }
+    )
   },
   computed: {
     ajaxCount () {
@@ -473,6 +507,30 @@ export default {
     ajaxCount (val) {
       if (val == 2) {
         this.$store.commit('closeLoading')
+      }
+    },
+    selcetCompany (val) {
+      if (val) {
+        this.selectGame = ''
+        invoke({
+          url: api.gameBigType,
+          method: api.post,
+          data: {
+            companyIden: val
+          }
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              this.CompanyGame = data
+            }
+          }
+        )
+      } else {
+        this.CompanyGame = []
+        this.selectGame = ''
       }
     }
   },
@@ -664,24 +722,6 @@ export default {
         callback()
       }
     } // 验证前端域名
-    // var moneyURL = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('请输入域名'))
-    //     this.isfinish.moneyURL = false
-    //   } else {
-    //     this.isfinish.moneyURL = true
-    //     callback()
-    //   }
-    // } // 验证充值域名
-    // var registerURL = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('请输入域名'))
-    //     this.isfinish.registerURL = false
-    //   } else {
-    //     this.isfinish.registerURL = true
-    //     callback()
-    //   }
-    // } // 验证注册域名
     var checkContractPeriod = (rule, value, callback) => {
       if (value === 0) {
         this.isfinish.contractPeriod = true
@@ -695,8 +735,13 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      selcetCompany: '', // 选择的游戏运行商
+      selectGame: '', // 选择的游戏
+      CompanyList: [], // 所有游戏运营商
+      CompanyGame: [], // 具体游戏运营商游戏
       show1: false, // 默认关闭信息展示
       show2: false, // 默认关闭信息展示
+      show3: false, // 默认关闭信息展示
       loginUser: localStorage.loginUsername, // 登录用户角色
       pickerOptions: {
         disabledDate (time) {
@@ -704,9 +749,6 @@ export default {
         }
       },
       parentInfo: {}, // 上级抽成比信息
-      gameList: [], // 上级拥有的游戏(包含所有的对象)
-      parentGamelist: [], // 上级拥有的游戏(只带名字的)
-      selectGame: [], // 修改游戏选中值(只带名字的)
       size: 20,
       page: 1,
       loading: false, // 加载动画
@@ -742,12 +784,6 @@ export default {
         frontURL: [
           {validator: checkURL, trigger: 'change'}
         ],
-        // moneyURL: [
-        //   {validator: moneyURL, trigger: 'change'}
-        // ],
-        // registerURL: [
-        //   {validator: registerURL, trigger: 'change'}
-        // ],
         rate: [
           {validator: checkRate, trigger: 'change'}
         ],
@@ -789,37 +825,38 @@ export default {
       this.$store.dispatch('getComdetail_property')
     }, // 刷新商户详情页账单
     addGame () {
-      var data = {
-        userId: localStorage.parentID
-      }
-      invoke({
-        url: api.gameType,
-        method: api.post,
-        data: data
-      }).then(
-        result => {
-          const [err, ret] = result
-          if (err) {
-          } else {
-            this.parentGamelist = []
-            this.selectGame = []
-            var data = ret.data.payload
-            this.gameList = data
-            for(let item of data) {
-              if (item.name) {
-                this.parentGamelist.push(item.name)
-              }
+      if (!this.selectGame || !this.selcetCompany) {
+        this.$message({
+          type: 'warning',
+          message: '请选择要添加的游戏！'
+        })
+      } else {
+        let data = this.selectGame
+        data.company = this.selcetCompany
+        if (this.comdetail.gameList.length == 0) {
+          this.comdetail.gameList.push(data)
+        } else {
+          let repeat = false
+          for (let item of this.comdetail.gameList) {
+            if (item.name == data.name) {
+              repeat = true
+              this.$message({
+                type: 'info',
+                message: '您已选择该游戏'
+              })
             }
-            for (let item of this.comdetail.gameList) {
-              if (item.name) {
-                this.selectGame.push(item.name)
-              }
-            }
-            this.$store.commit('closeLoading')
+          }
+          if (!repeat) {
+            this.comdetail.gameList.push(data)
           }
         }
-      )
-    }, // 新增游戏
+      }
+    }, // 获取上级拥有游戏
+    deleteGame (data) {
+      this.comdetail.gameList = this.comdetail.gameList.filter(item => {
+        return item.name != data.name
+      })
+    }, // 删除所选游戏
     msn (msn) {
       return formatMSN(msn)
     }, // 格式化线路号
@@ -837,7 +874,7 @@ export default {
       })
       this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
-      this.$router.push('outdetail')
+      this.$router.push('comdetail')
       this.$store.commit('resetPartLoading')
       this.$store.dispatch('getOutdetail')
       this.$store.dispatch('getOutdetail_property')
@@ -871,8 +908,9 @@ export default {
     turnONedit () {
       this.show1 = true
       this.show2 = true
-      this.$store.commit('startLoading')
-      this.addGame()
+      this.show3 = true
+      this.selcetCompany = ''
+      this.selectGame = ''
       this.$store.commit('startEdit')
     }, // 开启编辑
     changeContract () {
@@ -906,15 +944,6 @@ export default {
         wrong = !wrong
         this.loading = true
         var comdetailID = ''
-        this.comdetail.gameList = []
-        for (let outside of this.gameList) {
-          for (let inside of this.selectGame) {
-            if (outside.name == inside) {
-              this.comdetail.gameList.push(outside)
-            }
-          }
-        }
-        this.comdetail.gameList = Array.from(new Set(this.comdetail.gameList))
           if (this.comdetail.contractPeriod !== 0) {
             for (var i = this.comdetail.contractPeriod.length - 1; i >= 0; i--) {
               if (isNaN(this.comdetail.contractPeriod[i].toString())) {
@@ -947,6 +976,7 @@ export default {
               this.$store.commit('closeLoading')
               this.show1 = false
               this.show2 = false
+              this.show3 = false
               this.loading = false
               this.$message({
                 message: '修改成功',
@@ -1013,7 +1043,7 @@ export default {
     .comdetail .propertyform{background-color: #f5f5f5;padding-left: 3%;padding-bottom: 1rem}
     
     /**/
-    .comdetail .editform{background-color: #f5f5f5;padding-top: 1rem;padding-left: 1rem}
+    .comdetail .editform{background-color: #f5f5f5;padding: 1rem;}
     /**/
     .comdetail .simple span {display: inline-block;width: 30%;line-height: 3.5rem;}
     .comdetail .remark{padding-bottom: 1rem;margin-top: 1rem}
