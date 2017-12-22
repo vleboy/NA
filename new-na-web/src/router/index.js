@@ -4,6 +4,10 @@ import progress from 'nprogress'
 
 import Home from '@/views/home'
 import Ascendant from '@/views/Ascendant'
+import Contact from '@/views/contact'
+import Download from '@/views/Download'
+import Innovation from '@/views/innovation'
+import Game from '@/views/Game'
 
 Vue.use(Router)
 
@@ -23,6 +27,26 @@ const router = new Router({
       path: '/Ascendant',
       name: 'Ascendant',
       component: Ascendant
+    },
+    {
+      path: '/Contact',
+      name: 'Contact',
+      component: Contact
+    },
+    {
+      path: '/Download',
+      name: 'Download',
+      component: Download
+    },
+    {
+      path: '/Innovation',
+      name: 'Innovation',
+      component: Innovation
+    },
+    {
+      path: '/Game',
+      name: 'Game',
+      component: Game
     }
   ]
 })

@@ -9,11 +9,11 @@
         <ul>
           <li :class="{active: $route.path === '/'}"><router-link to="/">{{$router.path}}首页</router-link></li>
           <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">NA优势</router-link></li>
-          <li>创新产品</li>
-          <li>NA游戏</li>
+          <li :class="{active: $route.path === '/Innovation'}"><router-link to="/Innovation">创新产品</router-link></li>
+          <li :class="{active: $route.path === '/Game'}"><router-link to="/Game">NA游戏</router-link></li>
           <li>服务方案</li>
-          <li>联系我们</li>
-          <li>游戏下载</li>
+          <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
+         <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
         </ul>
       </nav>
     </div>
@@ -32,12 +32,12 @@
 
       <transition name="mobileShow">
         <ul class="mobile" v-show="showMenu">
-          <li class="active">NA优势</li>
-          <li>创新产品</li>
-          <li>NA游戏</li>
+          <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">NA优势</router-link></li>
+          <li :class="{active: $route.path === '/Innovation'}"><router-link to="/Innovation">创新产品</router-link></li>          
+          <li :class="{active: $route.path === '/Game'}"><router-link to="/Game">NA游戏</router-link></li>          
           <li>服务方案</li>
-          <li>联系我们</li>
-          <li>游戏下载</li>
+          <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
+          <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
         </ul>
       </transition>
     </div>
@@ -54,9 +54,6 @@ export default {
       showMenu: false
     }
   },
-  mounted () {
-    console.log(this.$route)
-  },
   methods: {
     showView () {
       if (this.showMenu) {
@@ -70,6 +67,11 @@ export default {
         $('.mobile-menu').css('height', '100vh')
         this.showMenu = !this.showMenu
       }
+    }
+  },
+  watch: {
+    '$route': function () {
+      this.showView()
     }
   }
 }
@@ -99,16 +101,23 @@ export default {
       li 
         height 50px
         border-bottom 1px solid #444444
+        border-right 3px solid transparent
         display flex
         flex-direction column
         align-items center
         justify-content center
         cursor pointer
+        &:hover 
+          color #FFCB16
+          background rgba(0, 0, 0, 0.3)
+          border-right 3px solid #FFCB16
+          border-bottom 1px solid transparent
       .active
-        color #FFCB16
         background #000000
         border-right 3px solid #FFCB16
-        border-bottom none
+        border-bottom 1px solid transparent
+        a
+          color #FFCB16
 @media (min-width: 768px) and (max-width: 1200px)
   .home-menu
     width 170px
@@ -162,8 +171,9 @@ export default {
       width 200px
       border-bottom 1px solid #303030
       padding 15px 0
-  .active
-    color #FFCB16
+    .active
+      a
+        color #FFCB16 !important
   .mobileShow-enter-active, .mobileShow-leave-active
     transition opacity .5s
   .mobileShow-enter, .mobileShow-leave-to

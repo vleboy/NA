@@ -71,6 +71,8 @@ export default {
   .home-footer
     p
       padding 15px 0
+  .footer-header
+    padding 35px 0 50px
 </style>
 
 

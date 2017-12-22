@@ -7,7 +7,7 @@
         <p>立即下载NA游戏平台，让手机成为您的移动线上赌场！</p>
       </div>
       <div class="download-button boxs">
-        <a href="javascript:;">
+        <a :href="ios">
           <img src="../../assets/img/iosButton.png" alt="">
           <div class="code-box">
             <div class="code">
@@ -15,7 +15,7 @@
             </div>
           </div>
         </a>
-        <a href="javascript:;">
+        <a :href="android">
           <img src="../../assets/img/androidButton.png" alt="">
           <div class="code-box">
             <div class="code">
@@ -32,8 +32,34 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'home-download'
+  name: 'home-download',
+  data () {
+    return {
+      ios: '',
+      android: ''
+    }
+  },
+  mounted () {
+    this.ipQuery()
+  },
+  methods: {
+    async ipQuery () {
+      try {
+        const { data } = await axios.get('https://3y68duvxk7.execute-api.ap-southeast-1.amazonaws.com/dev/ipquery')
+        if (data.payload.data.country === '中国') {
+          this.ios = 'itms-services://?action=download-manifest&url=https://a1.na12345.com/NAGame/Update/IOS/autoIntall.plist'
+          this.android = 'http://a1.na12345.com/NAGame/Update/Android/NAGame.apk'
+        } else {
+          this.ios = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1800.plist'
+          this.android = 'http://oss.na12345.com/NAGame1800.apk'
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
 }
 </script>
 
