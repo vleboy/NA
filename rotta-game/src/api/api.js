@@ -67,6 +67,8 @@ const api = {
 
   allGames: front.diana + front.stage + '/gameType', // 获取游戏类型列表
 
+  gameBigType: front.diana + front.stage + '/gameBigType', // 获取游戏类别
+
   gameList: front.diana + front.stage + '/gameList', // 获取游戏列表
 
   gameOne: front.diana + front.stage + '/gameOne', // 单个游戏信息

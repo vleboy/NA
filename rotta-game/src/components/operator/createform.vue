@@ -20,6 +20,11 @@
       <el-form-item label="联系邮箱（重要）" prop="companyEmail">
         <el-input v-model="managerInfo.companyEmail" class="input" placeholder="请输入联系邮箱（重要）" :maxlength='30'></el-input>
       </el-form-item>
+      <el-form-item label="游戏类别（可多选）" prop="gameTypeList" >
+        <el-select v-model="managerInfo.gameTypeList" allow-create filterable multiple placeholder="请选择游戏类别（可多选）" clearable class="input">
+          <el-option v-for="item in optionsList" :key="item.code" :label="item.name" :value="item.code"></el-option>
+        </el-select>
+      </el-form-item>
     </el-form>
     <h2 class="title">合同信息</h2>
     <el-form :model="managerInfo" :rules="rules" ref="managerInfo" class="createform" label-width="150px" label-position="right">
@@ -219,6 +224,15 @@
           this.isfinish.remark = true
         }
       } // 类型
+      var validateGameTypeList = (rule, value, callback) => {
+        if (!value.length) {
+          callback(new Error('请选择游戏类别'))
+          this.isfinish.gameTypeList = false
+        } else {
+          callback()
+          this.isfinish.gameTypeList = true
+        }
+      } // 类型
       return {
         isfinish: {
           companyName: false,
@@ -232,7 +246,8 @@
           companyContract: false,
           companyRatio: false,
           remark: true, // 不是必填  所以默认为true
-          license: false
+          license: false,
+          gameTypeList: false
         },
         managerInfo: {
           companyName: '', // 运营商名称
@@ -247,7 +262,8 @@
           companyKey: '', // key（B类才有）
           companyRatio: '', // 成数 （B类才有）
           companyType: '', // 运营商类别
-          companyIden: '' // 运营商标识
+          companyIden: '', // 运营商标识
+          gameTypeList : [] // 游戏类别
         }, // 创建列表
         rules: {
           companyName: [
@@ -279,6 +295,9 @@
           ],
           remark: [
             {validator: validateRemark, trigger: 'blur'}
+          ],
+          gameTypeList: [
+            {validator: validateGameTypeList, trigger: 'blur'}
           ]
         }, // 列表验证规则
         regionOptions: [
@@ -309,16 +328,19 @@
         fileList: [],
         fileSuffix: ['zip'],
         dialogLoading: false,
-        companyTypeArray:[{
+        companyTypeArray:[
+          {
           id: 1,
           value: 'A类（接入公司的游戏运营商）'
-        },{
-          id: 2,
-          value: 'B类（公司接入的游戏运营商）'
-        }]
+          },{
+            id: 2,
+            value: 'B类（公司接入的游戏运营商）'
+          }],
+        optionsList: []
       }
     },
     created () {
+      this.getGameTypeList()
       const storeInfo = this.$store.state.variable.operatorItem
       if (this.$store.state.variable.isEdit) {
         this.managerInfo = {
@@ -332,6 +354,7 @@
           companyType: storeInfo.companyType, // 类型
           companyKey: storeInfo.companyKey, // key
           companyRatio: storeInfo.companyRatio, // 成数
+          gameTypeList: storeInfo.gameTypeList, // 游戏类别
           companyRegion: storeInfo.companyRegion == 'NULL!' ? '' : storeInfo.companyRegion, // 所属区域
           companyContract: storeInfo.companyContract == 'NULL!' ? '' : storeInfo.companyContract, // 合同
           license: storeInfo.license == 'NULL!' ? '' : storeInfo.license, // 执照
@@ -351,7 +374,8 @@
             companyIden: true,
             companyRatio: true,
             companyEmail: true,
-            companyRegion: true
+            companyRegion: true,
+            gameTypeList : true
         }
       } else {
         this.managerInfo = {
@@ -367,16 +391,37 @@
           companyKey: '', // key
           companyRatio: '', // 成数
           license: '', // 执照
-          remark: '' // 类型
+          remark: '', // 类型
+          gameTypeList : [] // 游戏类别
         }
       }
     },
     computed: {},
     methods: {
+      getGameTypeList () {
+        this.$store.commit('startLoading')
+        invoke({
+          url: api.allGames,
+          method: api.post
+        })
+          .then(res => {
+            const [err, ret] = res
+            if (err) {
+              this.$message({
+                message: err.msg,
+                type: 'error'
+              })
+            } else {
+              this.optionsList = ret.data.payload
+            }
+            this.$store.commit('closeLoading')
+          })
+      },
       postCreateform () {
         if (!this.isfinish.companyName || !this.isfinish.companyEmail || this.isfinish.companyDesc == false ||
           !this.isfinish.companyContactWay || this.isfinish.remark == false || !this.isfinish.companyContact ||
-          !this.isfinish.companyIden || !this.managerInfo.companyType || (!this.isfinish.companyRatio && (this.managerInfo.companyType==2))) {
+          !this.isfinish.companyIden || !this.managerInfo.companyType || (!this.isfinish.companyRatio && (this.managerInfo.companyType==2))||
+          !this.managerInfo.gameTypeList.length) {
           this.$message({
             message: '请完善创建信息',
             type: 'error'
@@ -426,7 +471,8 @@
           companyType: '', // 运营商类型
           companyContract: '', // 合同
           license: '', // 执照
-          remark: '' // 类型
+          remark: '', // 类型
+          gameTypeList : [] // 游戏类别
         }
       },
       requestHeader () {
