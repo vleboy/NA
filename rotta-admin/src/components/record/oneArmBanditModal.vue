@@ -1,10 +1,13 @@
 <template>
   <div class="oneArm_modal">
-    <div class="record-bg" :class="{'record-tlzm':gameType=='40001','record-xcl':gameType=='40002'}">
-      <div class="record-content" :class="{'tlzm':gameType=='40001'}">
-        <div v-for="(data,index) in recordArray" :key="index" class="record-wrap" :class="{'tlzm-wrap':gameType=='40001'}">
-          <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low" :class="{'tlzm-low':gameType=='40001', 'no-win':!item.isWin}">
-            <img :src="`../../../static/playerBill/${gameTypeNum}/${item.value}.png`" class="record-icon" :class="{'tlzm-icon':gameType=='40001'}">
+    <div class="record-bg" :class="recordBackgroundUrl">
+      <div class="record-content" :class="recordClassContent">
+        <div v-for="(data,index) in recordArray" :key="index" class="record-wrap"
+             :class="recordClassWrap">
+          <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low"
+               :class="{'tlzm-low':gameType=='40001', 'sfss-low':gameType=='40004','xlxr-low':gameType=='40003','fyht-low':gameType=='40006','csjb-low':gameType=='40005','no-win':!item.isWin}">
+            <img :src="`../../../static/playerBill/${gameTypeFile[gameType]}/${item.value}.png`" class="record-icon"
+                 :class="recordClassIcon">
           </div>
         </div>
       </div>
@@ -41,12 +44,68 @@ export default {
       finalRecord: [], //循环列表需要的战绩数组（最终版）
       playerRecordList: [], //战绩信息
       recordArray: [], //战绩二维数组
-      winCard: [] //战绩二维数组
+      winCard: [], //战绩二维数组
+      gameTypeFile: {
+        '40001': 'tlzm',
+        '40002': 'xcl',
+        '40003': 'xlxr',
+        '40004': 'sfss',
+        '40005': 'csjb',
+        '40006': 'fyht'
+      }
     }
   },
   computed: {
-    gameTypeNum () {
-      return this.gameType == '40002' ? "xcl" : "tlzm"
+    // 罗塔之谜 40001
+    // 小厨娘   40002
+    // 祥龙献瑞 40003
+    // 四方神兽 40004
+    // 财神进宝 40005
+    // 福运亨通 40006
+    recordBackgroundUrl () {
+      let classType = {}
+      classType = {
+        'record-tlzm': this.gameType=='40001',
+        'record-xcl': this.gameType=='40002',
+        'record-xlxr': this.gameType=='40003',
+        'record-sfss': this.gameType=='40004',
+        'record-csjb': this.gameType=='40005',
+        'record-fyht': this.gameType=='40006'
+      }
+      return classType
+    },
+    recordClassContent () {
+      let classContent = {}
+      classContent = {
+        'tlzm': this.gameType=='40001',
+        'xlxr': this.gameType=='40003',
+        'sfss': this.gameType=='40004',
+        'csjb': this.gameType=='40005',
+        'fyht': this.gameType=='40006'
+      }
+      return classContent
+    },
+    recordClassWrap () {
+      let classWrap = {}
+      classWrap = {
+        'tlzm-wrap': this.gameType=='40001',
+        'xlxr-wrap': this.gameType=='40003',
+        'sfss-wrap': this.gameType=='40004',
+        'csjb-wrap': this.gameType=='40005',
+        'fyht-wrap': this.gameType=='40006'
+      }
+      return classWrap
+    },
+    recordClassIcon () {
+      let classIcon = {}
+      classIcon = {
+        'tlzm-icon': this.gameType=='40001',
+        'xlxr-icon': this.gameType=='40003',
+        'sfss-icon': this.gameType=='40004',
+        'csjb-icon': this.gameType=='40005',
+        'fyht-icon': this.gameType=='40006'
+      }
+      return classIcon
     }
   },
   methods:{
@@ -65,7 +124,7 @@ export default {
       this.recordArray = [] //战绩二维数组
       this.finalRecord = []
       this.winCard = []
-      if(this.dialogLoading) return
+//      if(this.dialogLoading) return
       this.dialogLoading = true
       invoke({
         url: api.playerRecord,
@@ -183,6 +242,18 @@ export default {
   .oneArm_modal .tlzm{
     top:18%;
   }
+  .oneArm_modal .sfss{
+    top:24%;
+  }
+  .oneArm_modal .xlxr{
+    top:25%;
+  }
+  .oneArm_modal .fyht{
+    top:18%;
+  }
+  .oneArm_modal .csjb{
+    top:25%;
+  }
   .oneArm_modal .record-wrap{
     display: inline-block;
     position: relative;
@@ -190,6 +261,18 @@ export default {
   }
   .oneArm_modal .tlzm .tlzm-wrap{
     top:20%;
+    left: 0;
+  }
+  .oneArm_modal .sfss .sfss-wrap{
+    left: 0;
+  }
+  .oneArm_modal .xlxr .xlxr-wrap{
+    left: 0;
+  }
+  .oneArm_modal .fyht .fyht-wrap{
+    left: 0;
+  }
+  .oneArm_modal .csjb .csjb-wrap{
     left: 0;
   }
   .oneArm_modal .record-footer{
@@ -205,17 +288,53 @@ export default {
   .oneArm_modal .tlzm .tlzm-low{
     width: 128px;
   }
+  .oneArm_modal .sfss .sfss-low{
+    width: 131px;
+  }
+  .oneArm_modal .xlxr .xlxr-low{
+    width: 131px;
+  }
+  .oneArm_modal .fyht .fyht-low{
+    width: 128px;
+  }
+  .oneArm_modal .csjb .csjb-low{
+    width: 128px;
+  }
   .oneArm_modal .record-icon{
     width: 100%;
   }
   .oneArm_modal .tlzm .tlzm-icon{
     width: 92%;
   }
+  .oneArm_modal .sfss .sfss-icon{
+    width: 77%;
+  }
+  .oneArm_modal .xlxr .xlxr-icon{
+    width: 72%;
+  }
+  .oneArm_modal .fyht .fyht-icon{
+    width: 80%;
+  }
+  .oneArm_modal .csjb .csjb-icon{
+    width: 78%;
+  }
   .oneArm_modal .record-tlzm{
     background: url("../../../static/playerBill/tlzm-bg.png");
   }
   .oneArm_modal .record-xcl{
     background: url("../../../static/playerBill/xcl-bg.png");
+  }
+  .oneArm_modal .record-xlxr{
+    background: url("../../../static/playerBill/xlxr-bg.jpg");
+  }
+  .oneArm_modal .record-sfss{
+    background: url("../../../static/playerBill/sfss-bg.jpg");
+  }
+  .oneArm_modal .record-fyht{
+    background: url("../../../static/playerBill/fyht-bg.jpg");
+  }
+  .oneArm_modal .record-csjb{
+    background: url("../../../static/playerBill/csjb-bg.jpg");
   }
 
   .oneArm_modal .no-record {

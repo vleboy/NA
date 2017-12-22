@@ -25,7 +25,6 @@
         <p class="suclist-line1">
           <span>线路商初始点数 : {{outdata.points}}</span>
           <span>线路商抽成比 : {{outdata.rate}}%</span>
-          <span>线路商可放商户名额 : {{outdata.limit}}</span>
         </p>
         <p>
           <span class="">线路商游戏 :

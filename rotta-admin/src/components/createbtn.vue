@@ -176,6 +176,9 @@ export default {
         }
       } else if (this.nowindex === 'outcreate' && this.steps === 1) {
         this.outset = {
+          selectCompany: '', // 选择的游戏厂商
+          selectGame: '', // 选择的厂商的游戏
+          showSelect: [], // 列表展示数据
           points: '', // 初始代理点数
           rate: '', // 线路商抽成比
           gameList: [], // 拥有游戏
@@ -199,6 +202,9 @@ export default {
         }
       } else if (this.nowindex === 'comcreate' && this.steps === 1) {
         this.comset = {
+          selectCompany: '', // 选择的游戏厂商
+          selectGame: '', // 选择的厂商的游戏
+          showSelect: [], // 列表展示数据
           points: '', // 初始代理点数
           msn: '', // 线路号
           rate: '', // 商户抽成比

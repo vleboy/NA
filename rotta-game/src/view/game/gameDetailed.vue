@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="my-title">
-      <h2>{{gameReadyDetail.company.companyName}}</h2>
+      <h2>{{gameReadyDetail.gameName}}</h2>
     </div>
     <Gamedetailform></Gamedetailform>
   </div>

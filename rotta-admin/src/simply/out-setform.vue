@@ -11,13 +11,27 @@
       <el-form-item label="线路商抽成比(%)" prop="rate">
           <el-input v-model="setOutinfo.rate" class="input" placeholder="请输入"></el-input>
       </el-form-item>
-      <!-- <el-form-item label="线路商可放商户名额" prop="limit">
-        <el-input v-model="setOutinfo.limit" class="input" placeholder="请输入"></el-input>
-      </el-form-item> -->
       <el-form-item label="线路商拥有的游戏">
-        <el-select v-model="setOutinfo.gameList" multiple placeholder="请选择" clearable class="input">
-            <el-option v-for="item in allGames" :key="item" :label="item.name" :value="item" style="max-width:336px"></el-option>
+        <el-select v-model="setOutinfo.selectCompany" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
+            <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:10rem"></el-option>
         </el-select>
+
+        <el-select v-model="setOutinfo.selectGame" placeholder="请选择" clearable style="width:10rem;">
+            <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:10rem"></el-option>
+        </el-select>
+
+        <el-button type="text" @click="addGame">添加</el-button>
+      </el-form-item>
+      <el-form-item label="" prop="username">
+        <el-table :data="setOutinfo.showSelect" border style="width: 35rem;margin-left:-9rem">
+          <el-table-column prop="company" align="center" label="公司"></el-table-column>
+          <el-table-column prop="gameName" align="center" label="游戏"></el-table-column>
+          <el-table-column align="center" label="操作">
+            <template scope="scope">
+              <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer">删除</span>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-form-item>
       <h2 class="title">配置线路商后台管理员</h2>
       <el-form-item label="管理员用户名" prop="username">
@@ -74,7 +88,7 @@ export default {
       data.parent = this.$store.state.variable.outcreate.parent
     }
     invoke({
-      url: api.gameType,
+      url: api.companySelect,
       method: api.post,
       data: data
     }).then(
@@ -83,10 +97,40 @@ export default {
         if (err) {
         } else {
           var data = ret.data.payload
-          this.allGames = data
+          for (let item of data) {
+            item.client = item.client + '游戏'
+          }
+          this.CompanyList = data
         }
       }
     )
+  },
+  watch: {
+    'setOutinfo.selectCompany' (val) {
+      if (val) {
+        this.CompanyGame = []
+        this.setOutinfo.selectGame = ''
+        invoke({
+          url: api.gameBigType,
+          method: api.post,
+          data: {
+            companyIden: val
+          }
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              this.CompanyGame = data
+            }
+          }
+        )
+      } else {
+        this.CompanyGame = []
+        this.setOutinfo.selectGame = ''
+      }
+    }
   },
   data () {
     var checkRate = (rule, value, callback) => {
@@ -106,8 +150,12 @@ export default {
       }
     }
     return {
-      allGames: [], // 游戏大类
+      CompanyList: [], // 游戏大类列表
+      CompanyGame: [], // 厂商的游戏列表
       setOutinfo: {
+        selectCompany: '', // 选择的游戏厂商
+        selectGame: '', // 选择的厂商的游戏
+        showSelect: [], // 列表展示数据
         rate: '', // 线路商抽成比
         points: '', // 初始线路商点数
         gameList: [], // 拥有游戏
@@ -152,14 +200,61 @@ export default {
     randomPassword () {
       var newpassword = randomPassword()
       this.setOutinfo.password = newpassword
+    },
+    addGame () {
+      if (this.setOutinfo.selectCompany && this.setOutinfo.selectGame) {
+        let data = {
+          company: this.setOutinfo.selectCompany,
+          gameName: this.setOutinfo.selectGame.name,
+        }
+        if (this.setOutinfo.showSelect.length == 0) {
+          let select = this.setOutinfo.selectGame
+          select.selectCompany = this.setcomInfo.selectCompany
+          this.setOutinfo.gameList.push(select)
+          this.setOutinfo.showSelect.push(data)
+        } else {
+          let repeat = false
+          for (let item of this.setOutinfo.showSelect) {
+            if (item.gameName == data.gameName) {
+              repeat = true
+              this.$message({
+                type: 'info',
+                message: '您已选择该游戏'
+              })
+            }
+          }
+          if (!repeat) {
+            let select = this.setOutinfo.selectGame
+            select.selectCompany = this.setcomInfo.selectCompany
+            this.setOutinfo.gameList.push(select)
+            this.setOutinfo.showSelect.push(data)
+          }
+        }
+      } else {
+        this.$message({
+          type: 'warning',
+          message: '请完善选择游戏！'
+        })
+      }
+    },
+    deleteGame (data) {
+      this.setOutinfo.showSelect = this.setOutinfo.showSelect.filter(item => {
+        return item.gameName != data.gameName
+      })
+      this.setOutinfo.gameList = this.setOutinfo.gameList.filter(item => {
+        return item.name != data.gameName
+      })
     }
   },
   beforeDestroy () {
     if (!this.setOutinfo.rate || !this.setOutinfo.points || !this.setOutinfo.username || !this.setOutinfo.password || !this.setOutinfo.adminName || !this.setOutinfo.adminEmail || !this.setOutinfo.adminContact) {
     } else {
+      let data = this.setOutinfo
+      delete data.selectGame
+      delete data.showSelect
       this.$store.commit({
         type: 'recordOutcreate',
-        data: this.setOutinfo
+        data: data
       })
       var outcreate = this.$store.state.variable.outcreate
       invoke({

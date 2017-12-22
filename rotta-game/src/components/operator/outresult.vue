@@ -1,24 +1,17 @@
 <template>
   <div class="outresult">
     <el-table stripe :data="companyList">
-      <el-table-column label="序号" prop="companyName" align="center" width="65" type="index">
-      </el-table-column>
-      <el-table-column label="运营商名称" prop="companyName" align="center">
-      </el-table-column>
-      <el-table-column label="运营商标识" prop="companyIden" align="center">
-      </el-table-column>
+      <el-table-column label="序号" prop="companyName" align="center" width="65" type="index"></el-table-column>
+      <el-table-column label="运营商名称" prop="companyName" align="center"></el-table-column>
+      <el-table-column label="运营商标识" prop="companyIden" align="center"></el-table-column>
       <el-table-column label="运营商接入类型" prop="companyType" align="center">
         <template scope="scope">
           {{companyTypeArray[scope.row.companyType-1]}}
         </template>
       </el-table-column>
-      <el-table-column label="联系方式" prop="companyContactWay" align="center">
-      </el-table-column>
-      <el-table-column label="运营商邮箱" prop="companyEmail" align="center">
-      </el-table-column>
-      <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" align="center" min-width="95">
-      </el-table-column>
-      </el-table-column>
+      <el-table-column label="联系方式" prop="companyContactWay" align="center"></el-table-column>
+      <el-table-column label="运营商邮箱" prop="companyEmail" align="center"></el-table-column>
+      <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" align="center" min-width="95"></el-table-column>
       <el-table-column label="状态" align="center" prop="companyStatus" width="90">
         <template scope="scope">
           <el-tag :type="scope.row.companyStatus ? 'success' : 'danger'">
@@ -27,6 +20,9 @@
         </template>
       </el-table-column>
       <el-table-column label="key" align="center" prop="companyKey" width="190">
+        <template scope="scope">
+          {{scope.row.companyKey ? scope.row.companyKey : '暂无'}}
+        </template>
       </el-table-column>
       <el-table-column label="备注" align="center" width="65">
         <template scope="scope">

@@ -37,10 +37,15 @@
             <span>成数: {{gameDetail.companyRatio || 0}}%</span>
           </el-col>
         </el-row>
-        <el-row v-if="gameDetail.companyType == 1">
-          <el-col :span="8">
+        <el-row>
+          <el-col :span="6" v-if="gameDetail.companyType == 1">
             <span>执照信息: <img :src="gameDetail.license" style="width: 100% ;margin-top: 1rem" v-if="gameDetail.license != 'NULL!'">
               <a v-else>暂无</a>
+            </span>
+          </el-col>
+          <el-col :span="6">
+            <span>
+              游戏类型:<span v-for="item in gameTypeList" :key="item">{{item}}</span> &emsp;
             </span>
           </el-col>
         </el-row>
@@ -49,7 +54,9 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
+  import { invoke } from '@/libs/fetchLib'
+  import api from '@/api/api'
 export default {
   name: 'outdetailform',
   beforeCreate () {
@@ -61,15 +68,51 @@ export default {
   },
   data () {
     return {
+      optionsList: [],
       companyTypeArray:['A类（接入公司的游戏运营商）','B类（公司接入的游戏运营商）']
     }
+  },
+  created () {
+    this.getGameTypeList()
   },
   computed: {
     gameDetail () {
       return this.$store.state.variable.gameDetailInfo
+    },
+    gameTypeList () {
+      let array = []
+      for (let item of this.optionsList) {
+        for (let data of this.$store.state.variable.gameDetailInfo.gameTypeList){
+          if(item.code == data){
+            array.push(item.name)
+            break
+          }
+        }
+      }
+      return array
     }
   },
-  methods: {}
+  methods: {
+    getGameTypeList () {
+      this.$store.commit('startLoading')
+      invoke({
+        url: api.allGames,
+        method: api.post
+      })
+        .then(res => {
+        const [err, ret] = res
+        if (err) {
+          this.$message({
+            message: err.msg,
+            type: 'error'
+          })
+        } else {
+          this.optionsList = ret.data.payload
+      }
+      this.$store.commit('closeLoading')
+    })
+    },
+  }
 }
 </script>
 

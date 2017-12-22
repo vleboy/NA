@@ -6,16 +6,26 @@
       </el-row>
       <el-row>
         <el-col :span="8">
+          <span class="print-justfy1">游戏标识 : {{suclist.gameIden}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="print-justfy1">kindID : {{suclist.kindId}}</span><br>
+        </el-col>
+        <el-col :span="8">
           <span class="print-justfy1">所属运营商 : {{suclist.company.companyName}}</span>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="8">
-          <span class="print-justfy1">游戏服务器 : {{suclist.ip}}</span>
+          <span class="print-justfy1">运营商标识 : {{suclist.companyIden}}</span>
         </el-col>
         <el-col :span="8">
-          <span class="print-justfy1">端口 : {{suclist.port}}</span><br>
+          <span class=" print-justfy1">游戏简介 : {{suclist.gameRecommend}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="print-justfy1">网页游戏 : {{suclist.isWebGame!='0' ? '是' : '否' }}</span><br>
         </el-col>
       </el-row>
-
       <el-row>
         <el-col :span="24">
           <span class=" print-justfy1">游戏简介 : {{suclist.gameRecommend}}</span>

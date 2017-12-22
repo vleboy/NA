@@ -1,53 +1,55 @@
 <template>
   <div class="gamelist">
     <div class="gametab">
-        <div class="tabcard-left">
-          <el-button class="" @click="getAlllist">全部游戏</el-button>
-          <el-button class="myBtn" v-for="item in gameType" :key="item" @click="getnowlist(item.code)">{{item.name}}</el-button>
-        </div>
-        <div class="tabcard-right">
-          <el-input placeholder="请输入关键词" class="input" v-model="searchGameName"></el-input>
-          <el-button class="gamesearch" type="primary" @click="searchGame">搜索</el-button>
-          <el-button @click="resetGamelist">重置</el-button>
+      <div class="tabcard-left">
+        <el-button class="" @click="getAlllist">全部游戏</el-button>
+        <el-button class="" v-for="item in companyList" :key="item" @click="getCompanyGame(item.server)">{{item.client}}</el-button>
+        <div style="margin:1rem 0 0 7.2rem">
+          <el-button  v-for="item in companyGame" :key="item" @click="getDetailGame(item.code)">{{item.name}}</el-button>
         </div>
       </div>
-      <p class="backinfocount">共搜索到 {{count}} 条数据</p>
-      
-      <div class="cardlist">
-        <el-row>
-          <el-col v-for="(o, index) in allgames" :key="o" class="card" :span="7">
-              <div class="card-top">
-                <img :src="o.gameImg" alt="游戏缩略图">
-                <p class="p1">游戏名称: {{o.gameName}}</p>
-                <p class="p2" :title="o.gameRecommend">游戏简介: {{o.gameRecommend}}</p>
-                <p class="p3" v-if="o.gameType === '0'">游戏类型：棋牌游戏</p>
-                <p class="p3" v-if="o.gameType === '1'">游戏类型：电子游戏</p>
-                <p class="p3" v-if="o.gameType === '2'">游戏类型：真人视讯</p>
-              </div>
-              <div class="card-bottom">
-                <span>
-                    <span class="statu1" v-if="o.gameStatus === 1">&bull;</span>
-                    <span class="statu2" v-if="o.gameStatus === 2">&bull;</span>
-                    <span class="statu3" v-if="o.gameStatus === 3">&bull;</span>
-                    <span class="statu4" v-if="o.gameStatus === 4">&bull;</span>
-                    <span class="subscribe1" v-if="o.gameStatus === 1">在线</span>
-                    <span class="subscribe2" v-if="o.gameStatus === 2">离线</span>
-                    <span class="subscribe3" v-if="o.gameStatus === 3">维护</span>
-                    <span class="subscribe4" v-if="o.gameStatus === 4">故障</span>
-                    <span class="time">{{formatTime(o.updatedAt)}}</span>
-                </span>
-                  <el-dropdown trigger="click" class="moreIcon" v-if="loginRole == '1'">
-                  <span class="el-dropdown-link"><i class="el-icon-more"></i></span>
-                    <el-dropdown-menu slot="dropdown">
-                        <p @click="onlineGame(o)" v-if="o.gameStatus !== 1"><el-dropdown-item>上线</el-dropdown-item></p>
-                        <p @click="offlineGame(o)" v-if="o.gameStatus === 1"><el-dropdown-item>下线</el-dropdown-item></p>
-                        <p @click="maintainGame(o)"><el-dropdown-item>维护</el-dropdown-item></p>
-                    </el-dropdown-menu>
-                </el-dropdown>
-              </div>
-          </el-col>
-        </el-row>
+      <div class="tabcard-right">
+        <el-input placeholder="请输入关键词" class="input" v-model="searchGameName"></el-input>
+        <el-button class="gamesearch" type="primary" @click="searchGame">搜索</el-button>
+        <el-button @click="resetGamelist">重置</el-button>
       </div>
+    </div>
+    <p class="backinfocount">共搜索到 {{count}} 条数据</p>
+    <div class="cardlist">
+      <el-row>
+        <el-col v-for="(o, index) in allgames" :key="o" class="card" :span="7">
+            <div class="card-top">
+              <img :src="o.gameImg" alt="游戏缩略图">
+              <p class="p1">游戏名称: {{o.gameName}}</p>
+              <p class="p2" :title="o.gameRecommend">游戏简介: {{o.gameRecommend}}</p>
+              <p class="p3" v-if="o.gameType === '0'">游戏类型：棋牌游戏</p>
+              <p class="p3" v-if="o.gameType === '1'">游戏类型：电子游戏</p>
+              <p class="p3" v-if="o.gameType === '2'">游戏类型：真人视讯</p>
+            </div>
+            <div class="card-bottom">
+              <span>
+                  <span class="statu1" v-if="o.gameStatus === 1">&bull;</span>
+                  <span class="statu2" v-if="o.gameStatus === 2">&bull;</span>
+                  <span class="statu3" v-if="o.gameStatus === 3">&bull;</span>
+                  <span class="statu4" v-if="o.gameStatus === 4">&bull;</span>
+                  <span class="subscribe1" v-if="o.gameStatus === 1">在线</span>
+                  <span class="subscribe2" v-if="o.gameStatus === 2">离线</span>
+                  <span class="subscribe3" v-if="o.gameStatus === 3">维护</span>
+                  <span class="subscribe4" v-if="o.gameStatus === 4">故障</span>
+                  <span class="time">{{formatTime(o.updatedAt)}}</span>
+              </span>
+                <el-dropdown trigger="click" class="moreIcon" v-if="loginRole == '1'">
+                <span class="el-dropdown-link"><i class="el-icon-more"></i></span>
+                  <el-dropdown-menu slot="dropdown">
+                      <p @click="onlineGame(o)" v-if="o.gameStatus !== 1"><el-dropdown-item>上线</el-dropdown-item></p>
+                      <p @click="offlineGame(o)" v-if="o.gameStatus === 1"><el-dropdown-item>下线</el-dropdown-item></p>
+                      <p @click="maintainGame(o)"><el-dropdown-item>维护</el-dropdown-item></p>
+                  </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+        </el-col>
+      </el-row>
+    </div>
     </div>
   </div>
 </template>
@@ -63,15 +65,22 @@ export default {
       type: 'recordNowindex',
       data: 'gamelist'
     })
+    this.$store.commit({
+      type: 'recordCompanyGame',
+      data: []
+    })
     this.$store.commit('returnLocalStorage')
-    this.$store.dispatch('getGameType')
+    this.$store.dispatch('getCompanyList')
   },
   computed: {
     ajaxCount () {
       return this.$store.state.ajaxCount
     },
-    gameType () {
-      return this.$store.state.variable.gameListData
+    companyList () {
+      return this.$store.state.variable.companyList
+    },
+    companyGame () {
+      return this.$store.state.variable.companyGame
     },
     count () {
       return this.allgames.length
@@ -135,13 +144,17 @@ export default {
     formatTime (time) {
       return detailTime(time)
     },
-    getnowlist (code) {
-      this.searchGameName = ''
+    getCompanyGame (data) {
+      localStorage.setItem('nowCompany', data)
+      this.$store.dispatch('getCompanyGame')
+    }, // 请求该运营商游戏大类
+    getDetailGame (data) {
+      console.log(data)
       this.$store.commit('startLoading')
       var data = {
-        gameType: code
+        gameType: data
       }
-      localStorage.setItem('clickGameType', code)
+      localStorage.setItem('clickGameType', data)
       invoke({
         url: api.gameList,
         method: api.post,
@@ -152,12 +165,35 @@ export default {
           if (err) {
           } else {
             var list = ret.data.payload
-            // console.log(list)
             this.allgames = list
             this.$store.commit('closeLoading')
           }
         }
       )
+    }, // 请求该运营商游戏大类下的游戏
+    getnowlist (code) {
+      // this.searchGameName = ''
+      // this.$store.commit('startLoading')
+      // var data = {
+      //   gameType: code
+      // }
+      // localStorage.setItem('clickGameType', code)
+      // invoke({
+      //   url: api.gameList,
+      //   method: api.post,
+      //   data: data
+      // }).then(
+      //   result => {
+      //     const [err, ret] = result
+      //     if (err) {
+      //     } else {
+      //       var list = ret.data.payload
+      //       // console.log(list)
+      //       this.allgames = list
+      //       this.$store.commit('closeLoading')
+      //     }
+      //   }
+      // )
     }, // 获取当前类型游戏
     getAlllist () {
       localStorage.removeItem('clickGameType')
@@ -306,11 +342,13 @@ export default {
 
 <style scpoed>
 
-.gamelist .gametab{background-color: #f5f5f5;padding: 2rem;height: 3rem;margin-top: 1rem}
+.gamelist .gametab{background-color: #f5f5f5;padding: 2rem;min-height: 6rem;margin-top: 1rem}
 .gamelist .input{width: 18rem;}
 .gamelist .tabcard:after{clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
 .gamelist .tabcard-left{float: left;}
 .gamelist .tabcard-right{float: right;}
+
+.gamelist .cardlist{margin-bottom: 1rem}
 
 .gamelist .backinfocount{margin-top: 1rem;margin-left: 2rem}
 
