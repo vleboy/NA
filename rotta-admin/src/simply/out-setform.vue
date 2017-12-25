@@ -12,7 +12,7 @@
           <el-input v-model="setOutinfo.rate" class="input" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="线路商拥有的游戏">
-        <el-select v-model="setOutinfo.selectCompany" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
+        <el-select v-model="setOutinfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
             <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:10rem"></el-option>
         </el-select>
 
@@ -106,7 +106,7 @@ export default {
     )
   },
   watch: {
-    'setOutinfo.selectCompany' (val) {
+    'setOutinfo.company' (val) {
       if (val) {
         this.CompanyGame = []
         this.setOutinfo.selectGame = ''
@@ -153,7 +153,7 @@ export default {
       CompanyList: [], // 游戏大类列表
       CompanyGame: [], // 厂商的游戏列表
       setOutinfo: {
-        selectCompany: '', // 选择的游戏厂商
+        company: '', // 选择的游戏厂商
         selectGame: '', // 选择的厂商的游戏
         showSelect: [], // 列表展示数据
         rate: '', // 线路商抽成比
@@ -202,14 +202,14 @@ export default {
       this.setOutinfo.password = newpassword
     },
     addGame () {
-      if (this.setOutinfo.selectCompany && this.setOutinfo.selectGame) {
+      if (this.setOutinfo.company && this.setOutinfo.selectGame) {
         let data = {
-          company: this.setOutinfo.selectCompany,
+          company: this.setOutinfo.company,
           gameName: this.setOutinfo.selectGame.name,
         }
         if (this.setOutinfo.showSelect.length == 0) {
           let select = this.setOutinfo.selectGame
-          select.selectCompany = this.setOutinfo.selectCompany
+          select.company = this.setOutinfo.company
           this.setOutinfo.gameList.push(select)
           this.setOutinfo.showSelect.push(data)
         } else {
@@ -225,7 +225,7 @@ export default {
           }
           if (!repeat) {
             let select = this.setOutinfo.selectGame
-            select.selectCompany = this.setOutinfo.selectCompany
+            select.company = this.setOutinfo.company
             this.setOutinfo.gameList.push(select)
             this.setOutinfo.showSelect.push(data)
           }
@@ -252,6 +252,7 @@ export default {
       let data = this.setOutinfo
       delete data.selectGame
       delete data.showSelect
+      delete data.company
       this.$store.commit({
         type: 'recordOutcreate',
         data: data

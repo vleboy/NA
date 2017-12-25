@@ -16,7 +16,7 @@
         <el-button type="text" class="" @click="randomMSN">试试手气</el-button>
       </el-form-item>
       <el-form-item label="商户拥有的游戏">
-        <el-select v-model="setcomInfo.selectCompany" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
+        <el-select v-model="setcomInfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
             <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:10rem"></el-option>
         </el-select>
 
@@ -231,7 +231,7 @@ export default {
       CompanyList: [], // 游戏大类列表
       CompanyGame: [], // 厂商的游戏列表
       setcomInfo: {
-        selectCompany: '', // 选择的游戏厂商
+        company: '', // 选择的游戏厂商
         selectGame: '', // 选择的厂商的游戏
         showSelect: [], // 列表展示数据
         rate: '', // 商户抽成比
@@ -286,7 +286,7 @@ export default {
     }
   },
   watch: {
-    'setcomInfo.selectCompany' (val) {
+    'setcomInfo.company' (val) {
       if (val) {
         this.CompanyGame = []
         this.setcomInfo.selectGame = ''
@@ -347,14 +347,14 @@ export default {
       window.open(url)
     },
     addGame () {
-      if (this.setcomInfo.selectCompany && this.setcomInfo.selectGame) {
+      if (this.setcomInfo.company && this.setcomInfo.selectGame) {
         let data = {
-          company: this.setcomInfo.selectCompany,
+          company: this.setcomInfo.company,
           gameName: this.setcomInfo.selectGame.name,
         }
         if (this.setcomInfo.showSelect.length == 0) {
           let select = this.setcomInfo.selectGame
-          select.selectCompany = this.setcomInfo.selectCompany
+          select.company = this.setcomInfo.company
           this.setcomInfo.gameList.push(select)
           this.setcomInfo.showSelect.push(data)
         } else {
@@ -370,7 +370,7 @@ export default {
           }
           if (!repeat) {
             let select = this.setcomInfo.selectGame
-            select.selectCompany = this.setcomInfo.selectCompany
+            select.company = this.setcomInfo.company
             this.setcomInfo.gameList.push(select)
             this.setcomInfo.showSelect.push(data)
           }
@@ -397,6 +397,7 @@ export default {
       let data = this.setcomInfo
       delete data.selectGame
       delete data.showSelect
+      delete data.company
       if (!data.loginWhiteList) {
         data.loginWhiteList = '0.0.0.0'
       }
