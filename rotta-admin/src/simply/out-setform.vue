@@ -209,7 +209,7 @@ export default {
         }
         if (this.setOutinfo.showSelect.length == 0) {
           let select = this.setOutinfo.selectGame
-          select.selectCompany = this.setcomInfo.selectCompany
+          select.selectCompany = this.setOutinfo.selectCompany
           this.setOutinfo.gameList.push(select)
           this.setOutinfo.showSelect.push(data)
         } else {
@@ -225,7 +225,7 @@ export default {
           }
           if (!repeat) {
             let select = this.setOutinfo.selectGame
-            select.selectCompany = this.setcomInfo.selectCompany
+            select.selectCompany = this.setOutinfo.selectCompany
             this.setOutinfo.gameList.push(select)
             this.setOutinfo.showSelect.push(data)
           }
