@@ -250,6 +250,13 @@ export default {
     if (!this.setOutinfo.rate || !this.setOutinfo.points || !this.setOutinfo.username || !this.setOutinfo.password || !this.setOutinfo.adminName || !this.setOutinfo.adminEmail || !this.setOutinfo.adminContact) {
     } else {
       let data = this.setOutinfo
+      for (let outside of data.gameList) {
+        for (let inside of this.CompanyList) {
+          if (outside.company == inside.server) {
+            outside.companyName = inside.companyName
+          }
+        }
+      }
       delete data.selectGame
       delete data.showSelect
       delete data.company

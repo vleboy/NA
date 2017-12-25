@@ -310,11 +310,6 @@ export default {
         this.CompanyGame = []
         this.setcomInfo.selectGame = ''
       }
-    },
-    'setcomInfo.gameList' (val) {
-      if (val) {
-        console.log('当前选择', val)
-      }
     }
   },
   methods: {
@@ -395,6 +390,13 @@ export default {
     if (!this.setcomInfo.rate || !this.setcomInfo.points || !this.setcomInfo.msn || !this.setcomInfo.frontURL || !this.setcomInfo.username || !this.setcomInfo.password || !this.setcomInfo.adminName || !this.setcomInfo.adminEmail || !this.setcomInfo.adminContact) {
     } else {
       let data = this.setcomInfo
+      for (let outside of data.gameList) {
+        for (let inside of this.CompanyList) {
+          if (outside.company == inside.server) {
+            outside.companyName = inside.companyName
+          }
+        }
+      }
       delete data.selectGame
       delete data.showSelect
       delete data.company

@@ -62,6 +62,7 @@ import BoothList from '@/view/operation/booth/boothList' // 展位管理
 
 import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
 
+import naAllGameReport from '@/view/gameReport/na/naAllGame-report' // NA游戏总报表
 import naVedioGameReport from '@/view/gameReport/na/naVedioGame-report' // NA电子游戏报表
 import naLiveGameReport from '@/view/gameReport/na/naLiveGame-report' // NA真人游戏报表
 import naArcadeGameReport from '@/view/gameReport/na/naArcadeGame-report' // NA街机游戏报表
@@ -300,6 +301,14 @@ const router = new Router({
       path: '/gameBackstage',
       name: '游戏后台',
       component: GameBackstage
+    },
+    {
+      path: '/naAllGameReport',
+      name: 'NA电子游戏总报表',
+      component: naAllGameReport,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/naVedioGameReport',
