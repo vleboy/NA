@@ -7,7 +7,7 @@
         <el-input v-model="managerInfo.gameName" class="input" type="text" :disabled="this.$store.state.variable.isEdit" placeholder="请输入游戏名称" :maxlength='20'></el-input>
       </el-form-item>
       <el-form-item label="游戏标识" prop="gameIden">
-        <el-input v-model="managerInfo.gameIden" class="input" type="text" :disabled="this.$store.state.variable.isEdit" placeholder="请输入游戏标识" :maxlength='20'></el-input>
+        <el-input v-model="managerInfo.gameIden" class="input" type="text" :disabled="this.$store.state.variable.isEdit" placeholder="请输入游戏标识(必须首字母开头并且大写)" :maxlength='20'></el-input>
       </el-form-item>
       <el-form-item label="游戏简介" prop="gameRecommend">
         <el-input v-model="managerInfo.gameRecommend" class="input" placeholder="请输入游戏简介" type="textarea" :maxlength='200'></el-input>
@@ -23,7 +23,7 @@
       </el-select>
       </el-form-item>
       <el-form-item label="KindId" prop="kindId">
-        <el-input v-model="managerInfo.kindId" class="input" :disabled="this.$store.state.variable.isEdit" placeholder="请输入KindId(范围1-9999)" type="number" :maxlength='5'></el-input>
+        <el-input v-model="managerInfo.kindId" class="input" placeholder="请输入KindId(范围1-9999)" type="number" :maxlength='5'></el-input>
       </el-form-item>
       <el-form-item label="key" v-if="companyKey">
         <el-tag type="danger">{{companyKey}}</el-tag>
@@ -57,8 +57,10 @@
       </el-form-item>
     </el-form>
     <div class="stepbtn createform">
-      <el-button type="primary" class="nextBtn" @click="postCreateform" style="margin-left: 120px">下一步</el-button>
-      <el-button @click="resetData">重置</el-button>
+      <el-button type="primary" class="nextBtn" @click="postCreateform" style="margin-left: 120px">
+        {{this.$store.state.variable.isEdit ? '确认修改' : '下一步'}}
+      </el-button>
+      <el-button @click="resetData" v-if="!this.$store.state.variable.isEdit">重置</el-button>
     </div>
   </div>
 
@@ -255,17 +257,19 @@
           gameName: storeInfo.gameName, // 运营商名称
           gameIden: storeInfo.gameIden, // 运营商名标识
           gameRecommend: storeInfo.gameRecommend, // 简介
-          kindId: storeInfo.kindId, // kindId
+          kindId: Number(storeInfo.kindId)-Number(storeInfo.gameType), // kindId
           gameType: storeInfo.gameType, // 游戏类别
           gameImg: storeInfo.gameImg, // logo
           ip: storeInfo.ip, // 服务器ip
           isWebGame: storeInfo.isWebGame, // 是否是网页游戏
           port: storeInfo.port, // 端口
           gameLink: storeInfo.gameLink, // 链接
-          company: storeInfo.company // 游戏厂商规则
+          company: storeInfo.company, // 游戏厂商规则
+          companyName: storeInfo.companyName // 游戏厂商规则
         }
+//        console.log(this.managerInfo)
         this.isShowWebGame = storeInfo.isWebGame == '1'
-
+        this.companyIden = storeInfo.companyIden
         this.isfinish = {
           gameName: true,
           gameType: true,
@@ -276,6 +280,7 @@
           gameRecommend: true,
           gameIden: true
         }
+        this.getGameType()
       }
     },
     methods: {
@@ -300,7 +305,7 @@
           this.managerInfo.gameLink = this.isShowWebGame ? this.managerInfo.gameLink : ''
           this.$store.commit('startLoading')
           invoke({
-            url: api.addGame,
+            url: !this.$store.state.variable.isEdit ? api.addGame : api.gameUpdate,
             method: api.post,
             data: this.managerInfo
           }).then((data) => {
@@ -311,11 +316,15 @@
                 type: 'error'
               })
             } else if (res) {
-              this.$store.commit({
-                type: 'getSuccessGame',
-                data: res.data.payload
-              })
-              this.$store.commit('changeSteps')
+              if(!this.$store.state.variable.isEdit){
+                this.$store.commit({
+                  type: 'getSuccessGame',
+                  data: res.data.payload
+                })
+                this.$store.commit('changeSteps')
+                } else {
+                this.$router.push('gameList')
+              }
             }
             this.$store.commit('closeLoading')
           })
@@ -345,18 +354,18 @@
               this.companyIden = item.companyIden
             }
           }
-          this.getGameType()
         } else {
           this.companyKey = ''
         }
+        this.getGameType()
       }, // 处理select选择后联动
       getGameType () {
-        this.managerInfo.gameType = ''
+        !this.$store.state.variable.isEdit && (this.managerInfo.gameType = '')
         invoke({
           url: api.gameBigType,
           method: api.post,
           data: {
-            companyIden: this.companyIden
+            companyIden: this.managerInfo.companyName ? this.companyIden : ''
           }
         })
         .then(res => {

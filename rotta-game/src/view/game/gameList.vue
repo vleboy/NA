@@ -36,7 +36,7 @@
           <template scope="scope">
             <el-button type="text" class="myBtn" @click="gameOperation(scope.row)">{{scope.row.gameStatus ? '停用':'启用'}}</el-button>
             <el-button type="text" class="myBtn" @click="goDetail(scope.row)">查看</el-button>
-            <!--<el-button type="text" class="myBtn" @click="goUpdate(scope.row)">编辑</el-button>-->
+            <el-button type="text" class="myBtn" @click="goUpdate(scope.row)">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>

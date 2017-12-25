@@ -89,6 +89,8 @@ const api = {
 
   companySelect: front.diana + front.stage + '/companySelect', // 获取运营商标识
 
+  gameUpdate: front.diana + front.stage + '/gameUpdate', // 修改游戏数据
+
   // hulk
 
   billTransfer: front.hulk + front.stage + '/billTransfer', // 存提点接口
