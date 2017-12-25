@@ -120,9 +120,6 @@
         } else if (!numReg.exec(value)) {
           callback(new Error(`洗码比因在 0.00 ~ 1.00 之间`))
           this.status.isCheckLiveMix = false
-        } else if (Number(value.slice(0, 1)) === 0 && value.indexOf('.') === -1) {
-          callback(new Error('请输入正确的电子游戏洗码比'))
-          this.status.isCheckLiveMix = false
         } else {
           callback()
           this.status.isCheckLiveMix = true
@@ -138,9 +135,6 @@
           this.status.isCheckVedioMix = false
         } else if (value < 0 || value > this.mixInfo.vedioMix) {
           callback(new Error(`该上级真人游戏洗码比为${this.mixInfo.vedioMix}% 已超出上级洗码比`))
-          this.status.isCheckVedioMix = false
-        } else if (Number(value.slice(0, 1)) === 0 && value.indexOf('.') === -1) {
-          callback(new Error('请输入正确的真人游戏洗码比'))
           this.status.isCheckVedioMix = false
         } else {
           callback()
@@ -192,10 +186,10 @@
         return `上级代理可分配点数为:${this.mixInfo.points || 0}`
       },
       parentLivemix () {
-        return `上级代理真人游戏洗码比为:${this.mixInfo.liveMix || 0}%`
+        return `上级代理电子游戏洗码比为:${this.mixInfo.liveMix || 0}%`
       },
       parentVediomix () {
-        return `上级代理电子游戏洗码比为:${this.mixInfo.vedioMix || 0}%`
+        return `上级代理真人游戏洗码比为:${this.mixInfo.vedioMix || 0}%`
       }
     },
     methods: {
