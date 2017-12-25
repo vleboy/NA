@@ -413,37 +413,21 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path == '/login') {
-    if (localStorage.loginId) {
-      next('/welcome')
+  if (localStorage.loginTime) {
+    let loginTime = Number(localStorage.loginTime)
+    let nowTime = new Date().getTime()
+    if (nowTime - loginTime >= 43200000) {
+      store.state.variable.islogin = false
+      store.state.variable.isloading = false
+      store.state.variable.visitedViews = []
+      store.state.variable.activeIndex = null
+      store.state.variable.tabIndex = null
+      Message.warning('您的Token已过期,请重新登录')
+      localStorage.clear()
+      next('/login')
     }
   }
-  if (!localStorage.loginRole) {
-    store.state.variable.islogin = false
-    store.state.variable.isloading = false
-    store.state.variable.visitedViews = []
-    store.state.variable.activeIndex = null
-    store.state.variable.tabIndex = null
-    localStorage.setItem('loginRole', '1000')
-    next('/login')
-  } else {
-    let loginTime = ''
-    if (localStorage.loginTime) {
-      loginTime = Number(localStorage.loginTime)
-      let nowTime = new Date().getTime()
-      if (nowTime - loginTime >= 43200000) {
-        store.state.variable.islogin = false
-        store.state.variable.isloading = false
-        store.state.variable.visitedViews = []
-        store.state.variable.activeIndex = null
-        store.state.variable.tabIndex = null
-        Message.warning('您的Token已过期,请重新登录')
-        localStorage.clear()
-        next('/login')
-      }
-    }
-    next()
-  }
+  next()
 })
 
 export default router
