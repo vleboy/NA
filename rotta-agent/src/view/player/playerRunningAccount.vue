@@ -189,7 +189,7 @@ export default {
     formatNum () {
       this.allAmount = 0
       for (let item of this.playerAccountList) {
-        this.allAmount += item.amount
+        this.allAmount += Number(item.amount)
       }
       return thousandFormatter(this.allAmount)
     }
@@ -305,7 +305,7 @@ export default {
       this.checkedArray = val;
       this.checkFormatNum = 0;
       for (let item of this.checkedArray) {
-        this.checkFormatNum += item.amount
+        this.checkFormatNum += Number(item.amount)
       }
       this.checkFormatNum = thousandFormatter(this.checkFormatNum)
     }, //多选
