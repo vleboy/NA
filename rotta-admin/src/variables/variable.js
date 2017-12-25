@@ -169,7 +169,7 @@ const variable = {
     nowUserID: ''
   }, // NA街机游戏报表数据
 
-  ptVedioGameData: {
+  ttgVedioGameData: {
     nowList: [],
     nowChildList: [],
     nowPlayerlist: [],

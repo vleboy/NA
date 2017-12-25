@@ -17,7 +17,7 @@
                   </el-submenu>
                   <el-submenu index="1-2">
                       <template slot="title">TTG游戏总报表</template>
-                      <el-menu-item index="ptVedioGameReport">PT电子游戏总报表</el-menu-item>
+                      <el-menu-item index="ttgVedioGameReport">TTG电子游戏总报表</el-menu-item>
                   </el-submenu>
               </el-submenu>
               <el-submenu index="2" v-show="userRight.managerList.hasRight || userRight.outcreate.hasRight || userRight.merchantList.hasRight || userRight.comcreate.hasRight">

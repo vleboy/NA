@@ -66,7 +66,7 @@ import naVedioGameReport from '@/view/gameReport/na/naVedioGame-report' // NA电
 import naLiveGameReport from '@/view/gameReport/na/naLiveGame-report' // NA真人游戏报表
 import naArcadeGameReport from '@/view/gameReport/na/naArcadeGame-report' // NA街机游戏报表
 
-import ptVedioGameReport from '@/view/gameReport/ttg/ttgVedioReport' // PT电子游戏报表
+import ttgVedioGameReport from '@/view/gameReport/ttg/ttgVedioReport' // TTG电子游戏报表
 
 import LineUp from '@/view/lineup/lineup' // 排队设置
 
@@ -326,9 +326,9 @@ const router = new Router({
       }
     },
     {
-      path: '/ptVedioGameReport',
-      name: 'PT电子游戏总报表',
-      component: ptVedioGameReport,
+      path: '/ttgVedioGameReport',
+      name: 'TTG电子游戏总报表',
+      component: ttgVedioGameReport,
       meta: {
         keepAlive: true
       }
