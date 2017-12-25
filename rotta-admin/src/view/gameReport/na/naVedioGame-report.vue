@@ -1,5 +1,5 @@
 <template>
-  <div class="vedioGame-report">
+  <div class="naVedioGame-report">
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
         <p class="title" style="float:left">当前选择列表<span v-if="nowRole != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
@@ -9,7 +9,7 @@
           <el-button @click="resetSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="vedioNowlist" stripe>
+      <el-table :data="naVedioNowlist" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -53,7 +53,7 @@
 
     <div class="childlist" v-if="loginRole != '100'">
       <p class="title">下级列表</p>
-      <el-table :data="vedioNowchild" stripe>
+      <el-table :data="naVedioNowchild" stripe>
         <el-table-column label="序号" prop="" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -94,7 +94,7 @@
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.vedioGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naVedioGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
       </div>
     </div>
 
@@ -107,7 +107,7 @@
           <el-button @click="resetPlayerSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="vedioNowplayer" stripe>
+      <el-table :data="naVedioNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="center">
@@ -131,7 +131,7 @@
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.vedioGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naVedioGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
       </div>
     </div>
   </div>
@@ -144,30 +144,30 @@ import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     localStorage.removeItem('searchTime')
-    this.$store.commit('resetVedioNowchild')
-    this.$store.commit('resetVedioNowplayer')
+    this.$store.commit('resetnaVedioNowchild')
+    this.$store.commit('resetnaVedioNowplayer')
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'vedioGameReport'
+      data: 'naVedioGameReport'
     })
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
-      type: 'recordVedioID',
+      type: 'recordnaVedioID',
       data: ''
     })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getVedioNowchild')
-    this.$store.dispatch('getVedioNowplayer')
+    this.$store.dispatch('getnaVedioNowchild')
+    this.$store.dispatch('getnaVedioNowplayer')
   },
   activated: function () {
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'vedioGameReport'
+      data: 'naVedioGameReport'
     })
   },
   computed:{
     rollNumber () {
-      let data = this.$store.state.variable.vedioGameData.nowList
+      let data = this.$store.state.variable.naVedioGameData.nowList
       if (!data.rate) {
         data.rate = 0
       }
@@ -179,26 +179,26 @@ export default {
       }
       return data
     },
-    vedioNowlist () {
-      this.nowRole = this.$store.state.variable.vedioGameData.nowList.userId
-      let data = [this.$store.state.variable.vedioGameData.nowList]
+    naVedioNowlist () {
+      this.nowRole = this.$store.state.variable.naVedioGameData.nowList.userId
+      let data = [this.$store.state.variable.naVedioGameData.nowList]
       return data
     },
-    vedioNowchild () {
-      var nowchild = this.$store.state.variable.vedioGameData.nowChildList
+    naVedioNowchild () {
+      var nowchild = this.$store.state.variable.naVedioGameData.nowChildList
       if (this.childPage === 1) {
-        nowchild = this.$store.state.variable.vedioGameData.nowChildList.slice(0, this.childSize)
+        nowchild = this.$store.state.variable.naVedioGameData.nowChildList.slice(0, this.childSize)
       } else {
-        nowchild = this.$store.state.variable.vedioGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
+        nowchild = this.$store.state.variable.naVedioGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
       }
       return nowchild
     },
-    vedioNowplayer () {
-      var nowplayer = this.$store.state.variable.vedioGameData.nowPlayerlist
+    naVedioNowplayer () {
+      var nowplayer = this.$store.state.variable.naVedioGameData.nowPlayerlist
       if (this.playerPage === 1) {
-        nowplayer = this.$store.state.variable.vedioGameData.nowPlayerlist.slice(0, this.playerSize)
+        nowplayer = this.$store.state.variable.naVedioGameData.nowPlayerlist.slice(0, this.playerSize)
       } else {
-        nowplayer = this.$store.state.variable.vedioGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
+        nowplayer = this.$store.state.variable.naVedioGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
       }
       return nowplayer
     }
@@ -311,7 +311,7 @@ export default {
           type: 'error',
           message: '请输入玩家用户名'
         })
-      } else if (this.$store.state.variable.vedioGameData.nowPlayerlist.length == 0) {
+      } else if (this.$store.state.variable.naVedioGameData.nowPlayerlist.length == 0) {
         this.$message({
           type: 'info',
           message: '暂无玩家数据'
@@ -319,7 +319,7 @@ export default {
       } else {
         this.playerLoading = true
         let data = {
-          parentId: this.$store.state.variable.vedioGameData.nowList.userId,
+          parentId: this.$store.state.variable.naVedioGameData.nowList.userId,
           query: {
             userName: this.playerData
           },
@@ -337,7 +337,7 @@ export default {
             } else {
               var data = ret.data.payload
               this.$store.commit({
-                type: 'recordVedioNowplayer',
+                type: 'recordnaVedioNowplayer',
                 data: data
               })
               this.playerLoading = false
@@ -348,7 +348,7 @@ export default {
     }, // 搜索玩家数据
     resetPlayerSearch () {
       this.playerData = ''
-      this.$store.dispatch('getVedioNowplayer')
+      this.$store.dispatch('getnaVedioNowplayer')
     }, // 重置玩家搜索
     formatWinlose (data) {
       if (data.winloseRate) {
@@ -389,9 +389,9 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        // this.$store.dispatch('getVedioNowlist')
-        this.$store.dispatch('getVedioNowchild')
-        this.$store.dispatch('getVedioNowplayer')
+        // this.$store.dispatch('getnaVedioNowlist')
+        this.$store.dispatch('getnaVedioNowchild')
+        this.$store.dispatch('getnaVedioNowplayer')
         let _self = this
         setTimeout(function(){
           _self.$message({
@@ -406,20 +406,20 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      // this.$store.dispatch('getVedioNowlist')
-      this.$store.dispatch('getVedioNowchild')
-      this.$store.dispatch('getVedioNowplayer')
+      // this.$store.dispatch('getnaVedioNowlist')
+      this.$store.dispatch('getnaVedioNowchild')
+      this.$store.dispatch('getnaVedioNowplayer')
     }, // 重置搜索条件
     checkUser (data) {
       this.$store.commit({
-        type: 'recordVedioID',
+        type: 'recordnaVedioID',
         data: data.userId
       })
-      this.$store.commit('resetVedioNowchild')
-      this.$store.commit('resetVedioNowplayer')
+      this.$store.commit('resetnaVedioNowchild')
+      this.$store.commit('resetnaVedioNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowchild')
-      this.$store.dispatch('getVedioNowplayer')
+      this.$store.dispatch('getnaVedioNowchild')
+      this.$store.dispatch('getnaVedioNowplayer')
     }, // 查看当前用户信息
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
@@ -448,19 +448,19 @@ export default {
       )
     }, // 跳转至玩家详情
     goBack () {
-      var data = this.$store.state.variable.vedioGameData.nowList.parent
+      var data = this.$store.state.variable.naVedioGameData.nowList.parent
       if (data == '01') {
         data = ''
       }
       this.$store.commit({
-        type: 'recordVedioID',
+        type: 'recordnaVedioID',
         data: data
       })
-      this.$store.commit('resetVedioNowchild')
-      this.$store.commit('resetVedioNowplayer')
+      this.$store.commit('resetnaVedioNowchild')
+      this.$store.commit('resetnaVedioNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getVedioNowchild')
-      data !== '01' ? this.$store.dispatch('getVedioNowplayer') : ''
+      this.$store.dispatch('getnaVedioNowchild')
+      data !== '01' ? this.$store.dispatch('getnaVedioNowplayer') : ''
     }, // 退回上一级
     getChildsize (size) {
       this.childSize = size
@@ -482,15 +482,15 @@ export default {
 </script>
 
 <style scpoed>
-.vedioGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
-.vedioGame-report .input{width: 25rem}
-.vedioGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
-.vedioGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
-.vedioGame-report .nowUserlist,
-.vedioGame-report .childlist,
-.vedioGame-report .playerlist{width: 99%;margin: 2rem auto}
-.vedioGame-report .fontUrl{cursor: pointer;color: #20a0ff}
-.vedioGame-report .fontUrl:hover{text-decoration: underline;}
+.naVedioGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.naVedioGame-report .input{width: 25rem}
+.naVedioGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+.naVedioGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
+.naVedioGame-report .nowUserlist,
+.naVedioGame-report .childlist,
+.naVedioGame-report .playerlist{width: 99%;margin: 2rem auto}
+.naVedioGame-report .fontUrl{cursor: pointer;color: #20a0ff}
+.naVedioGame-report .fontUrl:hover{text-decoration: underline;}
 
 .green{color: #00CC00}
 .red{color: #FF3300}

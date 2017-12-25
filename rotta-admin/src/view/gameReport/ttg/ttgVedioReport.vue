@@ -1,6 +1,5 @@
 <template>
-  <div class="liveGame-report">
-
+  <div class="ptVedioGame-report">
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
         <p class="title" style="float:left">当前选择列表<span v-if="nowRole != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
@@ -10,7 +9,7 @@
           <el-button @click="resetSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="liveNowlist" stripe>
+      <el-table :data="ptVedioNowlist" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -44,11 +43,6 @@
             <span :class="[Number(flashNumber.submit) > 0 ? 'green' : 'red']">{{points(flashNumber.submit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码量" prop="mixAmount" align="center">
-          <template scope="scope">
-            <span>{{points(flashNumber.mixAmount)}}</span>
-          </template>
-        </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
             <span>{{flashNumber.winloseRate}} %</span>
@@ -59,13 +53,13 @@
 
     <div class="childlist" v-if="loginRole != '100'">
       <p class="title">下级列表</p>
-      <el-table :data="liveNowchild" stripe>
+      <el-table :data="ptVedioNowchild" stripe>
         <el-table-column label="序号" prop="" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
         </el-table-column>
         <el-table-column label="昵称" prop="displayName" align="center">
-          <template scope="scope">
+           <template scope="scope">
             <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.displayName}}</span>
           </template>
         </el-table-column>
@@ -93,11 +87,6 @@
             <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码量" prop="mixAmount" align="center">
-          <template scope="scope">
-            <span>{{points(scope.row.mixAmount)}}</span>
-          </template>
-        </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
             <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
@@ -105,7 +94,7 @@
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.liveGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.ptVedioGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
       </div>
     </div>
 
@@ -118,7 +107,7 @@
           <el-button @click="resetPlayerSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="liveNowplayer" stripe>
+      <el-table :data="ptVedioNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="center">
@@ -126,10 +115,7 @@
             <span class="fontUrl" @click="goPlayDetail(scope.row.userName)">{{scope.row.userName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="昵称" prop="nickname" align="center">
-          <template scope="scope">
-            <span>{{formatNickname(scope.row.nickname)}}</span>
-          </template>
+        <el-table-column label="昵称" prop="nickname" align="center" :formatter="formatnickname">
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
@@ -143,82 +129,76 @@
             <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码量" prop="mixAmount" align="center">
-          <template scope="scope">
-            <span>{{points(scope.row.mixAmount)}}</span>
-          </template>
-        </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.liveGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.ptVedioGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
       </div>
     </div>
-
   </div>
 </template>
 <script>
+import TWEEN from '@tweenjs/tween.js'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
-import TWEEN from '@tweenjs/tween.js'
 import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     localStorage.removeItem('searchTime')
-    this.$store.commit('resetLiveNowchild')
-    this.$store.commit('resetLiveNowplayer')
+    this.$store.commit('resetptVedioNowchild')
+    this.$store.commit('resetptVedioNowplayer')
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'liveGameReport'
+      data: 'ptVedioGameReport'
     })
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
-      type: 'recordLiveID',
+      type: 'recordptVedioID',
       data: ''
     })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getLiveNowchild')
-    this.$store.dispatch('getLiveNowplayer')
+    this.$store.dispatch('getptVedioNowchild')
+    this.$store.dispatch('getptVedioNowplayer')
   },
   activated: function () {
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'liveGameReport'
+      data: 'ptVedioGameReport'
     })
   },
   computed:{
     rollNumber () {
-      let data = this.$store.state.variable.liveGameData.nowList
+      let data = this.$store.state.variable.ptVedioGameData.nowList
       if (!data.rate) {
         data.rate = 0
       }
       data.submit = (data.winlose * (1 - data.rate/100))
-      if (isNaN(data.winlose * 100 / data.mixAmount)) {
+      if (isNaN(data.winlose / data.bet) * 100) {
         data.winloseRate = 0
       } else {
-        data.winloseRate = (data.winlose / data.mixAmount) * 100
+        data.winloseRate = (data.winlose / data.bet) * 100
       }
       return data
     },
-    liveNowlist () {
-      this.nowRole = this.$store.state.variable.liveGameData.nowList.userId
-      let data = [this.$store.state.variable.liveGameData.nowList]
+    ptVedioNowlist () {
+      this.nowRole = this.$store.state.variable.ptVedioGameData.nowList.userId
+      let data = [this.$store.state.variable.ptVedioGameData.nowList]
       return data
     },
-    liveNowchild () {
-      var nowchild = this.$store.state.variable.liveGameData.nowChildList
+    ptVedioNowchild () {
+      var nowchild = this.$store.state.variable.ptVedioGameData.nowChildList
       if (this.childPage === 1) {
-        nowchild = this.$store.state.variable.liveGameData.nowChildList.slice(0, this.childSize)
+        nowchild = this.$store.state.variable.ptVedioGameData.nowChildList.slice(0, this.childSize)
       } else {
-        nowchild = this.$store.state.variable.liveGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
+        nowchild = this.$store.state.variable.ptVedioGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
       }
       return nowchild
     },
-    liveNowplayer () {
-      var nowplayer = this.$store.state.variable.liveGameData.nowPlayerlist
+    ptVedioNowplayer () {
+      var nowplayer = this.$store.state.variable.ptVedioGameData.nowPlayerlist
       if (this.playerPage === 1) {
-        nowplayer = this.$store.state.variable.liveGameData.nowPlayerlist.slice(0, this.playerSize)
+        nowplayer = this.$store.state.variable.ptVedioGameData.nowPlayerlist.slice(0, this.playerSize)
       } else {
-        nowplayer = this.$store.state.variable.liveGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
+        nowplayer = this.$store.state.variable.ptVedioGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
       }
       return nowplayer
     }
@@ -274,20 +254,6 @@ export default {
       animate()
     },
     'rollNumber.submit' (newValue, oldValue) {
-      if (!oldValue || isNaN(oldValue)) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.submit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.mixAmount' (newValue, oldValue) {
       if (!oldValue) {
         oldValue = 0
       }
@@ -297,7 +263,7 @@ export default {
         TWEEN.update(time)
       }
       new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.mixAmount = this._object.tweeningNumber.toFixed(2)
+          vm.flashNumber.submit = this._object.tweeningNumber.toFixed(2)
         }).start()
       animate()
     },
@@ -323,8 +289,7 @@ export default {
         betCount: 0,
         submit: 0,
         winlose: 0,
-        winloseRate: 0,
-        mixAmount: 0
+        winloseRate: 0
       },
       playerData: '',
       loading: false,
@@ -346,7 +311,7 @@ export default {
           type: 'error',
           message: '请输入玩家用户名'
         })
-      } else if (this.$store.state.variable.liveGameData.nowPlayerlist.length == 0) {
+      } else if (this.$store.state.variable.ptVedioGameData.nowPlayerlist.length == 0) {
         this.$message({
           type: 'info',
           message: '暂无玩家数据'
@@ -354,7 +319,7 @@ export default {
       } else {
         this.playerLoading = true
         let data = {
-          parentId: this.$store.state.variable.liveGameData.nowList.userId,
+          parentId: this.$store.state.variable.ptVedioGameData.nowList.userId,
           query: {
             userName: this.playerData
           },
@@ -372,7 +337,7 @@ export default {
             } else {
               var data = ret.data.payload
               this.$store.commit({
-                type: 'recordLiveNowplayer',
+                type: 'recordptVedioNowplayer',
                 data: data
               })
               this.playerLoading = false
@@ -383,13 +348,25 @@ export default {
     }, // 搜索玩家数据
     resetPlayerSearch () {
       this.playerData = ''
-      this.$store.dispatch('getLiveNowplayer')
+      this.$store.dispatch('getptVedioNowplayer')
     }, // 重置玩家搜索
+    formatWinlose (data) {
+      if (data.winloseRate) {
+        return (data.winloseRate * 100).toFixed(2) + '%'
+      } else {
+        let result = (data.winloseRate * 100).toFixed(2)
+        if (!isNaN(result)) {
+          return result + '%'
+        } else {
+          return '0.00%'
+        }
+      }
+    },
     formatWinloseRate (data) {
       return data && !isNaN(data) ? (Number(data) * 100).toFixed(2) + '%' : '0.00' + '%'
     },
-    formatNickname (data) {
-      return data == 'NULL!'? '-' : data
+    formatnickname (data) {
+      return data.nickname == 'NULL!' ? '-' : data.nickname
     },
     userType (data) {
       if (data.role == '1') {
@@ -412,8 +389,9 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.$store.dispatch('getLiveNowchild')
-        this.$store.dispatch('getLiveNowplayer')
+        // this.$store.dispatch('getptVedioNowlist')
+        this.$store.dispatch('getptVedioNowchild')
+        this.$store.dispatch('getptVedioNowplayer')
         let _self = this
         setTimeout(function(){
           _self.$message({
@@ -428,47 +406,21 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getLiveNowchild')
-      this.$store.dispatch('getLiveNowplayer')
+      // this.$store.dispatch('getptVedioNowlist')
+      this.$store.dispatch('getptVedioNowchild')
+      this.$store.dispatch('getptVedioNowplayer')
     }, // 重置搜索条件
     checkUser (data) {
       this.$store.commit({
-        type: 'recordLiveID',
+        type: 'recordptVedioID',
         data: data.userId
       })
-      this.$store.commit('resetLiveNowchild')
-      this.$store.commit('resetLiveNowplayer')
+      this.$store.commit('resetptVedioNowchild')
+      this.$store.commit('resetptVedioNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getLiveNowchild')
-      this.$store.dispatch('getLiveNowplayer')
+      this.$store.dispatch('getptVedioNowchild')
+      this.$store.dispatch('getptVedioNowplayer')
     }, // 查看当前用户信息
-    goBack () {
-      var data = this.$store.state.variable.liveGameData.nowList.parent
-      if (data == '01') {
-        data = ''
-      }
-      this.$store.commit({
-        type: 'recordLiveID',
-        data: data
-      })
-      this.$store.commit('resetLiveNowchild')
-      this.$store.commit('resetLiveNowplayer')
-      this.$store.commit('startLoading')
-      this.$store.dispatch('getLiveNowchild')
-      data !== '01' ? this.$store.dispatch('getLiveNowplayer') : ''
-    }, // 退回上一级
-    getChildsize (size) {
-      this.childSize = size
-    }, // 下级列表分页
-    getChildpage (page) {
-      this.childPage = page
-    }, // 下级列表分页
-    getPlayersize (size) {
-      this.playerSize = size
-    }, // 玩家列表分页
-    getPlayerpage (page) {
-      this.playerPage = page
-    }, // 玩家列表分页
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
       this.$store.commit('startLoading')
@@ -494,7 +446,34 @@ export default {
         this.$store.commit('closeLoading')
         }
       )
-    }
+    }, // 跳转至玩家详情
+    goBack () {
+      var data = this.$store.state.variable.ptVedioGameData.nowList.parent
+      if (data == '01') {
+        data = ''
+      }
+      this.$store.commit({
+        type: 'recordptVedioID',
+        data: data
+      })
+      this.$store.commit('resetptVedioNowchild')
+      this.$store.commit('resetptVedioNowplayer')
+      this.$store.commit('startLoading')
+      this.$store.dispatch('getptVedioNowchild')
+      data !== '01' ? this.$store.dispatch('getptVedioNowplayer') : ''
+    }, // 退回上一级
+    getChildsize (size) {
+      this.childSize = size
+    }, // 下级列表分页
+    getChildpage (page) {
+      this.childPage = page
+    }, // 下级列表分页
+    getPlayersize (size) {
+      this.playerSize = size
+    }, // 玩家列表分页
+    getPlayerpage (page) {
+      this.playerPage = page
+    }, // 玩家列表分页
   },
   beforeDestroy () {
     localStorage.removeItem('searchTime')
@@ -503,15 +482,15 @@ export default {
 </script>
 
 <style scpoed>
-.liveGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
-.liveGame-report .input{width: 25rem}
-.liveGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
-.liveGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
-.liveGame-report .nowUserlist,
-.liveGame-report .childlist,
-.liveGame-report .playerlist{width: 99%;margin: 2rem auto}
-.liveGame-report .fontUrl{cursor: pointer;color: #20a0ff}
-.liveGame-report .fontUrl:hover{text-decoration: underline;}
+.ptVedioGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.ptVedioGame-report .input{width: 25rem}
+.ptVedioGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+.ptVedioGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
+.ptVedioGame-report .nowUserlist,
+.ptVedioGame-report .childlist,
+.ptVedioGame-report .playerlist{width: 99%;margin: 2rem auto}
+.ptVedioGame-report .fontUrl{cursor: pointer;color: #20a0ff}
+.ptVedioGame-report .fontUrl:hover{text-decoration: underline;}
 
 .green{color: #00CC00}
 .red{color: #FF3300}

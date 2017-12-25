@@ -148,32 +148,33 @@ const variable = {
   rightList: [], // 管理员权限列表
   allRight: [], //管理员所有权限
 
-  vedioGameData: {
+  naVedioGameData: {
     nowList: [],
     nowChildList: [],
-    copyNowChildList: [], // 用户下级数据备份
     nowPlayerlist: [],
-    copyNowChildList: [], // 用户所属玩家备份
     nowUserID: ''
-  }, // 电子游戏报表数据
+  }, // NA电子游戏报表数据
 
-  liveGameData: {
+  naLiveGameData: {
     nowList: [],
     nowChildList: [],
-    copyNowChildList: [], // 用户下级数据备份
     nowPlayerlist: [],
-    copyNowChildList: [], // 用户所属玩家备份
     nowUserID: ''
-  }, // 真人游戏报表数据
+  }, // NA真人游戏报表数据
 
-  arcadeGameData: {
+  naArcadeGameData: {
     nowList: [],
     nowChildList: [],
-    copyNowChildList: [], // 用户下级数据备份
     nowPlayerlist: [],
-    copyNowChildList: [], // 用户所属玩家备份
     nowUserID: ''
-  }, // 街机游戏报表数据
+  }, // NA街机游戏报表数据
+
+  ptVedioGameData: {
+    nowList: [],
+    nowChildList: [],
+    nowPlayerlist: [],
+    nowUserID: ''
+  }, // PT电子游戏报表数据
 
   playerGameType: '' // 玩家玩的游戏类别（大类）
 }

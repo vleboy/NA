@@ -1,5 +1,6 @@
 <template>
-  <div class="arcadeGame-report">
+  <div class="naLiveGame-report">
+
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
         <p class="title" style="float:left">当前选择列表<span v-if="nowRole != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
@@ -9,7 +10,7 @@
           <el-button @click="resetSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="arcadeNowlist" stripe>
+      <el-table :data="naLiveNowlist" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -43,6 +44,11 @@
             <span :class="[Number(flashNumber.submit) > 0 ? 'green' : 'red']">{{points(flashNumber.submit)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(flashNumber.mixAmount)}}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
             <span>{{flashNumber.winloseRate}} %</span>
@@ -53,13 +59,13 @@
 
     <div class="childlist" v-if="loginRole != '100'">
       <p class="title">下级列表</p>
-      <el-table :data="arcadeNowchild" stripe>
+      <el-table :data="naLiveNowchild" stripe>
         <el-table-column label="序号" prop="" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
         </el-table-column>
         <el-table-column label="昵称" prop="displayName" align="center">
-           <template scope="scope">
+          <template scope="scope">
             <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.displayName}}</span>
           </template>
         </el-table-column>
@@ -87,6 +93,11 @@
             <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
             <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
@@ -94,7 +105,7 @@
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.arcadeGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naLiveGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
       </div>
     </div>
 
@@ -107,7 +118,7 @@
           <el-button @click="resetPlayerSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="arcadeNowplayer" stripe>
+      <el-table :data="naLiveNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="center">
@@ -115,7 +126,10 @@
             <span class="fontUrl" @click="goPlayDetail(scope.row.userName)">{{scope.row.userName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="昵称" prop="nickname" align="center" :formatter="formatnickname">
+        <el-table-column label="昵称" prop="nickname" align="center">
+          <template scope="scope">
+            <span>{{formatNickname(scope.row.nickname)}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
@@ -129,76 +143,82 @@
             <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.arcadeGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naLiveGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
       </div>
     </div>
+
   </div>
 </template>
 <script>
-import TWEEN from '@tweenjs/tween.js'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
+import TWEEN from '@tweenjs/tween.js'
 import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     localStorage.removeItem('searchTime')
-    this.$store.commit('resetArcadeNowchild')
-    this.$store.commit('resetArcadeNowplayer')
+    this.$store.commit('resetnaLiveNowchild')
+    this.$store.commit('resetnaLiveNowplayer')
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'arcadeGameReport'
+      data: 'naLiveGameReport'
     })
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
-      type: 'recordArcadeID',
+      type: 'recordnaLiveID',
       data: ''
     })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getArcadeNowchild')
-    this.$store.dispatch('getArcadeNowplayer')
+    this.$store.dispatch('getnaLiveNowchild')
+    this.$store.dispatch('getnaLiveNowplayer')
   },
   activated: function () {
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'arcadeGameReport'
+      data: 'naLiveGameReport'
     })
   },
   computed:{
     rollNumber () {
-      let data = this.$store.state.variable.arcadeGameData.nowList
+      let data = this.$store.state.variable.naLiveGameData.nowList
       if (!data.rate) {
         data.rate = 0
       }
       data.submit = (data.winlose * (1 - data.rate/100))
-      if (isNaN(data.winlose / data.bet) * 100) {
+      if (isNaN(data.winlose * 100 / data.mixAmount)) {
         data.winloseRate = 0
       } else {
-        data.winloseRate = (data.winlose / data.bet) * 100
+        data.winloseRate = (data.winlose / data.mixAmount) * 100
       }
       return data
     },
-    arcadeNowlist () {
-      this.nowRole = this.$store.state.variable.arcadeGameData.nowList.userId
-      let data = [this.$store.state.variable.arcadeGameData.nowList]
+    naLiveNowlist () {
+      this.nowRole = this.$store.state.variable.naLiveGameData.nowList.userId
+      let data = [this.$store.state.variable.naLiveGameData.nowList]
       return data
     },
-    arcadeNowchild () {
-      var nowchild = this.$store.state.variable.arcadeGameData.nowChildList
+    naLiveNowchild () {
+      var nowchild = this.$store.state.variable.naLiveGameData.nowChildList
       if (this.childPage === 1) {
-        nowchild = this.$store.state.variable.arcadeGameData.nowChildList.slice(0, this.childSize)
+        nowchild = this.$store.state.variable.naLiveGameData.nowChildList.slice(0, this.childSize)
       } else {
-        nowchild = this.$store.state.variable.arcadeGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
+        nowchild = this.$store.state.variable.naLiveGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
       }
       return nowchild
     },
-    arcadeNowplayer () {
-      var nowplayer = this.$store.state.variable.arcadeGameData.nowPlayerlist
+    naLiveNowplayer () {
+      var nowplayer = this.$store.state.variable.naLiveGameData.nowPlayerlist
       if (this.playerPage === 1) {
-        nowplayer = this.$store.state.variable.arcadeGameData.nowPlayerlist.slice(0, this.playerSize)
+        nowplayer = this.$store.state.variable.naLiveGameData.nowPlayerlist.slice(0, this.playerSize)
       } else {
-        nowplayer = this.$store.state.variable.arcadeGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
+        nowplayer = this.$store.state.variable.naLiveGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
       }
       return nowplayer
     }
@@ -254,7 +274,7 @@ export default {
       animate()
     },
     'rollNumber.submit' (newValue, oldValue) {
-      if (!oldValue) {
+      if (!oldValue || isNaN(oldValue)) {
         oldValue = 0
       }
       let vm = this
@@ -264,6 +284,20 @@ export default {
       }
       new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
           vm.flashNumber.submit = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.mixAmount' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.mixAmount = this._object.tweeningNumber.toFixed(2)
         }).start()
       animate()
     },
@@ -289,7 +323,8 @@ export default {
         betCount: 0,
         submit: 0,
         winlose: 0,
-        winloseRate: 0
+        winloseRate: 0,
+        mixAmount: 0
       },
       playerData: '',
       loading: false,
@@ -311,7 +346,7 @@ export default {
           type: 'error',
           message: '请输入玩家用户名'
         })
-      } else if (this.$store.state.variable.arcadeGameData.nowPlayerlist.length == 0) {
+      } else if (this.$store.state.variable.naLiveGameData.nowPlayerlist.length == 0) {
         this.$message({
           type: 'info',
           message: '暂无玩家数据'
@@ -319,7 +354,7 @@ export default {
       } else {
         this.playerLoading = true
         let data = {
-          parentId: this.$store.state.variable.arcadeGameData.nowList.userId,
+          parentId: this.$store.state.variable.naLiveGameData.nowList.userId,
           query: {
             userName: this.playerData
           },
@@ -337,7 +372,7 @@ export default {
             } else {
               var data = ret.data.payload
               this.$store.commit({
-                type: 'recordArcadeNowplayer',
+                type: 'recordnaLiveNowplayer',
                 data: data
               })
               this.playerLoading = false
@@ -348,25 +383,13 @@ export default {
     }, // 搜索玩家数据
     resetPlayerSearch () {
       this.playerData = ''
-      this.$store.dispatch('getArcadeNowplayer')
+      this.$store.dispatch('getnaLiveNowplayer')
     }, // 重置玩家搜索
-    formatWinlose (data) {
-      if (data.winloseRate) {
-        return (data.winloseRate * 100).toFixed(2) + '%'
-      } else {
-        let result = (data.winloseRate * 100).toFixed(2)
-        if (!isNaN(result)) {
-          return result + '%'
-        } else {
-          return '0.00%'
-        }
-      }
-    },
     formatWinloseRate (data) {
       return data && !isNaN(data) ? (Number(data) * 100).toFixed(2) + '%' : '0.00' + '%'
     },
-    formatnickname (data) {
-      return data.nickname == 'NULL!' ? '-' : data.nickname
+    formatNickname (data) {
+      return data == 'NULL!'? '-' : data
     },
     userType (data) {
       if (data.role == '1') {
@@ -389,9 +412,8 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        // this.$store.dispatch('getArcadeNowlist')
-        this.$store.dispatch('getArcadeNowchild')
-        this.$store.dispatch('getArcadeNowplayer')
+        this.$store.dispatch('getnaLiveNowchild')
+        this.$store.dispatch('getnaLiveNowplayer')
         let _self = this
         setTimeout(function(){
           _self.$message({
@@ -406,21 +428,47 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      // this.$store.dispatch('getArcadeNowlist')
-      this.$store.dispatch('getArcadeNowchild')
-      this.$store.dispatch('getArcadeNowplayer')
+      this.$store.dispatch('getnaLiveNowchild')
+      this.$store.dispatch('getnaLiveNowplayer')
     }, // 重置搜索条件
     checkUser (data) {
       this.$store.commit({
-        type: 'recordArcadeID',
+        type: 'recordnaLiveID',
         data: data.userId
       })
-      this.$store.commit('resetArcadeNowchild')
-      this.$store.commit('resetArcadeNowplayer')
+      this.$store.commit('resetnaLiveNowchild')
+      this.$store.commit('resetnaLiveNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getArcadeNowchild')
-      this.$store.dispatch('getArcadeNowplayer')
+      this.$store.dispatch('getnaLiveNowchild')
+      this.$store.dispatch('getnaLiveNowplayer')
     }, // 查看当前用户信息
+    goBack () {
+      var data = this.$store.state.variable.naLiveGameData.nowList.parent
+      if (data == '01') {
+        data = ''
+      }
+      this.$store.commit({
+        type: 'recordnaLiveID',
+        data: data
+      })
+      this.$store.commit('resetnaLiveNowchild')
+      this.$store.commit('resetnaLiveNowplayer')
+      this.$store.commit('startLoading')
+      this.$store.dispatch('getnaLiveNowchild')
+      data !== '01' ? this.$store.dispatch('getnaLiveNowplayer') : ''
+    }, // 退回上一级
+    getChildsize (size) {
+      this.childSize = size
+    }, // 下级列表分页
+    getChildpage (page) {
+      this.childPage = page
+    }, // 下级列表分页
+    getPlayersize (size) {
+      this.playerSize = size
+    }, // 玩家列表分页
+    getPlayerpage (page) {
+      this.playerPage = page
+    }, // 玩家列表分页
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
       this.$store.commit('startLoading')
@@ -446,34 +494,7 @@ export default {
         this.$store.commit('closeLoading')
         }
       )
-    }, // 跳转至玩家详情
-    goBack () {
-      var data = this.$store.state.variable.arcadeGameData.nowList.parent
-      if (data == '01') {
-        data = ''
-      }
-      this.$store.commit({
-        type: 'recordArcadeID',
-        data: data
-      })
-      this.$store.commit('resetArcadeNowchild')
-      this.$store.commit('resetArcadeNowplayer')
-      this.$store.commit('startLoading')
-      this.$store.dispatch('getArcadeNowchild')
-      data !== '01' ? this.$store.dispatch('getArcadeNowplayer') : ''
-    }, // 退回上一级
-    getChildsize (size) {
-      this.childSize = size
-    }, // 下级列表分页
-    getChildpage (page) {
-      this.childPage = page
-    }, // 下级列表分页
-    getPlayersize (size) {
-      this.playerSize = size
-    }, // 玩家列表分页
-    getPlayerpage (page) {
-      this.playerPage = page
-    }, // 玩家列表分页
+    }
   },
   beforeDestroy () {
     localStorage.removeItem('searchTime')
@@ -482,15 +503,15 @@ export default {
 </script>
 
 <style scpoed>
-.arcadeGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
-.arcadeGame-report .input{width: 25rem}
-.arcadeGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
-.arcadeGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
-.arcadeGame-report .nowUserlist,
-.arcadeGame-report .childlist,
-.arcadeGame-report .playerlist{width: 99%;margin: 2rem auto}
-.arcadeGame-report .fontUrl{cursor: pointer;color: #20a0ff}
-.arcadeGame-report .fontUrl:hover{text-decoration: underline;}
+.naLiveGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.naLiveGame-report .input{width: 25rem}
+.naLiveGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+.naLiveGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
+.naLiveGame-report .nowUserlist,
+.naLiveGame-report .childlist,
+.naLiveGame-report .playerlist{width: 99%;margin: 2rem auto}
+.naLiveGame-report .fontUrl{cursor: pointer;color: #20a0ff}
+.naLiveGame-report .fontUrl:hover{text-decoration: underline;}
 
 .green{color: #00CC00}
 .red{color: #FF3300}

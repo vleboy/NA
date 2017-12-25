@@ -62,9 +62,11 @@ import BoothList from '@/view/operation/booth/boothList' // 展位管理
 
 import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
 
-import VedioGameReport from '@/view/gameReport/vedioGame-report' // 电子游戏报表
-import LiveGameReport from '@/view/gameReport/liveGame-report' // 真人游戏报表
-import ArcadeGameReport from '@/view/gameReport/arcadeGame-report' // 街机游戏报表
+import naVedioGameReport from '@/view/gameReport/na/naVedioGame-report' // NA电子游戏报表
+import naLiveGameReport from '@/view/gameReport/na/naLiveGame-report' // NA真人游戏报表
+import naArcadeGameReport from '@/view/gameReport/na/naArcadeGame-report' // NA街机游戏报表
+
+import ptVedioGameReport from '@/view/gameReport/ttg/ttgVedioReport' // PT电子游戏报表
 
 import LineUp from '@/view/lineup/lineup' // 排队设置
 
@@ -300,25 +302,33 @@ const router = new Router({
       component: GameBackstage
     },
     {
-      path: '/vedioGameReport',
-      name: '电子游戏总报表',
-      component: VedioGameReport,
+      path: '/naVedioGameReport',
+      name: 'NA电子游戏总报表',
+      component: naVedioGameReport,
       meta: {
         keepAlive: true
       }
     },
     {
-      path: '/liveGameReport',
-      name: '真人游戏总报表',
-      component: LiveGameReport,
+      path: '/naLiveGameReport',
+      name: 'NA真人游戏总报表',
+      component: naLiveGameReport,
       meta: {
         keepAlive: true
       }
     },
     {
-      path: '/arcadeGameReport',
-      name: '街机游戏总报表',
-      component: ArcadeGameReport,
+      path: '/naArcadeGameReport',
+      name: 'NA街机游戏总报表',
+      component: naArcadeGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/ptVedioGameReport',
+      name: 'PT电子游戏总报表',
+      component: ptVedioGameReport,
       meta: {
         keepAlive: true
       }
