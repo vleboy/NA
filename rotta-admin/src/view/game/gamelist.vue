@@ -87,7 +87,6 @@ export default {
     }
   },
   mounted () {
-    
   },
   watch: {
     ajaxCount (val) {
@@ -198,29 +197,29 @@ export default {
     getAlllist () {
       localStorage.removeItem('clickGameType')
       this.searchGameName = ''
-      var type = []
-      for (let item of this.$store.state.variable.gameListData) {
-        type.push(item.code)
-      }
-      type = type.join(',').toString()
-      var data = {
-        gameType: type
-      }
-      invoke({
-        url: api.gameList,
-        method: api.post,
-        data: data
-      }).then(
-        result => {
-          const [err, ret] = result
-          if (err) {
-          } else {
-            var list = ret.data.payload
-            this.allgames = list
-            this.$store.commit('closeLoading')
-          }
-        }
-      )
+      // var type = []
+      // for (let item of this.$store.state.variable.gameListData) {
+      //   type.push(item.code)
+      // }
+      // type = type.join(',').toString()
+      // var data = {
+      //   gameType: type
+      // }
+      // invoke({
+      //   url: api.gameList,
+      //   method: api.post,
+      //   data: data
+      // }).then(
+      //   result => {
+      //     const [err, ret] = result
+      //     if (err) {
+      //     } else {
+      //       var list = ret.data.payload
+      //       this.allgames = list
+      //       this.$store.commit('closeLoading')
+      //     }
+      //   }
+      // )
     }, // 获取所有游戏
     onlineGame (o) {
       var data = {
