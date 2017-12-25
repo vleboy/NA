@@ -74,9 +74,9 @@
       <el-form-item label="接入分成比(%)" prop="companyRatio" v-if='managerInfo.companyType==2'>
         <el-input v-model="managerInfo.companyRatio" class="input" placeholder="请输入接入分成比(范围0.00-100.00)" :maxlength='16'></el-input>
       </el-form-item>
-      <el-form-item label="接入KEY" prop="companyKey" v-if='managerInfo.companyType==2'>
-      <el-input v-model="managerInfo.companyKey" class="input" placeholder="请输入接入KEY" :maxlength='16'></el-input>
-    </el-form-item>
+      <!--<el-form-item label="接入KEY" prop="companyKey" v-if='managerInfo.companyType==2'>-->
+      <!--<el-input v-model="managerInfo.companyKey" class="input" placeholder="请输入接入KEY" :maxlength='16'></el-input>-->
+    <!--</el-form-item>-->
 
       <el-form-item label="合同备注" prop="remark">
         <el-input v-model="managerInfo.remark" class="input" placeholder="请输入合同备注" type="textarea" :maxlength='200'></el-input>
