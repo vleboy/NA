@@ -831,8 +831,15 @@ export default {
           message: '请选择要添加的游戏！'
         })
       } else {
+        let companyName = ''
+        for (let item of this.CompanyList) {
+          if (item.server == this.selcetCompany) {
+            companyName = item.companyName
+          }
+        }
         let data = this.selectGame
         data.company = this.selcetCompany
+        data.companyName = companyName
         if (this.comdetail.gameList.length == 0) {
           this.comdetail.gameList.push(data)
         } else {
