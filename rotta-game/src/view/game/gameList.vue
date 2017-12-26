@@ -41,7 +41,7 @@
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="gameItems.length"
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="counts.length"
                        :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
         </el-pagination>
       </div>
