@@ -150,10 +150,34 @@ export default {
     }, // 请求该运营商游戏大类
     getDetailGame (data) {
       this.$store.commit('startLoading')
-      var data = {
+      var focus = {
         gameType: data
       }
+      console.log(focus)
       localStorage.setItem('clickGameType', data)
+      invoke({
+        url: api.gameList,
+        method: api.post,
+        data: focus
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var list = ret.data.payload
+            this.allgames = list
+            this.$store.commit('closeLoading')
+          }
+        }
+      )
+    }, // 请求该运营商游戏大类下的游戏
+    getnowlist (code) {
+      this.searchGameName = ''
+      this.$store.commit('startLoading')
+      var data = {
+        gameType: code
+      }
+      localStorage.setItem('clickGameType', code)
       invoke({
         url: api.gameList,
         method: api.post,
@@ -169,30 +193,6 @@ export default {
           }
         }
       )
-    }, // 请求该运营商游戏大类下的游戏
-    getnowlist (code) {
-      // this.searchGameName = ''
-      // this.$store.commit('startLoading')
-      // var data = {
-      //   gameType: code
-      // }
-      // localStorage.setItem('clickGameType', code)
-      // invoke({
-      //   url: api.gameList,
-      //   method: api.post,
-      //   data: data
-      // }).then(
-      //   result => {
-      //     const [err, ret] = result
-      //     if (err) {
-      //     } else {
-      //       var list = ret.data.payload
-      //       // console.log(list)
-      //       this.allgames = list
-      //       this.$store.commit('closeLoading')
-      //     }
-      //   }
-      // )
     }, // 获取当前类型游戏
     getAlllist () {
       localStorage.removeItem('clickGameType')
