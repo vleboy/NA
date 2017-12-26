@@ -99,7 +99,8 @@ export default {
     return {
       loginRole: localStorage.loginRole,
       allgames: [],
-      searchGameName: ''
+      searchGameName: '',
+      nowType: [], // 现在拥有的所有游戏类别
     }
   },
   methods: {
@@ -148,7 +149,6 @@ export default {
       this.$store.dispatch('getCompanyGame')
     }, // 请求该运营商游戏大类
     getDetailGame (data) {
-      console.log(data)
       this.$store.commit('startLoading')
       var data = {
         gameType: data
@@ -197,29 +197,54 @@ export default {
     getAlllist () {
       localStorage.removeItem('clickGameType')
       this.searchGameName = ''
-      // var type = []
-      // for (let item of this.$store.state.variable.gameListData) {
-      //   type.push(item.code)
-      // }
-      // type = type.join(',').toString()
-      // var data = {
-      //   gameType: type
-      // }
-      // invoke({
-      //   url: api.gameList,
-      //   method: api.post,
-      //   data: data
-      // }).then(
-      //   result => {
-      //     const [err, ret] = result
-      //     if (err) {
-      //     } else {
-      //       var list = ret.data.payload
-      //       this.allgames = list
-      //       this.$store.commit('closeLoading')
-      //     }
-      //   }
-      // )
+      for (let item of this.companyList) {
+        let data = {
+          companyIden: item.server
+        }
+        invoke({
+          url: api.gameBigType,
+          method: api.post,
+          data: data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+              this.$message({
+                message: err.msg,
+                type: 'warning'
+              })
+            } else {
+              var data = ret.data.payload
+              for (let result of data) {
+                this.nowType.push(result)
+              }
+            }
+          }
+        )
+      }
+      var type = []
+      for (let item of this.nowType) {
+        type.push(item.code)
+      }
+      type = type.join(',').toString()
+      var data = {
+        gameType: type
+      }
+      invoke({
+        url: api.gameList,
+        method: api.post,
+        data: data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var list = ret.data.payload
+            this.allgames = list
+            this.$store.commit('closeLoading')
+          }
+        }
+      )
     }, // 获取所有游戏
     onlineGame (o) {
       var data = {

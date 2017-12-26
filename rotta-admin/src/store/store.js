@@ -502,7 +502,7 @@ const actions = {
           for (let item of data) {
             item.client = item.client + '游戏'
           }
-          context.commit('closeLoading')
+          context.commit('countAjax')
           context.commit({
             type: 'recordCompanyList',
             data: data
