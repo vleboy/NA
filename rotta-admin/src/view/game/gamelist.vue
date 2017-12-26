@@ -29,13 +29,9 @@
             <div class="card-bottom">
               <span>
                   <span class="statu1" v-if="o.gameStatus === 1">&bull;</span>
-                  <span class="statu2" v-if="o.gameStatus === 2">&bull;</span>
-                  <span class="statu3" v-if="o.gameStatus === 3">&bull;</span>
-                  <span class="statu4" v-if="o.gameStatus === 4">&bull;</span>
+                  <span class="statu2" v-if="o.gameStatus === 0">&bull;</span>
                   <span class="subscribe1" v-if="o.gameStatus === 1">在线</span>
-                  <span class="subscribe2" v-if="o.gameStatus === 2">离线</span>
-                  <span class="subscribe3" v-if="o.gameStatus === 3">维护</span>
-                  <span class="subscribe4" v-if="o.gameStatus === 4">故障</span>
+                  <span class="subscribe2" v-if="o.gameStatus === 0">离线</span>
                   <span class="time">{{formatTime(o.updatedAt)}}</span>
               </span>
                 <el-dropdown trigger="click" class="moreIcon" v-if="loginRole == '1'">
@@ -43,7 +39,6 @@
                   <el-dropdown-menu slot="dropdown">
                       <p @click="onlineGame(o)" v-if="o.gameStatus !== 1"><el-dropdown-item>上线</el-dropdown-item></p>
                       <p @click="offlineGame(o)" v-if="o.gameStatus === 1"><el-dropdown-item>下线</el-dropdown-item></p>
-                      <p @click="maintainGame(o)"><el-dropdown-item>维护</el-dropdown-item></p>
                   </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -59,6 +54,7 @@ import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 export default {
   beforeCreate () {
+    localStorage.removeItem('clickGameType')
     this.$store.commit('startLoading')
     this.$store.commit('resetAjax')
     this.$store.commit({
@@ -70,7 +66,7 @@ export default {
       data: []
     })
     this.$store.commit('returnLocalStorage')
-    this.$store.dispatch('getCompanyList')
+    this.$store.dispatch('getAllGameList')
   },
   computed: {
     ajaxCount () {
@@ -82,25 +78,19 @@ export default {
     companyGame () {
       return this.$store.state.variable.companyGame
     },
+    allgames () {
+      return this.$store.state.variable.allgames
+    },
     count () {
-      return this.allgames.length
+      return this.$store.state.variable.allgames.length
     }
   },
   mounted () {
   },
-  watch: {
-    ajaxCount (val) {
-      if (val == 1) {
-        this.getAlllist()
-      }
-    }
-  },
   data () {
     return {
       loginRole: localStorage.loginRole,
-      allgames: [],
-      searchGameName: '',
-      nowType: [], // 现在拥有的所有游戏类别
+      searchGameName: ''
     }
   },
   methods: {
@@ -111,7 +101,6 @@ export default {
           type: 'error'
         })
       } else {
-        this.$store.commit('startLoading')
         var data = {
           gameType: null,
           keyword: this.searchGameName
@@ -130,7 +119,11 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              this.allgames = data
+              this.$store.commit('resetAllGameList')
+              this.$store.commit({
+                type: 'recordAllGameList',
+                data: data
+              })
               this.$store.commit('closeLoading')
             }
           }
@@ -139,7 +132,13 @@ export default {
     }, // 搜索游戏
     resetGamelist () {
       this.searchGameName = ''
-      this.getAlllist()
+      localStorage.removeItem('clickGameType')
+      this.$store.commit('startLoading')
+      this.$store.commit({
+        type: 'recordCompanyGame',
+        data: []
+      })
+      this.$store.dispatch('getAllGameList')
     }, // 重置游戏列表
     formatTime (time) {
       return detailTime(time)
@@ -148,12 +147,16 @@ export default {
       localStorage.setItem('nowCompany', data)
       this.$store.dispatch('getCompanyGame')
     }, // 请求该运营商游戏大类
+    getAlllist () {
+      localStorage.removeItem('clickGameType')
+      this.$store.commit('startLoading')
+      this.$store.dispatch('getAllGameList')
+    }, // 请求所有游戏
     getDetailGame (data) {
       this.$store.commit('startLoading')
       var focus = {
         gameType: data
       }
-      console.log(focus)
       localStorage.setItem('clickGameType', data)
       invoke({
         url: api.gameList,
@@ -165,7 +168,11 @@ export default {
           if (err) {
           } else {
             var list = ret.data.payload
-            this.allgames = list
+            this.$store.commit('resetAllGameList')
+            this.$store.commit({
+              type: 'recordAllGameList',
+              data: list
+            })
             this.$store.commit('closeLoading')
           }
         }
@@ -173,7 +180,6 @@ export default {
     }, // 请求该运营商游戏大类下的游戏
     getnowlist (code) {
       this.searchGameName = ''
-      this.$store.commit('startLoading')
       var data = {
         gameType: code
       }
@@ -188,65 +194,18 @@ export default {
           if (err) {
           } else {
             var list = ret.data.payload
-            this.allgames = list
+            this.$store.commit('resetAllGameList')
+            this.$store.commit({
+              type: 'recordAllGameList',
+              data: list
+            })
             this.$store.commit('closeLoading')
           }
         }
       )
     }, // 获取当前类型游戏
-    getAlllist () {
-      localStorage.removeItem('clickGameType')
-      this.searchGameName = ''
-      for (let item of this.companyList) {
-        let data = {
-          companyIden: item.server
-        }
-        invoke({
-          url: api.gameBigType,
-          method: api.post,
-          data: data
-        }).then(
-          result => {
-            const [err, ret] = result
-            if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'warning'
-              })
-            } else {
-              var data = ret.data.payload
-              for (let result of data) {
-                this.nowType.push(result)
-              }
-            }
-          }
-        )
-      }
-      var type = []
-      for (let item of this.nowType) {
-        type.push(item.code)
-      }
-      type = type.join(',').toString()
-      var data = {
-        gameType: type
-      }
-      invoke({
-        url: api.gameList,
-        method: api.post,
-        data: data
-      }).then(
-        result => {
-          const [err, ret] = result
-          if (err) {
-          } else {
-            var list = ret.data.payload
-            this.allgames = list
-            this.$store.commit('closeLoading')
-          }
-        }
-      )
-    }, // 获取所有游戏
     onlineGame (o) {
+      this.$store.commit('startLoading')
       var data = {
         gameType: o.gameType,
         gameId: o.gameId,
@@ -273,7 +232,7 @@ export default {
               this.getnowlist(localStorage.clickGameType)
             }
             if (!this.searchGameName && !localStorage.clickGameType) {
-              this.getAlllist()
+              this.$store.dispatch('getAllGameList')
             }
             this.$message({
               message: '操作成功',
@@ -284,10 +243,11 @@ export default {
       )
     }, // 上线游戏
     offlineGame (o) {
+      this.$store.commit('startLoading')
       var data = {
         gameType: o.gameType,
         gameId: o.gameId,
-        status: '2'
+        status: '0'
       }
       invoke({
         url: api.changeGame,
@@ -310,7 +270,7 @@ export default {
               this.getnowlist(localStorage.clickGameType)
             }
             if (!this.searchGameName && !localStorage.clickGameType) {
-              this.getAlllist()
+              this.$store.dispatch('getAllGameList')
             }
             this.$message({
               message: '操作成功',
@@ -319,44 +279,7 @@ export default {
           }
         }
       )
-    }, // 下线游戏
-    maintainGame (o) {
-      var data = {
-        gameType: o.gameType,
-        gameId: o.gameId,
-        status: '3'
-      }
-      invoke({
-        url: api.changeGame,
-        method: api.post,
-        data: data
-      }).then(
-        result => {
-          const [err, ret] = result
-          if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
-          } else {
-            var data = ret.data.payload
-            if (this.searchGameName) {
-              this.searchGame()
-            }
-            if (localStorage.clickGameType && !this.searchGameName) {
-              this.getnowlist(localStorage.clickGameType)
-            }
-            if (!this.searchGameName && !localStorage.clickGameType) {
-              this.getAlllist()
-            }
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-          }
-        }
-      )
-    } // 维护游戏
+    } // 下线游戏
   },
   beforeDestory () {
     localStorage.removeItem('clickGameType')

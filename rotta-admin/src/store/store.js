@@ -478,39 +478,74 @@ const actions = {
       }
     )
   }, // 获取管理员个人中心余额
-  getCompanyList (context) {
+  async getAllGameList (context) {
     let data = {
       parent: localStorage.loginId
     }
     if (localStorage.loginRole == '1') {
       data.parent = '01'
     }
-    invoke({
+    // 获取该用户游戏中心的游戏运营商
+    let result1 = await invoke({
       url: api.companySelect,
       method: api.post,
       data: data
-    }).then(
-      result => {
-        const [err, ret] = result
-        if (err) {
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
-        } else {
-          var data = ret.data.payload
-          for (let item of data) {
-            item.client = item.client + '游戏'
-          }
-          context.commit('countAjax')
-          context.commit({
-            type: 'recordCompanyList',
-            data: data
-          })
-        }
+    })
+    let companyList = result1[1].data.payload
+    for (let item of companyList) {
+      item.client = item.client + '游戏'
+    }
+    context.commit({
+      type: 'recordCompanyList',
+      data: companyList
+    })
+    context.commit('resetAllGameList')
+    for (let company of companyList) {
+      let _data = {
+        companyIden: company.server
       }
-    )
-  }, // 获取该用户游戏中心的游戏运营商
+      invoke({
+        url: api.gameBigType,
+        method: api.post,
+        data: _data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'warning'
+            })
+          } else {
+            var data = ret.data.payload
+            for (let type of data) {
+              let gameType = {
+                gameType: type.code
+              }
+              invoke({
+                url: api.gameList,
+                method: api.post,
+                data: gameType
+              }).then(
+                result => {
+                  const [err, ret] = result
+                  if (err) {
+                  } else {
+                    context.commit('closeLoading')
+                    var list = ret.data.payload
+                    context.commit({
+                      type: 'recordAllGameList',
+                      data: list
+                    })             
+                  }
+                }
+              )
+            }
+          }
+        }
+      )
+    }
+  }, // 获取该用户游戏中心的所有游戏
   getCompanyGame (context) {
     let data = {
       companyIden: localStorage.nowCompany
@@ -741,6 +776,106 @@ const actions = {
   onTabClick({ commit }, view) {
     commit('ON_TAB_CLICK', view)
   },
+
+  async getnaAllNowchild (context) {
+    // 请求当前基本信息
+    let require = {
+      userId: ''
+    }
+    if (state.variable.naAllGameData.nowUserID) {
+      require.userId = state.variable.naAllGameData.nowUserID
+    } else {
+      require.userId = localStorage.loginId
+    }
+    let result1 = await invoke({
+      url: api.reportInfo,
+      method: api.post,
+      data: require
+    })
+    let user = result1[1].data.payload
+    if (user.userId == state.variable.naAllGameData.nowUserID || !state.variable.naAllGameData.nowUserID && user.userId == localStorage.loginId) {
+      context.commit({
+        type: 'recordnaAllNowlist',
+        data: user
+      })
+    }
+    // 请求下级基本信息
+    var data = {
+      parent: ''
+    }
+    if (localStorage.loginRole == '1') {
+      data.parent = '01'
+    } else {
+      data.parent = localStorage.loginId
+    }
+    if (state.variable.naAllGameData.nowUserID) {
+      data.parent = state.variable.naAllGameData.nowUserID
+    }
+    // 请求下级信息
+    let result2 = await invoke({
+      url: api.reportInfo,
+      method: api.post,
+      data: data
+    })
+    let child = result2[1].data.payload
+    context.commit({
+      type: 'recordnaAllNowchild',
+      data: child
+    })
+    // 请求下级账单信息
+    // context.commit('getWeek')
+    // let searchDate = []
+    // if (localStorage.searchTime) {
+    //   searchDate = JSON.parse(localStorage.searchTime)
+    // } else {
+    //   searchDate = [state.startTime, state.endTime]
+    // }
+    // context.commit('resetnaVedioNowchild')
+    // let count = {
+    //   bet: 0,
+    //   betCount: 0,
+    //   winlose: 0,
+    //   winloseRate: 0
+    // } // 当前用户下级账单总额
+    // for (let item of child) {
+    //   let child_data = {
+    //     gameType: 40000,
+    //     role: item.role,
+    //     userIds: [item.userId],
+    //     query: {
+    //       createdAt: searchDate
+    //     }
+    //   }
+    //   invoke({
+    //     url: api.calcUserStat,
+    //     method: api.post,
+    //     data: child_data
+    //   }).then(
+    //     result => {
+    //       const [err, ret] = result
+    //       if (err) {
+    //       } else {
+    //         context.commit('closeLoading')
+    //         var data = ret.data.payload[0]
+    //         if (data) {
+    //           if (item.userId == data.userId) {
+    //             item.bet = data.bet
+    //             item.betCount = data.betCount
+    //             item.winlose = data.winlose
+    //             item.submit = data.winlose * (1 - item.rate/100)
+    //             item.winloseRate = data.winlose / data.bet
+    //             context.commit({
+    //               type: 'recordnaVedioNowchild',
+    //               data: item
+    //             })
+    //           }
+    //         }
+    //       }
+    //     }
+    //   )
+    // }
+  }, // NA所有游戏下级列表(综合计算上级)
+
 
   async getnaVedioNowchild (context) {
     // 请求当前基本信息
@@ -1982,6 +2117,16 @@ const mutations = {
     state.variable.isfinish = false
   }, // 初始化加减点状态
 
+  resetAllGameList (state, payload) {
+    state.variable.allgames = []
+  }, // 重置游戏中心所有游戏
+
+  recordAllGameList (state, payload) {
+    for (let item of payload.data) {
+      state.variable.allgames.push(item)
+    }
+  }, // 获取游戏中心所有游戏
+
   recordCompanyList (state, payload) {
     state.variable.companyList = payload.data
   }, // 获取游戏中心游戏运营商数据
@@ -2208,8 +2353,19 @@ const mutations = {
     state.variable.allRight = payload.data
   }, // 记录管理员所有列表
 
-  // NA游戏
+  // NA所有游戏
+  recordnaAllNowlist (state, payload){
+    state.variable.naAllGameData.allNowlist = payload.data
+  }, // 记录NA所有游戏总报表当前列表
 
+  recordnaAllNowchild (state, payload){
+    state.variable.naAllGameData.allNowchild = payload.data
+    // state.variable.naVedioGameData.nowList.bet += payload.data.bet
+    // state.variable.naVedioGameData.nowList.betCount += payload.data.betCount
+    // state.variable.naVedioGameData.nowList.winlose += payload.data.winlose
+  }, // 记录NA电子游戏总报表下级列表
+
+  // NA电子游戏
   recordnaVedioNowlist (state, payload){
     state.variable.naVedioGameData.nowList = payload.data
   }, // 记录NA电子游戏总报表当前列表
@@ -2240,6 +2396,7 @@ const mutations = {
     state.variable.naVedioGameData.nowUserID = payload.data
   }, // 记录NA电子游戏总报表用户ID
 
+  // NA真人游戏
   recordnaLiveNowlist (state, payload){
     state.variable.naLiveGameData.nowList = payload.data
   }, // 记录NA真人游戏总报表当前列表
@@ -2272,6 +2429,7 @@ const mutations = {
     state.variable.naLiveGameData.nowUserID = payload.data
   }, // 记录NA真人游戏总报表用户ID
 
+  // NA街机游戏
   recordnaArcadeNowlist (state, payload){
     state.variable.naArcadeGameData.nowList = payload.data
   }, // 记录NA街机游戏总报表当前列表
