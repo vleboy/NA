@@ -1,21 +1,21 @@
 <template>
   <div class="searchbox">
-		<div class="boxpre">
-      <span>游戏名称:&emsp; </span>
-      <el-input placeholder="请输入" class="input" v-model="boxContent.gameName"></el-input>
-      <span class="justfy2">创建时间: </span>
-      <el-date-picker type="date" placeholder="选择日期范围" class="input" v-model="boxContent.createdDate"></el-date-picker>
-		</div>
-    <div class="boxpre" style="padding-top: 0">
-      <span>运营标识:&emsp; </span>
-      <el-radio-group v-model="companyInfo">
-        <el-radio-button v-for="(item,index) of companyOptions" :key="index" :label="item.client">{{item.client + '游戏'}}</el-radio-button>
-      </el-radio-group>
-      <div style="float: right;">
-        <el-button type="primary" class="justfy1" v-show="!show" @click="startSearch">搜索</el-button>
-        <el-button @click="clearall">重置</el-button>
-      </div>
-    </div>
+		<!--<div class="boxpre">-->
+      <!--<span>游戏名称:&emsp; </span>-->
+      <!--<el-input placeholder="请输入" class="input" v-model="boxContent.gameName"></el-input>-->
+      <!--<span class="justfy2">创建时间: </span>-->
+      <!--<el-date-picker type="date" placeholder="选择日期范围" class="input" v-model="boxContent.createdDate"></el-date-picker>-->
+		<!--</div>-->
+    <!--<div class="boxpre" style="padding-top: 0">-->
+      <!--<span>运营标识:&emsp; </span>-->
+      <!--<div style="float: right;">-->
+        <!--<el-button type="primary" class="justfy1" v-show="!show" @click="startSearch">搜索</el-button>-->
+        <!--<el-button @click="clearall">重置</el-button>-->
+      <!--</div>-->
+    <!--</div>-->
+    <el-radio-group v-model="companyInfo" @change="startSearch">
+      <el-radio-button v-for="(item,index) of companyOptions" :key="index" :label="item.client">{{item.companyName}}</el-radio-button>
+    </el-radio-group>
 	</div>
 </template>
 
@@ -27,7 +27,7 @@ export default {
   data () {
     return {
       show: false,
-      companyInfo: '全部',
+      companyInfo: '',
       companyOptions: [],
       boxContent: {
         gameName: '', // 按游戏名称
@@ -82,7 +82,8 @@ export default {
         } else {
           this.companyOptions = res.data.payload
           this.companyOptions.unshift({
-            client: '全部'
+            companyName: '全部厂商',
+            client:''
           })
       }
     })
@@ -93,7 +94,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.searchbox{background-color: #eef1f6;width: 97%;margin: 2rem auto;}
+.searchbox{    padding: 1rem 2rem;}
 span{margin-right: 0.2rem}
 .boxpre{padding: 2rem;}
 .input{width: 30%!important;}
