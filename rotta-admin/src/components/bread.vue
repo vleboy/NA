@@ -118,8 +118,14 @@
 
     <el-breadcrumb separator="/" v-if="nowindex === 'videoGameConfig'" class="title">
       <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
-      <el-breadcrumb-item>游戏配置 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">电子游戏配置</span> </el-breadcrumb-item>
+      <el-breadcrumb-item>NA游戏配置 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">NA电子游戏配置</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'videoGameConfigTTG'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>TTG游戏配置 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">TTG电子游戏配置</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'prizePlayerList'" class="title">

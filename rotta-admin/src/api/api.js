@@ -71,6 +71,10 @@ const api = {
 
   adminUpdate: front.zues + front.stage + '/adminUpdate', // 更新管理员角色
 
+  merchantTTGList: front.zues + front.stage + '/merchantTTGList', // 获取TTG游戏列表
+
+  merchantTTGUpdate : front.zues + front.stage + '/merchantTTGUpdate ', // 编辑TTG游戏
+
   // diana
 
   gameType: front.diana + front.stage + '/gameType', // 获取游戏厂商

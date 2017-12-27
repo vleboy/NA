@@ -44,7 +44,7 @@
                   <el-menu-item index="gamelist" v-show="userRight.gamelist.hasRight">游戏列表</el-menu-item>
                   <el-menu-item index="gameBackstage" v-show="userRight.gameBackstage.hasRight">游戏后台</el-menu-item>
               </el-submenu>
-              
+
               <el-submenu index="5" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight || userRight.gameMailList.hasRight || userRight.boothList.hasRight || userRight.computerGame.hasRight">
                   <template slot="title">运营中心</template>
                   <!-- <el-submenu index="5-1">
@@ -60,21 +60,25 @@
                     <el-menu-item index="videoGameConfig">NA电子游戏配置</el-menu-item>
                   </el-submenu>
                   <el-submenu index="5-3">
+                    <template slot="title">TTG游戏配置</template>
+                    <el-menu-item index="videoGameConfigTTG">TTG电子游戏配置</el-menu-item>
+                  </el-submenu>
+                  <el-submenu index="5-4">
                     <template slot="title">神秘大奖</template>
                     <el-menu-item index="prizePlayerList">玩家中奖列表</el-menu-item>
                     <el-menu-item index="prizeConfig">奖品配置</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="5-4" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">
+                  <el-submenu index="5-5" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">
                       <template slot="title">公告管理</template>
                        <el-menu-item index="gameNoticeList" v-show="userRight.gameNoticeList.hasRight">游戏公告列表</el-menu-item>
                        <el-menu-item index="horseRaceLampList" v-show="userRight.horseRaceLampList.hasRight">跑马灯列表</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="5-5" v-show="userRight.gameMailList.hasRight">
+                  <el-submenu index="5-6" v-show="userRight.gameMailList.hasRight">
                       <template slot="title">邮件管理</template>
                       <el-menu-item index="gameMailList">游戏邮件列表</el-menu-item>
                   </el-submenu>
 
-                  <el-submenu index="5-6" v-show="userRight.boothList.hasRight">
+                  <el-submenu index="5-7" v-show="userRight.boothList.hasRight">
                     <template slot="title">展位管理</template>
                     <el-menu-item index="boothList">展位列表</el-menu-item>
                   </el-submenu>
