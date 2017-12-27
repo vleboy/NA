@@ -44,7 +44,7 @@
     </el-table>
     <div class="page">
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.operatorList.length"
-                       :page-sizes="[5, 10]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+                       :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
 
         </el-pagination>
     </div>
@@ -65,7 +65,7 @@ export default {
   },
   data () {
     return {
-      nowSize: 5,
+      nowSize: 20,
       nowPage: 1,
       companyTypeArray: ['A类','B类'],
       status: ['锁定', '正常']

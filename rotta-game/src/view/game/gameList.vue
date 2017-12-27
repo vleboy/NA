@@ -30,9 +30,9 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="服务器ip" prop="ip" align="center">
-        </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="服务器ip" prop="ip" align="center"></el-table-column>
+        <el-table-column label="kindId" prop="kindId" align="center"></el-table-column>
+        <el-table-column label="操作" align="center" width="200">
           <template scope="scope">
             <el-button type="text" class="myBtn" @click="gameOperation(scope.row)">{{scope.row.gameStatus ? '停用':'启用'}}</el-button>
             <el-button type="text" class="myBtn" @click="goDetail(scope.row)">查看</el-button>
