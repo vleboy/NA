@@ -336,10 +336,53 @@ export default {
             if (err) {
             } else {
               var data = ret.data.payload
-              this.$store.commit({
-                type: 'recordnaArcadeNowplayer',
-                data: data
-              })
+              this.$store.commit('getWeek')
+              let searchDate = []
+              if (localStorage.searchTime) {
+                searchDate = JSON.parse(localStorage.searchTime)
+              } else {
+                searchDate = [this.$store.state.startTime, this.$store.state.endTime]
+              }
+              this.rollNumber.bet = 0
+              this.rollNumber.betCount = 0
+              this.rollNumber.submit = 0
+              this.rollNumber.winlose = 0
+              this.rollNumber.winloseRate = 0
+              this.$store.commit('resetnaArcadeNowplayer')
+              for (let item of data) {
+                let player_data = {
+                  gameType: 50000,
+                  gameUserNames: [item.userName],
+                  query: {
+                    createdAt: searchDate
+                  }
+                }
+                invoke({
+                  url: api.calcPlayerStat,
+                  method: api.post,
+                  data: player_data
+                }).then(
+                  result => {
+                    const [err, ret] = result
+                    if (err) {
+                    } else {
+                      var data = ret.data.payload[0]
+                      if (data) {
+                        if (item.userName == data.userName) {
+                          item.bet = data.bet
+                          item.betCount = data.betCount
+                          item.winlose = data.winlose
+                          item.winloseRate = data.winlose / data.bet
+                          this.$store.commit({
+                            type: 'recordnaArcadeNowplayer',
+                            data: item
+                          })
+                        }
+                      }
+                    }
+                  }
+                )
+              }
               this.playerLoading = false
             }
           }
@@ -348,6 +391,11 @@ export default {
     }, // 搜索玩家数据
     resetPlayerSearch () {
       this.playerData = ''
+      this.rollNumber.bet = 0
+      this.rollNumber.betCount = 0
+      this.rollNumber.submit = 0
+      this.rollNumber.winlose = 0
+      this.rollNumber.winloseRate = 0
       this.$store.dispatch('getnaArcadeNowplayer')
     }, // 重置玩家搜索
     formatWinlose (data) {

@@ -948,39 +948,73 @@ const actions = {
         }
         context.commit('resetnaAllNowplayer')
         for (let item of player) {
-          let player_data = {
+          let player_live = {
+            gameType: 30000,
+            gameUserNames: [item.userName],
+            query: {
+              createdAt: searchDate
+            }
+          } // 请求真人游戏玩家
+          let player_vedio = {
             gameType: 40000,
             gameUserNames: [item.userName],
             query: {
               createdAt: searchDate
             }
-          }
-          invoke({
+          } // 请求电子游戏玩家
+          let player_arcade = {
+            gameType: 50000,
+            gameUserNames: [item.userName],
+            query: {
+              createdAt: searchDate
+            }
+          } // 请求街机游戏玩家
+
+          let p1 = invoke({
             url: api.calcPlayerStat,
             method: api.post,
-            data: player_data
-          }).then(
+            data: player_live
+          }) // 真人游戏玩家账单
+          let p2 = invoke({
+            url: api.calcPlayerStat,
+            method: api.post,
+            data: player_vedio
+          }) // 电子游戏玩家账单
+          let p3 = invoke({
+            url: api.calcPlayerStat,
+            method: api.post,
+            data: player_arcade
+          }) // 街机游戏玩家账单
+          
+          Promise.all([p1,p2,p3]).then(
             result => {
-              const [err, ret] = result
-              if (err) {
-              } else {
-                context.commit('closeLoading')
-                var data = ret.data.payload[0]
-                if (data) {
-                  if (item.userName == data.userName) {
-                    item.bet = data.bet
-                    item.betCount = data.betCount
-                    item.winlose = data.winlose
-                    item.winloseRate = data.winlose / data.bet
-                    context.commit({
-                      type: 'recordnaVedioNowplayer',
-                      data: item
-                    })
-                  }
-                }
+              let result1 = result[0][1].data.payload[0]
+              if (result1 && result1.betCount > 0) {
+                item.betCount += result1.betCount
+                item.allWinlose += result1.winlose
+                item.liveWinlose = result1.winlose
+              }
+              let result2 = result[1][1].data.payload[0]
+              if (result2 && result2.betCount > 0) {
+                item.betCount += result2.betCount
+                item.allWinlose += result2.winlose
+                item.vedioWinlose = result2.winlose
+              }
+              let result3 = result[2][1].data.payload[0]
+              if (result3 && result3.betCount > 0) {
+                item.betCount += result3.betCount
+                item.allWinlose += result3.winlose
+                item.arcadeWinlose = result3.winlose
+              }
+              if (item.betCount > 0) {
+                context.commit({
+                  type: 'recordnaAllNowplayer',
+                  data: item
+                })
               }
             }
           )
+          context.commit('closeLoading')
         }
       }
     } else {
@@ -1037,61 +1071,18 @@ const actions = {
           url: api.calcPlayerStat,
           method: api.post,
           data: player_live
-        })
-        // .then(
-        //   result => {
-        //     const [err, ret] = result
-        //     if (err) {
-        //     } else {
-        //       let data = ret.data.payload[0]
-        //       if (data && data.betCount > 0) {
-        //         item.betCount += data.betCount
-        //         item.allWinlose += data.winlose
-        //         item.liveWinlose = data.winlose
-        //       }
-        //     }
-        //   }
-        // ) // 真人游戏玩家账单
-
+        }) // 真人游戏玩家账单
         let p2 = invoke({
           url: api.calcPlayerStat,
           method: api.post,
           data: player_vedio
-        })
-        // .then(
-        //   result => {
-        //     const [err, ret] = result
-        //     if (err) {
-        //     } else {
-        //       let data = ret.data.payload[0]
-        //       if (data && data.betCount > 0) {
-        //         item.betCount += data.betCount
-        //         item.allWinlose += data.winlose
-        //         item.vedioWinlose = data.winlose
-        //       }
-        //     }
-        //   }
-        // ) // 电子游戏玩家账单
-
+        }) // 电子游戏玩家账单
         let p3 = invoke({
           url: api.calcPlayerStat,
           method: api.post,
           data: player_arcade
-        })
-        // .then(
-        //   result => {
-        //     const [err, ret] = result
-        //     if (err) {
-        //     } else {
-        //       let data = ret.data.payload[0]
-        //       if (data && data.betCount > 0) {
-        //         item.betCount += data.betCount
-        //         item.allWinlose += data.winlose
-        //         item.arcadeWinlose = data.winlose
-        //       }
-        //     }
-        //   }
-        // ) // 街机游戏玩家账单
+        }) // 街机游戏玩家账单
+
         Promise.all([p1,p2,p3]).then(
           result => {
             let result1 = result[0][1].data.payload[0]

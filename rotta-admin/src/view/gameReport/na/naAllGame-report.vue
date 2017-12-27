@@ -464,12 +464,97 @@ export default {
             const [err, ret] = result
             if (err) {
             } else {
+              this.rollNumber.betCount = 0
+              this.rollNumber.allWinlose = 0
+              this.rollNumber.allSubmit = 0
+              this.rollNumber.vedioWinlose = 0
+              this.rollNumber.vedioSubmit = 0
+              this.rollNumber.liveWinlose = 0
+              this.rollNumber.liveSubmit = 0
+              this.rollNumber.arcadeWinlose = 0
+              this.rollNumber.arcadeSubmit = 0
               this.$store.commit('resetnaAllNowplayer')
+              this.$store.commit('getWeek')
+              let searchDate = []
+              if (localStorage.searchTime) {
+                searchDate = JSON.parse(localStorage.searchTime)
+              } else {
+                searchDate = [this.$store.state.startTime, this.$store.state.endTime]
+              }
               var data = ret.data.payload
-              this.$store.commit({
-                type: 'recordnaAllNowplayer',
-                data: data
-              })
+              for (let item of data) {
+                item.betCount = 0
+                item.allWinlose = 0
+                item.vedioWinlose = 0
+                item.liveWinlose = 0
+                item.arcadeWinlose = 0
+                let player_live = {
+                  gameType: 30000,
+                  gameUserNames: [item.userName],
+                  query: {
+                    createdAt: searchDate
+                  }
+                } // 请求真人游戏玩家
+                let player_vedio = {
+                  gameType: 40000,
+                  gameUserNames: [item.userName],
+                  query: {
+                    createdAt: searchDate
+                  }
+                } // 请求电子游戏玩家
+                let player_arcade = {
+                  gameType: 50000,
+                  gameUserNames: [item.userName],
+                  query: {
+                    createdAt: searchDate
+                  }
+                } // 请求街机游戏玩家
+
+                let p1 = invoke({
+                  url: api.calcPlayerStat,
+                  method: api.post,
+                  data: player_live
+                }) // 真人游戏玩家账单
+                let p2 = invoke({
+                  url: api.calcPlayerStat,
+                  method: api.post,
+                  data: player_vedio
+                }) // 电子游戏玩家账单
+                let p3 = invoke({
+                  url: api.calcPlayerStat,
+                  method: api.post,
+                  data: player_arcade
+                }) // 街机游戏玩家账单
+
+                Promise.all([p1,p2,p3]).then(
+                  result => {
+                    let result1 = result[0][1].data.payload[0]
+                    if (result1 && result1.betCount > 0) {
+                      item.betCount += result1.betCount
+                      item.allWinlose += result1.winlose
+                      item.liveWinlose = result1.winlose
+                    }
+                    let result2 = result[1][1].data.payload[0]
+                    if (result2 && result2.betCount > 0) {
+                      item.betCount += result2.betCount
+                      item.allWinlose += result2.winlose
+                      item.vedioWinlose = result2.winlose
+                    }
+                    let result3 = result[2][1].data.payload[0]
+                    if (result3 && result3.betCount > 0) {
+                      item.betCount += result3.betCount
+                      item.allWinlose += result3.winlose
+                      item.arcadeWinlose = result3.winlose
+                    }
+                    if (item.betCount > 0) {
+                      this.$store.commit({
+                        type: 'recordnaAllNowplayer',
+                        data: item
+                      })
+                    }
+                  }
+                )
+              }
               this.playerLoading = false
             }
           }
@@ -478,7 +563,16 @@ export default {
     }, // 搜索玩家
     resetPlayerSearch () {
       this.playerData = ''
-      this.$store.dispatch('getnaVedioNowplayer')
+      this.rollNumber.betCount = 0
+      this.rollNumber.allWinlose = 0
+      this.rollNumber.allSubmit = 0
+      this.rollNumber.vedioWinlose = 0
+      this.rollNumber.vedioSubmit = 0
+      this.rollNumber.liveWinlose = 0
+      this.rollNumber.liveSubmit = 0
+      this.rollNumber.arcadeWinlose = 0
+      this.rollNumber.arcadeSubmit = 0
+      this.$store.dispatch('getnaAllNowplayer')
     }, // 重置玩家搜索
     checkUser (data) {
       this.$store.commit({
