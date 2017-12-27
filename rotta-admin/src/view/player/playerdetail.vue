@@ -19,21 +19,31 @@ $<template>
       <div class="countinfo">
         <h4>消费信息</h4>
         <div class="countinfo-title">
-          <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(detailInfo.balance)}}</span></span>
-          <el-button type="text" style="margin-right: 1rem" @click="getPlayerDetail">刷新</el-button>
-          <el-radio-group v-model="radioInfo" @change="changeRadio()">
-            <el-radio-button label="0">全部</el-radio-button>
-            <el-radio-button label="10000">棋牌游戏</el-radio-button>
-            <el-radio-button label="40000">电子游戏</el-radio-button>
-            <el-radio-button label="30000">真人视讯</el-radio-button>
-            <el-radio-button label="50000">街机游戏</el-radio-button>
-            <el-radio-button label="-1">中心钱包</el-radio-button>
-            <el-radio-button label="-3">商城</el-radio-button>
-          </el-radio-group>
+          <el-col :span="24" style="margin-bottom: 28px">
+            <el-radio-group v-model="companyInfo" @change="changeCompany()">
+              <el-radio-button v-for="(item,index) of companyList" :key="index" :label="item.server">{{item.companyName}}</el-radio-button>
+            </el-radio-group>
+          </el-col>
+          <el-col>
+            <el-radio-group v-model="radioInfo" @change="changeRadio">
+              <el-radio-button v-for="(item,index) of gameTypeList" :key="index" :label="item.code">{{item.name}}</el-radio-button>
+            </el-radio-group>
+          </el-col>
+          <!--<el-radio-group v-model="radioInfo" @change="changeRadio()">-->
+            <!--<el-radio-button label="0">全部</el-radio-button>-->
+            <!--<el-radio-button label="10000">棋牌游戏</el-radio-button>-->
+            <!--<el-radio-button label="40000">电子游戏</el-radio-button>-->
+            <!--<el-radio-button label="30000">真人视讯</el-radio-button>-->
+            <!--<el-radio-button label="50000">街机游戏</el-radio-button>-->
+            <!--<el-radio-button label="-1">中心钱包</el-radio-button>-->
+            <!--<el-radio-button label="-3">商城</el-radio-button>-->
+          <!--</el-radio-group>-->
         </div>
         <div class="countinfo-center">
           <el-col :span="12">
-            <span v-if='radioInfo!=-1'>输赢总计: <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">{{formatPoints(allAmountFun)}}</span></span>
+            <span v-if='radioInfo!=-1'>输赢总计: <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">{{formatPoints(allAmountFun)}}</span></span>&emsp;
+            <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(detailInfo.balance)}}</span></span>
+            <el-button type="text" style="margin-right: 1rem" @click="getPlayerDetail">刷新</el-button>
           </el-col>
 
           <el-col :span="12" style="float: right; text-align: right">
@@ -134,7 +144,7 @@ export default {
       nowSize: 20,
       nowPage: 1,
       currentPage: 1,
-      radioInfo: '0',
+      radioInfo: "",
       amountDate: [],
       allAmount: 0,
       isShowRadio: false, // 切换数据来源
@@ -167,13 +177,18 @@ export default {
             picker.$emit('pick', [start, end]);
           }
         }]
-      }
+      },
+      companyList: [],
+      gameTypeList: [],
+      companyInfo: '-1'
     }
   },
   mounted () {
+    this.initTime()
     if(!this.$store.state.variable.playerDetail.length){
       this.getPlayerDetail(localStorage.playerName)
     }
+    this.companySelect()
   },
   computed: {
     playerDetailList () {
@@ -223,7 +238,7 @@ export default {
         }
       }
       return this.allAmount
-    }
+    },
   },
   methods: {
     getAtime (row, col) {
@@ -245,33 +260,34 @@ export default {
       // console.log('当前是第:' + page + '页')
     },
     changeRadio () {
-//      if (!this.isGetSearch) {
-//        this.amountDate = []
+      this.getPlayerDetail()
+//      if(this.amountDate.length){
+//        this.searchAmount()
+//      } else {
+//        this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
 //      }
-      if(this.amountDate.length){
-        this.searchAmount()
-      } else {
-        this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
-      }
-      this.isShowRadio = true
-
-      if (this.radioInfo !== '0') {
-        this.searchArray = []
-        for (let item of this.detailList.list) {
-          if (item.kindId === Number(this.radioInfo)) {
-            this.searchArray.push(item)
-          }
-        }
-        this.detailList.list = this.searchArray
-        this.isGetSearch = false
-      }
+//      this.isShowRadio = true
+//
+//      if (this.radioInfo !== '0') {
+//        this.searchArray = []
+//        for (let item of this.detailList.list) {
+//          if (item.kindId === Number(this.radioInfo)) {
+//            this.searchArray.push(item)
+//          }
+//        }
+//        this.detailList.list = this.searchArray
+//        this.isGetSearch = false
+//      }
     },
     getPlayerDetail (param) {
       let name = this.$store.state.variable.playerDetail.userName || param
-      this.amountDate = []
+      let [startTime, endTime] = this.amountDate
+      startTime = new Date(startTime).getTime()
+      endTime = new Date(endTime).getTime()
       // this.$store.commit('startLoading')
       invoke({
-        url: `${api.getPlayDetail}?userName=${name}`,
+        url: `${api.getPlayDetail}?userName=${name}&company=${this.companyInfo}&kindId=${this.radioInfo}
+        &startTime=${startTime}&endTime=${endTime}`,
         method: api.get
       }).then(
         result => {
@@ -286,46 +302,47 @@ export default {
               type: 'playerDetail',
               data: res.data
             })
-            this.detailList = res.data
-            this.changeRadio()
+//            this.detailList = res.data
+//            this.changeRadio()
           }
           // this.$store.commit('closeLoading')
         }
       )
     },
     searchAmount () {
-      const [startDate, endDate] = this.amountDate
+//      const [startDate, endDate] = this.amountDate
       this.currentPage = 1;
-      this.isShowRadio = true
-      this.isGetSearch = true
+      this.getPlayerDetail()
+//      this.isShowRadio = true
+//      this.isGetSearch = true
 //      console.log(this.amountDate)
-      if (!this.amountDate.length) return this.$message.error('请选择时间段')
-      this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
-      this.searchArray = []
-      if(this.amountDate[0]==null || this.amountDate[1]==null) {
-        this.radioInfo = '0'
-        this.amountDate = []
-        this.detailList.list = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail)).list
-      } else {
-        for (let item of this.detailList.list) {
-          if (new Date(item.updateAt).setHours(0,0,0,0) >= new Date(startDate).getTime() &&
-            (new Date(item.updateAt).setHours(0,0,0,0) <= new Date(endDate).getTime())) {
-            this.searchArray.push(item)
-          }
-        }
-
-        // 这里是先选按钮 在过滤时间
-        if (this.radioInfo!=='0') {
-          this.detailList.list = []
-          for (let item of this.searchArray) {
-            if (item.kindId === Number(this.radioInfo)) {
-              this.detailList.list.push(item)
-            }
-          }
-        } else {
-          this.detailList.list = this.searchArray
-        }
-      }
+//      if (!this.amountDate.length) return this.$message.error('请选择时间段')
+//      this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
+//      this.searchArray = []
+//      if(this.amountDate[0]==null || this.amountDate[1]==null) {
+//        this.radioInfo = ""
+//        this.amountDate = []
+//        this.detailList.list = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail)).list
+//      } else {
+//        for (let item of this.detailList.list) {
+//          if (new Date(item.updateAt).setHours(0,0,0,0) >= new Date(startDate).getTime() &&
+//            (new Date(item.updateAt).setHours(0,0,0,0) <= new Date(endDate).getTime())) {
+//            this.searchArray.push(item)
+//          }
+//        }
+//
+//        // 这里是先选按钮 在过滤时间
+//        if (this.radioInfo!=='0') {
+//          this.detailList.list = []
+//          for (let item of this.searchArray) {
+//            if (item.kindId === Number(this.radioInfo)) {
+//              this.detailList.list.push(item)
+//            }
+//          }
+//        } else {
+//          this.detailList.list = this.searchArray
+//        }
+//      }
     },
     billDetail (row) {
       localStorage.setItem('playerBillId', row.billId)
@@ -341,6 +358,67 @@ export default {
     },
     formatPoints (num) {
       return thousandFormatter(num)
+    },
+    companySelect () {
+      invoke({
+        url: api.companySelect,
+        method: api.post,
+        data: {
+          parent: localStorage.loginRole == 1 ? '' : localStorage.loginId
+        }
+
+      }).then(
+        result => {
+          const [err, res] = result
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            this.companyList = res.data.payload
+            this.companyList.unshift({
+              server: '-1',
+              companyName: '全部厂商'
+            })
+            this.changeCompany()
+          }
+          // this.$store.commit('closeLoading')
+        }
+      )
+    }, //获取运营商列表
+    changeCompany () {
+      invoke({
+        url: api.gameBigType,
+        method: api.post,
+        data: {
+          companyIden: this.companyInfo
+        }
+      }).then(
+        result => {
+          const [err, res] = result
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            this.gameTypeList = res.data.payload
+            this.gameTypeList.unshift({
+              code: '',
+              name: '全部'
+            })
+            this.radioInfo = ''
+          }
+          // this.$store.commit('closeLoading')
+        }
+      )
+    },
+    initTime () {
+      const start = new Date();
+      const end = new Date();
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
+      this.amountDate = [start,end];
     }
   },
   filters:{   //过滤器，所有数字保留两位小数
