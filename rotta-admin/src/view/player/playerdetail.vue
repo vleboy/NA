@@ -180,7 +180,17 @@ export default {
       },
       companyList: [],
       gameTypeList: [],
-      companyInfo: '-1'
+      companyInfo: '-1',
+      specialNA:[
+        {
+          code: '-1',
+          name: '中心钱包'
+        },
+        {
+          code: '-3',
+          name: '商城'
+        }
+      ]
     }
   },
   mounted () {
@@ -404,6 +414,9 @@ export default {
             })
           } else {
             this.gameTypeList = res.data.payload
+            if(this.companyInfo == 'NA'){
+              this.gameTypeList = this.gameTypeList.concat(this.specialNA)
+            }
             this.gameTypeList.unshift({
               code: '',
               name: '全部'
