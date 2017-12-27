@@ -33,7 +33,7 @@ import GameMailList from '@/view/operation/mailMgr/gameMailList' // 游戏邮件
 import HorseRaceLampList from '@/view/operation/horseRaceLampMgr/horseRaceLampList' // 跑马灯列表
 import GameNoticeList from '@/view/operation/gameNoticeMgr/gameNoticeList' // 游戏公告列表
 import VideoGameConfig from '@/view/operation/gameConfig/videoGameConfig' // NA电子游戏配置
-import VideoGameConfigTTG from '@/view/operation/gameConfig/VideoGameConfigTTG' // TTG电子游戏配置
+import VideoGameConfigTTG from '@/view/operation/gameConfig/videoGameConfigTTG' // TTG电子游戏配置
 import PrizePlayerList from '@/view/operation/mysteriousPrize/prizeList' // 大奖玩家列表
 import PrizeConfig from '@/view/operation/mysteriousPrize/prizeConfig' // 神秘大奖奖品配置
 import BusinessRecord from '@/view/operation/businessRecord/businessRecordList' // 商户记录
