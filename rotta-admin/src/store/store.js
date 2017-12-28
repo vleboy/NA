@@ -490,6 +490,9 @@ const actions = {
       data: data
     })
     let companyList = result1[1].data.payload
+    if (companyList.length == 0) {
+      context.commit('closeLoading')
+    }
     for (let item of companyList) {
       item.client = item.client + '游戏'
     }
@@ -2028,7 +2031,7 @@ const actions = {
         }
       )
     }
-  }, // PT电子游戏下级列表(综合计算上级)
+  }, // TTG电子游戏下级列表(综合计算上级)
   async getttgVedioNowplayer (context) {
     if (state.variable.ttgVedioGameData.nowUserID == '01' || !state.variable.ttgVedioGameData.nowUserID) {
       if (localStorage.loginRole == '100') {
@@ -2142,7 +2145,7 @@ const actions = {
         )
       }
     }
-  }, // PT电子游戏所属玩家列表(综合计算上级)
+  }, // TTG电子游戏所属玩家列表(综合计算上级)
 }
 
 const mutations = {
@@ -2936,7 +2939,6 @@ const mutations = {
 
   recordnaMallNowchild (state, payload){
     state.variable.naMallData.mallNowChild.push(payload.data)
-    console.log(1,payload.data)
     state.variable.naMallData.mallNowList.betCount += payload.data.betCount
     state.variable.naMallData.mallNowList.winlose += payload.data.winlose
   }, // 记录NA商城总报表下级列表
@@ -2959,36 +2961,36 @@ const mutations = {
     state.variable.naMallData.nowUserID = payload.data
   }, // 记录NA商城总报表用户ID
 
-  // PT游戏
+  // TTG游戏
   recordttgVedioNowlist (state, payload){
     state.variable.ttgVedioGameData.nowList = payload.data
-  }, // 记录PT电子游戏总报表当前列表
+  }, // 记录TTG电子游戏总报表当前列表
 
   recordttgVedioNowchild (state, payload){
     state.variable.ttgVedioGameData.nowChildList.push(payload.data)
     state.variable.ttgVedioGameData.nowList.bet += payload.data.bet
     state.variable.ttgVedioGameData.nowList.betCount += payload.data.betCount
     state.variable.ttgVedioGameData.nowList.winlose += payload.data.winlose
-  }, // 记录PT电子游戏总报表下级列表
+  }, // 记录TTG电子游戏总报表下级列表
 
   resetttgVedioNowchild (state, payload){
     state.variable.ttgVedioGameData.nowChildList = []
-  }, // 初始化PT电子游戏总报表下级列表
+  }, // 初始化TTG 电子游戏总报表下级列表
 
   recordttgVedioNowplayer (state, payload){
     state.variable.ttgVedioGameData.nowPlayerlist.push(payload.data)
     state.variable.ttgVedioGameData.nowList.bet += payload.data.bet
     state.variable.ttgVedioGameData.nowList.betCount += payload.data.betCount
     state.variable.ttgVedioGameData.nowList.winlose += payload.data.winlose
-  }, // 记录PT电子游戏总报表玩家列表
+  }, // 记录TTG电子游戏总报表玩家列表
 
   resetttgVedioNowplayer (state, payload){
     state.variable.ttgVedioGameData.nowPlayerlist = []
-  }, // 初始化PT电子游戏总报表下级列表
+  }, // 初始化TTG 电子游戏总报表下级列表
 
   recordttgVedioID (state, payload) {
     state.variable.ttgVedioGameData.nowUserID = payload.data
-  }, // 记录PT电子游戏总报表用户ID
+  }, // 记录TTG电子游戏总报表用户ID
 
   playerGameType (state, payload) {
     state.variable.playerGameType = payload.data

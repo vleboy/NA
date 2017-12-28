@@ -189,7 +189,7 @@ const variable = {
     nowChildList: [],
     nowPlayerlist: [],
     nowUserID: ''
-  }, // PT电子游戏报表数据
+  }, // TTG电子游戏报表数据
 
   playerGameType: '' // 玩家玩的游戏类别（大类）
 }
