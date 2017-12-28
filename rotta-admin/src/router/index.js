@@ -306,7 +306,7 @@ const router = new Router({
     },
     {
       path: '/naAllGameReport',
-      name: 'NA游戏总报表',
+      name: 'NA电子游戏总报表',
       component: naAllGameReport,
       meta: {
         keepAlive: true
