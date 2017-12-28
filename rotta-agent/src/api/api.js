@@ -107,6 +107,8 @@ const api = {
 
   getBfSetting: front.diana + front.stage + '/configOne', // 获取包房代理配置
 
+  companySelect: front.diana + front.stage + '/companySelect', // 获取运营商
+
   // thor
 
   addBooth: front.thor + front.stage + '/seatNew', // 新增展位

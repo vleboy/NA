@@ -34,13 +34,18 @@
             <div class="content-title">平台游戏点数消耗分布</div>
             <div>
               <div class="content-top">
-                <el-col :span="9">
+                <el-col :span="24" class="g-text-right" style="margin-bottom: 10px">
+                  <el-radio-group v-model="companyInfo" @change="changeCompany()" size="small">
+                    <el-radio-button v-for="(item,index) of companyList" :key="index" :label="item.server">{{item.companyName}}</el-radio-button>
+                  </el-radio-group>
+                </el-col>
+                <el-col :span="6">
                   <div class="left-content-head">
                     <span class="strong">{{consumeNum}}点</span>
                     <span class="color-gery">总消耗</span>
                   </div>
                 </el-col>
-                <el-col :span="15" class="g-text-right">
+                <el-col :span="18" class="g-text-right">
                   <el-radio-group v-model="dateType" size="small" @change="changeDateType">
                     <el-radio-button label="1">本周</el-radio-button>
                     <el-radio-button label="2">本月</el-radio-button>
@@ -130,7 +135,9 @@
         isGoConsume: false, // 判断是否从搜索框跳转
         isGoConsumeAndIncome: false, // 判断是否从搜索框跳转
         isSetInterval: false, // 是否是定时刷新,
-        dynamicNum: '' // 动态渲染游戏消耗总点数
+        dynamicNum: '', // 动态渲染游戏消耗总点数
+        companyList: [], // 厂商列表
+        companyInfo: '-1' // 厂商单独信息
       }
     },
     mounted () {
@@ -140,6 +147,7 @@
       }
       self.changeDateType()
       self.changeDateTypeTwo()
+      self.companySelect()
       self.intervalid = setInterval(() => {
         self.isSetInterval = true
         for (let i = 0; i < 4; i++){
@@ -151,27 +159,26 @@
     },
     computed: {
       optionSeries () {
-        let optionSeries = [
-          {
-            name: '商城',
-            type: 'bar',
-            data: this.consumeList.store
-          },
-          {
-            name: '真人视讯',
-            type: 'bar',
-            data: this.consumeList.vedio
-          }
-        ]
-        if(localStorage.loginParentName != 'XYZBF' && localStorage.loginUsername != 'XYZBF'){
+        let optionSeries = []
+        for (let item of this.consumeList.values) {
           optionSeries.push({
-              name: '电子游戏',
-              type: 'bar',
-              data: this.consumeList.elec
+            name: item.name,
+            type: 'bar',
+            data: item.list
           })
         }
         return optionSeries
-      },
+      },// 消耗点数图表数据动态
+      optionTips () {
+        let optionTips = []
+        for (let item of this.consumeList.values) {
+          optionTips.push({
+            name: item.name,
+            icon: 'rect'
+          })
+        }
+        return optionTips
+      },// 消耗点数动态图标
       optionSeriesLine () {
         let optionSeriesLine = [
           {
@@ -242,7 +249,11 @@
         invoke({
           url: api.statisticsConsume,
           method: api.post,
-          data: this.consumeDataTime
+          data: {
+            startTime: this.consumeDataTime.startTime,
+            endTime: this.consumeDataTime.endTime,
+            company: this.companyInfo
+          }
         }).then(
           result => {
             const [err, ret] = result
@@ -310,13 +321,17 @@
       drawAllPie () {
         // 基于准备好的dom，初始化echarts实例
         let self = this;
+        let legendArray = []
         let myChart = this.$echarts.init(document.getElementById('myChartAllPie'))
+        myChart.clear();
         myChart.on('legendselectchanged', function (params) {
-          let storeNum = params.selected['商城'] ? self.consumeList.storeSum : 0 ;
-          let vedio = params.selected['真人视讯'] ? self.consumeList.vedioSum : 0 ;
-          let elec = params.selected['电子游戏'] ? self.consumeList.elecSum : 0 ;
-          self.dynamicNum = storeNum + vedio + elec
-          console.log(self.dynamicNum, 'self.dynamicNum')
+          legendArray = Object.entries(params.selected)
+          self.dynamicNum = 0
+          for (let [index,data] of self.consumeList.values.entries()) {
+            if(legendArray[index][1]){
+              self.dynamicNum = data.sum + self.dynamicNum
+            }
+          }
         });
         // 绘制图表
         myChart.setOption({
@@ -327,20 +342,7 @@
             }
           },
           legend: {
-            data: [
-              {
-                name: '商城',
-                icon: 'rect'
-              },
-              {
-                name: '真人视讯',
-                icon: 'rect'
-              },
-              {
-                name: '电子游戏',
-                icon: 'rect'
-              }
-            ],
+            data:this.optionTips,
             right: '3%'
           },
           xAxis: {
@@ -482,7 +484,38 @@
         let time = date.getTime();
 
         return new Date(time + stepSunDay * 24 * 3600 * 1000);
-      } // 处理周次
+      }, // 处理周次
+      companySelect () {
+        invoke({
+          url: api.companySelect,
+          method: api.post,
+          data: {
+            parent: localStorage.loginRole == 1000 ? '' : localStorage.loginId
+          }
+
+        }).then(
+          result => {
+            const [err, res] = result
+            if (err) {
+              this.$message({
+                message: err.msg,
+                type: 'error'
+              })
+            } else {
+              this.companyList = res.data.payload
+              this.companyList.unshift({
+                server: '-1',
+                companyName: '全部厂商'
+              })
+              this.changeCompany()
+            }
+            // this.$store.commit('closeLoading')
+          }
+        )
+      }, //获取运营商列表
+      changeCompany(){
+        this.getStatisticsConsume()
+      }
     },
     beforeDestroy (){
       this.isSetInterval = false
