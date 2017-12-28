@@ -185,7 +185,6 @@ export default {
     if(!this.$store.state.variable.playerDetail.length){
       this.getPlayerDetail(localStorage.playerName)
     }
-    this.initTime()
     this.companySelect()
   },
   data () {
@@ -289,6 +288,7 @@ export default {
       }
     },
     getPlayerDetail (param) {
+      this.initTime()
 //      this.amountDate = []
       let name = localStorage.playerName || param || this.detailInfo.userName
       // this.$store.commit('startLoading')

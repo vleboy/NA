@@ -194,7 +194,7 @@ export default {
     }
   },
   mounted () {
-    this.initTime()
+
     if(!this.$store.state.variable.playerDetail.length){
       this.getPlayerDetail(localStorage.playerName)
     }
@@ -290,6 +290,7 @@ export default {
 //      }
     },
     getPlayerDetail (param) {
+      this.initTime()
       let name = this.$store.state.variable.playerDetail.userName || param
       let [startTime, endTime] = this.amountDate
       startTime = new Date(startTime).getTime()
