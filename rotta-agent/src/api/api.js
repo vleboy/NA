@@ -109,6 +109,7 @@ const api = {
 
   companySelect: front.diana + front.stage + '/companySelect', // 获取运营商
 
+  gameBigType: front.diana + front.stage + '/gameBigType', // 获取游戏大类
   // thor
 
   addBooth: front.thor + front.stage + '/seatNew', // 新增展位
