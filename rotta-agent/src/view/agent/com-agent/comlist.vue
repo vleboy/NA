@@ -12,7 +12,7 @@
       <div class="comlist">
           <!-- 当前代理 -->
           <div class="comresult">
-            <p class="listTitle">当前代理: 
+            <p class="listTitle">当前代理:
               <span class="fontUrl" @click="backParent" v-if="selfUser.length > 0 && nowUserId != loginId">返回上一级</span>
             </p>
               <el-table stripe :data="selfUser">
@@ -91,7 +91,7 @@
             </el-table>
           </div>
           <!-- 当前代理下级列表 -->
-          
+
           <div class="comresult">
             <div class="clearFix">
               <p class="listTitle" style="float:left">下级代理列表</p>
@@ -123,11 +123,11 @@
                         <el-button type="text" @click="jumpAgentDetail(scope.row)">{{scope.row.merchantName}}</el-button>
                     </template>
                   </el-table-column>
-                  <el-table-column width="120" prop="createAt" label="创建时间" align="center" sortable>
-                    <template scope="scope">
-                        <span>{{Time(scope.row.createdAt)}}</span>
-                    </template>
-                  </el-table-column>
+                  <!--<el-table-column width="120" prop="createAt" label="创建时间" align="center" sortable>-->
+                    <!--<template scope="scope">-->
+                        <!--<span>{{Time(scope.row.createdAt)}}</span>-->
+                    <!--</template>-->
+                  <!--</el-table-column>-->
                   <el-table-column width="120" prop="updateAt" label="最后登录时间" align="center" sortable>
                     <template scope="scope">
                         <span>{{Time(scope.row.updateAt)}}</span>
