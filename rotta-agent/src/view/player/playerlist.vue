@@ -2,11 +2,11 @@
   <div class="playerlist">
     <div class="propList-search propList">
       <el-row class="transition-box">
-        <el-col :span="10">
-          <span>&ensp;&ensp;&ensp;&ensp;&ensp;用户名: </span>
+        <el-col :span="10" class="g-text-right">
+          <span>用户名: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.userName"></el-input>
         </el-col>
-        <el-col :span="10" class="text-left">
+        <el-col :span="10">
           <span>直属代理: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.merchantName"></el-input>
         </el-col>
