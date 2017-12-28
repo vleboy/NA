@@ -61,8 +61,7 @@
         <el-table-column label="游戏状态" align="center">
           <template scope="scope">
             <el-tag :type="scope.row.gameState==3 ? 'success' : 'gray'">
-              <div v-if="scope.row.gameState==3">{{gameTypeArray[scope.row.gameId]}}</div>
-              <div v-else>未在游戏中</div>
+              <div>{{scope.row.gameStateName}}</div>
             </el-tag>
           </template>
         </el-table-column>
