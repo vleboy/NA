@@ -23,6 +23,14 @@
           <el-input placeholder="请输入" class="input" v-model="searchInfo.msn"></el-input>
         </el-col>
       </el-row>
+      <el-row class="transition-box" style="margin-top: 2rem">
+        <el-col :span="10" class="g-text-right">
+          <span>游戏状态: </span>
+          <el-select v-model="searchInfo.gameId" class="input" placeholder="请选择游戏状态" clearable>
+            <el-option v-for="(item, index) in gameTypeList" :key="index" :label="item.name" :value="item.code"></el-option>
+          </el-select>
+        </el-col>
+      </el-row>
     </div>
     <div class="rebackinfo">
       <p>共搜索到 {{playerList.length || 0}} 条数据</p>
@@ -118,32 +126,17 @@
         playerStatus: ['已停用', '正常'],
         checkedArray: [],
         names: [],
-        searchInfo: {},
+        searchInfo: {
+          gameId: ''
+        },
         sortInfo: {},
         role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）
-        gameTypeArray: {
-          '10000': '棋牌游戏',
-          '10001': '棋牌游戏-推锅',
-          '10002': '棋牌游戏-推筒子',
-          '20000': '麻将游戏',
-          '20001': '麻将游戏-四川麻将',
-          '20002': '麻将游戏-山西麻将',
-          '30000': '真人游戏',
-          '30001': '真人游戏-百家乐',
-          '30002': '真人游戏-龙虎',
-          '30003': '真人游戏-轮盘',
-          '30004': '真人游戏-骰宝',
-          '40000': '电子游戏',
-          '40001': '电子游戏-塔罗之谜',
-          '40002': '电子游戏-小厨娘',
-          '41001': '电子游戏-街机',
-          '50000': '街机游戏',
-          '50001': '街机游戏-深林小妖'
-        }
+        gameTypeList: []
       }
     },
     created () {
       this.getPlayList()
+      this.getGameTypeList()
     },
     computed: {
       getItems () {
@@ -286,7 +279,9 @@
         // console.log('当前是第:' + page + '页')
       },
       resultSearch () {
-        this.searchInfo = {}
+        this.searchInfo = {
+          gameId: ''
+        }
         this.getPlayList()
       },
       sortFun (col){
@@ -301,6 +296,32 @@
       },
       formatPoints (num) {
         return thousandFormatter(num)
+      },
+      getGameTypeList () {
+        invoke({
+          url: api.gameBigType,
+          method: api.post,
+          data: {
+            companyIden: -1
+          }
+        }).then(
+          result => {
+            const [err, res] = result
+            if (err) {
+              this.$message({
+                message: err.msg,
+                type: 'error'
+              })
+            } else {
+              this.gameTypeList = res.data.payload
+              this.gameTypeList.unshift({
+                code: '0',
+                name: '未在游戏中'
+              })
+            }
+            // this.$store.commit('closeLoading')
+          }
+        )
       }
     }
   }

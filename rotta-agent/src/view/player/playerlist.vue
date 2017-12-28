@@ -3,7 +3,7 @@
     <div class="propList-search propList">
       <el-row class="transition-box">
         <el-col :span="10">
-          <span>&emsp;用户名: </span>
+          <span>&ensp;&ensp;&ensp;&ensp;&ensp;用户名: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.userName"></el-input>
         </el-col>
         <el-col :span="10" class="text-left">
@@ -12,6 +12,14 @@
         </el-col>
         <el-button type="primary" @click="getPlayList">搜索</el-button>
         <el-button  @click="resultSearch">重置</el-button>
+      </el-row>
+      <el-row class="transition-box" style="margin-top: 2rem">
+        <el-col :span="10" class="g-text-right">
+          <span>游戏状态: </span>
+          <el-select v-model="searchInfo.gameId" class="input" placeholder="请选择游戏状态" clearable>
+            <el-option v-for="(item, index) in gameTypeList" :key="index" :label="item.name" :value="item.code"></el-option>
+          </el-select>
+        </el-col>
       </el-row>
     </div>
     <div class="rebackinfo">
@@ -150,12 +158,16 @@
         playerStatus: ['已锁定', '正常'],
         checkedArray: [],
         names: [],
-        searchInfo: {},
-        balanceInfo: {}
+        searchInfo: {
+          gameId: ''
+        },
+        balanceInfo: {},
+        gameTypeList: []
       }
     },
     created () {
       this.getPlayList()
+      this.getGameTypeList()
     },
     computed: {
       getItems () {
@@ -333,7 +345,9 @@
         // console.log('当前是第:' + page + '页')
       },
       resultSearch () {
-        this.searchInfo = {}
+        this.searchInfo = {
+          gameId: ''
+        }
         this.getPlayList()
       },
       submit () {
@@ -398,7 +412,33 @@
       },
       formatPoints (num) {
         return thousandFormatter(num)
-      } // 千位符格式化
+      }, // 千位符格式化
+      getGameTypeList () {
+        invoke({
+          url: api.gameBigType,
+          method: api.post,
+          data: {
+            companyIden: -1
+          }
+        }).then(
+          result => {
+            const [err, res] = result
+            if (err) {
+              this.$message({
+                message: err.msg,
+                type: 'error'
+              })
+            } else {
+              this.gameTypeList = res.data.payload
+              this.gameTypeList.unshift({
+                code: '0',
+                name: '未在游戏中'
+              })
+            }
+            // this.$store.commit('closeLoading')
+          }
+        )
+      }
     }
   }
 </script>
