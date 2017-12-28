@@ -346,11 +346,6 @@ export default {
           type: 'error',
           message: '请输入玩家用户名'
         })
-      } else if (this.$store.state.variable.naLiveGameData.nowPlayerlist.length == 0) {
-        this.$message({
-          type: 'info',
-          message: '暂无玩家数据'
-        })
       } else {
         this.playerLoading = true
         let data = {

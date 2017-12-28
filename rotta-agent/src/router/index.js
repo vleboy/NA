@@ -50,9 +50,14 @@ import PlayerBill from '@/view/player/playerbill' // 玩家账单详情页
 import PlayerRunningAccount from '@/view/player/playerRunningAccount' // 玩家流水账详情页
 
 import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
-import VedioGameReport from '@/view/gameReport/vedioGame-report' // 电子游戏报表
-import LiveGameReport from '@/view/gameReport/liveGame-report' // 真人游戏报表
-import ArcadeGameReport from '@/view/gameReport/arcadeGame-report' // 真人游戏报表
+
+import naAllGameReport from '@/view/gameReport/na/naAllGame-report' // NA游戏总报表
+import naVedioGameReport from '@/view/gameReport/na/naVedioGame-report' // NA电子游戏报表
+import naLiveGameReport from '@/view/gameReport/na/naLiveGame-report' // NA真人游戏报表
+import naArcadeGameReport from '@/view/gameReport/na/naArcadeGame-report' // NA街机游戏报表
+import naMallReport from '@/view/gameReport/na/naMall-report' // NA游戏总报表
+
+import ttgVedioGameReport from '@/view/gameReport/ttg/ttgVedioReport' // TTG电子游戏报表
 
 import { Message } from 'element-ui'
 import store from '@/store/store'
@@ -234,25 +239,49 @@ const router = new Router({
       component: GameBackstage
     },
     {
-      path: '/vedioGameReport',
-      name: '电子游戏总报表',
-      component: VedioGameReport,
+      path: '/naAllGameReport',
+      name: 'NA游戏总报表',
+      component: naAllGameReport,
       meta: {
         keepAlive: true
       }
     },
     {
-      path: '/liveGameReport',
-      name: '真人游戏总报表',
-      component: LiveGameReport,
+      path: '/naVedioGameReport',
+      name: 'NA电子游戏总报表',
+      component: naVedioGameReport,
       meta: {
         keepAlive: true
       }
     },
     {
-      path: '/arcadeGameReport',
-      name: '街机游戏总报表',
-      component: ArcadeGameReport,
+      path: '/naLiveGameReport',
+      name: 'NA真人游戏总报表',
+      component: naLiveGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/naArcadeGameReport',
+      name: 'NA街机游戏总报表',
+      component: naArcadeGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/naMallReport',
+      name: 'NA商城总报表',
+      component: naMallReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/ttgVedioGameReport',
+      name: 'TTG电子游戏总报表',
+      component: ttgVedioGameReport,
       meta: {
         keepAlive: true
       }

@@ -137,32 +137,47 @@ const variable = {
   activeIndex: null,
   tabIndex: null,
 
-  vedioGameData: {
-    nowList: [],
-    nowChildList: [],
-    copyNowChildList: [], // 用户下级数据备份
-    nowPlayerlist: [],
-    copyNowChildList: [], // 用户所属玩家备份
+  naAllGameData: {
+    allNowlist: [],
+    allNowchild: [],
+    allNowplayer: [],
     nowUserID: ''
-  }, // 电子游戏报表数据
+  }, // NA所有游戏报表数据
 
-  liveGameData: {
+  naVedioGameData: {
     nowList: [],
     nowChildList: [],
-    copyNowChildList: [], // 用户下级数据备份
     nowPlayerlist: [],
-    copyNowChildList: [], // 用户所属玩家备份
     nowUserID: ''
-  }, // 真人游戏报表数据
+  }, // NA电子游戏报表数据
 
-  arcadeGameData: {
+  naLiveGameData: {
     nowList: [],
     nowChildList: [],
-    copyNowChildList: [], // 用户下级数据备份
     nowPlayerlist: [],
-    copyNowChildList: [], // 用户所属玩家备份
     nowUserID: ''
-  }, // 街机游戏报表数据
+  }, // NA真人游戏报表数据
+
+  naArcadeGameData: {
+    nowList: [],
+    nowChildList: [],
+    nowPlayerlist: [],
+    nowUserID: ''
+  }, // NA街机游戏报表数据
+
+  naMallData: {
+    mallNowList: [],
+    mallNowChild: [],
+    mallNowplayer: [],
+    nowUserID: ''
+  }, // NA商城报表数据
+
+  ttgVedioGameData: {
+    nowList: [],
+    nowChildList: [],
+    nowPlayerlist: [],
+    nowUserID: ''
+  }, // PT电子游戏报表数据
 
   playerGameType: '' // 玩家玩的游戏类别（大类）
 

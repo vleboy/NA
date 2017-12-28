@@ -400,13 +400,7 @@ export default {
       return data.nickname == 'NULL!' ? '-' : data.nickname
     },
     userType (data) {
-      if (data.role == '1') {
-        return '管理员'
-      } else if (data.role == '10') {
-        return '线路商'
-      } else {
-        return '商户'
-      }
+      return '代理'
     }, // 格式化用户类型
     searchData () {
       if (this.searchDate[0] == null || this.searchDate[1] == null) {

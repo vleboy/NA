@@ -1,5 +1,5 @@
 <template>
-  <div class="naVedioGame-report">
+  <div class="naMall-report">
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
         <p class="title" style="float:left">当前选择列表<span v-if="nowRole != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
@@ -9,7 +9,7 @@
           <el-button @click="resetSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="naVedioNowlist" stripe>
+      <el-table :data="naMallNowlist" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -23,29 +23,9 @@
             <span>{{flashNumber.betCount}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="投注金额" prop="bet" align="center">
+        <el-table-column label="交易金额" prop="winlose" align="center">
           <template scope="scope">
-            <span>{{points(flashNumber.bet)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="输赢金额" prop="winlose" align="center">
-          <template scope="scope">
-            <span :class="[Number(flashNumber.winlose) > 0 ? 'green' : 'red']">{{points(flashNumber.winlose)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="商户占成" prop="rate" align="center">
-          <template scope="scope">
-            <span>{{(scope.row.rate) + '%'}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="商户交公司" prop="submit" align="center">
-          <template scope="scope">
-            <span :class="[Number(flashNumber.submit) > 0 ? 'green' : 'red']">{{points(flashNumber.submit)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center">
-          <template scope="scope">
-            <span>{{flashNumber.winloseRate}} %</span>
+            <span>{{points(flashNumber.winlose)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -53,48 +33,28 @@
 
     <div class="childlist" v-if="loginRole != '100'">
       <p class="title">下级列表</p>
-      <el-table :data="naVedioNowchild" stripe>
-        <el-table-column label="序号" prop="" align="center" width="75" type="index">
+      <el-table :data="naMallNowchild" stripe>
+        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
         </el-table-column>
         <el-table-column label="昵称" prop="displayName" align="center">
-           <template scope="scope">
-            <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.displayName}}</span>
-          </template>
         </el-table-column>
-        <el-table-column label="管理员账号" prop="uname" align="center">
+        <el-table-column label="管理员账号" prop="username" align="center">
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
+          <!-- <template scope="scope">
+            <span>{{flashNumber.betCount}}</span>
+          </template> -->
         </el-table-column>
-        <el-table-column label="投注金额" prop="bet" align="center">
-          <template scope="scope">
-            <span>{{points(scope.row.bet)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="输赢金额" prop="winlose" align="center">
-          <template scope="scope">
-            <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="商户占成" prop="rate" align="center">
-          <template scope="scope">
-            <span>{{(scope.row.rate) + '%'}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="商户交公司" align="center" prop="submit">
-          <template scope="scope">
-            <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center">
-          <template scope="scope">
-            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
-          </template>
+        <el-table-column label="交易金额" prop="winlose" align="center">
+          <!-- <template scope="scope">
+            <span>{{points(flashNumber.winlose)}}</span>
+          </template> -->
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naVedioGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naMallData.mallNowChild.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
       </div>
     </div>
 
@@ -107,7 +67,7 @@
           <el-button @click="resetPlayerSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="naVedioNowplayer" stripe>
+      <el-table :data="naMallNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="center">
@@ -119,19 +79,14 @@
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
-        <el-table-column label="投注金额" prop="bet" align="center">
-          <template scope="scope">
-            <span>{{points(scope.row.bet)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="输赢金额" prop="winlose" align="center">
-          <template scope="scope">
+        <el-table-column label="交易金额" prop="winlose" align="center">
+          <!-- <template scope="scope">
             <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
-          </template>
+          </template> -->
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naVedioGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naMallData.mallNowplayer.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
       </div>
     </div>
   </div>
@@ -144,61 +99,42 @@ import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     localStorage.removeItem('searchTime')
-    this.$store.commit('resetnaVedioNowchild')
-    this.$store.commit('resetnaVedioNowplayer')
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'naVedioGameReport'
+      data: 'naMallReport'
     })
     this.$store.commit('returnLocalStorage')
-    this.$store.commit({
-      type: 'recordnaVedioID',
-      data: ''
-    })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getnaVedioNowchild')
-    this.$store.dispatch('getnaVedioNowplayer')
+    this.$store.dispatch('getnaMallNowchild')
+    this.$store.dispatch('getnaMallNowplayer')
   },
   activated: function () {
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'naVedioGameReport'
+      data: 'naMallReport'
     })
   },
-  computed:{
-    rollNumber () {
-      let data = this.$store.state.variable.naVedioGameData.nowList
-      if (!data.rate) {
-        data.rate = 0
-      }
-      data.submit = (data.winlose * (1 - data.rate/100))
-      if (isNaN(data.winlose / data.bet) * 100) {
-        data.winloseRate = 0
-      } else {
-        data.winloseRate = (data.winlose / data.bet) * 100
-      }
+  computed: {
+    naMallNowlist () {
+      this.nowRole = this.$store.state.variable.naMallData.mallNowList.userId
+      let data = [this.$store.state.variable.naMallData.mallNowList]
       return data
     },
-    naVedioNowlist () {
-      this.nowRole = this.$store.state.variable.naVedioGameData.nowList.userId
-      let data = [this.$store.state.variable.naVedioGameData.nowList]
-      return data
-    },
-    naVedioNowchild () {
-      var nowchild = this.$store.state.variable.naVedioGameData.nowChildList
+    naMallNowchild () {
+      var nowchild = this.$store.state.variable.naMallData.mallNowChild
       if (this.childPage === 1) {
-        nowchild = this.$store.state.variable.naVedioGameData.nowChildList.slice(0, this.childSize)
+        nowchild = this.$store.state.variable.naMallData.mallNowChild.slice(0, this.childSize)
       } else {
-        nowchild = this.$store.state.variable.naVedioGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
+        nowchild = this.$store.state.variable.naMallData.mallNowChild.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
       }
       return nowchild
     },
-    naVedioNowplayer () {
-      var nowplayer = this.$store.state.variable.naVedioGameData.nowPlayerlist
+    naMallNowplayer () {
+      var nowplayer = this.$store.state.variable.naMallData.mallNowplayer
       if (this.playerPage === 1) {
-        nowplayer = this.$store.state.variable.naVedioGameData.nowPlayerlist.slice(0, this.playerSize)
+        nowplayer = this.$store.state.variable.naMallData.mallNowplayer.slice(0, this.playerSize)
       } else {
-        nowplayer = this.$store.state.variable.naVedioGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
+        nowplayer = this.$store.state.variable.naMallData.mallNowplayer.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
       }
       return nowplayer
     }
@@ -210,20 +146,6 @@ export default {
           this.searchDate[i] = new Date(this.searchDate[i].toString()).getTime()
         }
       }
-    },
-    'rollNumber.bet' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.bet = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
     },
     'rollNumber.betCount' (newValue, oldValue) {
       if (!oldValue) {
@@ -252,44 +174,13 @@ export default {
           vm.flashNumber.winlose = this._object.tweeningNumber.toFixed(2)
         }).start()
       animate()
-    },
-    'rollNumber.submit' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.submit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.winloseRate' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.winloseRate = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
     }
   },
   data () {
     return {
       flashNumber: {
-        bet: 0,
         betCount: 0,
-        submit: 0,
-        winlose: 0,
-        winloseRate: 0
+        winlose: 0
       },
       playerData: '',
       loading: false,
@@ -314,7 +205,7 @@ export default {
       } else {
         this.playerLoading = true
         let data = {
-          parentId: this.$store.state.variable.naVedioGameData.nowList.userId,
+          parentId: this.$store.state.variable.naMallData.mallNowList.userId,
           query: {
             userName: this.playerData
           },
@@ -338,15 +229,13 @@ export default {
               } else {
                 searchDate = [this.$store.state.startTime, this.$store.state.endTime]
               }
-              this.rollNumber.bet = 0
               this.rollNumber.betCount = 0
-              this.rollNumber.submit = 0
               this.rollNumber.winlose = 0
-              this.rollNumber.winloseRate = 0
-              this.$store.commit('resetnaVedioNowplayer')
+              this.$store.commit('resetnaMallNowplayer')
               for (let item of data) {
                 let player_data = {
-                  gameType: 40000,
+                  gameType:-1,
+                  kindId:-3,
                   gameUserNames: [item.userName],
                   query: {
                     createdAt: searchDate
@@ -364,12 +253,10 @@ export default {
                       var data = ret.data.payload[0]
                       if (data) {
                         if (item.userName == data.userName) {
-                          item.bet = data.bet
                           item.betCount = data.betCount
                           item.winlose = data.winlose
-                          item.winloseRate = data.winlose / data.bet
                           this.$store.commit({
-                            type: 'recordnaVedioNowplayer',
+                            type: 'recordnaMallNowplayer',
                             data: item
                           })
                         }
@@ -386,39 +273,15 @@ export default {
     }, // 搜索玩家数据
     resetPlayerSearch () {
       this.playerData = ''
-      this.rollNumber.bet = 0
       this.rollNumber.betCount = 0
-      this.rollNumber.submit = 0
       this.rollNumber.winlose = 0
-      this.rollNumber.winloseRate = 0
-      this.$store.dispatch('getnaVedioNowplayer')
+      this.$store.dispatch('getnaMallNowplayer')
     }, // 重置玩家搜索
-    formatWinlose (data) {
-      if (data.winloseRate) {
-        return (data.winloseRate * 100).toFixed(2) + '%'
-      } else {
-        let result = (data.winloseRate * 100).toFixed(2)
-        if (!isNaN(result)) {
-          return result + '%'
-        } else {
-          return '0.00%'
-        }
-      }
-    },
-    formatWinloseRate (data) {
-      return data && !isNaN(data) ? (Number(data) * 100).toFixed(2) + '%' : '0.00' + '%'
-    },
     formatnickname (data) {
       return data.nickname == 'NULL!' ? '-' : data.nickname
     },
     userType (data) {
-      if (data.role == '1') {
-        return '管理员'
-      } else if (data.role == '10') {
-        return '线路商'
-      } else {
-        return '商户'
-      }
+      return '代理'
     }, // 格式化用户类型
     points (data) {
       return formatPoints('' + data)
@@ -432,9 +295,8 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        // this.$store.dispatch('getnaVedioNowlist')
-        this.$store.dispatch('getnaVedioNowchild')
-        this.$store.dispatch('getnaVedioNowplayer')
+        this.$store.dispatch('getnaMallNowchild')
+        this.$store.dispatch('getnaMallNowplayer')
         let _self = this
         setTimeout(function(){
           _self.$message({
@@ -449,19 +311,19 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getnaVedioNowchild')
-      this.$store.dispatch('getnaVedioNowplayer')
+      this.$store.dispatch('getnaMallNowchild')
+      this.$store.dispatch('getnaMallNowplayer')
     }, // 重置搜索条件
     checkUser (data) {
       this.$store.commit({
-        type: 'recordnaVedioID',
+        type: 'recordnaMallID',
         data: data.userId
       })
-      this.$store.commit('resetnaVedioNowchild')
-      this.$store.commit('resetnaVedioNowplayer')
+      this.$store.commit('resetnaMallNowchild')
+      this.$store.commit('resetnaMallNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getnaVedioNowchild')
-      this.$store.dispatch('getnaVedioNowplayer')
+      this.$store.dispatch('getnaMallNowchild')
+      this.$store.dispatch('getnaMallNowplayer')
     }, // 查看当前用户信息
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
@@ -490,19 +352,6 @@ export default {
       )
     }, // 跳转至玩家详情
     goBack () {
-      var data = this.$store.state.variable.naVedioGameData.nowList.parent
-      if (data == '01') {
-        data = ''
-      }
-      this.$store.commit({
-        type: 'recordnaVedioID',
-        data: data
-      })
-      this.$store.commit('resetnaVedioNowchild')
-      this.$store.commit('resetnaVedioNowplayer')
-      this.$store.commit('startLoading')
-      this.$store.dispatch('getnaVedioNowchild')
-      data !== '01' ? this.$store.dispatch('getnaVedioNowplayer') : ''
     }, // 退回上一级
     getChildsize (size) {
       this.childSize = size
@@ -524,15 +373,15 @@ export default {
 </script>
 
 <style scpoed>
-.naVedioGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
-.naVedioGame-report .input{width: 25rem}
-.naVedioGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
-.naVedioGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
-.naVedioGame-report .nowUserlist,
-.naVedioGame-report .childlist,
-.naVedioGame-report .playerlist{width: 99%;margin: 2rem auto}
-.naVedioGame-report .fontUrl{cursor: pointer;color: #20a0ff}
-.naVedioGame-report .fontUrl:hover{text-decoration: underline;}
+.naMall-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.naMall-report .input{width: 25rem}
+.naMall-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+.naMall-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
+.naMall-report .nowUserlist,
+.naMall-report .childlist,
+.naMall-report .playerlist{width: 99%;margin: 2rem auto}
+.naMall-report .fontUrl{cursor: pointer;color: #20a0ff}
+.naMall-report .fontUrl:hover{text-decoration: underline;}
 
 .green{color: #00CC00}
 .red{color: #FF3300}
