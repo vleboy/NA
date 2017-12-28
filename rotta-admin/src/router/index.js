@@ -67,6 +67,7 @@ import naAllGameReport from '@/view/gameReport/na/naAllGame-report' // NA游戏�
 import naVedioGameReport from '@/view/gameReport/na/naVedioGame-report' // NA电子游戏报表
 import naLiveGameReport from '@/view/gameReport/na/naLiveGame-report' // NA真人游戏报表
 import naArcadeGameReport from '@/view/gameReport/na/naArcadeGame-report' // NA街机游戏报表
+import naMallReport from '@/view/gameReport/na/naMall-report' // NA游戏总报表
 
 import ttgVedioGameReport from '@/view/gameReport/ttg/ttgVedioReport' // TTG电子游戏报表
 
@@ -331,6 +332,14 @@ const router = new Router({
       path: '/naArcadeGameReport',
       name: 'NA街机游戏总报表',
       component: naArcadeGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/naMallReport',
+      name: 'NA商城总报表',
+      component: naMallReport,
       meta: {
         keepAlive: true
       }

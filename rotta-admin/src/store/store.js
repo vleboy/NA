@@ -925,7 +925,6 @@ const actions = {
       context.commit('closeLoading')
     }
   }, // NA所有游戏下级列表(综合计算上级)
-
   async getnaAllNowplayer (context) {
     if (state.variable.naAllGameData.nowUserID == '01' || !state.variable.naAllGameData.nowUserID) {
       if (localStorage.loginRole == '100') {
@@ -1735,6 +1734,206 @@ const actions = {
       }
     }
   }, // NA街机游戏所属玩家列表(综合计算上级)
+
+  async getnaMallNowchild (context) {
+    // 请求当前基本信息
+    let require = {
+      userId: ''
+    }
+    if (state.variable.naMallData.nowUserID) {
+      require.userId = state.variable.naMallData.nowUserID
+    } else {
+      require.userId = localStorage.loginId
+    }
+    let result1 = await invoke({
+      url: api.reportInfo,
+      method: api.post,
+      data: require
+    })
+    let user = result1[1].data.payload
+    if (user.userId == state.variable.naMallData.nowUserID || !state.variable.naMallData.nowUserID && user.userId == localStorage.loginId) {
+      context.commit({
+        type: 'recordnaMallNowlist',
+        data: user
+      })
+    }
+    // 请求下级基本信息
+    var data = {
+      parent: ''
+    }
+    if (localStorage.loginRole == '1') {
+      data.parent = '01'
+    } else {
+      data.parent = localStorage.loginId
+    }
+    if (state.variable.naMallData.nowUserID) {
+      data.parent = state.variable.naMallData.nowUserID
+    }
+    // 请求下级信息
+    let result2 = await invoke({
+      url: api.reportInfo,
+      method: api.post,
+      data: data
+    })
+    let child = result2[1].data.payload
+    // 请求下级账单信息
+    context.commit('getWeek')
+    let searchDate = []
+    if (localStorage.searchTime) {
+      searchDate = JSON.parse(localStorage.searchTime)
+    } else {
+      searchDate = [state.startTime, state.endTime]
+    }
+    context.commit('resetnaMallNowchild')
+    for (let item of child) {
+      let child_data = {
+        gameType: -1,
+        kindId:-3,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
+        }
+      }
+      invoke({
+        url: api.calcUserStat,
+        method: api.post,
+        data: child_data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            context.commit('closeLoading')
+            var data = ret.data.payload[0]
+            if (data) {
+              if (item.userId == data.userId) {
+                item.betCount = data.betCount
+                item.winlose = data.winlose
+                context.commit({
+                  type: 'recordnaMallNowchild',
+                  data: item
+                })
+              }
+            }
+          }
+        }
+      )
+    }
+  }, // NA商城下级列表(综合计算上级)
+  async getnaMallNowplayer (context) {
+    if (state.variable.naMallData.nowUserID == '01' || !state.variable.naMallData.nowUserID) {
+      if (localStorage.loginRole == '100') {
+        var data = {
+          parentId: localStorage.loginId
+        }
+        let result1 = await invoke({
+          url: api.reportPlayer,
+          method: api.post,
+          data: data
+        })
+        let player = result1[1].data.payload
+        // 请求所属玩家账单信息
+        context.commit('getWeek')
+        let searchDate = []
+        if (localStorage.searchTime) {
+          searchDate = JSON.parse(localStorage.searchTime)
+        } else {
+          searchDate = [state.startTime, state.endTime]
+        }
+        context.commit('resetnaMallNowplayer')
+        for (let item of player) {
+          let player_data = {
+            gameType: -1,
+            kindId:-3,
+            gameUserNames: [item.userName],
+            query: {
+              createdAt: searchDate
+            }
+          }
+          invoke({
+            url: api.calcPlayerStat,
+            method: api.post,
+            data: player_data
+          }).then(
+            result => {
+              const [err, ret] = result
+              if (err) {
+              } else {
+                context.commit('closeLoading')
+                var data = ret.data.payload[0]
+                if (data) {
+                  if (item.userName == data.userName) {
+                    item.betCount = data.betCount
+                    item.winlose = data.winlose
+                    context.commit({
+                      type: 'recordnaMallNowplayer',
+                      data: item
+                    })
+                  }
+                }
+              }
+            }
+          )
+        }
+      }
+    } else {
+      // 请求所属玩家基本信息
+      var data = {
+        parentId: state.variable.naMallData.nowUserID
+      }
+      let result1 = await invoke({
+        url: api.reportPlayer,
+        method: api.post,
+        data: data
+      })
+      let player = result1[1].data.payload
+      // 请求所属玩家账单信息
+      context.commit('getWeek')
+      let searchDate = []
+      if (localStorage.searchTime) {
+        searchDate = JSON.parse(localStorage.searchTime)
+      } else {
+        searchDate = [state.startTime, state.endTime]
+      }
+      context.commit('resetnaMallNowplayer')
+      for (let item of player) {
+        let player_data = {
+          gameType: -1,
+          kindId:-3,
+          gameUserNames: [item.userName],
+          query: {
+            createdAt: searchDate
+          }
+        }
+        invoke({
+          url: api.calcPlayerStat,
+          method: api.post,
+          data: player_data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              context.commit('closeLoading')
+              var data = ret.data.payload[0]
+              if (data) {
+                if (item.userName == data.userName) {
+                  item.betCount = data.betCount
+                  item.winlose = data.winlose
+                  context.commit({
+                    type: 'recordnaMallNowplayer',
+                    data: item
+                  })
+                }
+              }
+            }
+          }
+        )
+      }
+    }
+  }, // NA商城所属玩家列表(综合计算上级)
+
 
   async getttgVedioNowchild (context) {
     // 请求当前基本信息
@@ -2729,6 +2928,36 @@ const mutations = {
   recordnaArcadeID (state, payload) {
     state.variable.naArcadeGameData.nowUserID = payload.data
   }, // 记录NA街机游戏总报表用户ID
+
+  // NA商城
+  recordnaMallNowlist (state, payload){
+    state.variable.naMallData.mallNowList = payload.data
+  }, // 记录NA商城总报表当前列表
+
+  recordnaMallNowchild (state, payload){
+    state.variable.naMallData.mallNowChild.push(payload.data)
+    console.log(1,payload.data)
+    state.variable.naMallData.mallNowList.betCount += payload.data.betCount
+    state.variable.naMallData.mallNowList.winlose += payload.data.winlose
+  }, // 记录NA商城总报表下级列表
+
+  resetnaMallNowchild (state, payload){
+    state.variable.naMallData.mallNowChild = []
+  }, // 初始化NA商城总报表下级列表
+
+  recordnaMallNowplayer (state, payload){
+    state.variable.naMallData.mallNowplayer.push(payload.data)
+    state.variable.naMallData.mallNowList.betCount += payload.data.betCount
+    state.variable.naMallData.mallNowList.winlose += payload.data.winlose
+  }, // 记录NA商城总报表玩家列表
+
+  resetnaMallNowplayer (state, payload){
+    state.variable.naMallData.mallNowplayer = []
+  }, // 初始化NA商城总报表下级列表
+
+  recordnaMallID (state, payload) {
+    state.variable.naMallData.nowUserID = payload.data
+  }, // 记录NA商城总报表用户ID
 
   // PT游戏
   recordttgVedioNowlist (state, payload){

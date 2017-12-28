@@ -177,6 +177,13 @@ const variable = {
     nowUserID: ''
   }, // NA街机游戏报表数据
 
+  naMallData: {
+    mallNowList: [],
+    mallNowChild: [],
+    mallNowplayer: [],
+    nowUserID: ''
+  }, // NA商城报表数据
+
   ttgVedioGameData: {
     nowList: [],
     nowChildList: [],
