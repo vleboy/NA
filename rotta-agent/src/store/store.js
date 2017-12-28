@@ -1414,7 +1414,7 @@ const actions = {
     context.commit('resetnaArcadeNowchild')
     for (let item of child) {
       let child_data = {
-        gameType: 40000,
+        gameType: 50000,
         role: item.role,
         userIds: [item.userId],
         query: {
@@ -1483,7 +1483,7 @@ const actions = {
         context.commit('resetnaArcadeNowplayer')
         for (let item of player) {
           let player_data = {
-            gameType: 40000,
+            gameType: 50000,
             gameUserNames: [item.userName],
             query: {
               createdAt: searchDate
@@ -1552,7 +1552,7 @@ const actions = {
       context.commit('resetnaArcadeNowplayer')
       for (let item of player) {
         let player_data = {
-          gameType: 40000,
+          gameType: 50000,
           gameUserNames: [item.userName],
           query: {
             createdAt: searchDate
