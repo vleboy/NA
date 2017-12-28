@@ -117,7 +117,11 @@ export default{
       storageInfo: '', // 暂存单个信息
       gameList:{
         'xcn': '小厨娘',
-        'tlzm': '塔罗之谜'
+        'tlzm': '塔罗之谜',
+        'csjb': '财神进宝',
+        'fyht': '福运亨通',
+        'sfss': '四方神兽',
+        'slxy': '祥龙献瑞'
       },
       gameTypeList: [
         {
@@ -126,6 +130,18 @@ export default{
         },{
           value: '塔罗之谜',
           id: 'tlzm'
+        },{
+          value: '财神进宝',
+          id: 'csjb'
+        },{
+          value: '福运亨通',
+          id: 'fyht'
+        },{
+          value: '四方神兽',
+          id: 'sfss'
+        },{
+          value: '祥龙献瑞',
+          id: 'slxy'
         }
       ],
       isOpenModal: false,
