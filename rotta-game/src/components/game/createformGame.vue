@@ -166,8 +166,8 @@
         if (value === '') {
           callback(new Error('请输入游戏标识'))
           this.isfinish.gameIden = false
-        } else if (!pattern.nonChinese.exec(value)) {
-          callback(new Error('请输入字母或者数字'))
+        } else if (!pattern.nonChinese.exec(value)|| (value.substring(0,1) != value.substring(0,1).toUpperCase())) {
+          callback(new Error('请输入字母或者数字（首位必须是大写字母）'))
           this.isfinish.gameIden = false
         } else if (value.length > 10) {
           callback(new Error('标识长度最多为10位'))
