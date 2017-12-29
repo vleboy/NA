@@ -41,6 +41,9 @@
         <el-table-column label="昵称" prop="displayName" align="center">
         </el-table-column>
         <el-table-column label="管理员账号" prop="username" align="center">
+          <template scope="scope">
+            <span @click="checkUser(scope.row)" class="fontUrl">{{(scope.row.username)}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
           <!-- <template scope="scope">
@@ -115,6 +118,9 @@ export default {
     })
   },
   computed: {
+    rollNumber () {
+      return this.$store.state.variable.naMallData.mallNowList
+    },
     naMallNowlist () {
       this.nowRole = this.$store.state.variable.naMallData.mallNowList.userId
       let data = [this.$store.state.variable.naMallData.mallNowList]
@@ -358,6 +364,19 @@ export default {
       )
     }, // 跳转至玩家详情
     goBack () {
+      var data = this.$store.state.variable.naMallData.mallNowList.parent
+      if (data == '01') {
+        data = ''
+      }
+      this.$store.commit({
+        type: 'recordnaMallID',
+        data: data
+      })
+      this.$store.commit('resetnaMallNowchild')
+      this.$store.commit('resetnaMallNowplayer')
+      this.$store.commit('startLoading')
+      this.$store.dispatch('getnaMallNowchild')
+      data !== '01' ? this.$store.dispatch('getnaMallNowplayer') : ''
     }, // 退回上一级
     getChildsize (size) {
       this.childSize = size
