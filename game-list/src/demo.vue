@@ -46,7 +46,7 @@ export default {
       try {
         const { data } = await axios({
           method: 'post',
-          url: 'https://1fjvkx51de.execute-api.ap-southeast-1.amazonaws.com/dev/gameList',
+          url: 'https://52qkggfn4d.execute-api.ap-southeast-1.amazonaws.com/dev/gameList',
           data: {
             gameType: '1010000',
             query: {
@@ -72,7 +72,7 @@ export default {
     getHtmlDocName (a) {
       let str = a
       str = str.substring(str.lastIndexOf('/') + 1)
-      return 'https://d38xgux2jezyfx.cloudfront.net/' + str
+      return 'http://app.risheng3d.com/game/ttggame/' + str
     },
     toLink (a, b) {
       window.location.href = `http://freegame.risheng3d.com/ttgfree.html?gameId=${a}&gameName=${b}`
@@ -93,9 +93,10 @@ height: 1px;
 
 html, body {
   background-color: rgb(29, 0, 0);
-  overflow: hidden;
+  position:fixed;
+  overflow-y:hidden;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 #app {

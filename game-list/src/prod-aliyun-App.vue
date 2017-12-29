@@ -46,7 +46,7 @@ export default {
       try {
         const { data } = await axios({
           method: 'post',
-          url: 'https://1fjvkx51de.execute-api.ap-southeast-1.amazonaws.com/dev/gameList',
+          url: 'https://52qkggfn4d.execute-api.ap-southeast-1.amazonaws.com/dev/gameList',
           data: {
             gameType: '1010000',
             query: {
@@ -102,7 +102,7 @@ export default {
           }
         })
         if (data.code === 0) {
-          window.location.href = `http://webpage.risheng3d.com/ttg.html?playerHandle=${data.token}&userId=${datas.userId}&gameId=${datas.sid}&ttgGameType=${ttgGameType}&ttgGameId=${ttgGameId}&ttgGameName=${ttgGameName}&parent=${datas.parent}&userName=${datas.userName}`
+          window.location.href = `http://webpage.risheng3d.com/ttg.html?playerHandle=${data.token}&userId=${datas.userId}&gameId=${datas.sid}&ttgGameType=${ttgGameType}&ttgGameId=${ttgGameId}&ttgGameName=${ttgGameName}&parent=${datas.parent}&userName=${datas.userName}&msn=${datas.msn}&naToken=${datas.token}`
           this.loading = false
         } else {
           this.loading = false
@@ -139,9 +139,10 @@ height: 1px;
 
 html, body {
   background-color: rgb(29, 0, 0);
-  overflow: hidden;
+  position:fixed;
+  overflow-y:hidden;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 #app {
