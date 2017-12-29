@@ -99,6 +99,10 @@ const api = {
 
   allGames: front.diana + front.stage + '/gameType', // 获取游戏类型列表
 
+  gameBigType: front.diana + front.stage + '/gameBigType', // 获取游戏大类
+
+  companySelect: front.diana + front.stage + '/companySelect', // 获取运营商
+
   gameList: front.diana + front.stage + '/gameList', // 获取游戏列表
 
   changeGame: front.diana + front.stage + '/gameChangeStatus', // 操作游戏状态接口

@@ -74,7 +74,7 @@ export default {
       }
     }, // 配置代理信息
     gosuccom () {
-      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.vedioMix === false || this.$store.state.checkform.liveMix === false || !this.$store.state.checkform.gameList) {
+      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.vedioMix === false || this.$store.state.checkform.liveMix === false) {
         this.$message({
           message: '请完善配置信息',
           type: 'error'
@@ -148,6 +148,9 @@ export default {
         }
       } else if (this.nowindex === 'comcreate' && this.steps === 1) {
         this.comset = {
+          company: '', // 选择的游戏厂商
+          selectGame: '', // 选择的厂商的游戏
+          showSelect: [], // 列表展示数据
           gameList: [], // 代理游戏
           points: '', // 代理点数
           rate: '', // 代理抽成比

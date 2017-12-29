@@ -3,17 +3,34 @@
   <div class="com-setform">
     <h2 class="title">配置代理信息</h2>
     <el-form :model="setcomInfo" :rules="rules" ref="setcomInfo" class="setform" label-width="160px" label-position="right">
-      <el-form-item label="代理游戏">
-        <el-select v-model="setcomInfo.gameList" multiple placeholder="请选择" clearable class="input">
-            <el-option v-for="item in allGames" :key="item" :label="item.name" :value="item" style="max-width:336px"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="代理点数" prop="points">
-        <el-tooltip class="item" effect="dark" :content="parentBills" placement="right">
-          <el-input v-model="setcomInfo.points" class="input" placeholder="请输入点数,最大不超过其上级拥有点数"></el-input>
-        </el-tooltip>
-      </el-form-item>
-      <el-form-item label="代理成数(%)" prop="rate">
+          <el-form-item label="商户拥有的游戏">
+            <el-select v-model="setcomInfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
+                <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:10rem"></el-option>
+            </el-select>
+
+            <el-select v-model="setcomInfo.selectGame" placeholder="请选择" clearable style="width:10rem;">
+                <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:10rem"></el-option>
+            </el-select>
+
+            <el-button type="text" @click="addGame">添加</el-button>
+          </el-form-item>
+          <el-form-item label="" prop="username">
+            <el-table :data="setcomInfo.showSelect" border style="width: 35rem;margin-left:-5rem">
+              <el-table-column prop="company" align="center" label="公司"></el-table-column>
+              <el-table-column prop="gameName" align="center" label="游戏"></el-table-column>
+              <el-table-column align="center" label="操作">
+                <template scope="scope">
+                  <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer">删除</span>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-form-item>
+          <el-form-item label="代理点数" prop="points">
+            <el-tooltip class="item" effect="dark" :content="parentBills" placement="right">
+              <el-input v-model="setcomInfo.points" class="input" placeholder="请输入点数,最大不超过其上级拥有点数"></el-input>
+            </el-tooltip>
+          </el-form-item>
+          <el-form-item label="代理成数(%)" prop="rate">
             <el-tooltip class="item" effect="dark" :content="parentRate" placement="right">
               <el-input v-model="setcomInfo.rate" class="input" placeholder="0.00~100.00,最大不超过其上级成数"></el-input>
             </el-tooltip>
@@ -76,7 +93,7 @@ export default {
       data.parent = this.$store.state.variable.comcreate.parent
     }
     invoke({
-      url: api.allGames,
+      url: api.companySelect,
       method: api.post,
       data: data
     }).then(
@@ -85,7 +102,10 @@ export default {
         if (err) {
         } else {
           var data = ret.data.payload
-          this.allGames = data
+          for (let item of data) {
+            item.client = item.client + '游戏'
+          }
+          this.CompanyList = data
         }
       }
     )
@@ -101,8 +121,12 @@ export default {
   },
   data () {
     return {
-      allGames: [], // 所有游戏
+      CompanyList: [], // 游戏大类列表
+      CompanyGame: [], // 厂商的游戏列表
       setcomInfo: {
+        company: '', // 选择的游戏厂商
+        selectGame: '', // 选择的厂商的游戏
+        showSelect: [], // 列表展示数据
         gameList: [], // 代理游戏
         points: '', // 代理点数
         rate: '', // 代理抽成比
@@ -125,21 +149,98 @@ export default {
       }
     }
   },
+   watch: {
+    'setcomInfo.company' (val) {
+      if (val) {
+        this.CompanyGame = []
+        this.setcomInfo.selectGame = ''
+        invoke({
+          url: api.gameBigType,
+          method: api.post,
+          data: {
+            companyIden: val
+          }
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              this.CompanyGame = data
+            }
+          }
+        )
+      } else {
+        this.CompanyGame = []
+        this.setcomInfo.selectGame = ''
+      }
+    }
+  },
   methods: {
     resetForm (val) {
       this.setcomInfo = val
+    },
+    addGame () {
+      if (this.setcomInfo.company && this.setcomInfo.selectGame) {
+        let data = {
+          company: this.setcomInfo.company,
+          gameName: this.setcomInfo.selectGame.name,
+        }
+        if (this.setcomInfo.showSelect.length == 0) {
+          let select = this.setcomInfo.selectGame
+          select.company = this.setcomInfo.company
+          this.setcomInfo.gameList.push(select)
+          this.setcomInfo.showSelect.push(data)
+        } else {
+          let repeat = false
+          for (let item of this.setcomInfo.showSelect) {
+            if (item.gameName == data.gameName) {
+              repeat = true
+              this.$message({
+                type: 'info',
+                message: '您已选择该游戏'
+              })
+            }
+          }
+          if (!repeat) {
+            let select = this.setcomInfo.selectGame
+            select.company = this.setcomInfo.company
+            this.setcomInfo.gameList.push(select)
+            this.setcomInfo.showSelect.push(data)
+          }
+        }
+      } else {
+        this.$message({
+          type: 'warning',
+          message: '请完善选择游戏！'
+        })
+      }
+    },
+    deleteGame (data) {
+      this.setcomInfo.showSelect = this.setcomInfo.showSelect.filter(item => {
+        return item.gameName != data.gameName
+      })
+      this.setcomInfo.gameList = this.setcomInfo.gameList.filter(item => {
+        return item.name != data.gameName
+      })
     }
-    // randomPassword () {
-    //   var newpassword = randomPassword()
-    //   this.setcomInfo.password = newpassword
-    //   store.state.checkform.password = true
-    // }
   },
   beforeDestroy () {
     if (this.setcomInfo.gameList.length != 0 && this.setcomInfo.points && this.setcomInfo.rate && this.setcomInfo.liveMix && this.setcomInfo.vedioMix) {
+      let data = this.setcomInfo
+      for (let outside of data.gameList) {
+        for (let inside of this.CompanyList) {
+          if (outside.company == inside.server) {
+            outside.companyName = inside.companyName
+          }
+        }
+      }
+      delete data.selectGame
+      delete data.showSelect
+      delete data.company
       this.$store.commit({
         type: 'recordComcreate',
-        data: this.setcomInfo
+        data: data
       })
       var comcreate = this.$store.state.variable.comcreate
       invoke({

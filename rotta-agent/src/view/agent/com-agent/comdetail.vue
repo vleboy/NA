@@ -29,26 +29,6 @@
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="1">
-                                <span class="hidden">1</span>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="" style="float:left">
-                                    <el-form-item label="代理游戏" v-show="this.disable == true">
-                                        <div v-for="item in comdetail.gameList" style="display:inline-block;margin-left:0.25rem">
-                                            {{item.name}}
-                                        </div>
-                                    </el-form-item>
-                                    <el-form-item label="代理游戏" v-show="this.disable == false">
-                                        <el-checkbox-group v-model="selectGame">
-                                            <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
-                                        </el-checkbox-group>
-                                    </el-form-item>
-                                </div>
-                            </el-col>
-                            <el-col :span="1">
-                                <span class="hidden">1</span>
-                            </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="6">
@@ -133,6 +113,33 @@
                         </el-row>
                     </el-form>
                 </div>
+            </div>
+        </el-collapse-transition>
+        <h4 style="margin-left:1rem">游戏信息
+            <span class="transition-icon" @click="show3 = !show3">
+                <span v-if="!show3">展开</span>
+                <span v-if="show3">收起</span>
+            </span>
+        </h4>
+        <el-collapse-transition>
+            <div class="editform" v-show="show3">
+                <el-select v-model="selcetCompany" placeholder="请选择" clearable style="width:12rem;margin-right:0.5rem;margin-left:6rem" v-show="!disable">
+                    <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:12rem"></el-option>
+                </el-select>
+                <el-select v-model="selectGame" placeholder="请选择" clearable style="width:12rem;" v-show="!disable">
+                    <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:12rem"></el-option>
+                </el-select>
+                <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
+                <el-table :data="comdetail.gameList" border style="width: 40rem;margin-top:1rem">
+                  <el-table-column prop="company" align="center" label="公司"></el-table-column>
+                  <el-table-column prop="name" align="center" label="游戏"></el-table-column>
+                  <el-table-column align="center" label="操作">
+                    <template scope="scope">
+                      <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer" v-show="!disable">删除</span>
+                      <span v-show="disable">请编辑</span>
+                    </template>
+                  </el-table-column>
+                </el-table>
             </div>
         </el-collapse-transition>
         <h4 style="margin-left:1rem">管理信息
@@ -435,19 +442,59 @@ export default {
     this.$store.dispatch('getDetailPlayer')
   },
   mounted() {
-    this.addGame()
+    let data = {
+      parent: this.$store.state.variable.comdetaildata.parent
+    }
+    invoke({
+      url: api.companySelect,
+      method: api.post,
+      data: data
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+          this.$message({
+            message: err.msg,
+            type: 'warning'
+          })
+        } else {
+          var data = ret.data.payload
+          for (let item of data) {
+            item.client = item.client + '游戏'
+          }
+          this.CompanyList = data
+        }
+      }
+    )
   },
   watch: {
-    selectGame (val) {
-      if (val.length > 0) {
-        this.isfinish.gameList = true
-      } else {
-        this.isfinish.gameList = false
-      }
-    },
     ajaxCount (val) {
       if (val == 4) {
         this.$store.commit('closeLoading')
+      }
+    },
+    selcetCompany (val) {
+      if (val) {
+        this.selectGame = ''
+        invoke({
+          url: api.gameBigType,
+          method: api.post,
+          data: {
+            companyIden: val
+          }
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              this.CompanyGame = data
+            }
+          }
+        )
+      } else {
+        this.CompanyGame = []
+        this.selectGame = ''
       }
     }
   },
@@ -659,11 +706,13 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      selcetCompany: '', // 选择的游戏运行商
+      selectGame: '', // 选择的游戏
+      CompanyList: [], // 所有游戏运营商
+      CompanyGame: [], // 具体游戏运营商游戏
       show1: false, // 默认关闭信息展示,
       show2: false, // 默认关闭信息展示,
-      gameList: [], // 上级拥有的游戏(包含所有的对象)
-      parentGamelist: [], // 上级拥有的游戏(只带名字的)
-      selectGame: [], // 修改游戏选中值(只带名字的)
+      show3: false, // 默认关闭信息展示,
       parentInfo: '',
       loginId: localStorage.loginId,
       pickerOptions: {
@@ -708,31 +757,6 @@ export default {
     }
   },
   methods: {
-    addGame () {
-      var data = {
-        parent: this.$store.state.variable.parentGame
-      }
-      invoke({
-        url: api.allGames,
-        method: api.post,
-        data: data
-      }).then(
-        result => {
-          const [err, ret] = result
-          if (err) {
-          } else {
-            this.parentGamelist = []
-            var data = ret.data.payload
-            this.gameList = data
-            for(let item of data) {
-              if (item.name) {
-                this.parentGamelist.push(item.name)
-              }
-            }
-          }
-        }
-      )
-    }, // 获取上级拥有游戏
     refreshAgent () {
       this.$store.commit('startLoading')
       this.$store.dispatch('getComdetail_property')
@@ -987,11 +1011,6 @@ export default {
       return billType(bill)
     },
     turnONedit () {
-      for (let item of this.comdetail.gameList) {
-        if (item.name) {
-          this.selectGame.push(item.name)
-        }
-      }
       var parentId = localStorage.parentID
       if (parentId == '01') {
         this.parentInfo = {
@@ -1017,6 +1036,9 @@ export default {
       this.disable = false
       this.show1 = true
       this.show2 = true
+      this.show3 = true
+      this.selcetCompany = ''
+      this.selectGame = ''
       this.$store.commit('startEdit')
     }, // 开启编辑
     changeContract () {
@@ -1029,35 +1051,13 @@ export default {
       }
     }, // 设置永久时间
     submitEdit () {
-      // var select = localStorage.selectGame
-      // console.log('草泥马',select)
-      // if (!select) {
-      //   this.$message({
-      //     message: '请至少选择一款游戏',
-      //     type: 'error'
-      //   })
-      // }
       if (this.isfinish.password === false || this.isfinish.rate === false || this.isfinish.contractPeriod === false || this.isfinish.vedioMix === false || this.isfinish.liveMix === false) {
         this.$message({
           message: '修改信息错误',
           type: 'error'
         })
-      } else if (this.isfinish.gameList === false) {
-        this.$message({
-          message: '代理游戏不能为空',
-          type: 'error'
-        })
       } else {
         this.loading = true
-        this.comdetail.gameList = []
-        for (let outside of this.gameList) {
-          for (let inside of this.selectGame) {
-            if (outside.name == inside) {
-              this.comdetail.gameList.push(outside)
-            }
-          }
-        }
-        this.comdetail.gameList = Array.from(new Set(this.comdetail.gameList))
         if (this.comdetail.contractPeriod !== 0) {
           for (var i = this.comdetail.contractPeriod.length - 1; i >= 0; i--) {
             if (isNaN(this.comdetail.contractPeriod[i].toString())) {
@@ -1081,11 +1081,11 @@ export default {
               this.loading = false
             } else {
               var data = ret.data.payload
-              // console.log(data)
               this.disable = true
               this.$store.commit('closeEdit')
               this.show1 = false
               this.show2 = false
+              this.show3 = false
               this.loading = false
               this.$message({
                 message: '修改成功',
@@ -1115,6 +1115,46 @@ export default {
       })
       this.$store.commit('startStoreDialog')
     }, // 代理详情页存点
+    addGame () {
+      if (!this.selectGame || !this.selcetCompany) {
+        this.$message({
+          type: 'warning',
+          message: '请选择要添加的游戏！'
+        })
+      } else {
+        let companyName = ''
+        for (let item of this.CompanyList) {
+          if (item.server == this.selcetCompany) {
+            companyName = item.companyName
+          }
+        }
+        let data = this.selectGame
+        data.company = this.selcetCompany
+        data.companyName = companyName
+        if (this.comdetail.gameList.length == 0) {
+          this.comdetail.gameList.push(data)
+        } else {
+          let repeat = false
+          for (let item of this.comdetail.gameList) {
+            if (item.name == data.name) {
+              repeat = true
+              this.$message({
+                type: 'info',
+                message: '您已选择该游戏'
+              })
+            }
+          }
+          if (!repeat) {
+            this.comdetail.gameList.push(data)
+          }
+        }
+      }
+    }, // 获取上级拥有游戏
+    deleteGame (data) {
+      this.comdetail.gameList = this.comdetail.gameList.filter(item => {
+        return item.name != data.name
+      })
+    }, // 删除所选游戏
     withdrawPoints () {
       var user = {
         userId: this.comdetail.userId,
@@ -1172,7 +1212,7 @@ export default {
     .comdetail .propertyform{background-color: #f5f5f5;padding-left: 3%;padding-bottom: 1rem}
 
     /**/
-    .comdetail .editform{background-color: #f5f5f5;padding-top: 1rem;padding-left: 1rem}
+    .comdetail .editform{background-color: #f5f5f5;padding: 1rem;}
     /**/
     .comdetail .simple span {display: inline-block;width: 30%;line-height: 3.5rem;}
     .comdetail .remark{padding-bottom: 1rem;margin-top: 1rem}
