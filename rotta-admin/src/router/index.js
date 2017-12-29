@@ -314,7 +314,7 @@ const router = new Router({
     },
     {
       path: '/naVedioGameReport',
-      name: 'NA电子游戏总报表',
+      name: 'NA电子游戏报表',
       component: naVedioGameReport,
       meta: {
         keepAlive: true
@@ -322,7 +322,7 @@ const router = new Router({
     },
     {
       path: '/naLiveGameReport',
-      name: 'NA真人游戏总报表',
+      name: 'NA真人游戏报表',
       component: naLiveGameReport,
       meta: {
         keepAlive: true
@@ -330,7 +330,7 @@ const router = new Router({
     },
     {
       path: '/naArcadeGameReport',
-      name: 'NA街机游戏总报表',
+      name: 'NA街机游戏报表',
       component: naArcadeGameReport,
       meta: {
         keepAlive: true
@@ -346,7 +346,7 @@ const router = new Router({
     },
     {
       path: '/ttgVedioGameReport',
-      name: 'TTG电子游戏总报表',
+      name: 'TTG电子游戏报表',
       component: ttgVedioGameReport,
       meta: {
         keepAlive: true
