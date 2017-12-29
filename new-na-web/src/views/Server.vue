@@ -255,8 +255,11 @@ export default {
     p
       margin-bottom 40px
   
-  .service-items
+  .service-items-desc
+    font-size 13px
+
+  .service-items, .service-system 
     h2
-      font-size 20px
+      font-size 24px
 </style>
 

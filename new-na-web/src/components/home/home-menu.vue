@@ -1,10 +1,12 @@
 <template>
   <div class="page">
     <div class="home-menu">
-      <h1>
-        <img src="../../assets/img/logo.png" alt="">
-        <p>新亚洲集团</p>
-      </h1>
+      <router-link to="/">
+        <h1>
+          <img src="../../assets/img/logo.png" alt="">
+          <p>新亚洲集团</p>
+        </h1>
+      </router-link>
       <nav>
         <ul>
           <li :class="{active: $route.path === '/'}"><router-link to="/">{{$router.path}}首页</router-link></li>
@@ -27,7 +29,7 @@
             <span></span>
           </div>
         </div>
-        <h1><img src="../../assets/img/logo.png" alt=""></h1>
+        <h1><router-link to="/"><img src="../../assets/img/logo.png" alt=""></router-link></h1>
       </div>
 
       <transition name="mobileShow">

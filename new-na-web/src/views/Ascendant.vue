@@ -1,20 +1,15 @@
 <template>
   <div class="Ascendant">
-    <card-item 
-      :data = "info[0]"
-    />
-
-    <div class="info-item">
-      <!-- <img src="/static/ascendant2.png" alt=""> -->
-      <div class="info-content">
-        <h2>全球化的网络覆盖</h2>
-        <p>独立的亚马逊外围服务器，享受高速宽带全球多个服务器节点，速度更快多条线路并行时，APP智能匹配最佳联机</p>
-      </div>
-    </div>
-
      <card-item 
-      :data = "info[1]"
+      v-for="(item, index) in info"
+      :key="index"
+      :class="{'is-reversed': index % 2 === 0}"
+      :data= "item"
      />
+    <div class="more">
+      <h3>NA不仅如此...</h3>
+      <p>与我们的客服联系，加入NA大家庭！</p>
+    </div>
   </div>
 </template>
 
@@ -36,6 +31,21 @@ export default {
           title: '强大的经营分析系统',
           desc: '360°全方位经营分析，让您一目了然知悉优势与短板，为您的商业决策提供有力指导！ 核心报表包含： 损益分析、玩家分析、存取款分析、游戏分析、活动分析、代理分析等。',
           img: '/static/ascendant3.png'
+        },
+        {
+          title: '严谨的权限管理系统',
+          desc: '根据日常管理需要，您可针对玩家、资金、运营、统计、分析、内容、系统 等各个模块开放权限，设置后，子账号仅显示已授权的页面。 且子账号权限细化至每一个重要操作，如玩家存取款审核可按层级管理，利于每日交接班对账。',
+          img: '/static/ascendant4.png'
+        },
+        {
+          title: '风险监控系统',
+          desc: '可根据您的经营状况，随时调配相关数据，系统将不进行任何形式存盘，保障您的权益！ 同时，系统建立完善的玩家欺诈监控提醒机制，让洗水套利团队、职业高手赌客、不良玩家能实时得到稽查，实时预防运营风险。',
+          img: '/static/ascendant5.png'
+        },
+        {
+          title: '超强防御系统',
+          desc: '建立专业的HACKER团队，帮您全面抵御任何型别的黑客攻击；加密网络传输的信息，防止被拦截后信息泄露；所有软硬件资源均独享，且配置多副本，智能切换，给您一个可靠、稳定的环境。',
+          img: '/static/ascendant6.png'
         }
       ]
     }
@@ -47,23 +57,41 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.info-item
-  position relative
-  margin-top 50px
-  width 100%
-  background url(/static/ascendant2.png) no-repeat
+.Ascendant
+  .is-reversed
+    background-color #f9f9f9
 
-.info-content
-  position absolute
-  width 400px
-  top 70px
-  right 10%
-  h2
-    font-size 2.5rem
+.more
+  text-align center
+  h3
+    font-size 2rem
     color #444444
     text-align center
+    margin-top 70px
     margin-bottom 30px
   p
+    margin-bottom 80px
     font-size 1rem
     color #666666
+
+@media (min-width: 768px) and (max-width: 1200px)
+  .more
+    h3
+      margin-top 50px
+      margin-bottom 18px
+      font-size 34px
+    p
+      font-size 14px
+      margin-bottom 50px
+
+@media (max-width: 768px)
+  .more
+    h3
+      margin-top 1.4rem
+      margin-bottom 18px
+      font-size 20px
+    p
+      width 100%
+      padding 0 10px
+      margin-bottom 20px
 </style>
