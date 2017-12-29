@@ -68,10 +68,10 @@ const router = new Router({
       path: '*',
       redirect: to => {
         const { hash, params, query } = to
-        if (location.href.indexOf('agent') != -1 && !localStorage.loginToken || location.href.indexOf('5500')!= -1 && !localStorage.loginToken) {
-          return { path: '/login', query: null }
-        } else {
+        if (localStorage.loginId) {
           return { path: '/welcome', query: null }
+        } else {
+          return { path: '/login', query: null }
         }
       }
     },
