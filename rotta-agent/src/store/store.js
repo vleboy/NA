@@ -1732,41 +1732,62 @@ const actions = {
 
 
   async getttgVedioNowchild (context) {
-    // 请求当前基本信息
-    let require = {
+    // 请求基本信息
+    let ttgVedioNow = {
       userId: ''
     }
     if (state.variable.ttgVedioGameData.nowUserID) {
-      require.userId = state.variable.ttgVedioGameData.nowUserID
+      ttgVedioNow.userId = state.variable.ttgVedioGameData.nowUserID
     } else {
-      require.userId = localStorage.loginId
+      ttgVedioNow.userId = localStorage.loginId
     }
     let result1 = await invoke({
       url: api.reportInfo,
       method: api.post,
-      data: require
+      data: ttgVedioNow
     })
     let user = result1[1].data.payload
+    user.nowBouns = 0
+    user.nowallBet = 0
+    user.nowSubmit = 0
+    user.winloseRate = 0
     if (user.userId == state.variable.ttgVedioGameData.nowUserID || !state.variable.ttgVedioGameData.nowUserID && user.userId == localStorage.loginId) {
       context.commit({
         type: 'recordttgVedioNowlist',
         data: user
       })
     }
-    // 请求下级基本信息
-    var data = {
-      parent: '01'
-    }
-    if (state.variable.ttgVedioGameData.nowUserID) {
-      data.parent = state.variable.ttgVedioGameData.nowUserID
-    }
     // 请求下级信息
+    var data = {
+      parent: ''
+    }
+    if (localStorage.loginSuffix == 'Agent') {
+      // 代理管理员登录
+      if (state.variable.ttgVedioGameData.nowUserID) {
+        data.parent = state.variable.ttgVedioGameData.nowUserID
+      } else {
+        data.parent = '01'
+      }
+    } else {
+      // 普通代理登录
+      if (state.variable.ttgVedioGameData.nowUserID) {
+        data.parent = state.variable.ttgVedioGameData.nowUserID
+      } else {
+        data.parent = localStorage.loginId
+      }
+    }
     let result2 = await invoke({
       url: api.reportInfo,
       method: api.post,
       data: data
     })
     let child = result2[1].data.payload
+    for (let item of child) {
+      item.nowBouns = 0
+      item.nowallBet = 0
+      item.nowSubmit = 0
+      item.winloseRate = 0
+    }
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -1776,12 +1797,6 @@ const actions = {
       searchDate = [state.startTime, state.endTime]
     }
     context.commit('resetttgVedioNowchild')
-    let count = {
-      bet: 0,
-      betCount: 0,
-      winlose: 0,
-      winloseRate: 0
-    } // 当前用户下级账单总额
     for (let item of child) {
       let child_data = {
         gameType: 1010000,
@@ -1807,8 +1822,10 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
-                item.submit = data.winlose * (1 - item.rate/100)
-                item.winloseRate = data.winlose / data.bet
+                item.nowBouns = data.bet * item.vedioMix / 100
+                item.nowallBet = data.bet * item.vedioMix / 100 + data.winlose
+                item.nowSubmit = (data.bet * item.vedioMix / 100 + data.winlose) * (1 - item.rate/100)
+                item.winloseRate = item.nowallBet / data.bet
                 context.commit({
                   type: 'recordttgVedioNowchild',
                   data: item
@@ -1821,18 +1838,92 @@ const actions = {
     }
   }, // TTG电子游戏下级列表(综合计算上级)
   async getttgVedioNowplayer (context) {
-    if (state.variable.ttgVedioGameData.nowUserID == '01' || !state.variable.ttgVedioGameData.nowUserID) {
-    } else {
-      // 请求所属玩家基本信息
-      var data = {
-        parentId: state.variable.ttgVedioGameData.nowUserID
+    if (localStorage.loginSuffix == 'Agent') {
+      // 代理管理员登录
+      if (!state.variable.ttgVedioGameData.nowUserID) {
+      } else {
+        // 请求所属玩家基本信息
+        var data = {
+          parentId: state.variable.ttgVedioGameData.nowUserID
+        }
+        let result1 = await invoke({
+          url: api.reportPlayer,
+          method: api.post,
+          data: data
+        })
+        let player = result1[1].data.payload
+        for (let item of player) {
+          item.nowBouns = 0
+          item.nowallBet = 0
+        }
+        // 请求所属玩家账单信息
+        context.commit('getWeek')
+        let searchDate = []
+        if (localStorage.searchTime) {
+          searchDate = JSON.parse(localStorage.searchTime)
+        } else {
+          searchDate = [state.startTime, state.endTime]
+        }
+        context.commit('resetttgVedioNowplayer')
+        for (let item of player) {
+          let player_data = {
+            gameType: 1010000,
+            gameUserNames: [item.userName],
+            query: {
+              createdAt: searchDate
+            }
+          }
+          invoke({
+            url: api.calcPlayerStat,
+            method: api.post,
+            data: player_data
+          }).then(
+            result => {
+              const [err, ret] = result
+              if (err) {
+              } else {
+                context.commit('closeLoading')
+                var data = ret.data.payload[0]
+                if (data) {
+                  if (item.userName == data.userName) {
+                    item.bet = data.bet
+                    item.betCount = data.betCount
+                    item.winlose = data.winlose
+                    item.nowBouns = data.bet * item.vedioMix / 100
+                    item.nowallBet = data.bet * item.vedioMix/100 + data.winlose
+                    item.winloseRate = item.nowallBet / data.bet
+                    context.commit({
+                      type: 'recordttgVedioNowplayer',
+                      data: item
+                    })
+                  }
+                }
+              }
+            }
+          )
+        }
       }
+    } else {
+      // 普通代理登录
+      var data = {
+        parentId: ''
+      }
+      if (!state.variable.ttgVedioGameData.nowUserID) {
+        data.parentId = localStorage.loginId
+      } else {
+        data.parentId = state.variable.ttgVedioGameData.nowUserID
+      }
+      // 请求所属玩家基本信息
       let result1 = await invoke({
         url: api.reportPlayer,
         method: api.post,
         data: data
       })
       let player = result1[1].data.payload
+      for (let item of player) {
+        item.nowBouns = 0
+        item.nowallBet = 0
+      }
       // 请求所属玩家账单信息
       context.commit('getWeek')
       let searchDate = []
@@ -1866,7 +1957,9 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
-                  item.winloseRate = data.winlose / data.bet
+                  item.nowBouns = data.bet * item.vedioMix / 100
+                  item.nowallBet = data.bet * item.vedioMix / 100 + data.winlose
+                  item.winloseRate = item.nowallBet / (data.bet)
                   context.commit({
                     type: 'recordttgVedioNowplayer',
                     data: item
