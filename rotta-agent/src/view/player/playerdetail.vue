@@ -543,7 +543,10 @@ export default {
             })
           } else {
             this.gameTypeList = res.data.payload
-            if(this.companyInfo == 'NA'){
+            if(this.radioInfo=='') {
+              this.getPlayerDetail()
+            }
+            if(this.companyInfo == 'NA' || this.companyInfo == '-1'){
               this.gameTypeList = this.gameTypeList.concat(this.specialNA)
             }
             this.gameTypeList.unshift({
