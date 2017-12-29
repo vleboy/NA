@@ -252,19 +252,19 @@
     <el-breadcrumb separator="/" v-if="nowindex === 'naVedioGameReport'" class="title">
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item>NA游戏报表 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">NA电子游戏总报表</span> </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">NA电子游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'naLiveGameReport'" class="title">
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item>NA游戏报表 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">NA真人游戏总报表</span> </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">NA真人游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'naArcadeGameReport'" class="title">
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item>NA游戏报表 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">NA街机游戏总报表</span> </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">NA街机游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'naMallReport'" class="title">
@@ -276,7 +276,7 @@
     <el-breadcrumb separator="/" v-if="nowindex === 'ttgVedioGameReport'" class="title">
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item>TTG游戏报表 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">TTG电子游戏总报表</span> </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">TTG电子游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'lineup'" class="title">
