@@ -270,6 +270,7 @@ export default {
       // console.log('当前是第:' + page + '页')
     },
     changeRadio () {
+      console.log(111)
       this.getPlayerDetail()
 //      if(this.amountDate.length){
 //        this.searchAmount()
@@ -415,8 +416,11 @@ export default {
             })
           } else {
             this.gameTypeList = res.data.payload
-            if(this.companyInfo == 'NA'){
+            if(this.companyInfo == 'NA' || this.companyInfo == '-1'){
               this.gameTypeList = this.gameTypeList.concat(this.specialNA)
+            }
+            if(this.radioInfo=='') {
+              this.getPlayerDetail()
             }
             this.gameTypeList.unshift({
               code: '',
