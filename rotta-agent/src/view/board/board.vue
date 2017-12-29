@@ -422,7 +422,7 @@
           case 3:
             this.consumeDataTime = {
               endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1,
-              startTime: new Date(nowDate.setMonth(nowDate.getMonth()-3,1)).setHours(0,0,0,0)
+              startTime: new Date(nowDate.setMonth(nowDate.getMonth()-2,1)).setHours(0,0,0,0)
             }
             break
         }
@@ -448,7 +448,7 @@
           case 3:
             this.consumeAndIncomeDataTime = {
               endTime: new Date(nowDate.setMonth(nowDate.getMonth()+1,0)).setHours(0,0,0,0)+24*3600*1000-1,
-              startTime: new Date(nowDate.setMonth(nowDate.getMonth()-3,1)).setHours(0,0,0,0)
+              startTime: new Date(nowDate.setMonth(nowDate.getMonth()-2,1)).setHours(0,0,0,0)
             }
             break
         }
