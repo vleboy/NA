@@ -198,6 +198,12 @@
       <el-breadcrumb-item><span  class="large">管理员操作日志</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'debugJournal'" class="title">
+      <el-breadcrumb-item>系统设置 </el-breadcrumb-item>
+      <el-breadcrumb-item>操作日志 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">Debug日志</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'adminlist'" class="title">
       <el-breadcrumb-item>系统设置 </el-breadcrumb-item>
       <el-breadcrumb-item>管理员管理 </el-breadcrumb-item>

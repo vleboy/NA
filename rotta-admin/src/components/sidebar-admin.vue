@@ -117,6 +117,7 @@
                   <el-submenu index="7-2" v-show="userRight.admindate.hasRight">
                       <template slot="title">操作日志</template>
                       <el-menu-item index="admindate">管理员操作日志</el-menu-item>
+                      <el-menu-item index="debugJournal">Debug操作日志</el-menu-item>
                   </el-submenu>
                   <el-submenu index="7-3" v-show="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight ||userRight.addcharacter.hasRight">
                       <template slot="title">管理员管理</template>

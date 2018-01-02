@@ -51,6 +51,7 @@ import Managerloginlist from '@/view/system/loginlist/managerloginlist' // 线�
 import Merchantloginlist from '@/view/system/loginlist/merchantloginlist' // 商户登录日志
 
 import Admindate from '@/view/system/datelist/admindate' // 管理员操作日志
+import DebugJournal from '@/view/system/debugJournal/debugJournal' // debug操作日志
 
 import Adminlist from '@/view/system/admin-manage/adminlist' // 管理员列表
 import Addadmin from '@/view/system/admin-manage/addadmin' // 新增管理员
@@ -253,6 +254,11 @@ const router = new Router({
       path: '/admindate',
       name: '管理员操作日志',
       component: Admindate
+    },
+    {
+      path: '/debugJournal',
+      name: 'Debug操作日志',
+      component: DebugJournal
     },
     {
       path: '/adminlist',
