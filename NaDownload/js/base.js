@@ -100,8 +100,12 @@ function getIp () {
         data : {},
         success : function(result) {//返回数据根据结果进行相应的处理
             if(result.payload.data.country === '中国') {
+                $('.isChina-ios').attr('href','itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall'+ result.payload.version +'.plist')
+                $('.isChina-android').attr('href','http://app.risheng3d.com/apk/NAGame'+ result.payload.version +'.apk')
                 $('.isChina').removeClass('isChina');
             } else {
+                $('.isNoChina-ios').attr('href','itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall'+ result.payload.version +'.plist')
+                $('.isNoChina-android').attr('href','http://oss.na12345.com/NAGame'+ result.payload.version +'.apk')
                 $('.isNoChina').removeClass('isNoChina');
             }
         },

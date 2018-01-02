@@ -7,12 +7,12 @@
         </h2>
         <div class="download-address">
           <div v-if="isChina">
-            <div class="android"><a href="http://app.risheng3d.com/apk/NAGame1900.apk"><img src="../assets/e1.png" alt=""></a></div>
-            <div class="ios"><a  href="itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall1900.plist"><img src="../assets/e2.png" alt=""></a></div>
+            <div class="android"><a :href='`http://app.risheng3d.com/apk/NAGame${version}.apk`'><img src="../assets/e1.png" alt=""></a></div>
+            <div class="ios"><a  :href='`itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall${version}.plist`'><img src="../assets/e2.png" alt=""></a></div>
           </div>
           <div v-else>
-            <div class="android"><a href="http://oss.na12345.com/NAGame1900.apk"><img src="../assets/e1.png" alt=""></a></div>
-            <div class="ios"><a href="itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1900.plist"><img src="../assets/e2.png"alt=""></a></div>
+            <div class="android"><a :href='`http://oss.na12345.com/NAGame${version}.apk`'><img src="../assets/e1.png" alt=""></a></div>
+            <div class="ios"><a :href='`itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall${version}.plist`'><img src="../assets/e2.png"alt=""></a></div>
           </div>
         </div>
       </div>
@@ -27,7 +27,8 @@ export default {
   },
   data () {
     return {
-      isChina: false
+      isChina: false,
+      version: ''
     }
   },
   methods: {
@@ -35,6 +36,7 @@ export default {
       let _self = this
       axios.get('https://844sz7nr7l.execute-api.ap-southeast-1.amazonaws.com/dev/ipquery')
         .then(function (res) {
+          _self.version = res.data.payload.version
           if(res.data.payload.data.country === '中国'){
             _self.isChina = true
           } else {

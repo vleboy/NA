@@ -62,9 +62,9 @@ export default {
         axios.get(`${url}/dev/ipquery`)
           .then(function (res) {
             if(res.data.payload.data.country === '中国'){
-              window.location.href = 'http://app.risheng3d.com/apk/NAGame1900.apk'
+              window.location.href = `http://app.risheng3d.com/apk/NAGame${res.data.payload.version}.apk`
             } else {
-              window.location.href = 'http://oss.na12345.com/NAGame1900.apk'
+              window.location.href = `http://oss.na12345.com/NAGame${res.data.payload.version}.apk`
             }
           })
           .catch(function (error) {
@@ -74,9 +74,9 @@ export default {
          axios.get(`${url}/dev/ipquery`)
          .then(function (res) {
            if(res.data.payload.data.country === '中国'){
-             window.location.href = 'itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall1900.plist'
+             window.location.href = `itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall${res.data.payload.version}.plist`
            } else {
-             window.location.href = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1900.plist'
+             window.location.href = `itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall${res.data.payload.version}.plist`
            }
          })
          .catch(function (error) {
