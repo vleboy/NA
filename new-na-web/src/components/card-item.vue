@@ -37,6 +37,8 @@ export default {
     margin-bottom 80px
     font-size 1rem
     color #666666
+  img 
+    width 45%
 @media (min-width: 768px) and (max-width: 1200px)
   .card-item
     h2
@@ -56,6 +58,8 @@ export default {
       width 100%
       padding 0 10px
       margin-bottom 20px
+    img
+      width 100%
 </style>
 
 

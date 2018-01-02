@@ -79,6 +79,7 @@ export default {
     font-size 1rem
   .download-button
     display flex
+    justify-content space-around
     a
       margin-left 60px 
       position relative

@@ -91,7 +91,8 @@ export default {
 
 .game-cover
   flex-basis 50%
-
+  img
+    width 100%
 .game-main
   flex-basis 50%
   padding-left 30px

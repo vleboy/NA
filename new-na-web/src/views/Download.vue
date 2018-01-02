@@ -8,6 +8,8 @@
 <style lang="stylus" scoped>
 .Download
   font-size 0
+  img
+    width 100%
 </style>
 
 <script>
