@@ -98,7 +98,7 @@ export default {
         let date = simpleTime(new Date(this.dataTime).getTime())
         this.debugList = []
         for(let item of this.debugListStorage) {
-          console.log(new Date(simpleTime(item.createdAt)).getTime(),date)
+//          console.log(new Date(simpleTime(item.createdAt)).getTime(),date)
           if(simpleTime(item.createdAt) == date){
             this.debugList.push(item)
           }
