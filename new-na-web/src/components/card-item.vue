@@ -39,6 +39,7 @@ export default {
     color #666666
   img 
     width 45%
+    min-height 45%
 @media (min-width: 768px) and (max-width: 1200px)
   .card-item
     h2
@@ -60,6 +61,7 @@ export default {
       margin-bottom 20px
     img
       width 100%
+      min-height 100%
 </style>
 
 
