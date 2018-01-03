@@ -36,10 +36,6 @@
       <div class="countinfo">
         <h4>消费信息</h4>
         <div class="countinfo-title">
-          <!--<span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(detailInfo.balance)}}</span></span>-->
-          <!--<el-button type="text" @click="getPlayerDetail">刷新</el-button>-->
-          <!--<el-button type="text" @click="openModal(0)" v-if="detailInfo.state!=0">存点</el-button>-->
-          <!--<el-button type="text" @click="openModal(1)" v-if="detailInfo.state!=0">提点</el-button>-->
           <el-col :span="24" style="margin-bottom: 28px">
             <el-radio-group v-model="companyInfo" @change="changeCompany()">
               <el-radio-button v-for="(item,index) of companyList" :key="index" :label="item.server">{{item.companyName}}</el-radio-button>
@@ -50,15 +46,6 @@
               <el-radio-button v-for="(item,index) of gameTypeList" :key="index" :label="item.code">{{item.name}}</el-radio-button>
             </el-radio-group>
           </el-col>
-          <!--<el-radio-group v-model="radioInfo" @change="changeRadio()"  style="margin-left: 1rem">-->
-            <!--<el-radio-button label="0">全部</el-radio-button>-->
-            <!--<el-radio-button label="10000">棋牌游戏</el-radio-button>-->
-            <!--<el-radio-button label="40000">电子游戏</el-radio-button>-->
-            <!--<el-radio-button label="30000">真人视讯</el-radio-button>-->
-            <!--<el-radio-button label="50000">街机游戏</el-radio-button>-->
-            <!--<el-radio-button label="-2">代理操作</el-radio-button>-->
-            <!--<el-radio-button label="-3">商城</el-radio-button>-->
-          <!--</el-radio-group>-->
         </div>
         <div class="countinfo-center">
           <el-col :span="12">
@@ -132,7 +119,7 @@
             </el-table-column>
           </el-table>
           <div style="text-align: right;margin:2rem 0">
-            <el-pagination layout="prev, pager, next, sizes, jumper" :total="detailInfo.list.length"
+            <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerDetailList.length"
                            :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"
                            :current-page.sync="currentPage">
             </el-pagination>
@@ -181,10 +168,6 @@ export default {
     })
   },
   mounted () {
-    // console.log(localStorage.playerName, 'localStorage.playerName')
-    if(!this.$store.state.variable.playerDetail.length){
-      this.getPlayerDetail(localStorage.playerName)
-    }
     this.companySelect()
   },
   data () {
@@ -204,9 +187,8 @@ export default {
       playerStorage: [], // 搜索暂存数据
       account: [],
       balanceInfo: {},
-      isShowRadio: false, // 切换数据来源
-      isGetSearch: false, // 判断是否从搜索点入
-      detailList: [],
+      playerDetailList: [],
+      playerDetailInfo: '',
       companyList: [],
       gameTypeList: [],
       companyInfo: '-1',
@@ -219,36 +201,31 @@ export default {
           code: '-3',
           name: '商城'
         }
+      ],
+      jumpUrl:[
+        '/agentPlayerList',
+        '/naAllGameReport',
+        '/naVedioGameReport',
+        '/naLiveGameReport',
+        '/naArcadeGameReport',
+        '/naMallReport',
+        '/ttgVedioGameReport',
+        '/comdetail'
       ]
     }
   },
   computed: {
-    playerDetailList () {
-      return JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
-    },
     detailInfo () {
-      if (!this.isShowRadio) {
-        return this.playerDetailList
-      } else {
-        return this.detailList
-      }
+      return this.playerDetailInfo
     },
     lastTime () {
-      return detailTime(this.$store.state.variable.playerDetail.createAt)
+      return detailTime(this.playerDetailInfo.createAt)
     },
     dataList () {
-      if (!this.isShowRadio) { // 主要是处理从组织架构跳转至玩家详细的逻辑
-        if (this.nowPage === 1) {
-          return this.playerDetailList.list.slice(0, this.nowSize)
-        } else {
-          return this.playerDetailList.list.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
-        }
+      if (this.nowPage === 1) {
+        return this.playerDetailList.slice(0, this.nowSize)
       } else {
-        if (this.nowPage === 1) {
-          return this.detailList.list.slice(0, this.nowSize)
-        } else {
-          return this.detailList.list.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
-        }
+        return this.playerDetailList.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
       }
     },
     optionOne_label () {
@@ -263,17 +240,9 @@ export default {
     }, // 管理员姓名
     allAmountFun () {
       this.allAmount = 0
-      if (!this.isShowRadio) {
-        for (let item of this.playerDetailList.list) {
-          if (item.kindId != '-2') {
-            this.allAmount = item.amount + this.allAmount
-          }
-        }
-      } else {
-        for (let item of this.detailList.list) {
-          if (item.kindId != '-2') {
-            this.allAmount = item.amount + this.allAmount
-          }
+      for (let item of this.playerDetailList) {
+        if (item.kindId != '-2') {
+          this.allAmount = item.amount + this.allAmount
         }
       }
       return this.allAmount
@@ -287,10 +256,9 @@ export default {
         return name
       }
     },
-    getPlayerDetail (param) {
+    getPlayerDetail () {
       this.initTime()
-//      this.amountDate = []
-      let name = localStorage.playerName || param || this.detailInfo.userName
+      let name = this.$store.state.variable.playerUserName || localStorage.playerName
       // this.$store.commit('startLoading')
       let [startTime, endTime] = this.amountDate
       startTime = new Date(startTime).getTime()
@@ -308,12 +276,8 @@ export default {
               type: 'error'
             })
           } else {
-            this.$store.commit({
-              type: 'playerDetail',
-              data: res.data
-            })
-//            this.detailList = res.data
-//            this.changeRadio()
+            this.playerDetailList = res.data.list
+            this.playerDetailInfo = res.data
           }
           // this.$store.commit('closeLoading')
         }
@@ -351,27 +315,6 @@ export default {
     },
     changeRadio () {
       this.getPlayerDetail()
-//      this.currentPage = 1;
-//      this.isShowRadio = true
-//      if (!this.isGetSearch) {
-//        this.amountDate = []
-//      }
-//      if(this.amountDate.length){
-//        this.searchAmount()
-//      } else {
-//        this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
-//      }
-//      this.amountDate = []
-//      if (this.radioInfo !== '0') {
-//        this.searchArray = []
-//        for (let item of this.detailList.list) {
-//          if (item.kindId === Number(this.radioInfo)) {
-//            this.searchArray.push(item)
-//          }
-//        }
-//        this.isGetSearch = false
-//        this.detailList.list = this.searchArray
-//      }
     },
     openPwdInput () {
       this.editPassword = !this.editPassword
@@ -451,37 +394,6 @@ export default {
     searchAmount () {
       this.currentPage = 1;
       this.getPlayerDetail()
-//      const [startDate, endDate] = this.amountDate
-//      this.currentPage = 1;
-//      this.isShowRadio = true
-//      this.isGetSearch = true
-//      if (!this.amountDate.length) return this.$message.error('请选择时间段')
-//      this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
-//      this.searchArray = []
-//      if(this.amountDate[0]==null || this.amountDate[1]==null) {
-//        this.radioInfo = '0'
-//        this.amountDate = []
-//        this.detailList.list = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail)).list
-//      } else {
-//        for (let item of this.detailList.list) {
-//          if (new Date(item.updateAt).setHours(0,0,0,0) >= new Date(startDate).getTime() &&
-//            (new Date(item.updateAt).setHours(0,0,0,0) <= new Date(endDate).getTime())) {
-//            this.searchArray.push(item)
-//          }
-//        }
-//
-//        // 这里是先选按钮 在过滤时间
-//        if (this.radioInfo!=='0') {
-//          this.detailList.list = []
-//          for (let item of this.searchArray) {
-//            if (item.kindId === Number(this.radioInfo)) {
-//              this.detailList.list.push(item)
-//            }
-//          }
-//        } else {
-//          this.detailList.list = this.searchArray
-//        }
-//      }
     },
     formatPoints (num) {
       return thousandFormatter(num)
@@ -573,9 +485,11 @@ export default {
   },
   watch: {
     '$route': function (_new, _old) {
-      if (_old.fullPath === '/agentPlayerList' || _old.fullPath ==='/vedioGameReport' || _old.fullPath ==='/liveGameReport'
-        || _old.fullPath ==='/comdetail') {
-        this.getPlayerDetail(localStorage.playerName)
+      for (let item of this.jumpUrl) {
+        if(item === _old.fullPath) {
+          this.getPlayerDetail()
+          break
+        }
       }
     }
   }

@@ -201,30 +201,12 @@
         // console.log(this.checkedArray, '被选中的多选')
       },
       playDetail (row) {
-        // this.$store.commit('startLoading')
         localStorage.setItem('playerName', row.userName)
-        invoke({
-          url: `${api.getPlayerDetail}?userName=${row.userName}`,
-          method: api.get
-        }).then(
-          result => {
-            const [err, res] = result
-            if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
-            } else {
-              this.playerDetail = res.data
-              this.$store.commit({
-                type: 'playerDetail',
-                data: this.playerDetail
-              })
-            }
-            this.$router.push('agentPlayerDetail')
-            // this.$store.commit('closeLoading')
-          }
-        )
+        this.$router.push('agentPlayerDetail')
+        this.$store.commit({
+          type: 'playerUserName',
+          data: row.userName
+        })
       },
       getPlayList () {
         this.$store.commit('startLoading')

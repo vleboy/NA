@@ -934,7 +934,7 @@ const actions = {
           createdAt: searchDate
         }
       } // 街机账单请求参数
-      
+
       let p1 = invoke({
         url: api.calcUserStat,
         method: api.post,
@@ -2966,8 +2966,11 @@ const mutations = {
 //
   playerGameType (state, payload) {
     state.variable.playerGameType = payload.data
-  } // 记录玩家游戏类别
+  }, // 记录玩家游戏类别
 
+  playerUserName (state, payload) {
+    state.variable.playerUserName = payload.data
+  } // 玩家用户名
 }
 
 export default new Vuex.Store({

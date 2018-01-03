@@ -46,7 +46,7 @@
             <span>{{points(flashNumber.nowBouns)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="代理总金额" prop="nowallBet" align="center">  
+        <el-table-column label="代理总金额" prop="nowallBet" align="center">
           <template scope="scope">
             <span :class="[Number(flashNumber.nowallBet) > 0 ? 'green' : 'red']">{{points(flashNumber.nowallBet)}}</span>
           </template>
@@ -110,7 +110,7 @@
             <span>{{points(scope.row.nowBouns)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="代理总金额" prop="nowallBet" align="center">  
+        <el-table-column label="代理总金额" prop="nowallBet" align="center">
           <template scope="scope">
             <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
           </template>
@@ -185,7 +185,7 @@
             <span>{{points(scope.row.nowBouns)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="会员总金额" prop="nowallBet" align="center">  
+        <el-table-column label="会员总金额" prop="nowallBet" align="center">
           <template scope="scope">
             <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
           </template>
@@ -568,30 +568,12 @@ export default {
       this.$store.dispatch('getnaLiveNowplayer')
     }, // 查看当前用户信息
     goPlayDetail (row) {
-      this.$store.commit('startLoading')
       localStorage.setItem('playerName', row)
-      invoke({
-        url: api.getPlayerDetail + '?' + 'userName' + '=' + row,
-        method: api.get
-      }).then(
-        result => {
-          const [err, res] = result
-          if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
-          } else {
-            let playerDetail = res.data
-            this.$store.commit({
-              type: 'playerDetail',
-              data: playerDetail
-            })
-          }
-          this.$router.push('agentPlayerDetail')
-          this.$store.commit('closeLoading')
-        }
-      )
+      this.$router.push('agentPlayerDetail')
+      this.$store.commit({
+        type: 'playerUserName',
+        data: row.userName
+      })
     }, // 跳转至玩家详情
     goBack () {
       var data = this.$store.state.variable.naLiveGameData.nowList.parent
