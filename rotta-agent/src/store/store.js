@@ -550,6 +550,299 @@ const actions = {
     commit('ON_TAB_CLICK', view)
   },
 
+  async getallNowchild (context) {
+    // 请求当前基本信息
+    let require = {
+      userId: ''
+    }
+    if (state.variable.allGameData.nowUserID) {
+      require.userId = state.variable.allGameData.nowUserID
+    } else {
+      require.userId = localStorage.loginId
+    }
+    let result1 = await invoke({
+      url: api.reportInfo,
+      method: api.post,
+      data: require
+    })
+    let user = result1[1].data.payload
+    if (user.userId == state.variable.allGameData.nowUserID || !state.variable.allGameData.nowUserID && user.userId == localStorage.loginId) {
+      let data = user
+      data.allbetCount = 0
+      data.allWinlose = 0
+      data.allSubmit = 0
+      data.naWinlose = 0
+      data.naSubmit = 0
+      data.ttgWinlose = 0
+      data.ttgSubmit = 0
+      context.commit({
+        type: 'recordallNowlist',
+        data: data
+      })
+    }
+    // 请求下级基本信息
+    var data = {
+      parent: ''
+    }
+    if (localStorage.loginSuffix == 'Agent') {
+      data.parent = '01'
+    } else {
+      data.parent = localStorage.loginId
+    }
+    if (state.variable.allGameData.nowUserID) {
+      data.parent = state.variable.allGameData.nowUserID
+    }
+    // 请求下级信息
+    let result2 = await invoke({
+      url: api.reportInfo,
+      method: api.post,
+      data: data
+    })
+    let child = result2[1].data.payload
+    context.commit('getWeek')
+    let searchDate = []
+    if (localStorage.searchTime) {
+      searchDate = JSON.parse(localStorage.searchTime)
+    } else {
+      searchDate = [state.startTime, state.endTime]
+    }
+    // 请求下级账单信息
+    context.commit('resetallchildInfo')
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
+    for (let item of child) {
+      item.allbetCount = 0
+      item.allWinlose = 0
+      item.allSubmit = 0
+      item.naWinlose = 0
+      item.naSubmit = 0
+      item.ttgWinlose = 0
+      item.ttgSubmit = 0
+      let na_live = {
+        gameType: 30000,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
+        }
+      } // NA真人账单请求参数
+      let na_vedio = {
+        gameType: 40000,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
+        }
+      } // NA棋牌账单请求参数
+      let na_arcade = {
+        gameType: 50000,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
+        }
+      } // NA街机账单请求参数
+      let ttg_vedio = {
+        gameType: 1010000,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
+        }
+      } // TTG电子游戏请求参数
+
+      let p1 = invoke({
+        url: api.calcUserStat,
+        method: api.post,
+        data: na_live
+      }) // NA真人账单数据
+
+      let p2 = invoke({
+        url: api.calcUserStat,
+        method: api.post,
+        data: na_vedio
+      }) // NA棋牌账单数据
+
+      let p3 = invoke({
+        url: api.calcUserStat,
+        method: api.post,
+        data: na_arcade
+      }) // NA街机账单数据
+
+      let p4 = invoke({
+        url: api.calcUserStat,
+        method: api.post,
+        data: ttg_vedio
+      }) // ttg电子账单数据
+
+      Promise.all([p1,p2,p3,p4]).then(result=>{
+        let result1 = result[0][1].data.payload[0]
+        if (result1 && result1.betCount > 0) {
+          item.allbetCount += result1.betCount
+          item.allWinlose += result1.winlose
+          item.naWinlose += result1.winlose
+          item.naSubmit += result1.winlose * (1 - item.rate / 100)
+          item.allSubmit += item.naSubmit
+        } // NA真人账单数据
+
+        let result2 = result[1][1].data.payload[0]
+        if (result2 && result2.betCount > 0) {
+          item.allbetCount += result2.betCount
+          item.allWinlose += result2.winlose
+          item.naWinlose += result2.winlose
+          item.naSubmit += result2.winlose * (1 - item.rate / 100)
+          item.allSubmit += item.naSubmit
+        } // NA棋牌账单数据
+
+        let result3 = result[2][1].data.payload[0]
+        if (result3 && result3.betCount > 0) {
+          item.allbetCount += result3.betCount
+          item.allWinlose += result3.winlose
+          item.naWinlose += result3.winlose
+          item.naSubmit += result3.winlose * (1 - item.rate / 100)
+          item.allSubmit += item.naSubmit
+        } // NA街机账单数据
+
+        let result4 = result[3][1].data.payload[0]
+        if (result4 && result4.betCount > 0) {
+          item.allbetCount += result4.betCount
+          item.allWinlose += result4.winlose
+          item.ttgWinlose += result4.winlose
+          item.ttgSubmit += result4.winlose * (1 - item.rate / 100)
+          item.allSubmit += item.ttgSubmit
+        } // ttg电子账单数据
+
+        if (item.allbetCount > 0) {
+          context.commit({
+            type: 'recordallchildInfo',
+            data: item
+          })
+        }
+      }) // 计算所有返回结果
+      context.commit('closeLoading')
+    }
+  }, // 公司所有游戏下级列表(综合计算上级)
+  async getallNowplayer (context) {
+    if (state.variable.allGameData.nowUserID == '01' || !state.variable.allGameData.nowUserID) {
+    } else {
+      // 请求所属玩家基本信息
+      var data = {
+        parentId: state.variable.allGameData.nowUserID
+      }
+      let result1 = await invoke({
+        url: api.reportPlayer,
+        method: api.post,
+        data: data
+      })
+      let player = result1[1].data.payload
+      // 请求所属玩家账单信息
+      context.commit('getWeek')
+      let searchDate = []
+      if (localStorage.searchTime) {
+        searchDate = JSON.parse(localStorage.searchTime)
+      } else {
+        searchDate = [state.startTime, state.endTime]
+      }
+      context.commit('resetallNowplayer')
+      if (player.length == 0) {
+        context.commit('closeLoading')
+      }
+      for (let item of player) {
+        item.allbetCount = 0
+        item.allWinlose = 0
+        item.naWinlose = 0
+        item.ttgWinlose = 0
+        let na_live = {
+          gameType: 30000,
+          gameUserNames: [item.userName],
+          query: {
+            createdAt: searchDate
+          }
+        } // 请求NA真人游戏玩家
+        let na_vedio = {
+          gameType: 40000,
+          gameUserNames: [item.userName],
+          query: {
+            createdAt: searchDate
+          }
+        } // 请求NA电子游戏玩家
+        let na_arcade = {
+          gameType: 50000,
+          gameUserNames: [item.userName],
+          query: {
+            createdAt: searchDate
+          }
+        } // 请求NA街机游戏玩家
+        let ttg_vedio = {
+          gameType: 1010000,
+          gameUserNames: [item.userName],
+          query: {
+            createdAt: searchDate
+          }
+        }
+
+        let p1 = invoke({
+          url: api.calcPlayerStat,
+          method: api.post,
+          data: na_live
+        }) // NA真人游戏玩家账单
+        let p2 = invoke({
+          url: api.calcPlayerStat,
+          method: api.post,
+          data: na_vedio
+        }) // NA电子游戏玩家账单
+        let p3 = invoke({
+          url: api.calcPlayerStat,
+          method: api.post,
+          data: na_arcade
+        }) // NA街机游戏玩家账单
+        let p4 = invoke({
+          url: api.calcPlayerStat,
+          method: api.post,
+          data: ttg_vedio
+        }) // TTG电子游戏玩家账单
+
+        Promise.all([p1,p2,p3,p4]).then(
+          result => {
+            let result1 = result[0][1].data.payload[0]
+            if (result1 && result1.betCount > 0) {
+              item.allbetCount += result1.betCount
+              item.allWinlose += result1.winlose
+              item.naWinlose += result1.winlose
+            } // NA真人游戏玩家账单
+            let result2 = result[1][1].data.payload[0]
+            if (result2 && result2.betCount > 0) {
+              item.allbetCount += result2.betCount
+              item.allWinlose += result2.winlose
+              item.naWinlose += result2.winlose
+            } // NA电子游戏玩家账单
+            let result3 = result[2][1].data.payload[0]
+            if (result3 && result3.betCount > 0) {
+              item.allbetCount += result3.betCount
+              item.allWinlose += result3.winlose
+              item.naWinlose += result3.winlose
+            } // NA街机游戏玩家账单
+            let result4 = result[3][1].data.payload[0]
+            if (result4 && result4.betCount > 0) {
+              item.allbetCount += result4.betCount
+              item.allWinlose += result4.winlose
+              item.ttgWinlose += result4.winlose
+            } // TTG电子游戏玩家账单
+
+            if (item.allbetCount > 0) {
+              context.commit({
+                type: 'recordallNowplayer',
+                data: item
+              })
+            }
+          }
+        )
+        context.commit('closeLoading')
+      }
+    }
+  }, // 公司所有游戏所属玩家列表(综合计算上级)
+
   async getnaAllNowchild (context) {
     // 请求当前基本信息
     let require = {
@@ -2427,6 +2720,44 @@ const mutations = {
     state.variable.activeIndex = null
     state.variable.tabIndex = null
   }, // 清空Tab标签
+
+// 公司所有游戏
+  recordallID (state, payload){
+    state.variable.allGameData.nowUserID = payload.data
+  }, // 记录公司所有游戏总报表当前用户ID
+
+  recordallNowlist (state, payload){
+    state.variable.allGameData.allNowlist = payload.data
+  }, // 记录公司所有游戏总报表当前列表
+
+  recordallchildInfo (state, payload){
+    state.variable.allGameData.allNowchild.push(payload.data)
+
+    state.variable.allGameData.allNowlist.naWinlose += payload.data.naWinlose
+    state.variable.allGameData.allNowlist.naSubmit += payload.data.naSubmit
+    state.variable.allGameData.allNowlist.ttgWinlose += payload.data.ttgWinlose
+    state.variable.allGameData.allNowlist.ttgSubmit += payload.data.ttgSubmit
+
+    state.variable.allGameData.allNowlist.allbetCount += payload.data.allbetCount
+    state.variable.allGameData.allNowlist.allWinlose += payload.data.allWinlose
+    state.variable.allGameData.allNowlist.allSubmit += payload.data.allSubmit
+  }, // 记录公司所有游戏总报表下级信息
+
+  resetallchildInfo (state, payload) {
+    state.variable.allGameData.allNowchild = []
+  }, // 重置公司所有游戏总报表下级信息
+
+  recordallNowplayer (state, payload) {
+    state.variable.allGameData.allNowplayer.push(payload.data)
+    state.variable.allGameData.allNowlist.allbetCount += payload.data.allbetCount
+    state.variable.allGameData.allNowlist.allWinlose += payload.data.allWinlose
+    state.variable.allGameData.allNowlist.naWinlose += payload.data.naWinlose
+    state.variable.allGameData.allNowlist.ttgWinlose += payload.data.ttgWinlose
+  }, // 记录公司所有游戏玩家账单
+
+  resetallNowplayer (state, payload) {
+    state.variable.allGameData.allNowplayer = []
+  }, // 重置公司所有游戏玩家账单
 
 // NA所有游戏
   recordnaAllID (state, payload){

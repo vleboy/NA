@@ -137,6 +137,13 @@ const variable = {
   activeIndex: null,
   tabIndex: null,
 
+  allGameData: {
+    allNowlist: [],
+    allNowchild: [],
+    allNowplayer: [],
+    nowUserID: ''
+  }, // 公司所有游戏报表数据
+
   naAllGameData: {
     allNowlist: [],
     allNowchild: [],

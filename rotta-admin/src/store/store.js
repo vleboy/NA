@@ -905,6 +905,7 @@ const actions = {
           item.allWinlose += result1.winlose
           item.naWinlose += result1.winlose
           item.naSubmit += result1.winlose * (1 - item.rate / 100)
+          item.allSubmit += item.naSubmit
         } // NA真人账单数据
 
         let result2 = result[1][1].data.payload[0]
@@ -913,6 +914,7 @@ const actions = {
           item.allWinlose += result2.winlose
           item.naWinlose += result2.winlose
           item.naSubmit += result2.winlose * (1 - item.rate / 100)
+          item.allSubmit += item.naSubmit
         } // NA棋牌账单数据
 
         let result3 = result[2][1].data.payload[0]
@@ -921,6 +923,7 @@ const actions = {
           item.allWinlose += result3.winlose
           item.naWinlose += result3.winlose
           item.naSubmit += result3.winlose * (1 - item.rate / 100)
+          item.allSubmit += item.naSubmit
         } // NA街机账单数据
 
         let result4 = result[3][1].data.payload[0]
@@ -929,6 +932,7 @@ const actions = {
           item.allWinlose += result4.winlose
           item.ttgWinlose += result4.winlose
           item.ttgSubmit += result4.winlose * (1 - item.rate / 100)
+          item.allSubmit += item.ttgSubmit
         } // ttg电子账单数据
 
         if (item.allbetCount > 0) {
@@ -3205,6 +3209,7 @@ const mutations = {
 
     state.variable.allGameData.allNowlist.allbetCount += payload.data.allbetCount
     state.variable.allGameData.allNowlist.allWinlose += payload.data.allWinlose
+    state.variable.allGameData.allNowlist.allSubmit += payload.data.allSubmit
   }, // 记录公司所有游戏总报表下级信息
 
   resetallchildInfo (state, payload) {

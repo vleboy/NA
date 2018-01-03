@@ -51,6 +51,8 @@ import PlayerRunningAccount from '@/view/player/playerRunningAccount' // 玩家�
 
 import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
 
+import allReport from '@/view/gameReport/allReport' // NA游戏总报表
+
 import naAllGameReport from '@/view/gameReport/na/naAllGame-report' // NA游戏总报表
 import naVedioGameReport from '@/view/gameReport/na/naVedioGame-report' // NA电子游戏报表
 import naLiveGameReport from '@/view/gameReport/na/naLiveGame-report' // NA真人游戏报表
@@ -237,6 +239,14 @@ const router = new Router({
       path: '/gameBackstage',
       name: '游戏后台',
       component: GameBackstage
+    },
+    {
+      path: '/allReport',
+      name: '公司输赢报表',
+      component: allReport,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/naAllGameReport',
