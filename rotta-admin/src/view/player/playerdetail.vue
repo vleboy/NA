@@ -29,15 +29,6 @@ $<template>
               <el-radio-button v-for="(item,index) of gameTypeList" :key="index" :label="item.code">{{item.name}}</el-radio-button>
             </el-radio-group>
           </el-col>
-          <!--<el-radio-group v-model="radioInfo" @change="changeRadio()">-->
-            <!--<el-radio-button label="0">全部</el-radio-button>-->
-            <!--<el-radio-button label="10000">棋牌游戏</el-radio-button>-->
-            <!--<el-radio-button label="40000">电子游戏</el-radio-button>-->
-            <!--<el-radio-button label="30000">真人视讯</el-radio-button>-->
-            <!--<el-radio-button label="50000">街机游戏</el-radio-button>-->
-            <!--<el-radio-button label="-1">中心钱包</el-radio-button>-->
-            <!--<el-radio-button label="-3">商城</el-radio-button>-->
-          <!--</el-radio-group>-->
         </div>
         <div class="countinfo-center">
           <el-col :span="12">
@@ -111,7 +102,7 @@ $<template>
             </el-table-column>
           </el-table>
           <div style="text-align: right;margin:2rem 0">
-            <el-pagination layout="prev, pager, next, sizes, jumper" :total="detailInfo.list.length"
+            <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerDetailList.length"
                            :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"
                            :current-page.sync="currentPage">
             </el-pagination>
@@ -147,9 +138,8 @@ export default {
       radioInfo: "",
       amountDate: [],
       allAmount: 0,
-      isShowRadio: false, // 切换数据来源
-      isGetSearch: false, // 判断是否从搜索点入
-      detailList: [],
+      playerDetailList: [],
+      playerDetailInfo: '',
       searchArray: [],
       pickerOptions: {
         shortcuts: [{
@@ -190,65 +180,47 @@ export default {
           code: '-3',
           name: '商城'
         }
+      ],
+      jumpUrl:[
+        '/playerlist',
+        '/naAllGameReport',
+        '/naVedioGameReport',
+        '/naLiveGameReport',
+        '/naArcadeGameReport',
+        '/naMallReport',
+        '/ttgVedioGameReport'
       ]
     }
   },
   mounted () {
-
-    if(!this.$store.state.variable.playerDetail.length){
-      this.getPlayerDetail(localStorage.playerName)
-    }
     this.companySelect()
   },
   computed: {
-    playerDetailList () {
-      return JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
-    },
     detailInfo () {
-      if (!this.isShowRadio) {
-        return this.playerDetailList
-      } else {
-        return this.detailList
-      }
+      return this.playerDetailInfo
     },
     lastTime () {
-      return detailTime(this.$store.state.variable.playerDetail.updateAt)
+      return detailTime(this.playerDetailInfo.updateAt)
     },
     dataList () {
-      if (!this.isShowRadio) { // 主要是处理从层级关系跳转至玩家详细的逻辑
-        if (this.nowPage === 1) {
-          return this.playerDetailList.list.slice(0, this.nowSize)
-        } else {
-          return this.playerDetailList.list.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
-        }
+      if (this.nowPage === 1) {
+        return this.playerDetailList.slice(0, this.nowSize)
       } else {
-        if (this.nowPage === 1) {
-          return this.detailList.list.slice(0, this.nowSize)
-        } else {
-          return this.detailList.list.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
-        }
+        return this.playerDetailList.slice(((this.nowPage - 1) * this.nowSize), this.nowSize * this.nowPage)
       }
     },
     userName () {
-      return formatUserName(this.$store.state.variable.playerDetail.userName || localStorage.playerName)
+      return formatUserName(this.playerDetailInfo.userName || this.$store.state.variable.playerUserName || localStorage.playerName)
     },
     allAmountFun () {
       this.allAmount = 0
-      if (!this.isShowRadio) {
-        for (let item of this.playerDetailList.list) {
-          if (item.kindId != '-1') {
-            this.allAmount = item.amount + this.allAmount
-          }
-        }
-      } else {
-        for (let item of this.detailList.list) {
-          if (item.kindId != '-1') {
-            this.allAmount = item.amount + this.allAmount
-          }
+      for (let item of this.playerDetailList) {
+        if (item.kindId != '-1') {
+          this.allAmount = item.amount + this.allAmount
         }
       }
       return this.allAmount
-    },
+    }
   },
   methods: {
     getAtime (row, col) {
@@ -270,29 +242,11 @@ export default {
       // console.log('当前是第:' + page + '页')
     },
     changeRadio () {
-      console.log(111)
       this.getPlayerDetail()
-//      if(this.amountDate.length){
-//        this.searchAmount()
-//      } else {
-//        this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
-//      }
-//      this.isShowRadio = true
-//
-//      if (this.radioInfo !== '0') {
-//        this.searchArray = []
-//        for (let item of this.detailList.list) {
-//          if (item.kindId === Number(this.radioInfo)) {
-//            this.searchArray.push(item)
-//          }
-//        }
-//        this.detailList.list = this.searchArray
-//        this.isGetSearch = false
-//      }
     },
-    getPlayerDetail (param) {
+    getPlayerDetail () {
       this.initTime()
-      let name = this.$store.state.variable.playerDetail.userName || param
+      let name = this.$store.state.variable.playerUserName || localStorage.playerName
       let [startTime, endTime] = this.amountDate
       startTime = new Date(startTime).getTime()
       endTime = new Date(endTime).getTime()
@@ -310,51 +264,16 @@ export default {
               type: 'error'
             })
           } else {
-            this.$store.commit({
-              type: 'playerDetail',
-              data: res.data
-            })
-//            this.detailList = res.data
-//            this.changeRadio()
+            this.playerDetailList = res.data.list
+            this.playerDetailInfo = res.data
           }
           // this.$store.commit('closeLoading')
         }
       )
     },
     searchAmount () {
-//      const [startDate, endDate] = this.amountDate
       this.currentPage = 1;
       this.getPlayerDetail()
-//      this.isShowRadio = true
-//      this.isGetSearch = true
-//      console.log(this.amountDate)
-//      if (!this.amountDate.length) return this.$message.error('请选择时间段')
-//      this.detailList = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail))
-//      this.searchArray = []
-//      if(this.amountDate[0]==null || this.amountDate[1]==null) {
-//        this.radioInfo = ""
-//        this.amountDate = []
-//        this.detailList.list = JSON.parse(JSON.stringify(this.$store.state.variable.playerDetail)).list
-//      } else {
-//        for (let item of this.detailList.list) {
-//          if (new Date(item.updateAt).setHours(0,0,0,0) >= new Date(startDate).getTime() &&
-//            (new Date(item.updateAt).setHours(0,0,0,0) <= new Date(endDate).getTime())) {
-//            this.searchArray.push(item)
-//          }
-//        }
-//
-//        // 这里是先选按钮 在过滤时间
-//        if (this.radioInfo!=='0') {
-//          this.detailList.list = []
-//          for (let item of this.searchArray) {
-//            if (item.kindId === Number(this.radioInfo)) {
-//              this.detailList.list.push(item)
-//            }
-//          }
-//        } else {
-//          this.detailList.list = this.searchArray
-//        }
-//      }
     },
     billDetail (row) {
       localStorage.setItem('playerBillId', row.billId)
@@ -420,6 +339,7 @@ export default {
               this.gameTypeList = this.gameTypeList.concat(this.specialNA)
             }
             if(this.radioInfo=='') {
+//              console.log('进入到这里了？')
               this.getPlayerDetail()
             }
             this.gameTypeList.unshift({
@@ -446,8 +366,11 @@ export default {
   },
   watch: {
     '$route': function (_new, _old) {
-      if (_old.fullPath === '/playerlist' || _old.fullPath ==='/vedioGameReport' || _old.fullPath ==='/liveGameReport') {
-        this.getPlayerDetail(localStorage.playerName)
+      for (let item of this.jumpUrl) {
+        if(item === _old.fullPath) {
+          this.getPlayerDetail()
+          break
+        }
       }
     }
   }

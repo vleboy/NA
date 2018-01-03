@@ -115,7 +115,7 @@ const variable = {
   pointsIndex: '', // 加减点发起方式
   pointsObject: {}, // 对详情页用户发起加减点操作的下级信息
 
-  allgames: [], // 游戏中该用户所有游戏 
+  allgames: [], // 游戏中该用户所有游戏
   companyList: [], // 游戏中心游戏运营商
   companyGame: [], // 游戏中心游戏运营商游戏
 
@@ -191,7 +191,8 @@ const variable = {
     nowUserID: ''
   }, // PT电子游戏报表数据
 
-  playerGameType: '' // 玩家玩的游戏类别（大类）
+  playerGameType: '', // 玩家玩的游戏类别（大类）
+  playerUserName: '' // 存储玩家用户名
 }
 
 export default {

@@ -465,29 +465,11 @@ export default {
     }, // 查看当前用户信息
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
-      this.$store.commit('startLoading')
-      invoke({
-        url: api.getPlayDetail + '?' + 'userName' + '=' + row,
-        method: api.get
-      }).then(
-        result => {
-        const [err, res] = result
-        if (err) {
-          this.$message({
-            message: err.msg,
-            type: 'error'
-          })
-        } else {
-          this.playerDetail = res.data
-          this.$store.commit({
-            type: 'playerDetail',
-            data: this.playerDetail
-          })
-        }
-        this.$router.push('playerdetail')
-        this.$store.commit('closeLoading')
-        }
-      )
+      this.$router.push('playerdetail')
+      this.$store.commit({
+        type: 'playerUserName',
+        data: row.userName
+      })
     }, // 跳转至玩家详情
     goBack () {
       var data = this.$store.state.variable.naVedioGameData.nowList.parent

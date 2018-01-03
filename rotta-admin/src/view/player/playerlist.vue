@@ -154,29 +154,11 @@
       },
       playDetail (row) {
         localStorage.setItem('playerName', row.userName)
-        // this.$store.commit('startLoading')
-        invoke({
-          url: api.getPlayDetail + '?' + 'userName' + '=' + row.userName,
-          method: api.get
-        }).then(
-          result => {
-            const [err, res] = result
-            if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
-            } else {
-              this.playerDetail = res.data
-              this.$store.commit({
-                type: 'playerDetail',
-                data: this.playerDetail
-              })
-            }
-            this.$router.push('playerdetail')
-            // this.$store.commit('closeLoading')
-          }
-        )
+        this.$router.push('playerdetail')
+        this.$store.commit({
+          type: 'playerUserName',
+          data: row.userName
+        })
       },
       getPlayList () {
         this.$store.commit('startLoading')

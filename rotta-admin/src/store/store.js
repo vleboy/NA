@@ -534,7 +534,7 @@ const actions = {
                     context.commit({
                       type: 'recordAllGameList',
                       data: list
-                    })             
+                    })
                   }
                 }
               )
@@ -871,7 +871,7 @@ const actions = {
           createdAt: searchDate
         }
       } // 街机账单请求参数
-      
+
       let p1 = invoke({
         url: api.calcUserStat,
         method: api.post,
@@ -984,7 +984,7 @@ const actions = {
             method: api.post,
             data: player_arcade
           }) // 街机游戏玩家账单
-          
+
           Promise.all([p1,p2,p3]).then(
             result => {
               let result1 = result[0][1].data.payload[0]
@@ -2991,7 +2991,11 @@ const mutations = {
 
   playerGameType (state, payload) {
     state.variable.playerGameType = payload.data
-  } // 记录玩家游戏类别
+  }, // 记录玩家游戏类别
+
+  playerUserName (state, payload) {
+    state.variable.playerUserName = payload.data
+  } // 玩家用户名
 }
 
 export default new Vuex.Store({
