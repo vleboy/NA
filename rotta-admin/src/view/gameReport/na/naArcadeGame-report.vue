@@ -449,7 +449,6 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      // this.$store.dispatch('getnaArcadeNowlist')
       this.$store.dispatch('getnaArcadeNowchild')
       this.$store.dispatch('getnaArcadeNowplayer')
     }, // 重置搜索条件

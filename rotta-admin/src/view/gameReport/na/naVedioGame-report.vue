@@ -432,7 +432,6 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        // this.$store.dispatch('getnaVedioNowlist')
         this.$store.dispatch('getnaVedioNowchild')
         this.$store.dispatch('getnaVedioNowplayer')
         let _self = this

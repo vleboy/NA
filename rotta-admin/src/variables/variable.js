@@ -149,6 +149,13 @@ const variable = {
   rightList: [], // 管理员权限列表
   allRight: [], //管理员所有权限
 
+  allGameData: {
+    allNowlist: [],
+    allNowchild: [],
+    allNowplayer: [],
+    nowUserID: ''
+  }, // 公司所有游戏报表数据
+
   naAllGameData: {
     allNowlist: [],
     allNowchild: [],
