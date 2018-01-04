@@ -32,7 +32,7 @@ export const invoke = async (cfg) => {
   } catch (e) {
     if (!e.response) {
       store.state.variable.isloading = false
-      Message.warning('您的网络不稳定,请重试')
+      Message.warning('您的网络不稳定,请刷新后重试')
     } else {
       if (e.response.data.err.msg && e.response.data.code != 90001) {
         store.state.variable.isloading = false
