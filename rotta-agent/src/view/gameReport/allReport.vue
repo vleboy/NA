@@ -559,7 +559,7 @@ export default {
             data: this.playerDetail
           })
         }
-        this.$router.push('playerdetail')
+        this.$router.push('agentPlayerDetail')
         this.$store.commit('closeLoading')
         }
       )
