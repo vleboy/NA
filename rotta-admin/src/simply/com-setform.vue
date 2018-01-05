@@ -394,7 +394,7 @@ export default {
     }
   },
   beforeDestroy () {
-    if (!this.setcomInfo.rate || !this.setcomInfo.points || !this.setcomInfo.msn || !this.setcomInfo.frontURL || !this.setcomInfo.username || !this.setcomInfo.password || !this.setcomInfo.adminName || !this.setcomInfo.adminEmail || !this.setcomInfo.adminContact || !!this.setcomInfo.sn) {
+    if (!this.setcomInfo.rate || !this.setcomInfo.points || !this.setcomInfo.msn || !this.setcomInfo.frontURL || !this.setcomInfo.username || !this.setcomInfo.password || !this.setcomInfo.adminName || !this.setcomInfo.adminEmail || !this.setcomInfo.adminContact || !this.setcomInfo.sn) {
     } else {
       let data = this.setcomInfo
       for (let outside of data.gameList) {
