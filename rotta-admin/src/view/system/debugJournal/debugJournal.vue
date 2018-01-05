@@ -21,6 +21,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="detail" label="详情" align="center"></el-table-column>
+        <el-table-column prop="inparams" label="参数" align="center"></el-table-column>
       </el-table>
     </div>
     <div class="-page">
@@ -69,7 +70,7 @@ export default {
         url: api.loginList,
         method: api.post,
         data: {
-          role: "1",
+          role: "2",
           type:"settlement",
           pageSize: 20,
           startKey: null
@@ -85,6 +86,7 @@ export default {
         } else {
           for(let item of res.data.payload.Items) {
             item.detail = JSON.stringify(item.detail)
+            item.inparams = JSON.stringify(item.inparams)
           }
           this.debugList = res.data.payload.Items
           this.debugListStorage = res.data.payload.Items
