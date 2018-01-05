@@ -916,6 +916,7 @@ const actions = {
       data.liveSubmit = 0
       data.arcadeWinlose = 0
       data.arcadeSubmit = 0
+      data.mallWinlose = 0
       context.commit({
         type: 'recordnaAllNowlist',
         data: data
@@ -942,6 +943,8 @@ const actions = {
     } else {
       searchDate = [state.startTime, state.endTime]
     }
+    // 请求下级账单信息
+    context.commit('resetnaAllchildInfo')
     for (let item of child) {
       item.betCount = 0
       item.allWinlose = 0
@@ -952,10 +955,6 @@ const actions = {
       item.liveSubmit = 0
       item.arcadeWinlose = 0
       item.arcadeSubmit = 0
-    }
-    // 请求下级账单信息
-    context.commit('resetnaAllchildInfo')
-    for (let item of child) {
       let child_live = {
         gameType: 30000,
         role: item.role,
@@ -1055,15 +1054,13 @@ const actions = {
       } else {
         searchDate = [state.startTime, state.endTime]
       }
+      context.commit('resetnaAllNowplayer')
       for (let item of player) {
         item.betCount = 0
         item.allWinlose = 0
         item.vedioWinlose = 0
         item.liveWinlose = 0
         item.arcadeWinlose = 0
-      }
-      context.commit('resetnaAllNowplayer')
-      for (let item of player) {
         let player_live = {
           gameType: 30000,
           gameUserNames: [item.userName],
@@ -1085,6 +1082,15 @@ const actions = {
             createdAt: searchDate
           }
         } // 请求街机游戏玩家
+        let naMall_data = {
+          gameType: -1,
+          kindId:-3,
+          role: item.role,
+          gameUserNames: [item.userName],
+          query: {
+            createdAt: searchDate
+          }
+        } // 请求NA玩家商城
 
         let p1 = invoke({
           url: api.calcPlayerStat,
@@ -1101,8 +1107,14 @@ const actions = {
           method: api.post,
           data: player_arcade
         }) // 街机游戏玩家账单
+        let p4 = invoke({
+          url: api.calcPlayerStat,
+          method: api.post,
+          data: player_arcade
+        }) // NA玩家商城账单
 
-        Promise.all([p1,p2,p3]).then(
+
+        Promise.all([p1,p2,p3,p4]).then(
           result => {
             let result1 = result[0][1].data.payload[0]
             if (result1 && result1.betCount > 0) {
@@ -1121,6 +1133,12 @@ const actions = {
               item.betCount += result3.betCount
               item.allWinlose += result3.winlose
               item.arcadeWinlose = result3.winlose
+            }
+            let result4 = result[3][1].data.payload[0]
+            if (result4 && result4.betCount > 0) {
+              item.betCount += result4.betCount
+              item.allWinlose += result4.winlose
+              item.mallWinlose = result4.winlose
             }
             if (item.betCount > 0) {
               context.commit({
@@ -3153,6 +3171,7 @@ const mutations = {
     state.variable.naAllGameData.allNowlist.liveWinlose += payload.data.liveWinlose
     state.variable.naAllGameData.allNowlist.vedioWinlose += payload.data.vedioWinlose
     state.variable.naAllGameData.allNowlist.arcadeWinlose += payload.data.arcadeWinlose
+    state.variable.naAllGameData.allNowlist.mallWinlose += payload.data.mallWinlose
     state.variable.naAllGameData.allNowlist.allSubmit = state.variable.naAllGameData.allNowlist.allWinlose * (1 - state.variable.naAllGameData.allNowlist.rate / 100)
     state.variable.naAllGameData.allNowlist.liveSubmit = state.variable.naAllGameData.allNowlist.liveWinlose * (1 - state.variable.naAllGameData.allNowlist.rate / 100)
     state.variable.naAllGameData.allNowlist.vedioSubmit = state.variable.naAllGameData.allNowlist.vedioWinlose * (1 - state.variable.naAllGameData.allNowlist.rate / 100)

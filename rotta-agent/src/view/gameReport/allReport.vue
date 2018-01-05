@@ -18,6 +18,11 @@
         </el-table-column>
         <el-table-column label="管理员账号" prop="username" align="center">
         </el-table-column>
+        <el-table-column label="代理占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate)}}%</span>
+          </template>
+        </el-table-column>
         <el-table-column label="交易次数" prop="allbetCount" align="center">
           <template scope="scope">
             <span>{{(flashNumber.allbetCount)}}</span>
@@ -58,7 +63,7 @@
             <span :class="[Number(flashNumber.saWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="center">
+        <el-table-column label="SA游戏(代理交公司)" prop="saSubmit" align="center">
           <template scope="scope">
             <span>{{(flashNumber.saSubmit)}}</span>
           </template>
@@ -78,6 +83,11 @@
         <el-table-column label="管理员账号" prop="username" align="center">
           <template scope="scope">
             <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.username}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate)}}%</span>
           </template>
         </el-table-column>
         <el-table-column label="交易次数" prop="allbetCount" align="center">
@@ -117,7 +127,7 @@
             <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="center">
+        <el-table-column label="SA游戏(代理交公司)" prop="saSubmit" align="center">
           <template scope="scope">
             <span>{{(scope.row.saSubmit)}}</span>
           </template>

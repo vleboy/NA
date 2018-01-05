@@ -18,6 +18,11 @@
         </el-table-column>
         <el-table-column label="管理员账号" prop="username" align="center">
         </el-table-column>
+        <el-table-column label="抽成比" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{scope.row.rate}}%</span>
+          </template>
+        </el-table-column>
         <el-table-column label="交易次数" prop="allbetCount" align="center">
           <template scope="scope">
             <span>{{(flashNumber.allbetCount)}}</span>
@@ -78,6 +83,11 @@
         <el-table-column label="管理员账号" prop="username" align="center">
           <template scope="scope">
             <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.username}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="抽成比" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{scope.row.rate}}%</span>
           </template>
         </el-table-column>
         <el-table-column label="交易次数" prop="allbetCount" align="center">

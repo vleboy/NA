@@ -40,7 +40,7 @@
                             </el-col>
                             <el-col :span="7">
                                 <div class="">
-                                    <el-form-item label="商户标识">
+                                    <el-form-item label="标识">
                                         {{comdetail.suffix}}
                                     </el-form-item>
                                 </div>
@@ -171,7 +171,7 @@
                                     </el-form-item>
                                 </div>
                             </el-col>
-                             <el-col :span="1">
+                            <el-col :span="1">
                                 <span class="hidden">1</span>
                             </el-col>
                             <el-col :span="7">
@@ -193,6 +193,16 @@
                                     </el-form-item>
                                     <el-form-item label="商户白名单" prop="loginWhiteList" v-show="disable == false">
                                         <el-input autosize v-model="comdetail.loginWhiteList"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
+                                    <el-form-item label="商户标识">
+                                        {{comdetail.sn}}
                                     </el-form-item>
                                 </div>
                             </el-col>
