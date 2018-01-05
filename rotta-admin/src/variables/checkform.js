@@ -14,6 +14,7 @@ const checkform = {
   userEmail: false,
   userContact: false,
   msn: false,
+  sn: false,
   loginWhitelist: true,
   // frontURL: false,
   // moneytURL: false,

@@ -146,12 +146,14 @@ export const checkSuffix = (rule, value, callback) => {
   } else {
     if (store.state.variable.nowIndex === 'outcreate') {
       var manager = {
-        role: '10',
-        suffix: value,
-        username: '0'
+        suffix:{
+          role: '10',
+          suffix: value,
+          username: '0'
+        }
       }
       invoke({
-        url: api.checkUserExist,
+        url: api.checkExist,
         method: api.post,
         data: manager
       }).then(
@@ -173,12 +175,14 @@ export const checkSuffix = (rule, value, callback) => {
       )
     } else if (store.state.variable.nowIndex === 'comcreate') {
       var merchant = {
-        role: '100',
-        suffix: value,
-        username: '0'
+        suffix: {
+          role: '100',
+          suffix: value,
+          username: '0'
+        }
       }
       invoke({
-        url: api.checkUserExist,
+        url: api.checkExist,
         method: api.post,
         data: merchant
       }).then(
@@ -216,18 +220,20 @@ export const checkDisplayname = (rule, value, callback) => {
   } else {
     store.state.checkform.displayName = false
     var data = {
-      role: '',
-      displayName: ''
+      nick: {
+        role: '',
+        displayName: ''
+      }
     }
     if (store.state.variable.nowIndex === 'outcreate') {
-      data.role = '10'
-      data.displayName = value
+      data.nick.role = '10'
+      data.nick.displayName = value
     } else if (store.state.variable.nowIndex === 'comcreate') {
-      data.role = '100'
-      data.displayName = value
+      data.nick.role = '100'
+      data.nick.displayName = value
     }
     invoke({
-      url: api.checkDisplayName,
+      url: api.checkExist,
       method: api.post,
       data: data
     }).then(
@@ -249,6 +255,47 @@ export const checkDisplayname = (rule, value, callback) => {
     )
   }
 } // 验证昵称
+
+export const checksn = (rule, value, callback) => {
+  var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
+  if (value === '') {
+    callback(new Error('请输入商户标识'))
+    store.state.checkform.sn = false
+  } else if (value.length < 3 || value.length > 5) {
+    callback(new Error('商户标识的长度应在3-5位之间'))
+    store.state.checkform.sn = false
+  } else if (!nick.exec(value)) {
+    callback(new Error('商户标识只能输入中文、英文、数字'))
+    store.state.checkform.sn = false
+  } else {
+    store.state.checkform.sn = false
+    var data = {
+      sn: {
+        sn: value
+      }
+    }
+    invoke({
+      url: api.checkExist,
+      method: api.post,
+      data: data
+    }).then(
+      result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var snStatus = ret.data.payload
+          if (snStatus === false) {
+            callback(new Error('该商户标识已存在'))
+            store.state.checkform.sn = false
+          } else {
+            store.state.checkform.sn = true
+            callback()
+          }
+        }
+      }
+    )
+  }
+} // 验证sn
 
 export const checkEmail = (rule, value, callback) => {
   var email = new RegExp(/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/)
