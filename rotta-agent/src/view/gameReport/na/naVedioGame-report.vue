@@ -489,7 +489,11 @@ export default {
       return '代理'
     }, // 格式化用户类型
     points (data) {
-      return formatPoints('' + data)
+      if (data && !isNaN(Number(data).toFixed(2))) {
+        return formatPoints(Number(data).toFixed(2))
+      } else {
+        return '0.00'
+      }
     }, // 格式化点数
     formatFix (data) {
       return isNaN(data.toFixed(2)) ? '0.00' : data.toFixed(2)
