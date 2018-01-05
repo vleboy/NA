@@ -53,6 +53,16 @@
             <span>{{(flashNumber.ttgSubmit)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="center">
+          <template scope="scope">
+            <span :class="[Number(flashNumber.saWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.saWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="center">
+          <template scope="scope">
+            <span>{{(flashNumber.saSubmit)}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
 
@@ -102,6 +112,16 @@
             <span>{{formatToFix(scope.row.ttgSubmit)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{(scope.row.saWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.saSubmit)}}</span>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="page">
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.allGameData.allNowchild.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
@@ -137,6 +157,8 @@
         <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="center">
         </el-table-column>
         <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="center">
+        </el-table-column>
+        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="center">
         </el-table-column>
       </el-table>
       <div class="page">
@@ -199,7 +221,9 @@ export default {
         naWinlose: 0,
         naSubmit: 0,
         ttgWinlose: 0,
-        ttgSubmit: 0
+        ttgSubmit: 0,
+        saWinlose: 0,
+        saSubmit: 0,
       },
       playerData: '',
       loading: false,
@@ -319,6 +343,34 @@ export default {
           vm.flashNumber.ttgSubmit = this._object.tweeningNumber.toFixed(2)
         }).start()
       animate()
+    },
+    'rollNumber.saWinlose' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.saWinlose = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.saSubmit' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.saSubmit = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
     }
   },
   methods: {
@@ -415,6 +467,7 @@ export default {
                 item.allWinlose = 0
                 item.naWinlose = 0
                 item.ttgWinlose = 0
+                item.saWinlose = 0
                 let na_live = {
                   gameType: 30000,
                   gameUserNames: [item.userName],
@@ -443,6 +496,13 @@ export default {
                     createdAt: searchDate
                   }
                 }
+                let sa_live = {
+                  gameType: 1060000,
+                  gameUserNames: [item.userName],
+                  query: {
+                    createdAt: searchDate
+                  }
+                } // 请求SA真人游戏玩家
 
                 let p1 = invoke({
                   url: api.calcPlayerStat,
@@ -464,8 +524,13 @@ export default {
                   method: api.post,
                   data: ttg_vedio
                 }) // TTG电子游戏玩家账单
+                let p5 = invoke({
+                  url: api.calcPlayerStat,
+                  method: api.post,
+                  data: sa_live
+                }) // SA真人游戏玩家账单
 
-                Promise.all([p1,p2,p3,p4]).then(
+                Promise.all([p1,p2,p3,p4,p5]).then(
                   result => {
                     let result1 = result[0][1].data.payload[0]
                     if (result1 && result1.betCount > 0) {
@@ -491,6 +556,12 @@ export default {
                       item.allWinlose += result4.winlose
                       item.ttgWinlose += result4.winlose
                     } // TTG电子游戏玩家账单
+                    let result5 = result[4][1].data.payload[0]
+                    if (result5 && result5.betCount > 0) {
+                      item.allbetCount += result5.betCount
+                      item.allWinlose += result5.winlose
+                      item.saWinlose += result5.winlose
+                    } // NA真人游戏玩家账单
 
                     if (item.allbetCount > 0) {
                       this.$store.commit({
@@ -500,6 +571,7 @@ export default {
                     }
                   }
                 )
+                this.$store.commit('closeLoading')
               }
               this.playerLoading = false
             }
@@ -516,6 +588,8 @@ export default {
       this.rollNumber.naSubmit = 0
       this.rollNumber.ttgWinlose = 0
       this.rollNumber.ttgSubmi = 0
+      this.rollNumber.saWinlose = 0
+      this.rollNumber.saSubmi = 0
       this.$store.dispatch('getallNowplayer')
     }, // 重置玩家搜索
     checkUser (data) {

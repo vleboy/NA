@@ -800,6 +800,8 @@ const actions = {
       data.naSubmit = 0
       data.ttgWinlose = 0
       data.ttgSubmit = 0
+      data.saWinlose = 0
+      data.saSubmit = 0
       context.commit({
         type: 'recordallNowlist',
         data: data
@@ -841,6 +843,8 @@ const actions = {
       item.naSubmit = 0
       item.ttgWinlose = 0
       item.ttgSubmit = 0
+      item.saWinlose = 0
+      item.saSubmit = 0
       let na_live = {
         gameType: 30000,
         role: item.role,
@@ -873,6 +877,14 @@ const actions = {
           createdAt: searchDate
         }
       } // TTG电子游戏请求参数
+      let sa_live = {
+        gameType: 1060000,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
+        }
+      } // SA真人账单请求参数
 
       let p1 = invoke({
         url: api.calcUserStat,
@@ -898,7 +910,13 @@ const actions = {
         data: ttg_vedio
       }) // ttg电子账单数据
 
-      Promise.all([p1,p2,p3,p4]).then(result=>{
+      let p5 = invoke({
+        url: api.calcUserStat,
+        method: api.post,
+        data: sa_live
+      }) // SA真人账单数据
+
+      Promise.all([p1,p2,p3,p4,p5]).then(result=>{
         let result1 = result[0][1].data.payload[0]
         if (result1 && result1.betCount > 0) {
           item.allbetCount += result1.betCount
@@ -934,6 +952,15 @@ const actions = {
           item.ttgSubmit += result4.winlose * (1 - item.rate / 100)
           item.allSubmit += item.ttgSubmit
         } // ttg电子账单数据
+
+        let result5 = result[0][1].data.payload[0]
+        if (result5 && result5.betCount > 0) {
+          item.allbetCount += result5.betCount
+          item.allWinlose += result5.winlose
+          item.saWinlose += result5.winlose
+          item.saSubmit += result5.winlose * (1 - item.rate / 100)
+          item.allSubmit += item.saSubmit
+        } // SA真人账单数据
 
         if (item.allbetCount > 0) {
           context.commit({
@@ -971,6 +998,7 @@ const actions = {
           item.allWinlose = 0
           item.naWinlose = 0
           item.ttgWinlose = 0
+          item.saWinlose = 0
           let na_live = {
             gameType: 30000,
             gameUserNames: [item.userName],
@@ -999,6 +1027,13 @@ const actions = {
               createdAt: searchDate
             }
           }
+          let sa_live = {
+            gameType: 1060000,
+            gameUserNames: [item.userName],
+            query: {
+              createdAt: searchDate
+            }
+          } // 请求SA真人游戏玩家
 
           let p1 = invoke({
             url: api.calcPlayerStat,
@@ -1020,8 +1055,13 @@ const actions = {
             method: api.post,
             data: ttg_vedio
           }) // TTG电子游戏玩家账单
+          let p5 = invoke({
+            url: api.calcPlayerStat,
+            method: api.post,
+            data: sa_live
+          }) // SA真人游戏玩家账单
 
-          Promise.all([p1,p2,p3,p4]).then(
+          Promise.all([p1,p2,p3,p4,p5]).then(
             result => {
               let result1 = result[0][1].data.payload[0]
               if (result1 && result1.betCount > 0) {
@@ -1047,6 +1087,12 @@ const actions = {
                 item.allWinlose += result4.winlose
                 item.ttgWinlose += result4.winlose
               } // TTG电子游戏玩家账单
+              let result5 = result[4][1].data.payload[0]
+              if (result5 && result5.betCount > 0) {
+                item.allbetCount += result5.betCount
+                item.allWinlose += result5.winlose
+                item.saWinlose += result5.winlose
+              } // NA真人游戏玩家账单
 
               if (item.allbetCount > 0) {
                 context.commit({
@@ -1084,6 +1130,7 @@ const actions = {
         item.allWinlose = 0
         item.naWinlose = 0
         item.ttgWinlose = 0
+        item.saWinlose = 0
         let na_live = {
           gameType: 30000,
           gameUserNames: [item.userName],
@@ -1112,6 +1159,13 @@ const actions = {
             createdAt: searchDate
           }
         }
+        let sa_live = {
+          gameType: 1060000,
+          gameUserNames: [item.userName],
+          query: {
+            createdAt: searchDate
+          }
+        } // 请求SA真人游戏玩家
 
         let p1 = invoke({
           url: api.calcPlayerStat,
@@ -1133,8 +1187,13 @@ const actions = {
           method: api.post,
           data: ttg_vedio
         }) // TTG电子游戏玩家账单
+        let p5 = invoke({
+          url: api.calcPlayerStat,
+          method: api.post,
+          data: sa_live
+        }) // SA真人游戏玩家账单
 
-        Promise.all([p1,p2,p3,p4]).then(
+        Promise.all([p1,p2,p3,p4,p5]).then(
           result => {
             let result1 = result[0][1].data.payload[0]
             if (result1 && result1.betCount > 0) {
@@ -1160,6 +1219,12 @@ const actions = {
               item.allWinlose += result4.winlose
               item.ttgWinlose += result4.winlose
             } // TTG电子游戏玩家账单
+            let result5 = result[4][1].data.payload[0]
+            if (result5 && result5.betCount > 0) {
+              item.allbetCount += result5.betCount
+              item.allWinlose += result5.winlose
+              item.saWinlose += result5.winlose
+            } // NA真人游戏玩家账单
 
             if (item.allbetCount > 0) {
               context.commit({
@@ -2542,6 +2607,210 @@ const actions = {
       }
     }
   }, // TTG电子游戏所属玩家列表(综合计算上级)
+
+  async getsaLiveNowchild (context) {
+    // 请求当前用户基本信息
+    let nowdata = {
+      userId: ''
+    }
+    if (state.variable.saLiveGameData.nowUserID) {
+      nowdata.userId = state.variable.saLiveGameData.nowUserID
+    } else {
+      nowdata.userId = localStorage.loginId
+    }
+    // 请求基本信息
+    let result1 = await invoke({
+      url: api.reportInfo,
+      method: api.post,
+      data: nowdata
+    })
+    let user = result1[1].data.payload
+    if (user.userId == state.variable.saLiveGameData.nowUserID || !state.variable.saLiveGameData.nowUserID && user.userId == localStorage.loginId) {
+      context.commit({
+        type: 'recordsaLiveNowlist',
+        data: user
+      })
+    }
+    // 请求下级信息
+    var data = {
+      parent: ''
+    }
+    if (localStorage.loginRole == '1') {
+      data.parent = '01'
+    } else {
+      data.parent = localStorage.loginId
+    }
+    if (state.variable.saLiveGameData.nowUserID) {
+      data.parent = state.variable.saLiveGameData.nowUserID
+    }
+    let result2 = await invoke({
+      url: api.reportInfo,
+      method: api.post,
+      data: data
+    })
+    let child = result2[1].data.payload
+    // 请求下级账单信息
+    context.commit('getWeek')
+    let searchDate = []
+    if (localStorage.searchTime) {
+      searchDate = JSON.parse(localStorage.searchTime)
+    } else {
+      searchDate = [state.startTime, state.endTime]
+    }
+    context.commit('resetsaLiveNowchild')
+    for (let item of child) {
+      let child_data = {
+        gameType: 1060000,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
+        }
+      }
+      invoke({
+        url: api.calcUserStat,
+        method: api.post,
+        data: child_data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            context.commit('closeLoading')
+            var data = ret.data.payload[0]
+            if (data) {
+              if (item.userId == data.userId) {
+                item.bet = data.bet
+                item.betCount = data.betCount
+                item.winlose = data.winlose
+                item.mixAmount = data.mixAmount
+                item.submit = data.winlose * (1 - item.rate/100)
+                item.winloseRate = data.winlose / data.mixAmount
+                context.commit({
+                  type: 'recordsaLiveNowchild',
+                  data: item
+                })
+              }
+            }
+          }
+        }
+      )
+    }
+  }, // SA真人游戏下级列表
+  async getsaLiveNowplayer (context) {
+    if (state.variable.saLiveGameData.nowUserID == '01' || !state.variable.saLiveGameData.nowUserID) {
+      if (localStorage.loginRole == '100') {
+        var data = {
+          parentId: localStorage.loginId
+        }
+        let result1 = await invoke({
+          url: api.reportPlayer,
+          method: api.post,
+          data: data
+        })
+        let player = result1[1].data.payload
+        // 请求所属玩家账单信息
+        context.commit('getWeek')
+        let searchDate = []
+        if (localStorage.searchTime) {
+          searchDate = JSON.parse(localStorage.searchTime)
+        } else {
+          searchDate = [state.startTime, state.endTime]
+        }
+        context.commit('resetsaLiveNowplayer')
+        for (let item of player) {
+          let player_data = {
+            gameType: 1060000,
+            gameUserNames: [item.userName],
+            query: {
+              createdAt: searchDate
+            }
+          }
+          invoke({
+            url: api.calcPlayerStat,
+            method: api.post,
+            data: player_data
+          }).then(
+            result => {
+              const [err, ret] = result
+              if (err) {
+              } else {
+                context.commit('closeLoading')
+                var data = ret.data.payload[0]
+                if (data) {
+                  if (item.userName == data.userName) {
+                    item.bet = data.bet
+                    item.betCount = data.betCount
+                    item.winlose = data.winlose
+                    item.mixAmount = data.mixAmount
+                    context.commit({
+                      type: 'recordsaLiveNowplayer',
+                      data: item
+                    })
+                  }
+                }
+              }
+            }
+          )
+        }
+      }
+    } else {
+      // 请求所属玩家基本信息
+      var data = {
+        parentId: state.variable.saLiveGameData.nowUserID
+      }
+      let result1 = await invoke({
+        url: api.reportPlayer,
+        method: api.post,
+        data: data
+      })
+      let player = result1[1].data.payload
+      // 请求所属玩家账单信息
+      context.commit('getWeek')
+      let searchDate = []
+      if (localStorage.searchTime) {
+        searchDate = JSON.parse(localStorage.searchTime)
+      } else {
+        searchDate = [state.startTime, state.endTime]
+      }
+      context.commit('resetsaLiveNowplayer')
+      for (let item of player) {
+        let player_data = {
+          gameType: 1060000,
+          gameUserNames: [item.userName],
+          query: {
+            createdAt: searchDate
+          }
+        }
+        invoke({
+          url: api.calcPlayerStat,
+          method: api.post,
+          data: player_data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              context.commit('closeLoading')
+              var data = ret.data.payload[0]
+              if (data) {
+                if (item.userName == data.userName) {
+                  item.bet = data.bet
+                  item.betCount = data.betCount
+                  item.winlose = data.winlose
+                  item.mixAmount = data.mixAmount
+                  context.commit({
+                    type: 'recordsaLiveNowplayer',
+                    data: item
+                  })
+                }
+              }
+            }
+          }
+        )
+      }
+    }
+  }, // SA真人游戏所属玩家列表
 }
 
 const mutations = {
@@ -3204,8 +3473,12 @@ const mutations = {
 
     state.variable.allGameData.allNowlist.naWinlose += payload.data.naWinlose
     state.variable.allGameData.allNowlist.naSubmit += payload.data.naSubmit
+
     state.variable.allGameData.allNowlist.ttgWinlose += payload.data.ttgWinlose
     state.variable.allGameData.allNowlist.ttgSubmit += payload.data.ttgSubmit
+
+    state.variable.allGameData.allNowlist.saWinlose += payload.data.saWinlose
+    state.variable.allGameData.allNowlist.saSubmit += payload.data.saSubmit
 
     state.variable.allGameData.allNowlist.allbetCount += payload.data.allbetCount
     state.variable.allGameData.allNowlist.allWinlose += payload.data.allWinlose
@@ -3218,10 +3491,15 @@ const mutations = {
 
   recordallNowplayer (state, payload) {
     state.variable.allGameData.allNowplayer.push(payload.data)
+
     state.variable.allGameData.allNowlist.allbetCount += payload.data.allbetCount
     state.variable.allGameData.allNowlist.allWinlose += payload.data.allWinlose
+    
     state.variable.allGameData.allNowlist.naWinlose += payload.data.naWinlose
+
     state.variable.allGameData.allNowlist.ttgWinlose += payload.data.ttgWinlose
+
+    state.variable.allGameData.allNowlist.saWinlose += payload.data.saWinlose
   }, // 记录公司所有游戏玩家账单
 
   resetallNowplayer (state, payload) {
@@ -3426,6 +3704,40 @@ const mutations = {
   recordttgVedioID (state, payload) {
     state.variable.ttgVedioGameData.nowUserID = payload.data
   }, // 记录TTG电子游戏总报表用户ID
+
+// SA真人游戏
+  recordsaLiveNowlist (state, payload){
+    state.variable.saLiveGameData.nowList = payload.data
+  }, // 记录SA真人游戏总报表当前列表
+
+  recordsaLiveNowchild (state, payload){
+    state.variable.saLiveGameData.nowChildList.push(payload.data)
+    state.variable.saLiveGameData.nowList.bet += payload.data.bet
+    state.variable.saLiveGameData.nowList.betCount += payload.data.betCount
+    state.variable.saLiveGameData.nowList.winlose += payload.data.winlose
+    state.variable.saLiveGameData.nowList.mixAmount += payload.data.mixAmount
+  }, // 记录SA真人游戏总报表下级列表
+
+  resetsaLiveNowchild (state, payload){
+    state.variable.saLiveGameData.nowChildList = []
+  }, // 初始化SA真人游戏总报表下级列表
+
+  recordsaLiveNowplayer (state, payload){
+    state.variable.saLiveGameData.nowPlayerlist.push(payload.data)
+    state.variable.saLiveGameData.nowList.bet += payload.data.bet
+    state.variable.saLiveGameData.nowList.betCount += payload.data.betCount
+    state.variable.saLiveGameData.nowList.winlose += payload.data.winlose
+    state.variable.saLiveGameData.nowList.mixAmount += payload.data.mixAmount
+  }, // 记录SA真人游戏总报表玩家列表
+
+  resetsaLiveNowplayer (state, payload){
+    state.variable.saLiveGameData.nowPlayerlist = []
+  }, // 初始化SA真人游戏总报表玩家列表
+
+  recordsaLiveID (state, payload) {
+    state.variable.saLiveGameData.nowUserID = payload.data
+  }, // 记录SA真人游戏总报表用户ID
+
 
 //
   playerGameType (state, payload) {
