@@ -955,6 +955,7 @@ const actions = {
       item.liveSubmit = 0
       item.arcadeWinlose = 0
       item.arcadeSubmit = 0
+      item.mallWinlose = 0
       let child_live = {
         gameType: 30000,
         role: item.role,
@@ -979,6 +980,15 @@ const actions = {
           createdAt: searchDate
         }
       } // 街机账单请求参数
+      let mall_data = {
+        gameType: -1,
+        kindId:-3,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
+        }
+      } // NA商城账单请求参数
 
       let p1 = invoke({
         url: api.calcUserStat,
@@ -998,7 +1008,13 @@ const actions = {
         data: child_arcade
       }) // 街机账单数据
 
-      Promise.all([p1,p2,p3]).then(result=>{
+      let p4 = invoke({
+        url: api.calcUserStat,
+        method: api.post,
+        data: mall_data
+      }) // NA商城账单数据
+
+      Promise.all([p1,p2,p3,p4]).then(result=>{
         let result1 = result[0][1].data.payload[0]
         if (result1 && result1.betCount > 0) {
           item.betCount += result1.betCount
@@ -1023,6 +1039,13 @@ const actions = {
           item.arcadeWinlose = result3.winlose
           item.arcadeSubmit = result3.winlose * (1 - item.rate / 100)
         }
+        let result4 = result[3][1].data.payload[0]
+        if (result4 && result4.betCount > 0) {
+          item.betCount += result4.betCount
+          item.allWinlose += result4.winlose
+          item.mallWinlose = result4.winlose
+        }
+
         if (item.betCount > 0) {
           context.commit({
             type: 'recordnaAllchildInfo',
@@ -3158,6 +3181,7 @@ const mutations = {
     state.variable.naAllGameData.allNowlist.vedioSubmit += payload.data.vedioSubmit
     state.variable.naAllGameData.allNowlist.arcadeWinlose += payload.data.arcadeWinlose
     state.variable.naAllGameData.allNowlist.arcadeSubmit += payload.data.arcadeSubmit
+    state.variable.naAllGameData.allNowlist.mallWinlose += payload.data.mallWinlose
   }, // 记录NA所有游戏总报表下级信息
 
   resetnaAllchildInfo (state, payload) {

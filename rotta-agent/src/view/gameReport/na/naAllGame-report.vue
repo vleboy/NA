@@ -70,7 +70,7 @@
         </el-table-column>
         <el-table-column label="NA商城(输赢金额)" prop="mallWinlose" align="center">
           <template scope="scope">
-            <span>{{(flashNumber.mallWinlose)}}</span>
+            <span :class="[Number(flashNumber.mallWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.mallWinlose)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -135,6 +135,11 @@
         <el-table-column label="NA街机游戏(代理交公司)" prop="arcadeSubmit" align="center">
           <template scope="scope">
             <span>{{formatToFix(scope.row.arcadeSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA商城(输赢金额)" prop="mallWinlose" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.mallWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.mallWinlose)}}</span>
           </template>
         </el-table-column>
       </el-table>

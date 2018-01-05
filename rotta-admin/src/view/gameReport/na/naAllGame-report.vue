@@ -137,6 +137,11 @@
             <span>{{formatToFix(scope.row.arcadeSubmit)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="NA商城(输赢金额)" prop="mallWinlose" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.mallWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.mallWinlose)}}</span>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="page">
         <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naAllGameData.allNowchild.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>

@@ -3,6 +3,9 @@
   <div class="com-createform">
     <h2 class="title">基本信息</h2>
     <el-form :model="merchantInfo" ref="merchantInfo" :rules="rules" label-width="140px" label-position="right">
+          <el-form-item label="代理标识" prop="sn">
+            <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中、英文或数字"></el-input>
+          </el-form-item>
           <el-form-item label="代理用户名" prop="username">
             <el-input v-model="merchantInfo.username" class="input" placeholder="5~16位,只能包含英文或数字"></el-input>
           </el-form-item>
@@ -36,7 +39,7 @@
 import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
 import Createbtn from '@/components/createbtn'
-import { checkUsername, checkPassword, checkDisplayname, checkContractPeriod } from '@/behavior/regexp'
+import { checkUsername, checkPassword, checkDisplayname, checkContractPeriod, checksn } from '@/behavior/regexp'
 import checkform from '@/variables/checkform'
 import store from '@/store/store'
 export default {
@@ -94,6 +97,7 @@ export default {
       },
       parent: [], // 可用上级代理列表
       merchantInfo: {
+        sn: '', // 代理标识
         username: '', // 代理用户名
         password: '', // 代理密码
         displayName: '', // 代理昵称
@@ -103,6 +107,9 @@ export default {
         isforever: false // 是否永久有效
       },
       rules: {
+        sn: [
+          {validator: checksn, trigger: 'blur'}
+        ],
         username: [
           {validator: checkUsername, trigger: 'blur'}
         ],
