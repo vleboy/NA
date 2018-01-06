@@ -877,10 +877,15 @@ const actions = {
     }
     // 请求下级基本信息
     var data = {
-      parent: '01'
+      parent: ''
     }
-    if (state.variable.naAllGameData.nowUserID) {
-      data.parent = state.variable.naAllGameData.nowUserID
+    if (localStorage.loginSuffix == 'Agent') {
+      data.parent = '01'
+    } else {
+      data.parent = localStorage.loginId
+    }
+    if (state.variable.allGameData.nowUserID) {
+      data.parent = state.variable.allGameData.nowUserID
     }
     // 请求下级信息
     let result2 = await invoke({
@@ -934,7 +939,7 @@ const actions = {
           createdAt: searchDate
         }
       } // 街机账单请求参数
-      
+
       let p1 = invoke({
         url: api.calcUserStat,
         method: api.post,
