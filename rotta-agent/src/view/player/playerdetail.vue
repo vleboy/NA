@@ -220,7 +220,7 @@ export default {
       return this.playerDetailInfo
     },
     lastTime () {
-      return detailTime(this.playerDetailInfo.createAt)
+      return detailTime(this.playerDetailInfo.updateAt)
     },
     dataList () {
       if (this.nowPage === 1) {
@@ -297,7 +297,7 @@ export default {
       }
     },
     getAtime (row, col) {
-      return detailTime(row.createAt)
+      return detailTime(row.updateAt)
     }, // 格式化退出时间
     getBtime (row, col) {
       if(row.joinTime) {

@@ -225,7 +225,7 @@ export default {
   },
   methods: {
     getAtime (row, col) {
-      return detailTime(row.createAt)
+      return detailTime(row.updateAt)
     }, // 格式化退出时间
     getBtime (row, col) {
       if(row.joinTime) {
