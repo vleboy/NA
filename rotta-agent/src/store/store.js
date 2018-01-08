@@ -924,7 +924,12 @@ const actions = {
     }
     // 请求下级基本信息
     var data = {
-      parent: '01'
+      parent: ''
+    }
+    if (localStorage.loginSuffix == 'Agent') {
+      data.parent = '01'
+    } else {
+      data.parent = localStorage.loginId
     }
     if (state.variable.naAllGameData.nowUserID) {
       data.parent = state.variable.naAllGameData.nowUserID
@@ -1208,19 +1213,12 @@ const actions = {
       parent: ''
     }
     if (localStorage.loginSuffix == 'Agent') {
-      // 代理管理员登录
-      if (state.variable.naVedioGameData.nowUserID) {
-        data.parent = state.variable.naVedioGameData.nowUserID
-      } else {
-        data.parent = '01'
-      }
+      data.parent = '01'
     } else {
-      // 普通代理登录
-      if (state.variable.naVedioGameData.nowUserID) {
-        data.parent = state.variable.naVedioGameData.nowUserID
-      } else {
-        data.parent = localStorage.loginId
-      }
+      data.parent = localStorage.loginId
+    }
+    if (state.variable.naVedioGameData.nowUserID) {
+      data.parent = state.variable.naVedioGameData.nowUserID
     }
     let result2 = await invoke({
       url: api.reportInfo,
