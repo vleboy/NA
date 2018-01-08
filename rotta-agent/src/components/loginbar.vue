@@ -43,6 +43,7 @@ export default {
         this.$store.commit('resetTab')
         this.$store.commit('logout')
         localStorage.clear()
+        window.location.reload()
       }).catch(() => {
         this.$message({
           type: 'info',
