@@ -6,7 +6,7 @@ import LoginManager from '@/components/login/login-manager' // 线路商登陆�
 import LoginMerchant from '@/components/login/login-merchant' // 商户登陆页面
 
 import Commingsoon from '@/view/comming/commingSoon' // 功能未开通页面
-import Welcome from '@/view/welcome/welcome' // 欢迎页面
+import Welcome from '@/view/welcome/welcome' // 欢迎页 面
 
 import Board from '@/view/board/board' // 系统看板
 
