@@ -599,6 +599,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if(!child.length){
+      context.commit('closeLoading')
+    }
     context.commit('getWeek')
     let searchDate = []
     if (localStorage.searchTime) {
@@ -894,6 +897,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if(!child.length){
+      context.commit('closeLoading')
+    }
     context.commit('getWeek')
     let searchDate = []
     if (localStorage.searchTime) {
@@ -1146,6 +1152,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if(!child.length){
+      context.commit('closeLoading')
+    }
     for (let item of child) {
       item.nowBouns = 0
       item.nowallBet = 0
@@ -1379,6 +1388,9 @@ const actions = {
         data: data
       })
       let child = result2[1].data.payload
+      if(!child.length){
+        context.commit('closeLoading')
+      }
       for (let item of child) {
         item.nowBouns = 0
         item.nowallBet = 0
@@ -1694,6 +1706,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if(!child.length){
+      context.commit('closeLoading')
+    }
     for (let item of child) {
       item.arcadeMix = 1
       item.nowBouns = 0
@@ -1924,6 +1939,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if(!child.length){
+      context.commit('closeLoading')
+    }
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -2080,6 +2098,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if(!child.length){
+      context.commit('closeLoading')
+    }
     for (let item of child) {
       item.nowBouns = 0
       item.nowallBet = 0
