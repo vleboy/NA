@@ -57,7 +57,7 @@
           <div style="text-align: left">{{propPrizeInfo.toolName}}</div>
         </el-form-item>
         <el-form-item label="道具基准价格" label-width="180px" >
-          <el-input v-model="propPrizeInfo.toolPrice" placeholder="请输入道具基本价格（必须为正整数）"
+          <el-input v-model="propPrizeInfo.toolPrice" placeholder="请输入道具基本价格"
                     :maxlength="200"></el-input>
         </el-form-item>
         <el-form-item label="商户最低定价下浮百分比" label-width="180px" >
@@ -162,8 +162,8 @@ export default {
     submitProp () {
       if (!pattern.positive.exec(this.propPrizeInfo.lowerRatio) || !this.propPrizeInfo.lowerRatio) {
         return this.$message.error('请输入正确的商户最低定价下浮百分比 范围0.00~限制')
-      } else if (!pattern.positiveInteger.exec(this.propPrizeInfo.toolPrice) || !this.propPrizeInfo.toolPrice) {
-        return this.$message.error('请输入正确的道具价格，必须为正整数')
+      } else if (!pattern.positive.exec(this.propPrizeInfo.toolPrice) || !this.propPrizeInfo.toolPrice) {
+        return this.$message.error('请输入正确的道具价格，范围0.00~无限制')
       } else if ((!pattern.positive.exec(this.propPrizeInfo.comeUpRatio)||!this.propPrizeInfo.comeUpRatio) && this.isUnlimited) {
         return this.$message.error('请输入正确的商户最高定价上浮百分比 范围0.00~无限制')
       }
