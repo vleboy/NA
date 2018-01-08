@@ -26,16 +26,6 @@
               <span>{{(scope.row.rate)}}%</span>
           </template>
       </el-table-column>
-      <el-table-column label="电子游戏洗码比" prop="vedioMix" align="center" sortable>
-          <template scope="scope">
-              <span>{{(scope.row.vedioMix)}}%</span>
-          </template>
-      </el-table-column>
-      <el-table-column label="真人视讯洗码比" prop="liveMix" align="center" sortable>
-          <template scope="scope">
-              <span>{{(scope.row.liveMix)}}%</span>
-          </template>
-      </el-table-column>
       <el-table-column label="剩余点数" align="center" sortable prop="balance">
           <template scope="scope">
               <span>{{points(scope.row.balance)}}</span>

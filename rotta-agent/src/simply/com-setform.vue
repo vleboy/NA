@@ -12,12 +12,25 @@
                 <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:10rem"></el-option>
             </el-select>
 
+          </el-form-item>
+
+          <el-form-item :label="setcomInfo.selectGame.name + '洗码比(%)'" v-show="setcomInfo.selectGame" prop="selectGame">
+            <el-tooltip class="item" effect="dark" :content="'该上级代理' + setcomInfo.selectGame.name + '洗码比为' + parentMix + '%'" placement="top">
+              <el-input class="input" type="number" placeholder="0.00~1.00,最大不超过其上级洗码比" v-model="setcomInfo.selectGame.mix"></el-input>
+            </el-tooltip>
             <el-button type="text" @click="addGame">添加</el-button>
           </el-form-item>
-          <el-form-item label="" prop="username">
-            <el-table :data="setcomInfo.showSelect" border style="width: 35rem;margin-left:-5rem">
+
+          <el-form-item label="" prop="username" style="width: 45rem;margin-left:-8rem">
+            <el-table :data="setcomInfo.showSelect" border>
               <el-table-column prop="company" align="center" label="公司"></el-table-column>
-              <el-table-column prop="gameName" align="center" label="游戏"></el-table-column>
+              <el-table-column prop="gameName" align="center" label="游戏">
+              </el-table-column>
+              <el-table-column prop="mix" align="center" label="洗码比">
+                <template scope="scope">
+                  <span>{{scope.row.mix}}%</span>
+                </template>
+              </el-table-column>
               <el-table-column align="center" label="操作">
                 <template scope="scope">
                   <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer">删除</span>
@@ -35,16 +48,6 @@
               <el-input v-model="setcomInfo.rate" class="input" placeholder="0.00~100.00,最大不超过其上级成数"></el-input>
             </el-tooltip>
           </el-form-item>
-          <el-form-item label="电子游戏洗码比(%)" prop="vedioMix">
-            <el-tooltip class="item" effect="dark" :content="parentVedioMix" placement="right">
-              <el-input v-model="setcomInfo.vedioMix" class="input" placeholder="0.00~1.00,最大不超过其上级电子洗码比"></el-input>
-            </el-tooltip>
-          </el-form-item>
-          <el-form-item label="真人视讯洗码比(%)" prop="liveMix">
-            <el-tooltip class="item" effect="dark" :content="parentLiveMix" placement="right">
-              <el-input v-model="setcomInfo.liveMix" class="input" placeholder="0.00~1.00,最大不超过其上级真人洗码比"></el-input>
-            </el-tooltip>
-          </el-form-item>
     </el-form>
   </div>
   <div>
@@ -59,24 +62,15 @@ import store from '@/store/store'
 import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
 import Createbtn from '@/components/createbtn'
-import { checkPoints, checkRate, checkLivemix, checkVediomix } from '@/behavior/regexp'
+import { checkPoints, checkRate } from '@/behavior/regexp'
 export default {
   name: 'out-setform',
   components: {
     Createbtn
   },
-  beforeCreate () {
-    store.state.checkform.loginWhitelist = true
-  },
   computed: {
     parentBills () {
       return '上级代理余额为:' + this.$store.state.variable.comparentBills.balance
-    },
-    parentVedioMix () {
-      return '上级代理电子游戏洗码比为:' + this.$store.state.variable.comparentBills.vedioMix + '%'
-    },
-    parentLiveMix () {
-      return '上级代理真人游戏洗码比为:' + this.$store.state.variable.comparentBills.liveMix + '%'
     },
     parentRate () {
       return '上级代理成数为:' + this.$store.state.variable.comparentBills.rate + '%'
@@ -110,17 +104,25 @@ export default {
       }
     )
   },
-  watch: {
-    'setcomInfo.gameList' (val) {
-      if (val.length>0) {
-        store.state.checkform.gameList = true
+  data () {
+    var checkMix = (rule, value, callback) => {
+      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
+      if (!value.mix) {
+        callback(new Error('请输入洗码比'))
+      } else if (!num.test(value.mix)) {
+        callback(new Error('电子游戏洗码比只能为0.00 - 1.00'))
+        this.isPassMix = false
+      } else if (value.mix > this.parentMix) {
+        callback(new Error('超出上级洗码比'))
+        this.isPassMix = false
       } else {
-        store.state.checkform.gameList = false
+        this.isPassMix = true
+        callback()
       }
     }
-  },
-  data () {
     return {
+      isPassMix: true, // 验证洗码比
+      parentMix: '', // 上级洗码比
       CompanyList: [], // 游戏大类列表
       CompanyGame: [], // 厂商的游戏列表
       setcomInfo: {
@@ -129,9 +131,7 @@ export default {
         showSelect: [], // 列表展示数据
         gameList: [], // 代理游戏
         points: '', // 代理点数
-        rate: '', // 代理抽成比
-        liveMix: '', // 真人洗码比
-        vedioMix: '' // 电子洗码比
+        rate: '' // 代理抽成比
       },
       rules: {
         points: [
@@ -140,16 +140,13 @@ export default {
         rate: [
           {validator: checkRate, trigger: 'blur'}
         ],
-        liveMix: [
-          {validator: checkLivemix, trigger: 'blur'}
-        ],
-        vedioMix: [
-          {validator: checkVediomix, trigger: 'blur'}
+        selectGame: [
+          {validator: checkMix, trigger: 'blur'}
         ]
       }
     }
   },
-   watch: {
+  watch: {
     'setcomInfo.company' (val) {
       if (val) {
         this.CompanyGame = []
@@ -174,6 +171,33 @@ export default {
         this.CompanyGame = []
         this.setcomInfo.selectGame = ''
       }
+    },
+    'setcomInfo.selectGame' (val) {
+      if (val) {
+        let data = {
+          code: val.code,
+          userId: ''
+        }
+        if (this.$store.state.variable.comcreate.parent == '01') {
+          data.userId = localStorage.loginId
+        } else {
+          data.userId = this.$store.state.variable.comcreate.parent
+        }
+        invoke({
+          url: api.checkAgentMix,
+          method: api.post,
+          data: data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload.mix
+              this.parentMix = data
+            }
+          }
+        )
+      }
     }
   },
   methods: {
@@ -181,10 +205,11 @@ export default {
       this.setcomInfo = val
     },
     addGame () {
-      if (this.setcomInfo.company && this.setcomInfo.selectGame) {
+      if (this.setcomInfo.company && this.setcomInfo.selectGame && this.setcomInfo.selectGame.mix && this.isPassMix) {
         let data = {
           company: this.setcomInfo.company,
           gameName: this.setcomInfo.selectGame.name,
+          mix: this.setcomInfo.selectGame.mix
         }
         if (this.setcomInfo.showSelect.length == 0) {
           let select = this.setcomInfo.selectGame
@@ -226,7 +251,7 @@ export default {
     }
   },
   beforeDestroy () {
-    if (this.setcomInfo.gameList.length != 0 && this.setcomInfo.points && this.setcomInfo.rate && this.setcomInfo.liveMix && this.setcomInfo.vedioMix) {
+    if (this.setcomInfo.gameList.length != 0 && this.setcomInfo.points && this.setcomInfo.rate) {
       let data = this.setcomInfo
       for (let outside of data.gameList) {
         for (let inside of this.CompanyList) {

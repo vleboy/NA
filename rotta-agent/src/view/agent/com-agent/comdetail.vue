@@ -39,8 +39,9 @@
                                     </el-form-item>
                                 </div>
                             </el-col>
-                        </el-row>
-                        <el-row>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
                             <el-col :span="6">
                                 <div class="">
                                     <el-form-item label="代理成数" v-show="this.disable == true">
@@ -49,40 +50,6 @@
                                     <el-form-item label="代理成数" prop="rate" v-show="this.disable == false">
                                         <el-tooltip class="item" effect="dark" :content="rateContent" placement="top">
                                           <el-input v-model="comdetail.rate">
-                                            <template slot="prepend">%</template>
-                                          </el-input>
-                                        </el-tooltip>
-                                    </el-form-item>
-                                </div>
-                            </el-col>
-                            <el-col :span="1">
-                                <span class="hidden">1</span>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="">
-                                    <el-form-item label="电子游戏洗码比" v-show="this.disable == true">
-                                        {{comdetail.vedioMix}}%
-                                    </el-form-item>
-                                    <el-form-item label="电子游戏洗码比" prop="vedioMix" v-show="this.disable == false">
-                                        <el-tooltip class="item" effect="dark" :content="vedioMixContent" placement="top">
-                                          <el-input v-model="comdetail.vedioMix">
-                                            <template slot="prepend">%</template>
-                                          </el-input>
-                                        </el-tooltip>
-                                    </el-form-item>
-                                </div>
-                            </el-col>
-                            <el-col :span="1">
-                                <span class="hidden">1</span>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="">
-                                    <el-form-item label="真人游戏洗码比" v-show="this.disable == true">
-                                        {{comdetail.liveMix}}%
-                                    </el-form-item>
-                                    <el-form-item label="真人游戏洗码比" prop="liveMix" v-show="this.disable == false">
-                                        <el-tooltip class="item" effect="dark" :content="liveMixContent" placement="top">
-                                          <el-input v-model="comdetail.liveMix">
                                             <template slot="prepend">%</template>
                                           </el-input>
                                         </el-tooltip>
@@ -139,10 +106,22 @@
                 <el-select v-model="selectGame" placeholder="请选择" clearable style="width:12rem;" v-show="!disable">
                     <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:12rem"></el-option>
                 </el-select>
-                <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
+                <div v-show="selectGame">
+                    <el-tooltip class="item" effect="dark" :content="'该上级代理' + selectGame.name + '洗码比为' + parentMix + '%'" placement="top">
+                        <el-input class="input" type="number" placeholder="0.00~1.00,最大不超过其上级洗码比" v-model="selectGame.mix" style="width:19rem;margin:1rem 0 0 6rem"></el-input>
+                    </el-tooltip>
+                    <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
+                </div>
+                
+                
                 <el-table :data="comdetail.gameList" border style="width: 40rem;margin-top:1rem">
                   <el-table-column prop="company" align="center" label="公司"></el-table-column>
                   <el-table-column prop="name" align="center" label="游戏"></el-table-column>
+                  <el-table-column prop="mix" align="center" label="洗码比">
+                    <template scope="scope">
+                      <span>{{scope.row.mix}}%</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column align="center" label="操作">
                     <template scope="scope">
                       <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer" v-show="!disable">删除</span>
@@ -506,6 +485,34 @@ export default {
         this.CompanyGame = []
         this.selectGame = ''
       }
+    },
+    selectGame (val) {
+      if (val) {
+        this.selectGame.mix = ''
+        let data = {
+          code: val.code,
+          userId: ''
+        }
+        if (this.$store.state.variable.comdetaildata.parent == '01') {
+          data.userId = localStorage.loginId
+        } else {
+          data.userId = this.$store.state.variable.comdetaildata.parent
+        }
+        invoke({
+          url: api.checkAgentMix,
+          method: api.post,
+          data: data
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload.mix
+              this.parentMix = data
+            }
+          }
+        )
+      }
     }
   },
   computed: {
@@ -514,14 +521,6 @@ export default {
     },
     rateContent () {
       var content = this.parentInfo.rate
-      return '上级代理成数为 ' + content + '%'
-    },
-    liveMixContent () {
-      var content = this.parentInfo.liveMix
-      return '上级代理成数为 ' + content + '%'
-    },
-    vedioMixContent () {
-      var content = this.parentInfo.vedioMix
       return '上级代理成数为 ' + content + '%'
     },
     comdetail () {
@@ -665,44 +664,6 @@ export default {
         callback()
       }
     } // 验证代理成数
-    var checkVedioMix = (rule, value, callback) => {
-      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
-      if (value === '') {
-        callback(new Error('请输入电子游戏洗码比'))
-        this.isfinish.vedioMix = false
-      } else if (!num.test(value)) {
-        callback(new Error('电子游戏洗码比只能为0.00 - 1.00'))
-        this.isfinish.vedioMix = false
-      } else if (value < 0 || value > 1) {
-        callback(new Error('电子游戏洗码比应为 0.00 ~ 1.00 之间的数字'))
-        this.isfinish.vedioMix = false
-      } else if (value > this.parentInfo.vedioMix) {
-        callback(new Error('超出上级电子游戏洗码比'))
-        this.isfinish.vedioMix = false
-      } else {
-        this.isfinish.vedioMix = true
-        callback()
-      }
-    } // 验证电子游戏洗码比
-    var checkLiveMix = (rule, value, callback) => {
-      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
-      if (value === '') {
-        callback(new Error('请输入真人视讯洗码比'))
-        this.isfinish.liveMix = false
-      } else if (!num.test(value)) {
-        callback(new Error('真人视讯洗码比只能为0.00 - 1.00'))
-        this.isfinish.liveMix = false
-      } else if (value < 0 || value > 1) {
-        callback(new Error('真人视讯洗码比应为 0.00 ~ 1.00 之间的数字'))
-        this.isfinish.liveMix = false
-      } else if (value > this.parentInfo.liveMix) {
-        callback(new Error('超出上级真人游戏洗码比'))
-        this.isfinish.liveMix = false
-      } else {
-        this.isfinish.liveMix = true
-        callback()
-      }
-    } // 验证真人视讯洗码
     var checkContractPeriod = (rule, value, callback) => {
       if (value === 0) {
         this.isfinish.contractPeriod = true
@@ -716,6 +677,7 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      parentMix: '', // 上级洗码比  
       selcetCompany: '', // 选择的游戏运行商
       selectGame: '', // 选择的游戏
       CompanyList: [], // 所有游戏运营商
@@ -743,8 +705,6 @@ export default {
         gameList: true,
         password: true,
         rate: true,
-        vedioMix: true,
-        liveMix: true,
         contractPeriod: true
       },
       rules: {
@@ -753,12 +713,6 @@ export default {
         ],
         rate: [
           {validator: checkRate, trigger: 'change'}
-        ],
-        vedioMix: [
-          {validator: checkVedioMix, trigger: 'change'}
-        ],
-        liveMix: [
-          {validator: checkLiveMix, trigger: 'change'}
         ],
         contractPeriod: [
           {validator: checkContractPeriod, trigger: 'change'}
@@ -1006,8 +960,6 @@ export default {
       var parentId = localStorage.parentID
       if (parentId == '01') {
         this.parentInfo = {
-          liveMix: 1,
-          vedioMix: 1,
           rate: 100
         }
       } else {
@@ -1043,7 +995,7 @@ export default {
       }
     }, // 设置永久时间
     submitEdit () {
-      if (this.isfinish.password === false || this.isfinish.rate === false || this.isfinish.contractPeriod === false || this.isfinish.vedioMix === false || this.isfinish.liveMix === false) {
+      if (!this.isfinish.password || !this.isfinish.rate || !this.isfinish.contractPeriod) {
         this.$message({
           message: '修改信息错误',
           type: 'error'
@@ -1057,7 +1009,6 @@ export default {
             }
           }
         }
-        // console.log('修改提交的数据是:', this.comdetail)
         invoke({
           url: api.agentUpdate,
           method: api.post,
@@ -1075,6 +1026,7 @@ export default {
               var data = ret.data.payload
               this.disable = true
               this.$store.commit('closeEdit')
+              this.selectGame = ''
               this.show1 = false
               this.show2 = false
               this.show3 = false
@@ -1108,11 +1060,18 @@ export default {
       this.$store.commit('startStoreDialog')
     }, // 代理详情页存点
     addGame () {
-      if (!this.selectGame || !this.selcetCompany) {
-        this.$message({
-          type: 'warning',
-          message: '请选择要添加的游戏！'
-        })
+      if (!this.selectGame || !this.selcetCompany || !this.selectGame.mix || this.selectGame.mix > this.parentMix) {
+        if (this.selectGame.mix > this.parentMix) {
+          this.$message({
+            type: 'warning',
+            message: '洗码比超出上级！'
+          })
+        } else {
+          this.$message({
+            type: 'warning',
+            message: '请完善要添加的游戏！'
+          })
+        }
       } else {
         let companyName = ''
         for (let item of this.CompanyList) {

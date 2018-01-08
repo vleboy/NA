@@ -51,6 +51,8 @@ const api = {
   getSign: front.zues + front.stage + '/game/sign', // 获取游戏后台跳转链接签名
 
   // hulk
+  checkAgentMix: front.hulk + front.stage + '/checkAgentMix', // 获取上级代理洗码比
+
   adminNew: front.hulk + front.stage + '/agentAdminNew', // 创建新代理管理员
 
   login: front.hulk + front.stage + '/agentLogin', // 所有用户登录接口

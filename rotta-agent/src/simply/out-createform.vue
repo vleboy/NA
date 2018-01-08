@@ -48,7 +48,7 @@ import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
 import checkform from '@/variables/checkform'
 import Createbtn from '@/components/createbtn'
-import { checkSuffix, checkDisplayname, checkEmail, checkRate, checkHostname, checkHostcontact, checkContractPeriod } from '@/behavior/regexp'
+import { checkDisplayname, checkEmail, checkRate, checkHostname, checkHostcontact, checkContractPeriod } from '@/behavior/regexp'
 import store from '@/store/store'
 export default {
   name: 'out-createform',
@@ -98,9 +98,6 @@ export default {
         isforever: false // 是否永久有效
       },
       rules: {
-        suffix: [
-          {validator: checkSuffix, trigger: 'blur'}
-        ],
         displayName: [
           {validator: checkDisplayname, trigger: 'blur'}
         ],

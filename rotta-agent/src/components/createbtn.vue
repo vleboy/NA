@@ -155,8 +155,6 @@ export default {
           gameList: [], // 代理游戏
           points: '', // 代理点数
           rate: '', // 代理抽成比
-          liveMix: '', // 真人洗码比
-          vedioMix: '' // 电子洗码比
         }
       }
     },

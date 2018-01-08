@@ -49,8 +49,6 @@ const variable = {
     role: '1000',
     displayName: '', // 代理昵称
     rate: '', // 代理抽成比
-    liveMix: '', // 真人洗码比
-    vedioMix: '', // 电子洗码比
     parent: '', // 上级代理
     remark: '', // 备注
     gameList: [], // 代理游戏
