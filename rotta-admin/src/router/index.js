@@ -72,6 +72,7 @@ import naArcadeGameReport from '@/view/gameReport/na/naArcadeGame-report' // NA�
 import naMallReport from '@/view/gameReport/na/naMall-report' // NA游戏总报表
 
 import ttgVedioGameReport from '@/view/gameReport/ttg/ttgVedioReport' // TTG电子游戏报表
+import saLiveGameReport from '@/view/gameReport/sa/saLiveGame-report' // SA真人游戏报表
 
 import LineUp from '@/view/lineup/lineup' // 排队设置
 
@@ -363,6 +364,14 @@ const router = new Router({
       path: '/ttgVedioGameReport',
       name: 'TTG电子游戏报表',
       component: ttgVedioGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/saLiveGameReport',
+      name: 'SA真人游戏报表',
+      component: saLiveGameReport,
       meta: {
         keepAlive: true
       }

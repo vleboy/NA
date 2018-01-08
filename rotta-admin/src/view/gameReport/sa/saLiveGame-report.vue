@@ -1,16 +1,16 @@
 <template>
-  <div class="naLiveGame-report">
+  <div class="saLiveGame-report">
 
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
-        <p class="title" style="float:left">当前选择列表<span v-if="nowId != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
+        <p class="title" style="float:left">当前选择列表<span v-if="nowRole != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
         <div style="float:right;margin-right:1rem">
           <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围(默认最近一周)" :editable="false"></el-date-picker>
           <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData" :loading="loading">搜索</el-button>
           <el-button @click="resetSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="naLiveNowlist" stripe>
+      <el-table :data="saLiveNowlist" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -20,6 +20,9 @@
         <el-table-column label="管理员账号" prop="username" align="center">
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
+          <template scope="scope">
+            <span>{{flashNumber.betCount}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="投注金额" prop="bet" align="center">
           <template scope="scope">
@@ -31,9 +34,14 @@
             <span :class="[Number(flashNumber.winlose) > 0 ? 'green' : 'red']">{{points(flashNumber.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码比" prop="liveMix" align="center">
+        <el-table-column label="商户占成" prop="rate" align="center">
           <template scope="scope">
-            <span>{{(scope.row.liveMix) + '%'}}</span>
+            <span>{{(scope.row.rate) + '%'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="商户交公司" prop="submit" align="center">
+          <template scope="scope">
+            <span :class="[Number(flashNumber.submit) > 0 ? 'green' : 'red']">{{points(flashNumber.submit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
@@ -41,43 +49,23 @@
             <span>{{points(flashNumber.mixAmount)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码佣金" prop="nowBouns" align="center">
-          <template scope="scope">
-            <span>{{points(flashNumber.nowBouns)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="代理总金额" prop="nowallBet" align="center">
-          <template scope="scope">
-            <span :class="[Number(flashNumber.nowallBet) > 0 ? 'green' : 'red']">{{points(flashNumber.nowallBet)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="代理占成" prop="rate" align="center">
-          <template scope="scope">
-            <span>{{(scope.row.rate) + '%'}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="代理交公司" prop="nowSubmit" align="center">
-          <template scope="scope">
-            <span :class="[Number(flashNumber.nowSubmit) > 0 ? 'green' : 'red']">{{points(flashNumber.nowSubmit)}}</span>
-          </template>
-        </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
           <template scope="scope">
-            <span>{{(flashNumber.winloseRate)}}%</span>
+            <span>{{flashNumber.winloseRate}} %</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
-    <div class="childlist">
+    <div class="childlist" v-if="loginRole != '100'">
       <p class="title">下级列表</p>
-      <el-table :data="naLiveNowchild" stripe>
+      <el-table :data="saLiveNowchild" stripe>
         <el-table-column label="序号" prop="" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
         </el-table-column>
         <el-table-column label="昵称" prop="displayName" align="center">
-           <template scope="scope">
+          <template scope="scope">
             <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.displayName}}</span>
           </template>
         </el-table-column>
@@ -95,34 +83,19 @@
             <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码比" prop="liveMix" align="center">
+        <el-table-column label="商户占成" prop="rate" align="center">
           <template scope="scope">
-            <span>{{(scope.row.liveMix) + '%'}}</span>
+            <span>{{(scope.row.rate) + '%'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="商户交公司" align="center" prop="submit">
+          <template scope="scope">
+            <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
           <template scope="scope">
             <span>{{points(scope.row.mixAmount)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="洗码佣金" prop="nowBouns" align="center">
-          <template scope="scope">
-            <span>{{points(scope.row.nowBouns)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="代理总金额" prop="nowallBet" align="center">
-          <template scope="scope">
-            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="代理占成" prop="rate" align="center">
-          <template scope="scope">
-            <span>{{(scope.row.rate) + '%'}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="代理交公司" prop="nowSubmit" align="center">
-          <template scope="scope">
-            <span :class="[Number(scope.row.nowSubmit) > 0 ? 'green' : 'red']">{{points(scope.row.nowSubmit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="获利比例" prop="winloseRate" align="center">
@@ -132,7 +105,7 @@
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naLiveGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.saLiveGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
       </div>
     </div>
 
@@ -145,7 +118,7 @@
           <el-button @click="resetPlayerSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="naLiveNowplayer" stripe>
+      <el-table :data="saLiveNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="center">
@@ -167,12 +140,7 @@
         </el-table-column>
         <el-table-column label="输赢金额" prop="winlose" align="center">
           <template scope="scope">
-            <span :class="[Number(flashNumber.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="洗码比" prop="liveMix" align="center">
-          <template scope="scope">
-            <span>{{(scope.row.liveMix) + '%'}}</span>
+            <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
@@ -180,19 +148,9 @@
             <span>{{points(scope.row.mixAmount)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码佣金" prop="nowBouns" align="center">
-          <template scope="scope">
-            <span>{{points(scope.row.nowBouns)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="会员总金额" prop="nowallBet" align="center">
-          <template scope="scope">
-            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
-          </template>
-        </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naLiveGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.saLiveGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
       </div>
     </div>
 
@@ -206,63 +164,61 @@ import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     localStorage.removeItem('searchTime')
-    this.$store.commit('resetnaLiveNowchild')
-    this.$store.commit('resetnaLiveNowplayer')
+    this.$store.commit('resetsaLiveNowchild')
+    this.$store.commit('resetsaLiveNowplayer')
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'naLiveGameReport'
+      data: 'saLiveGameReport'
     })
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
-      type: 'recordnaLiveID',
+      type: 'recordsaLiveID',
       data: ''
     })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getnaLiveNowchild')
-    this.$store.dispatch('getnaLiveNowplayer')
+    this.$store.dispatch('getsaLiveNowchild')
+    this.$store.dispatch('getsaLiveNowplayer')
   },
   activated: function () {
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'naLiveGameReport'
+      data: 'saLiveGameReport'
     })
   },
   computed:{
     rollNumber () {
-      let data = this.$store.state.variable.naLiveGameData.nowList
-      if (!data.liveMix) {
-        data.liveMix = 0
+      let data = this.$store.state.variable.saLiveGameData.nowList
+      if (!data.rate) {
+        data.rate = 0
       }
-      data.nowBouns = data.liveMix/100 * data.mixAmount // 洗码佣金
-      data.nowallBet = data.mixAmount * data.liveMix/100 + data.winlose
-      data.nowSubmit = ((data.liveMix/100 * data.bet) + data.winlose) * (1 - data.rate/100) // 代理交公司
-      if (isNaN((data.mixAmount * data.liveMix/100 + data.winlose) * 100 / data.mixAmount)) {
+      data.submit = (data.winlose * (1 - data.rate/100))
+      if (isNaN(data.winlose * 100 / data.mixAmount)) {
         data.winloseRate = 0
       } else {
-        data.winloseRate = (data.mixAmount * data.liveMix/100 + data.winlose) * 100 / data.mixAmount
-      } // 获利比例
+        data.winloseRate = (data.winlose / data.mixAmount) * 100
+      }
       return data
     },
-    naLiveNowlist () {
-      this.nowId = this.$store.state.variable.naLiveGameData.nowList.userId
-      let data = [this.$store.state.variable.naLiveGameData.nowList]
+    saLiveNowlist () {
+      this.nowRole = this.$store.state.variable.saLiveGameData.nowList.userId
+      let data = [this.$store.state.variable.saLiveGameData.nowList]
       return data
     },
-    naLiveNowchild () {
-      var nowchild = this.$store.state.variable.naLiveGameData.nowChildList
+    saLiveNowchild () {
+      var nowchild = this.$store.state.variable.saLiveGameData.nowChildList
       if (this.childPage === 1) {
-        nowchild = this.$store.state.variable.naLiveGameData.nowChildList.slice(0, this.childSize)
+        nowchild = this.$store.state.variable.saLiveGameData.nowChildList.slice(0, this.childSize)
       } else {
-        nowchild = this.$store.state.variable.naLiveGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
+        nowchild = this.$store.state.variable.saLiveGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
       }
       return nowchild
     },
-    naLiveNowplayer () {
-      var nowplayer = this.$store.state.variable.naLiveGameData.nowPlayerlist
+    saLiveNowplayer () {
+      var nowplayer = this.$store.state.variable.saLiveGameData.nowPlayerlist
       if (this.playerPage === 1) {
-        nowplayer = this.$store.state.variable.naLiveGameData.nowPlayerlist.slice(0, this.playerSize)
+        nowplayer = this.$store.state.variable.saLiveGameData.nowPlayerlist.slice(0, this.playerSize)
       } else {
-        nowplayer = this.$store.state.variable.naLiveGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
+        nowplayer = this.$store.state.variable.saLiveGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
       }
       return nowplayer
     }
@@ -299,35 +255,7 @@ export default {
         TWEEN.update(time)
       }
       new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.betCount = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.nowSubmit' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.nowSubmit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.mixAmount' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.mixAmount = this._object.tweeningNumber.toFixed(2)
+          vm.flashNumber.betCount = this._object.tweeningNumber.toFixed(0)
         }).start()
       animate()
     },
@@ -345,6 +273,34 @@ export default {
         }).start()
       animate()
     },
+    'rollNumber.submit' (newValue, oldValue) {
+      if (!oldValue || isNaN(oldValue)) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.submit = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
+    'rollNumber.mixAmount' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.mixAmount = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
     'rollNumber.winloseRate' (newValue, oldValue) {
       if (!oldValue) {
         oldValue = 0
@@ -358,34 +314,6 @@ export default {
           vm.flashNumber.winloseRate = this._object.tweeningNumber.toFixed(2)
         }).start()
       animate()
-    },
-    'rollNumber.nowallBet' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.nowallBet = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.nowBouns' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.nowBouns = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
     }
   },
   data () {
@@ -393,12 +321,10 @@ export default {
       flashNumber: {
         bet: 0,
         betCount: 0,
+        submit: 0,
         winlose: 0,
         winloseRate: 0,
-        nowallBet: 0,
-        nowBouns: 0,
-        nowSubmit: 0,
-        mixAmount: 0,
+        mixAmount: 0
       },
       playerData: '',
       loading: false,
@@ -408,8 +334,9 @@ export default {
       childPage: 1,
       playerSize: 20,
       playerPage: 1,
-      nowId: '',
-      loginId: localStorage.loginId
+      nowRole: '',
+      loginId: localStorage.loginId,
+      loginRole: localStorage.loginRole
     }
   },
   methods: {
@@ -422,7 +349,7 @@ export default {
       } else {
         this.playerLoading = true
         let data = {
-          parentId: this.$store.state.variable.naLiveGameData.nowList.userId,
+          parentId: this.$store.state.variable.saLiveGameData.nowList.userId,
           query: {
             userName: this.playerData
           },
@@ -448,13 +375,11 @@ export default {
               }
               this.rollNumber.bet = 0
               this.rollNumber.betCount = 0
+              this.rollNumber.submit = 0
               this.rollNumber.winlose = 0
               this.rollNumber.winloseRate = 0
-              this.rollNumber.nowallBet = 0
-              this.rollNumber.nowBouns = 0
-              this.rollNumber.nowSubmit = 0
               this.rollNumber.mixAmount = 0
-              this.$store.commit('resetnaLiveNowplayer')
+              this.$store.commit('resetsaLiveNowplayer')
               for (let item of data) {
                 let player_data = {
                   gameType: 30000,
@@ -477,13 +402,11 @@ export default {
                         if (item.userName == data.userName) {
                           item.bet = data.bet
                           item.betCount = data.betCount
-                          item.winlose = data.winlose
                           item.mixAmount = data.mixAmount
-                          item.nowBouns = data.mixAmount * item.liveMix / 100
-                          item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
-                          item.winloseRate = item.nowallBet / data.mixAmount
+                          item.winlose = data.winlose
+                          item.winloseRate = data.winlose / data.bet
                           this.$store.commit({
-                            type: 'recordnaLiveNowplayer',
+                            type: 'recordsaLiveNowplayer',
                             data: item
                           })
                         }
@@ -502,28 +425,26 @@ export default {
       this.playerData = ''
       this.rollNumber.bet = 0
       this.rollNumber.betCount = 0
+      this.rollNumber.submit = 0
       this.rollNumber.winlose = 0
       this.rollNumber.winloseRate = 0
-      this.rollNumber.nowallBet = 0
-      this.rollNumber.nowBouns = 0
-      this.rollNumber.nowSubmit = 0
       this.rollNumber.mixAmount = 0
-      this.$store.dispatch('getnaLiveNowplayer')
+      this.$store.dispatch('getsaLiveNowplayer')
     }, // 重置玩家搜索
     formatWinloseRate (data) {
-      return data && !isNaN(data) ? (data * 100).toFixed(2) + '%' : '0.00%'
+      return data && !isNaN(data) ? (Number(data) * 100).toFixed(2) + '%' : '0.00' + '%'
     },
     formatNickname (data) {
       return data == 'NULL!'? '-' : data
     },
-    points (data) {
-      return formatPoints('' + data)
-    }, // 格式化点数
-    formatPercent (data) {
-      return data? data * 100 + '%' : '0.00%'
-    }, // 格式化百分数
     userType (data) {
-      return '代理'
+      if (data.role == '1') {
+        return '管理员'
+      } else if (data.role == '10') {
+        return '线路商'
+      } else {
+        return '商户'
+      }
     }, // 格式化用户类型
     points (data) {
       if (data && !isNaN(Number(data).toFixed(2))) {
@@ -541,8 +462,8 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.$store.dispatch('getnaLiveNowchild')
-        this.$store.dispatch('getnaLiveNowplayer')
+        this.$store.dispatch('getsaLiveNowchild')
+        this.$store.dispatch('getsaLiveNowplayer')
         let _self = this
         setTimeout(function(){
           _self.$message({
@@ -557,42 +478,34 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getnaLiveNowchild')
-      this.$store.dispatch('getnaLiveNowplayer')
+      this.$store.dispatch('getsaLiveNowchild')
+      this.$store.dispatch('getsaLiveNowplayer')
     }, // 重置搜索条件
     checkUser (data) {
       this.$store.commit({
-        type: 'recordnaLiveID',
+        type: 'recordsaLiveID',
         data: data.userId
       })
-      this.$store.commit('resetnaLiveNowchild')
-      this.$store.commit('resetnaLiveNowplayer')
+      this.$store.commit('resetsaLiveNowchild')
+      this.$store.commit('resetsaLiveNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getnaLiveNowchild')
-      this.$store.dispatch('getnaLiveNowplayer')
+      this.$store.dispatch('getsaLiveNowchild')
+      this.$store.dispatch('getsaLiveNowplayer')
     }, // 查看当前用户信息
-    goPlayDetail (row) {
-      localStorage.setItem('playerName', row)
-      this.$router.push('agentPlayerDetail')
-      this.$store.commit({
-        type: 'playerUserName',
-        data: row.userName
-      })
-    }, // 跳转至玩家详情
     goBack () {
-      var data = this.$store.state.variable.naLiveGameData.nowList.parent
+      var data = this.$store.state.variable.saLiveGameData.nowList.parent
       if (data == '01') {
         data = ''
       }
       this.$store.commit({
-        type: 'recordnaLiveID',
+        type: 'recordsaLiveID',
         data: data
       })
-      this.$store.commit('resetnaLiveNowchild')
-      this.$store.commit('resetnaLiveNowplayer')
+      this.$store.commit('resetsaLiveNowchild')
+      this.$store.commit('resetsaLiveNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getnaLiveNowchild')
-      data !== '01' ? this.$store.dispatch('getnaLiveNowplayer') : ''
+      this.$store.dispatch('getsaLiveNowchild')
+      data !== '01' ? this.$store.dispatch('getsaLiveNowplayer') : ''
     }, // 退回上一级
     getChildsize (size) {
       this.childSize = size
@@ -605,7 +518,15 @@ export default {
     }, // 玩家列表分页
     getPlayerpage (page) {
       this.playerPage = page
-    } // 玩家列表分页
+    }, // 玩家列表分页
+    goPlayDetail (row) {
+      localStorage.setItem('playerName', row)
+      this.$router.push('playerdetail')
+      this.$store.commit({
+        type: 'playerUserName',
+        data: row.userName
+      })
+    }
   },
   beforeDestroy () {
     localStorage.removeItem('searchTime')
@@ -614,15 +535,15 @@ export default {
 </script>
 
 <style scpoed>
-.naLiveGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
-.naLiveGame-report .input{width: 25rem}
-.naLiveGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
-.naLiveGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
-.naLiveGame-report .nowUserlist,
-.naLiveGame-report .childlist,
-.naLiveGame-report .playerlist{width: 99%;margin: 2rem auto}
-.naLiveGame-report .fontUrl{cursor: pointer;color: #20a0ff}
-.naLiveGame-report .fontUrl:hover{text-decoration: underline;}
+.saLiveGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.saLiveGame-report .input{width: 25rem}
+.saLiveGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+.saLiveGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
+.saLiveGame-report .nowUserlist,
+.saLiveGame-report .childlist,
+.saLiveGame-report .playerlist{width: 99%;margin: 2rem auto}
+.saLiveGame-report .fontUrl{cursor: pointer;color: #20a0ff}
+.saLiveGame-report .fontUrl:hover{text-decoration: underline;}
 
 .green{color: #00CC00}
 .red{color: #FF3300}

@@ -15,6 +15,9 @@
         <el-input v-model="setcomInfo.msn" class="input" placeholder="请输入"></el-input>
         <el-button type="text" class="" @click="randomMSN">试试手气</el-button>
       </el-form-item>
+      <el-form-item label="商户标识" prop="sn">
+        <el-input v-model="setcomInfo.sn" class="input" placeholder="3~5位,只能输入中、英文及数字"></el-input>
+      </el-form-item>
       <el-form-item label="商户拥有的游戏">
         <el-select v-model="setcomInfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
             <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:10rem"></el-option>
@@ -99,7 +102,7 @@ import store from '@/store/store'
 import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
 import Createbtn from '@/components/createbtn'
-import { checkUserEmail, checkAdmincontact, checkPoints, checkUsername, checkLimit, checkName, checkPassword, checkURL } from '@/behavior/regexp'
+import { checkUserEmail, checkAdmincontact, checkPoints, checkUsername, checkLimit, checkName, checkPassword, checkURL, checksn } from '@/behavior/regexp'
 import { randomPassword } from '@/behavior/randomPassword'
 export default {
   name: 'out-setform',
@@ -237,6 +240,7 @@ export default {
         rate: '', // 商户抽成比
         points: '', // 初始代理点数
         msn: '', // 线路号
+        sn: '', // 商户标识
         gameList: [], // 拥有游戏
         loginWhiteList: '', // 商户白名单
         frontURL: '', // 商户前端域名
@@ -254,6 +258,9 @@ export default {
         ],
         msn: [
           {validator: checkMSN, trigger: 'change'}
+        ],
+        sn: [
+          {validator: checksn, trigger: 'blur'}
         ],
         limit: [
           {validator: checkLimit, trigger: 'blur'}
@@ -387,7 +394,7 @@ export default {
     }
   },
   beforeDestroy () {
-    if (!this.setcomInfo.rate || !this.setcomInfo.points || !this.setcomInfo.msn || !this.setcomInfo.frontURL || !this.setcomInfo.username || !this.setcomInfo.password || !this.setcomInfo.adminName || !this.setcomInfo.adminEmail || !this.setcomInfo.adminContact) {
+    if (!this.setcomInfo.rate || !this.setcomInfo.points || !this.setcomInfo.msn || !this.setcomInfo.frontURL || !this.setcomInfo.username || !this.setcomInfo.password || !this.setcomInfo.adminName || !this.setcomInfo.adminEmail || !this.setcomInfo.adminContact || !this.setcomInfo.sn) {
     } else {
       let data = this.setcomInfo
       for (let outside of data.gameList) {

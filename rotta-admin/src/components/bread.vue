@@ -290,6 +290,12 @@
       <el-breadcrumb-item><span  class="large">TTG电子游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'saLiveGameReport'" class="title">
+      <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
+      <el-breadcrumb-item>SA游戏报表 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">SA真人游戏报表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'lineup'" class="title">
       <el-breadcrumb-item>排队设置 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">排队设置</span> </el-breadcrumb-item>

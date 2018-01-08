@@ -18,6 +18,11 @@
         </el-table-column>
         <el-table-column label="管理员账号" prop="username" align="center">
         </el-table-column>
+        <el-table-column label="抽成比" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{scope.row.rate}}%</span>
+          </template>
+        </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
           <template scope="scope">
             <span>{{(flashNumber.betCount)}}</span>
@@ -63,6 +68,11 @@
             <span>{{(flashNumber.arcadeSubmit)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="NA商城(输赢金额)" prop="mallWinlose" align="center">
+          <template scope="scope">
+            <span :class="[Number(flashNumber.mallWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.mallWinlose)}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
 
@@ -78,6 +88,11 @@
         <el-table-column label="管理员账号" prop="username" align="center">
           <template scope="scope">
             <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.username}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="抽成比" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{scope.row.rate}}%</span>
           </template>
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
@@ -120,6 +135,11 @@
         <el-table-column label="NA街机游戏(商户交公司)" prop="arcadeSubmit" align="center">
           <template scope="scope">
             <span>{{formatToFix(scope.row.arcadeSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA商城(输赢金额)" prop="mallWinlose" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.mallWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.mallWinlose)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -167,6 +187,11 @@
         <el-table-column label="NA街机游戏(输赢金额)" prop="arcadeWinlose" align="center">
           <template scope="scope">
             <span :class="[Number(scope.row.arcadeWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.arcadeWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA商城(输赢金额)" prop="mallWinlose" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.mallWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.mallWinlose)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -361,6 +386,20 @@ export default {
         }).start()
       animate()
     },
+    'rollNumber.mallWinlose' (newValue, oldValue) {
+      if (!oldValue) {
+        oldValue = 0
+      }
+      let vm = this
+      function animate (time) {
+        requestAnimationFrame(animate)
+        TWEEN.update(time)
+      }
+      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
+          vm.flashNumber.mallWinlose = this._object.tweeningNumber.toFixed(2)
+        }).start()
+      animate()
+    },
   },
   data () {
     return {
@@ -373,7 +412,8 @@ export default {
         liveWinlose: 0,
         liveSubmit: 0,
         arcadeWinlose: 0,
-        arcadeSubmit: 0
+        arcadeSubmit: 0,
+        mallWinlose: 0,
       },
       playerData: '',
       loading: false,
@@ -470,6 +510,7 @@ export default {
               this.rollNumber.liveSubmit = 0
               this.rollNumber.arcadeWinlose = 0
               this.rollNumber.arcadeSubmit = 0
+              this.rollNumber.mallWinlose = 0
               this.$store.commit('resetnaAllNowplayer')
               this.$store.commit('getWeek')
               let searchDate = []
@@ -485,6 +526,7 @@ export default {
                 item.vedioWinlose = 0
                 item.liveWinlose = 0
                 item.arcadeWinlose = 0
+                item.mallWinlose = 0
                 let player_live = {
                   gameType: 30000,
                   gameUserNames: [item.userName],
@@ -506,6 +548,15 @@ export default {
                     createdAt: searchDate
                   }
                 } // 请求街机游戏玩家
+                let naMall_data = {
+                  gameType: -1,
+                  kindId:-3,
+                  role: item.role,
+                  userIds: [item.userId],
+                  query: {
+                    createdAt: searchDate
+                  }
+                } // 请求NA商城数据
 
                 let p1 = invoke({
                   url: api.calcPlayerStat,
@@ -522,8 +573,13 @@ export default {
                   method: api.post,
                   data: player_arcade
                 }) // 街机游戏玩家账单
+                let p4 = invoke({
+                  url: api.calcUserStat,
+                  method: api.post,
+                  data: naMall_data
+                }) // NA玩家商城账单
 
-                Promise.all([p1,p2,p3]).then(
+                Promise.all([p1,p2,p3,p4]).then(
                   result => {
                     let result1 = result[0][1].data.payload[0]
                     if (result1 && result1.betCount > 0) {
@@ -543,6 +599,12 @@ export default {
                       item.allWinlose += result3.winlose
                       item.arcadeWinlose = result3.winlose
                     }
+                    let result4 = result[3][1].data.payload[0]
+                    if (result4 && result4.betCount > 0) {
+                      item.betCount += result4.betCount
+                      item.mallWinlose += result4.winlose
+                    }
+
                     if (item.betCount > 0) {
                       this.$store.commit({
                         type: 'recordnaAllNowplayer',
@@ -551,6 +613,7 @@ export default {
                     }
                   }
                 )
+                this.$store.commit('closeLoading')
               }
               this.playerLoading = false
             }
@@ -569,6 +632,7 @@ export default {
       this.rollNumber.liveSubmit = 0
       this.rollNumber.arcadeWinlose = 0
       this.rollNumber.arcadeSubmit = 0
+      this.rollNumber.mallWinlose = 0
       this.$store.dispatch('getnaAllNowplayer')
     }, // 重置玩家搜索
     checkUser (data) {

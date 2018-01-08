@@ -29,6 +29,16 @@
                                     </el-form-item>
                                 </div>
                             </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="">
+                                    <el-form-item label="代理标识">
+                                        {{comdetail.sn}}
+                                    </el-form-item>
+                                </div>
+                            </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="6">

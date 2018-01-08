@@ -11,16 +11,20 @@
                   <el-menu-item index="allReport">公司输赢总报表</el-menu-item>
                   <el-submenu index="1-1">
                       <template slot="title">NA游戏报表</template>
-                      <el-menu-item index="naAllGameReport">NA游戏总报表</el-menu-item>
+                      <el-menu-item index="naAllGameReport">NA游戏报表</el-menu-item>
                       <el-menu-item index="naVedioGameReport">NA电子游戏报表</el-menu-item>
                       <el-menu-item index="naLiveGameReport">NA真人游戏报表</el-menu-item>
                       <el-menu-item index="naArcadeGameReport">NA街机游戏报表</el-menu-item>
                       <el-menu-item index="naMallReport">NA商城总报表</el-menu-item>
                   </el-submenu>
                   <el-submenu index="1-2">
-                      <template slot="title">TTG游戏总报表</template>
+                      <template slot="title">TTG游戏报表</template>
                       <!-- <el-menu-item index="ttgAllGameReport">TTG游戏总报表</el-menu-item> -->
                       <el-menu-item index="ttgVedioGameReport">TTG电子游戏报表</el-menu-item>
+                  </el-submenu>
+                  <el-submenu index="1-3">
+                      <template slot="title">SA游戏报表</template>
+                      <el-menu-item index="saLiveGameReport">SA真人游戏报表</el-menu-item>
                   </el-submenu>
               </el-submenu>
               <el-submenu index="2">

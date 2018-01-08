@@ -492,7 +492,11 @@ export default {
       return data && isNaN(Number(data).toFixed(2)) ? '0.00' : Number(data).toFixed(2)
     }, // 格式化金额
     points (data) {
-      return formatPoints('' + data)
+      if (data && !isNaN(Number(data).toFixed(2))) {
+        return formatPoints(Number(data).toFixed(2))
+      } else {
+        return '0.00'
+      }
     }, // 格式化点数
     formatPercent (data) {
       return data ? data * 100 + '%' : '0.00%'

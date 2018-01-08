@@ -188,7 +188,8 @@ export default {
         '/naLiveGameReport',
         '/naArcadeGameReport',
         '/naMallReport',
-        '/ttgVedioGameReport'
+        '/ttgVedioGameReport',
+        '/saLiveGameReport'
       ]
     }
   },
@@ -224,7 +225,7 @@ export default {
   },
   methods: {
     getAtime (row, col) {
-      return detailTime(row.createAt)
+      return detailTime(row.updateAt)
     }, // 格式化退出时间
     getBtime (row, col) {
       if(row.joinTime) {
@@ -353,8 +354,8 @@ export default {
       )
     },
     initTime () {
-      const start = new Date();
-      const end = new Date();
+      const start = this.amountDate[0] ? new Date(this.amountDate[0]) : new Date();
+      const end = this.amountDate[1] ? new Date(this.amountDate[1]) : new Date();
       start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
       this.amountDate = [start,end];
     }

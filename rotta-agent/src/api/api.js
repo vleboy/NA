@@ -22,9 +22,7 @@ const front = {
 
 const api = {
    // zues
-  checkUserExist: front.zues + front.stage + '/checkUserExist', // 检查用户是否存在
-
-  checkDisplayName: front.zues + front.stage + '/checkNickExist', // 验证昵称是否重复
+  checkExist: front.zues + front.stage + '/checkExist', // 检查用户 标识,昵称,账号,sn 是否存在
 
   managers: front.zues + front.stage + '/managers', // 线路商数据接口
 

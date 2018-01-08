@@ -1,5 +1,5 @@
 <template>
-  <div class="naLiveGame-report">
+  <div class="saLiveGame-report">
 
     <div class="nowUserlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
@@ -10,7 +10,7 @@
           <el-button @click="resetSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="naLiveNowlist" stripe>
+      <el-table :data="saLiveNowlist" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -71,7 +71,7 @@
 
     <div class="childlist">
       <p class="title">下级列表</p>
-      <el-table :data="naLiveNowchild" stripe>
+      <el-table :data="saLiveNowchild" stripe>
         <el-table-column label="序号" prop="" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -132,7 +132,7 @@
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naLiveGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.saLiveGameData.nowChildList.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
       </div>
     </div>
 
@@ -145,7 +145,7 @@
           <el-button @click="resetPlayerSearch">重置</el-button>
         </div>
       </div>
-      <el-table :data="naLiveNowplayer" stripe>
+      <el-table :data="saLiveNowplayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="center">
@@ -192,7 +192,7 @@
         </el-table-column>
       </el-table>
       <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naLiveGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.saLiveGameData.nowPlayerlist.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
       </div>
     </div>
 
@@ -206,30 +206,30 @@ import { formatPoints } from '@/behavior/format'
 export default {
   beforeCreate () {
     localStorage.removeItem('searchTime')
-    this.$store.commit('resetnaLiveNowchild')
-    this.$store.commit('resetnaLiveNowplayer')
+    this.$store.commit('resetsaLiveNowchild')
+    this.$store.commit('resetsaLiveNowplayer')
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'naLiveGameReport'
+      data: 'saLiveGameReport'
     })
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
-      type: 'recordnaLiveID',
+      type: 'recordsaLiveID',
       data: ''
     })
     this.$store.commit('startLoading')
-    this.$store.dispatch('getnaLiveNowchild')
-    this.$store.dispatch('getnaLiveNowplayer')
+    this.$store.dispatch('getsaLiveNowchild')
+    this.$store.dispatch('getsaLiveNowplayer')
   },
   activated: function () {
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'naLiveGameReport'
+      data: 'saLiveGameReport'
     })
   },
   computed:{
     rollNumber () {
-      let data = this.$store.state.variable.naLiveGameData.nowList
+      let data = this.$store.state.variable.saLiveGameData.nowList
       if (!data.liveMix) {
         data.liveMix = 0
       }
@@ -243,26 +243,26 @@ export default {
       } // 获利比例
       return data
     },
-    naLiveNowlist () {
-      this.nowId = this.$store.state.variable.naLiveGameData.nowList.userId
-      let data = [this.$store.state.variable.naLiveGameData.nowList]
+    saLiveNowlist () {
+      this.nowId = this.$store.state.variable.saLiveGameData.nowList.userId
+      let data = [this.$store.state.variable.saLiveGameData.nowList]
       return data
     },
-    naLiveNowchild () {
-      var nowchild = this.$store.state.variable.naLiveGameData.nowChildList
+    saLiveNowchild () {
+      var nowchild = this.$store.state.variable.saLiveGameData.nowChildList
       if (this.childPage === 1) {
-        nowchild = this.$store.state.variable.naLiveGameData.nowChildList.slice(0, this.childSize)
+        nowchild = this.$store.state.variable.saLiveGameData.nowChildList.slice(0, this.childSize)
       } else {
-        nowchild = this.$store.state.variable.naLiveGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
+        nowchild = this.$store.state.variable.saLiveGameData.nowChildList.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
       }
       return nowchild
     },
-    naLiveNowplayer () {
-      var nowplayer = this.$store.state.variable.naLiveGameData.nowPlayerlist
+    saLiveNowplayer () {
+      var nowplayer = this.$store.state.variable.saLiveGameData.nowPlayerlist
       if (this.playerPage === 1) {
-        nowplayer = this.$store.state.variable.naLiveGameData.nowPlayerlist.slice(0, this.playerSize)
+        nowplayer = this.$store.state.variable.saLiveGameData.nowPlayerlist.slice(0, this.playerSize)
       } else {
-        nowplayer = this.$store.state.variable.naLiveGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
+        nowplayer = this.$store.state.variable.saLiveGameData.nowPlayerlist.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
       }
       return nowplayer
     }
@@ -422,7 +422,7 @@ export default {
       } else {
         this.playerLoading = true
         let data = {
-          parentId: this.$store.state.variable.naLiveGameData.nowList.userId,
+          parentId: this.$store.state.variable.saLiveGameData.nowList.userId,
           query: {
             userName: this.playerData
           },
@@ -454,7 +454,7 @@ export default {
               this.rollNumber.nowBouns = 0
               this.rollNumber.nowSubmit = 0
               this.rollNumber.mixAmount = 0
-              this.$store.commit('resetnaLiveNowplayer')
+              this.$store.commit('resetsaLiveNowplayer')
               for (let item of data) {
                 let player_data = {
                   gameType: 30000,
@@ -483,7 +483,7 @@ export default {
                           item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                           item.winloseRate = item.nowallBet / data.mixAmount
                           this.$store.commit({
-                            type: 'recordnaLiveNowplayer',
+                            type: 'recordsaLiveNowplayer',
                             data: item
                           })
                         }
@@ -508,7 +508,7 @@ export default {
       this.rollNumber.nowBouns = 0
       this.rollNumber.nowSubmit = 0
       this.rollNumber.mixAmount = 0
-      this.$store.dispatch('getnaLiveNowplayer')
+      this.$store.dispatch('getsaLiveNowplayer')
     }, // 重置玩家搜索
     formatWinloseRate (data) {
       return data && !isNaN(data) ? (data * 100).toFixed(2) + '%' : '0.00%'
@@ -526,11 +526,7 @@ export default {
       return '代理'
     }, // 格式化用户类型
     points (data) {
-      if (data && !isNaN(Number(data).toFixed(2))) {
-        return formatPoints(Number(data).toFixed(2))
-      } else {
-        return '0.00'
-      }
+      return formatPoints('' + data)
     }, // 格式化点数
     searchData () {
       if (this.searchDate[0] == null || this.searchDate[1] == null) {
@@ -541,8 +537,8 @@ export default {
       } else {
         this.loading = true
         localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.$store.dispatch('getnaLiveNowchild')
-        this.$store.dispatch('getnaLiveNowplayer')
+        this.$store.dispatch('getsaLiveNowchild')
+        this.$store.dispatch('getsaLiveNowplayer')
         let _self = this
         setTimeout(function(){
           _self.$message({
@@ -557,19 +553,19 @@ export default {
       this.searchDate = []
       localStorage.removeItem('searchTime')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getnaLiveNowchild')
-      this.$store.dispatch('getnaLiveNowplayer')
+      this.$store.dispatch('getsaLiveNowchild')
+      this.$store.dispatch('getsaLiveNowplayer')
     }, // 重置搜索条件
     checkUser (data) {
       this.$store.commit({
-        type: 'recordnaLiveID',
+        type: 'recordsaLiveID',
         data: data.userId
       })
-      this.$store.commit('resetnaLiveNowchild')
-      this.$store.commit('resetnaLiveNowplayer')
+      this.$store.commit('resetsaLiveNowchild')
+      this.$store.commit('resetsaLiveNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getnaLiveNowchild')
-      this.$store.dispatch('getnaLiveNowplayer')
+      this.$store.dispatch('getsaLiveNowchild')
+      this.$store.dispatch('getsaLiveNowplayer')
     }, // 查看当前用户信息
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
@@ -580,19 +576,19 @@ export default {
       })
     }, // 跳转至玩家详情
     goBack () {
-      var data = this.$store.state.variable.naLiveGameData.nowList.parent
+      var data = this.$store.state.variable.saLiveGameData.nowList.parent
       if (data == '01') {
         data = ''
       }
       this.$store.commit({
-        type: 'recordnaLiveID',
+        type: 'recordsaLiveID',
         data: data
       })
-      this.$store.commit('resetnaLiveNowchild')
-      this.$store.commit('resetnaLiveNowplayer')
+      this.$store.commit('resetsaLiveNowchild')
+      this.$store.commit('resetsaLiveNowplayer')
       this.$store.commit('startLoading')
-      this.$store.dispatch('getnaLiveNowchild')
-      data !== '01' ? this.$store.dispatch('getnaLiveNowplayer') : ''
+      this.$store.dispatch('getsaLiveNowchild')
+      data !== '01' ? this.$store.dispatch('getsaLiveNowplayer') : ''
     }, // 退回上一级
     getChildsize (size) {
       this.childSize = size
@@ -614,15 +610,15 @@ export default {
 </script>
 
 <style scpoed>
-.naLiveGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
-.naLiveGame-report .input{width: 25rem}
-.naLiveGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
-.naLiveGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
-.naLiveGame-report .nowUserlist,
-.naLiveGame-report .childlist,
-.naLiveGame-report .playerlist{width: 99%;margin: 2rem auto}
-.naLiveGame-report .fontUrl{cursor: pointer;color: #20a0ff}
-.naLiveGame-report .fontUrl:hover{text-decoration: underline;}
+.saLiveGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.saLiveGame-report .input{width: 25rem}
+.saLiveGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+.saLiveGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
+.saLiveGame-report .nowUserlist,
+.saLiveGame-report .childlist,
+.saLiveGame-report .playerlist{width: 99%;margin: 2rem auto}
+.saLiveGame-report .fontUrl{cursor: pointer;color: #20a0ff}
+.saLiveGame-report .fontUrl:hover{text-decoration: underline;}
 
 .green{color: #00CC00}
 .red{color: #FF3300}

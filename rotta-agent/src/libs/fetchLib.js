@@ -22,7 +22,7 @@ export const invoke = async (cfg) => {
     const response = await axios.request(requestConfig)
     return [0, response]
   } catch (e) {
-    if (!e.response) {
+    if (!e.response || e.response.message) {
       store.state.variable.isloading = false
       Message.warning('您的网络不稳定,请刷新后重试')
     } else {

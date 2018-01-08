@@ -296,7 +296,11 @@ export default {
       }
     }, // 格式化用户类型
     points (data) {
-      return formatPoints('' + data)
+      if (data && !isNaN(Number(data).toFixed(2))) {
+        return formatPoints(Number(data).toFixed(2))
+      } else {
+        return '0.00'
+      }
     }, // 格式化点数
     searchData () {
       if (this.searchDate[0] == null || this.searchDate[1] == null) {

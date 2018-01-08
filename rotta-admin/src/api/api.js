@@ -39,7 +39,7 @@ const api = {
 
   login: front.zues + front.stage + '/users/auth', // 所有用户登录接口
 
-  checkUserExist: front.zues + front.stage + '/checkUserExist', // 检查用户标识是否存在
+  checkExist: front.zues + front.stage + '/checkExist', // 检查用户 标识,昵称,账号,sn 是否存在
 
   managers: front.zues + front.stage + '/managers', // 线路商数据接口
 
@@ -60,8 +60,6 @@ const api = {
   parentList: front.zues + front.stage + '/avalible_managers', // 获取可用上级接口
 
   adminList: front.zues + front.stage + '/adminList', // 管理员列表
-
-  checkDisplayName: front.zues + front.stage + '/checkNickExist', // 验证昵称是否重复
 
   changePassword: front.zues + front.stage + '/updatePassword', // 修改密码
 

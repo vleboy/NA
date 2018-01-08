@@ -196,7 +196,14 @@ const variable = {
     nowChildList: [],
     nowPlayerlist: [],
     nowUserID: ''
-  }, // PT电子游戏报表数据
+  }, // TTG电子游戏报表数据
+
+  saLiveGameData: {
+    nowList: [],
+    nowChildList: [],
+    nowPlayerlist: [],
+    nowUserID: ''
+  }, // SA真人游戏报表数据
 
   playerGameType: '', // 玩家玩的游戏类别（大类）
   playerUserName: '' // 存储玩家用户名

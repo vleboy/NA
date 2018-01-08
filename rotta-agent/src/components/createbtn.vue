@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     gosetcom () {
-      if (this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.displayName === false || this.$store.state.checkform.contractPeriod === false) {
+      if (this.$store.state.checkform.sn === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.displayName === false || this.$store.state.checkform.contractPeriod === false) {
         this.$message({
           message: '请完善创建信息',
           type: 'error'
@@ -82,7 +82,7 @@ export default {
       } else {
         this.$store.commit('changeSteps')
       }
-    }, // 配置商户信息
+    }, // 配置代理信息
     goOutlist () {
       this.$store.commit({
         type: 'recordNowindex',
@@ -96,7 +96,7 @@ export default {
         data: 'comlist'
       })
       this.$router.push('comlist')
-    }, // 返回商户列表
+    }, // 返回代理列表
     goOutdetail () {
       this.$store.commit({
         type: 'recordOutdetailID',
@@ -110,7 +110,7 @@ export default {
         data: this.$store.state.variable.comsuccess.userId
       })
       this.$router.push('comdetail')
-    }, // 查看该商户详情
+    }, // 查看该代理详情
     reset () {
       if (this.nowindex === 'outcreate' && this.steps === 0) {
         this.outinfo = {
@@ -138,6 +138,7 @@ export default {
         }
       } else if (this.nowindex === 'comcreate' && this.steps === 0) {
         this.cominfo = {
+          sn: '', // 代理标识
           username: '', // 代理用户名
           password: '', // 代理登录密码
           displayName: '', // 代理昵称
