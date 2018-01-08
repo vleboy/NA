@@ -16,7 +16,7 @@
         <el-button type="text" class="" @click="randomMSN">试试手气</el-button>
       </el-form-item>
       <el-form-item label="商户标识" prop="sn">
-        <el-input v-model="setcomInfo.sn" class="input" placeholder="3~5位,只能输入中、英文及数字"></el-input>
+        <el-input v-model="setcomInfo.sn" class="input" placeholder="3~5位,只能输入中英文、数字、@、_"></el-input>
       </el-form-item>
       <el-form-item label="商户拥有的游戏">
         <el-select v-model="setcomInfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
