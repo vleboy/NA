@@ -647,6 +647,17 @@ const actions = {
           createdAt: searchDate
         }
       } // NA街机账单请求参数
+
+      let na_mall = {
+        gameType: -1,
+        kindId:-3,
+        role: item.role,
+        userIds: [item.userId],
+        query: {
+          createdAt: searchDate
+        }
+      } // NA商城账单请求参数
+
       let ttg_vedio = {
         gameType: 1010000,
         role: item.role,
@@ -694,7 +705,13 @@ const actions = {
         data: sa_live
       }) // SA电子账单数据
 
-      Promise.all([p1,p2,p3,p4,p5]).then(result=>{
+      let p6 = invoke({
+        url: api.calcUserStat,
+        method: api.post,
+        data: na_mall
+      }) // NA商城账单数据
+
+      Promise.all([p1,p2,p3,p4,p5,p6]).then(result=>{
         let result1 = result[0][1].data.payload[0]
         if (result1 && result1.betCount > 0) {
           item.allbetCount += result1.betCount
@@ -739,6 +756,13 @@ const actions = {
           item.saSubmit += result5.winlose * (1 - item.rate / 100)
           item.allSubmit += item.saSubmit
         } // SA真人账单数据
+
+        let result6 = result[5][1].data.payload[0]
+        if (result6 && result6.betCount > 0) {
+          item.allbetCount += result6.betCount
+          item.naWinlose += result6.winlose
+          item.allWinlose += result6.winlose
+        } // NA商城账单数据
 
         if (item.allbetCount > 0) {
           context.commit({
