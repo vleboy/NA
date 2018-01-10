@@ -183,7 +183,7 @@
                             <el-col :span="8">
                                 <div class="">
                                     <el-form-item label="生效时间" v-show="this.disable == true">
-                                        ********
+                                        {{contractPeriod(comdetail.contractPeriod)}}
                                     </el-form-item>
                                     <el-form-item label="生效时间" prop="contractPeriod" v-show="this.disable == false">
                                         <el-date-picker v-model="comdetail.contractPeriod" type="daterange" label="生效时间" :disabled="comdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
