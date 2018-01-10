@@ -151,12 +151,14 @@ export default {
       if (val) {
         this.CompanyGame = []
         this.setcomInfo.selectGame = ''
+        let data = {
+          companyIden: val
+        }
+        this.$store.state.variable.comcreate.parent == '01' ? '' : data.userId = this.$store.state.variable.comcreate.parent
         invoke({
           url: api.gameBigType,
           method: api.post,
-          data: {
-            companyIden: val
-          }
+          data: data
         }).then(
           result => {
             const [err, ret] = result
