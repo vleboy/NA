@@ -953,7 +953,7 @@ const actions = {
           item.allSubmit += item.ttgSubmit
         } // ttg电子账单数据
 
-        let result5 = result[0][1].data.payload[0]
+        let result5 = result[4][1].data.payload[0]
         if (result5 && result5.betCount > 0) {
           item.allbetCount += result5.betCount
           item.allWinlose += result5.winlose

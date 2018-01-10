@@ -124,12 +124,12 @@
         </el-table-column>
         <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{(scope.row.saWinlose)}}</span>
+            <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="center">
           <template scope="scope">
-            <span>{{(scope.row.saSubmit)}}</span>
+            <span>{{formatToFix(scope.row.saSubmit)}}</span>
           </template>
         </el-table-column>
       </el-table>
