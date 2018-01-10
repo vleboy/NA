@@ -1,5 +1,9 @@
 <template>
   <div class="Ascendant">
+     <div class="chart">
+       <img src="/static/chart.png" alt="">
+     </div>
+     <Server />
      <card-item 
       v-for="(item, index) in info"
       :key="index"
@@ -15,9 +19,10 @@
 
 <script>
 import cardItem from '@/components/card-item'
+import Server from './Server'
 export default {
   head: {
-    title: 'NA优势'
+    title: '合作共赢'
   },
   data () {
     return {
@@ -51,7 +56,8 @@ export default {
     }
   },
   components: {
-    cardItem
+    cardItem,
+    Server
   }
 }
 </script>
@@ -60,6 +66,9 @@ export default {
 .Ascendant
   .is-reversed
     background-color #f9f9f9
+.chart
+  img 
+    width 100%
 
 .more
   text-align center

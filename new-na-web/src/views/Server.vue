@@ -1,22 +1,5 @@
 <template>
   <div class="server">
-    <div class="service-system">
-      <h2>NA Gaming 服务体系</h2>
-      <div class="service-items-desc">NA Gaming Service System</div>
-      <div class="service-items-line"><i></i></div>
-      <div class="service-system-bg">
-        <div class="service-system-banners">
-          <div class="server-banner">
-            <img src="../assets/img/serverBanner.png" alt="">
-            <div class="banner-title">服务事件名</div>
-            <div class="banner-line"></div>
-            <p>服务事件内容，比如与某公司合作开展了什么什么比赛这里需要后台模块配合，包括标题文字、内容文字、图片等服务事件内容，比如与某公司合作开展了什么什么比赛这里需要后台模块配合，包括标题文字、内容文字、图片等</p>
-            <a href="javascript:;">Read more</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="service-items">
       <h2>NA Gaming 服务模块</h2>
       <div class="service-items-desc">四大服务模块，满足你所有的需求</div>

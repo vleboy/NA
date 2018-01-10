@@ -10,10 +10,9 @@
       <nav>
         <ul>
           <li :class="{active: $route.path === '/'}"><router-link to="/">{{$router.path}}首页</router-link></li>
-          <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">NA优势</router-link></li>
-          <li :class="{active: $route.path === '/Innovation'}"><router-link to="/Innovation">创新产品</router-link></li>
+          <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">合作共赢</router-link></li>
+          <li :class="{active: $route.path === '/Innovation'}"><router-link to="/Innovation">NA旗舰版</router-link></li>
           <li :class="{active: $route.path === '/Game'}"><router-link to="/Game">NA游戏</router-link></li>
-          <li :class="{active: $route.path === '/Server'}"><router-link to="/Server">服务方案</router-link></li>
           <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
           <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
         </ul>
@@ -34,10 +33,9 @@
 
       <transition name="mobileShow">
         <ul class="mobile" v-show="showMenu">
-          <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">NA优势</router-link></li>
-          <li :class="{active: $route.path === '/Innovation'}"><router-link to="/Innovation">创新产品</router-link></li>          
-          <li :class="{active: $route.path === '/Game'}"><router-link to="/Game">NA游戏</router-link></li>          
-          <li :class="{active: $route.path === '/Server'}"><router-link to="/Server">服务方案</router-link></li>          
+          <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">合作共赢</router-link></li>
+          <li :class="{active: $route.path === '/Innovation'}"><router-link to="/Innovation">NA旗舰版</router-link></li>          
+          <li :class="{active: $route.path === '/Game'}"><router-link to="/Game">NA游戏</router-link></li>              
           <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
           <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
         </ul>
