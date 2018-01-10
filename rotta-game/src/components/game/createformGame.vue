@@ -23,7 +23,7 @@
       </el-select>
       </el-form-item>
       <el-form-item label="KindId" prop="kindId">
-        <el-input v-model="managerInfo.kindId" class="input" placeholder="请输入KindId(范围1-9999)" type="number" :maxlength='5'></el-input>
+        <el-input v-model="managerInfo.kindId" class="input" placeholder="请输入KindId(范围1-99999)" type="number" :maxlength='5'></el-input>
       </el-form-item>
       <el-form-item label="key" v-if="companyKey">
         <el-tag type="danger">{{companyKey}}</el-tag>
@@ -154,8 +154,8 @@
         if (value === '') {
           callback(new Error('请输入KindId'))
           this.isfinish.kindId = false
-        } else if (!pattern.positiveInteger.exec(value) || value > 9999) {
-          callback(new Error('必须为正整数，范围在1-9999之间'))
+        } else if (!pattern.positiveInteger.exec(value) || value > 99999) {
+          callback(new Error('必须为正整数，范围在1-99999之间'))
           this.isfinish.kindId = false
         } else {
           callback()
