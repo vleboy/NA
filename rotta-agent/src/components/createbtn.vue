@@ -74,7 +74,7 @@ export default {
       }
     }, // 配置代理信息
     gosuccom () {
-      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.vedioMix === false || this.$store.state.checkform.liveMix === false) {
+      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false) {
         this.$message({
           message: '请完善配置信息',
           type: 'error'
@@ -155,8 +155,6 @@ export default {
           gameList: [], // 代理游戏
           points: '', // 代理点数
           rate: '', // 代理抽成比
-          liveMix: '', // 真人洗码比
-          vedioMix: '' // 电子洗码比
         }
       }
     },

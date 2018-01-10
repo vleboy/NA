@@ -4,7 +4,7 @@
     <h2 class="title">基本信息</h2>
     <el-form :model="merchantInfo" ref="merchantInfo" :rules="rules" label-width="140px" label-position="right">
           <el-form-item label="代理标识" prop="sn">
-            <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中、英文或数字"></el-input>
+            <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中英文、数字、@、_"></el-input>
           </el-form-item>
           <el-form-item label="代理用户名" prop="username">
             <el-input v-model="merchantInfo.username" class="input" placeholder="5~16位,只能包含英文或数字"></el-input>

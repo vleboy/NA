@@ -22,8 +22,16 @@
         <el-table-column label="序号" type="index" align="center" width="80"></el-table-column>
         <el-table-column label="物品ID" prop="toolId" align="center"></el-table-column>
         <el-table-column label="道具名称" prop="toolName"></el-table-column>
-        <el-table-column label="道具单价" prop="toolPrice"></el-table-column>
-        <el-table-column label="商户最低定价下浮百分比" prop="lowerRatio" align="center"></el-table-column>
+        <el-table-column label="道具单价" prop="toolPrice">
+          <template scope="scope">
+            <p>{{ scope.row.toolPrice === 'NULL!' ? '-' : scope.row.toolPrice}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="商户最低定价下浮百分比" prop="lowerRatio" align="center">
+          <template scope="scope">
+            <p>{{ scope.row.lowerRatio === 'NULL!' ? '-' : scope.row.lowerRatio}}</p>
+          </template>
+        </el-table-column>
         <el-table-column label="商户最高定价上浮百分比" prop="comeUpRatio" align="center">
           <template scope="scope">
             <p>{{ scope.row.comeUpRatio === 'NULL!' ? '无限制' : scope.row.comeUpRatio}}</p>
@@ -169,6 +177,7 @@ export default {
       }
       if (this.isSending) return // 防止重复提交
       this.isSending = true
+      this.propPrizeInfo.status = this.isUnlimited ? '2' : '1'
       invoke({
         url: api.toolSetPrice,
         method: api.post,
@@ -198,7 +207,11 @@ export default {
       this.isOpenModal = true
       if (JSON.stringify(row) !== '{}') {
         this.propPrizeInfo = JSON.parse(JSON.stringify(row))
-//        this.propPrizeInfo.status = '2'
+        this.propPrizeInfo.toolPrice = (this.propPrizeInfo.toolPrice === 'NULL!') ? '' : this.propPrizeInfo.toolPrice
+        this.propPrizeInfo.comeUpRatio = (this.propPrizeInfo.comeUpRatio === 'NULL!') ? '' : this.propPrizeInfo.comeUpRatio
+        this.propPrizeInfo.lowerRatio = (this.propPrizeInfo.lowerRatio === 'NULL!') ? '' : this.propPrizeInfo.lowerRatio
+//        this.propPrizeInfo.status = this.isUnlimited ? '2' : '1'
+        this.isUnlimited = this.propPrizeInfo.status == 2
       } else {
         this.propPrizeInfo = {}
       }
@@ -211,7 +224,6 @@ export default {
     },
     changeSwitch () {
       this.isUnlimited = !this.isUnlimited
-      this.propPrizeInfo.status = this.isUnlimited ? '2' : '1'
       if(!this.isUnlimited){
         this.propPrizeInfo.comeUpRatio = ""
       }

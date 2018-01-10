@@ -37,19 +37,16 @@
                         </div>
                     </template>
                 </el-table-column>
+                <el-table-column label="洗码比" prop="gamelist" align="center" width="110">
+                    <template scope="scope">
+                        <div slot="reference" class="gamelist">
+                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.mix }}</el-tag>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column label="代理成数" prop="rate" align="center">
                     <template scope="scope">
                         <span>{{(scope.row.rate)}}%</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="电子游戏洗码比" prop="vedioMix" align="center">
-                    <template scope="scope">
-                        <span>{{(scope.row.vedioMix)}}%</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="真人视讯洗码比" prop="liveMix" align="center">
-                    <template scope="scope">
-                        <span>{{(scope.row.liveMix)}}%</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="剩余点数" align="center" prop="balance">

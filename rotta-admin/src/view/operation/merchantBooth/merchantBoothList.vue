@@ -322,13 +322,15 @@ export default {
       }
     },
     tipsRatio () {
-      let toolLow, toolUp, price= ''
+      let toolLow, toolUp, price, status= ''
+      let packageStatus = []
       if (this.boothInfo.contentType ===1) {
         this.oldPropList.forEach(item => {
           if (item.toolName === this.boothInfo.prop) {
             toolLow = item.lowerRatio*0.01
             toolUp = item.comeUpRatio*0.01
             price = item.toolPrice
+            status = item.status
             this.allPriceLow = (1-toolLow) > 0 ? (this.boothInfo.sum!='' ? (1-toolLow)*price*this.boothInfo.sum : (1-toolLow)*price) : 0
             this.allPriceUp = this.boothInfo.sum!='' ? toolUp*price*this.boothInfo.sum : toolUp*price
           }
@@ -342,14 +344,22 @@ export default {
               toolLow = data.lowerRatio*0.01
               toolUp = data.comeUpRatio*0.01
               price = data.toolPrice
+              packageStatus.push(data.status)
               this.allPriceLow = ((1-toolLow) > 0 ? (this.boothInfo.sum!='' ? (1-toolLow)*price*this.boothInfo.sum : (1-toolLow)*price) : 0) + this.allPriceLow
               this.allPriceUp = (this.boothInfo.sum!='' ? toolUp*price*this.boothInfo.sum : toolUp*price) + this.allPriceUp
             }
           }
         })
+//        主要处理道具礼包里道具是否有无限制的上浮率
+        for (let item of packageStatus) {
+          if(item=='1') {
+            status = item
+            break
+          }
+        }
       }
 
-      return `物品总价的最低价格为：${this.allPriceLow||0},最高价格为：${this.allPriceUp||0}`
+      return `物品总价的最低价格为：${this.allPriceLow||0},最高价格为：${status=='1' ? '无限制' : (this.allPriceUp||0)}`
     }
   },
   methods: {

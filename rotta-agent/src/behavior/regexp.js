@@ -153,7 +153,7 @@ export const checkDisplayname = (rule, value, callback) => {
 } // 验证昵称
 
 export const checksn = (rule, value, callback) => {
-  var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
+  var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_@]{3,5}$/)
   if (value === '') {
     callback(new Error('请输入代理标识'))
     store.state.checkform.sn = false
@@ -161,7 +161,7 @@ export const checksn = (rule, value, callback) => {
     callback(new Error('代理标识的长度应在3-5位之间'))
     store.state.checkform.sn = false
   } else if (!nick.exec(value)) {
-    callback(new Error('代理标识只能输入中文、英文、数字'))
+    callback(new Error('代理标识只能输入中文、英文、数字,@和_'))
     store.state.checkform.sn = false
   } else {
     store.state.checkform.sn = false

@@ -17,16 +17,6 @@
               <el-option v-for="(item, index) in childrenList" :key="index" :label="item.displayName" :value="item.userId"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="电子游戏洗码比（%）" prop="liveMix">
-            <el-tooltip effect="dark" :content="parentLivemix" placement="right">
-              <el-input v-model="playerInfo.liveMix" class="input" placeholder="请输入" :disabled="playerInfo.parentId==''"></el-input>
-            </el-tooltip>
-          </el-form-item>
-          <el-form-item label="真人游戏洗码比（%）" prop="vedioMix">
-            <el-tooltip effect="dark" :content="parentVediomix" placement="right">
-              <el-input v-model="playerInfo.vedioMix" class="input" placeholder="请输入" :disabled="playerInfo.parentId==''"></el-input>
-            </el-tooltip>
-          </el-form-item>
           <el-form-item label="分配点数" prop="points">
             <el-tooltip effect="dark" :content="parentPoints" placement="right">
               <el-input v-model="playerInfo.points" class="input" placeholder="请输入" :disabled="playerInfo.parentId==''"></el-input>
@@ -109,46 +99,11 @@
           this.status.isCheckPoints = true
         }
       } // 分配点数
-      let checkLiveMix = (rule, value, callback) => {
-        let numReg = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
-        if (value === '') {
-          callback(new Error('请输入电子游戏洗码比'))
-          this.status.isCheckLiveMix = false
-        } else if (value < 0 || value > this.mixInfo.liveMix) {
-          callback(new Error(`该上级电子游戏洗码比为${this.mixInfo.liveMix}% 已超出上级洗码比`))
-          this.status.isCheckLiveMix = false
-        } else if (!numReg.exec(value)) {
-          callback(new Error(`洗码比因在 0.00 ~ 1.00 之间`))
-          this.status.isCheckLiveMix = false
-        } else {
-          callback()
-          this.status.isCheckLiveMix = true
-        }
-      } // 电子游戏洗马币
-      let checkVedioMix = (rule, value, callback) => {
-        let numReg = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
-        if (value === '') {
-          callback(new Error('请输入真人游戏洗码比'))
-          this.status.isCheckVedioMix = false
-        } else if (!numReg.exec(value)) {
-          callback(new Error(`洗码比因在 0.00 ~ 1.00 之间`))
-          this.status.isCheckVedioMix = false
-        } else if (value < 0 || value > this.mixInfo.vedioMix) {
-          callback(new Error(`该上级真人游戏洗码比为${this.mixInfo.vedioMix}% 已超出上级洗码比`))
-          this.status.isCheckVedioMix = false
-        } else {
-          callback()
-          this.status.isCheckVedioMix = true
-        }
-      } // 真人游戏洗马币
-
       return {
         playerInfo: {
           userName: '',
           userPwd: '',
           points: '',
-          vedioMix: '',
-          liveMix: '',
           parentId: '',
           remark: ''
         },
@@ -158,8 +113,6 @@
           isCheckUserName: false,
           isCheckPwd: false,
           isCheckPoints: false,
-          isCheckLiveMix: false,
-          isCheckVedioMix: false,
           isSending: false
         },
         rules: {
@@ -171,12 +124,6 @@
           ],
           points: [
             {validator: checkPoints, trigger: 'blur'}
-          ],
-          liveMix: [
-            {validator: checkLiveMix, trigger: 'blur'}
-          ],
-          vedioMix: [
-            {validator: checkVedioMix, trigger: 'blur'}
           ]
         }
       }
@@ -184,12 +131,6 @@
     computed: {
       parentPoints () {
         return `上级代理可分配点数为:${this.mixInfo.points || 0}`
-      },
-      parentLivemix () {
-        return `上级代理电子游戏洗码比为:${this.mixInfo.liveMix || 0}%`
-      },
-      parentVediomix () {
-        return `上级代理真人游戏洗码比为:${this.mixInfo.vedioMix || 0}%`
       }
     },
     methods: {
@@ -215,8 +156,6 @@
         this.$store.commit('closeLoading')
       },
       changeList () {
-        this.playerInfo.vedioMix = ''
-        this.playerInfo.liveMix = ''
         for (let item of this.childrenList) {
           if (item.userId === this.playerInfo.parentId) {
             this.mixInfo = item
@@ -224,8 +163,7 @@
         }
       },
       registAdmin () {
-        if (!this.status.isCheckUserName || !this.status.isCheckPwd || !this.status.isCheckPoints ||
-          !this.status.isCheckLiveMix || !this.status.isCheckVedioMix) {
+        if (!this.status.isCheckUserName || !this.status.isCheckPwd || !this.status.isCheckPoints) {
           return this.$message.error('请完善配置信息')
         } else if (!this.playerInfo.parentId) {
           return this.$message.error('请选择直属上级')
@@ -248,7 +186,6 @@
               this.status.isSending = false
             } else {
               var data = ret.payload
-              // console.log(data)
               this.$message({
                 message: '创建成功',
                 type: 'success'
@@ -265,8 +202,6 @@
           userName: '',
           userPwd: '',
           points: '',
-          vedioMix: '',
-          liveMix: '',
           parentId: '',
           remark: ''
         }
