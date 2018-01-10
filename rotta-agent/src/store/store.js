@@ -3334,7 +3334,6 @@ const mutations = {
 
   recordnaMallNowchild (state, payload){
     state.variable.naMallData.mallNowChild.push(payload.data)
-    console.log(1,payload.data)
     state.variable.naMallData.mallNowList.betCount += payload.data.betCount
     state.variable.naMallData.mallNowList.winlose += payload.data.winlose
   }, // 记录NA商城总报表下级列表
