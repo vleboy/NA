@@ -184,7 +184,7 @@ export default {
       }
     },
     userName () {
-      return this.$store.state.variable.playerDetail.userName || localStorage.playerName
+      return this.$store.state.variable.playerUserName || localStorage.playerName
     },
     formatNum () {
       this.allAmount = 0
