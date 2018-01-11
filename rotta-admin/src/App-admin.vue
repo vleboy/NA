@@ -2,7 +2,7 @@
   <div id="app">
     <div style="width:100%;height:100%">
       <!-- 顶部条 -->
-      <div class="top Noprint" v-if="islogin">
+      <div class="top Noprint" v-if="islogin" style='z-index:101'>
         <div class="top-header">
           <bread class="Noprint"></bread>
           <loginbar class="Noprint"></loginbar>
@@ -17,7 +17,7 @@
       </div>
       <!-- 主内容区路由 -->
       <div :class="{'main-right-true': isSlider, 'main-right-false': !isSlider }" id="routerBox" @click="closeMap">
-        <div class="right-content" v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'>
+        <div class="right-content" v-loading="loading" element-loading-text="正在为您加载" style='z-index:100'>
           <keep-alive>
             <router-view v-if="$route.meta.keepAlive"></router-view>
           </keep-alive>
@@ -131,8 +131,11 @@ height: 1px;
 }
 
 .right-content{
-  height:100%;
-  overflow:auto;
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .main-map{

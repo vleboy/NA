@@ -10,7 +10,7 @@
     <el-tag type="primary" v-if="subRole" class="loginSubrole">{{formatRole(subRole)}}</el-tag>
   	<el-dropdown trigger="click">
       <span class="username">{{formatUser(username)}}</span>
-        <el-dropdown-menu slot="dropdown">
+        <el-dropdown-menu slot="dropdown" style='z-index:2001'>
           <p @click="goPersonal"><el-dropdown-item>个人中心</el-dropdown-item></p>
           <p @click="logout"><el-dropdown-item>退出登录</el-dropdown-item></p>
         </el-dropdown-menu>
