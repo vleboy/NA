@@ -257,6 +257,7 @@
 
     <el-breadcrumb separator="/" v-if="nowindex === 'naAllGameReport'" class="title">
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
+      <el-breadcrumb-item>NA游戏报表 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">NA游戏总报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
