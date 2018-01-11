@@ -2,7 +2,7 @@
   <div id="app">
     <div style="width:100%;height:100%">
       <!-- 顶部条 -->
-      <div class="top Noprint" v-if="islogin">
+      <div class="top Noprint" v-if="islogin" style='z-index:2001'>
         <div class="top-header">
           <bread class="Noprint"></bread>
           <loginbar class="Noprint"></loginbar>
@@ -88,7 +88,14 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 #app{width: 100%;height: 100%;}
 /* #20a0ff */
 /**/
-.top{width: 85%;position:fixed;top:0;left:15%;right:0;background-color:#fff;}
+.top{
+  width: 85%;
+  position:fixed;
+  top:0;
+  left:15%;
+  right:0;
+  background-color:#fff;
+}
 /*::-webkit-scrollbar {*/
 /*width: 0px;*/
 /*height: 1px;*/
@@ -128,8 +135,8 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 }
 
 .right-content{
-  height:100%;
-  overflow:auto;
+  width: 100%;
+  height: auto;
 }
 
 .main-map{

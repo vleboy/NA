@@ -2,7 +2,7 @@
   <div id="app">
     <div style="width:100%;height:100%">
       <!-- 顶部条 -->
-      <div class="top Noprint" v-if="islogin">
+      <div class="top Noprint" v-if="islogin" style='z-index:2001'>
         <div class="top-header">
           <bread class="Noprint"></bread>
           <loginbar class="Noprint"></loginbar>
@@ -95,6 +95,7 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 }
 
 .main-right{
+  width: 100%;
   height:100%;
   padding:99px 0 0 10%;
   box-sizing:border-box;
@@ -102,8 +103,8 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 }
 
 .right-content{
-  height:100%;
-  overflow:auto;
+  width: 100%;
+  height: auto;
 }
 
 .main-map{

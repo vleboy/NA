@@ -191,22 +191,22 @@ export default {
   beforeCreate () {
     this.$store.commit('startLoading')
     this.$store.commit('returnLocalStorage')
-    this.$store.commit({
-      type: 'recordComlist',
-      data: []
-    })
-    this.$store.commit({
-      type: 'recordSelfData',
-      data: []
-    })
+    // this.$store.commit({
+    //   type: 'recordComlist',
+    //   data: []
+    // })
+    // this.$store.commit({
+    //   type: 'recordSelfData',
+    //   data: []
+    // })
     this.$store.commit({
       type: 'recordAgentPlayer',
       data: []
     })
-    this.$store.commit({
-      type: 'recordMapUser',
-      data: ''
-    })
+    // this.$store.commit({
+    //   type: 'recordMapUser',
+    //   data: ''
+    // })
     this.$store.commit({
       type: 'recordNowindex',
       data: 'comlist'
