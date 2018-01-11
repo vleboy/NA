@@ -105,6 +105,7 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 .right-content{
   width: 100%;
   height: auto;
+  min-height: 100%;
 }
 
 .main-map{
