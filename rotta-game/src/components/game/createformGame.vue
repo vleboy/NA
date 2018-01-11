@@ -440,7 +440,7 @@
                 type: 'error'
               })
             } else {
-              this.uploadAction = ret.data.payload
+              this.uploadAction = ret.data.payload[0].aws
               resolve(true)
             }
           }).catch(err => {
