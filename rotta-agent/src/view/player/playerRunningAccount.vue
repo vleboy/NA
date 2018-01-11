@@ -254,7 +254,7 @@ export default {
             })
           } else {
             this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)
-            console.log(this.playerRecordList, 'this.playerRecordList')
+//            console.log(this.playerRecordList, 'this.playerRecordList')
           }
           this.$store.commit('closeLoading')
         }
