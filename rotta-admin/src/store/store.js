@@ -270,6 +270,12 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
+          if (data.launchImg == 'NULL!') {
+            data.launchImg = {
+              logo:['https://s3-ap-southeast-1.amazonaws.com/image-na-dev/1111.jpg','https://s3-ap-southeast-1.amazonaws.com/image-na-dev/1111.jpg'],
+              name:['https://s3-ap-southeast-1.amazonaws.com/image-na-dev/1111.jpg','https://s3-ap-southeast-1.amazonaws.com/image-na-dev/1111.jpg']
+            }
+          }
           context.commit('countAjax')
           localStorage.setItem('parentID', data.parent)
           context.commit({
