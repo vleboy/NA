@@ -1126,8 +1126,6 @@ export default {
             type: 'error'
           })
         } else {
-          this.type == 'logo' ? this.isUpdate1 = false : this.isUpdate2 = false
-          this.$message.success('上传成功')
           if (this.type == 'logo') {
             this.comdetail.launchImg.logo[0] = dev
             this.comdetail.launchImg.logo[1] = prod
@@ -1137,6 +1135,8 @@ export default {
             this.comdetail.launchImg.name[1] = prod
             this.imgInfo.nameImg = (process.env.NODE_ENV == 'development') ? dev : prod
           }
+          this.type == 'logo' ? this.isUpdate1 = false : this.isUpdate2 = false
+          this.$message.success('上传成功')
         }
       })
     },
