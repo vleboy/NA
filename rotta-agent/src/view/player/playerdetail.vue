@@ -56,10 +56,10 @@
             <el-button type="text" @click="openModal(1)" v-if="detailInfo.state!=0">提点</el-button>
           </el-col>
 
-          <el-col :span="7" style="float: right; text-align: right">
+          <el-col :span="12" style="float: right; text-align: right">
             <el-date-picker
               v-model="amountDate"
-              type="daterange"
+              type="datetimerange"
               placeholder="选择日期范围">
             </el-date-picker>
             <el-button type="primary" @click="searchAmount">搜索</el-button>
@@ -475,7 +475,7 @@ export default {
     initTime () {
       const start = this.amountDate[0] ? new Date(this.amountDate[0]) : new Date();
       const end = this.amountDate[1] ? new Date(this.amountDate[1]) : new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
+      !this.amountDate[0] && start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
       this.amountDate = [start,end];
     }
   },
