@@ -260,10 +260,8 @@ export default {
     },
     getNowpage (page) {
       this.nowPage = page
-      // console.log('当前是第:' + page + '页')
     },
     openURL (url) {
-      // console.log('域名', url)
       window.open(url)
     }, // 打开前端域名
     storePoints (index, row) {
