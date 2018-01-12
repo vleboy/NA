@@ -13,7 +13,7 @@
         </span>
         <div class="manangeform">
             <p>
-              <span>管理员ID: {{adminInfo.userId}}</span>
+              <span>商户密匙: {{adminInfo.apiKey}}</span>
               <span>商户简称: {{adminInfo.suffix}}</span>
               <span>商户标识: {{adminInfo.sn}}</span>
             </p>
@@ -33,9 +33,6 @@
               <span>上次登录时间: {{formatTime(adminInfo.loginAt)}}</span>
               <span>上次登录IP: {{adminInfo.lastIP}}</span>
               <span>商户线路号: {{formatMSN(adminInfo.msn)}}</span>
-            </p>
-            <p>
-              <span>商户密匙: {{adminInfo.apiKey}}</span>
             </p>
         </div>
     </div>
