@@ -1,7 +1,12 @@
 <template>
   <div class="Ascendant">
      <div class="chart">
-       <img src="/static/chart.png" alt="">
+       <div class="chart-msg">
+         新亚洲集团成⽴于2012年，是⼀家主要经营互联⽹平台业务的专业博彩公司。公司是由菲律宾政府认可的发牌及监管机构 PAGCOR颁发软件系统经权威认证，集团旗下所有游戏皆受菲律宾政府的监管与保护，正规合法，公平公正。新亚洲⼈⼀直以⾼标准开展业务，并始终坚守以下核⼼价值：”以⼈为本、客户⾄上、⾄诚⾄信、通融世界。”新亚洲集团总部设在菲律宾⻢尼拉，并在亚洲设有多家⼦公司，我们凭借⼴泛的业务⽹络及杰出的跨境能⼒，为客户提供全⽅位的平台服务。我们坚持遵守“创造最⼤价值，打造最⼈性化服务”的服务宗旨，“诚信、公平、创新、超越”的信念，根据各地区的游戏习性、⻛格喜好及⽂化需求⽽开发出了适合全球性的综合性互动游戏平台。同时，我们也⼀直坚持对⾏业内其他平台的资讯收集和探索研究，敢于创新，持续开发新的服务领域，不断提升和完善集团⾃身，以顺应未来⾏业发展，从⽽使集团更迅速向全球化迈进。
+       </div>
+       <div class="chart-cover">
+         <img src="/static/chart.jpg" alt="">
+       </div>
      </div>
      <Server />
      <card-item 
@@ -66,9 +71,21 @@ export default {
 .Ascendant
   .is-reversed
     background-color #f9f9f9
+
 .chart
-  img 
-    width 100%
+  display flex
+  background #ffffff
+
+.chart-msg, .chart-cover
+  width 50%
+
+.chart-msg
+  display flex
+  align-items center
+  padding 0 5%
+  text-indent: 2em
+  font-size 18px
+  color: #666666
 
 .more
   text-align center
@@ -103,4 +120,14 @@ export default {
       width 100%
       padding 0 10px
       margin-bottom 20px
+
+  .chart
+    flex-direction column
+  
+  .chart-msg, .chart-cover
+    width 100%
+
+  .chart-msg
+    padding 20px
+    font-size 1rem
 </style>

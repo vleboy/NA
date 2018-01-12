@@ -237,6 +237,7 @@ export default {
   .service-list-main
     p
       margin-bottom 40px
+      font-size 1rem
   
   .service-items-desc
     font-size 13px

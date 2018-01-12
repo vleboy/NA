@@ -8,7 +8,7 @@ import Contact from '@/views/contact'
 import Download from '@/views/Download'
 import Innovation from '@/views/innovation'
 import Game from '@/views/Game'
-import Server from '@/views/Server'
+import Pro from '@/views/pro'
 
 Vue.use(Router)
 
@@ -50,9 +50,9 @@ const router = new Router({
       component: Game
     },
     {
-      path: '/Server',
-      name: '/Server',
-      component: Server
+      path: '/Pro',
+      name: '/Pro',
+      component: Pro
     }
   ]
 })
