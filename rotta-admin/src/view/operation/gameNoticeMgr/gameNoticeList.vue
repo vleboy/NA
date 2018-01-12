@@ -73,7 +73,7 @@
         </el-form-item>
         <el-form-item label="公告图标" label-width="140px" style="text-align: left">
           <el-upload
-            :action="uploadAction"
+            :action="url"
             class="g-avatar-uploader"
             ref="upload"
             :http-request="requestHeader"
@@ -121,6 +121,7 @@ export default {
     return {
       nowSize: 20,
       nowPage: 1,
+      url: '',
       isOpenModal: false,
       isSending: false,
       dialogLoading: false,
@@ -340,10 +341,38 @@ export default {
       })
     }, // 删除公告
     requestHeader () {
+//      this.uploadAli ()
+      this.uploadAws ()
+    },
+    uploadAli () {
+      this.url = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
+      let mi = new OSS.Wrapper({
+        region: 'oss-cn-hangzhou',
+        accessKeyId: this.uploadAction[1].ali.AccessKeyId,
+        accessKeySecret: this.uploadAction[1].ali.AccessKeySecret,
+        stsToken: this.uploadAction[1].ali.SecurityToken,
+        bucket: 'assetdownload'
+      })
+      console.log(this.imgFile.name)
+      let suffix = this.suffixFun(this.imgFile.name)
+      let date = new Date().getTime()
+      let fileName = `image/${suffix[0]+date}.${suffix[1]}`
+      mi.multipartUpload(fileName, this.imgFile, {
+      }).then((results) => {
+        this.$message.success('上传成功')
+        this.dialogLoading = false
+        this.noticeInfo.img = results.url || `${this.url}/${results.name}`
+        console.log(results,this.noticeInfo.img, 'src')
+      }).catch((err) => {
+        this.dialogLoading = false
+        console.log(err);
+      });
+    },
+    uploadAws () {
       const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
       const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
       invoke({
-        url: this.uploadAction,
+        url: this.uploadAction[0].aws,
         method: 'put',
         data: this.imgFile,
         isToken: 'false'
@@ -358,7 +387,7 @@ export default {
           this.dialogLoading = false
           this.$message.success('上传成功')
           this.noticeInfo.img = (process.env.NODE_ENV == 'development') ? dev : prod
-          // console.log(this.noticeInfo.img, 'this.noticeInfo.img')
+           console.log(this.noticeInfo.img, 'this.noticeInfo.img')
         }
       })
     },
@@ -370,7 +399,7 @@ export default {
     }, // 图片上传成功回调
     beforeUpload (file) {
       const isLt1M = file.size / 1024 / 1024 < 10
-      const suffix = this.suffixFun(file.name).toLowerCase()
+      const suffix = this.suffixFun(file.name)[1].toLowerCase()
       const fileType = ['png', 'jpg']
       this.imgFile = file
       return new Promise((resolve, reject) =>{
@@ -399,11 +428,14 @@ export default {
               message: err.msg,
               type: 'error'
             })
+            this.dialogLoading = false
           } else {
+            this.dialogLoading = false
             this.uploadAction = ret.data.payload
             resolve(true)
           }
         }).catch(err => {
+          this.dialogLoading = false
           // console.log(err)
           reject(false)
         })
@@ -415,7 +447,7 @@ export default {
     }, // 错误回调
     suffixFun (o) {
       let arr = o.split('.')
-      return arr[arr.length - 1]
+      return arr
     } // 截取文件名的后缀
   }
 }
