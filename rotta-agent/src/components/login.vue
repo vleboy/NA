@@ -154,13 +154,16 @@ export default {
   align-items: center;
   -webkit-justify-content: center;
   justify-content: center;
-  height: 90%;
-  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 /**/
-.login .login-left{flex: 0.35; text-align: right;}
+.login .login-left{flex: 0.45; text-align: right;}
 .login .login-center{flex: 0.1; text-align: center}
-.login .login-right{flex: 0.55; text-align: left;}
+.login .login-right{flex: 0.45; text-align: left;}
 /**/
 .title-big{font-size: 3rem;}
 .title-small{font-size: 1.2rem;margin-top: 0.5rem}
