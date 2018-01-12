@@ -11,7 +11,7 @@
         	<el-table stripe :data="comlist" @sort-change="defineSort">
             <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
             </el-table-column>
-            <el-table-column label="商户标识" prop="suffix" align="center">
+            <el-table-column label="商户标识" prop="sn" align="center">
             </el-table-column>
             <el-table-column label="商户昵称" prop="displayName" align="center">
             </el-table-column>

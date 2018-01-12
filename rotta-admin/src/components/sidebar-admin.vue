@@ -64,10 +64,10 @@
                     <template slot="title">NA游戏配置</template>
                     <el-menu-item index="videoGameConfig">NA电子游戏配置</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="5-3">
+                  <!-- <el-submenu index="5-3">
                     <template slot="title">TTG游戏配置</template>
                     <el-menu-item index="videoGameConfigTTG">TTG电子游戏配置</el-menu-item>
-                  </el-submenu>
+                  </el-submenu> -->
                   <el-submenu index="5-4">
                     <template slot="title">神秘大奖</template>
                     <el-menu-item index="prizePlayerList">玩家中奖列表</el-menu-item>

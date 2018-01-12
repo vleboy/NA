@@ -129,19 +129,19 @@ export const checkSuffix = (rule, value, callback) => {
   // var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
   var suffix = new RegExp(/^[a-zA-Z]{1}[a-zA-z0-9]{1,5}$/)
   if (value === '') {
-    callback(new Error('请输入标识'))
+    callback(new Error('请输入商户简称'))
     store.state.checkform.suffix = false
   } else if (!str.exec(value.slice(0, 1))) {
-    callback(new Error('标识必须以字母开头'))
+    callback(new Error('简称必须以字母开头'))
     store.state.checkform.suffix = false
   } else if (value.length > 6) {
-    callback(new Error('标识长度不能超过6位'))
+    callback(new Error('简称长度不能超过6位'))
     store.state.checkform.suffix = false
   } else if (value.length < 2) {
-    callback(new Error('标识长度不能少于2位'))
+    callback(new Error('简称长度不能少于2位'))
     store.state.checkform.suffix = false
   } else if (!suffix.exec(value)) {
-    callback(new Error('标识只能输入英文、数字'))
+    callback(new Error('简称只能输入英文、数字'))
     store.state.checkform.suffix = false
   } else {
     if (store.state.variable.nowIndex === 'outcreate') {
@@ -164,7 +164,7 @@ export const checkSuffix = (rule, value, callback) => {
             var suffixStatus = ret.data.payload
             // console.log('标识状态为', suffixStatus)
             if (suffixStatus === false) {
-              callback(new Error('该标识已存在'))
+              callback(new Error('该简称已存在'))
               store.state.checkform.suffix = false
             } else {
               store.state.checkform.suffix = true
@@ -193,7 +193,7 @@ export const checkSuffix = (rule, value, callback) => {
             var suffixStatus = ret.data.payload
             // console.log('标识状态为', suffixStatus)
             if (suffixStatus === false) {
-              callback(new Error('该标识已存在'))
+              callback(new Error('该简称已存在'))
               store.state.checkform.suffix = false
             } else {
               store.state.checkform.suffix = true
@@ -204,7 +204,7 @@ export const checkSuffix = (rule, value, callback) => {
       )
     }
   }
-} // 验证商户标识
+} // 验证商户简称
 
 export const checkDisplayname = (rule, value, callback) => {
   var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)

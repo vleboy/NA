@@ -13,6 +13,11 @@
         </span>
         <div class="manangeform">
             <p>
+              <span>商户密匙: {{adminInfo.apiKey}}</span>
+              <span>商户简称: {{adminInfo.suffix}}</span>
+              <span>商户标识: {{adminInfo.sn}}</span>
+            </p>
+            <p>
               <span>管理员账号: {{adminInfo.uname}}</span>
               <span>管理员姓名: {{adminInfo.adminName}}</span>
               <span>管理员密码: {{adminInfo.password}}
@@ -27,6 +32,7 @@
             <p>
               <span>上次登录时间: {{formatTime(adminInfo.loginAt)}}</span>
               <span>上次登录IP: {{adminInfo.lastIP}}</span>
+              <span>商户线路号: {{formatMSN(adminInfo.msn)}}</span>
             </p>
         </div>
     </div>
@@ -357,6 +363,9 @@ export default {
         return ''
       }
     },
+    formatMSN (data) {
+      return ((parseFloat(data) * 0.001).toFixed(3) + '').substring(2)
+    }, // 格式化线路号
     getNowsize (size) {
       this.nowSize = size
     },
