@@ -14,8 +14,8 @@
         <div class="manangeform">
             <p>
               <span>管理员ID: {{adminInfo.userId}}</span>
-              <span>管理员简称: {{adminInfo.suffix}}</span>
-              <span>管理员标识: {{adminInfo.sn}}</span>
+              <span>商户简称: {{adminInfo.suffix}}</span>
+              <span>商户标识: {{adminInfo.sn}}</span>
             </p>
             <p>
               <span>管理员账号: {{adminInfo.uname}}</span>
