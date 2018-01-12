@@ -1570,6 +1570,9 @@ const actions = {
         data: data
       })
       let child = result3[1].data.payload
+      if (child.length == 0) {
+        context.commit('closeLoading')
+      }
       for (let item of child) {
         item.nowBouns = 0
         item.nowallBet = 0
