@@ -95,13 +95,13 @@
                                 </el-form-item>
                                     <el-form-item label="LOGO" v-show="disable == false">
                                         <el-upload
-                                            :action="uploadAction1"
+                                            :action="url1"
                                             class="g-avatar-uploader"
                                             ref="upload"
-                                            :http-request="login_request"
+                                            :http-request="logo_request"
                                             :on-error="handleError"
-                                            :before-upload="login_before"
-                                            :file-list="fileList"
+                                            :before-upload="logo_before"
+                                            :file-list="fileList1"
                                             :show-file-list="false">
                                           <div v-loading="isUpdate1" element-loading-text="图片上传中">
                                             <img v-if="imgInfo.logoImg" :src="imgInfo.logoImg" class="avatar">
@@ -119,13 +119,13 @@
                                 </el-form-item>
                                 <el-form-item label="NAME" v-show="disable == false">
                                     <el-upload
-                                        :action="uploadAction2"
+                                        :action="url2"
                                         class="g-avatar-uploader"
                                         ref="upload"
                                         :http-request="name_request"
                                         :on-error="handleError"
                                         :before-upload="name_before"
-                                        :file-list="fileList"
+                                        :file-list="fileList2"
                                         :show-file-list="false">
                                       <div v-loading="isUpdate2" element-loading-text="图片上传中">
                                         <img v-if="imgInfo.nameImg" :src="imgInfo.nameImg" class="avatar">
@@ -729,9 +729,12 @@ export default {
         logoImg: '',
         nameImg: '',
       },
+      url1: '', // 上传LOGO 阿里云url
+      url2: '', // 上传NAME 阿里云url
       isUpdate1: false, // 上传LOGO Loading
       isUpdate2: false, // 上传NAME Loading
-      fileList: [], // 上传LOGO 数据
+      fileList1: [], // 上传LOGO 数据
+      fileList2: [], // 上传NAME 数据
       uploadAction1: '', // 上传LOGO URL
       uploadAction2: '', // 上传name URL
       imgFile1:{},  // 上传LOGO img
@@ -1206,11 +1209,34 @@ export default {
     getPlayerAgentPage (page) {
       this.playerAgentPage = page
     }, // 直属玩家分页
-    login_request () {
+
+    logo_uploadAli () {
+      this.url1 = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
+      let mi = new OSS.Wrapper({
+        region: 'oss-cn-hangzhou',
+        accessKeyId: this.uploadAction1[1].ali.AccessKeyId,
+        accessKeySecret: this.uploadAction1[1].ali.AccessKeySecret,
+        stsToken: this.uploadAction1[1].ali.SecurityToken,
+        bucket: 'assetdownload'
+      })
+      let suffix = this.suffixFun(this.imgFile1.name)
+      let date = new Date().getTime()
+      let fileName = `image/${suffix[0]+date}.${suffix[1]}`
+      mi.multipartUpload(fileName, this.imgFile1, {
+      }).then((results) => {
+        this.$message.success('上传成功')
+        this.isUpdate1 = false
+        this.comdetail.launchImg.logo[1] = results.url || `${this.url}/${results.name}`
+      }).catch((err) => {
+        this.isUpdate1 = false
+        console.log(err);
+      });
+    }, // logo 阿里云上传
+    logo_uploadAws() {
       const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile1.name}` //测试环境
       const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile1.name}` //开发环境
       invoke({
-        url: this.uploadAction1,
+        url: this.uploadAction1[0].aws,
         method: 'put',
         data: this.imgFile1,
         isToken: 'false'
@@ -1223,18 +1249,21 @@ export default {
             type: 'error'
           })
         } else {
-          this.comdetail.launchImg.logo[0] = dev
-          this.comdetail.launchImg.logo[1] = prod
+          this.comdetail.launchImg.logo[0] = (process.env.NODE_ENV == 'development') ? dev : prod
           this.imgInfo.logoImg = (process.env.NODE_ENV == 'development') ? dev : prod
           this.isUpdate1 = false
           this.$message.success('上传成功')
         }
       })
-    },
-    login_before (file) {
+    },  // logo 上传亚马逊
+    logo_request () {
+      this.logo_uploadAli()
+      this.logo_uploadAws()
+    }, // logo 发送
+    logo_before (file) {
       this.isUpdate1 = true
       const isLt1M = file.size / 1024 / 1024 < 10
-      const suffix = this.suffixFun(file.name).toLowerCase()
+      const suffix = this.suffixFun(file.name)[1].toLowerCase()
       const fileType = ['png', 'jpg']
       this.imgFile1 = file
       return new Promise((resolve, reject) =>{
@@ -1257,12 +1286,13 @@ export default {
         }).then(res => {
           const [err, ret] = res
           if (err) {
+            this.isUpdate1 = false
             this.$message({
               message: err.msg,
               type: 'error'
             })
           } else {
-            this.uploadAction1 = ret.data.payload[0].aws
+            this.uploadAction1 = ret.data.payload
             resolve(true)
           }
         }).catch(err => {
@@ -1271,11 +1301,34 @@ export default {
         })
       })
     }, // 上传前的检验 格式、大小等
-    name_request () {
+
+    name_uploadAli () {
+      this.url1 = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
+      let mi = new OSS.Wrapper({
+        region: 'oss-cn-hangzhou',
+        accessKeyId: this.uploadAction2[1].ali.AccessKeyId,
+        accessKeySecret: this.uploadAction2[1].ali.AccessKeySecret,
+        stsToken: this.uploadAction2[1].ali.SecurityToken,
+        bucket: 'assetdownload'
+      })
+      let suffix = this.suffixFun(this.imgFile2.name)
+      let date = new Date().getTime()
+      let fileName = `image/${suffix[0]+date}.${suffix[1]}`
+      mi.multipartUpload(fileName, this.imgFile2, {
+      }).then((results) => {
+        this.$message.success('上传成功')
+        this.isUpdate2 = false
+        this.comdetail.launchImg.name[1] = results.url || `${this.url}/${results.name}`
+      }).catch((err) => {
+        this.isUpdate2 = false
+        console.log(err);
+      });
+    }, // name 阿里云上传
+    name_uploadAws () {
       const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile2.name}` //测试环境
       const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile2.name}` //开发环境
       invoke({
-        url: this.uploadAction2,
+        url: this.uploadAction2[0].aws,
         method: 'put',
         data: this.imgFile2,
         isToken: 'false'
@@ -1288,18 +1341,21 @@ export default {
             type: 'error'
           })
         } else {
-          this.comdetail.launchImg.name[0] = dev
-          this.comdetail.launchImg.name[1] = prod
+          this.comdetail.launchImg.name[0] = (process.env.NODE_ENV == 'development') ? dev : prod
           this.imgInfo.nameImg = (process.env.NODE_ENV == 'development') ? dev : prod
           this.isUpdate2 = false
           this.$message.success('上传成功')
         }
       })
-    },
+    }, // name上传亚马逊
+    name_request () {
+      this.name_uploadAli()
+      this.name_uploadAws()
+    }, // name 发送
     name_before (file) {
       this.isUpdate2 = true
       const isLt1M = file.size / 1024 / 1024 < 10
-      const suffix = this.suffixFun(file.name).toLowerCase()
+      const suffix = this.suffixFun(file.name)[1].toLowerCase()
       const fileType = ['png', 'jpg']
       this.imgFile2 = file
       return new Promise((resolve, reject) =>{
@@ -1322,12 +1378,13 @@ export default {
         }).then(res => {
           const [err, ret] = res
           if (err) {
+            this.isUpdate2 = false
             this.$message({
               message: err.msg,
               type: 'error'
             })
           } else {
-            this.uploadAction2 = ret.data.payload[0].aws
+            this.uploadAction2 = ret.data.payload
             resolve(true)
           }
         }).catch(err => {
@@ -1336,6 +1393,7 @@ export default {
         })
       })
     }, // 上传前的检验 格式、大小等
+    
     handleError () {
       this.isUpdate1 = false
       this.isUpdate2 = false
@@ -1343,7 +1401,7 @@ export default {
     }, // 错误回调
     suffixFun (o) {
       let arr = o.split('.')
-      return arr[arr.length - 1]
+      return arr
     } // 截取文件名的后缀
   }
 }
