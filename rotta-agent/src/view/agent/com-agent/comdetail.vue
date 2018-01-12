@@ -95,15 +95,15 @@
                                 </el-form-item>
                                     <el-form-item label="LOGO" v-show="disable == false">
                                         <el-upload
-                                            :action="uploadAction"
+                                            :action="uploadAction1"
                                             class="g-avatar-uploader"
                                             ref="upload"
-                                            :http-request="requestHeader"
+                                            :http-request="login_request"
                                             :on-error="handleError"
-                                            :before-upload="beforeUpload"
+                                            :before-upload="login_before"
                                             :file-list="fileList"
                                             :show-file-list="false">
-                                          <div v-loading="isUpdate1" element-loading-text="图片上传中" @click="uploadType('logo')">
+                                          <div v-loading="isUpdate1" element-loading-text="图片上传中">
                                             <img v-if="imgInfo.logoImg" :src="imgInfo.logoImg" class="avatar">
                                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                           </div>
@@ -119,15 +119,15 @@
                                 </el-form-item>
                                 <el-form-item label="NAME" v-show="disable == false">
                                     <el-upload
-                                        :action="uploadAction"
+                                        :action="uploadAction2"
                                         class="g-avatar-uploader"
                                         ref="upload"
-                                        :http-request="requestHeader"
+                                        :http-request="name_request"
                                         :on-error="handleError"
-                                        :before-upload="beforeUpload"
+                                        :before-upload="name_before"
                                         :file-list="fileList"
                                         :show-file-list="false">
-                                      <div v-loading="isUpdate2" element-loading-text="图片上传中" @click="uploadType('name')">
+                                      <div v-loading="isUpdate2" element-loading-text="图片上传中">
                                         <img v-if="imgInfo.nameImg" :src="imgInfo.nameImg" class="avatar">
                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                       </div>
@@ -729,13 +729,13 @@ export default {
         logoImg: '',
         nameImg: '',
       },
-      type: '', // 上传的图片分类(name/logo)
       isUpdate1: false, // 上传LOGO Loading
       isUpdate2: false, // 上传NAME Loading
-      dialogLoading: false,
       fileList: [], // 上传LOGO 数据
-      uploadAction: '',
-      imgFile:{},
+      uploadAction1: '', // 上传LOGO URL
+      uploadAction2: '', // 上传name URL
+      imgFile1:{},  // 上传LOGO img
+      imgFile2:{},  // 上传NAME img
       parentMix: '', // 上级洗码比  
       selcetCompany: '', // 选择的游戏运行商
       selectGame: '', // 选择的游戏
@@ -780,9 +780,6 @@ export default {
     }
   },
   methods: {
-    uploadType(data) {
-      this.type = data
-    }, // 上传的图片是name / logo
     refreshAgent () {
       this.$store.commit('startLoading')
       this.$store.dispatch('getComdetail_property')
@@ -1209,54 +1206,47 @@ export default {
     getPlayerAgentPage (page) {
       this.playerAgentPage = page
     }, // 直属玩家分页
-    requestHeader () {
-      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
-      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
+    login_request () {
+      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile1.name}` //测试环境
+      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile1.name}` //开发环境
       invoke({
-        url: this.uploadAction,
+        url: this.uploadAction1,
         method: 'put',
-        data: this.imgFile,
+        data: this.imgFile1,
         isToken: 'false'
       }).then(res => {
         const [err, ret] = res
         if (err) {
-          this.type == 'logo' ? this.isUpdate1 = false : this.isUpdate2 = false
+          this.isUpdate1 = false
           this.$message({
             message: err.msg,
             type: 'error'
           })
         } else {
-          if (this.type == 'logo') {
-            this.comdetail.launchImg.logo[0] = dev
-            this.comdetail.launchImg.logo[1] = prod
-            this.imgInfo.logoImg = (process.env.NODE_ENV == 'development') ? dev : prod
-          } else {
-            this.comdetail.launchImg.name[0] = dev
-            this.comdetail.launchImg.name[1] = prod
-            this.imgInfo.nameImg = (process.env.NODE_ENV == 'development') ? dev : prod
-          }
-          this.type == 'logo' ? this.isUpdate1 = false : this.isUpdate2 = false
+          this.comdetail.launchImg.logo[0] = dev
+          this.comdetail.launchImg.logo[1] = prod
+          this.imgInfo.logoImg = (process.env.NODE_ENV == 'development') ? dev : prod
+          this.isUpdate1 = false
           this.$message.success('上传成功')
         }
       })
     },
-    beforeUpload (file) {
+    login_before (file) {
+      this.isUpdate1 = true
       const isLt1M = file.size / 1024 / 1024 < 10
       const suffix = this.suffixFun(file.name).toLowerCase()
       const fileType = ['png', 'jpg']
-      this.imgFile = file
+      this.imgFile1 = file
       return new Promise((resolve, reject) =>{
-        this.dialogLoading = true
         if (!(fileType.indexOf(suffix) > -1)) {
-          this.dialogLoading = false
+          this.isUpdate1 = false
           this.$message.error('上传图片只能是 JPG或者PNG 格式!')
           reject(false)
         } else if (!isLt1M) {
-          this.dialogLoading = false
+          this.isUpdate1 = false
           this.$message.error('大小不能超过 10MB!')
           reject(false)
         }
-        this.type == 'logo' ? this.isUpdate1 = true : this.isUpdate2 = true
         invoke({
           url: api.uploadImg,
           method: api.post,
@@ -1267,13 +1257,77 @@ export default {
         }).then(res => {
           const [err, ret] = res
           if (err) {
-            this.type == 'logo' ? this.isUpdate1 = false : this.isUpdate2 = false
             this.$message({
               message: err.msg,
               type: 'error'
             })
           } else {
-            this.uploadAction = ret.data.payload[0].aws
+            this.uploadAction1 = ret.data.payload[0].aws
+            resolve(true)
+          }
+        }).catch(err => {
+          // console.log(err)
+          reject(false)
+        })
+      })
+    }, // 上传前的检验 格式、大小等
+    name_request () {
+      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile2.name}` //测试环境
+      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile2.name}` //开发环境
+      invoke({
+        url: this.uploadAction2,
+        method: 'put',
+        data: this.imgFile2,
+        isToken: 'false'
+      }).then(res => {
+        const [err, ret] = res
+        if (err) {
+          this.isUpdate2 = false
+          this.$message({
+            message: err.msg,
+            type: 'error'
+          })
+        } else {
+          this.comdetail.launchImg.name[0] = dev
+          this.comdetail.launchImg.name[1] = prod
+          this.imgInfo.nameImg = (process.env.NODE_ENV == 'development') ? dev : prod
+          this.isUpdate2 = false
+          this.$message.success('上传成功')
+        }
+      })
+    },
+    name_before (file) {
+      this.isUpdate2 = true
+      const isLt1M = file.size / 1024 / 1024 < 10
+      const suffix = this.suffixFun(file.name).toLowerCase()
+      const fileType = ['png', 'jpg']
+      this.imgFile2 = file
+      return new Promise((resolve, reject) =>{
+        if (!(fileType.indexOf(suffix) > -1)) {
+          this.isUpdate2 = false
+          this.$message.error('上传图片只能是 JPG或者PNG 格式!')
+          reject(false)
+        } else if (!isLt1M) {
+          this.isUpdate2 = false
+          this.$message.error('大小不能超过 10MB!')
+          reject(false)
+        }
+        invoke({
+          url: api.uploadImg,
+          method: api.post,
+          data: {
+            contentType: 'image',
+            filePath: file.name
+          }
+        }).then(res => {
+          const [err, ret] = res
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            this.uploadAction2 = ret.data.payload[0].aws
             resolve(true)
           }
         }).catch(err => {
@@ -1283,7 +1337,8 @@ export default {
       })
     }, // 上传前的检验 格式、大小等
     handleError () {
-      this.dialogLoading = false
+      this.isUpdate1 = false
+      this.isUpdate2 = false
       this.$message.error('上传失败，请重新选择')
     }, // 错误回调
     suffixFun (o) {

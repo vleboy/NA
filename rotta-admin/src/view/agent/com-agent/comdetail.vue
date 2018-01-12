@@ -1138,7 +1138,6 @@ export default {
       const fileType = ['png', 'jpg']
       this.imgFile1 = file
       return new Promise((resolve, reject) =>{
-        this.isUpdate1 = true
         if (!(fileType.indexOf(suffix) > -1)) {
           this.isUpdate1 = false
           this.$message.error('上传图片只能是 JPG或者PNG 格式!')
@@ -1148,7 +1147,6 @@ export default {
           this.$message.error('大小不能超过 10MB!')
           reject(false)
         }
-        this.isUpdate1 = false
         invoke({
           url: api.uploadImg,
           method: api.post,
@@ -1206,7 +1204,6 @@ export default {
       const fileType = ['png', 'jpg']
       this.imgFile2 = file
       return new Promise((resolve, reject) =>{
-        this.isUpdate2 = true
         if (!(fileType.indexOf(suffix) > -1)) {
           this.isUpdate2 = false
           this.$message.error('上传图片只能是 JPG或者PNG 格式!')
@@ -1216,7 +1213,6 @@ export default {
           this.$message.error('大小不能超过 10MB!')
           reject(false)
         }
-        this.isUpdate2 = true
         invoke({
           url: api.uploadImg,
           method: api.post,
