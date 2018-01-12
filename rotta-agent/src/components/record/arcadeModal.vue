@@ -1,6 +1,6 @@
 <template>
   <div class="arcade_modal">
-    <div class="arcade_modal_bg">
+    <div class="arcade_modal_bg" :class="backgroundUrl">
       <div class="arcade_modal_head" v-if="recordArray.length">
         <img class="head_img" :src="recordAllObj.winType">
         <span class="head_text">{{recordAllObj.userWin}}</span>
@@ -9,7 +9,7 @@
         <div v-for="(data,index) in recordArray" :key="index" class="arcade_modal_wrap">
           <div v-for="(item,indexChild) in data" :key="indexChild" class="arcade_modal_low"
                :style="{'background-image': 'url(' + item.img + ')','background-repeat':'no-repeat','background-size':'100%'}">
-            <div class="item_left">x{{item.rate||0}}</div>
+            <div class="item_left_all" :class="item_left">x{{item.rate||0}}</div>
             <div class="item_right">
               <div class="right_top">{{item.total||0}}</div>
               <div class="right_bottom">{{item.bet||0}}</div>
@@ -48,7 +48,7 @@ export default {
       roundRates: [], // 赔率
       roundBets: [], // 下注数
       recordArray: [],
-      roundIcon:[
+      roundIconSLXR:[
         {
           imgOne:'static/playerBill/slxy/1hong.png',
           imgTwo:'static/playerBill/slxy/1hong_x.png'
@@ -110,12 +110,114 @@ export default {
           imgTwo:'static/playerBill/slxy/hongmogu_x.png'
         }
       ],
-      winResultObj: {
+      roundIconJSSK:[
+        {
+          imgOne:'static/playerBill/jssk/1hong.png',
+          imgTwo:'static/playerBill/jssk/1hong_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/1huang.png',
+          imgTwo:'static/playerBill/jssk/1huang_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/1lv.png',
+          imgTwo:'static/playerBill/jssk/1lv_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/2hong.png',
+          imgTwo:'static/playerBill/jssk/2hong_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/2huang.png',
+          imgTwo:'static/playerBill/jssk/2huang_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/2lv.png',
+          imgTwo:'static/playerBill/jssk/2lv_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/3hong.png',
+          imgTwo:'static/playerBill/jssk/3hong_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/3huang.png',
+          imgTwo:'static/playerBill/jssk/3huang_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/3lv.png',
+          imgTwo:'static/playerBill/jssk/3lv_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/4hong.png',
+          imgTwo:'static/playerBill/jssk/4hong_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/4huang.png',
+          imgTwo:'static/playerBill/jssk/4huang_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/4lv.png',
+          imgTwo:'static/playerBill/jssk/4lv_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/D.png',
+          imgTwo:'static/playerBill/jssk/D_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/P.png',
+          imgTwo:'static/playerBill/jssk/P_x.png'
+        },
+        {
+          imgOne:'static/playerBill/jssk/R.png',
+          imgTwo:'static/playerBill/jssk/R_x.png'
+        }
+      ],
+      winResultObjSLXY: {
         '1': 'static/playerBill/slxy/slxy_youwin.png' ,
         '2': 'static/playerBill/slxy/slxy_bigwin.png' ,
         '3': 'static/playerBill/slxy/slxy_magic.png' ,
         '4': 'static/playerBill/slxy/slxy_super.png'
+      },
+      winResultObjJSSK: {
+        '1': 'static/playerBill/jssk/bcbm_youwin.png' ,
+        '2': 'static/playerBill/jssk/bcbm_bigwin.png' ,
+        '3': 'static/playerBill/jssk/bcbm_magic.png' ,
+        '4': 'static/playerBill/jssk/bcbm_super.png'
       }
+    }
+  },
+  computed: {
+    backgroundUrl () {
+      let classType = {}
+      classType = {
+        'record-slxy': this.recordAllObj.gameId == '50001',
+        'record-jssk': this.recordAllObj.gameId =='50002'
+      }
+      return classType
+    },
+    item_left () {
+      let item_left = {}
+      item_left = {
+        'item_left_slxy': this.recordAllObj.gameId == '50001',
+        'item_left_jssk': this.recordAllObj.gameId =='50002'
+      }
+      return item_left
+    },
+    gameTypeIcon () {
+      let resultIcon = {}
+      resultIcon  = {
+        '50001': this.roundIconSLXR,
+        '50002': this.roundIconJSSK
+      }
+      return resultIcon
+    },
+    gameTypeResult () {
+      let resultSuc = {}
+      resultSuc  = {
+        '50001': this.winResultObjSLXY,
+        '50002': this.winResultObjJSSK
+      }
+      return resultSuc
     }
   },
   methods:{
@@ -139,13 +241,13 @@ export default {
           } else {
             this.recordAllObj = res.data.data.record;
             if(this.recordAllObj.userWin<'100'){
-              this.recordAllObj.winType = this.winResultObj[1]
+              this.recordAllObj.winType = this.gameTypeResult[this.recordAllObj.gameId][1]
             } else if (this.recordAllObj.userWin >= '100' && this.recordAllObj.userWin < '500') {
-              this.recordAllObj.winType = this.winResultObj[2]
+              this.recordAllObj.winType = this.gameTypeResult[this.recordAllObj.gameId][2]
             } else if (this.recordAllObj.userWin >= '500' && this.recordAllObj.userWin < '1000') {
-              this.recordAllObj.winType = this.winResultObj[3]
+              this.recordAllObj.winType = this.gameTypeResult[this.recordAllObj.gameId][3]
             } else if (this.recordAllObj.userWin >= '1000') {
-              this.recordAllObj.winType = this.winResultObj[4]
+              this.recordAllObj.winType = this.gameTypeResult[this.recordAllObj.gameId][4]
             }
             // 组装渲染的列表
             for (let [index,item] of this.recordAllObj.roundBets.entries()) {
@@ -155,7 +257,7 @@ export default {
                 rate: this.recordAllObj.roundRates[index],
                 total: this.recordAllObj.roundBetsTotal[index],
                 isWin: false,
-                img: item > 0  ? this.roundIcon[index].imgTwo : this.roundIcon[index].imgOne
+                img: item > 0  ? this.gameTypeIcon[this.recordAllObj.gameId][index].imgTwo : this.gameTypeIcon[this.recordAllObj.gameId][index].imgOne
               })
             }
             // 判断中奖位置
@@ -189,7 +291,12 @@ export default {
     background-size: 100% auto!important;
     height: 500px;
     position: relative;
+  }
+  .record-slxy{
     background: url("../../../static/playerBill/slxy/slxy_bg.jpg");
+  }
+  .record-jssk{
+    background: url("../../../static/playerBill/jssk/jssk_bg.jpg");
   }
   .arcade_modal .arcade_modal_head{
     position: absolute;
@@ -240,12 +347,19 @@ export default {
     font-size: 16px;
   }
 
-  .arcade_modal .item_left{
+  .arcade_modal .item_left_all{
     float: left;
     color: #eca420;
     position: relative;
+  }
+
+  .item_left_slxy{
     top: 66px;
     left: 38px;
+  }
+  .item_left_jssk{
+    top: 60px;
+    left: 26px;
   }
 
   .arcade_modal .arcade_modal_low{
