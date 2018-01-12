@@ -223,6 +223,12 @@ export default {
     this.$store.dispatch('getnaAllNowchild')
     this.$store.dispatch('getnaAllNowplayer')
   },
+  activated: function () {
+    this.$store.commit({
+      type: 'recordNowindex',
+      data: 'naAllGameReport'
+    })
+  },
   computed: {
     rollNumber () {
       let data = this.$store.state.variable.naAllGameData.allNowlist

@@ -12,7 +12,7 @@
       </p>
       <p class="suclist-line1">
         <span class="">商户号 : {{comsuccess.displayId}}</span>
-        <span class="">商户标识 : {{comdata.suffix}}</span>
+        <span class="">标识 : {{comdata.suffix}}</span>
         <span class="">线路号 : {{comdata.msn}}</span>
       </p>
       <p><span class="justfy1">商户Email : {{comdata.merchantEmail}}</span></p>
@@ -30,6 +30,7 @@
         <p class="suclist-line1">
           <span>商户初始点数 : {{comdata.points}}</span>
           <span>商户抽成比 : {{comdata.rate}}%</span>
+          <span>商户标识 : {{comdata.sn}}</span>
         </p>
         <p>
           <span class="">商户代理游戏 :

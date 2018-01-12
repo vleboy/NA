@@ -4,6 +4,10 @@
       <el-breadcrumb-item><span  class="large">看板</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'welcome'" class="title">
+      <el-breadcrumb-item><span  class="large">欢迎</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'outlist'" class="title">
       <el-breadcrumb-item>商户中心 </el-breadcrumb-item>
       <el-breadcrumb-item>线路商管理 </el-breadcrumb-item>
@@ -179,6 +183,7 @@
 
     <el-breadcrumb separator="/" v-if="nowindex === 'naAllGameReport'" class="title">
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
+      <el-breadcrumb-item>NA游戏报表 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">NA游戏总报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 

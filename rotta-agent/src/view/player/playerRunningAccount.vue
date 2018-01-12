@@ -184,7 +184,7 @@ export default {
       }
     },
     userName () {
-      return this.$store.state.variable.playerDetail.userName || localStorage.playerName
+      return this.$store.state.variable.playerUserName || localStorage.playerName
     },
     formatNum () {
       this.allAmount = 0
@@ -254,7 +254,7 @@ export default {
             })
           } else {
             this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)
-            console.log(this.playerRecordList, 'this.playerRecordList')
+//            console.log(this.playerRecordList, 'this.playerRecordList')
           }
           this.$store.commit('closeLoading')
         }

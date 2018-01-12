@@ -116,5 +116,4 @@ export default {
 .loginbar .userBox{display: inline-block;width: 2.5rem;height: 2.5rem;vertical-align: -0.75rem}
 .loginbar .user-icon{width: 100%;height: 100%}
 .loginbar .username{font-size: 1.1rem;cursor: pointer;}
-/* .el-dropdown-menu{background-color: #000} */
 </style>

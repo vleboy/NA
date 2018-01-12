@@ -17,7 +17,9 @@ const front = {
 
   stat: stat_URL, // stat有关接口
 
-  playerExt: playerExt_URL // playerExt接口
+  playerExt: playerExt_URL, // playerExt接口
+
+  stateMachine: stateMachine_URL, // stateMachine接口
 }
 
 const api = {
@@ -197,6 +199,10 @@ const api = {
   playerBill: front.playerExt + front.stage + '/player/bill/detail', // 账单流水详情信息(查看账单详细)
 
   playerRecord: front.playerExt + front.stage + '/player/bill/record', // 战绩
+
+  //stateMachine
+
+  uploadImg: front.stateMachine + front.stage + '/upload', // 上传图片获取签证
 
   // methods
 

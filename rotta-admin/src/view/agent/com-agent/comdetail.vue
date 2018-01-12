@@ -219,6 +219,53 @@
                                 </div>
                             </el-col>
                         </el-row>
+                        <el-row>
+                            <el-col :span="7">
+                                <el-form-item label="LOGO" v-show="disable == true">
+                                    <img :src="imgInfo.logoImg" alt="图片logo" style="float:left;width:178px;height:178px;border:1px solid #eee">
+                                </el-form-item>
+                                    <el-form-item label="LOGO" v-show="disable == false">
+                                        <el-upload
+                                            :action="uploadAction"
+                                            class="g-avatar-uploader"
+                                            ref="upload"
+                                            :http-request="requestHeader"
+                                            :on-error="handleError"
+                                            :before-upload="beforeUpload"
+                                            :file-list="fileList"
+                                            :show-file-list="false">
+                                          <div v-loading="isUpdate1" element-loading-text="图片上传中" @click="uploadType('logo')">
+                                            <img v-if="imgInfo.logoImg" :src="imgInfo.logoImg" class="avatar">
+                                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                          </div>
+                                        </el-upload>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="1">
+                                <span class="hidden">1</span>
+                            </el-col>
+                            <el-col :span="7">
+                                <el-form-item label="NAME" v-show="disable == true">
+                                    <img :src="imgInfo.nameImg" alt="图片name" style="float:left;width:178px;height:178px;border:1px solid #eee">
+                                </el-form-item>
+                                <el-form-item label="NAME" v-show="disable == false">
+                                    <el-upload
+                                        :action="uploadAction"
+                                        class="g-avatar-uploader"
+                                        ref="upload"
+                                        :http-request="requestHeader"
+                                        :on-error="handleError"
+                                        :before-upload="beforeUpload"
+                                        :file-list="fileList"
+                                        :show-file-list="false">
+                                      <div v-loading="isUpdate2" element-loading-text="图片上传中" @click="uploadType('name')">
+                                        <img v-if="imgInfo.nameImg" :src="imgInfo.nameImg" class="avatar">
+                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                      </div>
+                                    </el-upload>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
                     </el-form>
                 </div>
             </el-collapse-transition>
@@ -497,7 +544,12 @@ export default {
       return this.$store.state.variable.isEdit
     }, // 是否开启编辑
     comdetail () {
-      return this.$store.state.variable.comdetaildata
+      let data = this.$store.state.variable.comdetaildata
+      if (data && data.launchImg) {
+        this.imgInfo.logoImg = data.launchImg.logo[0]
+        this.imgInfo.nameImg = data.launchImg.name[0]
+      }
+      return data
     },
     waterFall () {
       var waterFall = this.$store.state.variable.comdetailproperty
@@ -511,7 +563,7 @@ export default {
     comBills () {
       var x = this.$store.state.variable.comdetailproperty[0] && this.$store.state.variable.comdetailproperty[0].balance || 0
       return this.points(x)
-    }
+    },
   },
   watch: {
     ajaxCount (val) {
@@ -745,6 +797,17 @@ export default {
       }
     } // 验证合同有效时间
     return {
+      imgInfo: {
+        logoImg: '',
+        nameImg: '',
+      },
+      type: '', // 上传的图片分类(name/logo)
+      isUpdate1: false, // 上传LOGO Loading
+      isUpdate2: false, // 上传NAME Loading
+      dialogLoading: false,
+      fileList: [], // 上传LOGO 数据
+      uploadAction: '',
+      imgFile:{},
       selcetCompany: '', // 选择的游戏运行商
       selectGame: '', // 选择的游戏
       CompanyList: [], // 所有游戏运营商
@@ -816,6 +879,9 @@ export default {
     }
   },
   methods: {
+    uploadType(data) {
+      this.type = data
+    }, // 上传的图片是name / logo
     formatNull (data) {
       if (data == 'NULL!') {
         return ''
@@ -884,7 +950,6 @@ export default {
       return formatRemark(remark)
     }, // 格式化备注
     goParent () {
-      // console.log('上级线路商ID', this.comdetail.parent, '上级线路商是:', this.comdetail.parentName)
       this.$store.commit({
         type: 'recordOutdetailID',
         data: this.comdetail.parent
@@ -1043,7 +1108,88 @@ export default {
     },  // 账户流水分页
     getnowPage (page) {
       this.page = page
-    }  // 账户流水分页
+    },  // 账户流水分页
+    requestHeader () {
+      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
+      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
+      invoke({
+        url: this.uploadAction,
+        method: 'put',
+        data: this.imgFile,
+        isToken: 'false'
+      }).then(res => {
+        const [err, ret] = res
+        if (err) {
+          this.type == 'logo' ? this.isUpdate1 = false : this.isUpdate2 = false
+          this.$message({
+            message: err.msg,
+            type: 'error'
+          })
+        } else {
+          if (this.type == 'logo') {
+            this.comdetail.launchImg.logo[0] = dev
+            this.comdetail.launchImg.logo[1] = prod
+            this.imgInfo.logoImg = (process.env.NODE_ENV == 'development') ? dev : prod
+          } else {
+            this.comdetail.launchImg.name[0] = dev
+            this.comdetail.launchImg.name[1] = prod
+            this.imgInfo.nameImg = (process.env.NODE_ENV == 'development') ? dev : prod
+          }
+          this.type == 'logo' ? this.isUpdate1 = false : this.isUpdate2 = false
+          this.$message.success('上传成功')
+        }
+      })
+    },
+    beforeUpload (file) {
+      const isLt1M = file.size / 1024 / 1024 < 10
+      const suffix = this.suffixFun(file.name).toLowerCase()
+      const fileType = ['png', 'jpg']
+      this.imgFile = file
+      return new Promise((resolve, reject) =>{
+        this.dialogLoading = true
+        if (!(fileType.indexOf(suffix) > -1)) {
+          this.dialogLoading = false
+          this.$message.error('上传图片只能是 JPG或者PNG 格式!')
+          reject(false)
+        } else if (!isLt1M) {
+          this.dialogLoading = false
+          this.$message.error('大小不能超过 10MB!')
+          reject(false)
+        }
+        this.type == 'logo' ? this.isUpdate1 = true : this.isUpdate2 = true
+        invoke({
+          url: api.uploadImg,
+          method: api.post,
+          data: {
+            contentType: 'image',
+            filePath: file.name
+          }
+        }).then(res => {
+          const [err, ret] = res
+          if (err) {
+            this.type == 'logo' ? this.isUpdate1 = false : this.isUpdate2 = false
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            this.uploadAction = ret.data.payload[0].aws
+            resolve(true)
+          }
+        }).catch(err => {
+          // console.log(err)
+          reject(false)
+        })
+      })
+    }, // 上传前的检验 格式、大小等
+    handleError () {
+      this.dialogLoading = false
+      this.$message.error('上传失败，请重新选择')
+    }, // 错误回调
+    suffixFun (o) {
+      let arr = o.split('.')
+      return arr[arr.length - 1]
+    } // 截取文件名的后缀
   }
 }
 </script>

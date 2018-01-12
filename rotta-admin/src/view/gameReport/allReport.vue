@@ -193,6 +193,12 @@ export default {
     this.$store.dispatch('getallNowchild')
     this.$store.dispatch('getallNowplayer')
   },
+  activated: function () {
+    this.$store.commit({
+      type: 'recordNowindex',
+      data: 'allReport'
+    })
+  },
   computed: {
     rollNumber () {
       let data = this.$store.state.variable.allGameData.allNowlist
