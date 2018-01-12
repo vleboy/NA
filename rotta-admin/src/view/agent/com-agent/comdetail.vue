@@ -40,7 +40,7 @@
                             </el-col>
                             <el-col :span="7">
                                 <div class="">
-                                    <el-form-item label="标识">
+                                    <el-form-item label="商户简称">
                                         {{comdetail.suffix}}
                                     </el-form-item>
                                 </div>

@@ -3,7 +3,7 @@
   <div class="com-createform">
     <h2 class="title">基本信息</h2>
     <el-form :model="merchantInfo" ref="merchantInfo" :rules="rules" label-width="120px" label-position="right">
-        <el-form-item label="标识" prop="suffix">
+        <el-form-item label="商户简称" prop="suffix">
           <el-input v-model="merchantInfo.suffix" class="input" placeholder="2~6 位,只能输入英文和数字(以字母开头)"></el-input>
         </el-form-item>
           <el-form-item label="商户昵称" prop="displayName">
@@ -84,7 +84,7 @@ export default {
       },
       parent: [], // 可用上级商户列表
       merchantInfo: {
-        suffix: '', // 商户标识
+        suffix: '', // 商户简称
         displayName: '', // 商户昵称
         rate: '', // 商户抽成比
         merchantEmail: '', // 商户邮箱
