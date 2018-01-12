@@ -832,6 +832,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     context.commit('getWeek')
     let searchDate = []
     if (localStorage.searchTime) {
@@ -1321,6 +1324,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     context.commit('getWeek')
     let searchDate = []
     if (localStorage.searchTime) {
@@ -1717,6 +1723,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -1925,6 +1934,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -2128,6 +2140,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -2337,6 +2352,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -2537,6 +2555,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -2746,6 +2767,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
