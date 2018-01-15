@@ -1251,7 +1251,6 @@ export default {
           })
         } else {
           this.comdetail.launchImg.logo[0] = (process.env.NODE_ENV == 'development') ? dev : prod
-          this.imgInfo.logoImg = (process.env.NODE_ENV == 'development') ? dev : prod
           this.isUpdate1 = false
           this.$message.success('上传成功')
         }
@@ -1346,7 +1345,6 @@ export default {
           })
         } else {
           this.comdetail.launchImg.name[0] = (process.env.NODE_ENV == 'development') ? dev : prod
-          this.imgInfo.nameImg = (process.env.NODE_ENV == 'development') ? dev : prod
           this.isUpdate2 = false
           this.$message.success('上传成功')
         }
