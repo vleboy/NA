@@ -38,7 +38,9 @@
       <el-table stripe :data="getItems" @selection-change="selectionChange" @sort-change="sortFun">
         <el-table-column type="selection" width="60" align="center">
         </el-table-column>
-        <el-table-column prop="userName" label="用户名" align="center">
+        <el-table-column prop="userId" label="玩家ID" align="center">
+        </el-table-column>
+        <el-table-column prop="userName" label="用户名" width="200" align="center">
         </el-table-column>
         <el-table-column prop="nickname" label="昵称" align="center">
           <template scope="scope">
