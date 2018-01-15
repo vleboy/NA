@@ -1127,6 +1127,7 @@ export default {
         this.$message.success('上传成功')
         this.isUpdate1 = false
         this.comdetail.launchImg.logo[1] = results.url || `${this.url}/${results.name}`
+        this.imgInfo.logoImg = results.url || `${this.url}/${results.name}`
       }).catch((err) => {
         this.isUpdate1 = false
         console.log(err);
@@ -1150,7 +1151,6 @@ export default {
           })
         } else {
           this.comdetail.launchImg.logo[0] = (process.env.NODE_ENV == 'development') ? dev : prod
-          this.imgInfo.logoImg = (process.env.NODE_ENV == 'development') ? dev : prod
           this.isUpdate1 = false
           this.$message.success('上传成功')
         }
@@ -1221,6 +1221,7 @@ export default {
         this.$message.success('上传成功')
         this.isUpdate2 = false
         this.comdetail.launchImg.name[1] = results.url || `${this.url}/${results.name}`
+        this.imgInfo.nameImg = results.url || `${this.url}/${results.name}`
       }).catch((err) => {
         this.isUpdate2 = false
         console.log(err);
@@ -1244,7 +1245,7 @@ export default {
           })
         } else {
           this.comdetail.launchImg.name[0] = (process.env.NODE_ENV == 'development') ? dev : prod
-          this.imgInfo.nameImg = (process.env.NODE_ENV == 'development') ? dev : prod
+          
           this.isUpdate2 = false
           this.$message.success('上传成功')
         }
