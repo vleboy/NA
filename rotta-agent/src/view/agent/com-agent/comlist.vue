@@ -111,8 +111,8 @@
                   </el-table-column>
                   <el-table-column prop="userName" label="用户名" align="center">
                   </el-table-column>
-                  <el-table-column prop="password" label="密码" align="center">
-                  </el-table-column>
+                  <!-- <el-table-column prop="password" label="密码" align="center">
+                  </el-table-column> -->
                   <el-table-column prop="balance" label="点数" show-overflow-tooltip align="center">
                   </el-table-column>
                   <el-table-column prop="merchantName" label="直属代理" align="center" sortable>
