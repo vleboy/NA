@@ -335,7 +335,7 @@ export default {
   },
   watch: {
     '$route': function (_new, _old) {
-      if (_old.fullPath === '/agentPlayerDetail'){
+      if (_old.fullPath === '/playerdetail'){
          this.changeDate()
       }
     }
