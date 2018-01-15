@@ -494,7 +494,7 @@
             this.dialogLoading = false
             this.$message.success('上传成功')
             this.managerInfo.companyContract = (process.env.NODE_ENV == 'development') ? dev : prod
-            console.log(this.managerInfo.companyContract, 'this.managerInfo')
+//            console.log(this.managerInfo.companyContract, 'this.managerInfo')
           }
         })
       },
