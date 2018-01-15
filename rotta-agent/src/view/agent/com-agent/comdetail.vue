@@ -1227,6 +1227,7 @@ export default {
         this.$message.success('上传成功')
         this.isUpdate1 = false
         this.comdetail.launchImg.logo[1] = results.url || `${this.url}/${results.name}`
+        this.imgInfo.logoImg = results.url || `${this.url}/${results.name}`
       }).catch((err) => {
         this.isUpdate1 = false
         console.log(err);
@@ -1321,6 +1322,7 @@ export default {
         this.$message.success('上传成功')
         this.isUpdate2 = false
         this.comdetail.launchImg.name[1] = results.url || `${this.url}/${results.name}`
+        this.imgInfo.nameImg = results.url || `${this.url}/${results.name}`
       }).catch((err) => {
         this.isUpdate2 = false
         console.log(err);

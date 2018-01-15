@@ -1245,7 +1245,6 @@ export default {
           })
         } else {
           this.comdetail.launchImg.name[0] = (process.env.NODE_ENV == 'development') ? dev : prod
-          
           this.isUpdate2 = false
           this.$message.success('上传成功')
         }
