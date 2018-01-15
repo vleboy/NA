@@ -1233,8 +1233,8 @@ export default {
       });
     }, // logo 阿里云上传
     logo_uploadAws() {
-      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile1.name}` //测试环境
-      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile1.name}` //开发环境
+      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile1.fileName}` //测试环境
+      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile1.fileName}` //开发环境
       invoke({
         url: this.uploadAction1[0].aws,
         method: 'put',
@@ -1327,8 +1327,8 @@ export default {
       });
     }, // name 阿里云上传
     name_uploadAws () {
-      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile2.name}` //测试环境
-      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile2.name}` //开发环境
+      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile2.fileName}` //测试环境
+      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile2.fileName}` //开发环境
       invoke({
         url: this.uploadAction2[0].aws,
         method: 'put',
