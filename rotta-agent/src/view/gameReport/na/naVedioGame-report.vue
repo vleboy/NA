@@ -35,7 +35,10 @@
         </el-table-column>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
-            <span>{{(scope.row.vedioMix) + '%'}}</span>
+            <span v-if="scope.row.suffix == 'Agent'">1%</span>
+            <div slot="reference" class="gamelist" v-else>
+                <el-tag v-for="item in scope.row.gameList" key={{item}} v-if="item.code == '40000'">{{ item.mix }}%</el-tag>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -94,7 +97,9 @@
         </el-table-column>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
-            <span>{{(scope.row.vedioMix) + '%'}}</span>
+            <div slot="reference" class="gamelist">
+                <el-tag v-for="item in scope.row.gameList" key={{item}} v-if="item.code == '40000'">{{ item.mix }}%</el-tag>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -161,7 +166,9 @@
         </el-table-column>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
-            <span>{{(scope.row.vedioMix) + '%'}}</span>
+            <div slot="reference" class="gamelist">
+                <el-tag v-for="item in scope.row.gameList" key={{item}} v-if="item.code == '40000'">{{ item.mix }}%</el-tag>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -213,6 +220,12 @@ export default {
   computed:{
     rollNumber () {
       let data = this.$store.state.variable.naVedioGameData.nowList
+      if (data.gameList && data.gameList.length > 0){
+        let obj = data.gameList.filter(item => {
+          return data.code == 40000
+        })
+        obj.length > 0 ? data.vedioMix = obj[0].mix : ''
+      }
       if (!data.rate) {
         data.rate = 0
       }
@@ -452,6 +465,12 @@ export default {
                           item.bet = data.bet
                           item.betCount = data.betCount
                           item.winlose = data.winlose
+                          if (item.gameList && item.gameList.length > 0){
+                            let obj = item.gameList.filter(item => {
+                              return item.code == 40000
+                            })
+                            obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                          }
                           item.nowBouns = data.bet * item.vedioMix / 100
                           item.nowallBet = data.bet * item.vedioMix/100 + data.winlose
                           item.winloseRate = item.nowallBet / data.bet
@@ -592,6 +611,8 @@ export default {
 .naVedioGame-report .playerlist{width: 99%;margin: 2rem auto}
 .naVedioGame-report .fontUrl{cursor: pointer;color: #20a0ff}
 .naVedioGame-report .fontUrl:hover{text-decoration: underline;}
+
+.naVedioGame-report .gamelist span{width: 100%;text-align: center;margin: 0.25rem 0;background-color: #fff;color: #000}
 
 .green{color: #00CC00}
 .red{color: #FF3300}

@@ -35,7 +35,10 @@
         </el-table-column>
         <el-table-column label="返水比例" prop="arcadeMix" align="center">
           <template scope="scope">
-            <span>{{(scope.row.arcadeMix) + '%'}}</span>
+            <span v-if="scope.row.suffix == 'Agent'">1%</span>
+            <div slot="reference" class="gamelist" v-else>
+              <el-tag v-for="item in scope.row.gameList" key={{item}} v-if="item.code == '50000'">{{ item.mix }}%</el-tag>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -94,7 +97,9 @@
         </el-table-column>
         <el-table-column label="返水比例" prop="arcadeMix" align="center">
           <template scope="scope">
-            <span>{{(scope.row.arcadeMix) + '%'}}</span>
+            <div slot="reference" class="gamelist">
+                <el-tag v-for="item in scope.row.gameList" key={{item}} v-if="item.code == '50000'">{{ item.mix }}%</el-tag>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -161,7 +166,9 @@
         </el-table-column>
         <el-table-column label="返水比例" prop="arcadeMix" align="center">
           <template scope="scope">
-            <span>{{(scope.row.arcadeMix) + '%'}}</span>
+            <div slot="reference" class="gamelist">
+                <el-tag v-for="item in scope.row.gameList" key={{item}} v-if="item.code == '50000'">{{ item.mix }}%</el-tag>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -213,6 +220,12 @@ export default {
   computed:{
     rollNumber () {
       let data = this.$store.state.variable.naArcadeGameData.nowList
+      if (data.gameList && data.gameList.length > 0){
+        let obj = data.gameList.filter(item => {
+          return data.code == 50000
+        })
+        obj.length > 0 ? data.arcadeMix = obj[0].mix : ''
+      }
       if (!data.rate) {
         data.rate = 0
       }
@@ -452,6 +465,12 @@ export default {
                           item.bet = data.bet
                           item.betCount = data.betCount
                           item.winlose = data.winlose
+                          if (item.gameList && item.gameList.length > 0){
+                            let obj = item.gameList.filter(item => {
+                              return item.code == 50000
+                            })
+                            obj.length > 0 ? item.arcadeMix = obj[0].mix : ''
+                          }
                           item.nowBouns = data.bet * item.arcadeMix / 100
                           item.nowallBet = data.bet * item.arcadeMix / 100 + data.winlose
                           item.winloseRate = item.nowallBet / data.bet

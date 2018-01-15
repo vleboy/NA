@@ -33,7 +33,10 @@
         </el-table-column>
         <el-table-column label="洗码比" prop="liveMix" align="center">
           <template scope="scope">
-            <span>{{(scope.row.liveMix) + '%'}}</span>
+            <span v-if="scope.row.suffix == 'Agent'">1%</span>
+            <div slot="reference" class="gamelist" v-else>
+                <el-tag v-for="item in scope.row.gameList" key={{item}} v-if="item.code == '30000'">{{ item.mix }}%</el-tag>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
@@ -97,7 +100,9 @@
         </el-table-column>
         <el-table-column label="洗码比" prop="liveMix" align="center">
           <template scope="scope">
-            <span>{{(scope.row.liveMix) + '%'}}</span>
+            <div slot="reference" class="gamelist">
+              <el-tag v-for="item in scope.row.gameList" key={{item}} v-if="item.code == '40000'">{{ item.mix }}%</el-tag>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
@@ -172,7 +177,9 @@
         </el-table-column>
         <el-table-column label="洗码比" prop="liveMix" align="center">
           <template scope="scope">
-            <span>{{(scope.row.liveMix) + '%'}}</span>
+            <div slot="reference" class="gamelist">
+                <el-tag v-for="item in scope.row.gameList" key={{item}} v-if="item.code == '40000'">{{ item.mix }}%</el-tag>
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="洗码量" prop="mixAmount" align="center">
@@ -230,6 +237,12 @@ export default {
   computed:{
     rollNumber () {
       let data = this.$store.state.variable.naLiveGameData.nowList
+      if (data.gameList && data.gameList.length > 0){
+        let obj = data.gameList.filter(item => {
+          return data.code == 30000
+        })
+        obj.length > 0 ? data.liveMix = obj[0].mix : ''
+      }
       if (!data.liveMix) {
         data.liveMix = 0
       }
@@ -479,6 +492,12 @@ export default {
                           item.betCount = data.betCount
                           item.winlose = data.winlose
                           item.mixAmount = data.mixAmount
+                          if (item.gameList && item.gameList.length > 0){
+                            let obj = item.gameList.filter(item => {
+                              return item.code == 30000
+                            })
+                            obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                          }
                           item.nowBouns = data.mixAmount * item.liveMix / 100
                           item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                           item.winloseRate = item.nowallBet / data.mixAmount

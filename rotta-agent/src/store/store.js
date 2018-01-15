@@ -1305,6 +1305,12 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
+                if (item.gameList && item.gameList.length > 0){
+                  let obj = item.gameList.filter(item => {
+                    return item.code == 40000
+                  })
+                  obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                }
                 item.nowBouns = data.bet * item.vedioMix / 100
                 item.nowallBet = data.bet * item.vedioMix / 100 + data.winlose
                 item.nowSubmit = (data.bet * item.vedioMix / 100 + data.winlose) * (1 - item.rate/100)
@@ -1372,6 +1378,12 @@ const actions = {
                     item.bet = data.bet
                     item.betCount = data.betCount
                     item.winlose = data.winlose
+                    if (item.gameList && item.gameList.length > 0){
+                      let obj = item.gameList.filter(item => {
+                        return item.code == 40000
+                      })
+                      obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                    }
                     item.nowBouns = data.bet * item.vedioMix / 100
                     item.nowallBet = data.bet * item.vedioMix/100 + data.winlose
                     item.winloseRate = item.nowallBet / data.bet
@@ -1440,6 +1452,12 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 40000
+                    })
+                    obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.bet * item.vedioMix / 100
                   item.nowallBet = data.bet * item.vedioMix / 100 + data.winlose
                   item.winloseRate = item.nowallBet / (data.bet)
@@ -1542,6 +1560,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 30000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.nowSubmit = (data.mixAmount * item.liveMix / 100 + data.winlose) * (1 - item.rate/100)
@@ -1614,6 +1638,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 30000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.nowSubmit = (data.mixAmount * item.liveMix/100 + data.winlose) * (1 - item.rate/100)
@@ -1683,6 +1713,12 @@ const actions = {
                     item.betCount = data.betCount
                     item.winlose = data.winlose
                     item.mixAmount = data.mixAmount
+                    if (item.gameList && item.gameList.length > 0){
+                      let obj = item.gameList.filter(item => {
+                        return item.code == 30000
+                      })
+                      obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                    }
                     item.nowBouns = data.mixAmount * item.liveMix / 100
                     item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                     item.winloseRate = item.nowallBet / data.mixAmount
@@ -1752,6 +1788,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 30000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.winloseRate = item.nowallBet / data.mixAmount
@@ -1863,6 +1905,12 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
+                if (item.gameList && item.gameList.length > 0){
+                  let obj = item.gameList.filter(item => {
+                    return item.code == 50000
+                  })
+                  obj.length > 0 ? item.arcadeMix = obj[0].mix : ''
+                }
                 item.nowBouns = data.bet * item.arcadeMix / 100
                 item.nowallBet = data.bet * item.arcadeMix / 100 + data.winlose
                 item.nowSubmit = (data.bet * item.arcadeMix / 100 + data.winlose) * (1 - item.rate/100)
@@ -1931,6 +1979,12 @@ const actions = {
                     item.bet = data.bet
                     item.betCount = data.betCount
                     item.winlose = data.winlose
+                    if (item.gameList && item.gameList.length > 0){
+                      let obj = item.gameList.filter(item => {
+                        return item.code == 50000
+                      })
+                      obj.length > 0 ? item.arcadeMix = obj[0].mix : ''
+                    }
                     item.nowBouns = data.bet * item.arcadeMix / 100
                     item.nowallBet = data.bet * item.arcadeMix / 100 + data.winlose
                     item.winloseRate = item.nowallBet / data.bet
@@ -2000,6 +2054,12 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 50000
+                    })
+                    obj.length > 0 ? item.arcadeMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.bet * item.arcadeMix / 100
                   item.nowallBet = data.bet * item.arcadeMix / 100 + data.winlose
                   item.winloseRate = item.nowallBet / data.bet
@@ -2254,6 +2314,12 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
+                if (item.gameList && item.gameList.length > 0){
+                  let obj = item.gameList.filter(item => {
+                    return item.code == 1010000
+                  })
+                  obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                }
                 item.nowBouns = data.bet * item.vedioMix / 100
                 item.nowallBet = data.bet * item.vedioMix / 100 + data.winlose
                 item.nowSubmit = (data.bet * item.vedioMix / 100 + data.winlose) * (1 - item.rate/100)
@@ -2321,6 +2387,12 @@ const actions = {
                     item.bet = data.bet
                     item.betCount = data.betCount
                     item.winlose = data.winlose
+                    if (item.gameList && item.gameList.length > 0){
+                      let obj = item.gameList.filter(item => {
+                        return item.code == 1010000
+                      })
+                      obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                    }
                     item.nowBouns = data.bet * item.vedioMix / 100
                     item.nowallBet = data.bet * item.vedioMix/100 + data.winlose
                     item.winloseRate = item.nowallBet / data.bet
@@ -2389,6 +2461,12 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 1010000
+                    })
+                    obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.bet * item.vedioMix / 100
                   item.nowallBet = data.bet * item.vedioMix / 100 + data.winlose
                   item.winloseRate = item.nowallBet / (data.bet)
@@ -2492,6 +2570,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 1060000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.nowSubmit = (data.mixAmount * item.liveMix / 100 + data.winlose) * (1 - item.rate/100)
@@ -2564,6 +2648,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 1060000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.nowSubmit = (data.mixAmount * item.liveMix / 100 + data.winlose) * (1 - item.rate / 100)
@@ -2633,6 +2723,12 @@ const actions = {
                     item.betCount = data.betCount
                     item.winlose = data.winlose
                     item.mixAmount = data.mixAmount
+                    if (item.gameList && item.gameList.length > 0){
+                      let obj = item.gameList.filter(item => {
+                        return item.code == 1060000
+                      })
+                      obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                    }
                     item.nowBouns = data.mixAmount * item.liveMix / 100
                     item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                     item.winloseRate = item.nowallBet / data.mixAmount
@@ -2702,6 +2798,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 1060000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.winloseRate = item.nowallBet / data.mixAmount
