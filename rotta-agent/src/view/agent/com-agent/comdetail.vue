@@ -1211,7 +1211,7 @@ export default {
     }, // 直属玩家分页
 
     logo_uploadAli () {
-      this.url1 = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
+      this.url = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
       let mi = new OSS.Wrapper({
         region: 'oss-cn-hangzhou',
         accessKeyId: this.uploadAction1[1].ali.AccessKeyId,
@@ -1262,10 +1262,12 @@ export default {
     }, // logo 发送
     logo_before (file) {
       this.isUpdate1 = true
+      let fileName = this.suffixFun(file.name)
       const isLt1M = file.size / 1024 / 1024 < 10
-      const suffix = this.suffixFun(file.name)[1].toLowerCase()
+      const suffix = fileName[1].toLowerCase()
       const fileType = ['png', 'jpg']
       this.imgFile1 = file
+      this.imgFile1.fileName = `${fileName[0]+new Date().getTime()}.${fileName[1]}`
       return new Promise((resolve, reject) =>{
         if (!(fileType.indexOf(suffix) > -1)) {
           this.isUpdate1 = false
@@ -1281,7 +1283,7 @@ export default {
           method: api.post,
           data: {
             contentType: 'image',
-            filePath: file.name
+            filePath: this.imgFile1.fileName
           }
         }).then(res => {
           const [err, ret] = res
@@ -1303,7 +1305,7 @@ export default {
     }, // 上传前的检验 格式、大小等
 
     name_uploadAli () {
-      this.url1 = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
+      this.url = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
       let mi = new OSS.Wrapper({
         region: 'oss-cn-hangzhou',
         accessKeyId: this.uploadAction2[1].ali.AccessKeyId,
@@ -1354,10 +1356,12 @@ export default {
     }, // name 发送
     name_before (file) {
       this.isUpdate2 = true
+      let fileName = this.suffixFun(file.name)
       const isLt1M = file.size / 1024 / 1024 < 10
-      const suffix = this.suffixFun(file.name)[1].toLowerCase()
+      const suffix = fileName[1].toLowerCase()
       const fileType = ['png', 'jpg']
       this.imgFile2 = file
+      this.imgFile2.fileName = `${fileName[0]+new Date().getTime()}.${fileName[1]}`
       return new Promise((resolve, reject) =>{
         if (!(fileType.indexOf(suffix) > -1)) {
           this.isUpdate2 = false
@@ -1373,7 +1377,7 @@ export default {
           method: api.post,
           data: {
             contentType: 'image',
-            filePath: file.name
+            filePath: this.imgFile2.fileName
           }
         }).then(res => {
           const [err, ret] = res
