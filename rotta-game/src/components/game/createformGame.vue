@@ -381,8 +381,8 @@
         })
       },
       requestHeader () {
-        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
-        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
+        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.fileName}` //测试环境
+        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.fileName}` //开发环境
         invoke({
           url: this.uploadAction,
           method: 'put',
@@ -412,7 +412,9 @@
       beforeUpload (file) {
         const isJPG = (file.type === 'image/jpeg') || (file.type === 'image/png')
         const isLt1M = file.size / 1024 / 1024 < 1
+        let fileName = this.suffixFun(file.name)
         this.imgFile = file
+        this.imgFile.fileName = `${fileName[0]+new Date().getTime()}.${fileName[1]}`
         return new Promise((resolve, reject) =>{
           this.dialogLoading = true
           if (!isJPG) {
@@ -430,7 +432,7 @@
             method: api.post,
             data: {
               contentType: 'image',
-              filePath: file.name
+              filePath: this.imgFile.fileName
             }
           }).then(res => {
             const [err, ret] = res
@@ -452,7 +454,11 @@
       handleError () {
         this.dialogLoading = false
         this.$message.error('上传失败，请重新选择')
-      } // 错误回调
+      }, // 错误回调
+      suffixFun (o) {
+        let arr = o.split('.')
+        return arr
+      } // 截取文件名的后缀
     }
   }
 </script>

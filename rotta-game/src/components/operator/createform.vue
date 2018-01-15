@@ -476,8 +476,8 @@
         }
       },
       requestHeader () {
-        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
-        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
+        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.fileName}` //测试环境
+        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.fileName}` //开发环境
         invoke({
           url: this.uploadAction,
           method: 'put',
@@ -494,7 +494,7 @@
             this.dialogLoading = false
             this.$message.success('上传成功')
             this.managerInfo.companyContract = (process.env.NODE_ENV == 'development') ? dev : prod
-//            console.log(this.managerInfo.companyContract, 'this.managerInfo')
+            console.log(this.managerInfo.companyContract, 'this.managerInfo')
           }
         })
       },
@@ -507,9 +507,11 @@
         this.managerInfo.companyContract = `https://ouef62ous.bkt.clouddn.com/${response.key}`
       }, // 文件上传成功回调
       beforeUpload (file, fileList) {
+        let fileName = this.suffixFun(file.name)
         const isSizeZip = file.size / 1024 / 1024 < 10
-        const suffix = this.suffixFun(file.name).toLowerCase()
+        const suffix = fileName[1].toLowerCase()
         this.imgFile = file
+        this.imgFile.fileName = `${fileName[0]+new Date().getTime()}.${fileName[1]}`
         return new Promise((resolve, reject) =>{
           this.dialogLoading = true
           if (suffix != 'zip') {
@@ -531,7 +533,7 @@
             method: api.post,
             data: {
               contentType: 'image',
-              filePath: file.name
+              filePath: this.imgFile.fileName
             }
           }).then(res => {
             const [err, ret] = res
@@ -541,7 +543,7 @@
                 type: 'error'
               })
             } else {
-              this.uploadAction = ret.data.payload
+              this.uploadAction = ret.data.payload[0].aws
               resolve(true)
             }
           }).catch(err => {
@@ -561,8 +563,8 @@
 
       // 上传执照
       requestHeaderTwo () {
-        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
-        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
+        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.fileName}` //测试环境
+        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.fileName}` //开发环境
         invoke({
           url: this.uploadAction,
           method: 'put',
@@ -592,7 +594,9 @@
       beforeUploadTwo (file) {
         const isJPG = (file.type === 'image/jpeg') || (file.type === 'image/png')
         const isLt1M = file.size / 1024 / 1024 < 5
+        let fileName = this.suffixFun(file.name)
         this.imgFile = file
+        this.imgFile.fileName = `${fileName[0]+new Date().getTime()}.${fileName[1]}`
         return new Promise((resolve, reject) =>{
           this.dialogLoading = true
           if (!isJPG) {
@@ -610,7 +614,7 @@
             method: api.post,
             data: {
               contentType: 'image',
-              filePath: file.name
+              filePath: this.imgFile.fileName
             }
           }).then(res => {
             const [err, ret] = res
@@ -638,7 +642,7 @@
       }, // 错误回调
       suffixFun (o) {
         let arr = o.split('.')
-        return arr[arr.length - 1]
+        return arr
       } // 截取文件名的后缀
     },
     beforeDestroy () {
