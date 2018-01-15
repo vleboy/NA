@@ -3,36 +3,47 @@
   <div class="com-createform">
     <h2 class="title">基本信息</h2>
     <el-form :model="merchantInfo" ref="merchantInfo" :rules="rules" label-width="140px" label-position="right">
-          <el-form-item label="代理标识" prop="sn">
-            <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中英文、数字、@、_"></el-input>
-          </el-form-item>
-          <el-form-item label="代理用户名" prop="username">
-            <el-input v-model="merchantInfo.username" class="input" placeholder="5~16位,只能包含英文或数字"></el-input>
-          </el-form-item>
-          <el-form-item label="代理密码" prop="password">
-            <el-input v-model="merchantInfo.password" class="input" placeholder="8~16位,必须包含英文、数字和符号任意两种组合"></el-input>
-          </el-form-item>
-          <el-form-item label="代理昵称" prop="displayName">
-            <el-input v-model="merchantInfo.displayName" class="input" placeholder="2~10位,只能包含中文、英文或数字"></el-input>
-          </el-form-item>
-          <el-form-item label="所属代理">
-            <el-select v-model="merchantInfo.parent" filterable placeholder="请选择" clearable class="input">
-              <el-option v-for="item in parent" :key="item.userId" :label="item.displayName" :value="item.userId" style="max-width:336px"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="备注" prop="remark">
-            <el-input v-model="merchantInfo.remark" placeholder="请输入备注,最多不超过200个字符" type="textarea" :rows="3" class="input" :maxlength="200"></el-input>
-          </el-form-item>
-          <el-form-item label="生效时间" prop="contractPeriod">
-            <el-date-picker v-model="merchantInfo.contractPeriod" type="daterange" placeholder="选择生效时间" class="input" label="生效时间" :editable='false' :disabled="merchantInfo.isforever" :picker-options="pickerOptions"></el-date-picker><el-checkbox v-model="merchantInfo.isforever" class="isforever" @change="changeContractPeriod">永久</el-checkbox>
-          </el-form-item>
+      <el-form-item label="所属代理">
+        <el-select v-model="merchantInfo.parent" filterable placeholder="请选择" clearable class="input" @change="changeParent">
+          <el-option v-for="item in parent" :key="item.userId" :label="item.displayName" :value="item.userId" style="max-width:336px"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="代理类别">
+        <el-select v-model="merchantInfo.snType" filterable placeholder="请选择" clearable class="input" @change="changeSnType">
+          <el-option v-for="item in identificationType" :key="item.val" :label="item.name" :value="item.val" style="max-width:336px"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="代理标识" prop="sn" v-if="merchantInfo.snType">
+        <div v-if="merchantInfo.snType==1">
+          {{merchantInfo.sn || '暂无'}}
+        </div>
+        <div v-else>
+          <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中英文、数字、@、_"></el-input>
+        </div>
+      </el-form-item>
+      <el-form-item label="代理用户名" prop="username">
+        <el-input v-model="merchantInfo.username" class="input" placeholder="5~16位,只能包含英文或数字"></el-input>
+      </el-form-item>
+      <el-form-item label="代理密码" prop="password">
+        <el-input v-model="merchantInfo.password" class="input" placeholder="8~16位,必须包含英文、数字和符号任意两种组合"></el-input>
+      </el-form-item>
+      <el-form-item label="代理昵称" prop="displayName">
+        <el-input v-model="merchantInfo.displayName" class="input" placeholder="2~10位,只能包含中文、英文或数字"></el-input>
+      </el-form-item>
+
+      <el-form-item label="备注" prop="remark">
+        <el-input v-model="merchantInfo.remark" placeholder="请输入备注,最多不超过200个字符" type="textarea" :rows="3" class="input" :maxlength="200"></el-input>
+      </el-form-item>
+      <el-form-item label="生效时间" prop="contractPeriod">
+        <el-date-picker v-model="merchantInfo.contractPeriod" type="daterange" placeholder="选择生效时间" class="input" label="生效时间" :editable='false' :disabled="merchantInfo.isforever" :picker-options="pickerOptions"></el-date-picker><el-checkbox v-model="merchantInfo.isforever" class="isforever" @change="changeContractPeriod">永久</el-checkbox>
+      </el-form-item>
     </el-form>
   </div>
   <div>
     <createbtn class="Noprint" :merchantInfo="merchantInfo" @on-result-change="resetForm"></createbtn>
   </div>
 </div>
-  
+
 </template>
 
 <script>
@@ -76,7 +87,7 @@ export default {
           this.parent = data
           this.parent.push({
             displayName: '直属',
-            userId: ''
+            userId: 'NA369'
           })
           this.$store.commit('closeLoading')
         }
@@ -104,7 +115,8 @@ export default {
         parent: '', // 上级代理
         remark: '', // 备注
         contractPeriod: [], // 生效时间
-        isforever: false // 是否永久有效
+        isforever: false, // 是否永久有效
+        snType: '' //默认代理标识
       },
       rules: {
         sn: [
@@ -122,7 +134,16 @@ export default {
         contractPeriod: [
           {validator: checkContractPeriod, trigger: 'change'}
         ]
-      }
+      },
+      identificationType: [
+        {
+          name: '与上级相同',
+          val: 1
+        },{
+          name: '分配代理标识',
+          val: 2
+        }
+      ]
     }
   },
   methods: {
@@ -137,6 +158,16 @@ export default {
         this.merchantInfo.contractPeriod = []
         store.state.checkform.contractPeriod = false
       }
+    },
+    changeParent () {
+      for (let item of this.parent) {
+        if(item.userId == this.merchantInfo.parent) {
+          this.merchantInfo.sn = item.sn
+        }
+      }
+    },
+    changeSnType () {
+//      this.merchantInfo.snType = ''
     }
   },
   beforeDestroy () {
