@@ -348,6 +348,7 @@ export default {
             this.getPlayerDetail()
             this.editPassword = false
           }
+          this.$store.commit('closeLoading')
         }
       )
     },
