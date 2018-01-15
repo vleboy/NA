@@ -7,30 +7,38 @@
       <div class="baseinfo">
         <h4>基本信息</h4>
         <div class="baseinfo-form">
-          <el-col :span="5">
-            <div class="-player-title">所属代理：{{detailInfo.merchantName}}</div>
-          </el-col>
-          <el-col :span="5">
-            <div class="-player-title">用户名：{{detailInfo.userName}}</div>
-          </el-col>
-          <el-col :span="5">
-            <div class="-player-title">昵称：{{detailInfo.nickname === 'NULL!' ? '无' : detailInfo.nickname}}</div>
-          </el-col>
-          <el-col :span="4">
-            <div class="-player-title" >
-              密码：
-              <span v-if="!editPassword">{{detailInfo.password}}</span>
-              <el-input v-model="password" placeholder="请输入密码" type="text" v-else style="width: 50%"></el-input>
-              <el-button type="text" @click="openPwdInput" v-if="!editPassword" style="margin-left: 0.5rem">修改</el-button>
+          <el-row>
+            <el-col :span="4">
+              <div class="-player-title">所属代理：{{detailInfo.merchantName}}</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="-player-title">用户名：{{detailInfo.userName}}</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="-player-title">昵称：{{detailInfo.nickname === 'NULL!' ? '无' : detailInfo.nickname}}</div>
+            </el-col>
+            <el-col :span="4">
+              <div class="-player-title" >
+                密码：
+                <span v-if="!editPassword">{{detailInfo.password}}</span>
+                <el-input v-model="password" placeholder="请输入密码" type="text" v-else style="width: 50%"></el-input>
+                <el-button type="text" @click="openPwdInput" v-if="!editPassword" style="margin-left: 0.5rem">修改</el-button>
               <span v-else style="margin-left: 0.5rem">
                 <el-button type="text" @click="updatePwd">确认</el-button>
                 <el-button type="text" @click="editPassword = !editPassword">取消</el-button>
               </span>
-            </div>
+              </div>
+            </el-col>
+            <el-col :span="4">
+              <div class="-player-title">上次登录游戏时间：{{lastTime}}</div>
+            </el-col>
+          </el-row>
+          <el-col :span="4" v-for="item of detailInfo.gameList">
+            <div class="-player-title">{{item.name+'洗马比'}}：{{item.percentage}}%</div>
           </el-col>
-          <el-col :span="5">
-            <div class="-player-title">上次登录游戏时间：{{lastTime}}</div>
-          </el-col>
+        </div>
+        <div class="baseinfo-form">
+
         </div>
       </div>
       <div class="countinfo">
