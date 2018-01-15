@@ -10,7 +10,7 @@
           <span>玩家昵称: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.nickname"></el-input>
         </el-col>
-        <el-button type="primary" @click="getPlayList">搜索</el-button>
+        <el-button type="primary" @click="getSearch">搜索</el-button>
         <el-button @click="resultSearch">重置</el-button>
       </el-row>
       <el-row class="transition-box" style="margin-top: 2rem" v-if="role!='100'">
@@ -164,7 +164,6 @@
       },
       getPlayList () {
         this.$store.commit('startLoading')
-        this.currentPage = 1
         invoke({
           url: api.getPlayList,
           method: api.post,
@@ -267,6 +266,11 @@
           gameId: ''
         }
         this.getPlayList()
+      },
+      getSearch () {
+        this.currentPage = 1
+        this.getPlayList()
+
       },
       sortFun (col){
         if(col.prop!=null){
