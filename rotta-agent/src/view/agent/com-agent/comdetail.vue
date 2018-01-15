@@ -1250,7 +1250,6 @@ export default {
             type: 'error'
           })
         } else {
-          console.log('1234',process.env.NODE_ENV)
           this.comdetail.launchImg.logo[0] = (process.env.NODE_ENV == 'development') ? dev : prod
           this.isUpdate1 = false
           this.$message.success('上传成功')
