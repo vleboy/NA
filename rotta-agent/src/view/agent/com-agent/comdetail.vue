@@ -1397,7 +1397,7 @@ export default {
         })
       })
     }, // 上传前的检验 格式、大小等
-    
+
     handleError () {
       this.isUpdate1 = false
       this.isUpdate2 = false
