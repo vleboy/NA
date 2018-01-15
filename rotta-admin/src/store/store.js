@@ -122,12 +122,10 @@ const actions = {
           })
         } else {
           var data = ret.data.payload
-          // console.log('商户列表数据', data)
           context.commit({
             type: 'recordComlist',
             data: data
           })
-          // context.commit('searchComlist')
           context.commit('closeLoading')
         }
       }
