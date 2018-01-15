@@ -34,7 +34,7 @@
             </el-col>
           </el-row>
           <el-col :span="4" v-for="(item,index) of detailInfo.gameList" :key="index">
-            <div class="-player-title">{{item.name+'洗马比'}}：{{item.mix}}%</div>
+            <div class="-player-title">{{item.name+'洗码比'}}：{{item.mix}}%</div>
           </el-col>
         </div>
         <div class="baseinfo-form">

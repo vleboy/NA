@@ -17,14 +17,14 @@
               <el-option v-for="(item, index) in childrenList" :key="index" :label="item.displayName" :value="item.userId"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="玩家洗马比">
+          <el-form-item label="玩家洗码比">
             <el-table stripe :data="gameList">
               <el-table-column prop="name" label="游戏类别" align="center">
               </el-table-column>
-              <el-table-column label="玩家洗马比（%）"  align="center">
+              <el-table-column label="玩家洗码比（%）"  align="center">
                 <template scope="scope">
                   <el-tooltip effect="dark" :content="scope.row.playerMix" placement="right">
-                    <el-input type="number" v-model="scope.row.percentage" placeholder="请输入玩家洗马比（必填）"
+                    <el-input type="number" v-model="scope.row.percentage" placeholder="请输入玩家洗码比（必填）"
                               @blur="changeMix(scope.row)"></el-input>
                   </el-tooltip>
                 </template>
@@ -178,13 +178,13 @@
           }
         }
         for (let data of this.gameList) {
-          data.playerMix = `该玩家游戏洗马比范围为: 0% ~ ${data.mix}%`
+          data.playerMix = `该玩家游戏洗码比范围为: 0% ~ ${data.mix}%`
           data.isPercentage = false
         }
       },
       changeMix (row) {
         if (row.percentage < 0 || row.percentage > row.mix){
-          this.$message.error(`请输入正确的${row.name}洗马比范围`)
+          this.$message.error(`请输入正确的${row.name}洗码比范围`)
           row.isPercentage = false
         } else {
           row.isPercentage = true
@@ -207,7 +207,7 @@
         } else if (!this.playerInfo.parentId) {
           return this.$message.error('请选择直属上级')
         } else if (isCheck) {
-          return this.$message.error('请输入正确的玩家洗马比')
+          return this.$message.error('请输入正确的玩家洗码比')
         }
         this.playerInfo.gameList = newGameList
         this.$store.commit('startLoading')
