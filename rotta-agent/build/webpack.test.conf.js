@@ -27,7 +27,7 @@ var webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env,
+      'process.env': config.dev.env,
       'zues_URL': JSON.stringify('https://v6gv32ekre.execute-api.ap-southeast-1.amazonaws.com/'), // zues有关接口
 
       'hulk_URL': JSON.stringify('https://50eavr29x9.execute-api.ap-southeast-1.amazonaws.com/'), // hulk有关接口
