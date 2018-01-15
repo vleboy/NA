@@ -108,7 +108,7 @@ export default {
       },
       parent: [], // 可用上级代理列表
       merchantInfo: {
-        sn: '', // 代理标识
+        sn: 'NA369', // 代理标识
         username: '', // 代理用户名
         password: '', // 代理密码
         displayName: '', // 代理昵称
