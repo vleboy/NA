@@ -17,6 +17,20 @@
               <el-option v-for="(item, index) in childrenList" :key="index" :label="item.displayName" :value="item.userId"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="玩家洗马比">
+            <el-table stripe :data="gameList">
+              <el-table-column prop="name" label="游戏类别" align="center">
+              </el-table-column>
+              <el-table-column label="玩家洗马比（%）"  align="center">
+                <template scope="scope">
+                  <el-tooltip effect="dark" :content="scope.row.playerMix" placement="right">
+                    <el-input type="number" v-model="scope.row.percentage" placeholder="请输入玩家洗马比（必填）"
+                              @blur="changeMix(scope.row)"></el-input>
+                  </el-tooltip>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-form-item>
           <el-form-item label="分配点数" prop="points">
             <el-tooltip effect="dark" :content="parentPoints" placement="right">
               <el-input v-model="playerInfo.points" class="input" placeholder="请输入" :disabled="playerInfo.parentId==''"></el-input>
@@ -38,7 +52,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import {invoke} from '@/libs/fetchLib'
   import api from '@/api/api'
   export default {
@@ -125,7 +139,8 @@
           points: [
             {validator: checkPoints, trigger: 'blur'}
           ]
-        }
+        },
+        gameList: []
       }
     },
     computed: {
@@ -159,15 +174,34 @@
         for (let item of this.childrenList) {
           if (item.userId === this.playerInfo.parentId) {
             this.mixInfo = item
+            this.gameList = item.gameList
           }
+        }
+        for (let data of this.gameList) {
+          data.playerMix = `该玩家游戏洗马比范围为: 0% ~ ${data.mix}%`
+          data.isPercentage = false
+        }
+      },
+      changeMix (row) {
+        if (row.percentage < 0 || row.percentage > row.mix){
+          this.$message.error(`请输入正确的${row.name}洗马比范围`)
+          row.isPercentage = false
+        } else {
+          row.isPercentage = true
         }
       },
       registAdmin () {
+        let isCheck = this.gameList.some(item=>{
+          return item.isPercentage == false
+        })
         if (!this.status.isCheckUserName || !this.status.isCheckPwd || !this.status.isCheckPoints) {
           return this.$message.error('请完善配置信息')
         } else if (!this.playerInfo.parentId) {
           return this.$message.error('请选择直属上级')
+        } else if (isCheck) {
+          return this.$message.error('请输入正确的玩家洗马比')
         }
+        this.playerInfo.gameList = this.gameList
         this.$store.commit('startLoading')
         if (this.status.isSending) return
         this.status.isSending = true
@@ -212,7 +246,7 @@
 
 <style scpoed>
   .-player-add h2{text-align:center;font-size: 1.8rem;font-weight: normal;padding: 1rem 0 2rem 0;color: #5a5a5a;margin-left: 110px}
-  .-player-add .addmanager{width:36rem;margin: 0 auto;margin-top: 4rem}
+  .-player-add .addmanager{width:48rem;margin: 0 auto;margin-top: 4rem}
   .-player-add .input{width: 100%;}
   .-player-add .-p-addPwd{position: absolute; top: 0;right: -40px}
   .-player-add .subBtn{margin-top: 1rem;margin-left: 2rem;margin-right: 4rem}
