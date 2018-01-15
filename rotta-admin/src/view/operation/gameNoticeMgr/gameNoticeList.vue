@@ -369,8 +369,8 @@ export default {
       });
     },
     uploadAws () {
-      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
-      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
+      const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.fileName}` //测试环境
+      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.fileName}` //开发环境
       invoke({
         url: this.uploadAction[0].aws,
         method: 'put',
@@ -387,7 +387,7 @@ export default {
           this.dialogLoading = false
           this.$message.success('上传成功')
           this.noticeInfo.img = (process.env.NODE_ENV == 'development') ? dev : prod
-           console.log(this.noticeInfo.img, 'this.noticeInfo.img')
+//           console.log(this.noticeInfo.img, 'this.noticeInfo.img')
         }
       })
     },
@@ -398,10 +398,12 @@ export default {
 //      this.noticeInfo.img = `https://ouef62ous.bkt.clouddn.com/${response.key}`
     }, // 图片上传成功回调
     beforeUpload (file) {
+      let fileName = this.suffixFun(file.name)
       const isLt1M = file.size / 1024 / 1024 < 10
-      const suffix = this.suffixFun(file.name)[1].toLowerCase()
+      const suffix = fileName[1].toLowerCase()
       const fileType = ['png', 'jpg']
       this.imgFile = file
+      this.imgFile.fileName = `${fileName[0]+new Date().getTime()}.${fileName[1]}`
       return new Promise((resolve, reject) =>{
         this.dialogLoading = true
         if (!(fileType.indexOf(suffix) > -1)) {
@@ -419,7 +421,7 @@ export default {
           method: api.post,
           data: {
             contentType: 'image',
-            filePath: file.name
+            filePath: this.imgFile.fileName
           }
         }).then(res => {
           const [err, ret] = res
