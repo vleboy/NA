@@ -333,29 +333,12 @@ export default {
       this.$router.push('addPlayer')
     },
     playerDetail (row) {
-      this.$store.commit('startLoading')
-      invoke({
-        url: `${api.getPlayerDetail}?userName=${row.userName}`,
-        method: api.get
-      }).then(
-        result => {
-          const [err, res] = result
-          if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
-          } else {
-            this.playerDetail = res.data
-            this.$store.commit({
-              type: 'playerDetail',
-              data: this.playerDetail
-            })
-          }
-          this.$router.push('agentPlayerDetail')
-          this.$store.commit('closeLoading')
-        }
-      )
+      localStorage.setItem('playerName', row.userName)
+      this.$router.push('agentPlayerDetail')
+      this.$store.commit({
+        type: 'playerUserName',
+        data: row.userName
+      })
     }, // 跳到玩家详情页
     goDetail (index, row) {
       this.$store.commit({
