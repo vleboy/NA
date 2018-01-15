@@ -68,6 +68,9 @@ export default {
   components: {
     Createbtn
   },
+  beforeCreate () {
+    localStorage.setItem('nowGameList', false)
+  },
   computed: {
     parentBills () {
       return '上级代理余额为:' + this.$store.state.variable.comparentBills.balance
@@ -199,6 +202,13 @@ export default {
             }
           }
         )
+      }
+    },
+    'setcomInfo.gameList.length' (val) {
+      if (val && val > 0) {
+        localStorage.setItem('nowGameList', true)
+      } else {
+        localStorage.setItem('nowGameList', false)
       }
     }
   },

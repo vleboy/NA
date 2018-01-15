@@ -350,8 +350,8 @@ const actions = {
           var data = ret.data.payload
           if (!data.launchImg || data.launchImg == 'NULL!') {
             data.launchImg = {
-              logo:['https://s3-ap-southeast-1.amazonaws.com/image-na-dev/1111.jpg','https://s3-ap-southeast-1.amazonaws.com/image-na-dev/1111.jpg'],
-              name:['https://s3-ap-southeast-1.amazonaws.com/image-na-dev/1111.jpg','https://s3-ap-southeast-1.amazonaws.com/image-na-dev/1111.jpg']
+              logo:['https://s3-ap-southeast-1.amazonaws.com/image-na-dev/NAlogo.png','http://assetdownload.oss-cn-hangzhou.aliyuncs.com/image/NAlogo.png'],
+              name:['https://s3-ap-southeast-1.amazonaws.com/image-na-dev/dating-nagaming.png','http://assetdownload.oss-cn-hangzhou.aliyuncs.com/image/dating-nagaming.png']
             }
           }
           context.commit('countAjax')
@@ -607,6 +607,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     context.commit('getWeek')
     let searchDate = []
     if (localStorage.searchTime) {
@@ -971,6 +974,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     context.commit('getWeek')
     let searchDate = []
     if (localStorage.searchTime) {
@@ -1256,6 +1262,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     for (let item of child) {
       item.nowBouns = 0
       item.nowallBet = 0
@@ -1296,6 +1305,12 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
+                if (item.gameList && item.gameList.length > 0){
+                  let obj = item.gameList.filter(item => {
+                    return item.code == 40000
+                  })
+                  obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                }
                 item.nowBouns = data.bet * item.vedioMix / 100
                 item.nowallBet = data.bet * item.vedioMix / 100 + data.winlose
                 item.nowSubmit = (data.bet * item.vedioMix / 100 + data.winlose) * (1 - item.rate/100)
@@ -1363,6 +1378,12 @@ const actions = {
                     item.bet = data.bet
                     item.betCount = data.betCount
                     item.winlose = data.winlose
+                    if (item.gameList && item.gameList.length > 0){
+                      let obj = item.gameList.filter(item => {
+                        return item.code == 40000
+                      })
+                      obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                    }
                     item.nowBouns = data.bet * item.vedioMix / 100
                     item.nowallBet = data.bet * item.vedioMix/100 + data.winlose
                     item.winloseRate = item.nowallBet / data.bet
@@ -1431,6 +1452,12 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 40000
+                    })
+                    obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.bet * item.vedioMix / 100
                   item.nowallBet = data.bet * item.vedioMix / 100 + data.winlose
                   item.winloseRate = item.nowallBet / (data.bet)
@@ -1489,6 +1516,9 @@ const actions = {
         data: data
       })
       let child = result2[1].data.payload
+      if (child.length == 0) {
+        context.commit('closeLoading')
+      }
       for (let item of child) {
         item.nowBouns = 0
         item.nowallBet = 0
@@ -1530,6 +1560,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 30000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.nowSubmit = (data.mixAmount * item.liveMix / 100 + data.winlose) * (1 - item.rate/100)
@@ -1558,6 +1594,9 @@ const actions = {
         data: data
       })
       let child = result3[1].data.payload
+      if (child.length == 0) {
+        context.commit('closeLoading')
+      }
       for (let item of child) {
         item.nowBouns = 0
         item.nowallBet = 0
@@ -1599,6 +1638,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 30000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.nowSubmit = (data.mixAmount * item.liveMix/100 + data.winlose) * (1 - item.rate/100)
@@ -1668,6 +1713,12 @@ const actions = {
                     item.betCount = data.betCount
                     item.winlose = data.winlose
                     item.mixAmount = data.mixAmount
+                    if (item.gameList && item.gameList.length > 0){
+                      let obj = item.gameList.filter(item => {
+                        return item.code == 30000
+                      })
+                      obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                    }
                     item.nowBouns = data.mixAmount * item.liveMix / 100
                     item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                     item.winloseRate = item.nowallBet / data.mixAmount
@@ -1737,6 +1788,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 30000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.winloseRate = item.nowallBet / data.mixAmount
@@ -1804,6 +1861,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     for (let item of child) {
       item.arcadeMix = 1
       item.nowBouns = 0
@@ -1845,6 +1905,12 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
+                if (item.gameList && item.gameList.length > 0){
+                  let obj = item.gameList.filter(item => {
+                    return item.code == 50000
+                  })
+                  obj.length > 0 ? item.arcadeMix = obj[0].mix : ''
+                }
                 item.nowBouns = data.bet * item.arcadeMix / 100
                 item.nowallBet = data.bet * item.arcadeMix / 100 + data.winlose
                 item.nowSubmit = (data.bet * item.arcadeMix / 100 + data.winlose) * (1 - item.rate/100)
@@ -1913,6 +1979,12 @@ const actions = {
                     item.bet = data.bet
                     item.betCount = data.betCount
                     item.winlose = data.winlose
+                    if (item.gameList && item.gameList.length > 0){
+                      let obj = item.gameList.filter(item => {
+                        return item.code == 50000
+                      })
+                      obj.length > 0 ? item.arcadeMix = obj[0].mix : ''
+                    }
                     item.nowBouns = data.bet * item.arcadeMix / 100
                     item.nowallBet = data.bet * item.arcadeMix / 100 + data.winlose
                     item.winloseRate = item.nowallBet / data.bet
@@ -1982,6 +2054,12 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 50000
+                    })
+                    obj.length > 0 ? item.arcadeMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.bet * item.arcadeMix / 100
                   item.nowallBet = data.bet * item.arcadeMix / 100 + data.winlose
                   item.winloseRate = item.nowallBet / data.bet
@@ -2034,6 +2112,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     // 请求下级账单信息
     context.commit('getWeek')
     let searchDate = []
@@ -2190,6 +2271,9 @@ const actions = {
       data: data
     })
     let child = result2[1].data.payload
+    if (child.length == 0) {
+      context.commit('closeLoading')
+    }
     for (let item of child) {
       item.nowBouns = 0
       item.nowallBet = 0
@@ -2230,6 +2314,12 @@ const actions = {
                 item.bet = data.bet
                 item.betCount = data.betCount
                 item.winlose = data.winlose
+                if (item.gameList && item.gameList.length > 0){
+                  let obj = item.gameList.filter(item => {
+                    return item.code == 1010000
+                  })
+                  obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                }
                 item.nowBouns = data.bet * item.vedioMix / 100
                 item.nowallBet = data.bet * item.vedioMix / 100 + data.winlose
                 item.nowSubmit = (data.bet * item.vedioMix / 100 + data.winlose) * (1 - item.rate/100)
@@ -2297,6 +2387,12 @@ const actions = {
                     item.bet = data.bet
                     item.betCount = data.betCount
                     item.winlose = data.winlose
+                    if (item.gameList && item.gameList.length > 0){
+                      let obj = item.gameList.filter(item => {
+                        return item.code == 1010000
+                      })
+                      obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                    }
                     item.nowBouns = data.bet * item.vedioMix / 100
                     item.nowallBet = data.bet * item.vedioMix/100 + data.winlose
                     item.winloseRate = item.nowallBet / data.bet
@@ -2365,6 +2461,12 @@ const actions = {
                   item.bet = data.bet
                   item.betCount = data.betCount
                   item.winlose = data.winlose
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 1010000
+                    })
+                    obj.length > 0 ? item.vedioMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.bet * item.vedioMix / 100
                   item.nowallBet = data.bet * item.vedioMix / 100 + data.winlose
                   item.winloseRate = item.nowallBet / (data.bet)
@@ -2424,6 +2526,9 @@ const actions = {
         data: data
       })
       let child = result2[1].data.payload
+      if (child.length == 0) {
+        context.commit('closeLoading')
+      }
       for (let item of child) {
         item.nowBouns = 0
         item.nowallBet = 0
@@ -2465,6 +2570,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 1060000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.nowSubmit = (data.mixAmount * item.liveMix / 100 + data.winlose) * (1 - item.rate/100)
@@ -2493,6 +2604,9 @@ const actions = {
         data: data
       })
       let child = result3[1].data.payload
+      if (child.length == 0) {
+        context.commit('closeLoading')
+      }
       for (let item of child) {
         item.nowBouns = 0
         item.nowallBet = 0
@@ -2534,6 +2648,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 1060000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.nowSubmit = (data.mixAmount * item.liveMix / 100 + data.winlose) * (1 - item.rate / 100)
@@ -2603,6 +2723,12 @@ const actions = {
                     item.betCount = data.betCount
                     item.winlose = data.winlose
                     item.mixAmount = data.mixAmount
+                    if (item.gameList && item.gameList.length > 0){
+                      let obj = item.gameList.filter(item => {
+                        return item.code == 1060000
+                      })
+                      obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                    }
                     item.nowBouns = data.mixAmount * item.liveMix / 100
                     item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                     item.winloseRate = item.nowallBet / data.mixAmount
@@ -2672,6 +2798,12 @@ const actions = {
                   item.betCount = data.betCount
                   item.winlose = data.winlose
                   item.mixAmount = data.mixAmount
+                  if (item.gameList && item.gameList.length > 0){
+                    let obj = item.gameList.filter(item => {
+                      return item.code == 1060000
+                    })
+                    obj.length > 0 ? item.liveMix = obj[0].mix : ''
+                  }
                   item.nowBouns = data.mixAmount * item.liveMix / 100
                   item.nowallBet = data.mixAmount * item.liveMix / 100 + data.winlose
                   item.winloseRate = item.nowallBet / data.mixAmount

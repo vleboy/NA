@@ -10,7 +10,7 @@
           <span>直属代理: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.merchantName"></el-input>
         </el-col>
-        <el-button type="primary" @click="getPlayList">搜索</el-button>
+        <el-button type="primary" @click="getSearch">搜索</el-button>
         <el-button  @click="resultSearch">重置</el-button>
       </el-row>
       <el-row class="transition-box" style="margin-top: 2rem">
@@ -38,7 +38,9 @@
       <el-table stripe :data="getItems" @selection-change="selectionChange" @sort-change="sortFun">
         <el-table-column type="selection" width="60" align="center">
         </el-table-column>
-        <el-table-column prop="userName" label="用户名" align="center">
+        <el-table-column prop="userId" label="玩家ID" align="center">
+        </el-table-column>
+        <el-table-column prop="userName" label="用户名" width="200" align="center">
         </el-table-column>
         <el-table-column prop="nickname" label="昵称" align="center">
           <template scope="scope">
@@ -331,6 +333,11 @@
           gameId: ''
         }
         this.getPlayList()
+      },
+      getSearch () {
+        this.currentPage = 1
+        this.getPlayList()
+
       },
       submit () {
         var rex = new RegExp(/^[0-9]*[1-9][0-9]*$/)

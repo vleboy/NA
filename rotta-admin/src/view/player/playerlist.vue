@@ -10,7 +10,7 @@
           <span>玩家昵称: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.nickname"></el-input>
         </el-col>
-        <el-button type="primary" @click="getPlayList">搜索</el-button>
+        <el-button type="primary" @click="getSearch">搜索</el-button>
         <el-button @click="resultSearch">重置</el-button>
       </el-row>
       <el-row class="transition-box" style="margin-top: 2rem" v-if="role!='100'">
@@ -45,7 +45,9 @@
       <el-table stripe :data="getItems" @selection-change="selectionChange" @sort-change="sortFun">
         <el-table-column type="selection" width="60" align="center">
         </el-table-column>
-        <el-table-column prop="userNameParent" label="用户名" align="center">
+        <el-table-column prop="userId" label="玩家ID" align="center">
+        </el-table-column>
+        <el-table-column prop="userNameParent" label="用户名" width="200" align="center">
         </el-table-column>
         <el-table-column prop="msn" label="线路号" show-overflow-tooltip align="center">
         </el-table-column>
@@ -162,7 +164,6 @@
       },
       getPlayList () {
         this.$store.commit('startLoading')
-        this.currentPage = 1
         invoke({
           url: api.getPlayList,
           method: api.post,
@@ -265,6 +266,11 @@
           gameId: ''
         }
         this.getPlayList()
+      },
+      getSearch () {
+        this.currentPage = 1
+        this.getPlayList()
+
       },
       sortFun (col){
         if(col.prop!=null){

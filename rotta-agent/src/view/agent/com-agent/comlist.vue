@@ -40,7 +40,7 @@
                 <el-table-column label="洗码比" prop="gamelist" align="center" width="110">
                     <template scope="scope">
                         <div slot="reference" class="gamelist">
-                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.mix }}</el-tag>
+                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.mix }}%</el-tag>
                         </div>
                     </template>
                 </el-table-column>
@@ -111,8 +111,8 @@
                   </el-table-column>
                   <el-table-column prop="userName" label="用户名" align="center">
                   </el-table-column>
-                  <el-table-column prop="password" label="密码" align="center">
-                  </el-table-column>
+                  <!-- <el-table-column prop="password" label="密码" align="center">
+                  </el-table-column> -->
                   <el-table-column prop="balance" label="点数" show-overflow-tooltip align="center">
                   </el-table-column>
                   <el-table-column prop="merchantName" label="直属代理" align="center" sortable>
