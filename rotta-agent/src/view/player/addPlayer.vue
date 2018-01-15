@@ -194,6 +194,14 @@
         let isCheck = this.gameList.some(item=>{
           return item.isPercentage == false
         })
+        let newGameList = []
+        for (let item of this.gameList) {
+          newGameList.push({
+            mix: item.percentage,
+            code: item.code,
+            name: item.name
+          })
+        }
         if (!this.status.isCheckUserName || !this.status.isCheckPwd || !this.status.isCheckPoints) {
           return this.$message.error('请完善配置信息')
         } else if (!this.playerInfo.parentId) {
@@ -201,7 +209,7 @@
         } else if (isCheck) {
           return this.$message.error('请输入正确的玩家洗马比')
         }
-        this.playerInfo.gameList = this.gameList
+        this.playerInfo.gameList = newGameList
         this.$store.commit('startLoading')
         if (this.status.isSending) return
         this.status.isSending = true
