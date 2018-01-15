@@ -37,9 +37,6 @@
             <div class="-player-title">{{item.name+'洗码比'}}：{{item.mix}}%</div>
           </el-col>
         </div>
-        <div class="baseinfo-form">
-
-        </div>
       </div>
       <div class="countinfo">
         <h4>消费信息</h4>
@@ -208,10 +205,15 @@ export default {
         {
           code: '-3',
           name: '商城'
+        },
+        {
+          code: '-2',
+          name: '代理操作'
         }
       ],
       jumpUrl:[
         '/agentPlayerList',
+        '/comlist',
         '/naAllGameReport',
         '/naVedioGameReport',
         '/naLiveGameReport',
