@@ -96,7 +96,7 @@ const actions = {
       sort: 'desc'
     }
     if (state.variable.condition.condition_one) {
-      data.query.suffix = state.variable.condition.condition_one
+      data.query.sn = state.variable.condition.condition_one
     }
     if (state.variable.condition.condition_two) {
       data.query.msn = state.variable.condition.condition_two
