@@ -564,7 +564,7 @@ export default {
       this.$router.push('agentPlayerDetail')
       this.$store.commit({
         type: 'playerUserName',
-        data: row.userName
+        data: row
       })
     }, // 跳转至玩家详情
     goBack () {

@@ -189,7 +189,8 @@ export default {
         '/naArcadeGameReport',
         '/naMallReport',
         '/ttgVedioGameReport',
-        '/saLiveGameReport'
+        '/saLiveGameReport',
+        '/allReport'
       ]
     }
   },

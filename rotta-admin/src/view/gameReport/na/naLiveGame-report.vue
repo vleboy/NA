@@ -524,7 +524,7 @@ export default {
       this.$router.push('playerdetail')
       this.$store.commit({
         type: 'playerUserName',
-        data: row.userName
+        data: row
       })
     }
   },

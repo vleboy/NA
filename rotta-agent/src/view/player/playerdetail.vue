@@ -221,7 +221,8 @@ export default {
         '/naMallReport',
         '/ttgVedioGameReport',
         '/comdetail',
-        '/saLiveGameReport'
+        '/saLiveGameReport',
+        '/allReport'
       ]
     }
   },
