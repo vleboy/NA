@@ -146,7 +146,7 @@ export default {
         }
       } else if (this.nowindex === 'comcreate' && this.steps === 0) {
         this.cominfo = {
-          sn: 'NA369', // 代理标识
+          sn: '', // 代理标识
           username: '', // 代理用户名
           password: '', // 代理密码
           displayName: '', // 代理昵称
@@ -155,6 +155,11 @@ export default {
           contractPeriod: [], // 生效时间
           isforever: false, // 是否永久有效
           snType: '' //默认代理标识
+        }
+        if (localStorage.loginSuffix == 'Agent') {
+          this.cominfo.sn = 'NA369'
+        } else {
+          this.cominfo.sn = localStorage.loginSn
         }
       } else if (this.nowindex === 'comcreate' && this.steps === 1) {
         this.comset = {

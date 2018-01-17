@@ -8,7 +8,7 @@
           <el-option v-for="item in parent" :key="item.userId" :label="item.displayName" :value="item.userId" style="max-width:336px"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="代理类别" v-if="isBelong">
+      <el-form-item label="代理类别" v-show="isBelong">
         <el-select v-model="merchantInfo.snType" filterable placeholder="请选择" clearable class="input" @change="changeSnType">
           <el-option v-for="item in identificationType" :key="item.val" :label="item.name" :value="item.val" style="max-width:336px"></el-option>
         </el-select>
@@ -63,6 +63,7 @@ export default {
     checkform.isforever = false
   },
   mounted () {
+    localStorage.loginSuffix == 'Agent' ? '' : this.isBelong = false
     var data = {
       parent: ''
     }
@@ -89,17 +90,28 @@ export default {
             displayName: '直属',
             userId: ''
           })
-          this.$store.commit('closeLoading')
+          
         }
       }
     )
     if (this.$store.state.variable.nowParent == '01') {
-      this.merchantInfo.parent = ''
-      this.merchantInfo.sn = 'NA369'
+      if (localStorage.loginSuffix == 'Agent') {
+        this.merchantInfo.parent = ''
+        this.merchantInfo.sn = 'NA369'
+      } else {
+        this.merchantInfo.parent = ''
+        this.merchantInfo.sn = localStorage.loginSn
+      }
     } else {
-      this.merchantInfo.parent = this.$store.state.variable.nowParent
-      localStorage.nowParentSn ? this.merchantInfo.sn = localStorage.nowParentSn : this.merchantInfo.sn = 'NA369'
+      if (localStorage.loginSuffix == 'Agent') {
+        this.merchantInfo.parent = this.$store.state.variable.nowParent
+        localStorage.nowParentSn ? this.merchantInfo.sn = localStorage.nowParentSn : this.merchantInfo.sn = 'NA369'
+      } else {
+        this.merchantInfo.parent = ''
+        localStorage.nowParentSn ? this.merchantInfo.sn = localStorage.nowParentSn : this.merchantInfo.sn = localStorage.loginSn
+      }
     }
+    this.$store.commit('closeLoading')
   },
   data () {
     return {
@@ -168,15 +180,24 @@ export default {
           this.merchantInfo.sn = item.sn
         }
       }
-      this.merchantInfo.parent == '01' || !this.merchantInfo.parent ? this.isBelong = true : this.isBelong = false
-      !this.merchantInfo.sn ? this.merchantInfo.sn = 'NA369' : ''
+      if (localStorage.loginSuffix == 'Agent') {
+        this.merchantInfo.parent == '01' || !this.merchantInfo.parent ? this.isBelong = true : this.isBelong = false
+        !this.merchantInfo.sn ? this.merchantInfo.sn = 'NA369' : ''
+      } else {
+        this.isBelong = false
+        !this.merchantInfo.sn ? this.merchantInfo.sn = localStorage.loginSn : ''
+      }
     },
     changeSnType () {
       if (this.merchantInfo.snType == 2) {
         this.merchantInfo.sn = ''
       } else {
         this.$refs[this.merchantInfo].resetFields()
-        this.merchantInfo.sn = 'NA369'
+        if (localStorage.loginSuffix == 'Agent') {
+          this.merchantInfo.sn = 'NA369'
+        } else {
+          this.merchantInfo.sn = localStorage.loginSn
+        }
       }
     }
   },
