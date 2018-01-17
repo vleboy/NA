@@ -56,7 +56,7 @@ export const invoke = async (cfg) => {
         Message.warning('您的Token已过期,请重新登录')
       }
     }
-    isStringType && (e.response.data = {err:{msg: '您的网络不稳定,请刷新后重试'}})
+    isStringType && (e.response.data = {err:{msg: '接口异常，请联系平台管理员'}})
     return [e.response.data.err, 0]
   }
 }
