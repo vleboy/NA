@@ -379,6 +379,7 @@ export default {
       }).then(res => {
         const [err, ret] = res
         if (err) {
+          this.dialogLoading = false
           this.$message({
             message: err.msg,
             type: 'error'
