@@ -2,7 +2,7 @@
 <div>
   <div class="com-createform">
     <h2 class="title">基本信息</h2>
-    <el-form :model="merchantInfo" ref="merchantInfo" :rules="rules" label-width="140px" label-position="right">
+    <el-form :model="merchantInfo" :ref="merchantInfo" :rules="rules" label-width="140px" label-position="right">
       <el-form-item label="所属代理">
         <el-select v-model="merchantInfo.parent" filterable placeholder="请选择" clearable class="input" @change="changeParent">
           <el-option v-for="item in parent" :key="item.userId" :label="item.displayName" :value="item.userId" style="max-width:336px"></el-option>
@@ -141,7 +141,7 @@ export default {
       identificationType: [
         {
           name: '与上级相同',
-          val: 1
+          val: ''
         },{
           name: '分配代理标识',
           val: 2
@@ -175,6 +175,7 @@ export default {
       if (this.merchantInfo.snType == 2) {
         this.merchantInfo.sn = ''
       } else {
+        this.$refs[this.merchantInfo].resetFields()
         this.merchantInfo.sn = 'NA369'
       }
     }
