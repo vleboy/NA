@@ -246,6 +246,7 @@ export default {
         type: 'selectParent',
         data: row.userId
       })
+      localStorage.setItem('nowParentSn', row.sn)
       this.$router.push('comcreate')
     },
     createPlayer(index, row){

@@ -30,12 +30,11 @@ export const invoke = async (cfg) => {
      const response = await axios.request(isToken ? requestConfig : noTokenRequestConfig)
     return [0, response]
   } catch (e) {
-    let isStringType = typeof (e.response.data) == 'string'  //针对非后台返回的data类型为字符串类型（xml） 比如图片上传等
     if (!e.response || e.response.message) {
       store.state.variable.isloading = false
       Message.warning('您的网络不稳定,请刷新后重试')
     } else {
-      if (!isStringType && e.response.data.err && e.response.data.code != 90001) {
+      if (e.response.data.err.msg && e.response.data.code != 90001) {
         store.state.variable.isloading = false
         Message.warning(e.response.data.err.msg)
       }
@@ -50,7 +49,6 @@ export const invoke = async (cfg) => {
         Message.warning('您的Token已过期,请重新登录')
       }
     }
-    isStringType && (e.response.data = {err:{msg: '接口异常，请联系平台管理员'}})
     return [e.response.data.err, 0]
-  }
+  }  
 }

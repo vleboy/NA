@@ -8,17 +8,17 @@
           <el-option v-for="item in parent" :key="item.userId" :label="item.displayName" :value="item.userId" style="max-width:336px"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="代理类别">
+      <el-form-item label="代理类别" v-if="isBelong">
         <el-select v-model="merchantInfo.snType" filterable placeholder="请选择" clearable class="input" @change="changeSnType">
           <el-option v-for="item in identificationType" :key="item.val" :label="item.name" :value="item.val" style="max-width:336px"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="代理标识" prop="sn" v-if="merchantInfo.snType">
-        <div v-if="merchantInfo.snType==1">
-          {{merchantInfo.sn || '暂无'}}
+      <el-form-item label="代理标识" prop="sn">
+        <div v-if="merchantInfo.snType == 2">
+          <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中英文、数字、@、_"></el-input>
         </div>
         <div v-else>
-          <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中英文、数字、@、_"></el-input>
+          {{merchantInfo.sn || '暂无'}}
         </div>
       </el-form-item>
       <el-form-item label="代理用户名" prop="username">
@@ -93,10 +93,12 @@ export default {
         }
       }
     )
-    if (this.$store.state.variable.nowParent == localStorage.loginId) {
+    if (this.$store.state.variable.nowParent == '01') {
       this.merchantInfo.parent = ''
+      this.merchantInfo.sn = 'NA369'
     } else {
       this.merchantInfo.parent = this.$store.state.variable.nowParent
+      localStorage.nowParentSn ? this.merchantInfo.sn = localStorage.nowParentSn : this.merchantInfo.sn = 'NA369'
     }
   },
   data () {
@@ -106,9 +108,10 @@ export default {
           return time.getTime() < Date.now() - 8.64e7
         }
       },
+      isBelong: true,
       parent: [], // 可用上级代理列表
       merchantInfo: {
-        sn: 'NA369', // 代理标识
+        sn: '', // 代理标识
         username: '', // 代理用户名
         password: '', // 代理密码
         displayName: '', // 代理昵称
@@ -165,10 +168,15 @@ export default {
           this.merchantInfo.sn = item.sn
         }
       }
+      this.merchantInfo.parent == '01' || !this.merchantInfo.parent ? this.isBelong = true : this.isBelong = false
       !this.merchantInfo.sn ? this.merchantInfo.sn = 'NA369' : ''
     },
     changeSnType () {
-//      this.merchantInfo.snType = ''
+      if (this.merchantInfo.snType == 2) {
+        this.merchantInfo.sn = ''
+      } else {
+        this.merchantInfo.sn = 'NA369'
+      }
     }
   },
   beforeDestroy () {
@@ -192,6 +200,7 @@ export default {
       type: 'recordComcreate',
       data: this.merchantInfo
     })
+    localStorage.removeItem('nowParentSn')
   }
 }
 </script>
