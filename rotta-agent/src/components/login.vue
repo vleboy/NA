@@ -130,6 +130,7 @@ export default {
             localStorage.setItem('loginToken', success.token)
             localStorage.setItem('loginLevel', success.level)
             localStorage.setItem('loginSuffix', success.suffix)
+            localStorage.setItem('loginSn', success.sn)
             localStorage.setItem('loginParent', success.parent)
             localStorage.setItem('loginId', success.userId)
             localStorage.setItem('loginRole', success.role)

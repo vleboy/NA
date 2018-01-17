@@ -2,23 +2,23 @@
 <div>
   <div class="com-createform">
     <h2 class="title">基本信息</h2>
-    <el-form :model="merchantInfo" ref="merchantInfo" :rules="rules" label-width="140px" label-position="right">
+    <el-form :model="merchantInfo" :ref="merchantInfo" :rules="rules" label-width="140px" label-position="right">
       <el-form-item label="所属代理">
         <el-select v-model="merchantInfo.parent" filterable placeholder="请选择" clearable class="input" @change="changeParent">
           <el-option v-for="item in parent" :key="item.userId" :label="item.displayName" :value="item.userId" style="max-width:336px"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="代理类别">
+      <el-form-item label="代理类别" v-show="isBelong">
         <el-select v-model="merchantInfo.snType" filterable placeholder="请选择" clearable class="input" @change="changeSnType">
           <el-option v-for="item in identificationType" :key="item.val" :label="item.name" :value="item.val" style="max-width:336px"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="代理标识" prop="sn" v-if="merchantInfo.snType">
-        <div v-if="merchantInfo.snType==1">
-          {{merchantInfo.sn || '暂无'}}
+      <el-form-item label="代理标识" prop="sn">
+        <div v-if="merchantInfo.snType == 2">
+          <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中英文、数字、@、_"></el-input>
         </div>
         <div v-else>
-          <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中英文、数字、@、_"></el-input>
+          {{merchantInfo.sn || '暂无'}}
         </div>
       </el-form-item>
       <el-form-item label="代理用户名" prop="username">
@@ -63,6 +63,7 @@ export default {
     checkform.isforever = false
   },
   mounted () {
+    localStorage.loginSuffix == 'Agent' ? '' : this.isBelong = false
     var data = {
       parent: ''
     }
@@ -89,15 +90,28 @@ export default {
             displayName: '直属',
             userId: ''
           })
-          this.$store.commit('closeLoading')
+          
         }
       }
     )
-    if (this.$store.state.variable.nowParent == localStorage.loginId) {
-      this.merchantInfo.parent = ''
+    if (this.$store.state.variable.nowParent == '01') {
+      if (localStorage.loginSuffix == 'Agent') {
+        this.merchantInfo.parent = ''
+        this.merchantInfo.sn = 'NA369'
+      } else {
+        this.merchantInfo.parent = ''
+        this.merchantInfo.sn = localStorage.loginSn
+      }
     } else {
-      this.merchantInfo.parent = this.$store.state.variable.nowParent
+      if (localStorage.loginSuffix == 'Agent') {
+        this.merchantInfo.parent = this.$store.state.variable.nowParent
+        localStorage.nowParentSn ? this.merchantInfo.sn = localStorage.nowParentSn : this.merchantInfo.sn = 'NA369'
+      } else {
+        this.merchantInfo.parent = ''
+        localStorage.nowParentSn ? this.merchantInfo.sn = localStorage.nowParentSn : this.merchantInfo.sn = localStorage.loginSn
+      }
     }
+    this.$store.commit('closeLoading')
   },
   data () {
     return {
@@ -106,9 +120,10 @@ export default {
           return time.getTime() < Date.now() - 8.64e7
         }
       },
+      isBelong: true,
       parent: [], // 可用上级代理列表
       merchantInfo: {
-        sn: 'NA369', // 代理标识
+        sn: '', // 代理标识
         username: '', // 代理用户名
         password: '', // 代理密码
         displayName: '', // 代理昵称
@@ -138,7 +153,7 @@ export default {
       identificationType: [
         {
           name: '与上级相同',
-          val: 1
+          val: ''
         },{
           name: '分配代理标识',
           val: 2
@@ -165,10 +180,25 @@ export default {
           this.merchantInfo.sn = item.sn
         }
       }
-      !this.merchantInfo.sn ? this.merchantInfo.sn = 'NA369' : ''
+      if (localStorage.loginSuffix == 'Agent') {
+        this.merchantInfo.parent == '01' || !this.merchantInfo.parent ? this.isBelong = true : this.isBelong = false
+        !this.merchantInfo.sn ? this.merchantInfo.sn = 'NA369' : ''
+      } else {
+        this.isBelong = false
+        !this.merchantInfo.sn ? this.merchantInfo.sn = localStorage.loginSn : ''
+      }
     },
     changeSnType () {
-//      this.merchantInfo.snType = ''
+      if (this.merchantInfo.snType == 2) {
+        this.merchantInfo.sn = ''
+      } else {
+        this.$refs[this.merchantInfo].resetFields()
+        if (localStorage.loginSuffix == 'Agent') {
+          this.merchantInfo.sn = 'NA369'
+        } else {
+          this.merchantInfo.sn = localStorage.loginSn
+        }
+      }
     }
   },
   beforeDestroy () {
@@ -192,6 +222,7 @@ export default {
       type: 'recordComcreate',
       data: this.merchantInfo
     })
+    localStorage.removeItem('nowParentSn')
   }
 }
 </script>

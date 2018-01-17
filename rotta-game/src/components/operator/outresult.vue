@@ -2,15 +2,15 @@
   <div class="outresult">
     <el-table stripe :data="companyList">
       <el-table-column label="序号" prop="companyName" align="center" width="65" type="index"></el-table-column>
-      <el-table-column label="运营商名称" prop="companyName" align="center"></el-table-column>
-      <el-table-column label="运营商标识" prop="companyIden" align="center"></el-table-column>
-      <el-table-column label="运营商接入类型" prop="companyType" align="center">
+      <el-table-column label="供应商名称" prop="companyName" align="center"></el-table-column>
+      <el-table-column label="供应商标识" prop="companyIden" align="center"></el-table-column>
+      <el-table-column label="供应商接入类型" prop="companyType" align="center">
         <template scope="scope">
           {{companyTypeArray[scope.row.companyType-1]}}
         </template>
       </el-table-column>
       <el-table-column label="联系方式" prop="companyContactWay" align="center"></el-table-column>
-      <el-table-column label="运营商邮箱" prop="companyEmail" align="center"></el-table-column>
+      <el-table-column label="供应商邮箱" prop="companyEmail" align="center"></el-table-column>
       <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" align="center" min-width="95"></el-table-column>
       <el-table-column label="状态" align="center" prop="companyStatus" width="90">
         <template scope="scope">
@@ -117,7 +117,7 @@ export default {
       })
     },
     operation (data) {
-      this.$confirm(`${data.companyStatus ? '此操作将停用该运营商下的所有游戏， 是否继续？' : '此操作将启用该运营商，旗下所有游戏将生效，是否继续？'}`,
+      this.$confirm(`${data.companyStatus ? '此操作将停用该供应商下的所有游戏， 是否继续？' : '此操作将启用该供应商，旗下所有游戏将生效，是否继续？'}`,
         '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

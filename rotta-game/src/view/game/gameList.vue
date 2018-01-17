@@ -11,9 +11,9 @@
         </el-table-column>
         <el-table-column label="分类" :formatter="getType" align="center">
         </el-table-column>
-        <el-table-column label="所属运营商" prop="company.companyName" align="center">
+        <el-table-column label="所属供应商" prop="company.companyName" align="center">
         </el-table-column>
-        <el-table-column label="所属运营商标识" prop="companyIden" align="center">
+        <el-table-column label="所属供应商标识" prop="companyIden" align="center">
         </el-table-column>
         <el-table-column label="网页游戏" prop="isWebGame" align="center">
           <template scope="scope">

@@ -1,14 +1,14 @@
 <template>
   <div class="outdetailform">
     <div class="simpleinfo">
-      <h4>运营商基本信息</h4>
+      <h4>供应商基本信息</h4>
       <div class="simpleform">
         <el-row>
           <el-col :span="6">
-            <span>运营商ID: {{gameDetail.companyId}}</span>
+            <span>供应商ID: {{gameDetail.companyId}}</span>
           </el-col>
           <el-col :span="6">
-            <span>运营商标识: {{gameDetail.companyIden}}</span>
+            <span>供应商标识: {{gameDetail.companyIden}}</span>
           </el-col>
           <el-col :span="6">
             <span>联系人: {{gameDetail.companyContact}}</span>
@@ -19,13 +19,13 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <span>运营商Email: {{gameDetail.companyEmail}}</span>
+            <span>供应商Email: {{gameDetail.companyEmail}}</span>
           </el-col>
           <el-col :span="6">
-            <span>运营商描述: {{gameDetail.companyDesc == 'NULL!' ? '暂无' : gameDetail.companyDesc}}</span>
+            <span>供应商描述: {{gameDetail.companyDesc == 'NULL!' ? '暂无' : gameDetail.companyDesc}}</span>
           </el-col>
           <el-col :span="6">
-            <span>运营商接入类型: {{companyTypeArray[gameDetail.companyType-1]}}</span>
+            <span>供应商接入类型: {{companyTypeArray[gameDetail.companyType-1]}}</span>
           </el-col>
           <el-col :span="6" v-if="gameDetail.companyType == 1">
             <span>
@@ -69,7 +69,7 @@ export default {
   data () {
     return {
       optionsList: [],
-      companyTypeArray:['A类（接入公司的游戏运营商）','B类（公司接入的游戏运营商）']
+      companyTypeArray:['A类（接入公司的游戏供应商）','B类（公司接入的游戏供应商）']
     }
   },
   created () {

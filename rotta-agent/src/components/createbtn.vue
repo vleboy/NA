@@ -148,12 +148,18 @@ export default {
         this.cominfo = {
           sn: '', // 代理标识
           username: '', // 代理用户名
-          password: '', // 代理登录密码
+          password: '', // 代理密码
           displayName: '', // 代理昵称
           parent: '', // 上级代理
           remark: '', // 备注
           contractPeriod: [], // 生效时间
-          isforever: false // 是否永久有效
+          isforever: false, // 是否永久有效
+          snType: '' //默认代理标识
+        }
+        if (localStorage.loginSuffix == 'Agent') {
+          this.cominfo.sn = 'NA369'
+        } else {
+          this.cominfo.sn = localStorage.loginSn
         }
       } else if (this.nowindex === 'comcreate' && this.steps === 1) {
         this.comset = {
@@ -162,7 +168,7 @@ export default {
           showSelect: [], // 列表展示数据
           gameList: [], // 代理游戏
           points: '', // 代理点数
-          rate: '', // 代理抽成比
+          rate: '' // 代理抽成比
         }
       }
     },

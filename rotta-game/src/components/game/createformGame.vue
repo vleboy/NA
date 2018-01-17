@@ -12,8 +12,8 @@
       <el-form-item label="游戏简介" prop="gameRecommend">
         <el-input v-model="managerInfo.gameRecommend" class="input" placeholder="请输入游戏简介" type="textarea" :maxlength='200'></el-input>
       </el-form-item>
-      <el-form-item label="所属运营商" prop="companyName">
-        <el-select v-model="managerInfo.companyName" placeholder="请选择所属运营商" clearable class="input" @change="changeCompany">
+      <el-form-item label="所属供应商" prop="companyName">
+        <el-select v-model="managerInfo.companyName" placeholder="请选择所属供应商" clearable class="input" @change="changeCompany">
           <el-option v-for="item in companyOptions" :key="item.companyName" :value="item.companyName" class="select-width"></el-option>
         </el-select>
       </el-form-item>
@@ -106,13 +106,13 @@
       } // 分类
       var validateCompany = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请选择所属运营商'))
+          callback(new Error('请选择所属供应商'))
           this.isfinish.company = false
         } else {
           callback()
           this.isfinish.company = true
         }
-      } // 运营商
+      } // 供应商
       var validateGameRecommend = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入游戏简介'))
@@ -191,7 +191,7 @@
         managerInfo: {
           gameName: '', // 名称
           gameType: '', // 类别
-          company: '', // 运营商
+          company: '', // 供应商
           port: '', // 端口
           ip: '', // 服务器
           kindId: '', // kindId
@@ -200,8 +200,8 @@
           gameLink: '', // 网页游戏链接
           isWebGame: '', // 网页游戏标识
           gameIden: '', // 标识
-          companyIden: '', // 运营商标识
-          companyName: '' // 运营商名称
+          companyIden: '', // 供应商标识
+          companyName: '' // 供应商名称
         }, // 创建列表
         rules: {
           gameName: [
@@ -254,8 +254,8 @@
       if (this.$store.state.variable.isEdit) {
         this.managerInfo = {
           gameId: storeInfo.gameId,
-          gameName: storeInfo.gameName, // 运营商名称
-          gameIden: storeInfo.gameIden, // 运营商名标识
+          gameName: storeInfo.gameName, // 供应商名称
+          gameIden: storeInfo.gameIden, // 供应商名标识
           gameRecommend: storeInfo.gameRecommend, // 简介
           kindId: Number(storeInfo.kindId)-Number(storeInfo.gameType), // kindId
           gameType: storeInfo.gameType, // 游戏类别
@@ -334,7 +334,7 @@
         this.managerInfo = {
           gameName: '', // 名称
           gameType: '', // 类别
-          company: '', // 运营商
+          company: '', // 供应商
           port: '', // 端口
           ip: '', // 服务器
           gameRecommend: '', // 简介
@@ -342,8 +342,8 @@
           gameLink: '', // 网页游戏链接
           isWebGame: '', // 网页游戏标识
           gameIden: '', // 标识
-          companyIden: '', // 运营商标识
-          companyName: '' // 运营商名称
+          companyIden: '', // 供应商标识
+          companyName: '' // 供应商名称
         }
       },
       changeCompany () {

@@ -1,15 +1,15 @@
 <template>
   <div class="outcreate" v-loading.body="dialogLoading" element-loading-text="上传中，请稍等">
-    <h2 class="title">运营商信息</h2>
+    <h2 class="title">供应商信息</h2>
     <el-form :model="managerInfo" :rules="rules" ref="managerInfo" class="createform" label-width="150px" label-position="right">
-      <el-form-item label="运营商名称" prop="companyName">
-        <el-input v-model="managerInfo.companyName" class="input" :disabled="this.$store.state.variable.isEdit" placeholder="请输入运营商名称" :maxlength='20'></el-input>
+      <el-form-item label="供应商名称" prop="companyName">
+        <el-input v-model="managerInfo.companyName" class="input" :disabled="this.$store.state.variable.isEdit" placeholder="请输入供应商名称" :maxlength='20'></el-input>
       </el-form-item>
-      <el-form-item label="运营商标识" prop="companyIden">
-        <el-input v-model="managerInfo.companyIden" class="input" :disabled="this.$store.state.variable.isEdit" placeholder="请输入运营商标识（1-6位非中文）" :maxlength='20'></el-input>
+      <el-form-item label="供应商标识" prop="companyIden">
+        <el-input v-model="managerInfo.companyIden" class="input" :disabled="this.$store.state.variable.isEdit" placeholder="请输入供应商标识（1-6位非中文）" :maxlength='20'></el-input>
       </el-form-item>
-      <el-form-item label="运营商描述" prop="companyDesc">
-        <el-input v-model="managerInfo.companyDesc" class="input" type="textarea" placeholder="请输入运营商描述" :maxlength='200'></el-input>
+      <el-form-item label="供应商描述" prop="companyDesc">
+        <el-input v-model="managerInfo.companyDesc" class="input" type="textarea" placeholder="请输入供应商描述" :maxlength='200'></el-input>
       </el-form-item>
       <el-form-item label="联系人" prop="companyContact">
         <el-input v-model="managerInfo.companyContact" class="input" placeholder="请输入联系人" :maxlength='16'></el-input>
@@ -28,7 +28,7 @@
     </el-form>
     <h2 class="title">合同信息</h2>
     <el-form :model="managerInfo" :rules="rules" ref="managerInfo" class="createform" label-width="150px" label-position="right">
-      <el-form-item label="运营商接入类型" prop="companyType" >
+      <el-form-item label="供应商接入类型" prop="companyType" >
         <el-select v-model="managerInfo.companyType" placeholder="请选择" clearable class="input" :disabled="this.$store.state.variable.isEdit">
           <el-option v-for="item in companyTypeArray" :key="item.id" :label="item.value" :value="item.id"></el-option>
         </el-select>
@@ -110,7 +110,7 @@
         var regName = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
         if (value === '') {
           this.isfinish.companyName = false
-          callback(new Error('请输入运营商名称'))
+          callback(new Error('请输入供应商名称'))
         } else if (!regName.exec(value)) {
           this.isfinish.companyName = false
           callback(new Error('请输入中英文或者数字'))
@@ -121,11 +121,11 @@
           callback()
           this.isfinish.companyName = true
         }
-      } // 运营商名称
+      } // 供应商名称
       var validateCompanyIden = (rule, value, callback) => {
         if (value === '') {
           this.isfinish.companyIden = false
-          callback(new Error('请输入运营商标识'))
+          callback(new Error('请输入供应商标识'))
         } else if (!pattern.nonChinese.exec(value) || value.length > 6 || value.length < 1) {
           this.isfinish.companyIden = false
           callback(new Error('请输入1-6位非中文字符'))
@@ -133,7 +133,7 @@
           callback()
           this.isfinish.companyIden = true
         }
-      } // 运营商标识
+      } // 供应商标识
       var validateCompanyDesc = (rule, value, callback) => {
         if (value && value.length < 2) {
           callback(new Error('必须为两位数'))
@@ -142,7 +142,7 @@
           callback()
           this.isfinish.companyDesc = true
         }
-      } // 运营商描述
+      } // 供应商描述
       var validateCompanyEmail = (rule, value, callback) => {
         var email = new RegExp(/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/)
         if (value === '') {
@@ -250,8 +250,8 @@
           gameTypeList: false
         },
         managerInfo: {
-          companyName: '', // 运营商名称
-          companyDesc: '', // 运营商描述
+          companyName: '', // 供应商名称
+          companyDesc: '', // 供应商描述
           companyContactWay: '', // 联系方式
           companyContact: '', // 联系人
           companyEmail: '', // 邮箱
@@ -261,8 +261,8 @@
           remark: '', // 类型
           companyKey: '', // key（B类才有）
           companyRatio: '', // 成数 （B类才有）
-          companyType: '', // 运营商类别
-          companyIden: '', // 运营商标识
+          companyType: '', // 供应商类别
+          companyIden: '', // 供应商标识
           gameTypeList : [] // 游戏类别
         }, // 创建列表
         rules: {
@@ -331,10 +331,10 @@
         companyTypeArray:[
           {
           id: 1,
-          value: 'A类（接入公司的游戏运营商）'
+          value: 'A类（接入公司的游戏供应商）'
           },{
             id: 2,
-            value: 'B类（公司接入的游戏运营商）'
+            value: 'B类（公司接入的游戏供应商）'
           }],
         optionsList: []
       }
@@ -345,9 +345,9 @@
       if (this.$store.state.variable.isEdit) {
         this.managerInfo = {
           companyId: storeInfo.companyId,
-          companyName: storeInfo.companyName, // 运营商名称
-          companyIden: storeInfo.companyIden.toUpperCase(), // 运营商名标识
-          companyDesc: storeInfo.companyDesc == 'NULL!' ? '' : storeInfo.companyDesc, // 运营商描述
+          companyName: storeInfo.companyName, // 供应商名称
+          companyIden: storeInfo.companyIden.toUpperCase(), // 供应商名标识
+          companyDesc: storeInfo.companyDesc == 'NULL!' ? '' : storeInfo.companyDesc, // 供应商描述
           companyContactWay: storeInfo.companyContactWay, // 联系方式
           companyContact: storeInfo.companyContact, // 联系人
           companyEmail: storeInfo.companyEmail, // 邮箱
@@ -379,9 +379,9 @@
         }
       } else {
         this.managerInfo = {
-          companyName: '', // 运营商名称
-          companyIden: '', // 运营商标识
-          companyDesc: '', // 运营商描述
+          companyName: '', // 供应商名称
+          companyIden: '', // 供应商标识
+          companyDesc: '', // 供应商描述
           companyContactWay: '', // 联系方式
           companyContact: '', // 联系人
           companyEmail: '', // 邮箱
@@ -459,16 +459,16 @@
       },
       resetData () {
         this.managerInfo = {
-          companyName: '', // 运营商名称
-          companyIden: '', // 运营商标识
-          companyDesc: '', // 运营商描述
+          companyName: '', // 供应商名称
+          companyIden: '', // 供应商标识
+          companyDesc: '', // 供应商描述
           companyContactWay: '', // 联系方式
           companyContact: '', // 联系人
           companyEmail: '', // 邮箱
           companyKey: '', // key
           companyRatio: '', // 成数
           companyRegion: '', // 所属区域
-          companyType: '', // 运营商类型
+          companyType: '', // 供应商类型
           companyContract: '', // 合同
           license: '', // 执照
           remark: '', // 类型

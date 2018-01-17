@@ -6,9 +6,9 @@
               <div class="logo"><img style=" width: 60%;" src="static/NAlogo.png"></div>
               <el-menu-item index="board">看板</el-menu-item>
               <el-submenu index="1">
-                <template slot="title">游戏运营商</template>
-                <el-menu-item index="operatorList">运营商列表</el-menu-item>
-                <el-menu-item index="addOperator">创建运营商</el-menu-item>
+                <template slot="title">游戏供应商</template>
+                <el-menu-item index="operatorList">供应商列表</el-menu-item>
+                <el-menu-item index="addOperator">创建供应商</el-menu-item>
               </el-submenu>
 
               <el-submenu index="2">

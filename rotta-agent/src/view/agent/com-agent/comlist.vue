@@ -322,6 +322,11 @@ export default {
         type: 'selectParent',
         data: row.userId
       })
+      if (localStorage.loginSuffix == 'Agent') {
+        localStorage.setItem('nowParentSn', row.sn)
+      } else {
+        localStorage.setItem('nowParentSn', '')
+      }
       this.$router.push('comcreate')
     },
     createPlayer(index, row){

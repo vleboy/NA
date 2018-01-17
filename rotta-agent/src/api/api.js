@@ -162,6 +162,8 @@ const api = {
 
   getChildrenList: front.hera + front.stage + '/agent/children/list', // 创建玩家获取下级代理商
 
+  editPlayerMix: front.hera + front.stage + '/player/mix', // 修改玩家洗码比
+
   // hawkeye
 
   mapPlayer: front.hawkeye + front.stage + '/player/list', // 组织架构商户玩家

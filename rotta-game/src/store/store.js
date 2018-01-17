@@ -252,7 +252,7 @@ const mutations = {
 
   gameDetailInfo (state, payload) {
     state.variable.gameDetailInfo = payload.data
-  }, // 游戏运营商详细数据
+  }, // 游戏供应商详细数据
 
   searchOld (state, payload) {
     state.variable.searchOld = payload.data
@@ -260,7 +260,7 @@ const mutations = {
 
   storageOperatorItem (state, payload) {
     state.variable.operatorItem = payload.data
-  }, // 单个游戏运营商数据存储
+  }, // 单个游戏供应商数据存储
 
   storageGameOneItem (state, payload) {
     state.variable.gameOneItem = payload.data
