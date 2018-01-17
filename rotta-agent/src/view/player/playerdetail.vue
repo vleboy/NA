@@ -5,7 +5,7 @@
         <h2>{{detailInfo.userName}} <el-button type="text" @click="accountDetail()">查看流水账详单</el-button></h2>
       </div>
       <div class="baseinfo">
-        <h4>基本信息</h4>
+        <h4>基本信息 <el-button type="text" @click="editPlayerMix">修改玩家洗码比</el-button></h4>
         <div class="baseinfo-form">
           <el-row>
             <el-col :span="4">
@@ -151,6 +151,9 @@
           </div>
         </el-form>
       </el-dialog>
+
+      <playerWashCodeRatio ref="childMethod" :dataProp="detailInfo" @refreshPlayerDetail="getPlayerDetail"></playerWashCodeRatio>
+
     </div>
   </div>
 </template>
@@ -158,7 +161,9 @@
 import { detailTime, formatUsername, thousandFormatter } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
+import playerWashCodeRatio from '@/components/playerWashCodeRatio'
 export default {
+  components:{playerWashCodeRatio},
   beforeCreate () {
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
@@ -188,6 +193,7 @@ export default {
       isOpenModal: false,
       isSending: false,
       isSave: false, // 是否是存点
+      isFetching: false,
       searchArray: [],
       playerStorage: [], // 搜索暂存数据
       account: [],
@@ -275,6 +281,8 @@ export default {
       let [startTime, endTime] = this.amountDate
       startTime = new Date(startTime).getTime()
       endTime = new Date(endTime).getTime()
+      if(this.isFetching) return
+      this.isFetching = true
       invoke({
         url: `${api.getPlayDetail}?userName=${name}&company=${this.companyInfo}&kindId=${this.radioInfo}
         &startTime=${startTime}&endTime=${endTime}`,
@@ -292,6 +300,7 @@ export default {
             this.playerDetailInfo = res.data
           }
           // this.$store.commit('closeLoading')
+          this.isFetching = false
         }
       )
     },
@@ -489,6 +498,14 @@ export default {
       const end = this.amountDate[1] ? new Date(this.amountDate[1]) : new Date();
       !this.amountDate[0] && start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
       this.amountDate = [start,end];
+    },
+    editPlayerMix () {
+      if(this.isFetching) {
+        return this.$message.warning('加载中...请稍后')
+      }
+      setTimeout(()=>{
+        this.$refs.childMethod.openPlayerMixModal()
+      },0)
     }
   },
   filters:{   //过滤器，所有数字保留两位小数
