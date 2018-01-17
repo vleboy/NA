@@ -1,7 +1,7 @@
 <template>
   <div class="searchbox">
 		<div class="boxpre">
-      <span>运营商名称: </span>
+      <span>供应商名称: </span>
       <el-input placeholder="请输入" class="input" v-model="boxContent.companyName"></el-input>
       <span class="justfy2">联系方式: </span>
       <el-input placeholder="请输入" class="input" v-model="boxContent.companyContactWay"></el-input>
@@ -12,7 +12,7 @@
 			<el-collapse-transition>
         <div v-show="show">
           <div class="transition-box">
-            <span>运营商邮箱: </span><el-input placeholder="请输入" class="input" v-model="boxContent.companyEmail"></el-input>
+            <span>供应商邮箱: </span><el-input placeholder="请输入" class="input" v-model="boxContent.companyEmail"></el-input>
             <span class="justfy2">创建时间: </span>
             <el-date-picker type="date" placeholder="选择日期" class="input " v-model="boxContent.createAt"></el-date-picker>
           </div>
@@ -35,7 +35,7 @@ export default {
       show: false,
       boxContent: {
         companyContactWay: '', // 联系方式
-        companyName: '', // 运营商名称
+        companyName: '', // 供应商名称
         companyEmail: '', // 按邮箱搜索
         createAt: '' // 按创建时间搜索
       }
@@ -45,7 +45,7 @@ export default {
     clearall () {
       this.boxContent = {
         companyContactWay: '', // 联系方式
-        companyName: '', // 运营商名称
+        companyName: '', // 供应商名称
         companyEmail: '', // 按邮箱搜索
         createAt: '' // 按创建时间搜索
       }

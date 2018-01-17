@@ -11,10 +11,10 @@
             <span>游戏状态: {{gameDetail.gameStatus ? '正常' : '下线'}}</span>
           </el-col>
           <el-col :span="6">
-            <span>所属运营商: {{gameDetail.companyName}}</span>
+            <span>所属供应商: {{gameDetail.companyName}}</span>
           </el-col>
           <el-col :span="6">
-            <span>运营商标识: {{gameDetail.companyIden}}</span>
+            <span>供应商标识: {{gameDetail.companyIden}}</span>
           </el-col>
         </el-row>
         <el-row>

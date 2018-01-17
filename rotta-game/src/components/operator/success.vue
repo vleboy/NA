@@ -2,7 +2,7 @@
   <div class="success">
     <i class="el-icon-circle-check"></i>
     <h2>创建成功</h2>
-    <p>恭喜您，游戏运营商已经创建成功，您可以点击查看按钮查看运营商的详细信息！</p>
+    <p>恭喜您，游戏供应商已经创建成功，您可以点击查看按钮查看供应商的详细信息！</p>
   </div>
 </template>
 

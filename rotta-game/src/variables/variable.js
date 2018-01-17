@@ -22,7 +22,7 @@ const variable = {
 
   gameReadyDetailInfo: '', // 存储游戏详细信息
 
-  gameDetailInfo: '', // 游戏运营商详细
+  gameDetailInfo: '', // 游戏供应商详细
 
   getSuccessOperator: '', // 游戏运营成功后商详细数据
 
@@ -37,7 +37,7 @@ const variable = {
 
   tabIndex: null,
 
-  operatorItem: '', // 游戏运营商单条数据存储
+  operatorItem: '', // 游戏供应商单条数据存储
 
   gameOneItem: '', // 游戏列表单条数据存储
 

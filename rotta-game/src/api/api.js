@@ -79,15 +79,15 @@ const api = {
 
   companyList: front.diana + front.stage + '/companyList', // 游戏商列表
 
-  companyOne: front.diana + front.stage + '/companyOne', // 查询单个运营商
+  companyOne: front.diana + front.stage + '/companyOne', // 查询单个供应商
 
-  addCompanyNew: front.diana + front.stage + '/companyNew', // 新增游戏运营商
+  addCompanyNew: front.diana + front.stage + '/companyNew', // 新增游戏供应商
 
-  companyUpdate: front.diana + front.stage + '/companyUpdate', // 修改游戏运营商
+  companyUpdate: front.diana + front.stage + '/companyUpdate', // 修改游戏供应商
 
   changeCompany: front.diana + front.stage + '/companyChangeStatus',
 
-  companySelect: front.diana + front.stage + '/companySelect', // 获取运营商标识
+  companySelect: front.diana + front.stage + '/companySelect', // 获取供应商标识
 
   gameUpdate: front.diana + front.stage + '/gameUpdate', // 修改游戏数据
 

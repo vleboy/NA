@@ -51,13 +51,13 @@
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'operatorList'" class="title">
-      <el-breadcrumb-item>游戏运营商 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">运营商列表</span> </el-breadcrumb-item>
+      <el-breadcrumb-item>游戏供应商 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">供应商列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'addOperator'" class="title">
-      <el-breadcrumb-item>游戏运营商 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">创建游戏运营商</span> </el-breadcrumb-item>
+      <el-breadcrumb-item>游戏供应商 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">创建游戏供应商</span> </el-breadcrumb-item>
     </el-breadcrumb>
   </div>
 </template>

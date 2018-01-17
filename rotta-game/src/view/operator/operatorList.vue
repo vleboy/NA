@@ -2,7 +2,7 @@
   <div>
     <searchbox></searchbox>
     <p class="searchResult">共搜索到 {{searchinfo||0}} 条数据</p>
-    <el-button type="primary" class="justfy1" @click="goCreate">创建新运营商</el-button>
+    <el-button type="primary" class="justfy1" @click="goCreate">创建新供应商</el-button>
     <outresult></outresult>
   </div>
 </template>

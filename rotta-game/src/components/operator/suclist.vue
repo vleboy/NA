@@ -2,12 +2,12 @@
   <div class="suclist print">
     <div class="list-title">
       <el-row class="list-title">
-        <p class="title print-title">运营商 : {{suclist.companyName}}</p>&emsp;&emsp;
-        <p class="title print-title">运营商标识 : {{suclist.companyIden}}</p>
+        <p class="title print-title">供应商 : {{suclist.companyName}}</p>&emsp;&emsp;
+        <p class="title print-title">供应商标识 : {{suclist.companyIden}}</p>
       </el-row>
       <el-row class="list-title">
         <el-col :span="12">
-          <span class="print-justfy1">运营商ID : {{suclist.companyId}}</span>
+          <span class="print-justfy1">供应商ID : {{suclist.companyId}}</span>
         </el-col>
         <el-col :span="6">
           <span class="print-justfy1">联系人 : {{suclist.companyContact}}</span>
@@ -19,16 +19,16 @@
 
       <el-row>
         <el-col :span="12">
-          <span class=" print-justfy1">运营商Email : {{suclist.companyEmail}}</span>
+          <span class=" print-justfy1">供应商Email : {{suclist.companyEmail}}</span>
         </el-col>
         <el-col :span="12">
-          <span class="print-justfy1">运营商描述 : {{suclist.companyDesc == 'NULL!' ? '暂无' : suclist.companyDesc}}</span>
+          <span class="print-justfy1">供应商描述 : {{suclist.companyDesc == 'NULL!' ? '暂无' : suclist.companyDesc}}</span>
         </el-col>
       </el-row>
     </div>
     <div class="list-form">
       <el-row>
-        <p class="print-justfy1">运营商接入类型 : {{companyTypeArray[suclist.companyType-1]}}</p>
+        <p class="print-justfy1">供应商接入类型 : {{companyTypeArray[suclist.companyType-1]}}</p>
 
         <p class="print-justfy1" v-if="suclist.companyType==1">合作区域 : {{regionList[suclist.companyRegion-1] || '暂无'}}</p>
         <p class="print-justfy1" v-else>接入成数 : {{suclist.companyRatio || '0'}}%</p>
@@ -50,7 +50,7 @@ export default {
   data () {
     return {
       regionList: ['亚太', '大陆', '港澳台', '欧洲', '美洲'],
-      companyTypeArray:['A类（接入公司的游戏运营商）','B类（公司接入的游戏运营商）']
+      companyTypeArray:['A类（接入公司的游戏供应商）','B类（公司接入的游戏供应商）']
     }
   },
   computed: {

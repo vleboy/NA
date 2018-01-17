@@ -18,9 +18,9 @@ import gameList from 'view/game/gameList' // 游戏列表
 import addGame from 'view/game/addGame' // 创建游戏
 import gameDetail from 'view/game/gameDetailed' // 游戏详细
 
-import operatorList from 'view/operator/operatorList' // 游戏运营商列表
-import addOperator from 'view/operator/addOperator' // 创建游戏运营商
-import operatorDetail from 'view/operator/operatorDetail' // 游戏运营商详细
+import operatorList from 'view/operator/operatorList' // 游戏供应商列表
+import addOperator from 'view/operator/addOperator' // 创建游戏供应商
+import operatorDetail from 'view/operator/operatorDetail' // 游戏供应商详细
 
 Vue.use(Router)
 export default new Router({
@@ -86,17 +86,17 @@ export default new Router({
     },
     {
       path: '/operatorList',
-      name: '游戏运营商列表',
+      name: '游戏供应商列表',
       component: operatorList
     },
     {
       path: '/addOperator',
-      name: '创建游戏运营商',
+      name: '创建游戏供应商',
       component: addOperator
     },
     {
       path: '/operatordetail',
-      name: '游戏运营商详细',
+      name: '游戏供应商详细',
       component: operatorDetail
     }
   ]
