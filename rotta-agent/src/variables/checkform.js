@@ -17,7 +17,7 @@ const checkform = {
   userEmail: false,
   userContact: false,
   msn: false,
-  sn: false,
+  sn: true,
   loginWhitelist: true,
   frontURL: false
 }
