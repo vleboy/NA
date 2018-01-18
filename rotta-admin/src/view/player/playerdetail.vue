@@ -11,8 +11,8 @@ $<template>
             <el-col :span="4"><span>所属商户：{{detailInfo.merchantName}}</span></el-col>
             <el-col :span="4"><span>线路号：{{detailInfo.msn}}</span></el-col>
             <el-col :span="7"><span>上次登录游戏时间：{{lastTime}}</span></el-col>
-            <el-col :span="5"><span>电子游戏洗码比(%)：{{detailInfo.liveMix+'%'}}</span></el-col>
-            <el-col :span="4"><span>真人游戏洗码比(%)：{{detailInfo.vedioMix+'%'}}</span></el-col>
+            <el-col :span="5"><span>电子游戏洗码比(%)：{{detailInfo.liveMix}}%</span></el-col>
+            <el-col :span="4"><span>真人游戏洗码比(%)：{{detailInfo.vedioMix}}%</span></el-col>
           </p>
         </div>
       </div>

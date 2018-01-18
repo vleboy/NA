@@ -280,7 +280,7 @@ export default {
       // this.$store.commit('startLoading')
       let [startTime, endTime] = this.amountDate
       startTime = new Date(startTime).getTime()
-      endTime = new Date(endTime).getTime()
+      endTime = new Date(endTime).getTime()+5000
       if(this.isFetching) return
       this.isFetching = true
       invoke({
@@ -408,6 +408,7 @@ export default {
             this.$message.success('提交成功')
             this.isSending = false
             this.isOpenModal = false
+            this.amountDate = [] // 处理存提点以后，时间不更新，列表页筛选不了最新数据问题
             this.getPlayerDetail()
           }
         }
@@ -494,6 +495,7 @@ export default {
       )
     },
     initTime () {
+      !this.amountDate && (this.amountDate = [])
       const start = this.amountDate[0] ? new Date(this.amountDate[0]) : new Date();
       const end = this.amountDate[1] ? new Date(this.amountDate[1]) : new Date();
       !this.amountDate[0] && start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
