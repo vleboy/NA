@@ -164,7 +164,8 @@
           gameId: ''
         },
         balanceInfo: {},
-        gameTypeList: []
+        gameTypeList: [],
+        jumpUrl:['/addPlayer']
       }
     },
     created () {
@@ -427,6 +428,16 @@
             // this.$store.commit('closeLoading')
           }
         )
+      }
+    },
+    watch: {
+      '$route': function (_new, _old) {
+        for (let item of this.jumpUrl) {
+          if(item === _old.fullPath) {
+            this.getPlayList()
+            break
+          }
+        }
       }
     }
   }
