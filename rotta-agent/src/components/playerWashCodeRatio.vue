@@ -58,7 +58,7 @@
                 type: 'error'
               })
             } else {
-              this.propInfo = JSON.parse(JSON.stringify(this.dataProp.gameList))
+              this.propInfo = JSON.parse(JSON.stringify(this.dataProp.gameList || []))
               for (let item of ret.data.list) {
                 if (item.displayName == this.dataProp.merchantName) {
                   this.agentList = item.gameList
