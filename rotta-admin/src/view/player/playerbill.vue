@@ -164,7 +164,7 @@ export default {
   },
   methods: {
     formatterTime (row) {
-      return detailTime(row)
+      return row ? detailTime(row) : '-'
     }, // 格式化创建时间
     getNowsize (size) {
       this.nowSize = size
