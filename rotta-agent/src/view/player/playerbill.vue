@@ -65,7 +65,13 @@ $<template>
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="rate" label="当前成数" align="center"></el-table-column>
+            <el-table-column prop="rate" label="当前成数" align="center">
+              <template scope="scope">
+                <span>
+                  {{scope.row.rate}}%
+                </span>
+              </template>
+            </el-table-column>
             <el-table-column prop="mix" label="当前洗码比" align="center">
               <template scope="scope">
                 <span>
