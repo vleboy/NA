@@ -34,7 +34,7 @@ $<template>
           <el-col :span="12">
             <span v-if='radioInfo!=-1'>输赢总计: <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">{{formatPoints(allAmountFun)}}</span></span>&emsp;
             <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(detailInfo.balance)}}</span></span>
-            <el-button type="text" style="margin-right: 1rem" @click="getPlayerDetail">刷新</el-button>
+            <el-button type="text" style="margin-right: 1rem" @click="resultGetPlayerDetail">刷新</el-button>
           </el-col>
 
           <el-col :span="12" style="float: right; text-align: right">
@@ -251,7 +251,7 @@ export default {
       let name = this.$store.state.variable.playerUserName || localStorage.playerName
       let [startTime, endTime] = this.amountDate
       startTime = new Date(startTime).getTime()
-      endTime = new Date(endTime).getTime()
+      endTime = new Date(endTime).getTime()+5000
       // this.$store.commit('startLoading')
       invoke({
         url: `${api.getPlayDetail}?userName=${name}&company=${this.companyInfo}&kindId=${this.radioInfo}
@@ -359,6 +359,10 @@ export default {
       const end = this.amountDate[1] ? new Date(this.amountDate[1]) : new Date();
       !this.amountDate[0] && start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
       this.amountDate = [start,end];
+    },
+    resultGetPlayerDetail (){
+      this.amountDate = [] // 处理时间不更新，列表页筛选不了最新数据问题
+      this.getPlayerDetail()
     }
   },
   filters:{   //过滤器，所有数字保留两位小数

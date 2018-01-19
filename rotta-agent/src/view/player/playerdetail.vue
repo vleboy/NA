@@ -56,7 +56,7 @@
           <el-col :span="12">
             <span v-if='radioInfo!=-2'>输赢总计: <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">{{formatPoints(allAmountFun)}}</span></span>&emsp;
             <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(detailInfo.balance)}}</span></span>
-            <el-button type="text" @click="getPlayerDetail">刷新</el-button>
+            <el-button type="text" @click="resultGetPlayerDetail">刷新</el-button>
             <el-button type="text" @click="openModal(0)" v-if="detailInfo.state!=0">存点</el-button>
             <el-button type="text" @click="openModal(1)" v-if="detailInfo.state!=0">提点</el-button>
           </el-col>
@@ -508,6 +508,10 @@ export default {
       setTimeout(()=>{
         this.$refs.childMethod.openPlayerMixModal()
       },0)
+    },
+    resultGetPlayerDetail (){
+      this.amountDate = [] // 处理时间不更新，列表页筛选不了最新数据问题
+      this.getPlayerDetail()
     }
   },
   filters:{   //过滤器，所有数字保留两位小数
