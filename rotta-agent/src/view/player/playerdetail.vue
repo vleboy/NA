@@ -5,7 +5,7 @@
         <h2>{{detailInfo.userName}} <el-button type="text" @click="accountDetail()">查看流水账详单</el-button></h2>
       </div>
       <div class="baseinfo">
-        <h4>基本信息 <el-button type="text" @click="editPlayerMix">修改玩家洗码比</el-button></h4>
+        <h4>基本信息</h4>
         <div class="baseinfo-form">
           <el-row>
             <el-col :span="4">
@@ -501,14 +501,14 @@ export default {
       !this.amountDate[0] && start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
       this.amountDate = [start,end];
     },
-    editPlayerMix () {
-      if(this.isFetching) {
-        return this.$message.warning('加载中...请稍后')
-      }
-      setTimeout(()=>{
-        this.$refs.childMethod.openPlayerMixModal()
-      },0)
-    },
+//    editPlayerMix () {
+//      if(this.isFetching) {
+//        return this.$message.warning('加载中...请稍后')
+//      }
+//      setTimeout(()=>{
+//        this.$refs.childMethod.openPlayerMixModal()
+//      },0)
+//    },
     resultGetPlayerDetail (){
       this.amountDate = [] // 处理时间不更新，列表页筛选不了最新数据问题
       this.getPlayerDetail()
