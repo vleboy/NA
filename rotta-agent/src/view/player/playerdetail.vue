@@ -2,7 +2,7 @@
   <div class="playerdetail">
     <div class="playdetailform">
       <div class="my-title">
-        <h2>{{detailInfo.userName}} <el-button type="text" @click="accountDetail()">查看流水账详单</el-button></h2>
+        <h2>{{detailInfo.userName}}</h2>
       </div>
       <div class="baseinfo">
         <h4>基本信息</h4>
@@ -59,6 +59,7 @@
             <el-button type="text" @click="resultGetPlayerDetail">刷新</el-button>
             <el-button type="text" @click="openModal(0)" v-if="detailInfo.state!=0">存点</el-button>
             <el-button type="text" @click="openModal(1)" v-if="detailInfo.state!=0">提点</el-button>
+            <el-button type="text" @click="accountDetail()">查看总流水账详单</el-button>
           </el-col>
 
           <el-col :span="12" style="float: right; text-align: right">

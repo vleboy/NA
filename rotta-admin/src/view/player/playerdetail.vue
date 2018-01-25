@@ -2,7 +2,7 @@ $<template>
   <div class="playerdetail">
     <div class="playdetailform">
       <div class="my-title">
-        <h2>{{userName}} <el-button  type="text" @click="accountDetail()">查看流水账详单</el-button></h2>
+        <h2>{{userName}}</h2>
       </div>
       <div class="baseinfo">
         <h4>基本信息</h4>
@@ -33,7 +33,8 @@ $<template>
           <el-col :span="12">
             <span v-if='radioInfo!=-1'>输赢总计: <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">{{formatPoints(allAmountFun)}}</span></span>&emsp;
             <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(detailInfo.balance)}}</span></span>
-            <el-button type="text" style="margin-right: 1rem" @click="resultGetPlayerDetail">刷新</el-button>
+            <el-button type="text" @click="resultGetPlayerDetail">刷新</el-button>
+            <el-button  type="text" @click="accountDetail()">查看总流水账详单</el-button>
           </el-col>
 
           <el-col :span="12" style="float: right; text-align: right">
