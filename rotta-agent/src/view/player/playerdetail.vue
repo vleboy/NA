@@ -163,8 +163,6 @@
         </el-form>
       </el-dialog>
 
-      <!--<playerWashCodeRatio ref="childMethod" :dataProp="detailInfo" @refreshPlayerDetail="getPlayerDetail"></playerWashCodeRatio>-->
-
     </div>
 
     <el-dialog title="战绩详细" :visible.sync="isOpenModalBill" class="g-text-center">
