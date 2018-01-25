@@ -72,54 +72,64 @@
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="billId" label="账单号" width="120" align="center"></el-table-column>
-            <el-table-column prop="nowPoints" label="账户余额" width="120" align="center">
+            <el-table-column prop="businessKey" label="交易号" align="center" width="250px"></el-table-column>
+            <el-table-column label="交易时间" align="center" width="200px">
               <template scope="scope">
-                {{formatPoints(scope.row.originalAmount+scope.row.amount)}}
+                {{formatterTime(scope.row.createdAt)}}
               </template>
             </el-table-column>
-            <el-table-column label="进入时间" :formatter="getBtime" width="180" align="center"></el-table-column>
-            <el-table-column label="退出时间" :formatter="getAtime" width="180" align="center"></el-table-column>
-            <el-table-column prop="typeName" label="交易类型" width="120" align="center"></el-table-column>
-            <el-table-column prop="originalAmount" label="入账金额" width="120" align="center">
+            <el-table-column label="结算前余额" align="center">
               <template scope="scope">
                 {{formatPoints(scope.row.originalAmount)}}
               </template>
             </el-table-column>
-            <el-table-column prop="typeName" label="游戏金额" width="120" align="center">
+            <el-table-column label="操作金额" align="center">
               <template scope="scope">
-                <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}">
-                  {{formatPoints(scope.row.amount)}}
+                {{formatPoints(scope.row.betAmount)}}
+              </template>
+            </el-table-column>
+            <el-table-column label="返还金额" align="center">
+              <template scope="scope">
+                <span>
+                  {{formatPoints(scope.row.retAmount)}}
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="typeName" label="出账金额" width="120" align="center">
+            <el-table-column label="净利润" align="center">
               <template scope="scope">
-                <span>{{formatPoints(scope.row.originalAmount+scope.row.amount)}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="帐类型" align="center">
-              <template scope="scope">
-                <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}" v-if="scope.row.kindId!=-1&&scope.row.kindId!=-3">
-                  {{(scope.row.amount>=0) ? '玩家赢' : '玩家输'}}
+                <span :class="{'-p-green':scope.row.profitAmount>0,'-p-red':scope.row.profitAmount<0}">
+                  {{formatPoints(scope.row.profitAmount)}}
                 </span>
-                <span v-else>-</span>
               </template>
             </el-table-column>
-            <el-table-column prop="operator" label="操作人" width="160" align="center"></el-table-column>
-            <el-table-column label="备注" align="center">
+            <el-table-column prop="typeName" label="交易类型" width="120" align="center"></el-table-column>
+            <el-table-column prop="rate" label="当前成数" align="center">
               <template scope="scope">
-                <el-popover trigger="hover" placement="bottom-start" width="250">
-                  <p>{{ scope.row.remark === 'NULL!' ? '' : scope.row.remark}}</p>
-                  <div slot="reference" class="">
-                    <el-icon name="search" style="color:#108ee9"></el-icon>
-                  </div>
-                </el-popover>
+                <span>
+                  {{scope.row.rate}}%
+                </span>
               </template>
             </el-table-column>
-            <el-table-column label="操作" align="center">
+            <el-table-column prop="mix" label="当前洗码比" align="center">
               <template scope="scope">
-                <el-button  type="text" v-if="scope.row.kindId!=-3&&scope.row.kindId!=-1" @click="billDetail(scope.row)">查看详单</el-button>
+                <span>
+                  {{scope.row.mix}}%
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column label="结算余额" align="center">
+              <template scope="scope">
+                <span :class="{'-p-green':scope.row.balance>0,'-p-red':scope.row.balance<0}">
+                  {{formatPoints(scope.row.balance)}}
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" align="center"  width="200">
+              <template scope="scope">
+                <el-button v-if="scope.row.gameType!=1&&scope.row.gameType!=2&&scope.row.gameType!=3"  type="text"
+                           @click="openModalBill(scope.row)">查看战绩</el-button>
+                <el-button v-if="scope.row.gameType!=1&&scope.row.gameType!=2&&scope.row.gameType!=3"  type="text"
+                           @click="openModalRunning(scope.row)">流水详情</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -136,7 +146,7 @@
                  :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
         <el-form :model="balanceInfo">
           <el-form-item :label="isSave ? '存点数' : '提点数'" label-width="100px">
-            <el-input v-model="balanceInfo.points" placeholder="请输入存点数" type="number" class="input"></el-input>
+            <el-input v-model="balanceInfo.points" :placeholder="isSave ? '请输入存点数' : '请输入提点数'" type="number" class="input"></el-input>
           </el-form-item>
           <el-form-item :label="isSave ? '起始账户' : '转入账户'" label-width="100px" >
               【代理】{{detailInfo.parentName}}
@@ -152,18 +162,31 @@
         </el-form>
       </el-dialog>
 
-      <playerWashCodeRatio ref="childMethod" :dataProp="detailInfo" @refreshPlayerDetail="getPlayerDetail"></playerWashCodeRatio>
+      <!--<playerWashCodeRatio ref="childMethod" :dataProp="detailInfo" @refreshPlayerDetail="getPlayerDetail"></playerWashCodeRatio>-->
 
     </div>
+
+    <el-dialog title="战绩详细" :visible.sync="isOpenModalBill" class="g-text-center">
+      <OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>
+      <RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>
+      <ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>
+    </el-dialog>
+
+    <el-dialog title="流水详情" :visible.sync="isOpenModalRunning" class="g-text-center">
+      <oneRunningAccount :dataProp="runningDetail"></oneRunningAccount>
+    </el-dialog>
   </div>
 </template>
 <script type="text/ecmascript-6">
 import { detailTime, formatUsername, thousandFormatter } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
-import playerWashCodeRatio from '@/components/playerWashCodeRatio'
+import ArcadeModal from '@/components/record/arcadeModal'
+import RealLifeModal from '@/components/record/realLifeModal'
+import OneArmBanditModal from '@/components/record/oneArmBanditModal'
+import oneRunningAccount from '@/components/player/oneRunningAccount'
 export default {
-  components:{playerWashCodeRatio},
+  components:{oneRunningAccount, ArcadeModal, RealLifeModal, OneArmBanditModal},
   beforeCreate () {
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
@@ -191,12 +214,10 @@ export default {
       allAmount: 0,
       editPassword: false,
       isOpenModal: false,
+      isOpenModalBill: false,
+      isOpenModalRunning: false,
       isSending: false,
       isSave: false, // 是否是存点
-      isFetching: false,
-      searchArray: [],
-      playerStorage: [], // 搜索暂存数据
-      account: [],
       balanceInfo: {},
       playerDetailList: [],
       playerDetailInfo: '',
@@ -205,15 +226,15 @@ export default {
       companyInfo: '-1',
       specialNA:[
         {
-          code: '-1',
+          code: '1',
           name: '中心钱包'
         },
         {
-          code: '-3',
+          code: '3',
           name: '商城'
         },
         {
-          code: '-2',
+          code: '2',
           name: '代理操作'
         }
       ],
@@ -229,7 +250,9 @@ export default {
         '/comdetail',
         '/saLiveGameReport',
         '/allReport'
-      ]
+      ],
+      propChild: {},
+      runningDetail: {}
     }
   },
   computed: {
@@ -259,8 +282,8 @@ export default {
     allAmountFun () {
       this.allAmount = 0
       for (let item of this.playerDetailList) {
-        if (item.kindId != '-2') {
-          this.allAmount = item.amount + this.allAmount
+        if (item.gameType != '2') {
+          this.allAmount = item.winloseAmount + this.allAmount
         }
       }
       return this.allAmount
@@ -281,12 +304,16 @@ export default {
       let [startTime, endTime] = this.amountDate
       startTime = new Date(startTime).getTime()
       endTime = new Date(endTime).getTime()+5000
-      if(this.isFetching) return
-      this.isFetching = true
       invoke({
-        url: `${api.getPlayDetail}?userName=${name}&company=${this.companyInfo}&kindId=${this.radioInfo}
-        &startTime=${startTime}&endTime=${endTime}`,
-        method: api.get
+        url: api.playerBill,
+        method: api.post,
+        data:{
+          userName: name,
+          company: this.companyInfo,
+          gameType: this.radioInfo,
+          startTime: startTime,
+          endTime: endTime
+        }
       }).then(
         result => {
           const [err, res] = result
@@ -297,10 +324,9 @@ export default {
             })
           } else {
             this.playerDetailList = res.data.list
-            this.playerDetailInfo = res.data
+            this.playerDetailInfo = res.data.userInfo
           }
           // this.$store.commit('closeLoading')
-          this.isFetching = false
         }
       )
     },
@@ -316,16 +342,30 @@ export default {
         fromUserId: this.detailInfo.parent
       }
     },
-    getAtime (row, col) {
-      return detailTime(row.updateAt)
-    }, // 格式化退出时间
-    getBtime (row, col) {
-      if(row.joinTime) {
-        return detailTime(row.joinTime)
-      } else {
-        return '-'
+    openModalBill (data) {
+      this.propChild = data;
+      this.isOpenModalBill = true
+      if (this.propChild.gameType == '40000') {
+        setTimeout(()=>{
+          this.$refs.childMethod.getOneArmBandit()
+        },0)
+      } else if (this.propChild.gameType == '30000') {
+        setTimeout(()=>{
+          this.$refs.childMethod.getRealLife()
+        },0)
+      } else if (this.propChild.gameType == '50000') {
+        setTimeout(()=>{
+          this.$refs.childMethod.getRecordSLXY()
+        },0)
       }
-    }, // 格式化进入时间
+    },
+    openModalRunning (data) {
+      this.isOpenModalRunning = true
+      this.runningDetail = data
+    },
+    formatterTime (row) {
+      return row ? detailTime(row) : '-'
+    }, // 格式化创建时间
     getNowsize (size) {
       this.nowSize = size
       // console.log('当前每页:' + size)
@@ -424,15 +464,15 @@ export default {
     accountDetail () {
       this.$router.push('playerAccount')
     },
-    billDetail (row) {
-      localStorage.setItem('playerBillId', row.billId)
-      localStorage.setItem('playerGameType', row.gameType)
-      this.$store.commit({
-        type: 'playerGameType',
-        data: row.gameType
-      })
-      this.$router.push('playerBill')
-    },
+//    billDetail (row) {
+//      localStorage.setItem('playerBillId', row.billId)
+//      localStorage.setItem('playerGameType', row.gameType)
+//      this.$store.commit({
+//        type: 'playerGameType',
+//        data: row.gameType
+//      })
+//      this.$router.push('playerBill')
+//    },
     companySelect () {
       invoke({
         url: api.companySelect,
@@ -501,14 +541,6 @@ export default {
       !this.amountDate[0] && start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
       this.amountDate = [start,end];
     },
-//    editPlayerMix () {
-//      if(this.isFetching) {
-//        return this.$message.warning('加载中...请稍后')
-//      }
-//      setTimeout(()=>{
-//        this.$refs.childMethod.openPlayerMixModal()
-//      },0)
-//    },
     resultGetPlayerDetail (){
       this.amountDate = [] // 处理时间不更新，列表页筛选不了最新数据问题
       this.getPlayerDetail()
@@ -541,7 +573,7 @@ export default {
   .baseinfo-form,
   .countinfo-form{background-color: #f5f5f5;padding-left: 3%;font-size: 0.8rem; overflow: hidden}
 
-  .baseinfo-form .-player-title{padding: 1rem 0;display: inline-block;height: 36px; line-height: 36px}
+  .baseinfo-form .-player-title{padding: 10px 0;display: inline-block;height: 25px; line-height: 25px}
   .countinfo-form{padding: 2rem;}
 
   .countinfo-title{background-color: #f5f5f5;font-size: 1.1rem;padding: 2rem; overflow: hidden}
@@ -551,4 +583,7 @@ export default {
   .justfy2{font-size: 1rem;padding-right: 1rem;}
   .-p-green{color: #00CC00}
   .-p-red{color: #FF3300}
+  .playerdetail .el-dialog--small{
+    width: 940px;
+  }
 </style>

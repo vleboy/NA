@@ -7,13 +7,12 @@ $<template>
       <div class="baseinfo">
         <h4>基本信息</h4>
         <div class="baseinfo-form">
-          <p>
-            <el-col :span="4"><span>所属商户：{{detailInfo.merchantName}}</span></el-col>
-            <el-col :span="4"><span>线路号：{{detailInfo.msn}}</span></el-col>
-            <el-col :span="7"><span>上次登录游戏时间：{{lastTime}}</span></el-col>
-            <el-col :span="5"><span>电子游戏洗码比(%)：{{detailInfo.liveMix}}%</span></el-col>
-            <el-col :span="4"><span>真人游戏洗码比(%)：{{detailInfo.vedioMix}}%</span></el-col>
-          </p>
+          <el-col :span="4"><span>所属商户：{{detailInfo.merchantName}}</span></el-col>
+          <el-col :span="4"><span>线路号：{{detailInfo.msn}}</span></el-col>
+          <el-col :span="4"><span>上次登录游戏时间：{{lastTime}}</span></el-col>
+          <el-col :span="4" v-for="(item,index) of detailInfo.gameList" :key="index">
+            <span>{{item.name+'洗码比'}}：{{item.mix}}%</span>
+          </el-col>
         </div>
       </div>
       <div class="countinfo">
@@ -50,54 +49,64 @@ $<template>
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="billId" label="账单号" width="120" align="center"></el-table-column>
-            <el-table-column prop="nowPoints" label="账户余额" width="120" align="center">
+            <el-table-column prop="businessKey" label="交易号" align="center" width="250px"></el-table-column>
+            <el-table-column label="交易时间" align="center" width="200px">
               <template scope="scope">
-                {{formatPoints(scope.row.originalAmount+scope.row.amount)}}
+                {{formatterTime(scope.row.createdAt)}}
               </template>
             </el-table-column>
-            <el-table-column label="进入时间" :formatter="getBtime" width="180" align="center"></el-table-column>
-            <el-table-column label="退出时间" :formatter="getAtime" width="180" align="center"></el-table-column>
-            <el-table-column prop="typeName" label="交易类型" width="120" align="center"></el-table-column>
-            <el-table-column prop="originalAmount" label="入账金额" width="120" align="center">
+            <el-table-column label="结算前余额" align="center">
               <template scope="scope">
                 {{formatPoints(scope.row.originalAmount)}}
               </template>
             </el-table-column>
-            <el-table-column prop="typeName" label="游戏金额" width="120" align="center">
+            <el-table-column label="操作金额" align="center">
               <template scope="scope">
-                <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}">
-                  {{formatPoints(scope.row.amount)}}
+                {{formatPoints(scope.row.betAmount)}}
+              </template>
+            </el-table-column>
+            <el-table-column label="返还金额" align="center">
+              <template scope="scope">
+                <span>
+                  {{formatPoints(scope.row.retAmount)}}
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="typeName" label="出账金额" width="120" align="center">
+            <el-table-column label="净利润" align="center">
               <template scope="scope">
-                <span>{{formatPoints(scope.row.originalAmount+scope.row.amount)}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="帐类型" align="center">
-              <template scope="scope">
-                <span :class="{'-p-green':scope.row.amount >=0,'-p-red':scope.row.amount < 0}" v-if="scope.row.kindId!=-1&&scope.row.kindId!=-3">
-                  {{(scope.row.amount>=0) ? '玩家赢' : '玩家输'}}
+                <span :class="{'-p-green':scope.row.profitAmount>0,'-p-red':scope.row.profitAmount<0}">
+                  {{formatPoints(scope.row.profitAmount)}}
                 </span>
-                <span v-else>-</span>
               </template>
             </el-table-column>
-            <el-table-column prop="operator" label="操作人" width="160" align="center"></el-table-column>
-            <el-table-column label="备注" align="center">
+            <el-table-column prop="typeName" label="交易类型" width="120" align="center"></el-table-column>
+            <el-table-column prop="rate" label="当前成数" align="center">
               <template scope="scope">
-                <el-popover trigger="hover" placement="bottom-start">
-                  <p>{{ scope.row.remark === 'NULL!' ? '' : scope.row.remark}}</p>
-                  <div slot="reference" class="g-text-ellipsis" style="width: 68px;">
-                    {{ scope.row.remark }}
-                  </div>
-                </el-popover>
+                <span>
+                  {{scope.row.rate}}%
+                </span>
               </template>
             </el-table-column>
-            <el-table-column label="操作" align="center">
+            <el-table-column prop="mix" label="当前洗码比" align="center">
               <template scope="scope">
-                <el-button  type="text" v-if="scope.row.kindId!=-3&&scope.row.kindId!=-1" @click="billDetail(scope.row)">查看详单</el-button>
+                <span>
+                  {{scope.row.mix}}%
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column label="结算余额" align="center">
+              <template scope="scope">
+                <span :class="{'-p-green':scope.row.balance>0,'-p-red':scope.row.balance<0}">
+                  {{formatPoints(scope.row.balance)}}
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" align="center"  width="200">
+              <template scope="scope">
+                <el-button v-if="scope.row.gameType!=1&&scope.row.gameType!=2&&scope.row.gameType!=3"  type="text"
+                           @click="openModalBill(scope.row)">查看战绩</el-button>
+                <el-button v-if="scope.row.gameType!=1&&scope.row.gameType!=2&&scope.row.gameType!=3"  type="text"
+                           @click="openModalRunning(scope.row)">流水详情</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -110,13 +119,27 @@ $<template>
         </div>
       </div>
     </div>
+    <el-dialog title="战绩详细" :visible.sync="isOpenModalBill" class="g-text-center">
+      <OneArmBanditModal ref="childMethod" v-if="propChild.gameType =='40000'" :dataProp="propChild"></OneArmBanditModal>
+      <RealLifeModal ref="childMethod" v-if="propChild.gameType =='30000'" :dataProp="propChild"></RealLifeModal>
+      <ArcadeModal ref="childMethod" v-if="propChild.gameType =='50000'" :dataProp="propChild"></ArcadeModal>
+    </el-dialog>
+
+    <el-dialog title="流水详情" :visible.sync="isOpenModalRunning" class="g-text-center">
+      <oneRunningAccount :dataProp="runningDetail"></oneRunningAccount>
+    </el-dialog>
   </div>
 </template>
 <script type="text/ecmascript-6">
 import { detailTime, formatUserName, thousandFormatter } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
+import ArcadeModal from '@/components/record/arcadeModal'
+import RealLifeModal from '@/components/record/realLifeModal'
+import OneArmBanditModal from '@/components/record/oneArmBanditModal'
+import oneRunningAccount from '@/components/player/oneRunningAccount'
 export default {
+  components:{oneRunningAccount, ArcadeModal, RealLifeModal, OneArmBanditModal},
   beforeCreate () {
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
@@ -138,9 +161,10 @@ export default {
       radioInfo: "",
       amountDate: [],
       allAmount: 0,
+      isOpenModalBill: false,
+      isOpenModalRunning: false,
       playerDetailList: [],
       playerDetailInfo: '',
-      searchArray: [],
       pickerOptions: {
         shortcuts: [{
           text: '最近三天',
@@ -191,7 +215,9 @@ export default {
         '/ttgVedioGameReport',
         '/saLiveGameReport',
         '/allReport'
-      ]
+      ],
+      propChild: {},
+      runningDetail: {}
     }
   },
   mounted () {
@@ -217,24 +243,17 @@ export default {
     allAmountFun () {
       this.allAmount = 0
       for (let item of this.playerDetailList) {
-        if (item.kindId != '-1') {
-          this.allAmount = item.amount + this.allAmount
+        if (item.gameType != '2') {
+          this.allAmount = item.winloseAmount + this.allAmount
         }
       }
       return this.allAmount
     }
   },
   methods: {
-    getAtime (row, col) {
-      return detailTime(row.updateAt)
-    }, // 格式化退出时间
-    getBtime (row, col) {
-      if(row.joinTime) {
-        return detailTime(row.joinTime)
-      } else {
-        return '-'
-      }
-    }, // 格式化进入时间
+    formatterTime (row) {
+      return row ? detailTime(row) : '-'
+    }, // 格式化创建时间
     getNowsize (size) {
       this.nowSize = size
       // console.log('当前每页:' + size)
@@ -242,6 +261,27 @@ export default {
     getNowpage (page) {
       this.nowPage = page
       // console.log('当前是第:' + page + '页')
+    },
+    openModalBill (data) {
+      this.propChild = data;
+      this.isOpenModalBill = true
+      if (this.propChild.gameType == '40000') {
+        setTimeout(()=>{
+          this.$refs.childMethod.getOneArmBandit()
+        },0)
+      } else if (this.propChild.gameType == '30000') {
+        setTimeout(()=>{
+          this.$refs.childMethod.getRealLife()
+        },0)
+      } else if (this.propChild.gameType == '50000') {
+        setTimeout(()=>{
+          this.$refs.childMethod.getRecordSLXY()
+        },0)
+      }
+    },
+    openModalRunning (data) {
+      this.isOpenModalRunning = true
+      this.runningDetail = data
     },
     changeRadio () {
       this.getPlayerDetail()
@@ -254,9 +294,15 @@ export default {
       endTime = new Date(endTime).getTime()+5000
       // this.$store.commit('startLoading')
       invoke({
-        url: `${api.getPlayDetail}?userName=${name}&company=${this.companyInfo}&kindId=${this.radioInfo}
-        &startTime=${startTime}&endTime=${endTime}`,
-        method: api.get
+        url: api.playerBill,
+        method: api.post,
+        data:{
+          userName: name,
+          company: this.companyInfo,
+          gameType: this.radioInfo,
+          startTime: startTime,
+          endTime: endTime
+        }
       }).then(
         result => {
           const [err, res] = result
@@ -267,7 +313,7 @@ export default {
             })
           } else {
             this.playerDetailList = res.data.list
-            this.playerDetailInfo = res.data
+            this.playerDetailInfo = res.data.userInfo
           }
           // this.$store.commit('closeLoading')
         }
@@ -277,15 +323,15 @@ export default {
       this.currentPage = 1;
       this.getPlayerDetail()
     },
-    billDetail (row) {
-      localStorage.setItem('playerBillId', row.billId)
-      localStorage.setItem('playerGameType', row.gameType)
-      this.$store.commit({
-        type: 'playerGameType',
-        data: row.gameType
-      })
-      this.$router.push('playerBill')
-    },
+//    billDetail (row) {
+//      localStorage.setItem('playerBillId', row.billId)
+//      localStorage.setItem('playerGameType', row.gameType)
+//      this.$store.commit({
+//        type: 'playerGameType',
+//        data: row.gameType
+//      })
+//      this.$router.push('playerBill')
+//    },
     accountDetail () {
       this.$router.push('playerAccount')
     },
@@ -391,7 +437,7 @@ export default {
 
   .playerdetail .baseinfo-form, .countinfo-form{background-color: #f5f5f5;padding-left: 2rem;font-size: 0.8rem;overflow: hidden}
 
-  .playerdetail .baseinfo-form span{display: inline-block;padding: 2.2rem 0}
+  .playerdetail .baseinfo-form span{display: inline-block;padding: 10px 0; height: 25px; line-height: 25px}
   .playerdetail .countinfo-form{padding: 2rem;}
 
   .playerdetail .countinfo-title{background-color: #f5f5f5;font-size: 1.1rem;padding: 2rem; overflow: hidden}
@@ -400,4 +446,7 @@ export default {
   .playerdetail .justfy2{font-size: 1rem;padding-right: 1rem;}
   .-p-green{color: #00CC00}
   .-p-red{color: #FF3300}
+  .playerdetail .el-dialog--small{
+    width: 940px;
+  }
 </style>
