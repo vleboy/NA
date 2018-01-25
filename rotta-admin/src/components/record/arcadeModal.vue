@@ -172,6 +172,68 @@ export default {
           imgTwo:'static/playerBill/jssk/R_x.png'
         }
       ],
+      roundIconFKSG:[
+        {
+          imgOne:'static/playerBill/fksg/1hong.png',
+          imgTwo:'static/playerBill/fksg/1hong_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/1huang.png',
+          imgTwo:'static/playerBill/fksg/1huang_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/1lv.png',
+          imgTwo:'static/playerBill/fksg/1lv_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/2hong.png',
+          imgTwo:'static/playerBill/fksg/2hong_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/2huang.png',
+          imgTwo:'static/playerBill/fksg/2huang_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/2lv.png',
+          imgTwo:'static/playerBill/fksg/2lv_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/3hong.png',
+          imgTwo:'static/playerBill/fksg/3hong_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/3huang.png',
+          imgTwo:'static/playerBill/fksg/3huang_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/3lv.png',
+          imgTwo:'static/playerBill/fksg/3lv_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/4hong.png',
+          imgTwo:'static/playerBill/fksg/4hong_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/4huang.png',
+          imgTwo:'static/playerBill/fksg/4huang_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/4lv.png',
+          imgTwo:'static/playerBill/fksg/4lv_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/shuangxing.png',
+          imgTwo:'static/playerBill/fksg/shuangxing_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/bar.png',
+          imgTwo:'static/playerBill/fksg/bar_x.png'
+        },
+        {
+          imgOne:'static/playerBill/fksg/lingdang.png',
+          imgTwo:'static/playerBill/fksg/lingdang_x.png'
+        }
+      ],
       winResultObjSLXY: {
         '1': 'static/playerBill/slxy/slxy_youwin.png' ,
         '2': 'static/playerBill/slxy/slxy_bigwin.png' ,
@@ -183,6 +245,12 @@ export default {
         '2': 'static/playerBill/jssk/bcbm_bigwin.png' ,
         '3': 'static/playerBill/jssk/bcbm_magic.png' ,
         '4': 'static/playerBill/jssk/bcbm_super.png'
+      },
+      winResultObjFKSG: {
+        '1': 'static/playerBill/fksg/fksg_youwin.png' ,
+        '2': 'static/playerBill/fksg/fksg_bigwin.png' ,
+        '3': 'static/playerBill/fksg/fksg_magic.png' ,
+        '4': 'static/playerBill/fksg/fksg_super.png'
       }
     }
   },
@@ -191,7 +259,8 @@ export default {
       let classType = {}
       classType = {
         'record-slxy': this.recordAllObj.gameId == '50001',
-        'record-jssk': this.recordAllObj.gameId =='50002'
+        'record-jssk': this.recordAllObj.gameId =='50002',
+        'record-fksg': this.recordAllObj.gameId =='50003'
       }
       return classType
     },
@@ -199,7 +268,8 @@ export default {
       let item_left = {}
       item_left = {
         'item_left_slxy': this.recordAllObj.gameId == '50001',
-        'item_left_jssk': this.recordAllObj.gameId =='50002'
+        'item_left_jssk': this.recordAllObj.gameId =='50002',
+        'item_left_fksg': this.recordAllObj.gameId =='50003'
       }
       return item_left
     },
@@ -207,7 +277,8 @@ export default {
       let resultIcon = {}
       resultIcon  = {
         '50001': this.roundIconSLXR,
-        '50002': this.roundIconJSSK
+        '50002': this.roundIconJSSK,
+        '50003': this.roundIconFKSG
       }
       return resultIcon
     },
@@ -215,7 +286,8 @@ export default {
       let resultSuc = {}
       resultSuc  = {
         '50001': this.winResultObjSLXY,
-        '50002': this.winResultObjJSSK
+        '50002': this.winResultObjJSSK,
+        '50003': this.winResultObjFKSG
       }
       return resultSuc
     }
@@ -300,6 +372,9 @@ export default {
     .record-jssk{
       background: url("../../../static/playerBill/jssk/jssk_bg.jpg");
     }
+    .record-fksg{
+      background: url("../../../static/playerBill/fksg/fksg_bg.jpg");
+    }
     .arcade_modal_head{
       position: absolute;
       width: 100%;
@@ -347,6 +422,10 @@ export default {
       .item_left_jssk{
         top: 60px;
         left: 26px;
+      }
+      .item_left_fksg{
+        top: 64px;
+        left: 32px;
       }
       .item_right{
         width: 100px;
