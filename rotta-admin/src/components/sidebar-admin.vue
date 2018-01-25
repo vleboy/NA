@@ -3,7 +3,7 @@
 	<el-row>
       <el-col>
           <el-menu :default-active="nowindex" theme="dark" :router="true" :unique-opened="true">
-              <div class="logo"><img style=" width: 60%;" src="static/NAlogo.png"></div>
+              <div class="logo"><img style=" width: 70%;" src="static/NAlogo.png"></div>
               <el-menu-item index="board" v-show="userRight.board.hasRight">看板</el-menu-item>
               <el-menu-item index="personal" v-show="userRight.personal.hasRight">个人中心</el-menu-item>
               <el-submenu index="1">

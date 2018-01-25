@@ -92,10 +92,10 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 /* #20a0ff */
 /**/
 .top{
-  width: 85%;
+  width: 90%;
   position:fixed;
   top:0;
-  left:15%;
+  left:10%;
   right:0;
   background-color:#fff;
 }
@@ -106,7 +106,7 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 }
 
 .main-left{
-  width:15%;
+  width:10%;
   position:fixed;
   top:0;
   left:0;
@@ -120,14 +120,14 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 
 .main-right-true{
   height:100%;
-  padding:99px 20% 0 15%;
+  padding:99px 20% 0 10%;
   box-sizing:border-box;
   overflow-x: hidden;
 }
 
 .main-right-false{
   height:100%;
-  padding:99px 0 0 15%;
+  padding:99px 0 0 10%;
   box-sizing:border-box;
   overflow-x: hidden;
 }
