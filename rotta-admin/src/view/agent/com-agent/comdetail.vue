@@ -512,7 +512,7 @@ export default {
   },
   mounted () {
     let data = {
-      parent: this.$store.state.variable.comdetaildata.parent
+      parent: this.$store.state.variable.comdetaildata.parent || localStorage.comdetailID
     }
     invoke({
       url: api.companySelect,
