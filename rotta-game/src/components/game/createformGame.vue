@@ -381,8 +381,8 @@
         })
       },
       requestHeader () {
-        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.fileName}` //测试环境
-        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.fileName}` //开发环境
+        const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
+        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
         invoke({
           url: this.uploadAction,
           method: 'put',
@@ -399,7 +399,7 @@
             this.dialogLoading = false
             this.$message.success('上传成功')
             this.managerInfo.gameImg = (process.env.NODE_ENV == 'development') ? dev : prod
-            console.log(this.managerInfo.gameImg, 'this.managerInfo')
+//            console.log(this.managerInfo.gameImg, 'this.managerInfo')
           }
         })
       },
@@ -414,7 +414,7 @@
         const isLt1M = file.size / 1024 / 1024 < 1
         let fileName = this.suffixFun(file.name)
         this.imgFile = file
-        this.imgFile.fileName = `${fileName[0]+new Date().getTime()}.${fileName[1]}`
+//        this.imgFile.fileName = `${fileName[0]+new Date().getTime()}.${fileName[1]}`
         return new Promise((resolve, reject) =>{
           this.dialogLoading = true
           if (!isJPG) {
@@ -432,7 +432,7 @@
             method: api.post,
             data: {
               contentType: 'image',
-              filePath: this.imgFile.fileName
+              filePath: this.imgFile.name
             }
           }).then(res => {
             const [err, ret] = res
