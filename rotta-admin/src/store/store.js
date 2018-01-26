@@ -1680,15 +1680,10 @@ const actions = {
     }
   }, // NA所有游戏所属玩家列表(综合计算上级)
 
-  async getnaVedioNowchild (context) {
+  async getnaVedioNowlist (context) {
     // 请求当前基本信息
     let require = {
-      userId: ''
-    }
-    if (state.variable.naVedioGameData.nowUserID) {
-      require.userId = state.variable.naVedioGameData.nowUserID
-    } else {
-      require.userId = localStorage.loginId
+      userId: localStorage.loginId
     }
     let result1 = await invoke({
       url: api.reportInfo,
@@ -1696,87 +1691,164 @@ const actions = {
       data: require
     })
     let user = result1[1].data.payload
-    if (user.userId == state.variable.naVedioGameData.nowUserID || !state.variable.naVedioGameData.nowUserID && user.userId == localStorage.loginId) {
-      context.commit({
-        type: 'recordnaVedioNowlist',
-        data: user
-      })
-    }
-    // 请求下级基本信息
-    var data = {
-      parent: ''
-    }
-    if (localStorage.loginRole == '1') {
-      data.parent = '01'
-    } else {
-      data.parent = localStorage.loginId
-    }
-    if (state.variable.naVedioGameData.nowUserID) {
-      data.parent = state.variable.naVedioGameData.nowUserID
-    }
-    // 请求下级信息
-    let result2 = await invoke({
-      url: api.reportInfo,
-      method: api.post,
-      data: data
+    user.betCount = 0
+    user.betAmount = 0
+    user.winAmount = 0
+    user.winloseAmount = 0
+    user.mixAmount = 0
+    user.submit = 0
+    user.winloseRate = 0
+    context.commit({
+      type: 'recordnaVedioNowlist',
+      data: user
     })
-    let child = result2[1].data.payload
-    if (child.length == 0) {
-      context.commit('closeLoading')
-    }
-    // 请求下级账单信息
-    context.commit('getWeek')
-    let searchDate = []
-    if (localStorage.searchTime) {
-      searchDate = JSON.parse(localStorage.searchTime)
-    } else {
-      searchDate = [state.startTime, state.endTime]
-    }
-    context.commit('resetnaVedioNowchild')
-    let count = {
-      bet: 0,
-      betCount: 0,
-      winlose: 0,
-      winloseRate: 0
-    } // 当前用户下级账单总额
-    for (let item of child) {
-      let child_data = {
-        gameType: 40000,
-        role: item.role,
-        userIds: [item.userId],
-        query: {
-          createdAt: searchDate
-        }
-      }
-      invoke({
-        url: api.calcUserStat,
-        method: api.post,
-        data: child_data
-      }).then(
-        result => {
-          const [err, ret] = result
-          if (err) {
-          } else {
-            context.commit('closeLoading')
-            var data = ret.data.payload[0]
-            if (data) {
-              if (item.userId == data.userId) {
-                item.bet = data.bet
-                item.betCount = data.betCount
-                item.winlose = data.winlose
-                item.submit = data.winlose * (1 - item.rate/100)
-                item.winloseRate = data.winlose / data.bet
-                context.commit({
-                  type: 'recordnaVedioNowchild',
-                  data: item
-                })
-              }
-            }
-          }
-        }
-      )
-    }
+    // // 请求下级基本信息
+    // var data = {
+    //   parent: ''
+    // }
+    // if (localStorage.loginRole == '1') {
+    //   data.parent = '01'
+    // } else {
+    //   data.parent = localStorage.loginId
+    // }
+    // // 请求下级信息
+    // let result2 = await invoke({
+    //   url: api.reportInfo,
+    //   method: api.post,
+    //   data: data
+    // })
+    // let child = result2[1].data.payload
+    // if (child.length == 0) {
+    //   context.commit('closeLoading')
+    // }
+    // // 请求下级账单信息
+    // context.commit('getWeek')
+    // let searchDate = []
+    // if (localStorage.searchTime) {
+    //   searchDate = JSON.parse(localStorage.searchTime)
+    // } else {
+    //   searchDate = [state.startTime, state.endTime]
+    // }
+    // context.commit('resetnaVedioNowchild')
+    // let count = {
+    //   bet: 0,
+    //   betCount: 0,
+    //   winlose: 0,
+    //   winloseRate: 0
+    // } // 当前用户下级账单总额
+    // for (let item of child) {
+    //   let child_data = {
+    //     gameType: 40000,
+    //     role: item.role,
+    //     userIds: [item.userId],
+    //     query: {
+    //       createdAt: searchDate
+    //     }
+    //   }
+    //   invoke({
+    //     url: api.calcUserStat,
+    //     method: api.post,
+    //     data: child_data
+    //   }).then(
+    //     result => {
+    //       const [err, ret] = result
+    //       if (err) {
+    //       } else {
+    //         context.commit('closeLoading')
+    //         var data = ret.data.payload[0]
+    //         if (data) {
+    //           if (item.userId == data.userId) {
+    //             item.bet = data.bet
+    //             item.betCount = data.betCount
+    //             item.winlose = data.winlose
+    //             item.submit = data.winlose * (1 - item.rate/100)
+    //             item.winloseRate = data.winlose / data.bet
+    //             context.commit({
+    //               type: 'recordnaVedioNowchild',
+    //               data: item
+    //             })
+    //           }
+    //         }
+    //       }
+    //     }
+    //   )
+    // }
   }, // NA电子游戏下级列表(综合计算上级)
+  // async getnaVedioNowchild (context) {
+  //   var data = {
+  //     parent: ''
+  //   }
+  //   if (localStorage.loginRole == '1') {
+  //     data.parent = '01'
+  //   } else {
+  //     data.parent = localStorage.loginId
+  //   }
+  //   // 请求下级信息
+  //   let result2 = await invoke({
+  //     url: api.reportInfo,
+  //     method: api.post,
+  //     data: data
+  //   })
+  //   let child = result2[1].data.payload
+  //   if (child.length == 0) {
+  //     context.commit('closeLoading')
+  //   } else {
+  //     context.commit('getWeek')
+  //     let searchDate = []
+  //     if (localStorage.searchTime) {
+  //       searchDate = JSON.parse(localStorage.searchTime)
+  //     } else {
+  //       searchDate = [state.startTime, state.endTime]
+  //     }
+  //   }
+  //   // 请求下级账单信息
+    
+  //   context.commit('resetnaVedioNowchild')
+  //   // let count = {
+  //   //   bet: 0,
+  //   //   betCount: 0,
+  //   //   winlose: 0,
+  //   //   winloseRate: 0
+  //   // } // 当前用户下级账单总额
+  //   // for (let item of child) {
+  //   //   let child_data = {
+  //   //     gameType: 40000,
+  //   //     role: item.role,
+  //   //     userIds: [item.userId],
+  //   //     query: {
+  //   //       createdAt: searchDate
+  //   //     }
+  //   //   }
+  //   //   invoke({
+  //   //     url: api.calcUserStat,
+  //   //     method: api.post,
+  //   //     data: child_data
+  //   //   }).then(
+  //   //     result => {
+  //   //       const [err, ret] = result
+  //   //       if (err) {
+  //   //       } else {
+  //   //         context.commit('closeLoading')
+  //   //         var data = ret.data.payload[0]
+  //   //         if (data) {
+  //   //           if (item.userId == data.userId) {
+  //   //             item.bet = data.bet
+  //   //             item.betCount = data.betCount
+  //   //             item.winlose = data.winlose
+  //   //             item.submit = data.winlose * (1 - item.rate/100)
+  //   //             item.winloseRate = data.winlose / data.bet
+  //   //             context.commit({
+  //   //               type: 'recordnaVedioNowchild',
+  //   //               data: item
+  //   //             })
+  //   //           }
+  //   //         }
+  //   //       }
+  //   //     }
+  //   //   )
+  //   // }
+  // }, // NA电子游戏下级列表(综合计算上级)
+
   async getnaVedioNowplayer (context) {
     if (state.variable.naVedioGameData.nowUserID == '01' || !state.variable.naVedioGameData.nowUserID) {
       if (localStorage.loginRole == '100') {

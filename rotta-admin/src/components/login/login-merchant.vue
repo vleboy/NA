@@ -136,6 +136,7 @@ export default {
             localStorage.setItem('loginLevel', success.level)
             localStorage.setItem('loginId', success.userId)
             localStorage.setItem('loginRole', success.role)
+            localStorage.setItem('loginDislayName', success.displayName)
             localStorage.setItem('loginUsername', success.username)
             this.$store.commit('changeIslogin')
           }
