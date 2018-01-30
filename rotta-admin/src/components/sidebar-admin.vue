@@ -39,6 +39,7 @@
                       <el-menu-item index="comlist" v-show="userRight.merchantList.hasRight">商户列表</el-menu-item>
                       <el-menu-item index="comcreate" v-show="userRight.comcreate.hasRight">创建商户</el-menu-item>
                   </el-submenu>
+                  <el-menu-item index="point-warning">接入商点数警告列表</el-menu-item>
               </el-submenu>
               <el-submenu index="3" v-show="userRight.playerlist.hasRight">
                   <template slot="title">玩家中心</template>

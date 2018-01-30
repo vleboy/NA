@@ -17,6 +17,9 @@ import Comlist from '@/view/agent/com-agent/comlist' // 一般商户列表
 import Comdetail from '@/view/agent/com-agent/comdetail' // 一般商户详情页
 import Comcreate from '@/view/agent/com-agent/comcreate' // 创建一般商户
 
+import PointWarning from '@/view/agent/point-warning/pointWarning' // 接入商点数警告列表
+
+
 import Playerlist from '@/view/player/playerlist' // 玩家列表
 import Playerdetail from '@/view/player/playerdetail' // 玩家详情页
 import playerBill from '@/view/player/playerbill' // 玩家账单详情页
@@ -159,6 +162,11 @@ const router = new Router({
       path: '/comcreate',
       name: '创建商户',
       component: Comcreate
+    },
+    {
+      path: '/point-warning',
+      name: '接入商点数警告列表',
+      component: PointWarning
     },
     {
       path: '/playerlist',

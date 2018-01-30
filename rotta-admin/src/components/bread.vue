@@ -45,6 +45,11 @@
       <el-breadcrumb-item><span  class="large">商户详情</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'point-warning'" class="title">
+      <el-breadcrumb-item>商户中心 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">接入商点数警告列表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'playerlist'" class="title">
       <el-breadcrumb-item>玩家中心 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">玩家列表</span> </el-breadcrumb-item>

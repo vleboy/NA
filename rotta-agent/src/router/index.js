@@ -15,6 +15,8 @@ import Comdetail from '@/view/agent/com-agent/comdetail' // 一般商户详情�
 import Comcreate from '@/view/agent/com-agent/comcreate' // 创建一般商户
 import Bfsetting from '@/view/agent/setting/bf-setting' // 包房代理配置
 
+import PointWarning from '@/view/agent/point-warning/pointWarning' // 接入商点数警告列表
+
 import Gamelist from '@/view/game/gamelist' // 游戏列表
 
 import Personal from '@/view/personal/personal' // 个人中心
@@ -109,6 +111,11 @@ const router = new Router({
       path: '/comlist',
       name: '代理列表',
       component: Comlist
+    },
+    {
+      path: '/point-warning',
+      name: '接入商点数警告列表',
+      component: PointWarning
     },
     {
       path: '/bfsetting',
