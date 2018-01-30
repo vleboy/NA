@@ -280,9 +280,6 @@ export default {
                           if (item.userId == side.userId) {
                             item.betCount = side.betCount
                             item.betAmount = side.betAmount
-                            item.winloseAmount = side.winloseAmount
-                            item.submit = side.winloseAmount * (1 - item.rate / 100)
-                            item.winloseRate = side.winloseAmount / side.betAmount
                           }
                         })
                       })
