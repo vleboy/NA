@@ -1,7 +1,17 @@
 <template>
   <div class="p-debugJournal">
-    <div class="-search">
-      <el-col style="margin-bottom: 10px">
+    <el-col :span="4">
+      共 {{debugList.length}} 条数据
+    </el-col>
+    <el-col :span="20" class="g-text-right">
+      <el-col :span="16">
+        <el-select v-model="role" @change="getDebugJournalList">
+          <el-option v-for="(item, index) in errorList" :key="index" :label="item.name"
+                     :value="item.id">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="8" style="margin-bottom: 10px">
         <el-date-picker
           v-model="dataTime"
           type="date"
@@ -9,10 +19,7 @@
         </el-date-picker>
         <el-button type="primary" @click="searchAmount">搜索</el-button>
       </el-col>
-
-      <p>共 {{debugList.length}} 条数据</p>
-      <!-- <el-button type="primary">导出excel</el-button> -->
-    </div>
+    </el-col>
     <div class="-list">
       <el-table :data="dataList">
         <el-table-column prop="billId" label="时间" width="200" align="center" >
@@ -54,10 +61,23 @@ export default {
   data () {
     return {
       dataTime: '',
+      role: 2,
       debugList: [],
       debugListStorage: [],
       nowSize: 20,
-      nowPage: 1
+      nowPage: 1,
+      errorList:[
+        {
+          id: 2,
+          name: '账单结算异常'
+        },{
+          id: 3,
+          name: '超时流水异常'
+        },{
+          id: 4,
+          name: '第三方战绩异常'
+        }
+      ]
     }
   },
   mounted(){
@@ -70,10 +90,10 @@ export default {
         url: api.loginList,
         method: api.post,
         data: {
-          role: "2",
+          role: this.role,
           type:"settlement",
           pageSize: 20,
-          startKey: null
+          startKey: ''
         }
       }).then(
         result => {
@@ -130,6 +150,10 @@ export default {
   .p-debugJournal{
     padding: 0 2rem;
 
+    .-search{
+      overflow: hidden;
+      display: inline-block;
+    }
     .-list{
       margin-top: 10px;
     }
