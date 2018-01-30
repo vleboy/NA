@@ -10,8 +10,8 @@
           <span>直属代理: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.merchantName"></el-input>
         </el-col>
-        <el-button type="primary" @click="getSearch">搜索</el-button>
-        <el-button  @click="resultSearch">重置</el-button>
+        <el-button type="primary" @click="getSearch(true)">搜索</el-button>
+        <el-button  @click="getSearch(false)">重置</el-button>
       </el-row>
       <el-row class="transition-box" style="margin-top: 2rem">
         <el-col :span="10" class="g-text-right">
@@ -22,9 +22,9 @@
         </el-col>
       </el-row>
     </div>
-    <div class="rebackinfo">
-      <p>共搜索到 {{playerList.length || 0}} 条数据</p>
-    </div>
+    <!--<div class="rebackinfo">-->
+      <!--<p>共搜索到 {{playerList.length || 0}} 条数据</p>-->
+    <!--</div>-->
     <div class="playerform">
       <el-row style="margin-bottom: 2rem">
         <el-col :span="3">
@@ -35,7 +35,7 @@
           <el-button type="primary" @click="allChangeState(1)">批量解锁</el-button>
         </el-col>
       </el-row>
-      <el-table stripe :data="getItems" @selection-change="selectionChange" @sort-change="sortFun">
+      <el-table stripe :data="getItems" @selection-change="selectionChange">
         <el-table-column type="selection" width="60" align="center">
         </el-table-column>
         <el-table-column prop="userId" label="玩家ID" align="center">
@@ -47,19 +47,19 @@
             <span>{{formatRemark(scope.row.nickname)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="balance" label="点数" sortable="custom" show-overflow-tooltip align="center">
+        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="center">
           <template scope="scope">
             <span>{{formatPoints(scope.row.balance)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="merchantName" label="直属代理" align="center" width="120"  sortable="custom">
+        <el-table-column prop="merchantName" label="直属代理" align="center" width="120">
           <template scope="scope">
             <el-button type="text" @click="jumpAgentDetail(scope.row)">{{scope.row.merchantName}}</el-button>
           </template>
         </el-table-column>
         <!--<el-table-column width="200" prop="createAt" label="创建时间"  align="center" sortable="custom" :formatter="getAtime">-->
         <!--</el-table-column>-->
-        <el-table-column width="200" prop="updateAt"  label="最后登录时间" :formatter="getLastTime" align="center" sortable="custom">
+        <el-table-column width="200" prop="updateAt"  label="最后登录时间" :formatter="getLastTime" align="center">
         </el-table-column>
         <el-table-column label="状态" align="center">
           <template scope="scope">
@@ -101,8 +101,9 @@
         </el-table-column>
       </el-table>
       <div style="text-align: right;margin:2rem 0">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerList.length"
-                       :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+        <el-pagination layout="prev, pager, next, jumper" :total="playerList.length"
+                       :page-size="20" @size-change="getNowsize" @current-change="getNowpage"
+                       :current-page.sync="currentPage">
         </el-pagination>
       </div>
     </div>
@@ -152,20 +153,24 @@
       return {
         nowSize: 20,
         nowPage: 1,
+        pageSize: 100,
+        currentPage: 1,
         showSearch: false,
         isOpenModal: false,
         isSending: false,
         isSave: false,
+        isFetching: false,
+        isLastMessage: false, // 主要判断是否是后台返回最后一次信息
         playerList: [],
         playerStatus: ['已锁定', '正常'],
         checkedArray: [],
         names: [],
-        searchInfo: {
-          gameId: ''
-        },
+        searchInfo: {},
         balanceInfo: {},
         gameTypeList: [],
-        jumpUrl:['/addPlayer']
+        jumpUrl:['/addPlayer'],
+        playerListStorage: [],
+        playerListStartKey: '',
       }
     },
     created () {
@@ -212,7 +217,11 @@
         })
       },
       getPlayList () {
+        if(this.isFetching) return
+        this.isFetching = true
         this.$store.commit('startLoading')
+        this.searchInfo.startKey = this.playerListStartKey
+        this.searchInfo.pageSize = this.pageSize
         invoke({
           url: api.getPlayerList,
           method: api.post,
@@ -226,9 +235,13 @@
                 type: 'error'
               })
             } else {
+              this.isLastMessage = res.data.list < this.pageSize
               this.playerList = res.data.list
+              this.playerListStartKey = res.data.startKey
+              this.playerListStorage.length && (this.playerList = this.playerListStorage.concat(this.playerList))
             }
             this.$store.commit('closeLoading')
+            this.isFetching = false
           }
         )
       },
@@ -254,7 +267,7 @@
                 message: '状态改变成功',
                 type: 'success'
               })
-              this.getPlayList()
+              row.state = row.state ? 0 : 1 // 本地修改状态
             }
             this.$store.commit('closeLoading')
           }
@@ -291,7 +304,13 @@
                 message: '状态改变成功',
                 type: 'success'
               })
-              this.getPlayList()
+              for (let item of this.checkedArray) {
+                for (let data of this.playerList) {
+                  if(item.userName == data.userName) {
+                    item.state = num
+                  }
+                }
+              }
             }
             this.names = []
             this.$store.commit('closeLoading')
@@ -323,22 +342,18 @@
       }, // 格式化登录时间
       getNowsize (size) {
         this.nowSize = size
-        // console.log('当前每页:' + size)
       },
       getNowpage (page) {
         this.nowPage = page
-        // console.log('当前是第:' + page + '页')
-      },
-      resultSearch () {
-        this.searchInfo = {
-          gameId: ''
+        if((page == Math.ceil(this.playerList.length/this.nowSize) && !this.isFetching) && (page != 1) && !this.isLastMessage) {
+          this.playerListStorage = JSON.parse(JSON.stringify(this.playerList))
+          this.getPlayList()
         }
-        this.getPlayList()
       },
-      getSearch () {
-        this.currentPage = 1
+      getSearch (bool) {
+        !bool && (this.searchInfo = {})
+        this.initData()
         this.getPlayList()
-
       },
       submit () {
         var rex = new RegExp(/^[0-9]*[1-9][0-9]*$/)
@@ -390,16 +405,6 @@
         this.$store.commit('closeEdit')
         this.$router.push('comdetail')
       },
-      sortFun (col){
-        if(col.prop!=null){
-          this.searchInfo.sortKey = col.prop
-          this.searchInfo.sort = col.order== 'ascending' ? 'asce':'desc';
-          this.getPlayList()
-        } else {
-          this.searchInfo.sortKey = ''
-          this.searchInfo.sort = ''
-        }
-      },
       formatPoints (num) {
         return thousandFormatter(num)
       }, // 千位符格式化
@@ -428,12 +433,19 @@
             // this.$store.commit('closeLoading')
           }
         )
+      },
+      initData () {
+        this.playerList = []
+        this.playerListStorage = [];
+        this.playerListStartKey = '';
+        this.currentPage = 1
       }
     },
     watch: {
       '$route': function (_new, _old) {
         for (let item of this.jumpUrl) {
           if(item === _old.fullPath) {
+            this.initData()
             this.getPlayList()
             break
           }

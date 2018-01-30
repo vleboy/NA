@@ -10,8 +10,8 @@
           <span>玩家昵称: </span>
           <el-input placeholder="请输入" class="input" v-model="searchInfo.nickname"></el-input>
         </el-col>
-        <el-button type="primary" @click="getSearch">搜索</el-button>
-        <el-button @click="resultSearch">重置</el-button>
+        <el-button type="primary" @click="getSearch(true)">搜索</el-button>
+        <el-button @click="getSearch(false)">重置</el-button>
       </el-row>
       <el-row class="transition-box" style="margin-top: 2rem" v-if="role!='100'">
         <el-col :span="10" class="g-text-right">
@@ -32,9 +32,9 @@
         </el-col>
       </el-row>
     </div>
-    <div class="rebackinfo">
-      <p>共搜索到 {{playerList.length || 0}} 条数据</p>
-    </div>
+    <!--<div class="rebackinfo">-->
+      <!--<p>共搜索到 {{playerList.length || 0}} 条数据</p>-->
+    <!--</div>-->
     <div class="playerform">
       <el-row style="margin-bottom: 2rem">
         <el-col>
@@ -42,7 +42,7 @@
           <el-button type="primary" @click="allChangeState(1)">批量开启</el-button>
         </el-col>
       </el-row>
-      <el-table stripe :data="getItems" @selection-change="selectionChange" @sort-change="sortFun">
+      <el-table stripe :data="getItems" @selection-change="selectionChange">
         <el-table-column type="selection" width="60" align="center">
         </el-table-column>
         <el-table-column prop="userId" label="玩家ID" align="center">
@@ -75,7 +75,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="balance" label="点数" sortable="custom" show-overflow-tooltip align="center">
+        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="center">
           <template scope="scope">
             {{formatPoints(scope.row.balance)}}
           </template>
@@ -90,8 +90,8 @@
         </el-table-column>
       </el-table>
       <div style="text-align: right;margin:2rem 0">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerList.length"
-                       :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"
+        <el-pagination layout="prev, pager, next, jumper" :total="playerList.length"
+                       :page-size="20" @current-change="getNowpage" @size-change="getNowsize"
                        :current-page.sync="currentPage">
         </el-pagination>
       </div>
@@ -122,16 +122,18 @@
       return {
         nowSize: 20,
         nowPage: 1,
+        pageSize: 100,
         currentPage: 1,
         showSearch: false,
+        isFetching: false,
+        isLastMessage: false, // 主要判断是否是后台返回最后一次信息
         playerList: [],
+        playerListStorage: [],
+        playerListStartKey: '',
         playerStatus: ['已停用', '正常'],
         checkedArray: [],
         names: [],
-        searchInfo: {
-          gameId: ''
-        },
-        sortInfo: {},
+        searchInfo: {},
         role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）
         gameTypeList: []
       }
@@ -163,7 +165,11 @@
         })
       },
       getPlayList () {
+        if(this.isFetching) return
+        this.isFetching = true
         this.$store.commit('startLoading')
+        this.searchInfo.startKey = this.playerListStartKey
+        this.searchInfo.pageSize = this.pageSize
         invoke({
           url: api.getPlayList,
           method: api.post,
@@ -180,9 +186,13 @@
               for (let item of res.data.list) {
                 item.userNameParent = formatUserName(item.userName)
               }
+              this.isLastMessage = res.data.list < this.pageSize
               this.playerList = res.data.list
+              this.playerListStartKey = res.data.startKey
+              this.playerListStorage.length && (this.playerList = this.playerListStorage.concat(this.playerList))
             }
             this.$store.commit('closeLoading')
+            this.isFetching = false
           }
         )
       },
@@ -208,8 +218,9 @@
                 message: '状态改变成功',
                 type: 'success'
               })
-              this.getPlayList()
+              row.state = row.state ? 0 : 1 // 本地修改状态
             }
+            this.$store.commit('closeLoading')
           }
         )
       }, // 更改玩家状态
@@ -244,9 +255,16 @@
                 message: '状态改变成功',
                 type: 'success'
               })
-              this.getPlayList()
+              for (let item of this.checkedArray) {
+                for (let data of this.playerList) {
+                  if(item.userName == data.userName) {
+                    item.state = num
+                  }
+                }
+              }
             }
             this.names = []
+            this.$store.commit('closeLoading')
           }
         )
       },
@@ -255,32 +273,21 @@
       }, // 格式化创建时间
       getNowsize (size) {
         this.nowSize = size
-        // console.log('当前每页:' + size)
       },
       getNowpage (page) {
         this.nowPage = page
-        // console.log('当前是第:' + page + '页')
-      },
-      resultSearch () {
-        this.searchInfo = {
-          gameId: ''
+        if((page == Math.ceil(this.playerList.length/this.nowSize) && !this.isFetching) && (page != 1) && !this.isLastMessage) {
+          this.playerListStorage = JSON.parse(JSON.stringify(this.playerList))
+          this.getPlayList()
         }
-        this.getPlayList()
       },
-      getSearch () {
+      getSearch (bool) {
+        !bool && (this.searchInfo = {})
+        this.playerList = []
+        this.playerListStorage = []
+        this.playerListStartKey = ''
         this.currentPage = 1
         this.getPlayList()
-
-      },
-      sortFun (col){
-        if(col.prop!=null){
-          this.searchInfo.sortKey = col.prop
-          this.searchInfo.sort = col.order== 'ascending' ? 'asce':'desc';
-          this.getPlayList()
-        } else {
-          this.searchInfo.sortKey = ''
-          this.searchInfo.sort = ''
-        }
       },
       formatPoints (num) {
         return thousandFormatter(num)
@@ -318,7 +325,7 @@
 <style scpoed>
   .playerlist .propList{padding: 2rem;}
   .playerlist .input{width: 80%}
-  .playerlist .propList-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
+  .playerlist .propList-search{margin: 2rem 2rem 0; background-color: #f5f5f5; text-align: center }
   .playerlist .text-left{text-align: left}
   .playerlist .rebackinfo{padding:0 2rem;}
   .playerlist .playerform{padding: 2rem;margin:0 auto;}

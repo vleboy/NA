@@ -55,17 +55,17 @@ $<template>
               </el-radio-group>
             </div>
             <div class="form-button">
-              <el-button type="primary" size="large" @click="getPlayerAccount">筛选</el-button>
-              <el-button type="primary" size="large" @click="resetData">重置</el-button>
+              <el-button type="primary" size="large" @click="searchData(true)">筛选</el-button>
+              <el-button type="primary" size="large" @click="searchData(false)">重置</el-button>
             </div>
           </el-col>
         </el-row>
       </div>
       <div class="account-total">
-        <div class="total-all">
-          <i class="el-icon-information" style="color: #1c8de0;"></i> &ensp;共搜索到{{playerAccountList.length || 0}}笔数据 &emsp;总计：
-          <span style="font-weight: bold">{{formatNum}} </span>元
-        </div>
+        <!--<div class="total-all">-->
+          <!--<i class="el-icon-information" style="color: #1c8de0;"></i> &ensp;共搜索到{{playerAccountList.length || 0}}笔数据 &emsp;总计：-->
+          <!--<span style="font-weight: bold">{{formatNum}} </span>元-->
+        <!--</div>-->
         <div class="total-check -p-red" v-if="checkedArray.length">
           <i class="el-icon-information" style="color: #f7ba2a;"></i> &ensp;已选中{{checkedArray.length || 0}}笔数据 &emsp;总计：
           <span style="font-weight: bold">{{checkFormatNum}} </span>元
@@ -73,16 +73,16 @@ $<template>
       </div>
       <div class="countinfo">
         <div class="countinfo-form">
-          <el-table stripe :data="dataList" @selection-change="selectionChange" @sort-change="sortFun">
+          <el-table stripe :data="dataList" @selection-change="selectionChange">
             <el-table-column type="selection" width="60" align="center"></el-table-column>
             <el-table-column prop="sn" label="流水号" width="300" align="center"></el-table-column>
-            <el-table-column prop="createdAt" label="日期" :formatter="getAtime" sortable="custom" align="center"></el-table-column>
+            <el-table-column prop="createdAt" label="日期" :formatter="getAtime"  align="center"></el-table-column>
             <el-table-column label="交易类型" align="center">
               <template scope="scope">
                 {{typeList[scope.row.type]}}
               </template>
             </el-table-column>
-            <el-table-column prop="originalAmount" label="帐变前余额" sortable="custom" align="center">
+            <el-table-column prop="originalAmount" label="帐变前余额"  align="center">
               <template scope="scope">
                 {{formatPoints(scope.row.originalAmount)}}
               </template>
@@ -113,8 +113,8 @@ $<template>
             <!--</el-table-column>-->
           </el-table>
           <div style="text-align: right;margin:2rem 0">
-            <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerAccountList.length"
-                           :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"
+            <el-pagination layout="prev, pager, next, jumper" :total="playerAccountList.length"
+                           :page-size="20" @size-change="getNowsize" @current-change="getNowpage"
                            :current-page.sync="currentPage">
             </el-pagination>
           </div>
@@ -145,6 +145,7 @@ export default {
     return {
       nowSize: 20,
       nowPage: 1,
+      pageSize: 100,
       radioTime: '1',
       radioMoney: '',
       currentPage: 1,
@@ -155,6 +156,8 @@ export default {
       allAmount: 0,
       isOpenModal: false,
       isShowSearch: false,
+      isFetching: false,
+      isLastMessage: false, // 主要判断是否是后台返回最后一次信息
       typeList: {
         '3': '下注',
         '4': '返奖',
@@ -169,7 +172,8 @@ export default {
       amountDate: [], // 时间日期选择
       playerAccountList: [], // 玩家流水账列表
       playerRecordList: [], // 玩家战绩列表
-      sortInfo: {} // 排序
+      playerAccountListStorage: [],
+      playerAccountListStartKey: ''
     }
   },
   mounted () {
@@ -204,9 +208,14 @@ export default {
     },
     getNowpage (page) {
       this.nowPage = page
-      // console.log('当前是第:' + page + '页')
+      if(page == Math.ceil(this.playerAccountList.length/this.nowSize) && !this.isFetching && page != 1 && !this.isLastMessage) {
+        this.playerAccountListStorage = JSON.parse(JSON.stringify(this.playerAccountList))
+        this.getPlayerAccount()
+      }
     },
     getPlayerAccount () {
+      if(this.isFetching) return
+      this.isFetching = true
       // this.$store.commit('startLoading');
       invoke({
         url: api.playerAccount,
@@ -215,10 +224,10 @@ export default {
           userName: localStorage.playerName,
           type: this.radioType,
           action: this.radioMoney,
-          startTime: this.amountDate.length ? this.startDate : '',
-          endTime: this.amountDate.length ? this.endDate : '',
-          sort: this.sortInfo.sort,
-          sortKey: this.sortInfo.sortKey
+          startTime: this.amountDate ? this.startDate : '',
+          endTime: this.amountDate ? this.endDate : '',
+          startKey: this.playerAccountListStartKey,
+          pageSize: this.pageSize
         }
       }).then(
         result => {
@@ -229,9 +238,14 @@ export default {
               type: 'error'
             })
           } else {
+            this.isLastMessage = res.data.list < this.pageSize
             this.playerAccountList = res.data.list
+            this.playerAccountListStartKey = res.data.startKey
+            this.playerAccountUserName = res.data.userName
+            this.playerAccountListStorage.length && (this.playerAccountList = this.playerAccountListStorage.concat(this.playerAccountList))
           }
           // this.$store.commit('closeLoading')
+          this.isFetching = false
         }
       )
     },
@@ -289,7 +303,7 @@ export default {
         this.radioTime = '';
         this.monthDate = '';
       }
-      this.currentPage = 1
+      this.initData()
       this.getPlayerAccount()
     }, //日期改变联动
     changeMonth (date) {
@@ -309,23 +323,19 @@ export default {
       }
       this.checkFormatNum = thousandFormatter(this.checkFormatNum)
     }, //多选
-    resetData () {
-      this.radioMoney = '';
-      this.radioType = '';
+    searchData (bool) {
+      !bool && (this.radioMoney = '',this.radioType = '');
+      this.initData()
       this.getPlayerAccount()
     }, // 重置筛选条件
-    sortFun (col){
-      if(col.prop!=null){
-        this.sortInfo.sortKey = col.prop
-        this.sortInfo.sort = col.order== 'ascending' ? 'asce':'desc';
-        this.getPlayerAccount()
-      } else {
-        this.sortInfo.sortKey = ''
-        this.sortInfo.sort = ''
-      }
-    },
     formatPoints (num) {
       return thousandFormatter(num)
+    },
+    initData () {
+      this.currentPage = 1;
+      this.playerAccountList = [];
+      this.playerAccountListStorage = []
+      this.playerAccountListStartKey = ''
     }
   },
   filters:{   //过滤器，所有数字保留两位小数
@@ -335,9 +345,9 @@ export default {
   },
   watch: {
     '$route': function (_new, _old) {
-      if (_old.fullPath === '/playerdetail'){
-//        console.log(1111,111)
-         this.changeDate()
+      if ((_old.fullPath === '/playerdetail') && (_new.fullPath != '/playerlist') && (localStorage.playerName != this.playerAccountUserName)){
+        this.initData();
+        this.changeDate()
       }
     }
   }

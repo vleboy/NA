@@ -135,8 +135,13 @@
             </el-table-column>
           </el-table>
           <div style="text-align: right;margin:2rem 0">
-            <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerDetailList.length"
-                           :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"
+            <div style="margin-bottom: 10px;font-size: 15px;" v-if='radioInfo!=-1'>本页输赢总计:
+              <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">
+                {{formatPoints(allAmountFun)}}
+              </span>
+            </div>
+            <el-pagination layout="prev, pager, next, jumper" :total="playerDetailList.length"
+                           :page-size="20" @size-change="getNowsize" @current-change="getNowpage"
                            :current-page.sync="currentPage">
             </el-pagination>
           </div>
@@ -207,6 +212,7 @@ export default {
       nowSize: 20,
       nowPage: 1,
       currentPage: 1,
+      pageSize: 100,
       radioInfo: "",
       password: '',
       amountDate: '',
@@ -215,6 +221,8 @@ export default {
       isOpenModal: false,
       isOpenModalBill: false,
       isOpenModalRunning: false,
+      isFetching: false,
+      isLastMessage: false, // 主要判断是否是后台返回最后一次信息
       isSending: false,
       isSave: false, // 是否是存点
       balanceInfo: {},
@@ -251,7 +259,9 @@ export default {
         '/allReport'
       ],
       propChild: {},
-      runningDetail: {}
+      runningDetail: {},
+      playerDetailListStorage: [],
+      playerDetailStartKey: ''
     }
   },
   computed: {
@@ -280,7 +290,7 @@ export default {
     }, // 管理员姓名
     allAmountFun () {
       this.allAmount = 0
-      for (let item of this.playerDetailList) {
+      for (let item of this.dataList) {
         if (item.gameType != '2') {
           this.allAmount = item.winloseAmount + this.allAmount
         }
@@ -297,6 +307,8 @@ export default {
       }
     },
     getPlayerDetail () {
+      if(this.isFetching) return
+      this.isFetching = true
       this.initTime()
       let name = this.$store.state.variable.playerUserName || localStorage.playerName
       // this.$store.commit('startLoading')
@@ -311,7 +323,9 @@ export default {
           company: this.companyInfo,
           gameType: this.radioInfo,
           startTime: startTime,
-          endTime: endTime
+          endTime: endTime,
+          startKey: this.playerDetailStartKey,
+          pageSize: this.pageSize
         }
       }).then(
         result => {
@@ -322,10 +336,14 @@ export default {
               type: 'error'
             })
           } else {
+            this.isLastMessage = res.data.list < this.pageSize
             this.playerDetailList = res.data.list
             this.playerDetailInfo = res.data.userInfo
+            this.playerDetailStartKey = res.data.startKey
+            this.playerDetailListStorage.length && (this.playerDetailList = this.playerDetailListStorage.concat(this.playerDetailList))
           }
           // this.$store.commit('closeLoading')
+          this.isFetching = false
         }
       )
     },
@@ -371,9 +389,13 @@ export default {
     },
     getNowpage (page) {
       this.nowPage = page
-      // console.log('当前是第:' + page + '页')
+      if((page == Math.ceil(this.playerDetailList.length/this.nowSize) && !this.isFetching) && page != 1 && !this.isLastMessage) {
+        this.playerDetailListStorage = JSON.parse(JSON.stringify(this.playerDetailList))
+        this.getPlayerDetail()
+      }
     },
     changeRadio () {
+      this.initData()
       this.getPlayerDetail()
     },
     openPwdInput () {
@@ -454,7 +476,7 @@ export default {
       )
     },
     searchAmount () {
-      this.currentPage = 1;
+      this.initData()
       this.getPlayerDetail()
     },
     formatPoints (num) {
@@ -463,15 +485,6 @@ export default {
     accountDetail () {
       this.$router.push('playerAccount')
     },
-//    billDetail (row) {
-//      localStorage.setItem('playerBillId', row.billId)
-//      localStorage.setItem('playerGameType', row.gameType)
-//      this.$store.commit({
-//        type: 'playerGameType',
-//        data: row.gameType
-//      })
-//      this.$router.push('playerBill')
-//    },
     companySelect () {
       invoke({
         url: api.companySelect,
@@ -518,6 +531,7 @@ export default {
           } else {
             this.gameTypeList = res.data.payload
             if(this.radioInfo=='') {
+              this.initData()
               this.getPlayerDetail()
             }
             if(this.companyInfo == 'NA' || this.companyInfo == '-1'){
@@ -542,7 +556,14 @@ export default {
     },
     resultGetPlayerDetail (){
       this.amountDate = [] // 处理时间不更新，列表页筛选不了最新数据问题
+      this.initData()
       this.getPlayerDetail()
+    },
+    initData () {
+      this.currentPage = 1;
+      this.playerDetailList = [];
+      this.playerDetailListStorage = []
+      this.playerDetailStartKey = ''
     }
   },
   filters:{   //过滤器，所有数字保留两位小数
@@ -553,7 +574,8 @@ export default {
   watch: {
     '$route': function (_new, _old) {
       for (let item of this.jumpUrl) {
-        if(item === _old.fullPath) {
+        if((item === _old.fullPath) && (localStorage.playerName != this.playerDetailInfo.userName)) {
+          this.initData()
           this.getPlayerDetail()
           break
         }

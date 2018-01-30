@@ -146,7 +146,7 @@ const api = {
 
   addPlayer: front.hera + front.stage + '/agent/player/create', // 创建玩家
 
-  getPlayerList: front.hera + front.stage + '/agent/player/list', // 玩家列表
+  getPlayerList: front.hera + front.stage + '/player/list', // 玩家列表
 
   playerDeposit: front.hera + front.stage + '/agent/player/deposit', // 玩家存点
 

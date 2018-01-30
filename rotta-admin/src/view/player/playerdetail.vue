@@ -31,7 +31,6 @@ $<template>
         </div>
         <div class="countinfo-center">
           <el-col :span="12">
-            <span v-if='radioInfo!=-1'>输赢总计: <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">{{formatPoints(allAmountFun)}}</span></span>&emsp;
             <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(detailInfo.balance)}}</span></span>
             <el-button type="text" @click="resultGetPlayerDetail">刷新</el-button>
             <el-button  type="text" @click="accountDetail()">查看总流水账详单</el-button>
@@ -112,8 +111,14 @@ $<template>
             </el-table-column>
           </el-table>
           <div style="text-align: right;margin:2rem 0">
-            <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerDetailList.length"
-                           :page-sizes="[20, 50]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"
+            <div style="margin-bottom: 10px;font-size: 15px;" v-if='radioInfo!=-1'>本页输赢总计:
+              <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">
+                {{formatPoints(allAmountFun)}}
+              </span>
+            </div>
+
+            <el-pagination layout="prev, pager, next, jumper" :total="playerDetailList.length"
+                           :page-size="20" @size-change="getNowsize" @current-change="getNowpage"
                            :current-page.sync="currentPage">
             </el-pagination>
           </div>
@@ -158,13 +163,18 @@ export default {
     return {
       nowSize: 20,
       nowPage: 1,
+      pageSize: 100,
       currentPage: 1,
       radioInfo: "",
       amountDate: [],
       allAmount: 0,
       isOpenModalBill: false,
       isOpenModalRunning: false,
+      isFetching: false,
+      isLastMessage: false, // 主要判断是否是后台返回最后一次信息
       playerDetailList: [],
+      playerDetailListStorage: [],
+      playerDetailStartKey: '',
       playerDetailInfo: '',
       pickerOptions: {
         shortcuts: [{
@@ -243,7 +253,7 @@ export default {
     },
     allAmountFun () {
       this.allAmount = 0
-      for (let item of this.playerDetailList) {
+      for (let item of this.dataList) {
         if (item.gameType != '2') {
           this.allAmount = item.winloseAmount + this.allAmount
         }
@@ -261,7 +271,10 @@ export default {
     },
     getNowpage (page) {
       this.nowPage = page
-      // console.log('当前是第:' + page + '页')
+      if((page == Math.ceil(this.playerDetailList.length/this.nowSize) && !this.isFetching) && page != 1 && !this.isLastMessage) {
+        this.playerDetailListStorage = JSON.parse(JSON.stringify(this.playerDetailList))
+        this.getPlayerDetail()
+      }
     },
     openModalBill (data) {
       this.propChild = data;
@@ -285,9 +298,12 @@ export default {
       this.runningDetail = data
     },
     changeRadio () {
+      this.initData()
       this.getPlayerDetail()
     },
     getPlayerDetail () {
+      if(this.isFetching) return
+      this.isFetching = true
       this.initTime()
       let name = this.$store.state.variable.playerUserName || localStorage.playerName
       let [startTime, endTime] = this.amountDate
@@ -302,7 +318,9 @@ export default {
           company: this.companyInfo,
           gameType: this.radioInfo,
           startTime: startTime,
-          endTime: endTime
+          endTime: endTime,
+          startKey: this.playerDetailStartKey,
+          pageSize: this.pageSize
         }
       }).then(
         result => {
@@ -313,26 +331,21 @@ export default {
               type: 'error'
             })
           } else {
+            this.isLastMessage = res.data.list < this.pageSize
             this.playerDetailList = res.data.list
             this.playerDetailInfo = res.data.userInfo
+            this.playerDetailStartKey = res.data.startKey
+            this.playerDetailListStorage.length && (this.playerDetailList = this.playerDetailListStorage.concat(this.playerDetailList))
           }
           // this.$store.commit('closeLoading')
+          this.isFetching = false
         }
       )
     },
     searchAmount () {
-      this.currentPage = 1;
+      this.initData()
       this.getPlayerDetail()
     },
-//    billDetail (row) {
-//      localStorage.setItem('playerBillId', row.billId)
-//      localStorage.setItem('playerGameType', row.gameType)
-//      this.$store.commit({
-//        type: 'playerGameType',
-//        data: row.gameType
-//      })
-//      this.$router.push('playerBill')
-//    },
     accountDetail () {
       this.$router.push('playerAccount')
     },
@@ -388,7 +401,7 @@ export default {
               this.gameTypeList = this.gameTypeList.concat(this.specialNA)
             }
             if(this.radioInfo=='') {
-//              console.log('进入到这里了？')
+              this.initData()
               this.getPlayerDetail()
             }
             this.gameTypeList.unshift({
@@ -409,7 +422,14 @@ export default {
     },
     resultGetPlayerDetail (){
       this.amountDate = [] // 处理时间不更新，列表页筛选不了最新数据问题
+      this.initData()
       this.getPlayerDetail()
+    },
+    initData () {
+      this.currentPage = 1;
+      this.playerDetailList = [];
+      this.playerDetailListStorage = []
+      this.playerDetailStartKey = ''
     }
   },
   filters:{   //过滤器，所有数字保留两位小数
@@ -420,7 +440,8 @@ export default {
   watch: {
     '$route': function (_new, _old) {
       for (let item of this.jumpUrl) {
-        if(item === _old.fullPath) {
+        if((item === _old.fullPath) && (localStorage.playerName != this.playerDetailInfo.userName)) {
+          this.initData()
           this.getPlayerDetail()
           break
         }
