@@ -956,7 +956,7 @@ export default {
       })
       this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
-      this.$router.push('comdetail')
+      this.$router.push('outdetail')
       this.$store.commit('resetPartLoading')
       this.$store.dispatch('getOutdetail')
       this.$store.dispatch('getOutdetail_property')
