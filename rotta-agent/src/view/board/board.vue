@@ -349,7 +349,7 @@
             data: this.dateTypes
           },
           grid: {
-            left: '4%',
+            left: '8%',
             right: '3%',
             bottom: '10%',
             top: '16%'
@@ -392,7 +392,7 @@
             data: this.dateTypesLine
           },
           grid: {
-            left: '4%',
+            left: '8%',
             right: '3%',
             bottom: '10%',
             top: '16%'
@@ -595,7 +595,7 @@
     border: 1px solid #e8e8e8;
   }
   .content-bottom{
-    overflow: auto;
+    /*overflow: auto;*/
     padding: 0 1rem 1rem 1rem;
   }
   .content-top{
