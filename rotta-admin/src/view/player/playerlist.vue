@@ -133,7 +133,9 @@
         playerStatus: ['已停用', '正常'],
         checkedArray: [],
         names: [],
-        searchInfo: {},
+        searchInfo: {
+          gameId:''
+        },
         role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）
         gameTypeList: []
       }
@@ -282,7 +284,7 @@
         }
       },
       getSearch (bool) {
-        !bool && (this.searchInfo = {})
+        !bool && (this.searchInfo = {gameId: ''})
         this.playerList = []
         this.playerListStorage = []
         this.playerListStartKey = ''

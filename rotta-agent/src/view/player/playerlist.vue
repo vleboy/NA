@@ -165,7 +165,7 @@
         playerStatus: ['已锁定', '正常'],
         checkedArray: [],
         names: [],
-        searchInfo: {},
+        searchInfo: {gameId:''},
         balanceInfo: {},
         gameTypeList: [],
         jumpUrl:['/addPlayer'],
@@ -351,7 +351,7 @@
         }
       },
       getSearch (bool) {
-        !bool && (this.searchInfo = {})
+        !bool && (this.searchInfo = {gameId:''})
         this.initData()
         this.getPlayList()
       },
