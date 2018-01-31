@@ -188,6 +188,16 @@
                         <el-row>
                             <el-col :span="7">
                                 <div class="">
+                                    <el-form-item label="商户客户域名" v-show="disable == true">
+                                        {{formatNull(comdetail.feedbackURL)}}
+                                    </el-form-item>
+                                    <el-form-item label="商户客户域名" v-show="disable == false">
+                                        <el-input autosize v-model="comdetail.feedbackURL"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                            <el-col :span="7">
+                                <div class="">
                                     <el-form-item label="商户白名单" v-show="disable == true">
                                         {{comdetail.loginWhiteList}}
                                     </el-form-item>
@@ -843,6 +853,7 @@ export default {
         frontURL: true,
         moneyURL: true,
         registerURL: true,
+        feedbackURL: true
       },
       rules: {
         password: [
