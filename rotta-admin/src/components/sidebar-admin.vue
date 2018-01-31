@@ -16,6 +16,7 @@
                       <!-- <el-menu-item index="naLiveGameReport">NA真人游戏报表</el-menu-item> -->
                       <el-menu-item index="naArcadeGameReport">NA街机游戏报表</el-menu-item>
                       <el-menu-item index="naMallReport">NA商城总报表</el-menu-item>
+                      <el-menu-item index=""><a href="javascript:;" @click="getSign">NA真人游戏</a></el-menu-item>
                   </el-submenu>
                   <el-submenu index="1-2">
                       <template slot="title">TTG游戏报表</template>
@@ -48,7 +49,7 @@
               <el-submenu index="4" v-show="userRight.gamelist.hasRight || userRight.gameBackstage.hasRight">
                   <template slot="title">游戏中心</template>
                   <el-menu-item index="gamelist" v-show="userRight.gamelist.hasRight">游戏列表</el-menu-item>
-                  <el-menu-item index="gameBackstage" v-show="userRight.gameBackstage.hasRight">游戏后台</el-menu-item>
+<!--                   <el-menu-item index="gameBackstage" v-show="userRight.gameBackstage.hasRight">游戏后台</el-menu-item> -->
               </el-submenu>
 
               <el-submenu index="5" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight || userRight.gameMailList.hasRight || userRight.boothList.hasRight || userRight.computerGame.hasRight">
@@ -142,6 +143,8 @@
 
 <script>
 import crypto from '@/crypto/crypto'
+import { invoke } from '@/libs/fetchLib'
+import api from '@/api/api'
 export default {
   name: 'sidebar',
   computed: {
@@ -257,6 +260,27 @@ export default {
     }
   },
   methods: {
+    // 跳转NA真人后台
+    getSign (item) {
+      invoke({
+        url: api.getSign,
+        method: api.post,
+        data: {
+          gameType: 30000
+        }
+      })
+        .then(res => {
+          const [err, ret] = res
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            window.open(ret.data.url)
+          }
+        })
+    }
   }
 }
 </script>
@@ -269,4 +293,9 @@ export default {
   padding: 15px;
 }
 .sidebar{padding-bottom: 5rem}
+a {
+  list-style: none;
+  color: #ffffff;
+  text-decoration-line: none;
+}
 </style>
