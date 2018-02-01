@@ -188,13 +188,16 @@
                         <el-row>
                             <el-col :span="7">
                                 <div class="">
-                                    <el-form-item label="商户客户域名" v-show="disable == true">
+                                    <el-form-item label="商户客服域名" v-show="disable == true">
                                         {{formatNull(comdetail.feedbackURL)}}
                                     </el-form-item>
-                                    <el-form-item label="商户客户域名" v-show="disable == false">
+                                    <el-form-item label="商户客服域名" v-show="disable == false">
                                         <el-input autosize v-model="comdetail.feedbackURL"></el-input>
                                     </el-form-item>
                                 </div>
+                            </el-col>
+                            <el-col :span="1">
+                              <span class="hidden">1</span>
                             </el-col>
                             <el-col :span="7">
                                 <div class="">
@@ -1332,7 +1335,7 @@ export default {
     .comdetail .simpleform,
     .comdetail .manangeform,
     .comdetail .propertyform{background-color: #f5f5f5;padding-left: 3%;padding-bottom: 1rem}
-    
+
     /**/
     .comdetail .editform{background-color: #f5f5f5;padding: 1rem;}
     /**/
