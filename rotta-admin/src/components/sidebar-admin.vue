@@ -62,19 +62,19 @@
                       <template slot="title">活动管理</template>
                         <el-menu-item index=""></el-menu-item>
                   </el-submenu> -->
-                  <el-submenu index="5-2">
+                  <!-- <el-submenu index="5-2">
                     <template slot="title">NA游戏配置</template>
                     <el-menu-item index="videoGameConfig">NA电子游戏配置</el-menu-item>
-                  </el-submenu>
+                  </el-submenu> -->
                   <!-- <el-submenu index="5-3">
                     <template slot="title">TTG游戏配置</template>
                     <el-menu-item index="videoGameConfigTTG">TTG电子游戏配置</el-menu-item>
                   </el-submenu> -->
-                  <el-submenu index="5-4">
+                  <!-- <el-submenu index="5-4">
                     <template slot="title">神秘大奖</template>
                     <el-menu-item index="prizePlayerList">玩家中奖列表</el-menu-item>
                     <el-menu-item index="prizeConfig">奖品配置</el-menu-item>
-                  </el-submenu>
+                  </el-submenu> -->
                   <el-submenu index="5-5" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">
                       <template slot="title">公告管理</template>
                        <el-menu-item index="gameNoticeList" v-show="userRight.gameNoticeList.hasRight">游戏公告列表</el-menu-item>
@@ -92,10 +92,10 @@
                   <el-menu-item index="businessRecord">商户运营记录</el-menu-item>
                   <el-menu-item index="propPrice">道具定价</el-menu-item>
               </el-submenu>
-              <el-submenu index="6" v-show="userRight.computerGame.hasRight">
+              <!-- <el-submenu index="6" v-show="userRight.computerGame.hasRight">
                 <template slot="title">风控中心</template>
                 <el-menu-item index="computerGame">NA电子游戏</el-menu-item>
-              </el-submenu>
+              </el-submenu> -->
               <!-- <el-submenu index="6" v-show="this.userRight.finance === true">
                   <template slot="title">财务中心</template>
                   <el-menu-item index="manager">直属线路商报表</el-menu-item>
@@ -123,7 +123,6 @@
                   <el-submenu index="7-2" v-show="userRight.admindate.hasRight">
                       <template slot="title">操作日志</template>
                       <el-menu-item index="admindate">管理员操作日志</el-menu-item>
-                      <el-menu-item index="debugJournal">Debug操作日志</el-menu-item>
                   </el-submenu>
                   <el-submenu index="7-3" v-show="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight ||userRight.addcharacter.hasRight">
                       <template slot="title">管理员管理</template>
@@ -133,6 +132,7 @@
                       <el-menu-item index="addcharacter" v-show="userRight.addcharacter.hasRight">新增管理员角色</el-menu-item>
                   </el-submenu>
                   <el-menu-item index="msnlist" v-show="userRight.msnlist.hasRight">线路号列表</el-menu-item>
+                  <el-menu-item index="debugJournal">Debug操作日志</el-menu-item>
               </el-submenu>
               <!-- <el-menu-item index="lineup" v-show="this.userRight.person === true">排队设置</el-menu-item> -->
           </el-menu>
