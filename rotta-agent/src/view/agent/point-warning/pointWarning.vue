@@ -4,34 +4,34 @@
       <div class="belong-list">
         <p class="title">管理员直管接入商</p>
         <el-table :data="allAgent">
-          <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+          <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
           </el-table-column>
-          <el-table-column label="类型" prop="" align="center" :formatter="formatRole" width="80">
+          <el-table-column label="类型" prop="" align="left" :formatter="formatRole" width="80">
           </el-table-column>
-          <el-table-column label="接入商标识" align="center" width="120">
+          <el-table-column label="接入商标识" align="left" width="120">
             <template scope="scope">
               <span>{{scope.row.sn ? scope.row.sn : scope.row.suffix}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="接入商昵称" prop="displayName" align="center" width="140">
+          <el-table-column label="接入商昵称" prop="displayName" align="left" width="140">
           </el-table-column>
-          <el-table-column label="接入商游戏" prop="" align="center" width="160">
+          <el-table-column label="接入商游戏" prop="" align="left" width="160">
             <template scope="scope">
               <div slot="reference" class="gameName">
                   <el-tag v-for="item in scope.row.companyList" key={{item}}>{{ item.company }}</el-tag>
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="游戏状态" prop="" align="center" width="100">
+          <el-table-column label="游戏状态" prop="" align="left" width="100">
             <template scope="scope">
               <div slot="reference" class="gameStatus">
                   <el-tag v-for="item in scope.row.companyList" key={{item}}><span :class="[item.status == 0 ? 'red' : 'green']">{{ formatStatus(item.status) }}</span></el-tag>
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="游戏点数消耗分布" prop="" align="center">
+          <el-table-column label="游戏点数消耗分布" prop="" align="left">
             <template scope="scope">
-              <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 15px" v-for="item in scope.row.companyList" key={{item}}>
+              <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 15px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
                 <span class="progress-content">{{item.winloseAmount}} / {{item.topAmount}}</span>
                 <div class="progress-index" v-if="item.usedRate < 1" :style="{'background-color': '#00cc66', 'width': item.usedRate}"><span style="opacity: 0;filter: 0">1</span></div>
                 <div class="progress-index" v-if="item.usedRate == 1" :style="{'background-color': '#ff9900', 'width': item.usedRate}"><span style="opacity: 0;filter: 0">1</span></div>
@@ -39,7 +39,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="操作" prop="" align="center" width="180">
+          <el-table-column label="操作" prop="" align="left" width="180">
             <template scope="scope">
               <div v-for="item in scope.row.companyList" key={{item}} class="click-zone">
                 <span @click="setPoint(item)" class="list-btn">设定点数警告上限</span>
@@ -297,8 +297,8 @@ export default {
 .point-warning{margin-bottom: 2rem}
 .point-warning .belong-list{width: 99%;margin: 0 auto}
 .point-warning .belong-list .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;}
-.point-warning .belong-list .gameName span{width: 100%;text-align: center;margin: 5px 0;background-color: #fff;color: #000}
-.point-warning .belong-list .gameStatus span{width: 100%;text-align: center;margin: 5px 0;background-color: #fff}
+.point-warning .belong-list .gameName span{width: 100%;text-align: left;margin: 5px 0;background-color: #fff;color: #000}
+.point-warning .belong-list .gameStatus span{width: 100%;text-align: left;margin: 5px 0;background-color: #fff}
 
 .point-warning .belong-list .progress{
   margin:5.5px;
