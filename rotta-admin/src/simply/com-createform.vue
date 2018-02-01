@@ -26,9 +26,9 @@
           <el-form-item label="备注" prop="remark">
             <el-input v-model="merchantInfo.remark" placeholder="请输入备注,最多不超过200个字符" type="textarea" :rows="3" class="input" :maxlength="200"></el-input>
           </el-form-item>
-          <el-form-item label="生效时间" prop="contractPeriod">
+          <!-- <el-form-item label="生效时间" prop="contractPeriod">
             <el-date-picker v-model="merchantInfo.contractPeriod" type="daterange" placeholder="选择生效时间" class="input" label="生效时间" :editable='false' :disabled="merchantInfo.isforever" :picker-options="pickerOptions"></el-date-picker><el-checkbox v-model="merchantInfo.isforever" class="isforever" @change="changeContractPeriod">永久</el-checkbox>
-          </el-form-item>
+          </el-form-item> -->
     </el-form>
   </div>
   <div>
@@ -52,7 +52,7 @@ export default {
   },
   beforeCreate () {
     this.$store.commit('startLoading')
-    checkform.isforever = false
+    // checkform.isforever = false
     checkform.contractPeriod = false
   },
   mounted () {
@@ -93,7 +93,7 @@ export default {
         hostName: '', // 负责人
         hostContact: '', // 负责人联系方式
         contractPeriod: [], // 生效时间
-        isforever: false // 是否永久有效
+        isforever: true // 是否永久有效
       },
       rules: {
         suffix: [

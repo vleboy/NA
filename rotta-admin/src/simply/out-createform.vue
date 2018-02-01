@@ -29,9 +29,9 @@
             <el-input v-model="managerInfo.hostContact" class="input" placeholder="5~40位,只能输入中英文及数字"></el-input>
           </el-form-item>
 
-          <el-form-item label="生效时间" prop="contractPeriod">
+          <!-- <el-form-item label="生效时间" prop="contractPeriod">
             <el-date-picker v-model="managerInfo.contractPeriod" type="daterange" placeholder="选择生效时间" class="input" label="生效时间" :editable='false' :disabled="managerInfo.isforever" :picker-options="pickerOptions"></el-date-picker><el-checkbox v-model="managerInfo.isforever" class="isforever" @change="changeContractPeriod">永久</el-checkbox>
-          </el-form-item>
+          </el-form-item> -->
     </el-form>
   </div>
   <div>
@@ -54,7 +54,7 @@ export default {
   },
   beforeCreate () {
     this.$store.commit('startLoading')
-    checkform.isforever = false
+    // checkform.isforever = false
     checkform.contractPeriod = false
   },
   created () {
@@ -97,7 +97,7 @@ export default {
         hostName: '', // 负责人
         hostContact: '', // 负责人联系方式
         contractPeriod: [], // 生效时间
-        isforever: false // 是否永久有效
+        isforever: true // 是否永久有效
       },
       rules: {
         suffix: [
