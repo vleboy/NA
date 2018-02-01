@@ -11,43 +11,43 @@
       <el-col :span="4">净利润：
         <span :class="{'-p-green':dataProp.profitAmount>0,'-p-red':dataProp.profitAmount<0}">{{formatPoints(dataProp.profitAmount)}}</span>
       </el-col>
-      <el-col :span="6">结算余额：
-        <span :class="{'-p-green':dataProp.balance>0,'-p-red':dataProp.balance<0}">{{formatPoints(dataProp.balance)}}</span>
-      </el-col>
+      <!--<el-col :span="6">结算余额：-->
+        <!--<span :class="{'-p-green':dataProp.balance>0,'-p-red':dataProp.balance<0}">{{formatPoints(dataProp.balance)}}</span>-->
+      <!--</el-col>-->
     </el-row>
 
     <el-table  :data="dataList">
-      <el-table-column prop="sn" label="流水号" align="center"></el-table-column>
-      <el-table-column prop="createdAt" label="交易时间" align="center">
+      <el-table-column prop="sn" label="流水号" align="left"></el-table-column>
+      <el-table-column prop="createdAt" label="交易时间" align="left">
         <template scope="scope">
           {{formatterTime(scope.row.createdAt)}}
         </template>
       </el-table-column>
-      <el-table-column label="交易类型" align="center">
+      <el-table-column label="交易类型" align="left">
         <template scope="scope">
           {{typeList[scope.row.type]}}
         </template>
       </el-table-column>
-      <el-table-column prop="originalAmount" label="帐变前余额" align="center">
+      <el-table-column prop="originalAmount" label="帐变前余额" align="left">
         <template scope="scope">
           {{formatPoints(scope.row.originalAmount)}}
         </template>
       </el-table-column>
-      <el-table-column label="本次发生金额（入）" align="center">
+      <el-table-column label="本次发生金额（入）" align="left">
         <template scope="scope">
                 <span class="-p-green" v-if="scope.row.amount>=0">
                    {{formatPoints(scope.row.amount)}}
                 </span>
         </template>
       </el-table-column>
-      <el-table-column label="本次发生金额（出）" align="center">
+      <el-table-column label="本次发生金额（出）" align="left">
         <template scope="scope">
                 <span class="-p-red" v-if="scope.row.amount<0">
                   {{formatPoints(scope.row.amount)}}
                 </span>
         </template>
       </el-table-column>
-      <el-table-column label="发生后金额"  align="center">
+      <el-table-column label="发生后金额"  align="left">
         <template scope="scope">
           {{formatPoints(scope.row.balance)}}
         </template>

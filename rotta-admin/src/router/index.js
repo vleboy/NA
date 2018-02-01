@@ -23,7 +23,7 @@ import PointWarning from '@/view/agent/point-warning/pointWarning' // 接入商�
 import Playerlist from '@/view/player/playerlist' // 玩家列表
 import Playerdetail from '@/view/player/playerdetail' // 玩家详情页
 import playerBill from '@/view/player/playerbill' // 玩家账单详情页
-import playerRunningAccount from '@/view/player/playerRunningAccount' // 玩家流水账详情页
+//import playerRunningAccount from '@/view/player/playerRunningAccount' // 玩家流水账详情页
 
 import Gamelist from '@/view/game/gamelist' // 游戏列表
 
@@ -188,14 +188,6 @@ const router = new Router({
       path: '/playerBill',
       name: '玩家账单详情',
       component: playerBill,
-      meta: {
-        keepAlive: true
-      }
-    },
-    {
-      path: '/playerAccount',
-      name: '玩家流水账详情',
-      component: playerRunningAccount,
       meta: {
         keepAlive: true
       }

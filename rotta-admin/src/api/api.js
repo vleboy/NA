@@ -219,6 +219,8 @@ const api = {
 
   playerRecord: front.playerExt + front.stage + '/player/bill/record', // 战绩
 
+  playerDetail: front.playerExt + front.stage + '/player/info', // 玩家详细基本信息
+
   // methods
   get: 'get',
 

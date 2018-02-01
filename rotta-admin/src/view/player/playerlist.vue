@@ -51,7 +51,7 @@
         </el-table-column>
         <el-table-column prop="msn" label="线路号" show-overflow-tooltip align="left">
         </el-table-column>
-        <el-table-column prop="merchantName" label="所属商户" align="left">
+        <el-table-column prop="merchantName" label="所属商户"  width="200" align="left">
           <template scope="scope">
             {{ scope.row.merchantName === 'NULL!' ? '-' : scope.row.merchantName}}
           </template>
@@ -80,7 +80,7 @@
             {{formatPoints(scope.row.balance)}}
           </template>
         </el-table-column>
-        <el-table-column prop="updateAt" label="最近登录游戏时间" :formatter="getAtime" align="left">
+        <el-table-column prop="updateAt" label="最近登录游戏时间"  width="200"  :formatter="getAtime" align="left">
         </el-table-column>
         <el-table-column label="操作" show-overflow-tooltip align="left">
           <template scope="scope">
