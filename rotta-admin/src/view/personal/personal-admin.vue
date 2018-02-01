@@ -9,7 +9,7 @@
             <p>
               <span>管理员账号: {{adminInfo.uname}}</span>
               <span>管理员密码: {{adminInfo.password}}<h5 class="newPassword" @click="newPassword">修改密码</h5></span>
-              <span style="color:#FF9900">管理员余额: {{balance}}</span>
+              <span>管理员余额: <i style="color: #00CC00;font-style: normal">{{balance}}</i></span>
             </p>
             <p>
               <span>管理员姓名: {{adminInfo.adminName}}</span>
