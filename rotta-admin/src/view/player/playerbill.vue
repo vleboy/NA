@@ -35,58 +35,58 @@ $<template>
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="roundId" label="局ID" align="center" width="250px"></el-table-column>
-            <el-table-column label="下注时间" align="center" width="200px">
+            <el-table-column prop="roundId" label="局ID" align="left" width="250px"></el-table-column>
+            <el-table-column label="下注时间" align="left" width="200px">
               <template scope="scope">
                 {{formatterTime(scope.row.createdAt)}}
               </template>
             </el-table-column>
-            <el-table-column label="结算前余额" align="center">
+            <el-table-column label="结算前余额" align="left">
               <template scope="scope">
                 {{formatPoints(scope.row.originalAmount)}}
               </template>
             </el-table-column>
-            <el-table-column label="下注金额" align="center">
+            <el-table-column label="下注金额" align="left">
               <template scope="scope">
                 {{formatPoints(scope.row.amount)}}
               </template>
             </el-table-column>
-            <el-table-column label="返还金额" align="center">
+            <el-table-column label="返还金额" align="left">
               <template scope="scope">
                 <span>
                   {{formatPoints(scope.row.reAmount)}}
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="净利润" align="center">
+            <el-table-column label="净利润" align="left">
               <template scope="scope">
                 <span>
                   {{formatPoints(scope.row.deAmount)}}
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="rate" label="当前成数" align="center">
+            <el-table-column prop="rate" label="当前成数" align="left">
               <template scope="scope">
                 <span>
                   {{scope.row.rate}}%
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="mix" label="当前洗码比" align="center">
+            <el-table-column prop="mix" label="当前洗码比" align="left">
               <template scope="scope">
                 <span>
                   {{scope.row.mix}}%
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="结算余额" align="center">
+            <el-table-column label="结算余额" align="left">
               <template scope="scope">
                 <span>
                   {{formatPoints(scope.row.balance)}}
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="操作" align="center">
+            <el-table-column label="操作" align="left">
               <template scope="scope">
                 <el-button  type="text" @click="openModal(scope.row)">查看战绩</el-button>
               </template>

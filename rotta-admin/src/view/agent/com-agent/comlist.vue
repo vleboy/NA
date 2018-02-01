@@ -9,29 +9,29 @@
       </div>
     	<div class="comresult">
         	<el-table stripe :data="comlist" @sort-change="defineSort">
-            <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+            <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
             </el-table-column>
-            <el-table-column label="商户标识" prop="sn" align="center">
+            <el-table-column label="商户标识" prop="sn" align="left">
             </el-table-column>
-            <el-table-column label="商户昵称" prop="displayName" align="center">
+            <el-table-column label="商户昵称" prop="displayName" align="left">
             </el-table-column>
-            <el-table-column label="商户线路号" prop="merchantEmail" align="center">
+            <el-table-column label="商户线路号" prop="merchantEmail" align="left">
               <template scope="scope">
                 <span>{{formatMSN(scope.row.msn)}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="上级线路商" prop="parent" align="center" sortable="custom">
+            <el-table-column label="上级线路商" prop="parent" align="left" sortable="custom">
               <template scope="scope">
                 <span @click="goComParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{scope.row.parentDisplayName}}</span>
                 <span v-if="scope.row.parent === '01'">直属于平台</span>
               </template>
             </el-table-column>
-            <el-table-column label="商户抽成比" prop="rate" align="center" sortable="custom">
+            <el-table-column label="商户抽成比" prop="rate" align="left" sortable="custom">
             	<template scope="scope">
               	<span>{{(scope.row.rate)}}%</span>
               </template>
             </el-table-column>
-            <el-table-column label="剩余点数" prop="balance" align="center" sortable="custom">
+            <el-table-column label="剩余点数" prop="balance" align="left" sortable="custom">
               <template scope="scope">
               	<span>{{points(scope.row.balance)}}</span>
                 <div>
@@ -40,7 +40,7 @@
               </div>
               </template>
             </el-table-column>
-            <el-table-column label="商户游戏" prop="gameList" align="center" width="110">
+            <el-table-column label="商户游戏" prop="gameList" align="left" width="110">
                 <template scope="scope">
                     <div slot="reference" class="gamelist">
                         <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
@@ -48,22 +48,22 @@
                 </template>
             </el-table-column>
             
-            <el-table-column label="创建时间" prop="createdAt" align="center" width="120" sortable="custom">
+            <el-table-column label="创建时间" prop="createdAt" align="left" width="120" sortable="custom">
   			      <template scope="scope">
               	<span>{{Time(scope.row.createdAt)}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="最后登录时间" prop="loginAt" align="center" width="150" sortable="custom">
+            <el-table-column label="最后登录时间" prop="loginAt" align="left" width="150" sortable="custom">
   			      <template scope="scope">
               	<span style="word-break:normal">{{Time(scope.row.loginAt)}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="状态" align="center" prop="status" sortable="custom" width="90" >
+            <el-table-column label="状态" align="left" prop="status" sortable="custom" width="90" >
               <template scope="scope">
                 <span>{{Status(scope.row.status)}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="备注" align="center" width="65">
+            <el-table-column label="备注" align="left" width="65">
               <template scope="scope">
                 <el-popover trigger="hover" placement="bottom">
                   <div class="remarkBox">
@@ -75,7 +75,7 @@
                 </el-popover>
               </template>
             </el-table-column> 
-            <el-table-column label="操作" align="center" width="80">
+            <el-table-column label="操作" align="left" width="80">
                 <template scope="scope">
                     <el-button type="text" class="myBtn" @click="checkUser(scope.$index, scope.row)">查看</el-button>
                       <el-dropdown trigger="click">

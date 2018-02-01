@@ -12,7 +12,7 @@
             </h4>
             <el-collapse-transition>
                 <div class="editform" v-show="show1">
-                    <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
+                    <el-form label-width='110px' label-position="left" :model="outdetail" :rules="rules" ref="outdetail">
                         <el-row>
                             <el-col :span="7">
                                 <div class="">
@@ -173,9 +173,9 @@
                     </el-select>
                     <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
                     <el-table :data="outdetail.gameList" border style="width: 40rem;margin-top:1rem">
-                      <el-table-column prop="company" align="center" label="公司"></el-table-column>
-                      <el-table-column prop="name" align="center" label="游戏"></el-table-column>
-                      <el-table-column align="center" label="操作">
+                      <el-table-column prop="company" align="left" label="公司"></el-table-column>
+                      <el-table-column prop="name" align="left" label="游戏"></el-table-column>
+                      <el-table-column align="left" label="操作">
                         <template scope="scope">
                           <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer" v-show="!disable">删除</span>
                           <span v-show="disable">请编辑</span>
@@ -198,7 +198,7 @@
             </h4>
             <el-collapse-transition>
                 <div class="editform" v-show="show2">
-                    <el-form label-width='110px' label-position="right" :model="outdetail" :rules="rules" ref="outdetail">
+                    <el-form label-width='110px' label-position="left" :model="outdetail" :rules="rules" ref="outdetail">
                         <el-row>
                             <el-col :span="7">
                                 <div class="">
@@ -309,20 +309,20 @@
                 </div>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>
-                        <el-table-column label="序号" prop="" type="index" align="center" width="80"></el-table-column>
-                        <el-table-column label="账户余额" prop="balance" align="center" width=""></el-table-column>
-                        <el-table-column label="交易点数" prop="" align="center" width="">
+                        <el-table-column label="序号" prop="" type="index" align="left" width="80"></el-table-column>
+                        <el-table-column label="账户余额" prop="balance" align="left" width=""></el-table-column>
+                        <el-table-column label="交易点数" prop="" align="left" width="">
                             <template scope="scope">
                                 <span class="green" v-if="scope.row.action === 1">{{scope.row.amount.toFixed(2)}}</span>
                                 <span class="red" v-if="scope.row.action === -1">{{scope.row.amount.toFixed(2)}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="交易时间" prop="" align="center" width="">
+                        <el-table-column label="交易时间" prop="" align="left" width="">
                             <template scope="scope">
                                 <span>{{formatTime(scope.row.updatedAt)}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="交易类型" prop="" align="center" width="">
+                        <el-table-column label="交易类型" prop="" align="left" width="">
                             <template scope="scope">
                                 <span v-if="scope.row.fromLevel < scope.row.toLevel">
                                     {{(scope.row.fromDisplayName)}} 对 {{(scope.row.toDisplayName)}} <span>加点</span>
@@ -332,7 +332,7 @@
                                 </span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="交易详情(原账+当前操作额=现在余额)" align="center" prop="balance">
+                        <el-table-column label="交易详情(原账+当前操作额=现在余额)" align="left" prop="balance">
                             <template scope="scope">
                                 <p v-if="scope.row.action === 1">
                                     <span>{{scope.row.oldBalance}}</span>
@@ -346,12 +346,12 @@
                                 </p>
                             </template>
                         </el-table-column>
-                        <el-table-column label="操作人" prop="operator" align="center" width="">
+                        <el-table-column label="操作人" prop="operator" align="left" width="">
                             <template scope="scope">
                                 <span class="red">管理员 {{user(scope.row.operator)}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="备注" prop="remark" align="center">
+                        <el-table-column label="备注" prop="remark" align="left">
                             <template scope="scope">
                                 <span>{{Remark(scope.row.remark)}}</span>
                             </template>
@@ -372,30 +372,30 @@
                 </div>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" border max-height='10px' :data="childManagers">
-                    <el-table-column prop="" label="序号" align="center" width="60" type="index"></el-table-column>
-                    <el-table-column prop="suffix" label="线路商标识" align="center" width=""></el-table-column>
-                    <el-table-column prop="displayName" label="线路商昵称" align="center" width="">
+                    <el-table-column prop="" label="序号" align="left" width="60" type="index"></el-table-column>
+                    <el-table-column prop="suffix" label="线路商标识" align="left" width=""></el-table-column>
+                    <el-table-column prop="displayName" label="线路商昵称" align="left" width="">
                         <template scope="scope">
                             <span class="gorouter" @click="outYouWanted(scope.row.userId)">{{(scope.row.displayName)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="balance" label="剩余点数" align="center" width=""></el-table-column>
-                    <el-table-column label="操作人" prop="operator" align="center" width="">
+                    <el-table-column prop="balance" label="剩余点数" align="left" width=""></el-table-column>
+                    <el-table-column label="操作人" prop="operator" align="left" width="">
                         <template scope="scope">
                             <span class="red">管理员 {{user(scope.row.operator)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="lastBill.updatedAt" label="操作时间" align="center">
+                    <el-table-column prop="lastBill.updatedAt" label="操作时间" align="left">
                         <template scope="scope">
                             <span>{{formatTime(scope.row.lastBill.updatedAt)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="lastBill.remark" label="备注" align="center">
+                    <el-table-column prop="lastBill.remark" label="备注" align="left">
                         <template scope="scope">
                             <span>{{Remark(scope.row.remark)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="操作(对旗下线路商操作)" align="center" v-if="isRight">
+                    <el-table-column prop="" label="操作(对旗下线路商操作)" align="left" v-if="isRight">
                       <template scope="scope">
                         <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">加点</el-button>
                         <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">减点</el-button>
@@ -420,30 +420,30 @@
             </div>
             <div class="propertyform-form">
                 <el-table style="width: 98%; font-size: 12px;" border max-height='10px' :data="childMerchants">
-                    <el-table-column prop="" label="序号" align="center" width="60" type="index"></el-table-column>
-                    <el-table-column prop="suffix" label="商户标识" align="center" width=""></el-table-column>
-                    <el-table-column prop="displayName" label="商户昵称" align="center" width="">
+                    <el-table-column prop="" label="序号" align="left" width="60" type="index"></el-table-column>
+                    <el-table-column prop="suffix" label="商户标识" align="left" width=""></el-table-column>
+                    <el-table-column prop="displayName" label="商户昵称" align="left" width="">
                         <template scope="scope">
                             <span class="gorouter" @click="comYouWanted(scope.row.userId)">{{(scope.row.displayName)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="balance" label="剩余点数" align="center" width=""></el-table-column>
-                    <el-table-column label="操作人" prop="operator" align="center" width="">
+                    <el-table-column prop="balance" label="剩余点数" align="left" width=""></el-table-column>
+                    <el-table-column label="操作人" prop="operator" align="left" width="">
                         <template scope="scope">
                             <span class="red">管理员 {{user(scope.row.operator)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="lastBill.updatedAt" label="操作时间" align="center" width="">
+                    <el-table-column prop="lastBill.updatedAt" label="操作时间" align="left" width="">
                         <template scope="scope">
                             <span>{{formatTime(scope.row.lastBill.updatedAt)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="lastBill.remark" label="备注" align="center">
+                    <el-table-column prop="lastBill.remark" label="备注" align="left">
                         <template scope="scope">
                             <span>{{Remark(scope.row.remark)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="操作(对旗下商户操作)" align="center" v-if="isRight">
+                    <el-table-column prop="" label="操作(对旗下商户操作)" align="left" v-if="isRight">
                       <template scope="scope">
                         <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">加点</el-button>
                         <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">减点</el-button>

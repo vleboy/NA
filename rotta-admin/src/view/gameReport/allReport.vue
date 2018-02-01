@@ -10,60 +10,60 @@
         </div>
       </div>
       <el-table :data="allNowlist" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="类型" prop="role" align="center" :formatter="userType">
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
         </el-table-column>
-        <el-table-column label="昵称" prop="displayName" align="center">
+        <el-table-column label="昵称" prop="displayName" align="left">
         </el-table-column>
-        <el-table-column label="管理员账号" prop="username" align="center">
+        <el-table-column label="管理员账号" prop="username" align="left">
         </el-table-column>
-        <el-table-column label="抽成比" prop="rate" align="center">
+        <el-table-column label="抽成比" prop="rate" align="left">
           <template scope="scope">
             <span>{{scope.row.rate}}%</span>
           </template>
         </el-table-column>
-        <el-table-column label="交易次数" prop="allbetCount" align="center">
+        <el-table-column label="交易次数" prop="allbetCount" align="left">
           <template scope="scope">
             <span>{{(flashNumber.allbetCount)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总游戏输赢金额" prop="allWinlose" align="center">
+        <el-table-column label="总游戏输赢金额" prop="allWinlose" align="left">
           <template scope="scope">
             <span :class="[Number(flashNumber.allWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.allWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总游戏交公司" prop="allSubmit" align="center">
+        <el-table-column label="总游戏交公司" prop="allSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.allSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="center">
+        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
             <span :class="[Number(flashNumber.naWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.naWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(商户交公司)" prop="naSubmit" align="center">
+        <el-table-column label="NA游戏(商户交公司)" prop="naSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.naSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="center">
+        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
           <template scope="scope">
             <span :class="[Number(flashNumber.ttgWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.ttgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(商户交公司)" prop="ttgSubmit" align="center">
+        <el-table-column label="TTG游戏(商户交公司)" prop="ttgSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.ttgSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="center">
+        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
           <template scope="scope">
             <span :class="[Number(flashNumber.saWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="center">
+        <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.saSubmit)}}</span>
           </template>
@@ -74,60 +74,60 @@
     <div class="childlist" v-if="loginRole != '100'">
       <p class="title">下级列表</p>
       <el-table :data="allNowchild" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="类型" prop="role" align="center" :formatter="userType">
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
         </el-table-column>
-        <el-table-column label="昵称" prop="displayName" align="center">
+        <el-table-column label="昵称" prop="displayName" align="left">
         </el-table-column>
-        <el-table-column label="管理员账号" prop="username" align="center">
+        <el-table-column label="管理员账号" prop="username" align="left">
           <template scope="scope">
             <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.username}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="抽成比" prop="rate" align="center">
+        <el-table-column label="抽成比" prop="rate" align="left">
           <template scope="scope">
             <span>{{scope.row.rate}}%</span>
           </template>
         </el-table-column>
-        <el-table-column label="交易次数" prop="allbetCount" align="center">
+        <el-table-column label="交易次数" prop="allbetCount" align="left">
         </el-table-column>
-        <el-table-column label="总游戏输赢金额" prop="allWinlose" align="center">
+        <el-table-column label="总游戏输赢金额" prop="allWinlose" align="left">
           <template scope="scope">
             <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.allWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总游戏交公司" prop="allSubmit" align="center">
+        <el-table-column label="总游戏交公司" prop="allSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.allSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="center">
+        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
             <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(商户交公司)" prop="naSubmit" align="center">
+        <el-table-column label="NA游戏(商户交公司)" prop="naSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.naSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="center">
+        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
           <template scope="scope">
             <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(商户交公司)" prop="ttgSubmit" align="center">
+        <el-table-column label="TTG游戏(商户交公司)" prop="ttgSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.ttgSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="center">
+        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
           <template scope="scope">
             <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="center">
+        <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.saSubmit)}}</span>
           </template>
@@ -148,27 +148,27 @@
         </div>
       </div>
       <el-table :data="allNowplayer" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="用户名" prop="userName" align="center">
+        <el-table-column label="用户名" prop="userName" align="left">
           <template scope="scope">
             <span class="fontUrl" @click="goPlayDetail(scope.row.userName)">{{scope.row.userName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="昵称" prop="nickname" align="center">
+        <el-table-column label="昵称" prop="nickname" align="left">
         </el-table-column>
-        <el-table-column label="交易次数" prop="allbetCount" align="center">
+        <el-table-column label="交易次数" prop="allbetCount" align="left">
         </el-table-column>
-        <el-table-column label="总输赢金额" prop="allWinlose" align="center">
+        <el-table-column label="总输赢金额" prop="allWinlose" align="left">
           <template scope="scope">
             <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.allWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="center">
+        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
         </el-table-column>
-        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="center">
+        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
         </el-table-column>
-        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="center">
+        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
         </el-table-column>
       </el-table>
       <div class="page">

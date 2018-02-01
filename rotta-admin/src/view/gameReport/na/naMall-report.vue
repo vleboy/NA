@@ -12,20 +12,20 @@
       </div>
 
       <el-table :data="naMallNowlist" stripe>
-        <el-table-column label="序号" align="center" width="75" type="index">
+        <el-table-column label="序号" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="类型" prop="role" align="center" :formatter="userType">
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
         </el-table-column>
-        <el-table-column label="昵称" prop="displayName" align="center">
+        <el-table-column label="昵称" prop="displayName" align="left">
         </el-table-column>
-        <el-table-column label="管理员账号" prop="username" align="center">
+        <el-table-column label="管理员账号" prop="username" align="left">
           <template scope="scope">
             <span class="fontUrl" @click="refreshList(scope.row)">{{formatSuffix(scope.row.username)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="交易次数" prop="betCount" align="center">
+        <el-table-column label="交易次数" prop="betCount" align="left">
         </el-table-column>
-        <el-table-column label="交易金额" prop="betAmount" align="center">
+        <el-table-column label="交易金额" prop="betAmount" align="left">
           <template scope="scope">
             <span>{{points(scope.row.betAmount)}}</span>
           </template>
@@ -37,21 +37,21 @@
     <div class="childlist" v-if="loginRole != '100'">
       <p class="title">直属下级列表</p>
       <el-table :data="naMallNowchild" stripe>
-        <el-table-column label="序号" align="center" width="75" type="index">
+        <el-table-column label="序号" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="类型" prop="role" align="center" :formatter="userType">
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
         </el-table-column>
-        <el-table-column label="昵称" prop="displayName" align="center">
+        <el-table-column label="昵称" prop="displayName" align="left">
         </el-table-column>
-        <el-table-column label="管理员账号" prop="username" align="center">
+        <el-table-column label="管理员账号" prop="username" align="left">
           <template scope="scope">
             <span class="fontUrl" @click="getChild(scope.row)" v-if="scope.row.role == '10'">{{scope.row.displayName}}</span>
             <span class="fontUrl" @click="getPlayer(scope.row, true)" v-if="scope.row.role == '100'">{{scope.row.displayName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="交易次数" prop="betCount" align="center">
+        <el-table-column label="交易次数" prop="betCount" align="left">
         </el-table-column>
-        <el-table-column label="交易金额" prop="betAmount" align="center">
+        <el-table-column label="交易金额" prop="betAmount" align="left">
           <template scope="scope">
             <span>{{points(scope.row.betAmount)}}</span>
           </template>
@@ -62,21 +62,21 @@
     <div class="childlist" v-for="item of naRenderChild">
       <p class="title">({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 下级列表</p>
       <el-table :data="item" stripe>
-        <el-table-column label="序号" prop="" align="center" width="75" type="index">
+        <el-table-column label="序号" prop="" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="类型" prop="role" align="center" :formatter="userType">
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
         </el-table-column>
-        <el-table-column label="昵称" prop="displayName" align="center">
+        <el-table-column label="昵称" prop="displayName" align="left">
            <template scope="scope">
             <span class="fontUrl" @click="getChild(scope.row)" v-if="scope.row.role == '10'">{{scope.row.displayName}}</span>
             <span class="fontUrl" @click="getPlayer(scope.row, false)" v-if="scope.row.role == '100'">{{scope.row.displayName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="管理员账号" prop="uname" align="center">
+        <el-table-column label="管理员账号" prop="uname" align="left">
         </el-table-column>
-        <el-table-column label="交易次数" prop="betCount" align="center">
+        <el-table-column label="交易次数" prop="betCount" align="left">
         </el-table-column>
-        <el-table-column label="交易金额" prop="betAmount" align="center">
+        <el-table-column label="交易金额" prop="betAmount" align="left">
           <template scope="scope">
             <span>{{points(scope.row.betAmount)}}</span>
           </template>
@@ -90,18 +90,18 @@
         <p class="title" style="float:left"><span v-if="playerParent">({{playerParent}})</span>所属玩家列表</p>
       </div>
       <el-table :data="naMallPlayer" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="用户名" prop="userName" align="center">
+        <el-table-column label="用户名" prop="userName" align="left">
           <template scope="scope">
             <span class="fontUrl" @click="goPlayDetail(scope.row.userName)">{{scope.row.userName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="昵称" prop="nickname" align="center">
+        <el-table-column label="昵称" prop="nickname" align="left">
         </el-table-column>
-        <el-table-column label="交易次数" prop="betCount" align="center">
+        <el-table-column label="交易次数" prop="betCount" align="left">
         </el-table-column>
-        <el-table-column label="交易金额" prop="betAmount" align="center">
+        <el-table-column label="交易金额" prop="betAmount" align="left">
           <template scope="scope">
             <span>{{points(scope.row.betAmount)}}</span>
           </template>

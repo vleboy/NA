@@ -11,45 +11,45 @@
         </div>
       </div>
       <el-table :data="naLiveNowlist" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="类型" prop="role" align="center" :formatter="userType">
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
         </el-table-column>
-        <el-table-column label="昵称" prop="displayName" align="center">
+        <el-table-column label="昵称" prop="displayName" align="left">
         </el-table-column>
-        <el-table-column label="管理员账号" prop="username" align="center">
+        <el-table-column label="管理员账号" prop="username" align="left">
         </el-table-column>
-        <el-table-column label="交易次数" prop="betCount" align="center">
+        <el-table-column label="交易次数" prop="betCount" align="left">
           <template scope="scope">
             <span>{{flashNumber.betCount}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="投注金额" prop="bet" align="center">
+        <el-table-column label="投注金额" prop="bet" align="left">
           <template scope="scope">
             <span>{{points(flashNumber.bet)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="输赢金额" prop="winlose" align="center">
+        <el-table-column label="输赢金额" prop="winlose" align="left">
           <template scope="scope">
             <span :class="[Number(flashNumber.winlose) > 0 ? 'green' : 'red']">{{points(flashNumber.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户占成" prop="rate" align="center">
+        <el-table-column label="商户占成" prop="rate" align="left">
           <template scope="scope">
             <span>{{(scope.row.rate) + '%'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户交公司" prop="submit" align="center">
+        <el-table-column label="商户交公司" prop="submit" align="left">
           <template scope="scope">
             <span :class="[Number(flashNumber.submit) > 0 ? 'green' : 'red']">{{points(flashNumber.submit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码量" prop="mixAmount" align="center">
+        <el-table-column label="洗码量" prop="mixAmount" align="left">
           <template scope="scope">
             <span>{{points(flashNumber.mixAmount)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center">
+        <el-table-column label="获利比例" prop="winloseRate" align="left">
           <template scope="scope">
             <span>{{flashNumber.winloseRate}} %</span>
           </template>
@@ -60,45 +60,45 @@
     <div class="childlist" v-if="loginRole != '100'">
       <p class="title">下级列表</p>
       <el-table :data="naLiveNowchild" stripe>
-        <el-table-column label="序号" prop="" align="center" width="75" type="index">
+        <el-table-column label="序号" prop="" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="类型" prop="role" align="center" :formatter="userType">
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
         </el-table-column>
-        <el-table-column label="昵称" prop="displayName" align="center">
+        <el-table-column label="昵称" prop="displayName" align="left">
           <template scope="scope">
             <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.displayName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="管理员账号" prop="uname" align="center">
+        <el-table-column label="管理员账号" prop="uname" align="left">
         </el-table-column>
-        <el-table-column label="交易次数" prop="betCount" align="center">
+        <el-table-column label="交易次数" prop="betCount" align="left">
         </el-table-column>
-        <el-table-column label="投注金额" prop="bet" align="center">
+        <el-table-column label="投注金额" prop="bet" align="left">
           <template scope="scope">
             <span>{{points(scope.row.bet)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="输赢金额" prop="winlose" align="center">
+        <el-table-column label="输赢金额" prop="winlose" align="left">
           <template scope="scope">
             <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户占成" prop="rate" align="center">
+        <el-table-column label="商户占成" prop="rate" align="left">
           <template scope="scope">
             <span>{{(scope.row.rate) + '%'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户交公司" align="center" prop="submit">
+        <el-table-column label="商户交公司" align="left" prop="submit">
           <template scope="scope">
             <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码量" prop="mixAmount" align="center">
+        <el-table-column label="洗码量" prop="mixAmount" align="left">
           <template scope="scope">
             <span>{{points(scope.row.mixAmount)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="获利比例" prop="winloseRate" align="center">
+        <el-table-column label="获利比例" prop="winloseRate" align="left">
           <template scope="scope">
             <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
           </template>
@@ -119,31 +119,31 @@
         </div>
       </div>
       <el-table :data="naLiveNowplayer" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="用户名" prop="userName" align="center">
+        <el-table-column label="用户名" prop="userName" align="left">
           <template scope="scope">
             <span class="fontUrl" @click="goPlayDetail(scope.row.userName)">{{scope.row.userName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="昵称" prop="nickname" align="center">
+        <el-table-column label="昵称" prop="nickname" align="left">
           <template scope="scope">
             <span>{{formatNickname(scope.row.nickname)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="交易次数" prop="betCount" align="center">
+        <el-table-column label="交易次数" prop="betCount" align="left">
         </el-table-column>
-        <el-table-column label="投注金额" prop="bet" align="center">
+        <el-table-column label="投注金额" prop="bet" align="left">
           <template scope="scope">
             <span>{{points(scope.row.bet)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="输赢金额" prop="winlose" align="center">
+        <el-table-column label="输赢金额" prop="winlose" align="left">
           <template scope="scope">
             <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码量" prop="mixAmount" align="center">
+        <el-table-column label="洗码量" prop="mixAmount" align="left">
           <template scope="scope">
             <span>{{points(scope.row.mixAmount)}}</span>
           </template>

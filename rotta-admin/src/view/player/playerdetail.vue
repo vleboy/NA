@@ -49,59 +49,59 @@ $<template>
         </div>
         <div class="countinfo-form">
           <el-table :data="dataList">
-            <el-table-column prop="businessKey" label="交易号" align="center" width="250px"></el-table-column>
-            <el-table-column label="交易时间" align="center" width="200px">
+            <el-table-column prop="businessKey" label="交易号" align="left" width="250px"></el-table-column>
+            <el-table-column label="交易时间" align="left" width="200px">
               <template scope="scope">
                 {{formatterTime(scope.row.createdAt)}}
               </template>
             </el-table-column>
-            <el-table-column label="结算前余额" align="center">
+            <el-table-column label="结算前余额" align="left">
               <template scope="scope">
                 {{formatPoints(scope.row.originalAmount)}}
               </template>
             </el-table-column>
-            <el-table-column label="操作金额" align="center">
+            <el-table-column label="操作金额" align="left">
               <template scope="scope">
                 {{formatPoints(scope.row.betAmount)}}
               </template>
             </el-table-column>
-            <el-table-column label="返还金额" align="center">
+            <el-table-column label="返还金额" align="left">
               <template scope="scope">
                 <span>
                   {{formatPoints(scope.row.retAmount)}}
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="净利润" align="center">
+            <el-table-column label="净利润" align="left">
               <template scope="scope">
                 <span :class="{'-p-green':scope.row.profitAmount>0,'-p-red':scope.row.profitAmount<0}">
                   {{formatPoints(scope.row.profitAmount)}}
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="typeName" label="交易类型" width="120" align="center"></el-table-column>
-            <el-table-column prop="rate" label="当前成数" align="center">
+            <el-table-column prop="typeName" label="交易类型" width="120" align="left"></el-table-column>
+            <el-table-column prop="rate" label="当前成数" align="left">
               <template scope="scope">
                 <span>
                   {{scope.row.rate}}%
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="mix" label="当前洗码比" align="center">
+            <el-table-column prop="mix" label="当前洗码比" align="left">
               <template scope="scope">
                 <span>
                   {{scope.row.mix}}%
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="结算余额" align="center">
+            <el-table-column label="结算余额" align="left">
               <template scope="scope">
                 <span :class="{'-p-green':scope.row.balance>0,'-p-red':scope.row.balance<0}">
                   {{formatPoints(scope.row.balance)}}
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="操作" align="center"  width="200">
+            <el-table-column label="操作" align="left"  width="200">
               <template scope="scope">
                 <el-button v-if="scope.row.gameType!=1&&scope.row.gameType!=2&&scope.row.gameType!=3"  type="text"
                            @click="openModalBill(scope.row)">查看战绩</el-button>

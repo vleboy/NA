@@ -43,46 +43,46 @@
         </el-col>
       </el-row>
       <el-table stripe :data="getItems" @selection-change="selectionChange">
-        <el-table-column type="selection" width="60" align="center">
+        <el-table-column type="selection" width="60" align="left">
         </el-table-column>
-        <el-table-column prop="userId" label="玩家ID" align="center">
+        <el-table-column prop="userId" label="玩家ID" align="left">
         </el-table-column>
-        <el-table-column prop="userNameParent" label="用户名" width="200" align="center">
+        <el-table-column prop="userNameParent" label="用户名" width="200" align="left">
         </el-table-column>
-        <el-table-column prop="msn" label="线路号" show-overflow-tooltip align="center">
+        <el-table-column prop="msn" label="线路号" show-overflow-tooltip align="left">
         </el-table-column>
-        <el-table-column prop="merchantName" label="所属商户" align="center">
+        <el-table-column prop="merchantName" label="所属商户" align="left">
           <template scope="scope">
             {{ scope.row.merchantName === 'NULL!' ? '-' : scope.row.merchantName}}
           </template>
         </el-table-column>
-        <el-table-column prop="nickname" label="玩家昵称" align="center">
+        <el-table-column prop="nickname" label="玩家昵称" align="left">
           <template scope="scope">
             {{ scope.row.nickname === 'NULL!' ? '-' : scope.row.nickname}}
           </template>
         </el-table-column>
-        <el-table-column label="状态" align="center">
+        <el-table-column label="状态" align="left">
           <template scope="scope">
             <el-tag :type="scope.row.state ? 'success' : 'danger'">
               {{playerStatus[scope.row.state]}}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="游戏状态" align="center">
+        <el-table-column label="游戏状态" align="left">
           <template scope="scope">
             <el-tag :type="scope.row.gameState==3 ? 'success' : 'gray'">
               <div>{{scope.row.gameStateName}}</div>
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="center">
+        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="left">
           <template scope="scope">
             {{formatPoints(scope.row.balance)}}
           </template>
         </el-table-column>
-        <el-table-column prop="updateAt" label="最近登录游戏时间" :formatter="getAtime" align="center">
+        <el-table-column prop="updateAt" label="最近登录游戏时间" :formatter="getAtime" align="left">
         </el-table-column>
-        <el-table-column label="操作" show-overflow-tooltip align="center">
+        <el-table-column label="操作" show-overflow-tooltip align="left">
           <template scope="scope">
             <el-button  type="text" @click="playDetail(scope.row)">查看</el-button>
             <el-button  type="text" @click="changeStatus(scope.row)">{{scope.row.state ? '停用' : '开启'}}</el-button>
