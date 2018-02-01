@@ -117,6 +117,7 @@ export default {
   },
   methods: {
     getAll_agent () {
+      this.$store.commit('startLoading')
       let data = {
         parent: '01'
       }
@@ -127,6 +128,7 @@ export default {
       }).then(result => {
         const [err, ret] = result
         if (err) {
+          this.$store.commit('closeLoading')
         } else {
           var child = ret.data.payload
           for (let item of child) {
@@ -179,6 +181,7 @@ export default {
             item.companyList ? '' : item.companyList = companyList
           }
           this.belongAgent = child
+          this.$store.commit('closeLoading')
         }
       })
     },
