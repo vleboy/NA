@@ -11,7 +11,7 @@
             <el-form-item label="起始账户" prop="">
                 <el-select placeholder="请选择" class="dialogInput" v-model="storePoints.fromUserId">
                   <el-option :value="adminId" :label="adminName"></el-option>
-                  <el-option :value="parentId" :label="parentName" v-if="hasParent"></el-option>
+                  <!-- <el-option :value="parentId" :label="parentName" v-if="hasParent"></el-option> -->
                 </el-select>
             </el-form-item>
             <el-form-item label="增加账户" prop="">
@@ -54,7 +54,7 @@
             <el-form-item label="转入账户" prop="">
                 <el-select placeholder="请选择" class="dialogInput" v-model="withdrawPoints.toUser">
                   <el-option :value="logValue" :label="adminName"></el-option>
-                  <el-option :value="parentValue" :label="parentName" v-if="hasParent"></el-option>
+                  <!-- <el-option :value="parentValue" :label="parentName" v-if="hasParent"></el-option> -->
                 </el-select>
             </el-form-item>
             <el-form-item label="备注">
