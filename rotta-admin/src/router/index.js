@@ -120,7 +120,7 @@ const router = new Router({
     },
     {
       path: '/commingSoon',
-      name: '即将上线',
+      name: '跳转页面',
       component: Commingsoon
     },
     {

@@ -2,7 +2,7 @@
   <div id="app">
     <div style="width:100%;height:100%">
       <!-- 顶部条 -->
-      <div class="top Noprint" v-if="islogin" style='z-index:2001'>
+      <div class="top Noprint" v-if="islogin" style='z-index:1001'>
         <div class="top-header">
           <bread class="Noprint"></bread>
           <loginbar class="Noprint"></loginbar>
@@ -17,7 +17,7 @@
       </div>
       <!-- 主内容区路由 -->
       <div :class="{'main-right-true': isSlider, 'main-right-false': !isSlider }" id="routerBox" @click="closeMap">
-        <div class="right-content" v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'>
+        <div class="right-content" v-loading="loading" element-loading-text="正在为您加载" style='z-index:1000'>
           <keep-alive>
             <router-view v-if="$route.meta.keepAlive"></router-view>
           </keep-alive>
@@ -88,12 +88,12 @@ html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,tab
 body{background:#fff;}
 html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 /* 主体布局 */
-#app{width: 100%;height: 100%;}
+#app{width: 100%;height: 100%;position: relative}
 /* #20a0ff */
 /**/
 .top{
   width: calc(100% - 256px);
-  position:fixed;
+  position:absolute;
   top:0;
   left: 256px;
   right:0;
@@ -109,7 +109,7 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
   max-width: 256px;
   min-width: 256px;
   width: 256px;
-  position:fixed;
+  position:absolute;
   top:0;
   left:0;
   bottom:0;
@@ -141,8 +141,8 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 
 .main-map{
   width:20%;
-  position:fixed;
-  top:3.2rem;
+  position:absolute;
+  top:85px;
   right:0;
   bottom:0;
   overflow-x: hidden;

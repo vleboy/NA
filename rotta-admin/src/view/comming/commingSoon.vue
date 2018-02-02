@@ -1,7 +1,7 @@
 <template>
   <div class="commingSoon">
     <div class="contentBox">
-      <span class="test">即将上线    <span class="test">  敬请期待</span></span>
+      <span class="test">    <span class="test">  跳转真人后台</span></span>
     </div>
   </div>
 </template>

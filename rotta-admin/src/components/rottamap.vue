@@ -311,7 +311,7 @@ export default {
 </script>
 
 <style scoped>
-.map{background-color: #eee;width: 100%;height: 98.5%;z-index: 99;padding: 0.5rem;overflow:auto;font-size:0.9rem}
+.map{background-color: #eee;width: 100%;height: 95%;z-index: 99;padding: 1.5rem 0.5rem;overflow:auto;font-size:0.9rem}
 .map .mapIcon .el-icon-close {position: fixed;top: 5.5%;right: 0.5%;color: blue}
 .map .mapTree{background-color: #eee;border:none;}
 .map .mapInput{width: 90%;}
