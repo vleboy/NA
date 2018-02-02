@@ -16,8 +16,8 @@
             </p>
             <p>
               <span>代理管理员成数: {{adminInfo.rate}}%</span>
-              <span>电子游戏洗码比: {{adminInfo.vedioMix}}%</span>
-              <span>真人视讯洗码比: {{adminInfo.liveMix}}%</span>
+              <!-- <span>电子游戏洗码比: {{adminInfo.vedioMix}}%</span>
+              <span>真人视讯洗码比: {{adminInfo.liveMix}}%</span> -->
             </p>
             <p>
               <span>代理创建时间: {{formatTime(adminInfo.createdAt)}}</span>
