@@ -51,7 +51,7 @@
           <el-table-column label="操作" prop="" align="center" min-width="160">
             <template scope="scope">
               <div v-for="item in scope.row.companyList" key={{item}} class="click-zone">
-                <span @click="setPoint(item, 'parent')" class="list-btn">设定点数警告上限</span>
+                <span @click="setPoint(item, 'parent')" class="list-btn">设定点数告警上限</span>
                 <span @click="changeStatus(item, 'parent')" class="list-btn">{{item.status == 1 ? '停用' : '启用'}}</span>
               </div>
             </template>
@@ -107,7 +107,7 @@
           <el-table-column label="操作" prop="" align="center" min-width="160">
             <template scope="scope">
               <div v-for="item in scope.row.companyList" key={{item}} class="click-zone">
-                <span @click="setPoint(item, 'child')" class="list-btn">设定点数警告上限</span>
+                <span @click="setPoint(item, 'child')" class="list-btn">设定点数告警上限</span>
                 <span @click="changeStatus(item, 'child')" class="list-btn">{{item.status == 1 ? '停用' : '启用'}}</span>
               </div>
             </template>
@@ -122,7 +122,7 @@
         <div style="text-align:center">
           <p style="font-size:1.2rem">{{status == 1 ? '停用' : '启用'}}</p>
           <p style="margin:10px auto">确认要{{status == 1 ? '停用' : '启用'}}该接入商的{{forceGame.company}}游戏吗？</p>
-          <p style="width:60%;margin:10px auto 20px;text-align:left;color:red" v-if="status == 1">警告: 停用后,该接入商下的所有玩家都无法进入游戏,已在游戏中的玩家会被系统T出游戏。</p>
+          <p style="width:60%;margin:10px auto 20px;text-align:left;color:red" v-if="status == 1">告警: 停用后,该接入商下的所有玩家都无法进入游戏,已在游戏中的玩家会被系统T出游戏。</p>
           <div style="width:50%;margin:30px auto 10px;" class="clearFix">
             <el-button type="primary" style="float:left" @click="post_changeStatus(forceGame)" :loading="loading">确定</el-button>
             <el-button style="float:right" @click="cancel">取消</el-button>

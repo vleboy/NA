@@ -17,7 +17,7 @@ import Comlist from '@/view/agent/com-agent/comlist' // 一般商户列表
 import Comdetail from '@/view/agent/com-agent/comdetail' // 一般商户详情页
 import Comcreate from '@/view/agent/com-agent/comcreate' // 创建一般商户
 
-import PointWarning from '@/view/agent/point-warning/pointWarning' // 接入商点数警告列表
+import PointWarning from '@/view/agent/point-warning/pointWarning' // 接入商点数告警列表
 
 
 import Playerlist from '@/view/player/playerlist' // 玩家列表
@@ -76,6 +76,7 @@ import naMallReport from '@/view/gameReport/na/naMall-report' // NA游戏总报�
 
 import ttgVedioGameReport from '@/view/gameReport/ttg/ttgVedioReport' // TTG电子游戏报表
 import saLiveGameReport from '@/view/gameReport/sa/saLiveGame-report' // SA真人游戏报表
+import mgVedioGameReport from '@/view/gameReport/mg/mgVedioGame-report' // NA电子游戏报表
 
 import LineUp from '@/view/lineup/lineup' // 排队设置
 
@@ -165,7 +166,7 @@ const router = new Router({
     },
     {
       path: '/point-warning',
-      name: '接入商点数警告列表',
+      name: '接入商点数告警列表',
       component: PointWarning
     },
     {
@@ -372,6 +373,14 @@ const router = new Router({
       path: '/saLiveGameReport',
       name: 'SA真人游戏报表',
       component: saLiveGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/mgVedioGameReport',
+      name: 'MG电子游戏报表',
+      component: mgVedioGameReport,
       meta: {
         keepAlive: true
       }

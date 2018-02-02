@@ -78,7 +78,20 @@ export const rightList = [
             children: ''
           }
         ]
-      }
+      },
+      {
+        isChecked: false,
+        name: 'MG游戏报表',
+        hasParent: true,
+        children: [
+          {
+            isChecked: false,
+            name: 'MG电子游戏报表',
+            hasParent: false,
+            children: ''
+          }
+        ]
+      },
     ]
   },
   {
@@ -126,7 +139,7 @@ export const rightList = [
       },
       {
         isChecked: false,
-        name: '接入商点数警告列表',
+        name: '接入商点数告警列表',
         hasParent: false,
         children: ''
       },

@@ -47,7 +47,7 @@
 
     <el-breadcrumb separator="/" v-if="nowindex === 'point-warning'" class="title">
       <el-breadcrumb-item>商户中心 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">接入商点数警告列表</span> </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">接入商点数告警列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'playerlist'" class="title">
@@ -300,6 +300,12 @@
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item>SA游戏报表 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">SA真人游戏报表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'mgVedioGameReport'" class="title">
+      <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
+      <el-breadcrumb-item>MG游戏报表 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">MG电子游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'lineup'" class="title">

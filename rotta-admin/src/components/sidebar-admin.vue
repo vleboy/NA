@@ -9,7 +9,7 @@
               <el-submenu index="1" v-show="userRight.naVedioGameReport.hasRight || userRight.ttgVedioGameReport.hasRight || userRight.saLiveGameReport.hasRight">
                   <template slot="title">输赢报表</template>
                   <!-- <el-menu-item index="allReport">公司输赢总报表</el-menu-item> -->
-                  <el-submenu index="1-1" v-show="userRight.naVedioGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight">
+                  <el-submenu index="1-1" v-show="userRight.naVedioGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight || userRight.mgVedioGameReport.hasRight">
                       <template slot="title">NA游戏报表</template>
                       <!-- <el-menu-item index="naAllGameReport">NA游戏总报表</el-menu-item> -->
                       <el-menu-item index="naVedioGameReport" v-show="userRight.naVedioGameReport.hasRight">NA电子游戏报表</el-menu-item>
@@ -27,6 +27,10 @@
                       <template slot="title">SA游戏报表</template>
                       <el-menu-item index="saLiveGameReport">SA真人游戏报表</el-menu-item>
                   </el-submenu>
+                  <el-submenu index="1-4" v-show="userRight.mgVedioGameReport.hasRight">
+                      <template slot="title">MG游戏报表</template>
+                      <el-menu-item index="mgVedioGameReport">MG电子游戏报表</el-menu-item>
+                  </el-submenu>
               </el-submenu>
               <el-submenu index="2" v-show="userRight.managerList.hasRight || userRight.merchantList.hasRight || userRight.pointWarning.hasRight">
                   <template slot="title">商户中心</template>
@@ -40,7 +44,7 @@
                       <el-menu-item index="comlist" v-show="userRight.merchantList.hasRight">商户列表</el-menu-item>
                       <el-menu-item index="comcreate" v-show="userRight.comcreate.hasRight">创建商户</el-menu-item>
                   </el-submenu>
-                  <el-menu-item index="point-warning" v-show="userRight.pointWarning.hasRight">接入商点数警告列表</el-menu-item>
+                  <el-menu-item index="point-warning" v-show="userRight.pointWarning.hasRight">接入商点数告警列表</el-menu-item>
               </el-submenu>
               <el-submenu index="3" v-show="userRight.playerlist.hasRight">
                   <template slot="title">玩家中心</template>
@@ -169,6 +173,10 @@ export default {
           hasRight: false,
           name: 'SA真人游戏报表'
         }, // SA真人游戏报表
+        mgVedioGameReport: {
+          hasRight: false,
+          name: 'MG电子游戏报表'
+        }, // MG电子游戏报表
         managerList: {
           hasRight: false,
           name: '线路商列表'
@@ -187,8 +195,8 @@ export default {
         }, // 创建商户
         pointWarning: {
           hasRight: false,
-          name: '接入商点数警告列表'
-        }, // 接入商点数警告列表
+          name: '接入商点数告警列表'
+        }, // 接入商点数告警列表
         playerlist: {
           hasRight: false,
           name: '玩家列表'
