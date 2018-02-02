@@ -16,6 +16,7 @@
                       <!-- <el-menu-item index="naLiveGameReport">NA真人游戏报表</el-menu-item> -->
                       <el-menu-item index="naArcadeGameReport">NA街机游戏报表</el-menu-item>
                       <el-menu-item index="naMallReport">NA商城总报表</el-menu-item>
+                      <el-menu-item index="commingSoon" ><a href="javascript:;" @click="getSign">NA真人游戏</a></el-menu-item>
                   </el-submenu>
                   <el-submenu index="1-2">
                       <template slot="title">TTG游戏报表</template>
@@ -69,6 +70,8 @@
 </template>
 
 <script>
+import { invoke } from '@/libs/fetchLib'
+import api from '@/api/api'
 export default {
   name: 'sidebar',
   data () {
@@ -80,6 +83,29 @@ export default {
   computed: {
     nowindex () {
       return this.$store.state.variable.nowIndex
+    }
+  },
+  methods: {
+    // 跳转NA真人后台
+    getSign (item) {
+      invoke({
+        url: api.getSign,
+        method: api.post,
+        data: {
+          gameType: 30000
+        }
+      })
+      .then(res => {
+        const [err, ret] = res
+        if (err) {
+          this.$message({
+            message: err.msg,
+            type: 'error'
+          })
+        } else {
+          window.open(ret.data.url)
+        }
+      })
     }
   }
 }
