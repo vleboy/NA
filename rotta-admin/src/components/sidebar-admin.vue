@@ -6,10 +6,10 @@
               <div class="logo"><img style=" width: 70%;" src="static/NAlogo.png"></div>
               <el-menu-item index="board" v-show="userRight.board.hasRight">看板</el-menu-item>
               <el-menu-item index="personal" v-show="userRight.personal.hasRight">个人中心</el-menu-item>
-              <el-submenu index="1" v-show="userRight.naVedioGameReport.hasRight || userRight.ttgVedioGameReport.hasRight || userRight.saLiveGameReport.hasRight">
+              <el-submenu index="1" v-show="userRight.naVedioGameReport.hasRight || userRight.ttgVedioGameReport.hasRight || userRight.saLiveGameReport.hasRight || userRight.mgVedioGameReport.hasRight">
                   <template slot="title">输赢报表</template>
                   <!-- <el-menu-item index="allReport">公司输赢总报表</el-menu-item> -->
-                  <el-submenu index="1-1" v-show="userRight.naVedioGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight || userRight.mgVedioGameReport.hasRight">
+                  <el-submenu index="1-1" v-show="userRight.naVedioGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight || userRight.naMallReport.hasRight">
                       <template slot="title">NA游戏报表</template>
                       <!-- <el-menu-item index="naAllGameReport">NA游戏总报表</el-menu-item> -->
                       <el-menu-item index="naVedioGameReport" v-show="userRight.naVedioGameReport.hasRight">NA电子游戏报表</el-menu-item>
@@ -56,7 +56,7 @@
                   <!-- <el-menu-item index="gameBackstage" v-show="userRight.gameBackstage.hasRight">游戏后台</el-menu-item> -->
               </el-submenu>
 
-              <el-submenu index="5" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight || userRight.gameMailList.hasRight || userRight.boothList.hasRight">
+              <el-submenu index="5" v-show="userRight.gameNoticeList.hasRight || userRight.gameMailList.hasRight || userRight.boothList.hasRight|| userRight.businessRecord.hasRight || userRight.propPrice.hasRight">
                   <template slot="title">运营中心</template>
                   <!-- <el-submenu index="5-1">
                       <template slot="title">赛事管理</template>
@@ -79,7 +79,7 @@
                     <el-menu-item index="prizePlayerList">玩家中奖列表</el-menu-item>
                     <el-menu-item index="prizeConfig">奖品配置</el-menu-item>
                   </el-submenu> -->
-                  <el-submenu index="5-5" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight || userRight.businessRecord.hasRight || userRight.propPrice.hasRight">
+                  <el-submenu index="5-5" v-show="userRight.gameNoticeList.hasRight || userRight.horseRaceLampList.hasRight">
                       <template slot="title">公告管理</template>
                        <el-menu-item index="gameNoticeList" v-show="userRight.gameNoticeList.hasRight">游戏公告列表</el-menu-item>
                        <el-menu-item index="horseRaceLampList" v-show="userRight.horseRaceLampList.hasRight">跑马灯列表</el-menu-item>
@@ -96,18 +96,18 @@
                   <el-menu-item index="businessRecord" v-show="userRight.businessRecord.hasRight">商户运营记录</el-menu-item>
                   <el-menu-item index="propPrice" v-show="userRight.propPrice.hasRight">道具定价</el-menu-item>
               </el-submenu>
-              <el-submenu index="7" v-show="userRight.managerloginlist.hasRight || userRight.admindate.hasRight || userRight.adminlist.hasRight || userRight.msnlist.hasRight || userRight.debugJournal.hasRight || userRight.msnlist.hasRight">
+              <el-submenu index="6" v-show="userRight.managerloginlist.hasRight || userRight.admindate.hasRight || userRight.adminlist.hasRight || userRight.msnlist.hasRight || userRight.debugJournal.hasRight">
                   <template slot="title">系统设置</template>
-                  <el-submenu index="7-1" v-show="userRight.managerloginlist.hasRight || userRight.merchantloginlist.hasRight">
+                  <el-submenu index="6-1" v-show="userRight.managerloginlist.hasRight || userRight.merchantloginlist.hasRight">
                       <template slot="title">登录日志</template>
                       <el-menu-item index="managerloginlist" v-show="userRight.managerloginlist.hasRight">线路商登录日志</el-menu-item>
                       <el-menu-item index="merchantloginlist" v-show="userRight.merchantloginlist.hasRight">商户登录日志</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="7-2" v-show="userRight.admindate.hasRight">
+                  <el-submenu index="6-2" v-show="userRight.admindate.hasRight">
                       <template slot="title">操作日志</template>
                       <el-menu-item index="admindate">管理员操作日志</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="7-3" v-show="userRight.adminlist.hasRight || userRight.msnlist.hasRight || userRight.debugJournal.hasRight">
+                  <el-submenu index="6-3" v-show="userRight.adminlist.hasRight || userRight.addadmin.hasRight || userRight.adminright.hasRight || userRight.addcharacter.hasRight">
                       <template slot="title">管理员管理</template>
                       <el-menu-item index="adminlist" v-show="userRight.adminlist.hasRight">管理员列表</el-menu-item>
                       <el-menu-item index="addadmin" v-show="userRight.addadmin.hasRight">添加管理员</el-menu-item>
