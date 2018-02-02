@@ -113,7 +113,7 @@ export default {
     comingSoon () {
       this.$alert('该功能目前没有开通', '暂未开通')
     },
-    // 跳转NA真人后台
+    // 跳转NA 真人后台
     getSign (item) {
       invoke({
         url: api.getSign,
