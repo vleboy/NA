@@ -64,9 +64,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="80">
           <template scope="scope">
-            <el-button type="text" class="myBtn" @click="storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">存点</el-button>
-            <el-button type="text" class="myBtn" @click="withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">提点</el-button>
-              <el-button type="text" class="myBtn" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">解锁</el-button>
+            <el-button type="text" class="myBtn" @click="storePoints(scope.$index, scope.row)">存点</el-button>
+            <el-button type="text" class="myBtn" @click="withdrawPoints(scope.$index, scope.row)">提点</el-button>
               <el-button type="text" class="myBtn" @click="">
                   <el-dropdown trigger="click">
                       <span style="color:#20a0ff">更多</span>
@@ -76,6 +75,9 @@
                           </p>
                           <p @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">
                               <el-dropdown-item>锁定</el-dropdown-item>
+                          </p>
+                          <p @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">
+                              <el-dropdown-item>解锁</el-dropdown-item>
                           </p>
                           <p @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1 && scope.row.parentName != 'XYZBF'">
                               <el-dropdown-item>创建代理</el-dropdown-item>

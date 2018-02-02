@@ -268,8 +268,8 @@
                 <div class="propertyform-header">
                     <span>当前剩余点数: <span style="color:#FF9900">{{comBills}}</span></span>
                     <el-button type="text" class="propertybtn" @click="refreshAgent">刷新</el-button>
-                    <el-button type="text" class="propertybtn" @click="storePoints" v-if="this.comdetail.status === 1　&& this.$store.state.variable.comdetailID != loginId">存点</el-button>
-                    <el-button type="text" class="propertybtn" @click="withdrawPoints" v-if="this.comdetail.status === 1　&& this.$store.state.variable.comdetailID != loginId">提取</el-button>
+                    <el-button type="text" class="propertybtn" @click="storePoints" v-if="this.$store.state.variable.comdetailID != loginId">存点</el-button>
+                    <el-button type="text" class="propertybtn" @click="withdrawPoints" v-if="this.$store.state.variable.comdetailID != loginId">提取</el-button>
                 </div>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>
@@ -380,8 +380,8 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作(对旗下线路商操作)" align="center" v-if="isRight">
                       <template scope="scope">
-                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">存点</el-button>
-                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">提点</el-button>
+                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)">存点</el-button>
+                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)">提点</el-button>
                         <el-button type="text" @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">锁定</el-button>
                         <el-button type="text" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">解锁</el-button>
                       </template>
@@ -436,8 +436,8 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作(对直属玩家操作)" align="center">
                       <template scope="scope">
-                        <el-button type="text" @click="player_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">存点</el-button>
-                        <el-button type="text" @click="player_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">提点</el-button>
+                        <el-button type="text" @click="player_storePoints(scope.$index, scope.row)">存点</el-button>
+                        <el-button type="text" @click="player_withdrawPoints(scope.$index, scope.row)">提点</el-button>
                         <el-button type="text" @click="lockPlayer(scope.row)" v-if="scope.row.status === 1">锁定</el-button>
                         <el-button type="text" @click="lockPlayer(scope.row)" v-if="scope.row.status === 0">解锁</el-button>
                       </template>
