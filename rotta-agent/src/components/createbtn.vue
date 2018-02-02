@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     gosetcom () {
-      if (this.$store.state.checkform.sn === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.displayName === false || this.$store.state.checkform.contractPeriod === false) {
+      if (this.$store.state.checkform.sn === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.displayName === false) {
         this.$message({
           message: '请完善创建信息',
           type: 'error'
@@ -152,8 +152,8 @@ export default {
           displayName: '', // 代理昵称
           parent: '', // 上级代理
           remark: '', // 备注
-          contractPeriod: [], // 生效时间
-          isforever: false, // 是否永久有效
+          contractPeriod: 0, // 生效时间
+          isforever: true, // 是否永久有效
           snType: '' //默认代理标识
         }
         if (localStorage.loginSuffix == 'Agent') {

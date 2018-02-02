@@ -34,9 +34,9 @@
       <el-form-item label="备注" prop="remark">
         <el-input v-model="merchantInfo.remark" placeholder="请输入备注,最多不超过200个字符" type="textarea" :rows="3" class="input" :maxlength="200"></el-input>
       </el-form-item>
-      <el-form-item label="生效时间" prop="contractPeriod">
+      <!-- <el-form-item label="生效时间" prop="contractPeriod">
         <el-date-picker v-model="merchantInfo.contractPeriod" type="daterange" placeholder="选择生效时间" class="input" label="生效时间" :editable='false' :disabled="merchantInfo.isforever" :picker-options="pickerOptions"></el-date-picker><el-checkbox v-model="merchantInfo.isforever" class="isforever" @change="changeContractPeriod">永久</el-checkbox>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
   </div>
   <div>
@@ -129,8 +129,8 @@ export default {
         displayName: '', // 代理昵称
         parent: '', // 上级代理
         remark: '', // 备注
-        contractPeriod: [], // 生效时间
-        isforever: false, // 是否永久有效
+        contractPeriod: 0, // 生效时间
+        isforever: true, // 是否永久有效
         snType: '' //默认代理标识
       },
       rules: {
@@ -145,9 +145,6 @@ export default {
         ],
         displayName: [
           {validator: checkDisplayname, trigger: 'blur'}
-        ],
-        contractPeriod: [
-          {validator: checkContractPeriod, trigger: 'change'}
         ]
       },
       identificationType: [
@@ -164,15 +161,6 @@ export default {
   methods: {
     resetForm (val) {
       this.merchantInfo = val
-    },
-    changeContractPeriod () {
-      if (this.merchantInfo.isforever === true) {
-        this.merchantInfo.contractPeriod = 0
-        store.state.checkform.contractPeriod = true
-      } else {
-        this.merchantInfo.contractPeriod = []
-        store.state.checkform.contractPeriod = false
-      }
     },
     changeParent () {
       for (let item of this.parent) {
@@ -206,14 +194,6 @@ export default {
       this.merchantInfo.parent = '01'
     } else if (!this.merchantInfo.parent && localStorage.loginParent != '00') {
       this.merchantInfo.parent = localStorage.loginId
-    }
-    if (this.merchantInfo.isforever === true) {
-      this.merchantInfo.contractPeriod = 0
-    }
-    if (this.merchantInfo.contractPeriod !== 0) {
-      for (var i = this.merchantInfo.contractPeriod.length - 1; i >= 0; i--) {
-        this.merchantInfo.contractPeriod[i] = new Date(this.merchantInfo.contractPeriod[i].toString()).getTime()
-      }
     }
     if (!this.merchantInfo.remark) {
       this.merchantInfo.remark = 'NULL!'

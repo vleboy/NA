@@ -196,7 +196,7 @@
                         <span>管理员密码: ********</span>
                     </p>
                     <p class="manager-three">
-                        <span>生效时间: {{contractPeriod(comdetail.contractPeriod)}}</span>
+                        <!-- <span>生效时间: {{contractPeriod(comdetail.contractPeriod)}}</span> -->
                         <span>上次登录时间: {{formatTime(comdetail.loginAt)}}</span>
                         <span>上次登录IP: {{comdetail.lastIP}}</span>
                     </p>
@@ -226,7 +226,7 @@
                                 </div>
                             </el-col>
                         </el-row>
-                        <el-row>
+                        <!-- <el-row>
                             <el-col :span="8">
                                 <div class="">
                                     <el-form-item label="生效时间" v-show="this.disable == true">
@@ -238,7 +238,7 @@
                                     </el-form-item>
                                 </div>
                             </el-col>
-                        </el-row>
+                        </el-row> -->
                         <el-row>
                             <el-col :span="6">
                                 <div class="">
@@ -712,18 +712,18 @@ export default {
         callback()
       }
     } // 验证代理成数
-    var checkContractPeriod = (rule, value, callback) => {
-      if (value === 0) {
-        this.isfinish.contractPeriod = true
-        callback()
-      } else if (value === [null, null]) {
-        this.isfinish.contractPeriod = false
-        callback(new Error('请选择合同生效时间'))
-      } else if (value[0] !== null || value[1] !== null) {
-        this.isfinish.contractPeriod = true
-        callback()
-      }
-    } // 验证合同有效时间
+    // var checkContractPeriod = (rule, value, callback) => {
+    //   if (value === 0) {
+    //     this.isfinish.contractPeriod = true
+    //     callback()
+    //   } else if (value === [null, null]) {
+    //     this.isfinish.contractPeriod = false
+    //     callback(new Error('请选择合同生效时间'))
+    //   } else if (value[0] !== null || value[1] !== null) {
+    //     this.isfinish.contractPeriod = true
+    //     callback()
+    //   }
+    // } // 验证合同有效时间
     return {
       imgInfo: {
         logoImg: '',
@@ -776,9 +776,6 @@ export default {
         rate: [
           {validator: checkRate, trigger: 'change'}
         ],
-        contractPeriod: [
-          {validator: checkContractPeriod, trigger: 'change'}
-        ]
       }
     }
   },
@@ -1012,9 +1009,9 @@ export default {
     points (points) {
       return formatPoints(points)
     }, // 格式化点数
-    contractPeriod (time) {
-      return formatContractPeriod(time)
-    },
+    // contractPeriod (time) {
+    //   return formatContractPeriod(time)
+    // },
     bills (bill) {
       return billType(bill)
     },
@@ -1047,30 +1044,30 @@ export default {
       this.selectGame = ''
       this.$store.commit('startEdit')
     }, // 开启编辑
-    changeContract () {
-      if (this.comdetail.isforever === true) {
-        this.comdetail.contractPeriod = 0
-        this.isfinish.contractPeriod = true
-      } else {
-        this.comdetail.contractPeriod = [null, null]
-        this.isfinish.contractPeriod = false
-      }
-    }, // 设置永久时间
+    // changeContract () {
+    //   if (this.comdetail.isforever === true) {
+    //     this.comdetail.contractPeriod = 0
+    //     this.isfinish.contractPeriod = true
+    //   } else {
+    //     this.comdetail.contractPeriod = [null, null]
+    //     this.isfinish.contractPeriod = false
+    //   }
+    // }, // 设置永久时间
     submitEdit () {
-      if (!this.isfinish.password || !this.isfinish.rate || !this.isfinish.contractPeriod) {
+      if (!this.isfinish.password || !this.isfinish.rate) {
         this.$message({
           message: '修改信息错误',
           type: 'error'
         })
       } else {
         this.loading = true
-        if (this.comdetail.contractPeriod !== 0) {
-          for (var i = this.comdetail.contractPeriod.length - 1; i >= 0; i--) {
-            if (isNaN(this.comdetail.contractPeriod[i].toString())) {
-              this.comdetail.contractPeriod[i] = new Date(this.comdetail.contractPeriod[i].toString()).getTime()
-            }
-          }
-        }
+        // if (this.comdetail.contractPeriod !== 0) {
+        //   for (var i = this.comdetail.contractPeriod.length - 1; i >= 0; i--) {
+        //     if (isNaN(this.comdetail.contractPeriod[i].toString())) {
+        //       this.comdetail.contractPeriod[i] = new Date(this.comdetail.contractPeriod[i].toString()).getTime()
+        //     }
+        //   }
+        // }
         invoke({
           url: api.agentUpdate,
           method: api.post,
