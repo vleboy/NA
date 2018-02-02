@@ -136,4 +136,9 @@ export default {
   text-align: center;
   padding: 15px;
 }
+a {
+  list-style: none;
+  color: #ffffff;
+  text-decoration-line: none;
+}
 </style>
