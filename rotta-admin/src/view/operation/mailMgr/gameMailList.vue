@@ -1,27 +1,23 @@
 <template>
   <div>
-    <div class="mailList -search">
-      <el-row class="transition-box">
-        <el-col :span="10">
-          <span>邮件ID: </span>
-          <el-input placeholder="请输入" class="input" v-model="searchInfo.mailId"></el-input>
-        </el-col>
-        <el-col :span="10">
-          <span>邮件主题：</span>
-          <el-input placeholder="请输入" class="input" v-model="searchInfo.mailName"></el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-button type="primary" @click="startSearch">搜索</el-button>
-          <el-button @click="resetSearch">重置</el-button>
-        </el-col>
-      </el-row>
-    </div>
     <p class="searchResult">共搜索到 {{mailList.length || 0}} 条数据</p>
-    <el-button type="primary" class="justfy1" @click="openModal()">创建邮件</el-button>
+    <div class="-p-m-header">
+      <el-col :span="10">
+        <el-button type="primary" @click="openModal()">创建邮件</el-button>
+      </el-col>
+      <el-col :span="10" class="g-text-right">
+        <el-input placeholder="请输入邮件主题" class="input" v-model="searchInfo.mailName"></el-input>
+      </el-col>
+      <el-col :span="4" class="g-text-right">
+        <el-button type="primary" @click="startSearch">搜索</el-button>
+        <el-button @click="resetSearch">重置</el-button>
+      </el-col>
+    </div>
+
     <div class="mailList">
       <el-table stripe :data="getItems">
-        <el-table-column label="邮件ID" prop="emid" align="center">
-        </el-table-column>
+        <!--<el-table-column label="邮件ID" prop="emid" align="center">-->
+        <!--</el-table-column>-->
         <el-table-column label="邮件主题" prop="title" align="center" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column label="邮件内容" prop="content" align="center" :show-overflow-tooltip="true">
@@ -465,11 +461,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .-p-m-header{overflow: hidden;padding: 0 2rem}
   .mailList{padding: 2rem;}
   .-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
   .input{width: 80%}
   .searchResult{padding: 1rem 2rem}
-  .justfy1{margin:0 2rem;}
   .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
   .-package-add{max-height: 154px;  overflow: auto;}
 </style>
