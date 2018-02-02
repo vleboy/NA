@@ -34,7 +34,7 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" min-width="65">
+      <el-table-column label="操作" align="center" min-width="160">
         <template scope="scope">
           <el-button type="text"  @click="goDetail(scope.row)" style="margin-left: 10px">查看</el-button>
           <el-button type="text"  @click="editOperator(scope.row)">编辑</el-button>
