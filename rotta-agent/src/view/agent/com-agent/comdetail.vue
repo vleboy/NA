@@ -436,10 +436,10 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作(对直属玩家操作)" align="center">
                       <template scope="scope">
-                        <el-button type="text" @click="player_storePoints(scope.$index, scope.row)" v-if="scope.row.state === 1">存点</el-button>
-                        <el-button type="text" @click="player_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.state === 1">提点</el-button>
-                        <el-button type="text" @click="lockPlayer(scope.row)" v-if="scope.row.state === 1">锁定</el-button>
-                        <el-button type="text" @click="lockPlayer(scope.row)" v-if="scope.row.state === 0">解锁</el-button>
+                        <el-button type="text" @click="player_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">存点</el-button>
+                        <el-button type="text" @click="player_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">提点</el-button>
+                        <el-button type="text" @click="lockPlayer(scope.row)" v-if="scope.row.status === 1">锁定</el-button>
+                        <el-button type="text" @click="lockPlayer(scope.row)" v-if="scope.row.status === 0">解锁</el-button>
                       </template>
                     </el-table-column>
                 </el-table>
