@@ -85,26 +85,28 @@ html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,tab
 body{background:#fff;}
 html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 /* 主体布局 */
-#app{width: 100%;height: 100%;}
+#app{width: 100%;height: 100%;position: relative;}
 /* #20a0ff */
 /**/
-.top{width: calc(100% - 256px);position:fixed;top:0;left: 256px;right:0;background-color:#fff;}
-/*::-webkit-scrollbar {*/
-/*width: 0px;*/
-/*height: 1px;*/
-/*}*/
-/* .top:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;} */
-/**/
+.top{
+  width: calc(100% - 256px);
+  position:absolute;
+  top:0;
+  left: 256px;
+  right:0;
+  background-color:#fff;
+}
+
 .top-header{
   display: flex;
   justify-content: space-between;
 }
 
 .main-left{
-  width: 256px;
-  min-width: 256px;
   max-width: 256px;
-  position:fixed;
+  min-width: 256px;
+  width: 256px;
+  position:absolute;
   top:0;
   left:0;
   bottom:0;
@@ -136,8 +138,8 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 
 .main-map{
   width:20%;
-  position:fixed;
-  top:3.2rem;
+  position:absolute;
+  top:85px;
   right:0;
   bottom:0;
   overflow-x: hidden;
