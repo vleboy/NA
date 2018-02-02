@@ -38,7 +38,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="游戏点数消耗分布" prop="" align="center">
+          <el-table-column label="游戏点数消耗分布" prop="" align="center" min-width="160">
             <template scope="scope">
               <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 5px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
                 <span class="progress-content">{{item.winloseAmount}} / {{item.topAmount}}</span>
@@ -48,7 +48,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="操作" prop="" align="center">
+          <el-table-column label="操作" prop="" align="center" min-width="160">
             <template scope="scope">
               <div v-for="item in scope.row.companyList" key={{item}} class="click-zone">
                 <span @click="setPoint(item, 'parent')" class="list-btn">设定点数警告上限</span>
@@ -94,7 +94,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="游戏点数消耗分布" prop="" align="center">
+          <el-table-column label="游戏点数消耗分布" prop="" align="center" min-width="160">
             <template scope="scope">
               <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 5px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
                 <span class="progress-content">{{item.winloseAmount}} / {{item.topAmount}}</span>
@@ -104,7 +104,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="操作" prop="" align="center">
+          <el-table-column label="操作" prop="" align="center" min-width="160">
             <template scope="scope">
               <div v-for="item in scope.row.companyList" key={{item}} class="click-zone">
                 <span @click="setPoint(item, 'child')" class="list-btn">设定点数警告上限</span>
