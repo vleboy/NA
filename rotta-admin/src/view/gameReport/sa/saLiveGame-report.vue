@@ -109,7 +109,7 @@
       </el-table>
     </div>
 
-    <div class="childlist" v-for="item of naRenderChild">
+    <div class="childlist" v-for="item of saRenderChild">
       <p class="title">({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 下级列表</p>
       <el-table :data="item" stripe>
         <el-table-column label="序号" prop="" align="left" width="75" type="index">
@@ -244,7 +244,7 @@ export default {
       let nowChild = this.nowChild
       return nowChild
     },
-    naRenderChild () {
+    saRenderChild () {
       let child = this.clickChild
       return child
     },
@@ -305,13 +305,15 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
-          user.betCount = 0
-          user.betAmount = 0
-          user.winAmount = 0
-          user.winloseAmount = 0
-          user.mixAmount = 0
-          user.submit = 0
-          user.winloseRate = 0
+          if (user.role != '100') {
+            user.betCount = 0
+            user.betAmount = 0
+            user.winAmount = 0
+            user.winloseAmount = 0
+            user.mixAmount = 0
+            user.submit = 0
+            user.winloseRate = 0
+          }
           this.nowList = user
         }
       })
