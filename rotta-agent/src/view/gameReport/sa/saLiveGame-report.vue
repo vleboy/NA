@@ -577,10 +577,10 @@ export default {
                             outside.nowallBet = outside.nowBouns + inside.winloseAmount
                             outside.winloseRate = outside.nowallBet / inside.mixAmount
                             this.clickChild[this.clickChild.length-1].push(outside)
+                            this.$store.commit('closeLoading')
                           }
                         })
                       })
-                      this.$store.commit('closeLoading')
                     } else {
                       this.clickChild.pop()
                       this.$store.commit('closeLoading')
@@ -641,10 +641,10 @@ export default {
                                 outside.nowallBet = outside.nowBouns + inside.winloseAmount
                                 outside.winloseRate = outside.nowallBet / inside.mixAmount
                                 this.clickChild[this.clickChild.length-1].push(outside)
+                                this.$store.commit('closeLoading')
                               }
                             })
                           })
-                          this.$store.commit('closeLoading')
                         } else {
                           this.clickChild.pop()
                           this.$store.commit('closeLoading')
@@ -706,10 +706,10 @@ export default {
                               outside.nowallBet = outside.nowBouns + inside.winloseAmount
                               outside.winloseRate = outside.nowallBet / inside.mixAmount
                               this.clickChild[this.clickChild.length-1].push(outside)
+                              this.$store.commit('closeLoading')
                             }
                           })
-                        })
-                        this.$store.commit('closeLoading')
+                        }) 
                       } else {
                         this.clickChild.pop()
                         this.$store.commit('closeLoading')

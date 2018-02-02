@@ -401,10 +401,10 @@ export default {
                             outside.betCount = inside.betCount
                             outside.betAmount = inside.betAmount
                             this.clickChild[this.clickChild.length-1].push(outside)
+                            this.$store.commit('closeLoading')
                           }
                         })
                       })
-                      this.$store.commit('closeLoading')
                     } else {
                       this.clickChild.pop()
                       this.$store.commit('closeLoading')
@@ -460,10 +460,10 @@ export default {
                                 outside.betCount = inside.betCount
                                 outside.betAmount = inside.betAmount
                                 this.clickChild[this.clickChild.length-1].push(outside)
+                                this.$store.commit('closeLoading')
                               }
                             })
                           })
-                          this.$store.commit('closeLoading')
                         } else {
                           this.clickChild.pop()
                           this.$store.commit('closeLoading')
@@ -520,10 +520,10 @@ export default {
                               outside.betCount = inside.betCount
                               outside.betAmount = inside.betAmount
                               this.clickChild[this.clickChild.length-1].push(outside)
+                              this.$store.commit('closeLoading')
                             }
                           })
                         })
-                        this.$store.commit('closeLoading')
                       } else {
                         this.clickChild.pop()
                         this.$store.commit('closeLoading')

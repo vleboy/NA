@@ -382,6 +382,8 @@ export default {
       this.$store.commit('startLoading')
       if (this.rendered.length == 0) {
         this.rendered.push(will_render)
+        this.nowPlayer = []
+        this.playerParent = ''
         invoke({
           url: api.reportInfo,
           method: api.post,
@@ -392,6 +394,8 @@ export default {
           const [err, ret] = result
           if (err) {
           } else {
+            this.nowPlayer = []
+            this.playerParent = ''
             this.clickChild = []
             this.clickChild.push([])
             var data = ret.data.payload
@@ -430,10 +434,10 @@ export default {
                             outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
                             outside.winloseRate = inside.winloseAmount / inside.betAmount
                             this.clickChild[this.clickChild.length-1].push(outside)
+                            this.$store.commit('closeLoading')
                           }
                         })
-                      })
-                      this.$store.commit('closeLoading')
+                      }) 
                     }
                   }
                 }
@@ -447,6 +451,8 @@ export default {
             this.$store.commit('closeLoading')
           } else {
             this.rendered.push(will_render)
+            this.nowPlayer = []
+            this.playerParent = ''
             invoke({
               url: api.reportInfo,
               method: api.post,
@@ -494,10 +500,10 @@ export default {
                                 outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
                                 outside.winloseRate = inside.winloseAmount / inside.betAmount
                                 this.clickChild[this.clickChild.length-1].push(outside)
+                                this.$store.commit('closeLoading')
                               }
                             })
                           })
-                          this.$store.commit('closeLoading')
                         }
                       }
                     }
@@ -559,10 +565,10 @@ export default {
                               outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
                               outside.winloseRate = inside.winloseAmount / inside.betAmount
                               this.clickChild[this.clickChild.length-1].push(outside)
+                              this.$store.commit('closeLoading')
                             }
                           })
-                        })
-                        this.$store.commit('closeLoading')
+                        }) 
                       }
                     }
                   }
