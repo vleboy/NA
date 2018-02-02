@@ -112,8 +112,8 @@ export default {
 .loginbar .helpBox{display: inline-block;width: 1.1rem;height: 1.1rem;vertical-align: -0.1rem}
 .loginbar .help-icon{width: 100%;height: 100%;}
 .loginbar .help{margin-right: 0.4rem;vertical-align: 0.1rem;cursor: pointer;color: #20a0ff}
-.loginbar .loginSubrole{}
+.loginbar .loginSubrole{vertical-align: 2px;}
 .loginbar .userBox{display: inline-block;width: 2.5rem;height: 2.5rem;vertical-align: -0.75rem}
 .loginbar .user-icon{width: 100%;height: 100%}
-.loginbar .username{font-size: 1.1rem;cursor: pointer;}
+.loginbar .username{font-size: 1.1rem;cursor: pointer;vertical-align: 1px}
 </style>
