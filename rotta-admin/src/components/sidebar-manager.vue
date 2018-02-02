@@ -51,7 +51,7 @@
               <el-submenu index="4">
                   <template slot="title">游戏中心</template>
                   <el-menu-item index="gamelist">游戏列表</el-menu-item>
-                  <el-menu-item index="gameBackstage">游戏后台</el-menu-item>
+                  <!-- <el-menu-item index="gameBackstage">游戏后台</el-menu-item> -->
               </el-submenu>
               <!-- <el-submenu index="4">
                   <template slot="title">运营中心</template>

@@ -305,15 +305,13 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
-          if (user.role != '100') {
-            user.betCount = 0
-            user.betAmount = 0
-            user.winAmount = 0
-            user.winloseAmount = 0
-            user.mixAmount = 0
-            user.submit = 0
-            user.winloseRate = 0
-          }
+          user.betCount = 0
+          user.betAmount = 0
+          user.winAmount = 0
+          user.winloseAmount = 0
+          user.mixAmount = 0
+          user.submit = 0
+          user.winloseRate = 0
           this.nowList = user
         }
       })

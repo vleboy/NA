@@ -220,10 +220,8 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
-          if (user.role != '100') {
-            user.betCount = 0
-            user.betAmount = 0
-          }
+          user.betCount = 0
+          user.betAmount = 0
           this.nowList = user
         }
       })
