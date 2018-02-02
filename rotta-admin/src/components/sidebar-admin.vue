@@ -16,7 +16,7 @@
                       <!-- <el-menu-item index="naLiveGameReport">NA真人游戏报表</el-menu-item> -->
                       <el-menu-item index="naArcadeGameReport" v-show="userRight.naArcadeGameReport.hasRight">NA街机游戏报表</el-menu-item>
                       <el-menu-item index="naMallReport" v-show="userRight.naMallReport.hasRight">NA商城总报表</el-menu-item>
-                      <el-menu-item index="" ><a href="javascript:;" @click="getSign" v-show="userRight.naLiveGameReport.hasRight">NA真人游戏</a></el-menu-item>
+                      <el-menu-item index="welcome" ><a href="javascript:;" @click="getSign" v-show="userRight.naLiveGameReport.hasRight">NA真人游戏</a></el-menu-item>
                   </el-submenu>
                   <el-submenu index="1-2" v-show="userRight.ttgVedioGameReport.hasRight">
                       <template slot="title">TTG游戏报表</template>
