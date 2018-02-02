@@ -46,7 +46,7 @@
 
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
 import Createbtn from '@/components/createbtn'
@@ -90,7 +90,7 @@ export default {
             displayName: '直属',
             userId: ''
           })
-          
+
         }
       }
     )
@@ -180,13 +180,13 @@ export default {
           this.merchantInfo.sn = item.sn
         }
       }
-      if (localStorage.loginSuffix == 'Agent') {
-        this.merchantInfo.parent == '01' || !this.merchantInfo.parent ? this.isBelong = true : this.isBelong = false
-        !this.merchantInfo.sn ? this.merchantInfo.sn = 'NA369' : ''
-      } else {
-        this.isBelong = false
-        !this.merchantInfo.sn ? this.merchantInfo.sn = localStorage.loginSn : ''
-      }
+//      if (localStorage.loginSuffix == 'Agent') {
+//        this.merchantInfo.parent == '01' || !this.merchantInfo.parent ? this.isBelong = true : this.isBelong = false
+//        !this.merchantInfo.sn ? this.merchantInfo.sn = 'NA369' : ''
+//      } else {
+//        this.isBelong = false
+//        !this.merchantInfo.sn ? this.merchantInfo.sn = localStorage.loginSn : ''
+//      }
     },
     changeSnType () {
       if (this.merchantInfo.snType == 2) {
