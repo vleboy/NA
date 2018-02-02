@@ -604,10 +604,10 @@ export default {
 <style scoped>
 .rottamap{
   z-index: 500;
-  width:20%;
-  position:fixed;
+  width:18.5%;
+  position:absolute;
   top:7.2rem;
-  left:10%;
+  left:18.5rem;
   bottom:0;
   background-color: #324157;
 }
@@ -620,7 +620,7 @@ export default {
 /* 显示组织架构时的样式 */
 .comlist-scroll-true{
   height:100%;
-  padding:0 0 0 22.5%;
+  padding:0 0 0 22%;
   box-sizing:border-box;
   overflow-x: hidden;
 }
@@ -644,7 +644,7 @@ export default {
 .comlist .myBtn{float: left;width:100%;margin: 0;}
 .comlist .fontUrl{cursor: pointer;color: #20a0ff}
 .comlist .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
-.agent-comlist .el-icon-arrow-right{border:1px solid #eee;background-color: #fff;padding: 1.25rem 0.1rem;font-size:1.2rem;position:absolute;z-index: 100;left: 10%;top: 42.8%;cursor: pointer}
+.agent-comlist .el-icon-arrow-right{border:1px solid #eee;background-color: #fff;padding: 1.25rem 0.1rem;font-size:1.2rem;position:absolute;z-index: 100;left: 18.3rem;top: 41.5%;cursor: pointer}
 
 .fade-enter-active, .fade-leave-active {
   transition: all .2s ease-out;
