@@ -377,7 +377,7 @@
                         <el-col :span="1">
                             <span class="hidden">1</span>
                         </el-col>
-                        <el-col :span="7">
+                        <!-- <el-col :span="7">
                             <div class="">
                                 <el-form-item label="生效时间" v-show="disable == true">
                                     {{contractPeriod(comdetail.contractPeriod)}}
@@ -387,7 +387,7 @@
                                     <el-checkbox v-model="comdetail.isforever" @change="changeContract">永久</el-checkbox>
                                 </el-form-item>
                             </div>
-                        </el-col>
+                        </el-col> -->
                     </el-row>
                     <el-row>
                         <el-col :span="7">
