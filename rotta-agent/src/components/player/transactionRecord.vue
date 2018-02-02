@@ -178,16 +178,6 @@
         companyList: [],
         gameTypeList: [],
         companyInfo: '-1',
-        specialNA:[
-          {
-            code: '-1',
-            name: '中心钱包'
-          },
-          {
-            code: '-3',
-            name: '商城'
-          }
-        ],
         playerDetailList: [],
         playerDetailListStorage: [],
         playerDetailStartKey: '',
@@ -365,9 +355,6 @@
               })
             } else {
               this.gameTypeList = res.data.payload
-              if(this.companyInfo == 'NA' || this.companyInfo == '-1'){
-                this.gameTypeList = this.gameTypeList.concat(this.specialNA)
-              }
               if(this.radioInfo=='') {
                 this.initData()
                 this.getTransactionRecord()

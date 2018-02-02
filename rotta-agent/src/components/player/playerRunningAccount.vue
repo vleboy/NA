@@ -45,6 +45,7 @@ $<template>
                 <el-radio-button label="11">转入</el-radio-button>
                 <el-radio-button label="12">转出</el-radio-button>
                 <el-radio-button label="4">返奖</el-radio-button>
+                <el-radio-button label="13">商城</el-radio-button>
               </el-radio-group>
             </div>
             <div class="from-search">
