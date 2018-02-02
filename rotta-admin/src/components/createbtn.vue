@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     gosetout () {
-      if (this.$store.state.checkform.suffix === false || this.$store.state.checkform.displayName === false || this.$store.state.checkform.email === false || this.$store.state.checkform.hostName === false || this.$store.state.checkform.hostContact === false || this.$store.state.checkform.contractPeriod === false) {
+      if (this.$store.state.checkform.suffix === false || this.$store.state.checkform.displayName === false || this.$store.state.checkform.email === false || this.$store.state.checkform.hostName === false || this.$store.state.checkform.hostContact === false) {
         this.$message({
           message: '请完善创建信息',
           type: 'error'
