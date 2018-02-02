@@ -88,7 +88,7 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 #app{width: 100%;height: 100%;}
 /* #20a0ff */
 /**/
-.top{width: 90%;position:fixed;top:0;left:10%;right:0;background-color:#fff;}
+.top{width: 90%;position:fixed;top:0;left: 256px;right:0;background-color:#fff;}
 /*::-webkit-scrollbar {*/
 /*width: 0px;*/
 /*height: 1px;*/
@@ -101,7 +101,9 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 }
 
 .main-left{
-  width:10%;
+  width: 256px;
+  min-width: 256px;
+  max-width: 256px;
   position:fixed;
   top:0;
   left:0;
@@ -115,14 +117,14 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 
 .main-right-true{
   height:100%;
-  padding:99px 20% 0 10%;
+  padding:99px 20% 0 256px;
   box-sizing:border-box;
   overflow-x: hidden;
 }
 
 .main-right-false{
   height:100%;
-  padding:99px 0 0 10%;
+  padding:99px 0 0 256px;
   box-sizing:border-box;
   overflow-x: hidden;
 }
