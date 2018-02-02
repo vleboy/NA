@@ -132,14 +132,6 @@ export default {
     }
   },
   beforeDestroy () {
-    if (this.merchantInfo.isforever === true) {
-      this.merchantInfo.contractPeriod = 0
-    }
-    if (this.merchantInfo.contractPeriod !== 0) {
-      for (var i = this.merchantInfo.contractPeriod.length - 1; i >= 0; i--) {
-        this.merchantInfo.contractPeriod[i] = new Date(this.merchantInfo.contractPeriod[i].toString()).getTime()
-      }
-    }
     if (!this.merchantInfo.remark) {
       this.merchantInfo.remark = 'NULL!'
     }
