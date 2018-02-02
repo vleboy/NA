@@ -2,7 +2,7 @@
   <div id="app">
     <div style="width:100%;height:100%">
       <!-- 顶部条 -->
-      <div class="top Noprint" v-if="islogin" style='z-index:2001'>
+      <div class="top Noprint" v-if="islogin" style='z-index:1001'>
         <div class="top-header">
           <bread class="Noprint"></bread>
           <loginbar class="Noprint"></loginbar>
@@ -17,7 +17,7 @@
       </div>
       <!-- 主内容区路由 -->
       <div class="main-right" id="routerBox">
-        <div class="right-content" v-loading="loading" element-loading-text="正在为您加载" style='z-index:2000'>
+        <div class="right-content" v-loading="loading" element-loading-text="正在为您加载" style='z-index:1000'>
           <keep-alive>
             <router-view v-if="$route.meta.keepAlive"></router-view>
           </keep-alive>
@@ -67,7 +67,7 @@ html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,tab
 body{background:#fff;}
 html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 /* 主体布局 */
-#app{width: 100%;height: 100%;}
+#app{width: 100%;height: 100%;position: relative}
 /* #20a0ff */
 /**/
 .top{width: calc(100% - 256px);position:fixed;top:0;left:256px;right:0;background-color:#fff;}
@@ -85,7 +85,7 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
   width: 256px;
   max-width: 256px;
   min-width: 256px;
-  position:fixed;
+  position:absolute;
   top:0;
   left:0;
   bottom:0;
@@ -110,20 +110,11 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
   min-height: 100%;
 }
 
-.main-map{
-  width:20%;
-  position:fixed;
-  top:3.2rem;
-  right:0;
-  bottom:0;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
 
 .logoBox{width: 10%;float: left;height: 3rem;line-height: 3rem;text-align: center;background-color: #324157;color: #fff}
 
 .fade-enter-active, .fade-leave-active {
-  transition: all .2s ease-out;
+  transition: all .5s ease-out;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
   width: 0;
