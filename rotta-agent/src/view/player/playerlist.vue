@@ -317,6 +317,7 @@
         },0)
       },
       closeRechargeModal () {
+        this.initData()
         this.isOpenModal = false
         this.getPlayList()
       },

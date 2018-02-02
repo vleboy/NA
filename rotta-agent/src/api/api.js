@@ -162,7 +162,7 @@ const api = {
 
   getChildrenList: front.hera + front.stage + '/agent/children/list', // 创建玩家获取下级代理商
 
-  editPlayerMix: front.hera + front.stage + '/player/mix', // 修改玩家洗码比
+  getAgentPoint: front.hera + front.stage + '/agent/point', // 获取玩家上级剩余点数
 
   // hawkeye
 

@@ -262,6 +262,7 @@
         this.runningDetail = data
       },
       closeRechargeModal () {
+        this.initData()
         this.isOpenModal = false
         this.getTransactionRecord()
       },
