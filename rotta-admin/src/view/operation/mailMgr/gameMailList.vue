@@ -2,13 +2,13 @@
   <div>
     <p class="searchResult">共搜索到 {{mailList.length || 0}} 条数据</p>
     <div class="-p-m-header">
-      <el-col :span="10">
+      <el-col :span="11">
         <el-button type="primary" @click="openModal()">创建邮件</el-button>
       </el-col>
       <el-col :span="10" class="g-text-right">
         <el-input placeholder="请输入邮件主题" class="input" v-model="searchInfo.mailName"></el-input>
       </el-col>
-      <el-col :span="4" class="g-text-right">
+      <el-col :span="3" class="g-text-right">
         <el-button type="primary" @click="startSearch">搜索</el-button>
         <el-button @click="resetSearch">重置</el-button>
       </el-col>

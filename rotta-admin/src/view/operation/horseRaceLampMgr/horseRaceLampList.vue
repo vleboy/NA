@@ -1,27 +1,21 @@
 <template>
   <div>
-    <div class="horseRaceLampList -search">
-      <el-row class="transition-box">
-        <el-col :span="10">
-          <span>跑马灯ID: </span>
-          <el-input placeholder="请输入" class="input" v-model="searchInfo.searchId"></el-input>
-        </el-col>
-        <el-col :span="10">
-          <span>跑马灯次数：</span>
-          <el-input placeholder="请输入" class="input" v-model="searchInfo.searchName"></el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-button type="primary" @click="startSearch">搜索</el-button>
-          <el-button @click="resetSearch">重置</el-button>
-        </el-col>
-      </el-row>
-    </div>
     <p class="searchResult">共搜索到 {{horseRaceLampList.length || 0}} 条数据</p>
-    <el-button type="primary" class="justfy1" @click="openModal()">创建跑马灯</el-button>
+
+    <div class="-p-m-header">
+      <el-col :span="11">
+        <el-button type="primary" class="justfy1" @click="openModal()">创建跑马灯</el-button>
+      </el-col>
+      <el-col :span="10" class="g-text-right">
+        <el-input placeholder="请输入跑马灯次数" class="input" v-model="searchInfo.searchName"></el-input>
+      </el-col>
+      <el-col :span="3" class="g-text-right">
+        <el-button type="primary" @click="startSearch">搜索</el-button>
+        <el-button @click="resetSearch">重置</el-button>
+      </el-col>
+    </div>
     <div class="horseRaceLampList">
       <el-table stripe :data="getItems">
-        <el-table-column label="跑马灯ID" prop="noid" align="center">
-        </el-table-column>
         <el-table-column label="内容" prop="content" align="center">
           <template scope="scope">
             <el-popover trigger="hover" placement="top" >
@@ -350,10 +344,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .horseRaceLampList{padding: 2rem;}
-  .-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
+  .-p-m-header{overflow: hidden;padding: 0 2rem}
   .input{width: 80%}
   .searchResult{padding: 1rem 2rem}
-  .justfy1{margin:0 2rem;}
   .-p-h-remark{word-wrap: break-word; word-break: normal;width: 200px}
   .text-ellipsis{width: 100%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;}
   .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
