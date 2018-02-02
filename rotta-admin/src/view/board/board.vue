@@ -378,7 +378,7 @@
           },
           yAxis: {},
           series: this.optionSeries,
-          color: ['#49a9ee', '#98d87d', '#ffd86e', '#f3857b', '#8996e6']
+          color: ['#D32F2F', '#FFCDD2', '#7b1fa2', '#212121', '#757575', '#FFEB3B', '#F57C00', '#795548', '#64ffda', '#03A9F4', '#388E3C', '#FF4081', '#607D8B', '#536DFE']
 
         })
       }, // 多栏柱状图
