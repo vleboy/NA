@@ -42,8 +42,7 @@ $<template>
               类型：
               <el-radio-group v-model="radioType">
                 <el-radio-button label="3">下注</el-radio-button>
-                <el-radio-button label="11">转入</el-radio-button>
-                <el-radio-button label="12">转出</el-radio-button>
+                <el-radio-button label="11">中心钱包</el-radio-button>
                 <el-radio-button label="4">返奖</el-radio-button>
                 <el-radio-button label="13">商城</el-radio-button>
               </el-radio-group>
