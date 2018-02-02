@@ -52,7 +52,7 @@
 			onTabClick(data) {
 				this.$store.commit('resetPartLoading')
 				this.$router.push({ path: this.visitedViews[data.index].path })
-				// console.log(data.name)
+				//console.log(data.name)
 				this.$store.dispatch('onTabClick', data.name)
 			}
 		},
