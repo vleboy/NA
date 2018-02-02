@@ -615,7 +615,7 @@
     }
     .content-bar{
       width: 100%;
-      height: 260px;
+      height: 340px;
     }
   }
 
