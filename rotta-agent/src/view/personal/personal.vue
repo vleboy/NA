@@ -13,11 +13,7 @@
               <span>代理管理员账号: {{adminInfo.uname}}</span>
               <!-- <span v-if="this.adminInfo.suffix !== 'Agent'">代理标识: {{adminInfo.suffix}}</span> -->
               <span>代理管理员密码: {{adminInfo.password}}<h5 class="newPassword" @click="newPassword">修改密码</h5></span>
-            </p>
-            <p>
               <span>代理管理员成数: {{adminInfo.rate}}%</span>
-              <!-- <span>电子游戏洗码比: {{adminInfo.vedioMix}}%</span>
-              <span>真人视讯洗码比: {{adminInfo.liveMix}}%</span> -->
             </p>
             <p>
               <span>代理创建时间: {{formatTime(adminInfo.createdAt)}}</span>

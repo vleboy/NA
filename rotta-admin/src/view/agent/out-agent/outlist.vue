@@ -258,7 +258,8 @@ export default {
         role: row.role,
         username: row.username,
         parentId: row.parent,
-        parentName: row.parentDisplayName
+        parentName: row.parentDisplayName,
+        parentUserName: row.Rotta_rotta
       }
       this.$store.commit({
         type: 'recordNowlistUser',
@@ -275,7 +276,8 @@ export default {
         role: row.role,
         username: row.username,
         parentId: row.parent,
-        parentName: row.parentDisplayName
+        parentName: row.parentDisplayName,
+        parentUserName: row.parentName
       }
       this.$store.commit({
         type: 'recordNowlistUser',
