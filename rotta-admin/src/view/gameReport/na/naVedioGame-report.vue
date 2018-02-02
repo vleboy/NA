@@ -576,7 +576,6 @@ export default {
     getPlayer (parent, isClear) {
       if (isClear) {
         this.playerParent = ''
-        this.nowPlayer = []
         this.clickChild = []
       }
       this.$store.commit('startLoading')
@@ -639,7 +638,11 @@ export default {
                   })
                   this.$store.commit('closeLoading')
                   this.nowPlayer.push(...item.filter(item=>{
-                    return item.betCount > 0
+                    let isRepeat = false
+                    for (let side of this.nowPlayer) {
+                      side.userName == item.userName ? isRepeat = true : '' 
+                    }
+                    return item.betCount > 0 && !isRepeat
                   }))
                 }
               }
