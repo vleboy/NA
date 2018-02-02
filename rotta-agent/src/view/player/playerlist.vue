@@ -36,7 +36,7 @@
       <el-table stripe :data="getItems" @selection-change="selectionChange">
         <el-table-column type="selection" width="60" align="left">
         </el-table-column>
-        <el-table-column prop="userId" label="玩家ID" align="left">
+        <el-table-column prop="userId" label="玩家ID" align="left" width="100">
         </el-table-column>
         <el-table-column prop="userName" label="用户名" width="200" align="left">
         </el-table-column>
@@ -66,7 +66,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="游戏状态" align="left">
+        <el-table-column label="游戏状态" align="left" width="100">
           <template scope="scope">
             <el-tag :type="scope.row.gameState==3 ? 'success' : 'gray'">
               <div>{{scope.row.gameStateName}}</div>

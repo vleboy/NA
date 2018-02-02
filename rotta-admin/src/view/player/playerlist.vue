@@ -45,7 +45,7 @@
       <el-table stripe :data="getItems" @selection-change="selectionChange">
         <el-table-column type="selection" width="60" align="left">
         </el-table-column>
-        <el-table-column prop="userId" label="玩家ID" align="left">
+        <el-table-column prop="userId" label="玩家ID" width="100" align="left">
         </el-table-column>
         <el-table-column prop="userNameParent" label="用户名" width="200" align="left">
         </el-table-column>
@@ -68,7 +68,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="游戏状态" align="left">
+        <el-table-column label="游戏状态" align="left" width="100">
           <template scope="scope">
             <el-tag :type="scope.row.gameState==3 ? 'success' : 'gray'">
               <div>{{scope.row.gameStateName}}</div>
@@ -82,7 +82,7 @@
         </el-table-column>
         <el-table-column prop="updateAt" label="最近登录游戏时间"  width="200"  :formatter="getAtime" align="left">
         </el-table-column>
-        <el-table-column label="操作" show-overflow-tooltip align="left">
+        <el-table-column label="操作" show-overflow-tooltip align="left" width="120">
           <template scope="scope">
             <el-button  type="text" @click="playDetail(scope.row)">查看</el-button>
             <el-button  type="text" @click="changeStatus(scope.row)">{{scope.row.state ? '停用' : '开启'}}</el-button>
