@@ -55,7 +55,7 @@
               </el-submenu>
               <el-submenu index="5">
                 <template slot="title">游戏中心</template>
-                <el-menu-item index="gameBackstage">游戏后台</el-menu-item>
+                <!-- <el-menu-item index="gameBackstage">游戏后台</el-menu-item> -->
                 <el-menu-item index="bfsetting">包房代理游戏配置</el-menu-item>
               </el-submenu>
           </el-menu>

@@ -2,19 +2,23 @@
   <div class="gamelist">
     <div class="gametab">
       <div class="tabcard-left">
-        <el-button class="" @click="getAlllist">全部游戏</el-button>
-        <el-button class="" v-for="item in companyList" :key="item" @click="getCompanyGame(item.server)">{{item.client}}</el-button>
-        <div style="margin:1rem 0 0 7.2rem">
-          <el-button  v-for="item in companyGame" :key="item" @click="getDetailGame(item.code)">{{item.name}}</el-button>
+        <el-button class="" @click="getAlllist" size="small">全部游戏</el-button>
+        <el-button class="" size="small" v-for="item in companyList" :key="item" @click="getCompanyGame(item.server)">{{item.client}}</el-button>
+        <div style="margin:1rem 0 0 5.9rem">
+          <el-button size="small" v-for="item in companyGame" :key="item" @click="getDetailGame(item.code)">{{item.name}}</el-button>
         </div>
       </div>
-      <div class="tabcard-right">
+    </div>
+
+    <div style="position:relative;height:50px">
+      <p class="backinfocount">共搜索到 {{count}} 条数据</p>
+      <div class="search-gamelist">
         <el-input placeholder="请输入关键词" class="input" v-model="searchGameName"></el-input>
         <el-button class="gamesearch" type="primary" @click="searchGame">搜索</el-button>
         <el-button @click="resetGamelist">重置</el-button>
-      </div>
+     </div>
     </div>
-    <p class="backinfocount">共搜索到 {{count}} 条数据</p>
+
     <div class="cardlist">
       <el-row>
         <el-col v-for="(o, index) in allgames" :key="o" class="card" :span="7">
@@ -297,7 +301,8 @@ export default {
 
 .gamelist .cardlist{margin-bottom: 1rem}
 
-.gamelist .backinfocount{margin-top: 1rem;margin-left: 2rem}
+.gamelist .backinfocount{position: absolute;top:1rem;left: 1rem;}
+.gamelist .search-gamelist{position: absolute;top:1rem;right: 2rem}
 
 .gamelist .card{display: inline-block;width: 32%;margin-left: 1rem;margin-top: 1rem;padding: 0;border:1px solid #919191;border-radius: 0.4rem;padding:1rem}
 .gamelist .card-top{border-bottom: 1px solid #bfbfbf;}
