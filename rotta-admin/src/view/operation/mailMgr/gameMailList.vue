@@ -439,7 +439,12 @@ export default {
       // console.log(this.addToolList, 'addToolList')
     }, // 新增道具
     delAddPackage (index) {
-      this.addToolList.splice(index, 1)
+      if(!this.isEditPackage) {
+        this.addToolList.splice(index, 1)
+      } else {
+        this.$message.error('编辑状态无法删除')
+      }
+
     }, // 删除新增的道具
     updatePackage (row) {
       this.isEditPackage = true
@@ -462,7 +467,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .-p-m-header{overflow: hidden;padding: 0 2rem}
-  .mailList{padding: 2rem;}
+  .mailList{padding: 1rem 2rem;}
   .-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
   .input{width: 80%}
   .searchResult{padding: 1rem 2rem}

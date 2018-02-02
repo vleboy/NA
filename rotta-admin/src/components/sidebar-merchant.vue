@@ -27,6 +27,10 @@
                       <template slot="title">SA游戏报表</template>
                       <el-menu-item index="saLiveGameReport">SA真人游戏报表</el-menu-item>
                   </el-submenu>
+                  <el-submenu index="1-4">
+                      <template slot="title">MG游戏报表</template>
+                      <el-menu-item index="mgVedioGameReport">MG电子游戏报表</el-menu-item>
+                  </el-submenu>
               </el-submenu>
               <el-submenu index="2">
                   <template slot="title">玩家中心</template>

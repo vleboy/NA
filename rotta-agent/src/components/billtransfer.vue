@@ -4,9 +4,9 @@
     <div v-if="this.$store.state.variable.pointsIndex === 'list_unlockUser'">
       <el-dialog title="解锁用户" :visible.sync="storeDialog" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
         <el-form label-width="100px" label-position="right" v-if="isfinish === false">
-            <el-form-item label="生效时间" style="margin-left:10%">
-              <el-date-picker v-model="contractPeriod" type="daterange" placeholder="选择生效时间" class="input" label="生效时间" :editable='false' :disabled="isforever" :picker-options="pickerOptions"></el-date-picker><el-checkbox v-model="isforever" class="isforever" @change="changeContractPeriod">永久</el-checkbox>
-            </el-form-item>
+            <div style="text-align:center;margin-bottom:2rem">
+              确认解锁该用户吗?
+            </div>
         </el-form>
         <div class="bottom-btn" v-if="isfinish === false">
           <el-button @click="cancel" class="distance">取 消</el-button>
@@ -410,45 +410,33 @@ export default {
         role: this.$store.state.variable.dialogObj.role,
         userId: this.$store.state.variable.dialogObj.userId,
         status: 1,
-        contractPeriod: this.contractPeriod
+        contractPeriod: 0
       }
-      // console.log(data)
-      if (this.contractPeriod === undefined || this.contractPeriod === '' || this.contractPeriod[0] === null || this.contractPeriod[1] === null) {
-        this.$message({
-          message: '请选择生效时间',
-          type: 'error'
-        })
-        this.loading = false
-      } else {
-        for (var i = data.contractPeriod.length - 1; i >= 0; i--) {
-          data.contractPeriod[i] = new Date(data.contractPeriod[i].toString()).getTime()
-        }
-        invoke({
-          url: api.userStatus,
-          method: api.post,
-          data: data
-        }).then(
-          result => {
-            const [err, ret] = result
-            if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
-            } else {
-              var data = ret.data.payload
-              // console.log(data)
-              this.$message({
-                message: '解锁成功',
-                type: 'success'
-              })
-              this.loading = false
-              this.isfinish = true
-              this.$store.dispatch('getComlist')
-            }
+      invoke({
+        url: api.userStatus,
+        method: api.post,
+        data: data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            var data = ret.data.payload
+            // console.log(data)
+            this.$message({
+              message: '解锁成功',
+              type: 'success'
+            })
+            this.loading = false
+            this.isfinish = true
+            this.$store.dispatch('getComlist')
           }
-        )
-      }
+        }
+      )
     } // 解锁代理
   }
 }

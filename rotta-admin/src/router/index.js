@@ -94,11 +94,11 @@ const router = new Router({
         if (localStorage.loginId) {
           return { path: '/welcome', query: null }
         } else {
-          if (location.href.indexOf('admin') != -1 || location.href.indexOf('4801')!= -1) {
+          if (location.href.indexOf('admin') != -1 || location.href.indexOf('4801')!= -1 || location.href.indexOf('admin') != -1) {
             return { path: '/login-admin', query: null }
-          } else if (location.href.indexOf('xl') != -1 || location.href.indexOf('4802')!= -1) {
+          } else if (location.href.indexOf('xl') != -1 || location.href.indexOf('4802')!= -1 || location.href.indexOf('manager') != -1) {
             return { path: '/login-manager', query: null }
-          } else if (location.href.indexOf('sh') != -1 || location.href.indexOf('4803')!= -1) {
+          } else if (location.href.indexOf('sh') != -1 || location.href.indexOf('4803')!= -1 || location.href.indexOf('merchant') != -1) {
             return { path: '/login-merchant', query: null }
           }
         }

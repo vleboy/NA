@@ -335,10 +335,8 @@
 </script>
 
 <style scpoed>
-  .playerlist .propList{padding: 2rem;}
+  .playerlist .propList{padding:1rem 2rem;}
   .playerlist .input{width: 80%}
   .playerlist .propList-search{margin: 2rem 2rem 0; background-color: #f5f5f5; text-align: center }
-  .playerlist .text-left{text-align: left}
-  .playerlist .rebackinfo{padding:0 2rem;}
   .playerlist .playerform{padding: 2rem;margin:0 auto;}
 </style>

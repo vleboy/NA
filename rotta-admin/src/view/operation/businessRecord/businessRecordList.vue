@@ -13,7 +13,7 @@
         <el-button type="primary" @click="changeRadio()">搜索</el-button>
         <el-button @click="resultSearch">重置</el-button>
       </el-row>
-    <div class="rebackinfo" style="margin-bottom: 28px">
+    <div class="rebackinfo">
       类型：
       <el-radio-group v-model="radioType" @change="changeRadio()">
         <el-radio-button label="1">跑马灯管理</el-radio-button>
@@ -22,7 +22,7 @@
         <el-radio-button label="4">展位管理</el-radio-button>
       </el-radio-group>
     </div>
-    <div class="rebackinfo">
+    <div class="rebackinfo" style="padding-top: 0">
       <p>共搜索到 {{businessRecordList.length || 0}} 条数据</p>
     </div>
     <div class="playerform">
@@ -394,8 +394,8 @@
 <style scpoed lang="less">
   .businessRecordList{
     .transition-box{
-      padding: 2rem;
-      margin: 2rem;
+      padding:1rem 2rem;
+      margin: 0 2rem;
       text-align: center;
       background-color: #f5f5f5;
     }
@@ -408,10 +408,10 @@
       width: 80%!important;
     }
     .rebackinfo{
-      padding:0 2rem;
+      padding:1rem 2rem;
     }
     .playerform{
-      padding: 2rem;
+      padding: 0 2rem;
       margin:0 auto;
     }
   }

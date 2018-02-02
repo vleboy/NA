@@ -41,7 +41,7 @@
           <el-table-column label="游戏点数消耗分布" prop="" align="center" min-width="160">
             <template scope="scope">
               <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 5px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
-                <span class="progress-content">{{item.winloseAmount}} / {{item.topAmount}}</span>
+                <span class="progress-content">{{formatFixed(item.winloseAmount)}} / {{item.topAmount}}</span>
                 <div class="progress-index" v-if="item.usedRate < 90" :style="{'background-color': '#00cc66', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
                 <div class="progress-index" v-if="item.usedRate < 100 && item.usedRate >= 90" :style="{'background-color': '#ff9900', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
                 <div class="progress-index" v-if="item.usedRate == 100" :style="{'background-color': '#ff0000', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
@@ -97,7 +97,7 @@
           <el-table-column label="游戏点数消耗分布" prop="" align="center" min-width="160">
             <template scope="scope">
               <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 5px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
-                <span class="progress-content">{{item.winloseAmount}} / {{item.topAmount}}</span>
+                <span class="progress-content">{{formatFixed(item.winloseAmount)}} / {{item.topAmount}}</span>
                 <div class="progress-index" v-if="item.usedRate < 90" :style="{'background-color': '#00cc66', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
                 <div class="progress-index" v-if="item.usedRate < 100 && item.usedRate >= 90" :style="{'background-color': '#ff9900', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
                 <div class="progress-index" v-if="item.usedRate == 100" :style="{'background-color': '#ff0000', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
@@ -258,7 +258,20 @@ export default {
                 })
               }
             } // 合并去重数据
-            item.companyList ? '' : item.companyList = companyList
+            if (!item.companyList) {
+              item.companyList = companyList
+            } else {
+              item.companyList.map(outside => {
+                companyList.map(inside => {
+                  if (inside.company == outside.company) {
+                    outside.topAmount = inside.topAmount
+                    outside.winloseAmount = inside.winloseAmount
+                    outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
+                    outside.usedRate > 100 ? outside.usedRate = 100 : ''
+                  }
+                })
+              })
+            }
           }
           this.belongAgent = child
           this.$store.commit('closeLoading')
@@ -302,7 +315,6 @@ export default {
                     terval == bull.code ? bull.winloseAmount = item.winloseAmountMap[terval].winloseAmount : ''
                   })
                 } // 将有数据的输赢push到相应游戏类别里
-
                 item.gameList.map(side => {
                   side.topAmount ? '' : side.topAmount = 0;
                   allCompany.push(side.company)
@@ -331,19 +343,32 @@ export default {
                       winloseAmount: Number(winloseAmount[i]),
                       topAmount: Number(topAmount[i]),
                       userId: userId[i],
-                      usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
+                      usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? Number((winloseAmount[i] / topAmount[i] * 100).toFixed(3)) : 0
                     })
                   } else {
                     companyList.map(reaction => {
                       if (reaction.company == allCompany[i]) {
-                        reaction.winloseAmount += Number(winloseAmount[i])
+                        reaction.winloseAmount += winloseAmount[i]
                         reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
                         reaction.usedRate > 100 ? reaction.usedRate = 100 : ''
                       }
                     })
                   }
                 } // 合并去重数据
-                item.companyList ? '' : item.companyList = companyList
+                if (!item.companyList) {
+                  item.companyList = companyList
+                } else {
+                  item.companyList.map(outside => {
+                    companyList.map(inside => {
+                      if (inside.company == outside.company) {
+                        outside.topAmount = inside.topAmount
+                        outside.winloseAmount = inside.winloseAmount
+                        outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
+                        outside.usedRate > 100 ? outside.usedRate = 100 : ''
+                      }
+                    })
+                  })
+                }
               }
               this.clickChild.push([])
               this.clickChild[this.clickChild.length - 1] = child
@@ -422,7 +447,20 @@ export default {
                       })
                     }
                   } // 合并去重数据
-                  item.companyList ? '' : item.companyList = companyList
+                  if (!item.companyList) {
+                    item.companyList = companyList
+                  } else {
+                    item.companyList.map(outside => {
+                      companyList.map(inside => {
+                        if (inside.company == outside.company) {
+                          outside.topAmount = inside.topAmount
+                          outside.winloseAmount = inside.winloseAmount
+                          outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
+                          outside.usedRate > 100 ? outside.usedRate = 100 : ''
+                        }
+                      })
+                    })
+                  }
                 }
                 this.clickChild.push([])
                 this.clickChild[this.clickChild.length - 1] = child
@@ -502,7 +540,20 @@ export default {
                       })
                     }
                   } // 合并去重数据
-                  item.companyList ? '' : item.companyList = companyList
+                  if (!item.companyList) {
+                    item.companyList = companyList
+                  } else {
+                    item.companyList.map(outside => {
+                      companyList.map(inside => {
+                        if (inside.company == outside.company) {
+                          outside.topAmount = inside.topAmount
+                          outside.winloseAmount = inside.winloseAmount
+                          outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
+                          outside.usedRate > 100 ? outside.usedRate = 100 : ''
+                        }
+                      })
+                    })
+                  }
                 }
                 this.clickChild.push([])
                 this.clickChild[this.clickChild.length - 1] = child
@@ -530,6 +581,9 @@ export default {
       } else {
         return '已停用'
       }
+    },
+    formatFixed (fix) {
+      return fix ? fix.toFixed(2) : 0
     },
     changeStatus (game, type) {
       this.noType = type

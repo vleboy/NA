@@ -17,7 +17,7 @@
       </el-row>
     </div>
     <p class="searchResult">共搜索到 {{propPrizeList.length || 0}} 条数据</p>
-    <div class="propPrizeList">
+    <div class="propPrizeList" style="padding-top: 0">
       <el-table stripe :data="getItems">
         <el-table-column label="序号" type="index" align="center" width="80"></el-table-column>
         <el-table-column label="物品ID" prop="toolId" align="center"></el-table-column>
@@ -242,13 +242,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .propPrizeList{padding: 2rem;}
-  .-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
+  .propPrizeList{padding:1rem 2rem;}
+  .-search{margin:0 2rem; background-color: #f5f5f5; text-align: center }
   .input{width: 80%}
   .searchResult{padding: 1rem 2rem}
-  .justfy1{margin:0 2rem;}
-  .-p-h-remark{word-wrap: break-word; word-break: normal;width: 200px}
-  .text-ellipsis{width: 100%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;}
   .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
-  .-hrl-time{width: 80%}
+
 </style>

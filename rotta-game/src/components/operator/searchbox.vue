@@ -66,7 +66,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.searchbox{background-color: #f5f5f5;width: 97%;margin: 2rem auto;}
+.searchbox{background-color: #f5f5f5;margin:  auto 2rem ;}
 span{margin-right: 0.2rem}
 .boxpre{margin-bottom: 2rem;padding: 2rem 0 0 10%;}
 .boxnext{padding: 1rem 0 0 10%;}
