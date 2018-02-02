@@ -304,8 +304,8 @@
                 <div class="propertyform-header">
                     <span>当前剩余点数: <span style="color:#FF9900">{{outdetailBill}}</span></span>
                     <el-button type="text" class="propertybtn" @click="refreshOut">刷新</el-button>
-                    <el-button type="text" class="propertybtn" @click="pro_storePoints" v-if="this.outdetail.status === 1 && isRight">加点</el-button>
-                    <el-button type="text" class="propertybtn" @click="pro_withdrawPoints" v-if="this.outdetail.status === 1 && isRight">减点</el-button>
+                    <el-button type="text" class="propertybtn" @click="pro_storePoints" v-if="isRight">加点</el-button>
+                    <el-button type="text" class="propertybtn" @click="pro_withdrawPoints" v-if="isRight">减点</el-button>
                 </div>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>
@@ -397,8 +397,8 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作(对旗下线路商操作)" align="left" v-if="isRight">
                       <template scope="scope">
-                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">加点</el-button>
-                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">减点</el-button>
+                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)">加点</el-button>
+                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)">减点</el-button>
                         <el-button type="text" @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">停用</el-button>
                         <el-button type="text" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">开启</el-button>
                       </template>
@@ -445,8 +445,8 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作(对旗下商户操作)" align="left" v-if="isRight">
                       <template scope="scope">
-                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1">加点</el-button>
-                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1">减点</el-button>
+                        <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)">加点</el-button>
+                        <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)">减点</el-button>
                         <el-button type="text" @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1">停用</el-button>
                         <el-button type="text" @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0">开启</el-button>
                       </template>

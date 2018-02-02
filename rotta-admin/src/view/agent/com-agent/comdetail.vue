@@ -431,8 +431,8 @@
                 <div class="propertyform-header">
                     <span>当前剩余点数: <span style="color:#FF9900">{{comBills}}</span></span>
                     <el-button type="text" class="propertybtn" @click="refreshCom">刷新</el-button>
-                    <el-button type="text" class="propertybtn" @click="storePoints" v-if="comdetail.status == 1">加点</el-button>
-                    <el-button type="text" class="propertybtn" @click="withdrawPoints" v-if="comdetail.status == 1">减点</el-button>
+                    <el-button type="text" class="propertybtn" @click="storePoints">加点</el-button>
+                    <el-button type="text" class="propertybtn" @click="withdrawPoints">减点</el-button>
                 </div>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>

@@ -30,8 +30,8 @@
             <template scope="scope">
               <span>{{points(scope.row.balance)}}</span>
               <div>
-                <span @click="storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1" style="color:#4db3ff;cursor:pointer">加点</span>
-                <span @click="withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1" style="color:#4db3ff;cursor:pointer">减点</span>
+                <span @click="storePoints(scope.$index, scope.row)" style="color:#4db3ff;cursor:pointer">加点</span>
+                <span @click="withdrawPoints(scope.$index, scope.row)" style="color:#4db3ff;cursor:pointer">减点</span>
               </div>
             </template>
           </el-table-column>
@@ -72,8 +72,8 @@
                     <el-dropdown trigger="click">
                       <span style="color:#20a0ff;cursor:pointer;">更多</span>
                         <el-dropdown-menu slot="dropdown">
-                          <p @click="storePoints(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>加点</el-dropdown-item></p>
-                          <p @click="withdrawPoints(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>减点</el-dropdown-item></p>
+                          <p @click="storePoints(scope.$index, scope.row)"><el-dropdown-item>加点</el-dropdown-item></p>
+                          <p @click="withdrawPoints(scope.$index, scope.row)"><el-dropdown-item>减点</el-dropdown-item></p>
                           <p @click="unlockUser(scope.$index, scope.row)" v-if="scope.row.status === 0"><el-dropdown-item>开启</el-dropdown-item></p>
                           <p @click="lockUser(scope.$index, scope.row)" v-if="scope.row.status === 1"><el-dropdown-item>停用</el-dropdown-item></p>
                         </el-dropdown-menu>
