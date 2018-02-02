@@ -171,6 +171,11 @@
             <span :class="[Number(scope.row.winloseAmount) > 0 ? 'green' : 'red']">{{points(scope.row.winloseAmount)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>
@@ -632,13 +637,13 @@ export default {
                         item.betCount = side.betCount
                         item.betAmount = side.betAmount
                         item.winloseAmount = side.winloseAmount
+                        item.mixAmount = side.mixAmount
                         if (localStorage.loginRole == '100') {
                           this.nowList.betCount += item.betCount
                           this.nowList.betAmount += item.betAmount
                           this.nowList.winloseAmount += item.winloseAmount
                           this.nowList.submit = this.nowList.winloseAmount * (1 - this.nowList.rate / 100)
                           this.nowList.winloseRate = this.nowList.winloseAmount / this.nowList.betAmount
-                          
                         }
                       }
                     })

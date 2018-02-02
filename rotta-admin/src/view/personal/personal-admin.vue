@@ -35,7 +35,7 @@
             </div>
             <div class="propertyform-form">
                 <el-table style="width: 98%; font-size: 12px;" border max-height='10px' :data="adminWaterFall">
-                    <el-table-column label="序号" align="left" width="60" prop="" type="index"></el-table-column>
+                    <el-table-column label="序号" align="center" width="60" prop="" type="index"></el-table-column>
                     <!-- <el-table-column label="流水号" align="left" width="" prop="sn"></el-table-column> -->
                     <el-table-column label="账户余额" align="left" width="" prop="balance">
                       <template scope="scope">
