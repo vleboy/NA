@@ -11,7 +11,7 @@
             <el-form-item label="起始账户" prop="">
                 <el-select placeholder="请选择" class="dialogInput" v-model="storePoints.fromUserId">
                   <el-option :value="adminId" :label="adminName"></el-option>
-                  <!-- <el-option :value="parentId" :label="parentName" v-if="hasParent"></el-option> -->
+                  <el-option :value="parentId" :label="parentName" v-if="hasParent && nowRole == '1'"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="增加账户" prop="">
@@ -54,7 +54,7 @@
             <el-form-item label="转入账户" prop="">
                 <el-select placeholder="请选择" class="dialogInput" v-model="withdrawPoints.toUser">
                   <el-option :value="logValue" :label="adminName"></el-option>
-                  <!-- <el-option :value="parentValue" :label="parentName" v-if="hasParent"></el-option> -->
+                  <el-option :value="parentValue" :label="parentName" v-if="hasParent && nowRole == '1'"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="备注">
@@ -205,7 +205,7 @@ export default {
       return name
     }, // 减点时默认的下拉框值
     parentValue () {
-      var name = this.$store.state.variable.nowUser.parentName || ''
+      var name = this.$store.state.variable.nowUser.parentUserName || ''
       return name
     } // 减点时上级的下拉框值
   },
@@ -270,6 +270,7 @@ export default {
         amount: '',
         remark: ''
       }, // 减点明细
+      nowRole: localStorage.loginRole, // 登陆角色
       successBack: '', // 加减点成功后返回的数据
       contractPeriod: '', // 生效时间
       isforever: false // 是否永久
@@ -354,7 +355,7 @@ export default {
       data.fromUserId = this.$store.state.variable.nowUser.userId
       data.toRole = ''
       if (data.toUser == localStorage.loginUsername) {
-        data.toRole = '1'
+        data.toRole = localStorage.loginRole
       } else {
         data.toRole = '10'
       }
@@ -400,13 +401,13 @@ export default {
         )
       }
     }, // 发送减点信息
-    changeContractPeriod () {
-      if (this.isforever === true) {
-        this.contractPeriod = 0
-      } else {
-        this.contractPeriod = ''
-      }
-    }, // 永久合同时间
+    // changeContractPeriod () {
+    //   if (this.isforever === true) {
+    //     this.contractPeriod = 0
+    //   } else {
+    //     this.contractPeriod = ''
+    //   }
+    // }, // 永久合同时间
     unlockUser () {
       var data = {
         role: this.$store.state.variable.nowUser.role,

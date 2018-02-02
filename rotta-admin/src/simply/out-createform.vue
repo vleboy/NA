@@ -45,7 +45,7 @@ import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
 import checkform from '@/variables/checkform'
 import Createbtn from '@/components/createbtn'
-import { checkSuffix, checkDisplayname, checkEmail, checkHostname, checkHostcontact, checkContractPeriod } from '@/behavior/regexp'
+import { checkDisplayname, checkEmail, checkHostname, checkHostcontact, checkContractPeriod } from '@/behavior/regexp'
 import store from '@/store/store'
 export default {
   name: 'out-createform',
@@ -81,6 +81,56 @@ export default {
   mounted () {
   },
   data () {
+    const checkSuffix = (rule, value, callback) => {
+      var str = new RegExp(/^[a-zA-Z]/)
+      // var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
+      var suffix = new RegExp(/^[a-zA-Z]{1}[a-zA-z0-9]{1,5}$/)
+      if (value === '') {
+        callback(new Error('请输入线路商标识'))
+        store.state.checkform.suffix = false
+      } else if (!str.exec(value.slice(0, 1))) {
+        callback(new Error('标识必须以字母开头'))
+        store.state.checkform.suffix = false
+      } else if (value.length > 6) {
+        callback(new Error('标识长度不能超过6位'))
+        store.state.checkform.suffix = false
+      } else if (value.length < 2) {
+        callback(new Error('标识长度不能少于2位'))
+        store.state.checkform.suffix = false
+      } else if (!suffix.exec(value)) {
+        callback(new Error('标识只能输入英文、数字'))
+        store.state.checkform.suffix = false
+      } else {
+        var manager = {
+          suffix:{
+            role: '10',
+            suffix: value,
+            username: '0'
+          }
+        }
+        invoke({
+          url: api.checkExist,
+          method: api.post,
+          data: manager
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var suffixStatus = ret.data.payload
+              // console.log('标识状态为', suffixStatus)
+              if (suffixStatus === false) {
+                callback(new Error('该标识已存在'))
+                store.state.checkform.suffix = false
+              } else {
+                store.state.checkform.suffix = true
+                callback()
+              }
+            }
+          }
+        )
+      }
+    } // 验证线路商标识
     return {
       pickerOptions: {
         disabledDate (time) {
