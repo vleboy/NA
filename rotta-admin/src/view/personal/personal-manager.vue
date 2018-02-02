@@ -44,7 +44,7 @@
                 <el-table style="width: 98%; font-size: 12px;" border max-height='10px' :data="adminWaterFall">
                     <el-table-column label="序号" align="center" width="60" prop="" type="index"></el-table-column>
                     <!-- <el-table-column label="流水号" align="left" width="" prop="sn"></el-table-column> -->
-                    <el-table-column label="账户余额" align="left" width="" prop="balance">
+                    <el-table-column label="账户余额" align="left" width="120" prop="balance">
                       <template scope="scope">
                         <span>{{formatPoints(scope.row.balance)}}</span>
                       </template>
@@ -64,7 +64,7 @@
                         <span>{{formatTime(scope.row.updatedAt)}}</span>
                       </template>
                     </el-table-column>
-                    <el-table-column label="交易对象" align="center" width="120" prop="toUser">
+                    <el-table-column label="交易对象" align="center" prop="toUser">
                       <template scope="scope">
                         <span v-if="scope.row.fromLevel > scope.row.toLevel">
                           {{scope.row.toDisplayName}} 对 {{scope.row.fromDisplayName}}

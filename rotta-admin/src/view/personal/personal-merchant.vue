@@ -70,7 +70,7 @@
                         <span>{{formatTime(scope.row.updatedAt)}}</span>
                       </template>
                     </el-table-column>
-                    <el-table-column label="交易对象" align="center" width="120" prop="toUser">
+                    <el-table-column label="交易对象" align="center" prop="toUser">
                       <template scope="scope">
                         <span v-if="scope.row.fromLevel > scope.row.toLevel">
                           {{scope.row.toDisplayName}} 对 {{scope.row.fromDisplayName}}
