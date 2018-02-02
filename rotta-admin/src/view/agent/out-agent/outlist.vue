@@ -9,24 +9,24 @@
     </div>
     <div class="outresult">
         <el-table stripe :data="outlist" @sort-change="defineSort">
-          <el-table-column label="序号" prop="rank" align="left" width="65" type="index">
+          <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
           </el-table-column>
-          <el-table-column label="线路商标识" prop="suffix" align="left">
+          <el-table-column label="线路商标识" prop="suffix" align="left" min-width="110">
           </el-table-column>
-          <el-table-column label="线路商昵称" prop="displayName" align="left">
+          <el-table-column label="线路商昵称" prop="displayName" align="left" min-width="110">
           </el-table-column>
-          <el-table-column label="上级线路商" prop="parent" align="left" sortable='custom'>
+          <el-table-column label="上级线路商" prop="parent" align="left" sortable='custom' min-width="130">
             <template scope="scope">
                 <span @click="goOutParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{scope.row.parentDisplayName}}</span>
                 <span v-if="scope.row.parent === '01'">直属于平台</span>
               </template>
           </el-table-column>
-          <el-table-column label="抽成比" prop="rate" align="left" width="100" sortable='custom'>
+          <el-table-column label="抽成比" prop="rate" align="left" sortable='custom' min-width="100">
             <template scope="scope">
               <span>{{(scope.row.rate)}}%</span>
             </template>
           </el-table-column>
-          <el-table-column label="剩余点数" prop="balance" align="left" sortable='custom'>
+          <el-table-column label="剩余点数" prop="balance" align="left" sortable='custom' min-width="120">
             <template scope="scope">
               <span>{{points(scope.row.balance)}}</span>
               <div>
@@ -35,16 +35,16 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="线路商游戏" prop="gamelist" align="left" width="110">
+          <el-table-column label="线路商游戏" prop="gamelist" align="center" min-width="130">
               <template scope="scope">
                   <div slot="reference" class="gamelist">
                       <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
                   </div>
               </template>
           </el-table-column>
-          <el-table-column label="线路商邮箱" prop="managerEmail" align="left">
+          <el-table-column label="线路商邮箱" prop="managerEmail" align="left" min-width="110">
           </el-table-column>
-          <el-table-column label="创建时间" prop="createdAt" align="left" width="150" sortable='custom'>
+          <el-table-column label="创建时间" prop="createdAt" align="left" min-width="120" sortable='custom'>
               <template scope="scope">
               <span style="word-break:normal">{{Time(scope.row.createdAt)}}</span>
             </template>
@@ -54,7 +54,7 @@
               <span>{{Status(scope.row.status)}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="备注" align="left" width="65">
+          <el-table-column label="备注" align="center" width="65">
               <template scope="scope">
                 <el-popover trigger="hover" placement="bottom">
                 <div class="remarkBox">

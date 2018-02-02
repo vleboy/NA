@@ -9,29 +9,29 @@
       </div>
     	<div class="comresult">
         	<el-table stripe :data="comlist" @sort-change="defineSort">
-            <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
+            <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
             </el-table-column>
-            <el-table-column label="商户标识" prop="sn" align="left">
+            <el-table-column label="商户标识" prop="sn" align="left" min-width="100">
             </el-table-column>
-            <el-table-column label="商户昵称" prop="displayName" align="left">
+            <el-table-column label="商户昵称" prop="displayName" align="left" min-width="100">
             </el-table-column>
-            <el-table-column label="商户线路号" prop="merchantEmail" align="left">
+            <el-table-column label="线路号" prop="merchantEmail" align="left" min-width="90">
               <template scope="scope">
                 <span>{{formatMSN(scope.row.msn)}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="上级线路商" prop="parent" align="left" sortable="custom">
+            <el-table-column label="上级线路商" prop="parent" align="left" sortable="custom" min-width="130">
               <template scope="scope">
                 <span @click="goComParent(scope.row.parent)" class="fontUrl" v-if="scope.row.parent !== '01'">{{scope.row.parentDisplayName}}</span>
                 <span v-if="scope.row.parent === '01'">直属于平台</span>
               </template>
             </el-table-column>
-            <el-table-column label="商户抽成比" prop="rate" align="left" sortable="custom">
+            <el-table-column label="抽成比" prop="rate" align="left" sortable="custom" min-width="100">
             	<template scope="scope">
               	<span>{{(scope.row.rate)}}%</span>
               </template>
             </el-table-column>
-            <el-table-column label="剩余点数" prop="balance" align="left" sortable="custom">
+            <el-table-column label="剩余点数" prop="balance" align="left" sortable="custom" min-width="120">
               <template scope="scope">
               	<span>{{points(scope.row.balance)}}</span>
                 <div>
@@ -40,7 +40,7 @@
               </div>
               </template>
             </el-table-column>
-            <el-table-column label="商户游戏" prop="gameList" align="left" width="110">
+            <el-table-column label="商户游戏" prop="gameList" align="center" width="110">
                 <template scope="scope">
                     <div slot="reference" class="gamelist">
                         <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
