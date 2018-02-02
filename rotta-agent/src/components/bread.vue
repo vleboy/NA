@@ -228,6 +228,12 @@
       <el-breadcrumb-item><span  class="large">SA真人游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'mgVedioGameReport'" class="title">
+      <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
+      <el-breadcrumb-item>MG游戏报表 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">MG电子游戏报表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'bfsetting'" class="title">
       <el-breadcrumb-item>游戏中心</el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">包房代理游戏配置</span> </el-breadcrumb-item>

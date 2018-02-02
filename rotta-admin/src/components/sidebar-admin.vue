@@ -96,7 +96,7 @@
                   <el-menu-item index="businessRecord" v-show="userRight.businessRecord.hasRight">商户运营记录</el-menu-item>
                   <el-menu-item index="propPrice" v-show="userRight.propPrice.hasRight">道具定价</el-menu-item>
               </el-submenu>
-              <el-submenu index="7" v-show="userRight.managerloginlist.hasRight || userRight.adminlist.hasRight || userRight.msnlist.hasRight">
+              <el-submenu index="7" v-show="userRight.managerloginlist.hasRight || userRight.admindate.hasRight || userRight.adminlist.hasRight || userRight.msnlist.hasRight || userRight.debugJournal.hasRight || userRight.msnlist.hasRight">
                   <template slot="title">系统设置</template>
                   <el-submenu index="7-1" v-show="userRight.managerloginlist.hasRight || userRight.merchantloginlist.hasRight">
                       <template slot="title">登录日志</template>
