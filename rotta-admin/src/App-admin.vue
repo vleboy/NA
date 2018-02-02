@@ -92,7 +92,7 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 /* #20a0ff */
 /**/
 .top{
-  width: 90%;
+  width: calc(100% - 256px);
   position:fixed;
   top:0;
   left: 256px;

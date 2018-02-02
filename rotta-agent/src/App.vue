@@ -70,7 +70,7 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 #app{width: 100%;height: 100%;}
 /* #20a0ff */
 /**/
-.top{width: 90%;position:fixed;top:0;left:256px;right:0;background-color:#fff;}
+.top{width: calc(100% - 256px);position:fixed;top:0;left:256px;right:0;background-color:#fff;}
 /*::-webkit-scrollbar {*/
 /*width: 0px;*/
 /*height: 1px;*/
