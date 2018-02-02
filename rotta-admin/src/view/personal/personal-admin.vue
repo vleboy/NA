@@ -37,12 +37,12 @@
                 <el-table style="width: 98%; font-size: 12px;" border max-height='10px' :data="adminWaterFall">
                     <el-table-column label="序号" align="center" width="60" prop="" type="index"></el-table-column>
                     <!-- <el-table-column label="流水号" align="left" width="" prop="sn"></el-table-column> -->
-                    <el-table-column label="账户余额" align="left" width="" prop="balance">
+                    <el-table-column label="账户余额" align="left" width="120" prop="balance">
                       <template scope="scope">
                         <span>{{formatPoints(scope.row.balance)}}</span>
                       </template>
                     </el-table-column>
-                    <el-table-column label="交易点数" align="left" width="" prop="amount">
+                    <el-table-column label="交易点数" align="left" width="120" prop="amount">
                       <template scope="scope">
                         <p v-if="scope.row.action === 1">
                           <span class="green">{{scope.row.amount.toFixed(2)}}</span>
@@ -57,7 +57,7 @@
                         <span>{{formatTime(scope.row.updatedAt)}}</span>
                       </template>
                     </el-table-column>
-                    <el-table-column label="交易对象" align="left" width="" prop="">
+                    <el-table-column label="交易对象" align="center" width="" prop="">
                       <template scope="scope">
                         <span v-if="scope.row.fromLevel > scope.row.toLevel">
                           {{scope.row.toDisplayName}} 对 {{scope.row.fromDisplayName}}
@@ -67,7 +67,7 @@
                         </span>
                       </template>
                     </el-table-column>
-                    <el-table-column label="交易类型" align="left" width="65" prop="">
+                    <el-table-column label="交易类型" align="center" prop="" width="90">
                       <template scope="scope">
                         <p v-if="scope.row.action === 1">
                           <span>减点</span>
@@ -77,7 +77,7 @@
                         </p>
                       </template>
                     </el-table-column>
-                    <el-table-column label="交易详情(原账+当前操作额=现在余额)" align="left" prop="">
+                    <el-table-column label="交易详情(原账+当前操作额=现在余额)" align="center" prop="">
                       <template scope="scope">
                         <p v-if="scope.row.action === 1">
                           <span>{{scope.row.oldBalance}}</span>
@@ -91,12 +91,12 @@
                         </p>
                       </template>
                     </el-table-column>
-                    <el-table-column label="操作人" align="left" width="" prop="operator">
+                    <el-table-column label="操作人" align="left" width="80" prop="operator">
                       <template scope="scope">
                         <span>{{scope.row.operator.split('_')[1]}}</span>
                       </template>
                     </el-table-column>
-                    <el-table-column label="备注" align="left" prop="" width="65">
+                    <el-table-column label="备注" align="center" prop="" width="65">
                       <template scope="scope">
                         <el-popover trigger="hover" placement="bottom">
                         <div class="remark">
