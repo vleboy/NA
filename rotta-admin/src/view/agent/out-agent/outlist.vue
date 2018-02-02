@@ -342,7 +342,7 @@ export default {
 .outlist .moreinfo{float: left;width: 40%}
 .remarkBox{word-wrap: break-word; word-break: normal;max-width: 200px;}
 .outlist .gamelist span{width: 100%;text-align: center;margin: 0.25rem 0;background-color: #fff;color: #000}
-.outlist .myBtn{float: left;width:100%;margin: 0;}
+.outlist .myBtn{float: left;width:100%;margin-left: -8px;}
 .outlist .fontUrl{cursor: pointer;color: #20a0ff}
 .outlist .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
 </style>

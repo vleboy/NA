@@ -354,7 +354,7 @@ export default {
 .comlist .moreinfo{float: left;width: 40%}
 .remarkBox{word-wrap: break-word; word-break: normal;width: 200px}
 .comlist .gamelist span{width: 100%;text-align: center;margin: 0.25rem 0;background-color: #fff;color: #000}
-.comlist .myBtn{float: left;width:100%;margin: 0;}
+.comlist .myBtn{float: left;width:100%;margin-left: -8px;}
 .comlist .fontUrl{cursor: pointer;color: #20a0ff}
 .comlist .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
 </style>
