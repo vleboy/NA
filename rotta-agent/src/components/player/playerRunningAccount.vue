@@ -1,9 +1,9 @@
 $<template>
   <div class="playerAccount">
     <div class="playdetailform">
-      <div class="my-title">
-        <h2>{{userName}}</h2>
-      </div>
+      <!--<div class="my-title">-->
+        <!--<h2>{{userName}}</h2>-->
+      <!--</div>-->
       <div class="baseinfo">
         <el-row class="baseinfo-form">
           <el-col :span="6">
@@ -62,16 +62,12 @@ $<template>
         </el-row>
       </div>
       <div class="account-total">
-        <!--<div class="total-all">-->
-          <!--<i class="el-icon-information" style="color: #1c8de0;"></i> &ensp;共搜索到{{playerAccountList.length || 0}}笔数据 &emsp;总计：-->
-          <!--<span style="font-weight: bold">{{formatNum}} </span>元-->
-        <!--</div>-->
         <div class="total-check -p-red" v-if="checkedArray.length">
           <i class="el-icon-information" style="color: #f7ba2a;"></i> &ensp;已选中{{checkedArray.length || 0}}笔数据 &emsp;总计：
           <span style="font-weight: bold">{{checkFormatNum}} </span>元
         </div>
       </div>
-      <div class="countinfo">
+      <div class="center">
         <div class="countinfo-form">
           <el-table stripe :data="dataList" @selection-change="selectionChange">
             <el-table-column type="selection" width="60" align="center"></el-table-column>
@@ -106,11 +102,6 @@ $<template>
                 {{formatPoints(scope.row.balance)}}
               </template>
             </el-table-column>
-            <!--<el-table-column label="操作" align="center">-->
-              <!--<template scope="scope">-->
-                <!--<el-button  type="text" @click="openModal(scope.row.businessKey)">查看战绩</el-button>-->
-              <!--</template>-->
-            <!--</el-table-column>-->
           </el-table>
           <div style="text-align: right;margin:2rem 0">
             <el-pagination layout="prev, pager, next, sizes, jumper" :total="playerAccountList.length"
@@ -246,31 +237,6 @@ export default {
         }
       )
     },
-    openModal(data) {
-      this.isOpenModal = true;
-      invoke({
-        url: api.playerRecord,
-        method: api.post,
-        data: {
-          userName: localStorage.playerName,
-          betId: data
-        }
-      }).then(
-        result => {
-          const [err, res] = result
-          if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
-          } else {
-            this.playerRecordList = JSON.parse(res.data.data.record.gameDetail)
-//            console.log(this.playerRecordList, 'this.playerRecordList')
-          }
-          this.$store.commit('closeLoading')
-        }
-      )
-    },
     changeTime () {
       const end = new Date();
       const start = new Date();
@@ -333,6 +299,10 @@ export default {
       this.playerAccountList = [];
       this.playerAccountListStorage = []
       this.playerAccountListStartKey = ''
+    },
+    jumpAccount () {
+      this.radioTime = '1'
+      this.changeDate()
     }
   },
   filters:{   //过滤器，所有数字保留两位小数
@@ -340,26 +310,25 @@ export default {
       return (value-0).toFixed(2);
     }
   },
-  watch: {
-    '$route': function (_new, _old) {
-      if ((_old.fullPath === '/agentPlayerDetail') && (_new.fullPath != '/agentPlayerList') && (localStorage.playerName != this.playerAccountUserName)){
-        this.initData();
-        this.changeDate()
-      }
-    }
-  }
+//  watch: {
+//    '$route': function (_new, _old) {
+//      if ((_old.fullPath === '/agentPlayerDetail') && (_new.fullPath != '/agentPlayerList') && (localStorage.playerName != this.playerAccountUserName)){
+//        this.initData();
+//        this.changeDate()
+//      }
+//    }
+//  }
 }
 </script>
 
 <style scpoed>
-  .playerAccount .my-title{text-align: center;margin-bottom: 40px}
   h2{font-size: 2.5rem;color: #5a5a5a;padding-top: 2rem;}
   .playerAccount .baseinfo, .account-total,
-  .countinfo{padding: 0 2rem;margin: 0 auto;vertical-align: baseline;}
+  .center{padding: 0 ;margin: 0 auto;vertical-align: baseline;}
 
-  .playerAccount .baseinfo-form{background-color: #eef1f6;padding: 1rem;font-size: 0.8rem;overflow: hidden;margin-bottom: 10px}
+  .playerAccount .baseinfo-form{padding: 0;font-size: 0.8rem;overflow: hidden;margin-bottom: 10px}
   .playerAccount .baseinfo-form .from-search{margin-top: 10px}
-  .playerAccount .countinfo-form{background-color: #fff;padding-left: 0;font-size: 0.8rem;overflow: hidden}
+  .playerAccount .countinfo-form{padding: 0;font-size: 0.8rem;overflow: hidden}
 
   .playerAccount p{overflow: hidden}
   .playerAccount .account-total{margin-bottom: 10px;font-size: 16px}

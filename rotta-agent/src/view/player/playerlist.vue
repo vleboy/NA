@@ -22,9 +22,7 @@
         </el-col>
       </el-row>
     </div>
-    <!--<div class="rebackinfo">-->
-      <!--<p>共搜索到 {{playerList.length || 0}} 条数据</p>-->
-    <!--</div>-->
+
     <div class="playerform">
       <el-row style="margin-bottom: 2rem">
         <el-col :span="3">
@@ -36,46 +34,46 @@
         </el-col>
       </el-row>
       <el-table stripe :data="getItems" @selection-change="selectionChange">
-        <el-table-column type="selection" width="60" align="center">
+        <el-table-column type="selection" width="60" align="left">
         </el-table-column>
-        <el-table-column prop="userId" label="玩家ID" align="center">
+        <el-table-column prop="userId" label="玩家ID" align="left">
         </el-table-column>
-        <el-table-column prop="userName" label="用户名" width="200" align="center">
+        <el-table-column prop="userName" label="用户名" width="200" align="left">
         </el-table-column>
-        <el-table-column prop="nickname" label="昵称" align="center">
+        <el-table-column prop="nickname" label="昵称" align="left">
           <template scope="scope">
             <span>{{formatRemark(scope.row.nickname)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="center">
+        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="left">
           <template scope="scope">
             <span>{{formatPoints(scope.row.balance)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="merchantName" label="直属代理" align="center" width="120">
+        <el-table-column prop="merchantName" label="直属代理" align="left" width="120">
           <template scope="scope">
             <el-button type="text" @click="jumpAgentDetail(scope.row)">{{scope.row.merchantName}}</el-button>
           </template>
         </el-table-column>
-        <!--<el-table-column width="200" prop="createAt" label="创建时间"  align="center" sortable="custom" :formatter="getAtime">-->
+        <!--<el-table-column width="200" prop="createAt" label="创建时间"  align="left" sortable="custom" :formatter="getAtime">-->
         <!--</el-table-column>-->
-        <el-table-column width="200" prop="updateAt"  label="最后登录时间" :formatter="getLastTime" align="center">
+        <el-table-column width="200" prop="updateAt"  label="最后登录时间" :formatter="getLastTime" align="left">
         </el-table-column>
-        <el-table-column label="状态" align="center">
+        <el-table-column label="状态" align="left">
           <template scope="scope">
             <el-tag :type="scope.row.state ? 'success' : 'danger'">
               {{playerStatus[scope.row.state]}}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="游戏状态" align="center">
+        <el-table-column label="游戏状态" align="left">
           <template scope="scope">
             <el-tag :type="scope.row.gameState==3 ? 'success' : 'gray'">
               <div>{{scope.row.gameStateName}}</div>
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="备注" align="center" >
+        <el-table-column label="备注" align="left" >
           <template scope="scope">
             <el-popover trigger="hover" placement="bottom" width="200">
               <div class="remark_content">{{ scope.row.remark === 'NULL!' ? '无' : scope.row.remark}}</div>
@@ -85,7 +83,7 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="操作" show-overflow-tooltip align="center" width="250">
+        <el-table-column label="操作" show-overflow-tooltip align="left" width="250">
           <template scope="scope">
             <el-button style="margin-right: 10px"  type="text" @click="playDetail(scope.row)">查看</el-button>
             <span v-if="scope.row.state == 0">
@@ -108,25 +106,7 @@
       </div>
     </div>
 
-    <el-dialog :title="isSave ? '玩家存点' : '玩家提点'" :visible.sync="isOpenModal" size="tiny"
-               :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-      <el-form :model="balanceInfo" label-width="100px">
-        <el-form-item :label="isSave ? '存入点数' : '提取点数'">
-          <el-input v-model="balanceInfo.points" class="input" :placeholder="isSave? '请输入存点数' : '请输入提点数'" type="number"></el-input>
-        </el-form-item>
-        <el-form-item :label="isSave ? '起始账户' : '转入账户'">
-          【代理】{{balanceInfo.parentName}}
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input placeholder="请输入备注" type="textarea" :rows="6" :maxlength="180" class="input"
-                    v-model="balanceInfo.remark"></el-input>
-        </el-form-item>
-        <div class="g-text-center">
-          <el-button @click="isOpenModal = false" style="margin-right: 10%">取 消</el-button>
-          <el-button type="primary" :load="isSending" @click="submit()">{{isSending ? '提交中' : '确 定'}}</el-button>
-        </div>
-      </el-form>
-    </el-dialog>
+    <playerRecharge v-if="isOpenModal" ref="childMethod" :dataProp="balanceInfo" @closeModal="closeRechargeModal"></playerRecharge>
   </div>
 </template>
 
@@ -134,7 +114,9 @@
   import { detailTime, thousandFormatter } from '@/behavior/format'
   import { invoke } from '@/libs/fetchLib'
   import api from '@/api/api'
+  import playerRecharge from '@/components/player/playerRecharge'
   export default {
+    components:{playerRecharge},
     beforeCreate () {
       this.$store.commit('returnLocalStorage')
       this.$store.commit({
@@ -157,8 +139,6 @@
         currentPage: 1,
         showSearch: false,
         isOpenModal: false,
-        isSending: false,
-        isSave: false,
         isFetching: false,
         isLastMessage: false, // 主要判断是否是后台返回最后一次信息
         playerList: [],
@@ -170,7 +150,7 @@
         gameTypeList: [],
         jumpUrl:['/addPlayer'],
         playerListStorage: [],
-        playerListStartKey: '',
+        playerListStartKey: ''
       }
     },
     created () {
@@ -325,14 +305,20 @@
         this.isOpenModal = true
         this.balanceInfo = {
           userName: rows.userName,
-          parentName: rows.parentName,
+          parentName: rows.merchantName,
           remark: '',
           balance: rows.balance,
           points: '',
-          fromUserId: rows.parent
+          fromUserId: rows.parent,
+          isSave: bool
         }
-        this.isSave = (bool === 0)
-        // console.log(this.balanceInfo)
+        setTimeout(()=>{
+          this.$refs.childMethod.openRechargeModal()
+        },0)
+      },
+      closeRechargeModal () {
+        this.isOpenModal = false
+        this.getPlayList()
       },
       getAtime (row, col) {
         return detailTime(row.createAt)
@@ -354,47 +340,6 @@
         !bool && (this.searchInfo = {gameId:''})
         this.initData()
         this.getPlayList()
-      },
-      submit () {
-        var rex = new RegExp(/^[0-9]*[1-9][0-9]*$/)
-        if (!this.isSave && (this.balanceInfo.points > this.balanceInfo.balance)) {
-          return this.$message.error('对不起，提点数不能超过当前剩余点数')
-        } else if (this.isSave && (!rex.exec(this.balanceInfo.points) || this.balanceInfo.points > 1000000000)) {
-          return this.$message.error('存点数范围为1-1000,000,00的正整数')
-        } else if (!this.isSave && !rex.exec(this.balanceInfo.points)) {
-          return this.$message.error('提点数为正整数')
-        } else if (!this.balanceInfo.fromUserId) {
-          return this.$message.error('请选择账户')
-        }
-        if (this.isSending) return
-        this.isSending = true
-        invoke({
-          url: this.isSave ? api.playerDeposit : api.playerTake,
-          method: api.post,
-          data: {
-            fromUserId: this.balanceInfo.fromUserId,
-            toUser: this.balanceInfo.userName,
-            amount: this.balanceInfo.points,
-            remark: this.balanceInfo.remark
-          }
-        }).then(
-          result => {
-            const [err, res] = result
-            if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
-              this.isSending = false
-            } else {
-              // console.log(res)
-              this.$message.success('提交成功')
-              this.isSending = false
-              this.isOpenModal = false
-              this.getPlayList()
-            }
-          }
-        )
       },
       jumpAgentDetail (row) {
 //        console.log(row)
@@ -459,8 +404,7 @@
   .playerlist .propList{padding: 2rem;}
   .playerlist .input{width: 80%}
   .playerlist .propList-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
-  .playerlist .text-left{text-align: left}
   .playerlist .rebackinfo{padding:0 2rem;}
-  .playerlist .playerform{padding: 2rem;margin:0 auto;}
+  .playerlist .playerform{padding: 0 2rem 2rem 2rem;margin:0 auto;}
   .remark_content{word-wrap: break-word; word-break: normal;width: 200px}
 </style>

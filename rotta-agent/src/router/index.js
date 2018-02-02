@@ -49,7 +49,7 @@ import AgentPlayerDetail from '@/view/player/playerdetail' // 玩家详情页
 import AgentAddPlayer from '@/view/player/addPlayer' // 创建玩家
 import AgentPlayerStatistics from '@/view/player/playerStatistics' // 玩家统计
 import PlayerBill from '@/view/player/playerbill' // 玩家账单详情页
-import PlayerRunningAccount from '@/view/player/playerRunningAccount' // 玩家流水账详情页
+//import PlayerRunningAccount from '@/view/player/playerRunningAccount' // 玩家流水账详情页
 
 import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
 
@@ -320,14 +320,6 @@ const router = new Router({
         keepAlive: true
       }
     },
-    {
-      path: '/playerAccount',
-      name: '玩家流水账详情',
-      component: PlayerRunningAccount,
-      meta: {
-        keepAlive: true
-      }
-    }
     // {
     //   path: '/tagWindow',
     //   component: tagWindow,

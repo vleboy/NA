@@ -11,9 +11,9 @@
       <el-col :span="4">净利润：
         <span :class="{'-p-green':dataProp.profitAmount>0,'-p-red':dataProp.profitAmount<0}">{{formatPoints(dataProp.profitAmount)}}</span>
       </el-col>
-      <el-col :span="6">结算余额：
-        <span :class="{'-p-green':dataProp.balance>0,'-p-red':dataProp.balance<0}">{{formatPoints(dataProp.balance)}}</span>
-      </el-col>
+      <!--<el-col :span="6">结算余额：-->
+        <!--<span :class="{'-p-green':dataProp.balance>0,'-p-red':dataProp.balance<0}">{{formatPoints(dataProp.balance)}}</span>-->
+      <!--</el-col>-->
     </el-row>
 
     <el-table  :data="dataList">
