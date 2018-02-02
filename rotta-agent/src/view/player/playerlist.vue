@@ -45,7 +45,7 @@
             <span>{{formatRemark(scope.row.nickname)}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="left">
+        <el-table-column prop="balance" label="点数" show-overflow-tooltip align="left" width="150">
           <template scope="scope">
             <span>{{formatPoints(scope.row.balance)}}</span>
           </template>
