@@ -469,7 +469,7 @@ export default {
     this.$store.commit('startLoading')
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'comlist'
+      data: 'comdetail'
     })
     this.$store.commit('returnLocalStorage')
     this.$store.dispatch('getComdetail')
