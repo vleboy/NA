@@ -42,9 +42,9 @@
             <template scope="scope">
               <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 5px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
                 <span class="progress-content">{{item.winloseAmount}} / {{item.topAmount}}</span>
-                <div class="progress-index" v-if="item.usedRate < 100" :style="{'background-color': '#00cc66', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
-                <div class="progress-index" v-if="item.usedRate == 100" :style="{'background-color': '#ff9900', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
-                <div class="progress-index" v-if="item.usedRate > 100" :style="{'background-color': '#ff0000', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate < 90" :style="{'background-color': '#00cc66', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate < 100 && item.usedRate >= 90" :style="{'background-color': '#ff9900', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate == 100" :style="{'background-color': '#ff0000', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
               </div>
             </template>
           </el-table-column>
@@ -98,9 +98,9 @@
             <template scope="scope">
               <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 5px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
                 <span class="progress-content">{{item.winloseAmount}} / {{item.topAmount}}</span>
-                <div class="progress-index" v-if="item.usedRate < 100" :style="{'background-color': '#00cc66', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
-                <div class="progress-index" v-if="item.usedRate == 100" :style="{'background-color': '#ff9900', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
-                <div class="progress-index" v-if="item.usedRate > 100" :style="{'background-color': '#ff0000', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate < 90" :style="{'background-color': '#00cc66', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate < 100 && item.usedRate >= 90" :style="{'background-color': '#ff9900', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate == 100" :style="{'background-color': '#ff0000', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
               </div>
             </template>
           </el-table-column>
@@ -253,6 +253,7 @@ export default {
                   if (reaction.company == allCompany[i]) {
                     reaction.winloseAmount += Number(winloseAmount[i])
                     reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
+                    reaction.usedRate > 100 ? reaction.usedRate = 100 : ''
                   }
                 })
               }
@@ -337,6 +338,7 @@ export default {
                       if (reaction.company == allCompany[i]) {
                         reaction.winloseAmount += Number(winloseAmount[i])
                         reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
+                        reaction.usedRate > 100 ? reaction.usedRate = 100 : ''
                       }
                     })
                   }
@@ -415,6 +417,7 @@ export default {
                         if (reaction.company == allCompany[i]) {
                           reaction.winloseAmount += Number(winloseAmount[i])
                           reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
+                          reaction.usedRate > 100 ? reaction.usedRate = 100 : ''
                         }
                       })
                     }
@@ -494,6 +497,7 @@ export default {
                         if (reaction.company == allCompany[i]) {
                           reaction.winloseAmount += Number(winloseAmount[i])
                           reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
+                          reaction.usedRate > 100 ? reaction.usedRate = 100 : ''
                         }
                       })
                     }
@@ -608,6 +612,7 @@ export default {
         if (item.company == data.company) {
           item.topAmount = this.nowWarningPoint
           item.usedRate = item.topAmount != 0 && item.winloseAmount > 0 ? Number((item.winloseAmount / item.topAmount * 100).toFixed(3)) : 0
+          item.usedRate > 100 ? item.usedRate = 100 : ''
         }
       })
       if (this.nowWarningPoint && !isNaN(this.nowWarningPoint && Number(this.nowWarningPoint) > 0)) {
