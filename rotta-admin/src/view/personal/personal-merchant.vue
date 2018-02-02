@@ -322,7 +322,6 @@ export default {
           userId: this.adminInfo.userId,
           password: this.passwordAbout.newPassword
         }
-        // console.log(data)
         invoke({
           url: api.changePassword,
           method: api.post,
