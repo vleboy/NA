@@ -242,12 +242,19 @@
                 twoNum: res ? res.data.type > 2 ? res.data.twoNum : thousandFormatter(res.data.twoNum) : '0.00'
               })
             } else {
-              console.log(this.totalData)
               for (let item of this.totalData) {
-                if (res && ((item.index+1) === res.data.type)) {
-                  item.oneNum = res.data.type > 2 ? res.data.oneNum : thousandFormatter(res.data.oneNum)
-                  item.twoNum = res.data.type > 2 ? res.data.twoNum : thousandFormatter(res.data.twoNum) // 大于2是用来判断是否是显示玩家人数
+                if(this.role == '100') {
+                  if (res && ((item.index+1) === res.data.type)) {
+                    item.oneNum = res.data.type > 2 ? res.data.oneNum : thousandFormatter(res.data.oneNum)
+                    item.twoNum = res.data.type > 2 ? res.data.twoNum : thousandFormatter(res.data.twoNum) // 大于2是用来判断是否是显示玩家人数
+                  }
+                } else {
+                  if (res && ((item.index) === res.data.type)) {
+                    item.oneNum = res.data.type > 2 ? res.data.oneNum : thousandFormatter(res.data.oneNum)
+                    item.twoNum = res.data.type > 2 ? res.data.twoNum : thousandFormatter(res.data.twoNum) // 大于2是用来判断是否是显示玩家人数
+                  }
                 }
+
               }
             }
           }
