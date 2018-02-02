@@ -264,7 +264,6 @@ export default {
               item.companyList.map(outside => {
                 companyList.map(inside => {
                   if (inside.company == outside.company) {
-                    outside.topAmount = inside.topAmount
                     outside.winloseAmount = inside.winloseAmount
                     outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
                     outside.usedRate > 100 ? outside.usedRate = 100 : ''
@@ -361,7 +360,6 @@ export default {
                   item.companyList.map(outside => {
                     companyList.map(inside => {
                       if (inside.company == outside.company) {
-                        outside.topAmount = inside.topAmount
                         outside.winloseAmount = inside.winloseAmount
                         outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
                         outside.usedRate > 100 ? outside.usedRate = 100 : ''
@@ -453,7 +451,6 @@ export default {
                     item.companyList.map(outside => {
                       companyList.map(inside => {
                         if (inside.company == outside.company) {
-                          outside.topAmount = inside.topAmount
                           outside.winloseAmount = inside.winloseAmount
                           outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
                           outside.usedRate > 100 ? outside.usedRate = 100 : ''
@@ -546,7 +543,6 @@ export default {
                     item.companyList.map(outside => {
                       companyList.map(inside => {
                         if (inside.company == outside.company) {
-                          outside.topAmount = inside.topAmount
                           outside.winloseAmount = inside.winloseAmount
                           outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
                           outside.usedRate > 100 ? outside.usedRate = 100 : ''
