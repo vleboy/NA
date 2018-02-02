@@ -8,7 +8,7 @@
           <el-input v-model="setOutinfo.points" class="input" placeholder="请输入"></el-input>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="线路商抽成比(%)" prop="rate">
+      <el-form-item label="商家占成(%)" prop="rate">
           <el-input v-model="setOutinfo.rate" class="input" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="线路商拥有的游戏">
@@ -136,13 +136,13 @@ export default {
     var checkRate = (rule, value, callback) => {
       var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
       if (value === '') {
-        callback(new Error('请输入抽成比'))
+        callback(new Error('请输入商家占成'))
         store.state.checkform.rate = false
       } else if (!num.test(value) || value.slice(0, 1) == '0' && value.indexOf('.') == -1) {
-        callback(new Error('抽成比只能为0.00 - 100.00'))
+        callback(new Error('商家占成只能为0.00 - 100.00'))
         store.state.checkform.rate = false
       } else if (value < 0 || value > 100) {
-        callback(new Error('抽成比应为0.00 ~ 100.00之间的数字'))
+        callback(new Error('商家占成应为0.00 ~ 100.00之间的数字'))
         store.state.checkform.rate = false
       } else {
         store.state.checkform.rate = true
@@ -156,7 +156,7 @@ export default {
         company: '', // 选择的游戏厂商
         selectGame: '', // 选择的厂商的游戏
         showSelect: [], // 列表展示数据
-        rate: '', // 线路商抽成比
+        rate: '', // 商家占成
         points: '', // 初始线路商点数
         gameList: [], // 拥有游戏
         username: '', // 线路商商管理员用户名

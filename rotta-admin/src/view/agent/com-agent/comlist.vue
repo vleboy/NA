@@ -26,7 +26,7 @@
                 <span v-if="scope.row.parent === '01'">直属于平台</span>
               </template>
             </el-table-column>
-            <el-table-column label="抽成比" prop="rate" align="left" sortable="custom" min-width="100">
+            <el-table-column label="商家占成" prop="rate" align="left" sortable="custom" min-width="100">
             	<template scope="scope">
               	<span>{{(scope.row.rate)}}%</span>
               </template>

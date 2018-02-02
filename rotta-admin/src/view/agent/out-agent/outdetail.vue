@@ -78,10 +78,10 @@
                             </el-col>
                             <el-col :span="7">
                                 <div class="">
-                                    <el-form-item label="抽成比" v-show="disable">
+                                    <el-form-item label="商家占成" v-show="disable">
                                         {{outdetail.rate}}%
                                     </el-form-item>
-                                    <el-form-item label="抽成比" prop="rate" v-show="!disable">  
+                                    <el-form-item label="商家占成" prop="rate" v-show="!disable">  
                                       <el-input v-model="outdetail.rate">
                                         <template slot="prepend">%</template>
                                       </el-input>
@@ -724,19 +724,19 @@ export default {
       var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
       // console.log(value)
       if (value === '') {
-        callback(new Error('请输入抽成比'))
+        callback(new Error('请输入商家占成'))
         this.isfinish.rate = false
       } else if (!num.test(value)) {
-        callback(new Error('抽成比只能为0.00 - 100.00'))
+        callback(new Error('商家占成只能为0.00 - 100.00'))
         this.isfinish.rate = false
       } else if (value < 0 || value > 100) {
-        callback(new Error('抽成比应为0.00 ~ 100.00之间的数字'))
+        callback(new Error('商家占成应为0.00 ~ 100.00之间的数字'))
         this.isfinish.rate = false
       } else {
         this.isfinish.rate = true
         callback()
       }
-    } // 验证抽成比
+    } // 验证商家占成
     var checkHostname = (rule, value, callback) => {
       // console.log('hostName', value)
       var nick = new RegExp(/^[\u4E00-\u9FA5A-Za-z_]+$/)
@@ -833,7 +833,7 @@ export default {
           return time.getTime() < Date.now() - 8.64e7
         }
       },
-      parentInfo: {}, // 上级抽成比
+      parentInfo: {}, // 上级商家占成
       isforever: true,
       balance: 0, // 余额
       loading: false,

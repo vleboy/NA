@@ -8,7 +8,7 @@
           <el-input v-model="setcomInfo.points" class="input" placeholder="请输入"></el-input>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="商户抽成比(%)" prop="rate">
+      <el-form-item label="商家占成(%)" prop="rate">
         <el-input v-model="setcomInfo.rate" class="input" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="商户线路号" prop="msn">
