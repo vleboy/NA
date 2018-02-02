@@ -94,7 +94,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.searchbox{    padding: 1rem 2rem;}
+.searchbox{    padding: 0 2rem;}
 span{margin-right: 0.2rem}
 .boxpre{padding: 2rem;}
 .input{width: 30%!important;}

@@ -5,22 +5,22 @@
     <el-button type="primary" class="justfy1" @click="goCreate">创建新游戏</el-button>
     <div class="outresult">
       <el-table stripe :data="gameItems">
-        <el-table-column label="游戏名称" prop="gameName" align="center">
+        <el-table-column label="游戏名称" prop="gameName" align="center" width="130">
         </el-table-column>
-        <el-table-column label="游戏标识" prop="gameIden" align="center">
+        <el-table-column label="游戏标识" prop="gameIden" align="center" width="130">
         </el-table-column>
         <el-table-column label="分类" :formatter="getType" align="center">
         </el-table-column>
-        <el-table-column label="所属供应商" prop="company.companyName" align="center">
+        <el-table-column label="所属供应商" prop="company.companyName" align="center" width="150">
         </el-table-column>
-        <el-table-column label="所属供应商标识" prop="companyIden" align="center">
+        <el-table-column label="标识" prop="companyIden" align="center">
         </el-table-column>
-        <el-table-column label="网页游戏" prop="isWebGame" align="center">
+        <el-table-column label="网页游戏" prop="isWebGame" align="center" width="130">
           <template scope="scope">
             {{scope.row.isWebGame!='0' ? '是' : '否' }}
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" >
+        <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" width="150">
         </el-table-column>
         </el-table-column>
         <el-table-column label="状态" align="center">
@@ -30,8 +30,8 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="服务器ip" prop="ip" align="center"></el-table-column>
-        <el-table-column label="kindId" prop="kindId" align="center"></el-table-column>
+        <el-table-column label="服务器ip" prop="ip" align="center" width="130"></el-table-column>
+        <el-table-column label="kindId" prop="kindId" align="center" width="130"></el-table-column>
         <el-table-column label="操作" align="center" width="200">
           <template scope="scope">
             <el-button type="text" class="myBtn" @click="gameOperation(scope.row)">{{scope.row.gameStatus ? '停用':'启用'}}</el-button>
@@ -217,7 +217,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .outresult{padding: 2rem; padding-top: 10px}
+  .outresult{padding: 2rem; padding-top: 1rem}
   .searchResult{padding: 1rem 2rem}
   .justfy1{margin:0 2rem;}
   .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
