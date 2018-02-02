@@ -19,14 +19,19 @@
               <span v-else>{{scope.row.displayName}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="接入商" prop="" align="center" width="90">
+          <el-table-column label="抽成比" prop="" align="left">
+            <template scope="scope">
+              <span>{{scope.row.rate}}%</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="接入商" prop="" align="center">
             <template scope="scope">
               <div slot="reference" class="gameName">
                   <el-tag v-for="item in scope.row.companyList" key={{item}}>{{ item.company }}</el-tag>
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="游戏状态" prop="" align="center" width="120">
+          <el-table-column label="游戏状态" prop="" align="center">
             <template scope="scope">
               <div slot="reference" class="gameStatus">
                   <el-tag v-for="item in scope.row.companyList" key={{item}}><span :class="[item.status == 0 ? 'red' : 'green']">{{ formatStatus(item.status) }}</span></el-tag>
@@ -35,19 +40,19 @@
           </el-table-column>
           <el-table-column label="游戏点数消耗分布" prop="" align="center">
             <template scope="scope">
-              <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 15px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
+              <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 5px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
                 <span class="progress-content">{{item.winloseAmount}} / {{item.topAmount}}</span>
-                <div class="progress-index" v-if="item.usedRate < 1" :style="{'background-color': '#00cc66', 'width': item.usedRate}"><span style="opacity: 0;filter: 0">1</span></div>
-                <div class="progress-index" v-if="item.usedRate == 1" :style="{'background-color': '#ff9900', 'width': item.usedRate}"><span style="opacity: 0;filter: 0">1</span></div>
-                <div class="progress-index" v-if="item.usedRate > 1" :style="{'background-color': '#ff0000', 'width': item.usedRate}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate < 100" :style="{'background-color': '#00cc66', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate == 100" :style="{'background-color': '#ff9900', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate > 100" :style="{'background-color': '#ff0000', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
               </div>
             </template>
           </el-table-column>
           <el-table-column label="操作" prop="" align="center">
             <template scope="scope">
               <div v-for="item in scope.row.companyList" key={{item}} class="click-zone">
-                <span @click="setPoint(item)" class="list-btn">设定点数警告上限</span>
-                <span @click="changeStatus(item)" class="list-btn">{{item.status == 1 ? '停用' : '启用'}}</span>
+                <span @click="setPoint(item, 'parent')" class="list-btn">设定点数警告上限</span>
+                <span @click="changeStatus(item, 'parent')" class="list-btn">{{item.status == 1 ? '停用' : '启用'}}</span>
               </div>
             </template>
           </el-table-column>
@@ -59,46 +64,51 @@
       <div class="belong-list">
         <p class="title">{{nowParent}}下级接入商</p>
         <el-table :data="child">
-          <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
+          <el-table-column label="序号" prop="rank" align="left" type="index" width="80">
           </el-table-column>
-          <el-table-column label="类型" prop="" align="left" :formatter="formatRole" width="80">
+          <el-table-column label="类型" prop="" align="left" :formatter="formatRole">
           </el-table-column>
-          <el-table-column label="接入商标识" align="left" width="120">
+          <el-table-column label="接入商标识" align="left">
             <template scope="scope">
               <span>{{scope.row.sn ? scope.row.sn : scope.row.suffix}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="接入商昵称" prop="displayName" align="left" width="140">
+          <el-table-column label="接入商昵称" prop="displayName" align="left">
           </el-table-column>
-          <el-table-column label="接入商游戏" prop="" align="left" width="160">
+          <el-table-column label="抽成比" prop="" align="left">
+            <template scope="scope">
+              <span>{{scope.row.rate}}%</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="接入商" prop="" align="center">
             <template scope="scope">
               <div slot="reference" class="gameName">
                   <el-tag v-for="item in scope.row.companyList" key={{item}}>{{ item.company }}</el-tag>
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="游戏状态" prop="" align="left" width="120">
+          <el-table-column label="游戏状态" prop="" align="center">
             <template scope="scope">
               <div slot="reference" class="gameStatus">
                   <el-tag v-for="item in scope.row.companyList" key={{item}}><span :class="[item.status == 0 ? 'red' : 'green']">{{ formatStatus(item.status) }}</span></el-tag>
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="游戏点数消耗分布" prop="" align="left">
+          <el-table-column label="游戏点数消耗分布" prop="" align="center">
             <template scope="scope">
-              <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 15px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
+              <div slot="reference" style="margin: 8px 0;border:1px solid #000;border-radius: 5px;text-align:center" v-for="item in scope.row.companyList" key={{item}}>
                 <span class="progress-content">{{item.winloseAmount}} / {{item.topAmount}}</span>
-                <div class="progress-index" v-if="item.usedRate < 1" :style="{'background-color': '#00cc66', 'width': item.usedRate}"><span style="opacity: 0;filter: 0">1</span></div>
-                <div class="progress-index" v-if="item.usedRate == 1" :style="{'background-color': '#ff9900', 'width': item.usedRate}"><span style="opacity: 0;filter: 0">1</span></div>
-                <div class="progress-index" v-if="item.usedRate > 1" :style="{'background-color': '#ff0000', 'width': item.usedRate}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate < 100" :style="{'background-color': '#00cc66', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate == 100" :style="{'background-color': '#ff9900', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
+                <div class="progress-index" v-if="item.usedRate > 100" :style="{'background-color': '#ff0000', 'width': item.usedRate + '%'}"><span style="opacity: 0;filter: 0">1</span></div>
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="操作" prop="" align="left" width="180">
+          <el-table-column label="操作" prop="" align="center">
             <template scope="scope">
               <div v-for="item in scope.row.companyList" key={{item}} class="click-zone">
-                <span @click="setPoint(item)" class="list-btn">设定点数警告上限</span>
-                <span @click="changeStatus(item)" class="list-btn">{{item.status == 1 ? '停用' : '启用'}}</span>
+                <span @click="setPoint(item, 'child')" class="list-btn">设定点数警告上限</span>
+                <span @click="changeStatus(item, 'child')" class="list-btn">{{item.status == 1 ? '停用' : '启用'}}</span>
               </div>
             </template>
           </el-table-column>
@@ -166,6 +176,7 @@ export default {
       clickChild: [], // 点击查询下级
       rendered: [], // 已渲染的下级
       nowParent: '', // 现在渲染的下级所属上级昵称
+      noType: '', // 判断现在点击的是直属还是下级
     }
   },
   computed: {
@@ -235,7 +246,14 @@ export default {
                   winloseAmount: Number(winloseAmount[i]),
                   topAmount: Number(topAmount[i]),
                   userId: userId[i],
-                  usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? (topAmount[i] / winloseAmount[i] * 100).toFixed(2) : 0
+                  usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
+                })
+              } else {
+                companyList.map(reaction => {
+                  if (reaction.company == allCompany[i]) {
+                    reaction.winloseAmount += Number(winloseAmount[i])
+                    reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
+                  }
                 })
               }
             } // 合并去重数据
@@ -298,7 +316,7 @@ export default {
 
                   let count = ''
                   count += side.winloseAmount ? side.winloseAmount : 0
-                  winloseAmount.push(count)
+                  winloseAmount.push(Number(count))
                   
                 }) // 获取运营商名称与启用/停用状态
                 let ruler = []
@@ -312,7 +330,14 @@ export default {
                       winloseAmount: Number(winloseAmount[i]),
                       topAmount: Number(topAmount[i]),
                       userId: userId[i],
-                      usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? (topAmount[i] / winloseAmount[i] * 100).toFixed(2) : 0
+                      usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
+                    })
+                  } else {
+                    companyList.map(reaction => {
+                      if (reaction.company == allCompany[i]) {
+                        reaction.winloseAmount += Number(winloseAmount[i])
+                        reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
+                      }
                     })
                   }
                 } // 合并去重数据
@@ -383,7 +408,14 @@ export default {
                         winloseAmount: Number(winloseAmount[i]),
                         topAmount: Number(topAmount[i]),
                         userId: userId[i],
-                        usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? (topAmount[i] / winloseAmount[i] * 100).toFixed(2) : 0
+                        usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
+                      })
+                    } else {
+                      companyList.map(reaction => {
+                        if (reaction.company == allCompany[i]) {
+                          reaction.winloseAmount += Number(winloseAmount[i])
+                          reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
+                        }
                       })
                     }
                   } // 合并去重数据
@@ -455,7 +487,14 @@ export default {
                         winloseAmount: Number(winloseAmount[i]),
                         topAmount: Number(topAmount[i]),
                         userId: userId[i],
-                        usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? (topAmount[i] / winloseAmount[i] * 100).toFixed(2) : 0
+                        usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
+                      })
+                    } else {
+                      companyList.map(reaction => {
+                        if (reaction.company == allCompany[i]) {
+                          reaction.winloseAmount += Number(winloseAmount[i])
+                          reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
+                        }
                       })
                     }
                   } // 合并去重数据
@@ -482,13 +521,25 @@ export default {
         return '已停用'
       }
     },
-    changeStatus (game) {
+    changeStatus (game, type) {
+      this.noType = type
       this.forceGame = game
       this.status = game.status
       this.isVisible = true
     },
     post_changeStatus (data) {
-      let obj = this.belongAgent.filter(item => {return item.userId == data.userId})[0]
+      let obj = ''
+      if (this.noType == 'child') {
+        for (let outside of this.nowChild) {
+          for (let inside of outside) {
+            if (inside.userId == data.userId) {
+              obj = inside
+            }
+          }
+        }
+      } else {
+        obj = this.belongAgent.filter(item => {return item.userId == data.userId})[0]
+      }
       this.loading = true
       obj.companyList.map(item => {
         if (item.company == data.company) {
@@ -529,20 +580,32 @@ export default {
       this.isSetpoint = false
       this.nowWarningPoint = ''
     },
-    setPoint (game) {
+    setPoint (game, type) {
+      this.noType = type
       this.forceGame = game
       this.isSetpoint = true
     },
     post_setPoint (data) {
-      if (this.nowWarningPoint && !isNaN(this.nowWarningPoint && Number(this.nowWarningPoint) > 0)) {
-        let obj = this.belongAgent.filter(item => {return item.userId == data.userId})[0]
-        this.loading = true
-        obj.companyList.map(item => {
-          if (item.company == data.company) {
-            item.topAmount = this.nowWarningPoint
-            item.usedRate = item.topAmount != 0 && item.winloseAmount > 0 ? (item.topAmount / item.winloseAmount * 100).toFixed(2) : 0
+      let obj = ''
+      if (this.noType == 'child') {
+        for (let outside of this.nowChild) {
+          for (let inside of outside) {
+            if (inside.userId == data.userId) {
+              obj = inside
+            }
           }
-        })
+        }
+      } else {
+        obj = this.belongAgent.filter(item => {return item.userId == data.userId})[0]
+      }
+      obj.companyList.map(item => {
+        if (item.company == data.company) {
+          item.topAmount = this.nowWarningPoint
+          item.usedRate = item.topAmount != 0 && item.winloseAmount > 0 ? Number((item.winloseAmount / item.topAmount * 100).toFixed(3)) : 0
+        }
+      })
+      if (this.nowWarningPoint && !isNaN(this.nowWarningPoint && Number(this.nowWarningPoint) > 0)) {
+        this.loading = true
         invoke({
           url: api.userStatus,
           method: api.post,
@@ -589,7 +652,7 @@ export default {
 
 .point-warning .belong-list .progress{
   margin:5.5px;
-  border-radius: 20px;
+  border-radius: 5px;
 }
 .point-warning .belong-list .progress-content{
 
@@ -605,7 +668,7 @@ export default {
 .point-warning .belong-list .progress-index{
   margin-top: -24px;
   width: 50%;
-  border-radius: 15px
+  border-radius: 5px
 }
 
 .point-warning .belong-list .fontUrl{cursor: pointer;color: #20a0ff}
