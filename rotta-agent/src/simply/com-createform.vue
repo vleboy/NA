@@ -134,9 +134,6 @@ export default {
         snType: '' //默认代理标识
       },
       rules: {
-        sn: [
-          {validator: checksn, trigger: 'blur'}
-        ],
         username: [
           {validator: checkUsername, trigger: 'blur'}
         ],
@@ -168,13 +165,12 @@ export default {
           this.merchantInfo.sn = item.sn
         }
       }
-//      if (localStorage.loginSuffix == 'Agent') {
-//        this.merchantInfo.parent == '01' || !this.merchantInfo.parent ? this.isBelong = true : this.isBelong = false
-//        !this.merchantInfo.sn ? this.merchantInfo.sn = 'NA369' : ''
-//      } else {
-//        this.isBelong = false
-//        !this.merchantInfo.sn ? this.merchantInfo.sn = localStorage.loginSn : ''
-//      }
+
+      if (localStorage.loginSuffix == 'Agent') {
+        !this.merchantInfo.sn ? this.merchantInfo.sn = 'NA369' : ''
+      } else {
+        !this.merchantInfo.sn ? this.merchantInfo.sn = localStorage.loginSn : ''
+      }
     },
     changeSnType () {
       if (this.merchantInfo.snType == 2) {
