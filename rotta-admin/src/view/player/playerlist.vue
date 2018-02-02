@@ -134,7 +134,11 @@
         checkedArray: [],
         names: [],
         searchInfo: {
-          gameId:''
+          gameId:'',
+          userName:'',
+          nickname:'',
+          merchantName:'',
+          msn:''
         },
         role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）
         gameTypeList: []
@@ -284,7 +288,13 @@
         }
       },
       getSearch (bool) {
-        !bool && (this.searchInfo = {gameId: ''})
+        !bool && (this.searchInfo = {
+          gameId:'',
+          userName:'',
+          nickname:'',
+          merchantName:'',
+          msn:''
+        })
         this.playerList = []
         this.playerListStorage = []
         this.playerListStartKey = ''

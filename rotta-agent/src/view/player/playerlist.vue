@@ -145,7 +145,13 @@
         playerStatus: ['已锁定', '正常'],
         checkedArray: [],
         names: [],
-        searchInfo: {gameId:''},
+        searchInfo: {
+          gameId:'',
+          userName:'',
+          nickname:'',
+          merchantName:'',
+          msn:''
+        },
         balanceInfo: {},
         gameTypeList: [],
         jumpUrl:['/addPlayer'],
@@ -338,7 +344,13 @@
         }
       },
       getSearch (bool) {
-        !bool && (this.searchInfo = {gameId:''})
+        !bool && (this.searchInfo = {
+          gameId:'',
+          userName:'',
+          nickname:'',
+          merchantName:'',
+          msn:''
+        })
         this.initData()
         this.getPlayList()
       },
