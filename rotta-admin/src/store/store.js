@@ -320,7 +320,6 @@ const actions = {
     } else {
       parentId = state.variable.outcreate.parent
     }
-    // console.log('上级ID', parentId)
     invoke({
       url: api.bills + '/' + parentId,
       method: api.get
