@@ -499,8 +499,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .boothList{padding: 2rem;}
-  .-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
+  .boothList{padding:1rem 2rem;}
+  .-search{margin:0 2rem; background-color: #f5f5f5; text-align: center }
   .input{width: 80%}
   .searchResult{padding: 1rem 2rem}
   .-booth-searchResult{overflow: hidden; padding: 0 2rem}

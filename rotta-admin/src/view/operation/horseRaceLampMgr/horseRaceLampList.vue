@@ -343,7 +343,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .horseRaceLampList{padding: 2rem;}
+  .horseRaceLampList{padding:1rem 2rem;}
   .-p-m-header{overflow: hidden;padding: 0 2rem}
   .input{width: 80%}
   .searchResult{padding: 1rem 2rem}
