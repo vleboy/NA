@@ -601,15 +601,22 @@ export default {
         obj = this.belongAgent.filter(item => {return item.userId == data.userId})[0]
       }
       this.loading = true
+      let _switch = 0
       obj.companyList.map(item => {
         if (item.company == data.company) {
-          item.status == 1 ? item.status = 0 : item.status = 1
+          if (item.status == 1) {
+            item.status = 0
+          } else {
+            item.status = 1
+            _switch = 1
+          }
         } 
       })
       invoke({
         url: api.userStatus,
         method: api.post,
         data: {
+          switch: _switch,
           userId: obj.userId,
           companyList: obj.companyList
         }
