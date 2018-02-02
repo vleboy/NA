@@ -52,7 +52,7 @@
                         </p>
                       </template>
                     </el-table-column>
-                    <el-table-column label="交易时间" align="left" width="110" prop="updatedAt">
+                    <el-table-column label="交易时间" align="center" width="110" prop="updatedAt">
                       <template scope="scope">
                         <span>{{formatTime(scope.row.updatedAt)}}</span>
                       </template>
