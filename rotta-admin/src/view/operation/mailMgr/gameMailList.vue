@@ -439,7 +439,12 @@ export default {
       // console.log(this.addToolList, 'addToolList')
     }, // 新增道具
     delAddPackage (index) {
-      this.addToolList.splice(index, 1)
+      if(!this.isEditPackage) {
+        this.addToolList.splice(index, 1)
+      } else {
+        this.$message.error('编辑状态无法删除')
+      }
+
     }, // 删除新增的道具
     updatePackage (row) {
       this.isEditPackage = true
