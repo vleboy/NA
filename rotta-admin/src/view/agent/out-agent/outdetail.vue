@@ -1048,7 +1048,6 @@ export default {
       // console.log(this.outdetail.contractPeriod)
     }, // 设置永久时间
     randomPassword () {
-      disable = false
       var newpassword = randomPassword()
       this.outdetail.password = newpassword
     }, // 生成密码
