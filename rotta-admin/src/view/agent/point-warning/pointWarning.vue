@@ -140,9 +140,9 @@
       <el-dialog title="预警点数" :visible.sync="isSetpoint" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
         <div>
           <p style="font-size:1.2rem;text-align:center">{{forceGame.company}}游戏</p>
-          <p style="width:80%;margin: 20px auto">当前值 {{forceGame.winloseAmount}} / {{forceGame.topAmount}}</p>
+          <p style="width:80%;margin: 20px auto">当前值 {{formatFixed(forceGame.winloseAmount)}} / {{forceGame.topAmount}}</p>
           <div style="width:80%;margin: 20px auto">
-            <span>设定值: {{forceGame.winloseAmount}} / </span>
+            <span>设定值: {{formatFixed(forceGame.winloseAmount)}} / </span>
             <el-input placeholder="请输入" v-model="nowWarningPoint" clearable style="width:50%"></el-input>
           </div>
           <div style="width:50%;margin:30px auto 10px;" class="clearFix">
