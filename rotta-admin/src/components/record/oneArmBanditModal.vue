@@ -6,7 +6,7 @@
              :class="recordClassWrap">
           <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low"
                :class="{'tlzm-low':gameType=='40001', 'sfss-low':gameType=='40004','xlxr-low':gameType=='40003','fyht-low':gameType=='40006','csjb-low':gameType=='40005','no-win':!item.isWin}">
-            <img :src="`../../../static/playerBill/${gameTypeFile[gameType]}/${item.value}.png`" class="record-icon"
+            <img :src="`${imgPrefix}${gameTypeFile[gameType]}/${item.value}.png`" class="record-icon"
                  :class="recordClassIcon">
           </div>
         </div>
@@ -52,7 +52,8 @@ export default {
         '40004': 'sfss',
         '40005': 'csjb',
         '40006': 'fyht'
-      }
+      },
+      imgPrefix: 'https://d38xgux2jezyfx.cloudfront.net/recordImg/'
     }
   },
   computed: {
@@ -319,22 +320,22 @@ export default {
     width: 78%;
   }
   .oneArm_modal .record-tlzm{
-    background: url("../../../static/playerBill/tlzm-bg.png");
+    background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/tlzm/tlzm-bg.png");
   }
   .oneArm_modal .record-xcl{
-    background: url("../../../static/playerBill/xcl-bg.png");
+    background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/xcl/xcl-bg.png");
   }
   .oneArm_modal .record-xlxr{
-    background: url("../../../static/playerBill/xlxr-bg.jpg");
+    background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/xlxr/xlxr-bg.jpg");
   }
   .oneArm_modal .record-sfss{
-    background: url("../../../static/playerBill/sfss-bg.jpg");
+    background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/sfss/sfss-bg.jpg");
   }
   .oneArm_modal .record-fyht{
-    background: url("../../../static/playerBill/fyht-bg.jpg");
+    background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/fyty/fyht-bg.jpg");
   }
   .oneArm_modal .record-csjb{
-    background: url("../../../static/playerBill/csjb-bg.jpg");
+    background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/csjb/csjb-bg.jpg");
   }
 
   .oneArm_modal .no-record {

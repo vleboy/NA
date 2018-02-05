@@ -48,210 +48,13 @@ export default {
       roundRates: [], // 赔率
       roundBets: [], // 下注数
       recordArray: [],
-      roundIconSLXR:[
-        {
-          imgOne:'static/playerBill/slxy/1hong.png',
-          imgTwo:'static/playerBill/slxy/1hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/1huang.png',
-          imgTwo:'static/playerBill/slxy/1huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/1lv.png',
-          imgTwo:'static/playerBill/slxy/1lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/2hong.png',
-          imgTwo:'static/playerBill/slxy/2hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/2huang.png',
-          imgTwo:'static/playerBill/slxy/2huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/2lv.png',
-          imgTwo:'static/playerBill/slxy/2lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/3hong.png',
-          imgTwo:'static/playerBill/slxy/3hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/3huang.png',
-          imgTwo:'static/playerBill/slxy/3huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/3lv.png',
-          imgTwo:'static/playerBill/slxy/3lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/4hong.png',
-          imgTwo:'static/playerBill/slxy/4hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/4huang.png',
-          imgTwo:'static/playerBill/slxy/4huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/4lv.png',
-          imgTwo:'static/playerBill/slxy/4lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/lanmogu.png',
-          imgTwo:'static/playerBill/slxy/lanmogu_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/baoxiang.png',
-          imgTwo:'static/playerBill/slxy/baoxiang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/slxy/hongmogu.png',
-          imgTwo:'static/playerBill/slxy/hongmogu_x.png'
-        }
-      ],
-      roundIconJSSK:[
-        {
-          imgOne:'static/playerBill/jssk/1hong.png',
-          imgTwo:'static/playerBill/jssk/1hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/1huang.png',
-          imgTwo:'static/playerBill/jssk/1huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/1lv.png',
-          imgTwo:'static/playerBill/jssk/1lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/2hong.png',
-          imgTwo:'static/playerBill/jssk/2hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/2huang.png',
-          imgTwo:'static/playerBill/jssk/2huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/2lv.png',
-          imgTwo:'static/playerBill/jssk/2lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/3hong.png',
-          imgTwo:'static/playerBill/jssk/3hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/3huang.png',
-          imgTwo:'static/playerBill/jssk/3huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/3lv.png',
-          imgTwo:'static/playerBill/jssk/3lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/4hong.png',
-          imgTwo:'static/playerBill/jssk/4hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/4huang.png',
-          imgTwo:'static/playerBill/jssk/4huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/4lv.png',
-          imgTwo:'static/playerBill/jssk/4lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/D.png',
-          imgTwo:'static/playerBill/jssk/D_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/P.png',
-          imgTwo:'static/playerBill/jssk/P_x.png'
-        },
-        {
-          imgOne:'static/playerBill/jssk/R.png',
-          imgTwo:'static/playerBill/jssk/R_x.png'
-        }
-      ],
-      roundIconFKSG:[
-        {
-          imgOne:'static/playerBill/fksg/1hong.png',
-          imgTwo:'static/playerBill/fksg/1hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/1huang.png',
-          imgTwo:'static/playerBill/fksg/1huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/1lv.png',
-          imgTwo:'static/playerBill/fksg/1lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/2hong.png',
-          imgTwo:'static/playerBill/fksg/2hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/2huang.png',
-          imgTwo:'static/playerBill/fksg/2huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/2lv.png',
-          imgTwo:'static/playerBill/fksg/2lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/3hong.png',
-          imgTwo:'static/playerBill/fksg/3hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/3huang.png',
-          imgTwo:'static/playerBill/fksg/3huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/3lv.png',
-          imgTwo:'static/playerBill/fksg/3lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/4hong.png',
-          imgTwo:'static/playerBill/fksg/4hong_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/4huang.png',
-          imgTwo:'static/playerBill/fksg/4huang_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/4lv.png',
-          imgTwo:'static/playerBill/fksg/4lv_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/shuangxing.png',
-          imgTwo:'static/playerBill/fksg/shuangxing_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/bar.png',
-          imgTwo:'static/playerBill/fksg/bar_x.png'
-        },
-        {
-          imgOne:'static/playerBill/fksg/lingdang.png',
-          imgTwo:'static/playerBill/fksg/lingdang_x.png'
-        }
-      ],
-      winResultObjSLXY: {
-        '1': 'static/playerBill/slxy/slxy_youwin.png' ,
-        '2': 'static/playerBill/slxy/slxy_bigwin.png' ,
-        '3': 'static/playerBill/slxy/slxy_magic.png' ,
-        '4': 'static/playerBill/slxy/slxy_super.png'
-      },
-      winResultObjJSSK: {
-        '1': 'static/playerBill/jssk/bcbm_youwin.png' ,
-        '2': 'static/playerBill/jssk/bcbm_bigwin.png' ,
-        '3': 'static/playerBill/jssk/bcbm_magic.png' ,
-        '4': 'static/playerBill/jssk/bcbm_super.png'
-      },
-      winResultObjFKSG: {
-        '1': 'static/playerBill/fksg/fksg_youwin.png' ,
-        '2': 'static/playerBill/fksg/fksg_bigwin.png' ,
-        '3': 'static/playerBill/fksg/fksg_magic.png' ,
-        '4': 'static/playerBill/fksg/fksg_super.png'
-      }
+      roundIconSLXY:[],
+      roundIconJSSK:[],
+      roundIconFKSG:[],
+      winResultObjSLXY: {},
+      winResultObjJSSK: {},
+      winResultObjFKSG: {},
+      imgPrefix: 'https://d38xgux2jezyfx.cloudfront.net/recordImg/'
     }
   },
   computed: {
@@ -276,7 +79,7 @@ export default {
     gameTypeIcon () {
       let resultIcon = {}
       resultIcon  = {
-        '50001': this.roundIconSLXR,
+        '50001': this.roundIconSLXY,
         '50002': this.roundIconJSSK,
         '50003': this.roundIconFKSG
       }
@@ -293,7 +96,214 @@ export default {
     }
   },
   methods:{
+    init() {
+      this.roundIconSLXY = [
+        {
+          imgOne: `${this.imgPrefix}slxy/1hong.png`,
+          imgTwo: `${this.imgPrefix}slxy/1hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/1huang.png`,
+          imgTwo:`${this.imgPrefix}slxy/1huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/1lv.png`,
+          imgTwo:`${this.imgPrefix}slxy/1lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/2hong.png`,
+          imgTwo:`${this.imgPrefix}slxy/2hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/2huang.png`,
+          imgTwo:`${this.imgPrefix}slxy/2huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/2lv.png`,
+          imgTwo:`${this.imgPrefix}slxy/2lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/3hong.png`,
+          imgTwo:`${this.imgPrefix}slxy/3hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/3huang.png`,
+          imgTwo:`${this.imgPrefix}slxy/3huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/3lv.png`,
+          imgTwo:`${this.imgPrefix}slxy/3lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/4hong.png`,
+          imgTwo:`${this.imgPrefix}slxy/4hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/4huang.png`,
+          imgTwo:`${this.imgPrefix}slxy/4huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/4lv.png`,
+          imgTwo:`${this.imgPrefix}slxy/4lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/lanmogu.png`,
+          imgTwo:`${this.imgPrefix}slxy/lanmogu_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/baoxiang.png`,
+          imgTwo:`${this.imgPrefix}slxy/baoxiang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}slxy/hongmogu.png`,
+          imgTwo:`${this.imgPrefix}slxy/hongmogu_x.png`
+        }
+      ]
+      this.roundIconJSSK = [
+        {
+          imgOne:`${this.imgPrefix}jssk/1hong.png`,
+          imgTwo:`${this.imgPrefix}jssk/1hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/1huang.png`,
+          imgTwo:`${this.imgPrefix}jssk/1huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/1lv.png`,
+          imgTwo:`${this.imgPrefix}jssk/1lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/2hong.png`,
+          imgTwo:`${this.imgPrefix}jssk/2hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/2huang.png`,
+          imgTwo:`${this.imgPrefix}jssk/2huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/2lv.png`,
+          imgTwo:`${this.imgPrefix}jssk/2lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/3hong.png`,
+          imgTwo:`${this.imgPrefix}jssk/3hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/3huang.png`,
+          imgTwo:`${this.imgPrefix}jssk/3huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/3lv.png`,
+          imgTwo:`${this.imgPrefix}jssk/3lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/4hong.png`,
+          imgTwo:`${this.imgPrefix}jssk/4hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/4huang.png`,
+          imgTwo:`${this.imgPrefix}jssk/4huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/4lv.png`,
+          imgTwo:`${this.imgPrefix}jssk/4lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/D.png`,
+          imgTwo:`${this.imgPrefix}jssk/D_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/P.png`,
+          imgTwo:`${this.imgPrefix}jssk/P_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}jssk/R.png`,
+          imgTwo:`${this.imgPrefix}jssk/R_x.png`
+        }
+      ]
+      this.roundIconFKSG = [
+        {
+          imgOne:`${this.imgPrefix}fksg/1hong.png`,
+          imgTwo:`${this.imgPrefix}fksg/1hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/1huang.png`,
+          imgTwo:`${this.imgPrefix}fksg/1huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/1lv.png`,
+          imgTwo:`${this.imgPrefix}fksg/1lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/2hong.png`,
+          imgTwo:`${this.imgPrefix}fksg/2hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/2huang.png`,
+          imgTwo:`${this.imgPrefix}fksg/2huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/2lv.png`,
+          imgTwo:`${this.imgPrefix}fksg/2lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/3hong.png`,
+          imgTwo:`${this.imgPrefix}fksg/3hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/3huang.png`,
+          imgTwo:`${this.imgPrefix}fksg/3huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/3lv.png`,
+          imgTwo:`${this.imgPrefix}fksg/3lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/4hong.png`,
+          imgTwo:`${this.imgPrefix}fksg/4hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/4huang.png`,
+          imgTwo:`${this.imgPrefix}fksg/4huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/4lv.png`,
+          imgTwo:`${this.imgPrefix}fksg/4lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/shuangxing.png`,
+          imgTwo:`${this.imgPrefix}fksg/shuangxing_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/bar.png`,
+          imgTwo:`${this.imgPrefix}fksg/bar_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}fksg/lingdang.png`,
+          imgTwo:`${this.imgPrefix}fksg/lingdang_x.png`
+        }
+      ]
+      this.winResultObjSLXY = {
+        '1': `${this.imgPrefix}slxy/slxy_youwin.png` ,
+        '2': `${this.imgPrefix}slxy/slxy_bigwin.png` ,
+        '3': `${this.imgPrefix}slxy/slxy_magic.png` ,
+        '4': `${this.imgPrefix}slxy/slxy_super.png`
+      }
+      this.winResultObjJSSK = {
+        '1': `${this.imgPrefix}jssk/bcbm_youwin.png` ,
+        '2': `${this.imgPrefix}jssk/bcbm_bigwin.png` ,
+        '3': `${this.imgPrefix}jssk/bcbm_magic.png` ,
+        '4': `${this.imgPrefix}jssk/bcbm_super.png`
+      }
+      this.winResultObjFKSG = {
+        '1': `${this.imgPrefix}fksg/fksg_youwin.png` ,
+        '2': `${this.imgPrefix}fksg/fksg_bigwin.png` ,
+        '3': `${this.imgPrefix}fksg/fksg_magic.png` ,
+        '4': `${this.imgPrefix}fksg/fksg_super.png`
+      }
+    },
     getRecordSLXY() {
+      this.init()
       this.recordArray = []
       invoke({
         url: api.playerRecord,
@@ -367,13 +377,13 @@ export default {
       position: relative;
     }
     .record-slxy{
-      background: url("../../../static/playerBill/slxy/slxy_bg.jpg");
+      background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/slxy/slxy_bg.jpg");
     }
     .record-jssk{
-      background: url("../../../static/playerBill/jssk/jssk_bg.jpg");
+      background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/jssk/jssk_bg.jpg");
     }
     .record-fksg{
-      background: url("../../../static/playerBill/fksg/fksg_bg.jpg");
+      background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/fksg/fksg_bg.jpg");
     }
     .arcade_modal_head{
       position: absolute;

@@ -47,10 +47,10 @@ export default {
       gameType: '', // 真人视讯下游戏类别
       winLostState:['取消','输','赢','和'],
       brandImg:{
-        'C': 'static/playerBill/brand/C.png',
-        'D': 'static/playerBill/brand/D.png',
-        'H': 'static/playerBill/brand/H.png',
-        'S': 'static/playerBill/brand/S.png'
+        'C': 'https://d38xgux2jezyfx.cloudfront.net/recordImg/brand/C.png',
+        'D': 'https://d38xgux2jezyfx.cloudfront.net/recordImg/brand/D.png',
+        'H': 'https://d38xgux2jezyfx.cloudfront.net/recordImg/brand/H.png',
+        'S': 'https://d38xgux2jezyfx.cloudfront.net/recordImg/brand/S.png'
       },// 牌型
       brandList:{
         '1': 'A',
