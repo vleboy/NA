@@ -15,8 +15,7 @@
           </el-table-column>
           <el-table-column label="接入商昵称" prop="displayName" align="left">
             <template scope="scope">
-              <span @click="getChild(scope.row)" class="fontUrl" v-if="scope.row.role == '10'">{{scope.row.displayName}}</span>
-              <span v-else>{{scope.row.displayName}}</span>
+              <span @click="getChild(scope.row)" class="fontUrl">{{scope.row.displayName}}</span>
             </template>
           </el-table-column>
           <el-table-column label="抽成比" prop="" align="left">
@@ -60,9 +59,9 @@
       </div>
     </div>
 
-    <div class="point-warning" v-for="child of nowChild">
+    <div class="point-warning" v-for="(child,index) of nowChild">
       <div class="belong-list">
-        <p class="title">{{nowParent}}下级接入商</p>
+        <p class="title">{{nowParent[index]}}下级接入商</p>
         <el-table :data="child">
           <el-table-column label="序号" prop="rank" align="left" type="index" width="80">
           </el-table-column>
@@ -74,6 +73,9 @@
             </template>
           </el-table-column>
           <el-table-column label="接入商昵称" prop="displayName" align="left">
+            <template scope="scope">
+              <span @click="getChild(scope.row)" class="fontUrl">{{scope.row.displayName}}</span>
+            </template>
           </el-table-column>
           <el-table-column label="抽成比" prop="" align="left">
             <template scope="scope">
@@ -175,7 +177,7 @@ export default {
       nowWarningPoint: '', // 设置的阈值点
       clickChild: [], // 点击查询下级
       rendered: [], // 已渲染的下级
-      nowParent: '', // 现在渲染的下级所属上级昵称
+      nowParent: [], // 现在渲染的下级所属上级昵称
       noType: '', // 判断现在点击的是直属还是下级
     }
   },
@@ -279,7 +281,6 @@ export default {
     },
     getChild (parent) {
       this.$store.commit('startLoading')
-      this.nowParent = parent.displayName
       let data = {
         parent: parent.userId
       }
@@ -289,6 +290,7 @@ export default {
       }
       if (this.rendered.length == 0) {
         this.rendered.push(will_render)
+        this.nowParent.push(parent.displayName)
         invoke({
           url: api.reportInfo,
           method: api.post,
@@ -377,8 +379,9 @@ export default {
           }
         })
       } else {
-        if (this.rendered[this.rendered.length - 1].parent.userId == parent.parent) {
+        if (this.rendered[this.rendered.length - 1].userId == parent.parent) {
           this.rendered.push(will_render)
+          this.nowParent.push(parent.displayName)
           invoke({
             url: api.reportInfo,
             method: api.post,
@@ -469,8 +472,10 @@ export default {
           })
         } else {
           this.rendered = []
+          this.nowParent = []
           this.clickChild = []
           this.rendered.push(will_render)
+          this.nowParent.push(parent.displayName)
           invoke({
             url: api.reportInfo,
             method: api.post,
