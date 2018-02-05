@@ -317,7 +317,7 @@ export default {
               this.loading = false
               var data = ret.data.payload
               // console.log(data)
-              this.$store.dispatch('getPersonal_info')
+              this.$store.dispatch('getPersonal_info_admin')
               this.isfinish = true
             }
           }
