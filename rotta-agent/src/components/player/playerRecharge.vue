@@ -1,6 +1,6 @@
 <template>
   <div class="p-modal-recharge">
-    <el-dialog :title="isSaveStatus ? '玩家存点' : '玩家提点'" :visible.sync="isOpenModal" size="tiny">
+    <el-dialog :title="isSaveStatus ? '玩家存点' : '玩家提点'" :visible.sync="isOpenModal" size="tiny" @close="sureCloseModal">
       <el-form :model="balanceInfo" v-if="!isSuccess">
         <el-form-item :label="isSaveStatus ? '起始账户' : '转入账户'" label-width="100px" >
           {{agentName}}
@@ -21,27 +21,19 @@
       </el-form>
       <div v-else>
         <h3 class="-p-m-tips g-text-center"><i class="el-icon-circle-check -p-green"></i> 操作成功</h3>
-        <div>
-          <div>
-            <span>起始账户：</span>
-            <div class="-p-form" style="">
-              {{isSaveStatus ? agentName : balanceInfo.userName}} 减少点数：
-              <span class="-p-red">{{formatPoints(balanceInfo.points || 0)}}</span>,
-              当前剩余点数：{{formatPoints(isSaveStatus ? agentPoints-balanceInfo.points : balanceInfo.balance-balanceInfo.points)}}
-            </div>
-          </div>
-        </div>
-        <div>
-          <div>
-            <span>转入账户：</span>
-            <div class="-p-form">
-              {{isSaveStatus ? balanceInfo.userName : agentName}} 增加点数：
-              <span class="-p-green">{{formatPoints(balanceInfo.points || 0)}}</span>,
-              当前点数：{{formatPoints(isSaveStatus ? balanceInfo.balance+Number(balanceInfo.points) : agentPoints+Number(balanceInfo.points))}}
-            </div>
+        <el-form>
+          <el-form-item label="起始账户："  >
+            {{isSaveStatus ? agentName : balanceInfo.userName}} 减少点数：
+            <span class="-p-red">{{formatPoints(balanceInfo.points || 0)}}</span>,
+            当前剩余点数：{{formatPoints(isSaveStatus ? agentPoints-balanceInfo.points : balanceInfo.balance-balanceInfo.points)}}
+          </el-form-item>
 
-          </div>
-        </div>
+          <el-form-item label="转入账户："  >
+            {{isSaveStatus ? balanceInfo.userName : agentName}} 增加点数：
+            <span class="-p-green">{{formatPoints(balanceInfo.points || 0)}}</span>,
+            当前点数：{{formatPoints(isSaveStatus ? balanceInfo.balance+Number(balanceInfo.points) : agentPoints+Number(balanceInfo.points))}}
+          </el-form-item>
+        </el-form>
         <div class="g-text-center">
           <el-button type="primary" @click="sureCloseModal()">确认</el-button>
         </div>
@@ -145,6 +137,7 @@
         )
       },
       sureCloseModal () {
+        if(!this.isSuccess) return
         this.isOpenModal = false
         this.$emit('closeModal')
       },
@@ -157,7 +150,6 @@
 
 <style scoped>
   .p-modal-recharge .-p-m-tips{margin-bottom: 20px}
-  .p-modal-recharge .-p-form{padding-left: 80px;display: inline-block; position: relative;  top: -20px;}
   .-p-green{color: #00CC00}
   .-p-red{color: #FF3300}
 </style>
