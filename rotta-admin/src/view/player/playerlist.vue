@@ -56,7 +56,7 @@
             {{ scope.row.merchantName === 'NULL!' ? '-' : scope.row.merchantName}}
           </template>
         </el-table-column>
-        <el-table-column prop="nickname" label="玩家昵称" align="left">
+        <el-table-column prop="nickname" label="玩家昵称" align="left" width="200">
           <template scope="scope">
             {{ scope.row.nickname === 'NULL!' ? '-' : scope.row.nickname}}
           </template>

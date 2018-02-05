@@ -40,7 +40,7 @@
         </el-table-column>
         <el-table-column prop="userName" label="用户名" width="200" align="left">
         </el-table-column>
-        <el-table-column prop="nickname" label="昵称" align="left">
+        <el-table-column prop="nickname" label="昵称" align="left" width="200">
           <template scope="scope">
             <span>{{formatRemark(scope.row.nickname)}}</span>
           </template>
