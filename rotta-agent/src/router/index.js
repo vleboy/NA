@@ -3,6 +3,8 @@ import Router from 'vue-router'
 
 import Login from '@/components/login' // 登陆页面
 
+import Commingsoon from '@/view/comming/commingSoon' // 功能未开通页面
+
 import Welcome from '@/view/welcome/welcome' // 欢迎页面
 
 import Board from '@/view/board/board' // 系统看板
@@ -90,6 +92,11 @@ const router = new Router({
       path: '/welcome',
       name: '欢迎',
       component: Welcome
+    },
+    {
+      path: '/commingSoon',
+      name: '跳转页面',
+      component: Commingsoon
     },
     {
       path: '/board',
