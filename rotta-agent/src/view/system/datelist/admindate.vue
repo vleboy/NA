@@ -66,9 +66,9 @@ export default {
 </script>
 
 <style scpoed>
-.admindate .search{margin-left: 2rem;margin-top: 2rem}
-.admindate .search p{padding-bottom: 1rem}
-.admindate .admindate-list{width: 99%;margin: 0 auto;margin-top: 2rem}
+.admindate .search{margin-left: 2rem;}
+/*.admindate .search p{padding-bottom: 1rem}*/
+.admindate .admindate-list{width: 99%;margin: 0 auto;margin-top: 1rem}
 .green{color: #00CC00}
 .red{color: #FF3300}
 </style>

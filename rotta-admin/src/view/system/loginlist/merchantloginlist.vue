@@ -142,9 +142,9 @@ export default {
 </script>
 
 <style scpoed>
-.merchantloginlist .search{margin-left: 2rem;margin-top: 2rem}
-.merchantloginlist .search p{padding-bottom: 1rem}
-.merchantloginlist .outdate-list{width: 99%;margin: 0 auto;margin-top: 3rem}
+.merchantloginlist .search{margin-left: 2rem;margin-top: 1rem}
+/*.merchantloginlist .search p{padding-bottom: 1rem}*/
+.merchantloginlist .outdate-list{width: 99%;margin: 0 auto;margin-top: 1rem}
 .green{color: #00CC00}
 .red{color: #FF3300}
 .merchantloginlist .statusIcon1{font-size: 2rem;color:#F04134;display: inline-block;margin-right: 0.2rem;vertical-align: -0.3rem}

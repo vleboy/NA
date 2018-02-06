@@ -70,7 +70,7 @@ export default {
 </script>
 
 <style scpoed>
-.adminlist .search{margin-left: 2rem;margin-top: 2rem}
-.adminlist .search p{padding-bottom: 1rem}
+.adminlist .search{margin-left: 2rem;}
+/*.adminlist .search p{padding-bottom: 1rem}*/
 .adminlist .adminlist-form{width: 99%;margin: 0 auto;margin-top: 1rem}
 </style>

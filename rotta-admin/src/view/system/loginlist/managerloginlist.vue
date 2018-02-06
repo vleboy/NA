@@ -142,9 +142,9 @@ export default {
 </script>
 
 <style scpoed>
-.managerloginlist .search{margin-left: 2rem;margin-top: 2rem}
-.managerloginlist .search p{padding-bottom: 1rem}
-.managerloginlist .outdate-list{width: 99%;margin: 0 auto;margin-top: 3rem}
+.managerloginlist .search{margin-left: 2rem;margin-top: 1rem}
+/*.managerloginlist .search p{padding-bottom: 0rem}*/
+.managerloginlist .outdate-list{width: 99%;margin: 0 auto;margin-top: 1rem}
 .managerloginlist .green{color: #00CC00}
 .managerloginlist .red{color: #FF3300}
 .managerloginlist .statusIcon1{font-size: 2rem;color:#F04134;display: inline-block;margin-right: 0.2rem;vertical-align: -0.3rem}

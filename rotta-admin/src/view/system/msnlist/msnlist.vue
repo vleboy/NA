@@ -157,6 +157,6 @@ export default {
 .red{color: #ff3300}
 .blue{color: rgba(16, 141, 233, 1)}
 /**/
-.msn .search{text-align: right;margin-top: 1rem;background-color: #e9e9e9;padding: 3rem 2rem}
+.msn .search{text-align: right;margin-top: 1rem;background-color: #e9e9e9;padding: 1rem 2rem}
 .msn .input{width: 15rem;margin-right: 0.5rem}
 </style>
