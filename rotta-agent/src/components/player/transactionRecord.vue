@@ -39,12 +39,12 @@
     <div class="-p-content">
       <el-table  :data="dataList">
         <el-table-column prop="businessKey" label="交易号" align="left" width="300"></el-table-column>
-        <el-table-column label="交易时间" align="center" width="200">
+        <el-table-column label="交易时间" align="center" width="220">
           <template scope="scope">
             {{formatterTime(scope.row.createdAt)}}
           </template>
         </el-table-column>
-        <el-table-column label="结算前余额" align="left" width="190">
+        <el-table-column label="结算前余额" align="left" width="200">
           <template scope="scope">
             {{formatPoints(scope.row.originalAmount)}}
           </template>
