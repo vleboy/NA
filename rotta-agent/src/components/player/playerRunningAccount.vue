@@ -6,7 +6,7 @@ $<template>
       <!--</div>-->
       <div class="baseinfo">
         <el-row class="baseinfo-form">
-          <el-col :span="6">
+          <el-col :span="17">
             时间：
             <el-date-picker
               v-model="amountDate"
@@ -15,16 +15,14 @@ $<template>
               @change="changeDate"
               placeholder="选择日期范围">
             </el-date-picker>
-          </el-col>
-          <el-col :span="5">
+
             <el-date-picker
               v-model="monthDate"
               type="month"
               @change="changeMonth"
               placeholder="按月选择">
             </el-date-picker>
-          </el-col>
-          <el-col :span="6">
+
             最近：
             <el-radio-group v-model="radioTime" @change="changeTime()">
               <el-radio-button label="1">1周</el-radio-button>
@@ -32,6 +30,7 @@ $<template>
               <el-radio-button label="3">1年</el-radio-button>
             </el-radio-group>
           </el-col>
+
           <el-col :span="7" class="g-text-right">
             <el-button @click="isShowSearch = !isShowSearch" type="text">高级筛选
               <i :class="{'el-icon-caret-top':!isShowSearch,'el-icon-caret-bottom':isShowSearch}" style="font-size: 12px"></i>
