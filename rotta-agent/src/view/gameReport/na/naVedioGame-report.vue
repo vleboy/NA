@@ -282,6 +282,8 @@ export default {
 
       parentMix: '', // 上级洗码比
       nowType: gameType('naVedio'), // 当前输赢报表游戏类型
+
+      nowparent: '' // 现在请求的玩家上级ID
     }
   },
   activated: function () {
@@ -457,8 +459,8 @@ export default {
       )
     }, // 获取登录用户直属下级
     getLoginPlayer (parent) {
+      this.nowparent = parent.userId
       this.playerParent = parent.displayName
-      this.nowPlayer = []
       this.$store.commit('startLoading')
       var data = {
         parentId: parent.userId
@@ -468,6 +470,7 @@ export default {
         method: api.post,
         data: data
       }).then(result => {
+        this.nowPlayer = []
         const [err, ret] = result
         if (err) {
         } else {
@@ -483,6 +486,7 @@ export default {
             let player_data = {
               gameType: gameType('naVedio'),
               gameUserNames: item.map(item=>{return item.userName}),
+              parent: parent.userId,
               query: {
                 createdAt: time
               }
@@ -521,7 +525,7 @@ export default {
                   this.nowPlayer.push(...item.filter(item=>{
                     let isRepeat = false
                     for (let side of this.nowPlayer) {
-                      side.userName == item.userName ? isRepeat = true : '' 
+                      side.userName == item.userName && side.parent == this.nowparent ? isRepeat = true : '' 
                     }
                     return item.betCount > 0 && !isRepeat
                   }))
@@ -732,7 +736,7 @@ export default {
       }
     }, // 点击查询下级
     getPlayer (parent) {
-      this.playerParent = ''
+      this.nowparent = parent.userId
       var isSame = false
       for (let item of this.rendered) {
         item.parent == parent.parent
@@ -740,7 +744,6 @@ export default {
       }
       isSame ? '' : this.clickChild = []
       this.playerParent = parent.displayName
-      this.nowPlayer = []
       var data = {
         parentId: parent.userId
       }
@@ -749,6 +752,7 @@ export default {
         method: api.post,
         data: data
       }).then(result => {
+        this.nowPlayer = []
         const [err, ret] = result
         if (err) {
         } else {
@@ -764,6 +768,7 @@ export default {
             let player_data = {
               gameType: gameType('naVedio'),
               gameUserNames: item.map(item=>{return item.userName}),
+              parent: parent.userId,
               query: {
                 createdAt: time
               }
@@ -798,14 +803,14 @@ export default {
                       }
                     })
                   })
+                  this.$store.commit('closeLoading')
                   this.nowPlayer.push(...item.filter(item=>{
                     let isRepeat = false
                     for (let side of this.nowPlayer) {
-                      side.userName == item.userName ? isRepeat = true : '' 
+                      side.userName == item.userName && side.parent == this.nowparent ? isRepeat = true : '' 
                     }
                     return item.betCount > 0 && !isRepeat
                   }))
-                  this.$store.commit('closeLoading')
                 }
               }
             })
