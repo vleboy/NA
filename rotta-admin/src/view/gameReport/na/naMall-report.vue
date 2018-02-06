@@ -284,7 +284,11 @@ export default {
                         })
                       })
                       this.nowChild.push(...item.filter(item=>{
-                        return item.betCount > 0
+                        let isRepeat = false
+                        for (let side of this.nowChild) {
+                          side.userId == item.userId ? isRepeat = true : '' 
+                        }
+                        return item.betCount > 0 && !isRepeat
                       }))
                       this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
                       this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
