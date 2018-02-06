@@ -20,9 +20,9 @@
         </el-table-column>
         <el-table-column label="最后登录IP" prop="lastIP"  align="center">
         </el-table-column>
-        <el-table-column label="最后登录时间" prop="lastLogin" min-width="95" align="center">
+        <el-table-column label="最后登录时间" prop="lastLogin" width="120" align="center">
           <template scope="scope">
-            <span>{{formatTime(scope.row.lastLogin)}}</span>
+            <span style="word-break:normal">{{formatTime(scope.row.lastLogin)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="登录状态" prop="status" align="center">
