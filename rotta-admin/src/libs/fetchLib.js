@@ -5,6 +5,7 @@ import axios from 'axios'
 import store from '@/store/store'
 import { Message } from 'element-ui'
 export const invoke = async (cfg) => {
+  let isStringType = false //针对非后台返回的data类型为字符串类型（xml） 比如图片上传等 
   const token = store.state.variable.token
   const param = {
     data: cfg.data ? cfg.data : {},
@@ -30,13 +31,13 @@ export const invoke = async (cfg) => {
     const response = await axios.request(isToken ? requestConfig : noTokenRequestConfig)
     return [0, response]
   } catch (e) {
-    let isStringType = typeof (e.response.data) == 'string'  //针对非后台返回的data类型为字符串类型（xml） 比如图片上传等
     if (!e.response || e.response.message) {
       store.state.variable.isloading = false
       Message.warning('您的网络不稳定,请刷新后重试')
     } else {
+      isStringType = typeof (e.response.data) == 'string'
       if (!isStringType && e.response.data && e.response.data.code != 90001) {
-        store.state.variable.isloading = false
+        store.state.variable.isloading = false  
         Message.warning(e.response.data.err.msg)
       }
       if (e.response.data.code == 90001) {
