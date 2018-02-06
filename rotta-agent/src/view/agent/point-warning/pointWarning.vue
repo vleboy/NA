@@ -248,7 +248,7 @@ export default {
                   winloseAmount: Number(winloseAmount[i]),
                   topAmount: Number(topAmount[i]),
                   userId: userId[i],
-                  usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
+                  usedRate: topAmount[i] != 0 && winloseAmount[i] > 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
                 })
               } else {
                 companyList.map(reaction => {
@@ -267,7 +267,7 @@ export default {
                 companyList.map(inside => {
                   if (inside.company == outside.company) {
                     outside.winloseAmount = inside.winloseAmount
-                    outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
+                    outside.usedRate = outside.topAmount != 0 && outside.winloseAmount > 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
                     outside.usedRate > 100 ? outside.usedRate = 100 : ''
                   }
                 })
@@ -344,7 +344,7 @@ export default {
                       winloseAmount: Number(winloseAmount[i]),
                       topAmount: Number(topAmount[i]),
                       userId: userId[i],
-                      usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? Number((winloseAmount[i] / topAmount[i] * 100).toFixed(3)) : 0
+                      usedRate: topAmount[i] != 0 && winloseAmount[i] > 0 ? Number((winloseAmount[i] / topAmount[i] * 100).toFixed(3)) : 0
                     })
                   } else {
                     companyList.map(reaction => {
@@ -363,7 +363,7 @@ export default {
                     companyList.map(inside => {
                       if (inside.company == outside.company) {
                         outside.winloseAmount = inside.winloseAmount
-                        outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
+                        outside.usedRate = outside.topAmount != 0 && outside.winloseAmount > 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
                         outside.usedRate > 100 ? outside.usedRate = 100 : ''
                       }
                     })
@@ -436,7 +436,7 @@ export default {
                         winloseAmount: Number(winloseAmount[i]),
                         topAmount: Number(topAmount[i]),
                         userId: userId[i],
-                        usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
+                        usedRate: topAmount[i] != 0 && winloseAmount[i] > 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
                       })
                     } else {
                       companyList.map(reaction => {
@@ -455,7 +455,7 @@ export default {
                       companyList.map(inside => {
                         if (inside.company == outside.company) {
                           outside.winloseAmount = inside.winloseAmount
-                          outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
+                          outside.usedRate = outside.topAmount != 0 && outside.winloseAmount > 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
                           outside.usedRate > 100 ? outside.usedRate = 100 : ''
                         }
                       })
@@ -530,7 +530,7 @@ export default {
                         winloseAmount: Number(winloseAmount[i]),
                         topAmount: Number(topAmount[i]),
                         userId: userId[i],
-                        usedRate: topAmount[i] != 0 && winloseAmount[i] != 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
+                        usedRate: topAmount[i] != 0 && winloseAmount[i] > 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
                       })
                     } else {
                       companyList.map(reaction => {
@@ -549,7 +549,7 @@ export default {
                       companyList.map(inside => {
                         if (inside.company == outside.company) {
                           outside.winloseAmount = inside.winloseAmount
-                          outside.usedRate = outside.topAmount != 0 && outside.winloseAmount != 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
+                          outside.usedRate = outside.topAmount != 0 && outside.winloseAmount > 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
                           outside.usedRate > 100 ? outside.usedRate = 100 : ''
                         }
                       })
