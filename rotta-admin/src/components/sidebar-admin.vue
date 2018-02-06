@@ -314,7 +314,7 @@ export default {
 .sidebar{padding-bottom: 5rem}
 a {
   list-style: none;
-  color: #ffffff;
+  color: #bfcbd9;
   text-decoration-line: none;
 }
 </style>

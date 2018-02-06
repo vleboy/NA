@@ -120,7 +120,7 @@ export default {
 }
 a {
   list-style: none;
-  color: #ffffff;
+  color: #bfcbd9;
   text-decoration-line: none;
 }
 </style>
