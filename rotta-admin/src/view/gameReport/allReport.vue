@@ -43,7 +43,7 @@
             <span :class="[Number(flashNumber.naWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.naWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(商户交公司)" prop="naSubmit" align="left">
+        <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.naSubmit)}}</span>
           </template>
@@ -53,7 +53,7 @@
             <span :class="[Number(flashNumber.ttgWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.ttgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(商户交公司)" prop="ttgSubmit" align="left">
+        <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.ttgSubmit)}}</span>
           </template>
@@ -63,7 +63,7 @@
             <span :class="[Number(flashNumber.saWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="left">
+        <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.saSubmit)}}</span>
           </template>
@@ -107,7 +107,7 @@
             <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(商户交公司)" prop="naSubmit" align="left">
+        <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.naSubmit)}}</span>
           </template>
@@ -117,7 +117,7 @@
             <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(商户交公司)" prop="ttgSubmit" align="left">
+        <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.ttgSubmit)}}</span>
           </template>
@@ -127,7 +127,7 @@
             <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(商户交公司)" prop="saSubmit" align="left">
+        <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.saSubmit)}}</span>
           </template>

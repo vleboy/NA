@@ -34,12 +34,12 @@
             <span :class="[Number(flashNumber.winlose) > 0 ? 'green' : 'red']">{{points(flashNumber.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户占成" prop="rate" align="left">
+        <el-table-column label="商家占成" prop="rate" align="left">
           <template scope="scope">
             <span>{{(scope.row.rate) + '%'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户交公司" prop="submit" align="left">
+        <el-table-column label="商家交公司" prop="submit" align="left">
           <template scope="scope">
             <span :class="[Number(flashNumber.submit) > 0 ? 'green' : 'red']">{{points(flashNumber.submit)}}</span>
           </template>
@@ -83,12 +83,12 @@
             <span :class="[Number(scope.row.winlose) > 0 ? 'green' : 'red']">{{points(scope.row.winlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户占成" prop="rate" align="left">
+        <el-table-column label="商家占成" prop="rate" align="left">
           <template scope="scope">
             <span>{{(scope.row.rate) + '%'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户交公司" align="left" prop="submit">
+        <el-table-column label="商家交公司" align="left" prop="submit">
           <template scope="scope">
             <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
           </template>

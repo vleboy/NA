@@ -33,7 +33,7 @@
             <span :class="[Number(flashNumber.allWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.allWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总商户交公司" prop="allSubmit" align="left">
+        <el-table-column label="总商家交公司" prop="allSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.allSubmit)}}</span>
           </template>
@@ -43,7 +43,7 @@
             <span :class="[Number(flashNumber.vedioWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.vedioWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA电子游戏(商户交公司)" prop="vedioSubmit" align="left">
+        <el-table-column label="NA电子游戏(商家交公司)" prop="vedioSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.vedioSubmit)}}</span>
           </template>
@@ -53,7 +53,7 @@
             <span :class="[Number(flashNumber.liveWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.liveWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(商户交公司)" prop="liveSubmit" align="left">
+        <el-table-column label="NA真人游戏(商家交公司)" prop="liveSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.liveSubmit)}}</span>
           </template>
@@ -63,7 +63,7 @@
             <span :class="[Number(flashNumber.arcadeWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.arcadeWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA街机游戏(商户交公司)" prop="arcadeSubmit" align="left">
+        <el-table-column label="NA街机游戏(商家交公司)" prop="arcadeSubmit" align="left">
           <template scope="scope">
             <span>{{(flashNumber.arcadeSubmit)}}</span>
           </template>
@@ -102,7 +102,7 @@
             <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.allWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总商户交公司" prop="allSubmit" align="left">
+        <el-table-column label="总商家交公司" prop="allSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.allSubmit)}}</span>
           </template>
@@ -112,7 +112,7 @@
             <span :class="[Number(scope.row.vedioWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.vedioWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA电子游戏(商户交公司)" prop="vedioSubmit" align="left">
+        <el-table-column label="NA电子游戏(商家交公司)" prop="vedioSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.vedioSubmit)}}</span>
           </template>
@@ -122,7 +122,7 @@
             <span :class="[Number(scope.row.liveWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.liveWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(商户交公司)" prop="liveSubmit" align="left">
+        <el-table-column label="NA真人游戏(商家交公司)" prop="liveSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.liveSubmit)}}</span>
           </template>
@@ -132,7 +132,7 @@
             <span :class="[Number(scope.row.arcadeWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.arcadeWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA街机游戏(商户交公司)" prop="arcadeSubmit" align="left">
+        <el-table-column label="NA街机游戏(商家交公司)" prop="arcadeSubmit" align="left">
           <template scope="scope">
             <span>{{formatToFix(scope.row.arcadeSubmit)}}</span>
           </template>

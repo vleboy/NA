@@ -35,12 +35,12 @@
             <span :class="[Number(scope.row.winloseAmount) > 0 ? 'green' : 'red']">{{points(scope.row.winloseAmount)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户占成" prop="rate" align="left">
+        <el-table-column label="商家占成" prop="rate" align="left">
           <template scope="scope">
             <span>{{(scope.row.rate)}}%</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户交公司" prop="submit" align="left">
+        <el-table-column label="商家交公司" prop="submit" align="left">
           <template scope="scope">
             <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
           </template>
@@ -81,12 +81,12 @@
             <span :class="[Number(scope.row.winloseAmount) > 0 ? 'green' : 'red']">{{points(scope.row.winloseAmount)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户占成" prop="rate" align="left">
+        <el-table-column label="商家占成" prop="rate" align="left">
           <template scope="scope">
             <span>{{(scope.row.rate)}}%</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户交公司" prop="submit" align="left">
+        <el-table-column label="商家交公司" prop="submit" align="left">
           <template scope="scope">
             <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
           </template>
@@ -126,12 +126,12 @@
             <span :class="[Number(scope.row.winloseAmount) > 0 ? 'green' : 'red']">{{points(scope.row.winloseAmount)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户占成" prop="rate" align="left">
+        <el-table-column label="商家占成" prop="rate" align="left">
           <template scope="scope">
             <span>{{(scope.row.rate) + '%'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="商户交公司" align="left" prop="submit">
+        <el-table-column label="商家交公司" align="left" prop="submit">
           <template scope="scope">
             <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
           </template>
