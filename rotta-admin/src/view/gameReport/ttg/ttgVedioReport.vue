@@ -212,6 +212,8 @@ export default {
       playerParent: '', // 当前玩家所属商户昵称
 
       loginRole: localStorage.loginRole, // 登录角色role
+
+      nowparent: '' // 现在请求的玩家上级ID
     }
   },
   activated: function () {
@@ -391,8 +393,6 @@ export default {
       this.$store.commit('startLoading')
       if (this.rendered.length == 0) {
         this.rendered.push(will_render)
-        this.nowPlayer = []
-        this.playerParent = ''
         invoke({
           url: api.reportInfo,
           method: api.post,
@@ -459,9 +459,9 @@ export default {
           if (this.rendered.filter(item => {return item.userId == parent.userId}).length > 0) {
             this.$store.commit('closeLoading')
           } else {
-            this.rendered.push(will_render)
             this.nowPlayer = []
             this.playerParent = ''
+            this.rendered.push(will_render)
             invoke({
               url: api.reportInfo,
               method: api.post,
@@ -589,14 +589,13 @@ export default {
       }
     }, // 点击查询下级
     getPlayer (parent, isClear) {
+      this.nowparent == parent.userId
       if (isClear) {
         this.playerParent = ''
-        this.nowPlayer = []
         this.clickChild = []
       }
       this.$store.commit('startLoading')
       this.playerParent = parent.displayName
-      this.nowPlayer = []
       var data = {
         parentId: parent.userId
       }
@@ -605,6 +604,7 @@ export default {
         method: api.post,
         data: data
       }).then(result => {
+        this.nowPlayer = []
         const [err, ret] = result
         if (err) {
         } else {
@@ -656,7 +656,7 @@ export default {
                   this.nowPlayer.push(...item.filter(item=>{
                     let isRepeat = false
                     for (let side of this.nowPlayer) {
-                      side.userName == item.userName ? isRepeat = true : '' 
+                      side.userName == item.userName && side.parent == this.nowparent ? isRepeat = true : '' 
                     }
                     return item.betCount > 0 && !isRepeat
                   }))

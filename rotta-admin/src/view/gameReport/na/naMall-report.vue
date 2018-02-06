@@ -142,6 +142,7 @@ export default {
       playerParent: '', // 当前玩家所属商户昵称
 
       loginRole: localStorage.loginRole, // 登录角色role
+      nowparent: '' // 现在请求的玩家上级ID
     }
   },
   activated: function () {
@@ -502,14 +503,13 @@ export default {
       }
     }, // 点击查询下级
     getPlayer (parent, isClear) {
+      this.nowparent == parent.userId
       if (isClear) {
         this.playerParent = ''
-        this.nowPlayer = []
         this.clickChild = []
       }
       this.$store.commit('startLoading')
       this.playerParent = parent.displayName
-      this.nowPlayer = []
       var data = {
         parentId: parent.userId
       }
@@ -518,6 +518,7 @@ export default {
         method: api.post,
         data: data
       }).then(result => {
+        this.nowPlayer = []
         const [err, ret] = result
         if (err) {
         } else {
@@ -559,10 +560,11 @@ export default {
                       }
                     })
                   })
+                  this.$store.commit('closeLoading')
                   this.nowPlayer.push(...item.filter(item=>{
                     let isRepeat = false
                     for (let side of this.nowPlayer) {
-                      side.userName == item.userName ? isRepeat = true : '' 
+                      side.userName == item.userName && side.parent == this.nowparent ? isRepeat = true : '' 
                     }
                     return item.betCount > 0 && !isRepeat
                   }))
