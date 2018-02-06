@@ -641,6 +641,7 @@ export default {
             let player_data = {
               gameType: gameType('saLive'),
               gameUserNames: item.map(item=>{return item.userName}),
+              parent: parent.userId,
               query: {
                 createdAt: time
               }

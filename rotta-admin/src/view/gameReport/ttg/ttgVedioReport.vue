@@ -620,6 +620,7 @@ export default {
             let player_data = {
               gameType: gameType('ttgVedio'),
               gameUserNames: item.map(item=>{return item.userName}),
+              parent: parent.userId,
               query: {
                 createdAt: time
               }
