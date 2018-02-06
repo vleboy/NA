@@ -29,7 +29,7 @@
             <img :src="scope.row.img" style="width:50px;height: 50px;padding: 0.5rem 0;">
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" width="190">
+        <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" width="190" align="center">
         </el-table-column>
         <el-table-column label="状态" align="center" width="90" class-name="green">
           <template scope="scope">

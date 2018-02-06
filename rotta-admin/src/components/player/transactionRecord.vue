@@ -36,30 +36,30 @@
 
     <div class="-p-content">
       <el-table  :data="dataList">
-        <el-table-column prop="businessKey" label="交易号" align="left" width="320"></el-table-column>
-        <el-table-column label="交易时间" align="left" width="200px">
+        <el-table-column prop="businessKey" label="交易号" align="left" width="340"></el-table-column>
+        <el-table-column label="交易时间" align="center" width="200">
           <template scope="scope">
             {{formatterTime(scope.row.createdAt)}}
           </template>
         </el-table-column>
-        <el-table-column label="结算前余额" align="left">
+        <el-table-column label="结算前余额" align="left" width="190">
           <template scope="scope">
             {{formatPoints(scope.row.originalAmount)}}
           </template>
         </el-table-column>
-        <el-table-column label="操作金额" align="left">
+        <el-table-column label="操作金额" align="left" width="100">
           <template scope="scope">
             {{formatPoints(scope.row.betAmount)}}
           </template>
         </el-table-column>
-        <el-table-column label="返还金额" align="left">
+        <el-table-column label="返还金额" align="left" width="100">
           <template scope="scope">
                 <span>
                   {{formatPoints(scope.row.retAmount)}}
                 </span>
           </template>
         </el-table-column>
-        <el-table-column label="净利润" align="left">
+        <el-table-column label="净利润" align="left" width="100">
           <template scope="scope">
                 <span :class="{'-p-green':scope.row.profitAmount>0,'-p-red':scope.row.profitAmount<0}">
                   {{formatPoints(scope.row.profitAmount)}}
@@ -67,14 +67,14 @@
           </template>
         </el-table-column>
         <el-table-column prop="typeName" label="交易类型" width="120" align="left"></el-table-column>
-        <el-table-column prop="rate" label="当前成数" align="left">
+        <el-table-column prop="rate" label="成数"  width="100">
           <template scope="scope">
                 <span>
                   {{scope.row.rate}}%
                 </span>
           </template>
         </el-table-column>
-        <el-table-column prop="mix" label="当前洗码比" align="left">
+        <el-table-column prop="mix" label="洗码比" width="100">
           <template scope="scope">
                 <span>
                   {{scope.row.mix}}%

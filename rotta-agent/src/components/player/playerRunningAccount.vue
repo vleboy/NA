@@ -70,34 +70,34 @@ $<template>
       <div class="center">
         <div class="countinfo-form">
           <el-table stripe :data="dataList" @selection-change="selectionChange">
-            <el-table-column type="selection" width="60" align="center"></el-table-column>
-            <el-table-column prop="sn" label="流水号" width="300" align="center"></el-table-column>
-            <el-table-column prop="createdAt" label="日期" :formatter="getAtime" align="center"></el-table-column>
+            <el-table-column type="selection" width="60" align="left"></el-table-column>
+            <el-table-column prop="sn" label="流水号" width="380" align="left"></el-table-column>
+            <el-table-column prop="createdAt" label="日期" :formatter="getAtime" align="center" width="190"></el-table-column>
             <el-table-column label="交易类型" align="center">
               <template scope="scope">
                 {{typeList[scope.row.type]}}
               </template>
             </el-table-column>
-            <el-table-column prop="originalAmount" label="帐变前余额" align="center">
+            <el-table-column prop="originalAmount" label="帐变前余额" align="center" width="180">
               <template scope="scope">
                 {{formatPoints(scope.row.originalAmount)}}
               </template>
             </el-table-column>
-            <el-table-column label="本次发生金额（入）" align="center">
+            <el-table-column label="金额（入）" align="center" width="120">
               <template scope="scope">
                 <span class="-p-green" v-if="scope.row.amount>=0">
                    {{formatPoints(scope.row.amount)}}
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="本次发生金额（出）" align="center">
+            <el-table-column label="金额（出）" align="center" width="120">
               <template scope="scope">
                 <span class="-p-red" v-if="scope.row.amount<0">
                   {{formatPoints(scope.row.amount)}}
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="发生后金额"  align="center">
+            <el-table-column label="发生后金额"  align="left" width="180">
               <template scope="scope">
                 {{formatPoints(scope.row.balance)}}
               </template>

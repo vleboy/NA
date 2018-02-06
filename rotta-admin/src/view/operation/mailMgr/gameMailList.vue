@@ -5,11 +5,9 @@
       <el-col :span="11">
         <el-button type="primary" @click="openModal()">创建邮件</el-button>
       </el-col>
-      <el-col :span="10" class="g-text-right">
+      <el-col :span="13" class="g-text-right">
         <el-input placeholder="请输入邮件主题" class="input" v-model="searchInfo.mailName"></el-input>
-      </el-col>
-      <el-col :span="3" class="g-text-right">
-        <el-button type="primary" @click="startSearch">搜索</el-button>
+        <el-button type="primary" @click="startSearch" style="margin-left: 10px">搜索</el-button>
         <el-button @click="resetSearch">重置</el-button>
       </el-col>
     </div>
@@ -35,9 +33,9 @@
             {{scope.row.nickname === 'NULL!' ? '所有人' : scope.row.nickname}}
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime">
+        <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime"  width="190" align="center">
         </el-table-column>
-        <el-table-column label="发送时间" prop="sendTime" :formatter="getBtime">
+        <el-table-column label="发送时间" prop="sendTime" :formatter="getBtime"  width="190" align="center">
         </el-table-column>
         <el-table-column label="状态" align="center" >
           <template scope="scope">
@@ -469,7 +467,7 @@ export default {
   .-p-m-header{overflow: hidden;padding: 0 2rem}
   .mailList{padding: 1rem 2rem;}
   .-search{margin: 2rem; background-color: #f5f5f5; text-align: center }
-  .input{width: 80%}
+  .input{width: 48%}
   .searchResult{padding: 1rem 2rem}
   .page {padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 2rem}
   .-package-add{max-height: 154px;  overflow: auto;}

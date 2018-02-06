@@ -29,7 +29,7 @@
               </span>
               </div>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="8">
               <div class="-player-title">上次登录游戏时间：{{lastTime}}</div>
             </el-col>
           </el-row>

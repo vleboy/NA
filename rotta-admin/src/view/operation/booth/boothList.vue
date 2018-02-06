@@ -32,26 +32,26 @@
       <el-table stripe :data="getItems">
         <el-table-column label="展位" prop="order" align="center" width="90">
         </el-table-column>
-        <el-table-column label="物品id" prop="seatId" align="center">
+        <el-table-column label="物品id" prop="seatId" align="center"  width="190">
           <template scope="scope">
             {{scope.row.content.toolId || scope.row.content.packageId}}
           </template>
         </el-table-column>
-        <el-table-column label="物品名称" prop="content.toolName" align="center" :show-overflow-tooltip="true">
+        <el-table-column label="物品名称" prop="content.toolName" align="center" :show-overflow-tooltip="true" width="190">
           <template scope="scope">
             {{scope.row.content.toolName || scope.row.content.packageName}}
           </template>
         </el-table-column>
-        <el-table-column label="道具售价" prop="price" align="center">
+        <el-table-column label="道具售价" prop="price" align="center" width="190" >
         </el-table-column>
         <el-table-column label="数量" prop="sum" align="center">
         </el-table-column>
-        <el-table-column label="物品类型" prop="contentType" align="center">
+        <el-table-column label="物品类型" prop="contentType" align="center"  width="190">
           <template scope="scope">
             {{scope.row.contentType==1?'道具':'礼包'}}
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" prop="createdAt" sortable :formatter="getAtime" width="190">
+        <el-table-column label="创建时间" prop="createdAt" sortable :formatter="getAtime" width="190" align="center">
         </el-table-column>
         <el-table-column label="状态" align="center" width="90" class-name="green">
           <template scope="scope">
@@ -70,7 +70,7 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" min-width="100">
+        <el-table-column label="操作" align="center"  width="190">
           <template scope="scope">
             <el-button type="text" @click="openModal(scope.row)">编辑</el-button>
             <el-button type="text" @click="delProp(scope.row)">删除</el-button>

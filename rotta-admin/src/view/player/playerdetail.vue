@@ -7,12 +7,16 @@ $<template>
       <div class="baseinfo">
         <h4>基本信息</h4>
         <div class="baseinfo-form">
-          <el-col :span="4"><span class="-span-base">所属商户：{{detailInfo.merchantName}}</span></el-col>
-          <el-col :span="4"><span class="-span-base">线路号：{{detailInfo.msn}}</span></el-col>
-          <el-col :span="4"><span class="-span-base">上次登录游戏时间：{{lastTime}}</span></el-col>
-          <el-col :span="4" v-for="(item,index) of detailInfo.gameList" :key="index">
-            <span class="-span-base">{{item.name+'洗码比'}}：{{item.mix}}%</span>
-          </el-col>
+          <el-row>
+            <el-col :span="6"><span class="-span-base">所属商户：{{detailInfo.merchantName}}</span></el-col>
+            <el-col :span="6"><span class="-span-base">线路号：{{detailInfo.msn}}</span></el-col>
+            <el-col :span="6"><span class="-span-base">上次登录游戏时间：{{lastTime}}</span></el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="6" v-for="(item,index) of detailInfo.gameList" :key="index">
+             <span class="-span-base">{{item.name+'洗码比'}}：{{item.mix}}%</span>
+            </el-col>
+          </el-row>
         </div>
       </div>
       <div class="countinfo">

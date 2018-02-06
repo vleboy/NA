@@ -6,11 +6,9 @@
       <el-col :span="11">
         <el-button type="primary" class="justfy1" @click="openModal()">创建跑马灯</el-button>
       </el-col>
-      <el-col :span="10" class="g-text-right">
+      <el-col :span="13" class="g-text-right">
         <el-input placeholder="请输入跑马灯次数" class="input" v-model="searchInfo.searchName"></el-input>
-      </el-col>
-      <el-col :span="3" class="g-text-right">
-        <el-button type="primary" @click="startSearch">搜索</el-button>
+        <el-button style="margin-left: 10px" type="primary" @click="startSearch">搜索</el-button>
         <el-button @click="resetSearch">重置</el-button>
       </el-col>
     </div>
@@ -26,9 +24,9 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="开始时间" prop="startTime" :formatter="getStartTime">
+        <el-table-column label="开始时间" prop="startTime" :formatter="getStartTime" width="190" align="center">
         </el-table-column>
-        <el-table-column label="结束时间" prop="endTime" :formatter="getEndTime">
+        <el-table-column label="结束时间" prop="endTime" :formatter="getEndTime" width="190" align="center">
         </el-table-column>
         <el-table-column label="间隔时间" prop="splitTime" :formatter="getHours" align="center">
         </el-table-column>
@@ -345,7 +343,7 @@ export default {
 <style scoped>
   .horseRaceLampList{padding:1rem 2rem;}
   .-p-m-header{overflow: hidden;padding: 0 2rem}
-  .input{width: 80%}
+  .input{width: 48%}
   .searchResult{padding: 1rem 2rem}
   .-p-h-remark{word-wrap: break-word; word-break: normal;width: 200px}
   .text-ellipsis{width: 100%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;}
