@@ -33,14 +33,14 @@
           {{formatPoints(scope.row.originalAmount)}}
         </template>
       </el-table-column>
-      <el-table-column label="本次发生金额（入）" align="center">
+      <el-table-column label="金额（入）" align="center">
         <template scope="scope">
                 <span class="-p-green" v-if="scope.row.amount>=0">
                    {{formatPoints(scope.row.amount)}}
                 </span>
         </template>
       </el-table-column>
-      <el-table-column label="本次发生金额（出）" align="center">
+      <el-table-column label="金额（出）" align="center">
         <template scope="scope">
                 <span class="-p-red" v-if="scope.row.amount<0">
                   {{formatPoints(scope.row.amount)}}

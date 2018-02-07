@@ -80,6 +80,7 @@ $<template>
                 {{typeList[scope.row.type]}}
               </template>
             </el-table-column>
+            <el-table-column prop='gameName' label="游戏类型" align="center" width="180"></el-table-column>
             <el-table-column prop="originalAmount" label="帐变前余额"  align="left" width="180">
               <template scope="scope">
                 {{formatPoints(scope.row.originalAmount)}}
