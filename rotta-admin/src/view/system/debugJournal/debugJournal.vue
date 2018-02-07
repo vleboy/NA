@@ -27,6 +27,11 @@
             <span>{{formatTime(scope.row.createdAt)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="状态" align="center">
+          <template scope="scope">
+            <el-tag :type="scope.row.ret=='N' ? 'danger' : 'success'">{{scope.row.ret=='N' ? '未处理' : '已处理'}}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="detail" label="详情" align="center"></el-table-column>
         <el-table-column prop="inparams" label="参数" align="center"></el-table-column>
       </el-table>
