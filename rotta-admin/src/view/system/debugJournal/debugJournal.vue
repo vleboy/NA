@@ -3,22 +3,18 @@
     <el-col :span="4">
       共 {{debugList.length}} 条数据
     </el-col>
-    <el-col :span="20" class="g-text-right">
-      <el-col :span="16">
-        <el-select v-model="role" @change="getDebugJournalList">
-          <el-option v-for="(item, index) in errorList" :key="index" :label="item.name"
-                     :value="item.id">
-          </el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="8" style="margin-bottom: 10px">
-        <el-date-picker
-          v-model="dataTime"
-          type="date"
-          placeholder="选择日期时间">
-        </el-date-picker>
-        <el-button type="primary" @click="searchAmount">搜索</el-button>
-      </el-col>
+    <el-col :span="20" class="g-text-right" style="margin-bottom: 10px">
+      <el-select v-model="role" @change="getDebugJournalList">
+        <el-option v-for="(item, index) in errorList" :key="index" :label="item.name"
+                   :value="item.id">
+        </el-option>
+      </el-select>
+      <el-date-picker
+        v-model="dataTime"
+        type="date"
+        placeholder="选择日期时间">
+      </el-date-picker>
+      <el-button type="primary" @click="searchAmount">搜索</el-button>
     </el-col>
     <div class="-list">
       <el-table :data="dataList">
