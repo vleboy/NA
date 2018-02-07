@@ -245,21 +245,38 @@ export default {
         this.searchDate = getWeek()
       } else {
         if (typeof val[0] == 'object' || typeof val[1] == 'object') {
-          for (var i = val.length - 1; i >= 0; i--) {
-            this.searchDate[i] = new Date(this.searchDate[i].toString()).getTime()
-          }
-          if (this.searchDate[1] >= new Date().getTime() - 180000) {
-            if (this.searchDate[1] - this.searchDate[0] <= 180000) {
-              this.searchDate[0] = this.searchDate[0] - 180000
-              this.searchDate[1] = new Date().getTime() - 180000
-            } else {
-              this.searchDate[1] = new Date().getTime() - 180000
+          if (val[0] < 1514736000000 || (val[0] < 1517796000000 && val[1] > 1517796000000)) {
+            this.$message({
+              type: 'error',
+              message: '该时间范围暂不支持查询',
+              duration: 0,
+              showClose: true,
+            })
+            this.isSelect_time = true
+          } else {
+            if (val[1] < 1517796000000) {
+              this.$message({
+                type: 'warning',
+                message: '当前时间范围查询数据为旧版报表',
+                duration: 5000
+              })
             }
+            for (var i = val.length - 1; i >= 0; i--) {
+              this.searchDate[i] = new Date(this.searchDate[i].toString()).getTime()
+            }
+            if (this.searchDate[1] >= new Date().getTime() - 180000) {
+              if (this.searchDate[1] - this.searchDate[0] <= 180000) {
+                this.searchDate[0] = this.searchDate[0] - 180000
+                this.searchDate[1] = new Date().getTime() - 180000
+              } else {
+                this.searchDate[1] = new Date().getTime() - 180000
+              }
+            }
+            this.isSelect_time = true
           }
-          this.isSelect_time = true
         }
       }
-    },
+    }
   },
   methods: {
     refreshList (data) {
