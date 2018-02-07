@@ -12,7 +12,7 @@ export const getWeek = function () {
     let startTime = ''
     let endTime = ''
     let time = date.getTime()
-    startTime = new Date(time + stepSunDay * 24 * 3600 * 1000).setHours(0, 0, 0, 0)
+    startTime = new Date(time + stepSunDay * 24 * 3600 * 1000).setHours(11, 59, 59, 0)
     // endTime = new Date(time + stepSunDay * 24 * 3600 * 1000).setHours(0, 0, 0, 0) + (7 * 24 * 3600 * 1000 - 1)
     endTime = new Date().getTime() - 180000
     return [startTime, endTime]

@@ -274,6 +274,7 @@ export default {
                   result => {
                     const [err, ret] = result
                     if (err) {
+                      reject(err)
                     } else {
                       var data = ret.data.payload
                       if (data.length > 0) {
@@ -367,6 +368,7 @@ export default {
                   result => {
                     const [err, ret] = result
                     if (err) {
+                      reject(err)
                     } else {
                       var data = ret.data.payload
                       if (data.length > 0) {
@@ -444,6 +446,7 @@ export default {
                       result => {
                         const [err, ret] = result
                         if (err) {
+                          reject(err)
                         } else {
                           var data = ret.data.payload
                           if (data.length > 0) {
@@ -520,6 +523,7 @@ export default {
                     result => {
                       const [err, ret] = result
                       if (err) {
+                        reject(err)
                       } else {
                         var data = ret.data.payload
                         if (data.length > 0) {
@@ -599,6 +603,7 @@ export default {
               }).then(result => {
                 const [err, ret] = result
                 if (err) {
+                  reject(err)
                 } else {
                   var data = ret.data.payload
                   if (data.length > 0) {
