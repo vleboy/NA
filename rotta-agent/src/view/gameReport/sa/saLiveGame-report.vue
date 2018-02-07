@@ -44,7 +44,12 @@
             </div>
           </template>
         </el-table-column>
-         <el-table-column label="佣金" prop="nowBouns" align="center">
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="佣金" prop="nowBouns" align="center">
           <template scope="scope">
             <span>{{points(scope.row.nowBouns)}}</span>
           </template>
@@ -106,6 +111,11 @@
                 <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
                 <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
             </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
           </template>
         </el-table-column>
          <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -171,6 +181,11 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
          <el-table-column label="佣金" prop="nowBouns" align="center">
           <template scope="scope">
             <span>{{points(scope.row.nowBouns)}}</span>
@@ -232,6 +247,11 @@
                 <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
                 <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
             </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
           </template>
         </el-table-column>
          <el-table-column label="佣金" prop="nowBouns" align="center">
