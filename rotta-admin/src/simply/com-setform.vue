@@ -71,6 +71,15 @@
         </el-input>
         <el-button type="text" class="" @click="checkURL(selectFront3,setcomInfo.registerURL)">验证</el-button>
       </el-form-item>
+      <el-form-item label="商户客服页面地址">
+        <el-input v-model="setcomInfo.feedbackURL" class="input" placeholder="选填">
+          <el-select v-model="selectFront4" slot="prepend" placeholder="请选择" style="width:6.5rem">
+            <el-option label="Http://" value="Http://"></el-option>
+            <el-option label="Https://" value="Https://"></el-option>
+          </el-select>
+        </el-input>
+        <el-button type="text" class="" @click="checkURL(selectFront4,setcomInfo.feedbackURL)">验证</el-button>
+      </el-form-item>
       <h2 class="title">配置商户后台管理员</h2>
       <el-form-item label="商户管理员用户名" prop="username">
         <el-input v-model="setcomInfo.username" class="input" placeholder="5~16位,只能输入英文及数字"></el-input>
@@ -231,6 +240,7 @@ export default {
       selectFront1: '', // 前端域名前缀
       selectFront2: '', // 充值域名前缀
       selectFront3: '', // 注册域名前缀
+      selectFront4: '', // 客服域名前缀
       CompanyList: [], // 游戏大类列表
       CompanyGame: [], // 厂商的游戏列表
       setcomInfo: {
@@ -246,6 +256,7 @@ export default {
         frontURL: '', // 商户前端域名
         moneyURL: '', // 商户充值域名
         registerURL: '', // 商户注册域名
+        feedbackURL: '', // 商户客服域名
         username: '', // 商户管理员用户名
         password: '', // 商户管理员密码
         adminName: '', // 商户管理员姓名
