@@ -172,46 +172,50 @@ export default {
           hostName: '', // 负责人
           hostContact: '', // 负责人联系方式
           contractPeriod: [], // 生效时间
-          isforever: false // 是否永久有效
+          isforever: true // 是否永久有效
         }
       } else if (this.nowindex === 'outcreate' && this.steps === 1) {
         this.outset = {
-          selectCompany: '', // 选择的游戏厂商
+          company: '', // 选择的游戏厂商
           selectGame: '', // 选择的厂商的游戏
           showSelect: [], // 列表展示数据
-          points: '', // 初始代理点数
-          rate: '', // 线路商抽成比
+          rate: '', // 商家占成
+          points: '', // 初始线路商点数
           gameList: [], // 拥有游戏
-          username: '', // 代理商管理员用户名
-          password: '', // 代理商管理员密码
-          adminName: '', // 代理商管理员姓名
-          adminEmail: '', // 代理商管邮箱
-          adminContact: '' // 代理商管理员联系方式
+          username: '', // 线路商商管理员用户名
+          password: '', // 线路商商管理员密码
+          adminName: '', // 线路商商管理员姓名
+          adminEmail: '', // 线路商商管邮箱
+          adminContact: '' // 线路商商管理员联系方式
         }
       } else if (this.nowindex === 'comcreate' && this.steps === 0) {
         this.cominfo = {
-          suffix: '', // 标识
+          suffix: '', // 商户简称
           displayName: '', // 商户昵称
+          rate: '', // 商户抽成比
           merchantEmail: '', // 商户邮箱
           parent: '', // 上级商户
           remark: '', // 备注
           hostName: '', // 负责人
           hostContact: '', // 负责人联系方式
           contractPeriod: [], // 生效时间
-          isforever: false // 是否永久有效
+          isforever: true // 是否永久有效
         }
       } else if (this.nowindex === 'comcreate' && this.steps === 1) {
         this.comset = {
-          selectCompany: '', // 选择的游戏厂商
+          company: '', // 选择的游戏厂商
           selectGame: '', // 选择的厂商的游戏
           showSelect: [], // 列表展示数据
+          rate: '', // 商户抽成比
           points: '', // 初始代理点数
           msn: '', // 线路号
           sn: '', // 商户标识
-          rate: '', // 商户抽成比
           gameList: [], // 拥有游戏
           loginWhiteList: '', // 商户白名单
           frontURL: '', // 商户前端域名
+          moneyURL: '', // 商户充值域名
+          registerURL: '', // 商户注册域名
+          feedbackURL: '', // 商户客服域名
           username: '', // 商户管理员用户名
           password: '', // 商户管理员密码
           adminName: '', // 商户管理员姓名
