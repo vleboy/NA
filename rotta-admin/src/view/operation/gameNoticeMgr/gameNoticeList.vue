@@ -20,6 +20,8 @@
     <el-button type="primary" class="justfy1" @click="openModal()">创建公告</el-button>
     <div class="gameNoticeList">
       <el-table stripe :data="getItems">
+        <el-table-column label="优先级" prop="priority" align="center">
+        </el-table-column>
         <el-table-column label="公告ID" prop="adId" align="center">
         </el-table-column>
         <el-table-column label="公告名称" prop="adName" align="center" :show-overflow-tooltip="true">
@@ -52,7 +54,7 @@
           <template scope="scope">
             <el-button type="text" @click="changeStatus(scope.row)">{{scope.row.adStatus==1 ? '停用' : '开启'}}</el-button>
             <el-button type="text" @click="openModal(scope.row)">编辑</el-button>
-            <el-button v-if="scope.row.adStatus" type="text" @click="delItem(scope.row)">删除</el-button>
+            <el-button type="text" @click="delItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -70,6 +72,9 @@
         </el-form-item>
         <el-form-item label="跳转链接" label-width="140px" >
           <el-input v-model="noticeInfo.url" auto-complete="off" placeholder="请输入跳转的链接 例（http://www.xxxx.com）" :maxlength="500"></el-input>
+        </el-form-item>
+        <el-form-item label="优先级" label-width="140px" >
+          <el-input-number style="width: 100%;" v-model="noticeInfo.priority" auto-complete="off" :min="0" placeholder="请输入（根据优先级确定公告排序）"></el-input-number>
         </el-form-item>
         <el-form-item label="公告图标" label-width="140px" style="text-align: left">
           <el-upload
@@ -187,6 +192,8 @@ export default {
         return this.$message.error('请输入格式正确的跳转链接')
       } else if (!this.noticeInfo.img) {
         return this.$message.error('请选择上传图片')
+      } else if (!this.noticeInfo.priority) {
+        return this.$message.error('请输入优先级')
       }
       if (this.isSending) return // 防止重复提交
       this.isSending = true
