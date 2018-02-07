@@ -44,7 +44,12 @@
             </div>
           </template>
         </el-table-column>
-         <el-table-column label="佣金" prop="nowBouns" align="center">
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="佣金" prop="nowBouns" align="center">
           <template scope="scope">
             <span>{{points(scope.row.nowBouns)}}</span>
           </template>
@@ -106,6 +111,11 @@
                 <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
                 <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
             </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
           </template>
         </el-table-column>
          <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -171,6 +181,11 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
          <el-table-column label="佣金" prop="nowBouns" align="center">
           <template scope="scope">
             <span>{{points(scope.row.nowBouns)}}</span>
@@ -234,6 +249,11 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
          <el-table-column label="佣金" prop="nowBouns" align="center">
           <template scope="scope">
             <span>{{points(scope.row.nowBouns)}}</span>
@@ -282,8 +302,6 @@ export default {
 
       parentMix: '', // 上级洗码比
       nowType: gameType('saLive'), // 当前输赢报表游戏类型
-
-      nowparent: '' // 现在请求的玩家上级ID
     }
   },
   activated: function () {
@@ -393,11 +411,13 @@ export default {
             var child = ret.data.payload
             child.length == 0 ? this.$store.commit('closeLoading') : ''
             var result = []
-            var cut_count = 10 // 数组切割长度
+            var cut_count = 50 // 数组切割长度
             for (var i = 0;i < Math.ceil(child.length / cut_count);i++) {
               i == 0 ? result.push(child.slice(i, cut_count)) : result.push(child.slice(i * cut_count, cut_count * (i + 1)))
             }
             let time = this.isSelect_time ? this.searchDate : getWeek()
+
+            let allReady = [] // promise所有结果返回
             for (let item of result) {
               let child_data = {
                 gameType: gameType('saLive'),
@@ -407,59 +427,71 @@ export default {
                   createdAt: time
                 }
               }
-              invoke({
-                url: api.calcUserStat,
-                method: api.post,
-                data: child_data
-              }).then(
-                result => {
-                  const [err, ret] = result
-                  if (err) {
-                  } else {
-                    var data = ret.data.payload
-                    data.length == 0 ? this.$store.commit('closeLoading') : ''
-                    if (data.length > 0) {
-                      item.map(item=> {
-                        data.map(side =>{
-                          if (item.userId == side.userId) {
-                            item.betCount = side.betCount
-                            item.betAmount = side.betAmount
-                            item.winloseAmount = side.winloseAmount
-                            item.mixAmount = side.mixAmount
-                            item.submit = side.winloseAmount * (1 - item.rate / 100)
-                            item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
-                            item.nowallBet = item.nowBouns + side.winloseAmount
-                            item.winloseRate = item.nowallBet / side.mixAmount
-                          }
+              let pro = new Promise((resolve, reject) => {
+                invoke({
+                  url: api.calcUserStat,
+                  method: api.post,
+                  data: child_data
+                }).then(
+                  result => {
+                    const [err, ret] = result
+                    if (err) {
+                      reject(err)
+                    } else {
+                      var data = ret.data.payload
+                      if (data.length > 0) {
+                        item.map(item=> {
+                          data.map(side =>{
+                            if (item.userId == side.userId) {
+                              item.betCount = side.betCount
+                              item.betAmount = side.betAmount
+                              item.winloseAmount = side.winloseAmount
+                              item.mixAmount = side.mixAmount
+                              item.submit = side.winloseAmount * (1 - item.rate / 100)
+                              item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                              item.nowallBet = item.nowBouns + side.winloseAmount
+                              item.winloseRate = item.nowallBet / side.mixAmount
+                            }
+                          })
                         })
-                      })
-                      this.nowChild.push(...item.filter(item=>{
-                        let isRepeat = false
-                        for (let side of this.nowChild) {
-                          side.userId == item.userId ? isRepeat = true : '' 
-                        }
-                        return item.betCount > 0 && !isRepeat
-                      }))
-                      this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
-                      this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                      this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                      this.nowList.submit = this.nowList.winloseAmount * (1 - this.nowList.rate / 100)
-                      this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                      this.nowList.nowBouns = this.nowChild.map( child => child.nowBouns ).reduce( (a , b)=>{return a + b} , 0 )
-                      this.nowList.nowallBet = this.nowChild.map( child => child.nowallBet ).reduce( (a , b)=>{return a + b} , 0 )
-                      this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
-                      this.$store.commit('closeLoading')
+                        this.nowChild.push(...item.filter(item=>{
+                          let isRepeat = false
+                          for (let side of this.nowChild) {
+                            side.userId == item.userId ? isRepeat = true : '' 
+                          }
+                          return item.betCount > 0 && !isRepeat
+                        }))
+                        this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.submit = this.nowList.winloseAmount * (1 - this.nowList.rate / 100)
+                        this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.nowBouns = this.nowChild.map( child => child.nowBouns ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.nowallBet = this.nowChild.map( child => child.nowallBet ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
+                      }
+                      resolve(data)
                     }
                   }
-                }
-              )
+                )
+              })
+              allReady.push(pro)
             }
+            let _this = this
+            Promise.all(allReady).then(result => {
+              _this.$store.commit('closeLoading')
+            }).catch(err => {
+              _this.$message({
+                type: 'error',
+                message: err.message
+              })
+              _this.$store.commit('closeLoading')
+            })
           }
         }
       )
     }, // 获取登录用户直属下级
     getLoginPlayer (parent) {
-      this.nowparent = parent.userId
       this.playerParent = parent.displayName
       this.$store.commit('startLoading')
       var data = {
@@ -477,62 +509,76 @@ export default {
           var data = ret.data.payload
           data.length == 0 ? this.$store.commit('closeLoading') : ''
           var result = []
-          var cut_count = 10 // 数组切割长度
+          var cut_count = 50 // 数组切割长度
           for (var i = 0;i < Math.ceil(data.length / cut_count);i++) {
             i == 0 ? result.push(data.slice(i, cut_count)) : result.push(data.slice(i * cut_count, cut_count * (i + 1)))
           }
           let time = this.isSelect_time ? this.searchDate : getWeek()
+
+          let allReady = [] // promise所有结果返回
           for (let item of result) {
             let player_data = {
               gameType: gameType('saLive'),
               gameUserNames: item.map(item=>{return item.userName}),
-              parent: parent.userId,
               query: {
                 createdAt: time
               }
             }
-            invoke({
-              url: api.calcPlayerStat,
-              method: api.post,
-              data: player_data
-            }).then(result => {
-              const [err, ret] = result
-              if (err) {
-              } else {
-                var data = ret.data.payload
-                data.length == 0 ? this.$store.commit('closeLoading') : ''
-                if (data.length > 0) {
-                  item.map(item=> {
-                    data.map(side =>{
-                      if (item.userName == side.userName) {
-                        item.betCount = side.betCount
-                        item.betAmount = side.betAmount
-                        item.winloseAmount = side.winloseAmount
-                        item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
-                        item.nowallBet = item.nowBouns + side.winloseAmount
-                        if (!this.nowChild) {
-                          this.nowList.betCount += item.betCount
-                          this.nowList.betAmount += item.betAmount
-                          this.nowList.winloseAmount += item.winloseAmount
-                          this.nowList.mixAmount += item.mixAmount
-                          this.nowList.nowallBet += item.nowallBet
-                          this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
+            let pro = new Promise((resolve, reject) => {
+              invoke({
+                url: api.calcPlayerStat,
+                method: api.post,
+                data: player_data
+              }).then(result => {
+                const [err, ret] = result
+                if (err) {
+                  reject(err)
+                } else {
+                  var data = ret.data.payload
+                  if (data.length > 0) {
+                    item.map(item=> {
+                      data.map(side =>{
+                        if (item.userName == side.userName) {
+                          item.betCount = side.betCount
+                          item.betAmount = side.betAmount
+                          item.winloseAmount = side.winloseAmount
+                          item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                          item.nowallBet = item.nowBouns + side.winloseAmount
+                          if (!this.nowChild) {
+                            this.nowList.betCount += item.betCount
+                            this.nowList.betAmount += item.betAmount
+                            this.nowList.winloseAmount += item.winloseAmount
+                            this.nowList.mixAmount += item.mixAmount
+                            this.nowList.nowallBet += item.nowallBet
+                            this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
+                          }
                         }
-                      }
+                      })
                     })
-                  })
-                  this.$store.commit('closeLoading')
-                  this.nowPlayer.push(...item.filter(item=>{
-                    let isRepeat = false
-                    for (let side of this.nowPlayer) {
-                      side.userName == item.userName && side.parent == this.nowparent ? isRepeat = true : '' 
-                    }
-                    return item.betCount > 0 && !isRepeat
-                  }))
+                    this.nowPlayer.push(...item.filter(item=>{
+                      let isRepeat = false
+                      for (let side of this.nowPlayer) {
+                        side.userName == item.userName ? isRepeat = true : '' 
+                      }
+                      return item.betCount > 0 && !isRepeat
+                    }))
+                  }
+                  resolve(data)
                 }
-              }
+              })
             })
+            allReady.push(pro)
           }
+          let _this = this
+          Promise.all(allReady).then(result => {
+            _this.$store.commit('closeLoading')
+          }).catch(err => {
+            _this.$message({
+              type: 'error',
+              message: err.message
+            })
+            _this.$store.commit('closeLoading')
+          })
         }
       })
     }, // 获取登陆用户直属玩家
@@ -558,6 +604,8 @@ export default {
             this.clickChild.push([])
             var data = [ret.data.payload]
             let time = this.isSelect_time ? this.searchDate : getWeek()
+
+            let allReady = [] // promise所有结果返回
             for (let item of data) {
               let child_data = {
                 gameType: gameType('saLive'),
@@ -567,40 +615,53 @@ export default {
                   createdAt: time
                 }
               }
-              invoke({
-                url: api.calcUserStat,
-                method: api.post,
-                data: child_data
-              }).then(
-                result => {
-                  const [err, ret] = result
-                  if (err) {
-                  } else {
-                    var data = ret.data.payload
-                    if (data.length > 0) {
-                      item.map(outside=> {
-                        data.map(inside =>{
-                          if (outside.userId == inside.userId) {
-                            outside.betCount = inside.betCount
-                            outside.betAmount = inside.betAmount
-                            outside.winloseAmount = inside.winloseAmount
-                            outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
-                            outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
-                            outside.nowallBet = outside.nowBouns + inside.winloseAmount
-                            outside.winloseRate = outside.nowallBet / inside.mixAmount
-                            this.clickChild[this.clickChild.length-1].push(outside)
-                            this.$store.commit('closeLoading')
-                          }
-                        })
-                      })
+              let pro = new Promise((resolve, reject) => {
+                invoke({
+                  url: api.calcUserStat,
+                  method: api.post,
+                  data: child_data
+                }).then(
+                  result => {
+                    const [err, ret] = result
+                    if (err) {
+                      reject(err)
                     } else {
-                      this.clickChild.pop()
-                      this.$store.commit('closeLoading')
+                      var data = ret.data.payload
+                      if (data.length > 0) {
+                        item.map(outside=> {
+                          data.map(inside =>{
+                            if (outside.userId == inside.userId) {
+                              outside.betCount = inside.betCount
+                              outside.betAmount = inside.betAmount
+                              outside.winloseAmount = inside.winloseAmount
+                              outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
+                              outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                              outside.nowallBet = outside.nowBouns + inside.winloseAmount
+                              outside.winloseRate = outside.nowallBet / inside.mixAmount
+                              this.clickChild[this.clickChild.length-1].push(outside)
+                            }
+                          })
+                        })
+                      } else {
+                        this.clickChild.pop()
+                      }
+                      resolve(data)
                     }
                   }
-                }
-              )
+                )
+              })
+              allReady.push(pro)
             }
+            let _this = this
+            Promise.all(allReady).then(result => {
+              _this.$store.commit('closeLoading')
+            }).catch(err => {
+              _this.$message({
+                type: 'error',
+                message: err.message
+              })
+              _this.$store.commit('closeLoading')
+            })
           }
         })
       } else {
@@ -622,6 +683,7 @@ export default {
                 var data = [ret.data.payload]
                 let time = this.isSelect_time ? this.searchDate : getWeek()
                 this.clickChild.push([])
+                let allReady = [] // promise所有结果返回
                 for (let item of data) {
                   let child_data = {
                     gameType: gameType('saLive'),
@@ -631,40 +693,53 @@ export default {
                       createdAt: time
                     }
                   }
-                  invoke({
-                    url: api.calcUserStat,
-                    method: api.post,
-                    data: child_data
-                  }).then(
-                    result => {
-                      const [err, ret] = result
-                      if (err) {
-                      } else {
-                        var data = ret.data.payload
-                        if (data.length > 0) {
-                          item.map(outside => {
-                            data.map(inside => {
-                              if (outside.userId == inside.userId) {
-                                outside.betCount = inside.betCount
-                                outside.betAmount = inside.betAmount
-                                outside.winloseAmount = inside.winloseAmount
-                                outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
-                                outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
-                                outside.nowallBet = outside.nowBouns + inside.winloseAmount
-                                outside.winloseRate = outside.nowallBet / inside.mixAmount
-                                this.clickChild[this.clickChild.length-1].push(outside)
-                                this.$store.commit('closeLoading')
-                              }
-                            })
-                          })
+                  let pro = new Promise((resolve, reject) => {
+                    invoke({
+                      url: api.calcUserStat,
+                      method: api.post,
+                      data: child_data
+                    }).then(
+                      result => {
+                        const [err, ret] = result
+                        if (err) {
+                          reject(err)
                         } else {
-                          this.clickChild.pop()
-                          this.$store.commit('closeLoading')
+                          var data = ret.data.payload
+                          if (data.length > 0) {
+                            item.map(outside=> {
+                              data.map(inside =>{
+                                if (outside.userId == inside.userId) {
+                                  outside.betCount = inside.betCount
+                                  outside.betAmount = inside.betAmount
+                                  outside.winloseAmount = inside.winloseAmount
+                                  outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
+                                  outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                                  outside.nowallBet = outside.nowBouns + inside.winloseAmount
+                                  outside.winloseRate = outside.nowallBet / inside.mixAmount
+                                  this.clickChild[this.clickChild.length-1].push(outside)
+                                }
+                              })
+                            })
+                          } else {
+                            this.clickChild.pop()
+                          }
+                          resolve(data)
                         }
                       }
-                    }
-                  )
+                    )
+                  })
+                  allReady.push(pro)
                 }
+                let _this = this
+                Promise.all(allReady).then(result => {
+                  _this.$store.commit('closeLoading')
+                }).catch(err => {
+                  _this.$message({
+                    type: 'error',
+                    message: err.message
+                  })
+                  _this.$store.commit('closeLoading')
+                })
               }
             })
           }
@@ -687,6 +762,8 @@ export default {
               this.clickChild.push([])
               var data = [ret.data.payload]
               let time = this.isSelect_time ? this.searchDate : getWeek()
+
+              let allReady = [] // promise所有结果返回
               for (let item of data) {
                 let child_data = {
                   gameType: gameType('saLive'),
@@ -696,47 +773,59 @@ export default {
                     createdAt: time
                   }
                 }
-                invoke({
-                  url: api.calcUserStat,
-                  method: api.post,
-                  data: child_data
-                }).then(
-                  result => {
-                    const [err, ret] = result
-                    if (err) {
-                    } else {
-                      var data = ret.data.payload
-                      if (data.length > 0) {
-                        item.map(outside=> {
-                          data.map(inside =>{
-                            if (outside.userId == inside.userId) {
-                              outside.betCount = inside.betCount
-                              outside.betAmount = inside.betAmount
-                              outside.winloseAmount = inside.winloseAmount
-                              outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
-                              outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
-                              outside.nowallBet = outside.nowBouns + inside.winloseAmount
-                              outside.winloseRate = outside.nowallBet / inside.mixAmount
-                              this.clickChild[this.clickChild.length-1].push(outside)
-                              this.$store.commit('closeLoading')
-                            }
-                          })
-                        }) 
+                let pro = new Promise((resolve, reject) => {
+                  invoke({
+                    url: api.calcUserStat,
+                    method: api.post,
+                    data: child_data
+                  }).then(
+                    result => {
+                      const [err, ret] = result
+                      if (err) {
+                        reject(err)
                       } else {
-                        this.clickChild.pop()
-                        this.$store.commit('closeLoading')
+                        var data = ret.data.payload
+                        if (data.length > 0) {
+                          item.map(outside=> {
+                            data.map(inside =>{
+                              if (outside.userId == inside.userId) {
+                                outside.betCount = inside.betCount
+                                outside.betAmount = inside.betAmount
+                                outside.winloseAmount = inside.winloseAmount
+                                outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
+                                outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                                outside.nowallBet = outside.nowBouns + inside.winloseAmount
+                                outside.winloseRate = outside.nowallBet / inside.mixAmount
+                                this.clickChild[this.clickChild.length-1].push(outside)
+                              }
+                            })
+                          })
+                        } else {
+                          this.clickChild.pop()
+                        }
+                        resolve(data)
                       }
                     }
-                  }
-                )
+                  )
+                })
+                allReady.push(pro)
               }
+              let _this = this
+              Promise.all(allReady).then(result => {
+                _this.$store.commit('closeLoading')
+              }).catch(err => {
+                _this.$message({
+                  type: 'error',
+                  message: err.message
+                })
+                _this.$store.commit('closeLoading')
+              })
             }
           })
         }
       }
     }, // 点击查询下级
     getPlayer (parent) {
-      this.nowparent = parent.userId
       var isSame = false
       for (let item of this.rendered) {
         item.parent == parent.parent
@@ -759,62 +848,76 @@ export default {
           var data = ret.data.payload
           data.length == 0 ? this.$store.commit('closeLoading') : ''
           var result = []
-          var cut_count = 10 // 数组切割长度
+          var cut_count = 50 // 数组切割长度
           for (var i = 0;i < Math.ceil(data.length / cut_count);i++) {
             i == 0 ? result.push(data.slice(i, cut_count)) : result.push(data.slice(i * cut_count, cut_count * (i + 1)))
           }
           let time = this.isSelect_time ? this.searchDate : getWeek()
+
+          let allReady = [] // promise所有结果返回
           for (let item of result) {
             let player_data = {
               gameType: gameType('saLive'),
               gameUserNames: item.map(item=>{return item.userName}),
-              parent: parent.userId,
               query: {
                 createdAt: time
               }
             }
-            invoke({
-              url: api.calcPlayerStat,
-              method: api.post,
-              data: player_data
-            }).then(result => {
-              const [err, ret] = result
-              if (err) {
-              } else {
-                var data = ret.data.payload
-                data.length == 0 ? this.$store.commit('closeLoading') : ''
-                if (data.length > 0) {
-                  item.map(item=> {
-                    data.map(side =>{
-                      if (item.userName == side.userName) {
-                        item.betCount = side.betCount
-                        item.betAmount = side.betAmount
-                        item.winloseAmount = side.winloseAmount
-                        item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
-                        item.nowallBet = item.nowBouns + side.winloseAmount
-                        if (!this.nowChild) {
-                          this.nowList.betCount += item.betCount
-                          this.nowList.betAmount += item.betAmount
-                          this.nowList.winloseAmount += item.winloseAmount
-                          this.nowList.mixAmount += item.mixAmount
-                          this.nowList.nowallBet += item.nowallBet
-                          this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
+            let pro = new Promise((resolve, reject) => {
+              invoke({
+                url: api.calcPlayerStat,
+                method: api.post,
+                data: player_data
+              }).then(result => {
+                const [err, ret] = result
+                if (err) {
+                  reject(err)
+                } else {
+                  var data = ret.data.payload
+                  if (data.length > 0) {
+                    item.map(item=> {
+                      data.map(side =>{
+                        if (item.userName == side.userName) {
+                          item.betCount = side.betCount
+                          item.betAmount = side.betAmount
+                          item.winloseAmount = side.winloseAmount
+                          item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                          item.nowallBet = item.nowBouns + side.winloseAmount
+                          if (!this.nowChild) {
+                            this.nowList.betCount += item.betCount
+                            this.nowList.betAmount += item.betAmount
+                            this.nowList.winloseAmount += item.winloseAmount
+                            this.nowList.mixAmount += item.mixAmount
+                            this.nowList.nowallBet += item.nowallBet
+                            this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
+                          }
                         }
-                      }
+                      })
                     })
-                  })
-                  this.nowPlayer.push(...item.filter(item=>{
-                    let isRepeat = false
-                    for (let side of this.nowPlayer) {
-                      side.userName == item.userName && side.parent == this.nowparent ? isRepeat = true : '' 
-                    }
-                    return item.betCount > 0 && !isRepeat
-                  }))
-                  this.$store.commit('closeLoading')
+                    this.nowPlayer.push(...item.filter(item=>{
+                      let isRepeat = false
+                      for (let side of this.nowPlayer) {
+                        side.userName == item.userName ? isRepeat = true : '' 
+                      }
+                      return item.betCount > 0 && !isRepeat
+                    }))
+                  }
+                  resolve(data)
                 }
-              }
+              })
             })
+            allReady.push(pro)
           }
+          let _this = this
+          Promise.all(allReady).then(result => {
+            _this.$store.commit('closeLoading')
+          }).catch(err => {
+            _this.$message({
+              type: 'error',
+              message: err.message
+            })
+            _this.$store.commit('closeLoading')
+          })
         }
       })
     }, // 点击查询代理玩家
