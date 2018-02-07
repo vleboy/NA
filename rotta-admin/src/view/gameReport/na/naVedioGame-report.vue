@@ -212,8 +212,6 @@ export default {
       playerParent: '', // 当前玩家所属商户昵称
 
       loginRole: localStorage.loginRole, // 登录角色role
-
-      nowparent: '' // 现在请求的玩家上级ID
     }
   },
   activated: function () {
@@ -320,7 +318,7 @@ export default {
             var result_manager = []
             var result_merchant = []
             var result = []
-            var cut_count = 10 // 数组切割长度
+            var cut_count = 50 // 数组切割长度
             child.map(item => {
               item.role == '10' ? result_manager.push(item) : result_merchant.push(item)
             })
@@ -331,6 +329,8 @@ export default {
               j == 0 ? result.push(result_merchant.slice(j, cut_count)) : result.push(result_merchant.slice(j * cut_count, cut_count * (j + 1)))
             }
             let time = this.isSelect_time ? this.searchDate : getWeek()
+
+            let allReady = [] // promise所有结果返回
             for (let item of result) {
               let child_data = {
                 gameType: gameType('naVedio'),
@@ -340,47 +340,60 @@ export default {
                   createdAt: time
                 }
               }
-              invoke({
-                url: api.calcUserStat,
-                method: api.post,
-                data: child_data
-              }).then(
-                result => {
-                  const [err, ret] = result
-                  if (err) {
-                  } else {
-                    var data = ret.data.payload
-                    data.length == 0 ? this.$store.commit('closeLoading') : ''
-                    if (data.length > 0) {
-                      item.map(item=> {
-                        data.map(side =>{
-                          if (item.userId == side.userId) {
-                            item.betCount = side.betCount
-                            item.betAmount = side.betAmount
-                            item.winloseAmount = side.winloseAmount
-                            item.submit = side.winloseAmount * (1 - item.rate / 100)
-                            item.winloseRate = side.winloseAmount / side.betAmount
-                          }
+              let pro = new Promise((resolve, reject) => {
+                invoke({
+                  url: api.calcUserStat,
+                  method: api.post,
+                  data: child_data
+                }).then(
+                  result => {
+                    const [err, ret] = result
+                    if (err) {
+                      reject(err)
+                    } else {
+                      var data = ret.data.payload
+                      if (data.length > 0) {
+                        item.map(item=> {
+                          data.map(side =>{
+                            if (item.userId == side.userId) {
+                              item.betCount = side.betCount
+                              item.betAmount = side.betAmount
+                              item.winloseAmount = side.winloseAmount
+                              item.submit = side.winloseAmount * (1 - item.rate / 100)
+                              item.winloseRate = side.winloseAmount / side.betAmount
+                            }
+                          })
                         })
-                      })
-                      this.nowChild.push(...item.filter(item=>{
-                        let isRepeat = false
-                        for (let side of this.nowChild) {
-                          side.userId == item.userId ? isRepeat = true : '' 
-                        }
-                        return item.betCount > 0 && !isRepeat
-                      }))
-                      this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
-                      this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                      this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                      this.nowList.submit = this.nowList.winloseAmount * (1 - this.nowList.rate / 100)
-                      this.nowList.winloseRate = this.nowList.winloseAmount / this.nowList.betAmount
-                      this.$store.commit('closeLoading')
+                        this.nowChild.push(...item.filter(item=>{
+                          let isRepeat = false
+                          for (let side of this.nowChild) {
+                            side.userId == item.userId ? isRepeat = true : '' 
+                          }
+                          return item.betCount > 0 && !isRepeat
+                        }))
+                        this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.submit = this.nowList.winloseAmount * (1 - this.nowList.rate / 100)
+                        this.nowList.winloseRate = this.nowList.winloseAmount / this.nowList.betAmount
+                      }
+                      resolve(data)
                     }
                   }
-                }
-              )
+                )
+              })
+              allReady.push(pro)
             }
+            let _this = this
+            Promise.all(allReady).then(result => {
+              _this.$store.commit('closeLoading')
+            }).catch(err => {
+              _this.$message({
+                type: 'error',
+                message: err.message
+              })
+              _this.$store.commit('closeLoading')
+            })
           }
         }
       )
@@ -414,6 +427,8 @@ export default {
             result_manager.length == 0 ? '' : result.push(result_manager)
             result_merchant.length == 0 ? '' : result.push(result_merchant)
             let time = this.isSelect_time ? this.searchDate : getWeek()
+
+            let allReady = [] // promise所有结果返回
             for (let item of result) {
               let child_data = {
                 gameType: gameType('naVedio'),
@@ -422,36 +437,50 @@ export default {
                 query: {
                   createdAt: time
                 }
-              }
-              invoke({
-                url: api.calcUserStat,
-                method: api.post,
-                data: child_data
-              }).then(
-                result => {
-                  const [err, ret] = result
-                  if (err) {
-                  } else {
-                    var data = ret.data.payload
-                    if (data.length > 0) {
-                      item.map(outside=> {
-                        data.map(inside =>{
-                          if (outside.userId == inside.userId) {
-                            outside.betCount = inside.betCount
-                            outside.betAmount = inside.betAmount
-                            outside.winloseAmount = inside.winloseAmount
-                            outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
-                            outside.winloseRate = inside.winloseAmount / inside.betAmount
-                            this.clickChild[this.clickChild.length-1].push(outside)
-                            this.$store.commit('closeLoading')
-                          }
+              } // 请求参数
+              let pro = new Promise((resolve, reject) => {
+                invoke({
+                  url: api.calcUserStat,
+                  method: api.post,
+                  data: child_data
+                }).then(
+                  result => {
+                    const [err, ret] = result
+                    if (err) {
+                      reject(err)
+                    } else {
+                      var data = ret.data.payload
+                      if (data.length > 0) {
+                        item.map(outside=> {
+                          data.map(inside =>{
+                            if (outside.userId == inside.userId) {
+                              outside.betCount = inside.betCount
+                              outside.betAmount = inside.betAmount
+                              outside.winloseAmount = inside.winloseAmount
+                              outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
+                              outside.winloseRate = inside.winloseAmount / inside.betAmount
+                              this.clickChild[this.clickChild.length-1].push(outside)
+                            }
+                          })
                         })
-                      })
+                      }
+                      resolve(data)
                     }
                   }
-                }
-              )
+                )
+              })
+              allReady.push(pro)
             }
+            let _this = this
+            Promise.all(allReady).then(result => {
+              _this.$store.commit('closeLoading')
+            }).catch(err => {
+              _this.$message({
+                type: 'error',
+                message: err.message
+              })
+              _this.$store.commit('closeLoading')
+            })
           }
         })
       } else {
@@ -480,6 +509,8 @@ export default {
                 result_merchant.length == 0 ? '' : result.push(result_merchant)
                 let time = this.isSelect_time ? this.searchDate : getWeek()
                 this.clickChild.push([])
+
+                let allReady = [] // promise所有结果返回
                 for (let item of result) {
                   let child_data = {
                     gameType: gameType('naVedio'),
@@ -488,36 +519,50 @@ export default {
                     query: {
                       createdAt: time
                     }
-                  }
-                  invoke({
-                    url: api.calcUserStat,
-                    method: api.post,
-                    data: child_data
-                  }).then(
-                    result => {
-                      const [err, ret] = result
-                      if (err) {
-                      } else {
-                        var data = ret.data.payload
-                        if (data.length > 0) {
-                          item.map(outside => {
-                            data.map(inside => {
-                              if (outside.userId == inside.userId) {
-                                outside.betCount = inside.betCount
-                                outside.betAmount = inside.betAmount
-                                outside.winloseAmount = inside.winloseAmount
-                                outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
-                                outside.winloseRate = inside.winloseAmount / inside.betAmount
-                                this.clickChild[this.clickChild.length-1].push(outside)
-                                this.$store.commit('closeLoading')
-                              }
+                  } // 请求参数
+                  let pro = new Promise((resolve, reject) => {
+                    invoke({
+                      url: api.calcUserStat,
+                      method: api.post,
+                      data: child_data
+                    }).then(
+                      result => {
+                        const [err, ret] = result
+                        if (err) {
+                          reject(err)
+                        } else {
+                          var data = ret.data.payload
+                          if (data.length > 0) {
+                            item.map(outside=> {
+                              data.map(inside =>{
+                                if (outside.userId == inside.userId) {
+                                  outside.betCount = inside.betCount
+                                  outside.betAmount = inside.betAmount
+                                  outside.winloseAmount = inside.winloseAmount
+                                  outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
+                                  outside.winloseRate = inside.winloseAmount / inside.betAmount
+                                  this.clickChild[this.clickChild.length-1].push(outside)
+                                }
+                              })
                             })
-                          })
+                          }
+                          resolve(data)
                         }
                       }
-                    }
-                  )
+                    )
+                  })
+                  allReady.push(pro)
                 }
+                let _this = this
+                Promise.all(allReady).then(result => {
+                  _this.$store.commit('closeLoading')
+                }).catch(err => {
+                  _this.$message({
+                    type: 'error',
+                    message: err.message
+                  })
+                  _this.$store.commit('closeLoading')
+                })
               }
             })
           }
@@ -545,6 +590,7 @@ export default {
               result_manager.length == 0 ? '' : result.push(result_manager)
               result_merchant.length == 0 ? '' : result.push(result_merchant)
               let time = this.isSelect_time ? this.searchDate : getWeek()
+              let allReady = [] // promise所有结果返回
               for (let item of result) {
                 let child_data = {
                   gameType: gameType('naVedio'),
@@ -553,43 +599,56 @@ export default {
                   query: {
                     createdAt: time
                   }
-                }
-                invoke({
-                  url: api.calcUserStat,
-                  method: api.post,
-                  data: child_data
-                }).then(
-                  result => {
-                    const [err, ret] = result
-                    if (err) {
-                    } else {
-                      var data = ret.data.payload
-                      if (data.length > 0) {
-                        item.map(outside=> {
-                          data.map(inside =>{
-                            if (outside.userId == inside.userId) {
-                              outside.betCount = inside.betCount
-                              outside.betAmount = inside.betAmount
-                              outside.winloseAmount = inside.winloseAmount
-                              outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
-                              outside.winloseRate = inside.winloseAmount / inside.betAmount
-                              this.clickChild[this.clickChild.length-1].push(outside)
-                              this.$store.commit('closeLoading')
-                            }
+                } // 请求参数
+                let pro = new Promise((resolve, reject) => {
+                  invoke({
+                    url: api.calcUserStat,
+                    method: api.post,
+                    data: child_data
+                  }).then(
+                    result => {
+                      const [err, ret] = result
+                      if (err) {
+                        reject(err)
+                      } else {
+                        var data = ret.data.payload
+                        if (data.length > 0) {
+                          item.map(outside=> {
+                            data.map(inside =>{
+                              if (outside.userId == inside.userId) {
+                                outside.betCount = inside.betCount
+                                outside.betAmount = inside.betAmount
+                                outside.winloseAmount = inside.winloseAmount
+                                outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
+                                outside.winloseRate = inside.winloseAmount / inside.betAmount
+                                this.clickChild[this.clickChild.length-1].push(outside)
+                              }
+                            })
                           })
-                        })
+                        }
+                        resolve(data)
                       }
                     }
-                  }
-                )
+                  )
+                })
+                allReady.push(pro)
               }
+              let _this = this
+              Promise.all(allReady).then(result => {
+                _this.$store.commit('closeLoading')
+              }).catch(err => {
+                _this.$message({
+                  type: 'error',
+                  message: err.message
+                })
+                _this.$store.commit('closeLoading')
+              })
             }
           })
         }
       }
     }, // 点击查询下级
     getPlayer (parent, isClear) {
-      this.nowparent == parent.userId
       if (isClear) {
         this.playerParent = ''
         this.clickChild = []
@@ -609,62 +668,75 @@ export default {
         if (err) {
         } else {
           var data = ret.data.payload
-          data.length == 0 ? this.$store.commit('closeLoading') : ''
           var result = []
-          var cut_count = 10 // 数组切割长度
+          var cut_count = 50 // 数组切割长度
           for (var i = 0;i < Math.ceil(data.length / cut_count);i++) {
             i == 0 ? result.push(data.slice(i, cut_count)) : result.push(data.slice(i * cut_count, cut_count * (i + 1)))
           }
           let time = this.isSelect_time ? this.searchDate : getWeek()
+
+          let allReady = [] // promise所有结果返回
           for (let item of result) {
             let player_data = {
               gameType: gameType('naVedio'),
               gameUserNames: item.map(item=>{return item.userName}),
-              parent: parent.userId,
               query: {
                 createdAt: time
               }
             }
-            invoke({
-              url: api.calcPlayerStat,
-              method: api.post,
-              data: player_data
-            }).then(result => {
-              const [err, ret] = result
-              if (err) {
-              } else {
-                var data = ret.data.payload
-                data.length == 0 ? this.$store.commit('closeLoading') : ''
-                if (data.length > 0) {
-                  item.map(item=> {
-                    data.map(side =>{
-                      if (item.userName == side.userName) {
-                        item.betCount = side.betCount
-                        item.betAmount = side.betAmount
-                        item.winloseAmount = side.winloseAmount
-                        item.mixAmount = side.mixAmount
-                        if (localStorage.loginRole == '100') {
-                          this.nowList.betCount += item.betCount
-                          this.nowList.betAmount += item.betAmount
-                          this.nowList.winloseAmount += item.winloseAmount
-                          this.nowList.submit = this.nowList.winloseAmount * (1 - this.nowList.rate / 100)
-                          this.nowList.winloseRate = this.nowList.winloseAmount / this.nowList.betAmount
+            let pro = new Promise((resolve, reject) => {
+              invoke({
+                url: api.calcPlayerStat,
+                method: api.post,
+                data: player_data
+              }).then(result => {
+                const [err, ret] = result
+                if (err) {
+                  reject(err)
+                } else {
+                  var data = ret.data.payload
+                  if (data.length > 0) {
+                    item.map(item=> {
+                      data.map(side =>{
+                        if (item.userName == side.userName) {
+                          item.betCount = side.betCount
+                          item.betAmount = side.betAmount
+                          item.winloseAmount = side.winloseAmount
+                          item.mixAmount = side.mixAmount
+                          if (localStorage.loginRole == '100') {
+                            this.nowList.betCount += item.betCount
+                            this.nowList.betAmount += item.betAmount
+                            this.nowList.winloseAmount += item.winloseAmount
+                            this.nowList.submit = this.nowList.winloseAmount * (1 - this.nowList.rate / 100)
+                            this.nowList.winloseRate = this.nowList.winloseAmount / this.nowList.betAmount
+                          }
                         }
-                      }
+                      })
                     })
-                  })
-                  this.$store.commit('closeLoading')
-                  this.nowPlayer.push(...item.filter(item=>{
-                    let isRepeat = false
-                    for (let side of this.nowPlayer) {
-                      side.userName == item.userName && side.parent == this.nowparent ? isRepeat = true : '' 
-                    }
-                    return item.betCount > 0 && !isRepeat
-                  }))
+                    this.nowPlayer.push(...item.filter(item=>{
+                      let isRepeat = false
+                      for (let side of this.nowPlayer) {
+                        side.userName == item.userName ? isRepeat = true : '' 
+                      }
+                      return item.betCount > 0 && !isRepeat
+                    }))
+                  }
+                  resolve(data)
                 }
-              }
+              })
             })
+            allReady.push(pro)
           }
+          let _this = this
+          Promise.all(allReady).then(result => {
+            _this.$store.commit('closeLoading')
+          }).catch(err => {
+            _this.$message({
+              type: 'error',
+              message: err.message
+            })
+            _this.$store.commit('closeLoading')
+          })
         }
       })
     }, // 点击查询商户玩家
