@@ -50,10 +50,11 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" min-width="100">
+        <el-table-column label="操作" align="center" min-width="140">
           <template scope="scope">
             <el-button type="text" @click="changeStatus(scope.row)">{{scope.row.adStatus==1 ? '停用' : '开启'}}</el-button>
             <el-button type="text" @click="openModal(scope.row)">编辑</el-button>
+            <el-button type="text" @click="openInput(scope.row)">排序</el-button>
             <el-button type="text" @click="delItem(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -102,6 +103,18 @@
         <el-button type="primary" :load="isSending" @click="submitProp(noticeInfo.adId)">{{isSending ? '提交中' : '确 定'}}</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog title="公告排序" :visible.sync="isOpenInput" style="text-align: center" size="tiny">
+      <el-form :model="noticeInfo" v-loading.body="dialogLoading">
+        <el-form-item label="优先级" label-width="60px" >
+          <el-input-number style="width: 100%;" v-model="noticeInfo.priority" auto-complete="off" :min="0" placeholder="请输入（根据优先级确定公告排序）"></el-input-number>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isOpenInput = false">取 消</el-button>
+        <el-button type="primary" :load="isSending" @click="submitProp(noticeInfo.adId)">{{isSending ? '提交中' : '确 定'}}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -130,6 +143,7 @@ export default {
       isOpenModal: false,
       isSending: false,
       dialogLoading: false,
+      isOpenInput: false,
       fileList: [],
       uploadAction: '',
       imgFile:{},
@@ -216,6 +230,7 @@ export default {
               type: 'success'
             })
             this.isOpenModal = false
+            this.isOpenInput = false
             this.isSending = false
             this.getGameNoticeList()
             this.fileList = []
@@ -243,6 +258,10 @@ export default {
         }
         this.fileList = []
       }
+    },
+    openInput (row) {
+      this.isOpenInput = true
+      this.noticeInfo = JSON.parse(JSON.stringify(row))
     },
     changeStatus (row) {
       this.$store.commit('startLoading')
