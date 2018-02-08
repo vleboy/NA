@@ -29,7 +29,7 @@
         <p>商户密匙 : {{comsuccess.apiKey}}</p>
         <p class="suclist-line1">
           <span>商户初始点数 : {{comdata.points}}</span>
-          <span>商户抽成比 : {{comdata.rate}}%</span>
+          <!-- <span>商户抽成比 : {{comdata.rate}}%</span> -->
           <span>商户标识 : {{comdata.sn}}</span>
         </p>
         <p>

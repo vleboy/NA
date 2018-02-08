@@ -26,11 +26,6 @@
                 <span v-if="scope.row.parent === '01'">直属于平台</span>
               </template>
             </el-table-column>
-            <el-table-column label="商家占成" prop="rate" align="left" sortable="custom" min-width="120">
-            	<template scope="scope">
-              	<span>{{(scope.row.rate)}}%</span>
-              </template>
-            </el-table-column>
             <el-table-column label="剩余点数" prop="balance" align="left" sortable="custom" min-width="120">
               <template scope="scope">
               	<span>{{points(scope.row.balance)}}</span>
@@ -48,6 +43,14 @@
                 </template>
             </el-table-column>
             
+            <el-table-column label="商家占成" prop="gameList" align="center" width="100">
+                <template scope="scope">
+                    <div slot="reference" class="gamelist">
+                        <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.rate }}%</el-tag>
+                    </div>
+                </template>
+            </el-table-column>
+
             <el-table-column label="创建时间" prop="createdAt" align="left" width="120" sortable="custom">
   			      <template scope="scope">
               	<span>{{Time(scope.row.createdAt)}}</span>

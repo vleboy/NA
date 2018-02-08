@@ -2,15 +2,15 @@
 <div>
   <div class="com-setform">
     <h2 class="title">配置商户信息</h2>
-    <el-form :model="setcomInfo" :rules="rules" ref="setcomInfo" class="setform" label-width="160px" label-position="right">
+    <el-form :model="setcomInfo" :rules="rules" ref="setcomInfo" class="setform" label-width="180px" label-position="right">
       <el-form-item label="商户点数" prop="points">
         <el-tooltip class="item" effect="dark" :content="parentBills" placement="right">
           <el-input v-model="setcomInfo.points" class="input" placeholder="请输入"></el-input>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="商家占成(%)" prop="rate">
+      <!-- <el-form-item label="商家占成(%)" prop="rate">
         <el-input v-model="setcomInfo.rate" class="input" placeholder="请输入"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="商户线路号" prop="msn">
         <el-input v-model="setcomInfo.msn" class="input" placeholder="请输入"></el-input>
         <el-button type="text" class="" @click="randomMSN">试试手气</el-button>
@@ -18,6 +18,7 @@
       <el-form-item label="商户标识" prop="sn">
         <el-input v-model="setcomInfo.sn" class="input" placeholder="3~5位,只能输入中英文、数字、@、_"></el-input>
       </el-form-item>
+
       <el-form-item label="商户拥有的游戏">
         <el-select v-model="setcomInfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
             <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:10rem"></el-option>
@@ -27,12 +28,25 @@
             <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:10rem"></el-option>
         </el-select>
 
+      </el-form-item>
+
+      <el-form-item :label="setcomInfo.selectGame.name + '商家占成(%)'" v-show="setcomInfo.selectGame" prop="selectGame">
+        <!-- <el-tooltip class="item" effect="dark" :content="'该上级代理' + setcomInfo.selectGame.name + '商家占成为' + parentRate + '%'" placement="top"> -->
+          <el-input class="input" type="number" placeholder="请输入0.00~1.00之间的数字" v-model="setcomInfo.selectGame.rate"></el-input>
+        <!-- </el-tooltip> -->
         <el-button type="text" @click="addGame">添加</el-button>
       </el-form-item>
-      <el-form-item label="" prop="username">
-        <el-table :data="setcomInfo.showSelect" border style="width: 35rem;margin-left:-9rem">
+
+      <el-form-item label="" prop="username" style="width: 45rem;margin-left:-8rem">
+        <el-table :data="setcomInfo.showSelect" border>
           <el-table-column prop="company" align="center" label="公司"></el-table-column>
-          <el-table-column prop="gameName" align="center" label="游戏"></el-table-column>
+          <el-table-column prop="gameName" align="center" label="游戏">
+          </el-table-column>
+          <el-table-column prop="rate" align="center" label="商家占成">
+            <template scope="scope">
+              <span>{{scope.row.rate}}%</span>
+            </template>
+          </el-table-column>
           <el-table-column align="center" label="操作">
             <template scope="scope">
               <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer">删除</span>
@@ -158,18 +172,19 @@ export default {
   },
   data () {
     var checkRate = (rule, value, callback) => {
+      value = value.rate
       var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
       if (value === '') {
         callback(new Error('请输入抽成比'))
-        store.state.checkform.rate = false
-      } else if (!num.test(value) || value.slice(0, 1) == '0' && value.indexOf('.') == -1) {
+        this.isPassRate = false
+      } else if (!num.test(value) || value.toString().slice(0, 1) == '0' && value.indexOf('.') == -1) {
         callback(new Error('抽成比只能为0.00 - 100.00'))
-        store.state.checkform.rate = false
+        this.isPassRate = false
       } else if (value < 0 || value > 100) {
         callback(new Error('抽成比应为0.00 ~ 100.00之间的数字'))
-        store.state.checkform.rate = false
+        this.isPassRate = false
       } else {
-        store.state.checkform.rate = true
+        this.isPassRate = true
         callback()
       }
     }
@@ -237,6 +252,7 @@ export default {
       }
     } // 验证商户线路号
     return {
+      isPassRate: false, // 是否通过抽成比校验
       selectFront1: '', // 前端域名前缀
       selectFront2: '', // 充值域名前缀
       selectFront3: '', // 注册域名前缀
@@ -247,7 +263,6 @@ export default {
         company: '', // 选择的游戏厂商
         selectGame: '', // 选择的厂商的游戏
         showSelect: [], // 列表展示数据
-        rate: '', // 商户抽成比
         points: '', // 初始代理点数
         msn: '', // 线路号
         sn: '', // 商户标识
@@ -276,7 +291,7 @@ export default {
         limit: [
           {validator: checkLimit, trigger: 'blur'}
         ],
-        rate: [
+        selectGame: [
           {validator: checkRate, trigger: 'blur'}
         ],
         username: [
@@ -328,7 +343,42 @@ export default {
         this.CompanyGame = []
         this.setcomInfo.selectGame = ''
       }
-    }
+    },
+    // 'setcomInfo.selectGame' (val) {
+    //   if (val) {
+    //     let data = {
+    //       code: val.code,
+    //       userId: ''
+    //     }
+    //     if (this.$store.state.variable.comcreate.parent == '01') {
+    //       data.userId = localStorage.loginId
+    //     } else {
+    //       data.userId = this.$store.state.variable.comcreate.parent
+    //     }
+    //     invoke({
+    //       url: api.checkAgentMix,
+    //       method: api.post,
+    //       data: data
+    //     }).then(
+    //       result => {
+    //         const [err, ret] = result
+    //         if (err) {
+    //         } else {
+    //           var data = ret.data.payload
+    //           console.log(data)
+    //           this.parentRate = data
+    //         }
+    //       }
+    //     )
+    //   }
+    // },
+    'setcomInfo.gameList.length' (val) {
+      if (val && val > 0) {
+        localStorage.setItem('nowGameList', true)
+      } else {
+        localStorage.setItem('nowGameList', false)
+      }
+    },
   },
   methods: {
     resetForm (val) {
@@ -360,13 +410,15 @@ export default {
       window.open(url)
     },
     addGame () {
-      if (this.setcomInfo.company && this.setcomInfo.selectGame) {
+      if (this.setcomInfo.company && this.setcomInfo.selectGame && this.setcomInfo.selectGame.rate && this.isPassRate) {
         let data = {
           company: this.setcomInfo.company,
           gameName: this.setcomInfo.selectGame.name,
+          rate: this.setcomInfo.selectGame.rate
         }
         if (this.setcomInfo.showSelect.length == 0) {
           let select = this.setcomInfo.selectGame
+          select.rate = Number(select.rate)
           select.company = this.setcomInfo.company
           this.setcomInfo.gameList.push(select)
           this.setcomInfo.showSelect.push(data)
@@ -383,6 +435,7 @@ export default {
           }
           if (!repeat) {
             let select = this.setcomInfo.selectGame
+            select.rate = Number(select.rate)
             select.company = this.setcomInfo.company
             this.setcomInfo.gameList.push(select)
             this.setcomInfo.showSelect.push(data)
@@ -405,7 +458,7 @@ export default {
     }
   },
   beforeDestroy () {
-    if (!this.setcomInfo.rate || !this.setcomInfo.points || !this.setcomInfo.msn || !this.setcomInfo.frontURL || !this.setcomInfo.username || !this.setcomInfo.password || !this.setcomInfo.adminName || !this.setcomInfo.adminEmail || !this.setcomInfo.adminContact || !this.setcomInfo.sn) {
+    if (!this.setcomInfo.points || !this.setcomInfo.msn || !this.setcomInfo.frontURL || !this.setcomInfo.username || !this.setcomInfo.password || !this.setcomInfo.adminName || !this.setcomInfo.adminEmail || !this.setcomInfo.adminContact || !this.setcomInfo.sn) {
     } else {
       let data = this.setcomInfo
       for (let outside of data.gameList) {
