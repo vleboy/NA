@@ -200,7 +200,6 @@ export default {
     }, // 编辑用户
     getNowsize (size) {
       this.nowSize = size
-      // console.log('当前每页:' + size)
     },
     getNowpage (page) {
       this.nowPage = page
