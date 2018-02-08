@@ -300,7 +300,7 @@
                 </el-select>
                 <div v-show="selectGame">
                     <!-- <el-tooltip class="item" effect="dark" :content="'该上级代理' + selectGame.name + '商家占成为' + parentMix + '%'" placement="top"> -->
-                    <el-input class="input" type="number" placeholder="请输入0.00~1.00之间的数字" v-model="selectGame.rate" style="width:19rem;margin:1rem 0 0 6rem"></el-input>
+                    <el-input class="input" type="number" placeholder="请输入0.00~100.00之间的数字" v-model="selectGame.rate" style="width:19rem;margin:1rem 0 0 6rem"></el-input>
                     <!-- </el-tooltip> -->
                     <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
                 </div>
