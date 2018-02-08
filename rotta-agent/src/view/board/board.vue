@@ -155,7 +155,7 @@
         }
         self.changeDateType()
         self.changeDateTypeTwo()
-      }, 60000);
+      }, 60000*30);
     },
     computed: {
       optionSeries () {
