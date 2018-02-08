@@ -37,7 +37,8 @@
         </el-table-column>
         <el-table-column label="商家占成" prop="rate" align="left">
           <template scope="scope">
-            <span>{{(scope.row.rate)}}%</span>
+            <span v-for="item in scope.row.gameList" v-if="item.code == nowType">{{(scope.row.rate)}}%</span>
+            <span v-if="loginRole == 1">100%</span>
           </template>
         </el-table-column>
         <el-table-column label="商家交公司" prop="submit" align="left">
@@ -83,7 +84,7 @@
         </el-table-column>
         <el-table-column label="商家占成" prop="rate" align="left">
           <template scope="scope">
-            <span>{{(scope.row.rate)}}%</span>
+            <span v-for="item in scope.row.gameList" v-if="item.code == nowType">{{(scope.row.rate)}}%</span>
           </template>
         </el-table-column>
         <el-table-column label="商家交公司" prop="submit" align="left">
@@ -128,7 +129,7 @@
         </el-table-column>
         <el-table-column label="商家占成" prop="rate" align="left">
           <template scope="scope">
-            <span>{{(scope.row.rate) + '%'}}</span>
+            <span v-for="item in scope.row.gameList" v-if="item.code == nowType">{{(scope.row.rate)}}%</span>
           </template>
         </el-table-column>
         <el-table-column label="商家交公司" align="left" prop="submit">
@@ -201,6 +202,8 @@ export default {
     return {
       isSelect_time: false, // 是否自定义搜索时间
       searchDate: getWeek(), // 搜索时间戳
+
+      nowType: gameType('naArcade'), // 当前报表游戏type
 
       nowList: '', // 登录角色报表信息
       nowChild: [], // 登陆角色直属下级
@@ -314,13 +317,14 @@ export default {
           user.mixAmount = 0
           user.submit = 0
           user.winloseRate = 0
+          localStorage.loginRole == 1 ? user.rate = 100 : user.rate = user.gameList.filter(game => {return game.code == gameType('naArcade')})[0].rate
           this.nowList = user
         }
       })
     }, // 获取登陆用户报表基本信息
     getLoginChild (id) {
       let data = {}
-      localStorage.loginRole == '1' ? data.parent = '01' : data.parent = id
+      localStorage.loginRole == 1 ? data.parent = '01' : data.parent = id
       invoke({
         url: api.reportInfo,
         method: api.post,
@@ -337,6 +341,9 @@ export default {
             var result = []
             var cut_count = 50 // 数组切割长度
             child.map(item => {
+              item.gameList.map(allGame => {
+                allGame.code == gameType('naArcade') ? item.rate = allGame.rate : ''
+              })
               item.role == '10' ? result_manager.push(item) : result_merchant.push(item)
             })
             for (var i = 0;i < Math.ceil(result_manager.length / cut_count);i++) {
@@ -346,7 +353,6 @@ export default {
               j == 0 ? result.push(result_merchant.slice(j, cut_count)) : result.push(result_merchant.slice(j * cut_count, cut_count * (j + 1)))
             }
             let time = this.isSelect_time ? this.searchDate : getWeek()
-
             let allReady = [] // promise所有结果返回
             for (let item of result) {
               let child_data = {
@@ -438,6 +444,11 @@ export default {
             this.clickChild = []
             this.clickChild.push([])
             var data = ret.data.payload
+            data.map(user => {
+              user.gameList.map(game => {
+                game.code == gameType('naArcade') ? user.rate == game.rate : ''
+              })
+            })
             var result_manager = data.filter(item => {return item.role == '10'})
             var result_merchant = data.filter(item => {return item.role == '100'})
             var result = []
@@ -519,6 +530,11 @@ export default {
               if (err) {
               } else {
                 var data = ret.data.payload
+                data.map(user => {
+                  user.gameList.map(game => {
+                    game.code == gameType('naArcade') ? user.rate == game.rate : ''
+                  })
+                })
                 var result_manager = data.filter(item => {return item.role == '10'})
                 var result_merchant = data.filter(item => {return item.role == '100'})
                 var result = []
@@ -601,6 +617,11 @@ export default {
             } else {
               this.clickChild.push([])
               var data = ret.data.payload
+              data.map(user => {
+                user.gameList.map(game => {
+                  game.code == gameType('naArcade') ? user.rate == game.rate : ''
+                })
+              })
               var result_manager = data.filter(item => {return item.role == '10'})
               var result_merchant = data.filter(item => {return item.role == '100'})
               var result = []
