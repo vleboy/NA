@@ -385,7 +385,10 @@
               this.gameTypeList = res.data.payload
               this.gameTypeList.unshift({
                 code: '0',
-                name: '未在游戏中'
+                name: '离线'
+              },{
+                code: '1',
+                name: '大厅'
               })
             }
             // this.$store.commit('closeLoading')

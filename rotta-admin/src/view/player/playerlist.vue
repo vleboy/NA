@@ -15,8 +15,8 @@
       </el-row>
       <el-row class="transition-box" style="margin-top: 2rem" v-if="role!='100'">
         <el-col :span="10" class="g-text-right">
-        <span>所属商户: </span>
-        <el-input placeholder="请输入" class="input" v-model="searchInfo.merchantName"></el-input>
+        <span>商户简称: </span>
+        <el-input placeholder="请输入" class="input" v-model="searchInfo.suffix"></el-input>
         </el-col>
         <el-col :span="10" class="g-text-right">
           <span>线路号: </span>
@@ -137,7 +137,7 @@
           gameId:'',
           userName:'',
           nickname:'',
-          merchantName:'',
+          suffix:'',
           msn:''
         },
         role: localStorage.loginRole, // 相应角色的权限（区分商户、线路商、平台角色）
@@ -292,7 +292,7 @@
           gameId:'',
           userName:'',
           nickname:'',
-          merchantName:'',
+          suffix:'',
           msn:''
         })
         this.playerList = []
@@ -321,10 +321,16 @@
               })
             } else {
               this.gameTypeList = res.data.payload
-              this.gameTypeList.unshift({
-                code: '0',
-                name: '未在游戏中'
-              })
+              this.gameTypeList.unshift(
+                {
+                  code: '0',
+                  name: '离线'
+                },{
+                  code: '1',
+                  name: '大厅'
+                }
+              )
+              console.log(this.gameTypeList)
             }
             // this.$store.commit('closeLoading')
           }
