@@ -93,7 +93,7 @@ export default {
     }, // 填写线路商基本信息
     gosucout () {
       this.loading = true
-      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.name === false || this.$store.state.checkform.userContact === false || this.$store.state.checkform.userEmail === false) {
+      if (this.$store.state.checkform.points === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.name === false || this.$store.state.checkform.userContact === false || this.$store.state.checkform.userEmail === false) {
         this.$message({
           message: '请完善配置信息',
           type: 'error'
@@ -179,7 +179,6 @@ export default {
           company: '', // 选择的游戏厂商
           selectGame: '', // 选择的厂商的游戏
           showSelect: [], // 列表展示数据
-          rate: '', // 商家占成
           points: '', // 初始线路商点数
           gameList: [], // 拥有游戏
           username: '', // 线路商商管理员用户名

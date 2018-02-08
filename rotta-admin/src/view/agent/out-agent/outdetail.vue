@@ -78,39 +78,6 @@
                             </el-col>
                             <el-col :span="7">
                                 <div class="">
-                                    <el-form-item label="商家占成" v-show="disable">
-                                        {{outdetail.rate}}%
-                                    </el-form-item>
-                                    <el-form-item label="商家占成" prop="rate" v-show="!disable">  
-                                      <el-input v-model="outdetail.rate">
-                                        <template slot="prepend">%</template>
-                                      </el-input>
-                                    </el-form-item>
-                                </div>
-                            </el-col>
-                        </el-row>
-                        <!-- <el-row>
-                            <el-col :span="7">
-                                <div class="" style="float:left">
-                                    <el-form-item label="线路商游戏" v-show="disable">
-                                        <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
-                                            {{item.name}}
-                                        </div>
-                                    </el-form-item>
-                                    <el-form-item label="线路商游戏" v-show="!disable">
-                                        <el-checkbox-group v-model="selectGame">
-                                            <el-checkbox v-for="item in parentGamelist" :label="item" :key="item" style="display:inline-block;margin-left:0.25rem">{{item}}</el-checkbox>
-                                        </el-checkbox-group>
-                                    </el-form-item>
-                                </div>
-                            </el-col>
-                            <el-col :span="1">
-                                <span class="hidden">1</span>
-                            </el-col>
-                        </el-row> -->
-                        <el-row>
-                            <el-col :span="7">
-                                <div class="">
                                     <el-form-item label="线路商Email" v-show="disable">
                                         {{outdetail.managerEmail}}
                                     </el-form-item>
@@ -119,9 +86,8 @@
                                     </el-form-item>
                                 </div>
                             </el-col>
-                            <el-col :span="1">
-                                <span class="hidden">1</span>
-                            </el-col>
+                        </el-row>
+                        <el-row>
                             <el-col :span="7">
                                 <div class="">
                                     <el-form-item label="创建时间">
@@ -171,11 +137,23 @@
                     <el-select v-model="selectGame" placeholder="请选择" clearable style="width:12rem;" v-show="!disable">
                         <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:12rem"></el-option>
                     </el-select>
-                    <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
+                    <div v-show="selectGame">
+                        <!-- <el-tooltip class="item" effect="dark" :content="'该上级代理' + selectGame.name + '商家占成为' + parentMix + '%'" placement="top"> -->
+                        <el-input class="input" type="number" placeholder="请输入0.00~100.00之间的数字" v-model="selectGame.rate" style="width:19rem;margin:1rem 0 0 6rem"></el-input>
+                        <!-- </el-tooltip> -->
+                        <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
+                    </div>
+                    
+                    
                     <el-table :data="outdetail.gameList" border style="width: 40rem;margin-top:1rem">
-                      <el-table-column prop="company" align="left" label="公司"></el-table-column>
-                      <el-table-column prop="name" align="left" label="游戏"></el-table-column>
-                      <el-table-column align="left" label="操作">
+                      <el-table-column prop="company" align="center" label="公司"></el-table-column>
+                      <el-table-column prop="name" align="center" label="游戏"></el-table-column>
+                      <el-table-column prop="rate" align="center" label="商家占成">
+                        <template scope="scope">
+                          <span>{{scope.row.rate}}%</span>
+                        </template>
+                      </el-table-column>
+                      <el-table-column align="center" label="操作">
                         <template scope="scope">
                           <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer" v-show="!disable">删除</span>
                           <span v-show="disable">请编辑</span>
@@ -488,7 +466,7 @@ export default {
   },
   mounted () {
     let data = {
-      parent: this.$store.state.variable.outdetaildata.parent
+      parent: this.$store.state.variable.outdetaildata.parent || localStorage.parentID
     }
     invoke({
       url: api.companySelect,
@@ -833,7 +811,6 @@ export default {
           return time.getTime() < Date.now() - 8.64e7
         }
       },
-      parentInfo: {}, // 上级商家占成
       isforever: true,
       balance: 0, // 余额
       loading: false,
@@ -849,7 +826,6 @@ export default {
         limit: true,
         adminEmail: true,
         managerEmail: true,
-        rate: true,
         hostName: true,
         adminContact: true,
         adminName: true,
@@ -948,16 +924,23 @@ export default {
       this.$store.commit('resetAjax')
       this.$store.commit('closeEdit')
       this.$store.commit('startLoading')
-      this.$router.push('comdetail')
+      this.$router.push('outdetail')
       this.$store.dispatch('getComdetail')
       this.$store.dispatch('getComdetail_property')
     }, // 详情页下级商户跳转
     addGame () {
-      if (!this.selectGame || !this.selcetCompany) {
-        this.$message({
-          type: 'warning',
-          message: '请选择要添加的游戏！'
-        })
+      if (!this.selectGame || !this.selcetCompany || !this.selectGame.rate || this.selectGame.rate.toString().slice(0, 1) == '0' && this.selectGame.rate.indexOf('.') == -1 || this.selectGame.rate < 0 || this.selectGame.rate > 100) {
+        if (!this.selectGame.rate || this.selectGame.rate.toString().slice(0, 1) == '0' && this.selectGame.rate.indexOf('.') == -1 || this.selectGame.rate < 0 || this.selectGame.rate > 100) {
+          this.$message({
+            type: 'warning',
+            message: '请填写正确的商家占成！'
+          })
+        } else {
+          this.$message({
+            type: 'warning',
+            message: '请完善要添加的游戏！'
+          })
+        }
       } else {
         let companyName = ''
         for (let item of this.CompanyList) {
@@ -969,6 +952,7 @@ export default {
         data.company = this.selcetCompany
         data.companyName = companyName
         if (this.outdetail.gameList.length == 0) {
+          data.rate = Number(data.rate)
           this.outdetail.gameList.push(data)
         } else {
           let repeat = false
@@ -982,6 +966,7 @@ export default {
             }
           }
           if (!repeat) {
+            data.rate = Number(data.rate)
             this.outdetail.gameList.push(data)
           }
         }
@@ -1103,6 +1088,7 @@ export default {
               this.show2 = false
               this.show3 = false
               this.loading = false
+              this.selectGame = ''
               this.$message({
                 message: '修改成功',
                 type: 'success'

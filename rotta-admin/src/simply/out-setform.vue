@@ -2,15 +2,13 @@
 <div>
   <div class="out-setform">
     <h2 class="title">配置线路商信息</h2>
-    <el-form :model="setOutinfo" :rules="rules" ref="setOutinfo" class="setform" label-width="160px" label-position="right">
+    <el-form :model="setOutinfo" :rules="rules" ref="setOutinfo" class="setform" label-width="180px" label-position="right">
       <el-form-item label="初始线路商点数" prop="points">
         <el-tooltip class="item" effect="dark" :content="parentBills" placement="right">
           <el-input v-model="setOutinfo.points" class="input" placeholder="请输入"></el-input>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="商家占成(%)" prop="rate">
-          <el-input v-model="setOutinfo.rate" class="input" placeholder="请输入"></el-input>
-      </el-form-item>
+
       <el-form-item label="线路商拥有的游戏">
         <el-select v-model="setOutinfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
             <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:10rem"></el-option>
@@ -20,12 +18,25 @@
             <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:10rem"></el-option>
         </el-select>
 
+      </el-form-item>
+
+      <el-form-item :label="setOutinfo.selectGame.name + '商家占成(%)'" v-show="setOutinfo.selectGame" prop="selectGame">
+        <!-- <el-tooltip class="item" effect="dark" :content="'该上级代理' + setOutinfo.selectGame.name + '商家占成为' + parentRate + '%'" placement="top"> -->
+          <el-input class="input" type="number" placeholder="请输入0.00~100.00之间的数字" v-model="setOutinfo.selectGame.rate"></el-input>
+        <!-- </el-tooltip> -->
         <el-button type="text" @click="addGame">添加</el-button>
       </el-form-item>
-      <el-form-item label="" prop="username">
-        <el-table :data="setOutinfo.showSelect" border style="width: 35rem;margin-left:-9rem">
+
+      <el-form-item label="" prop="username" style="width: 45rem;margin-left:-8rem">
+        <el-table :data="setOutinfo.showSelect" border>
           <el-table-column prop="company" align="center" label="公司"></el-table-column>
-          <el-table-column prop="gameName" align="center" label="游戏"></el-table-column>
+          <el-table-column prop="gameName" align="center" label="游戏">
+          </el-table-column>
+          <el-table-column prop="rate" align="center" label="商家占成">
+            <template scope="scope">
+              <span>{{scope.row.rate}}%</span>
+            </template>
+          </el-table-column>
           <el-table-column align="center" label="操作">
             <template scope="scope">
               <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer">删除</span>
@@ -33,6 +44,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
+
       <h2 class="title">配置线路商后台管理员</h2>
       <el-form-item label="管理员用户名" prop="username">
         <el-input v-model="setOutinfo.username" class="input" placeholder="5~16位,只能输入英文及数字"></el-input>
@@ -134,29 +146,30 @@ export default {
   },
   data () {
     var checkRate = (rule, value, callback) => {
+      value = value.rate
       var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
       if (value === '') {
-        callback(new Error('请输入商家占成'))
-        store.state.checkform.rate = false
-      } else if (!num.test(value) || value.slice(0, 1) == '0' && value.indexOf('.') == -1) {
-        callback(new Error('商家占成只能为0.00 - 100.00'))
-        store.state.checkform.rate = false
+        callback(new Error('请输入抽成比'))
+        this.isPassRate = false
+      } else if (!num.test(value) || value.toString().slice(0, 1) == '0' && value.indexOf('.') == -1) {
+        callback(new Error('抽成比只能为0.00 - 100.00'))
+        this.isPassRate = false
       } else if (value < 0 || value > 100) {
-        callback(new Error('商家占成应为0.00 ~ 100.00之间的数字'))
-        store.state.checkform.rate = false
+        callback(new Error('抽成比应为0.00 ~ 100.00之间的数字'))
+        this.isPassRate = false
       } else {
-        store.state.checkform.rate = true
+        this.isPassRate = true
         callback()
       }
     }
     return {
+      isPassRate: false, // 是否通过抽成比校验
       CompanyList: [], // 游戏大类列表
       CompanyGame: [], // 厂商的游戏列表
       setOutinfo: {
         company: '', // 选择的游戏厂商
         selectGame: '', // 选择的厂商的游戏
         showSelect: [], // 列表展示数据
-        rate: '', // 商家占成
         points: '', // 初始线路商点数
         gameList: [], // 拥有游戏
         username: '', // 线路商商管理员用户名
@@ -178,7 +191,7 @@ export default {
         adminEmail: [
           {validator: checkUserEmail, trigger: 'blur'}
         ],
-        rate: [
+        selectGame: [
           {validator: checkRate, trigger: 'blur'}
         ],
         adminContact: [
@@ -202,13 +215,15 @@ export default {
       this.setOutinfo.password = newpassword
     },
     addGame () {
-      if (this.setOutinfo.company && this.setOutinfo.selectGame) {
+      if (this.setOutinfo.company && this.setOutinfo.selectGame && this.setOutinfo.selectGame.rate && this.isPassRate) {
         let data = {
           company: this.setOutinfo.company,
           gameName: this.setOutinfo.selectGame.name,
+          rate: this.setOutinfo.selectGame.rate
         }
         if (this.setOutinfo.showSelect.length == 0) {
           let select = this.setOutinfo.selectGame
+          select.rate = Number(select.rate)
           select.company = this.setOutinfo.company
           this.setOutinfo.gameList.push(select)
           this.setOutinfo.showSelect.push(data)
@@ -225,6 +240,7 @@ export default {
           }
           if (!repeat) {
             let select = this.setOutinfo.selectGame
+            select.rate = Number(select.rate)
             select.company = this.setOutinfo.company
             this.setOutinfo.gameList.push(select)
             this.setOutinfo.showSelect.push(data)
@@ -247,7 +263,7 @@ export default {
     }
   },
   beforeDestroy () {
-    if (!this.setOutinfo.rate || !this.setOutinfo.points || !this.setOutinfo.username || !this.setOutinfo.password || !this.setOutinfo.adminName || !this.setOutinfo.adminEmail || !this.setOutinfo.adminContact) {
+    if (!this.setOutinfo.points || !this.setOutinfo.username || !this.setOutinfo.password || !this.setOutinfo.adminName || !this.setOutinfo.adminEmail || !this.setOutinfo.adminContact) {
     } else {
       let data = this.setOutinfo
       for (let outside of data.gameList) {

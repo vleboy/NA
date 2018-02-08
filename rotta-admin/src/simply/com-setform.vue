@@ -32,7 +32,7 @@
 
       <el-form-item :label="setcomInfo.selectGame.name + '商家占成(%)'" v-show="setcomInfo.selectGame" prop="selectGame">
         <!-- <el-tooltip class="item" effect="dark" :content="'该上级代理' + setcomInfo.selectGame.name + '商家占成为' + parentRate + '%'" placement="top"> -->
-          <el-input class="input" type="number" placeholder="请输入0.00~1.00之间的数字" v-model="setcomInfo.selectGame.rate"></el-input>
+          <el-input class="input" type="number" placeholder="请输入0.00~100.00之间的数字" v-model="setcomInfo.selectGame.rate"></el-input>
         <!-- </el-tooltip> -->
         <el-button type="text" @click="addGame">添加</el-button>
       </el-form-item>
@@ -344,34 +344,6 @@ export default {
         this.setcomInfo.selectGame = ''
       }
     },
-    // 'setcomInfo.selectGame' (val) {
-    //   if (val) {
-    //     let data = {
-    //       code: val.code,
-    //       userId: ''
-    //     }
-    //     if (this.$store.state.variable.comcreate.parent == '01') {
-    //       data.userId = localStorage.loginId
-    //     } else {
-    //       data.userId = this.$store.state.variable.comcreate.parent
-    //     }
-    //     invoke({
-    //       url: api.checkAgentMix,
-    //       method: api.post,
-    //       data: data
-    //     }).then(
-    //       result => {
-    //         const [err, ret] = result
-    //         if (err) {
-    //         } else {
-    //           var data = ret.data.payload
-    //           console.log(data)
-    //           this.parentRate = data
-    //         }
-    //       }
-    //     )
-    //   }
-    // },
     'setcomInfo.gameList.length' (val) {
       if (val && val > 0) {
         localStorage.setItem('nowGameList', true)

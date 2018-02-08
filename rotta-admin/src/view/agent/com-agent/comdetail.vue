@@ -291,38 +291,38 @@
                 </span>
             </h4>
             <el-collapse-transition>
-            <div class="editform" v-show="show3">
-                <el-select v-model="selcetCompany" placeholder="请选择" clearable style="width:12rem;margin-right:0.5rem;margin-left:6rem" v-show="!disable">
-                    <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:12rem"></el-option>
-                </el-select>
-                <el-select v-model="selectGame" placeholder="请选择" clearable style="width:12rem;" v-show="!disable">
-                    <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:12rem"></el-option>
-                </el-select>
-                <div v-show="selectGame">
-                    <!-- <el-tooltip class="item" effect="dark" :content="'该上级代理' + selectGame.name + '商家占成为' + parentMix + '%'" placement="top"> -->
-                    <el-input class="input" type="number" placeholder="请输入0.00~100.00之间的数字" v-model="selectGame.rate" style="width:19rem;margin:1rem 0 0 6rem"></el-input>
-                    <!-- </el-tooltip> -->
-                    <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
+                <div class="editform" v-show="show3">
+                    <el-select v-model="selcetCompany" placeholder="请选择" clearable style="width:12rem;margin-right:0.5rem;margin-left:6rem" v-show="!disable">
+                        <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:12rem"></el-option>
+                    </el-select>
+                    <el-select v-model="selectGame" placeholder="请选择" clearable style="width:12rem;" v-show="!disable">
+                        <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:12rem"></el-option>
+                    </el-select>
+                    <div v-show="selectGame">
+                        <!-- <el-tooltip class="item" effect="dark" :content="'该上级代理' + selectGame.name + '商家占成为' + parentMix + '%'" placement="top"> -->
+                        <el-input class="input" type="number" placeholder="请输入0.00~100.00之间的数字" v-model="selectGame.rate" style="width:19rem;margin:1rem 0 0 6rem"></el-input>
+                        <!-- </el-tooltip> -->
+                        <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
+                    </div>
+                    
+                    
+                    <el-table :data="comdetail.gameList" border style="width: 40rem;margin-top:1rem">
+                      <el-table-column prop="company" align="center" label="公司"></el-table-column>
+                      <el-table-column prop="name" align="center" label="游戏"></el-table-column>
+                      <el-table-column prop="rate" align="center" label="商家占成">
+                        <template scope="scope">
+                          <span>{{scope.row.rate}}%</span>
+                        </template>
+                      </el-table-column>
+                      <el-table-column align="center" label="操作">
+                        <template scope="scope">
+                          <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer" v-show="!disable">删除</span>
+                          <span v-show="disable">请编辑</span>
+                        </template>
+                      </el-table-column>
+                    </el-table>
                 </div>
-                
-                
-                <el-table :data="comdetail.gameList" border style="width: 40rem;margin-top:1rem">
-                  <el-table-column prop="company" align="center" label="公司"></el-table-column>
-                  <el-table-column prop="name" align="center" label="游戏"></el-table-column>
-                  <el-table-column prop="rate" align="center" label="商家占成">
-                    <template scope="scope">
-                      <span>{{scope.row.rate}}%</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column align="center" label="操作">
-                    <template scope="scope">
-                      <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer" v-show="!disable">删除</span>
-                      <span v-show="disable">请编辑</span>
-                    </template>
-                  </el-table-column>
-                </el-table>
-            </div>
-        </el-collapse-transition>
+            </el-collapse-transition>
         </div>
         <div class="manangeinfo">
             <h4>管理信息
