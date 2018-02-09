@@ -330,7 +330,7 @@
                   name: '大厅'
                 }
               )
-              console.log(this.gameTypeList)
+//              console.log(this.gameTypeList)
             }
             // this.$store.commit('closeLoading')
           }
