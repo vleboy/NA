@@ -1,4 +1,4 @@
-<template>
+v<template>
     <div class="comdetail">
         <div class="simpleinfo">
             <div class="comdetail-title">
@@ -598,6 +598,7 @@ export default {
     },
     selcetCompany (val) {
       if (val) {
+        this.$store.commit('startLoading')
         this.selectGame = ''
         invoke({
           url: api.gameBigType,
@@ -607,6 +608,7 @@ export default {
           }
         }).then(
           result => {
+            this.$store.commit('closeLoading')
             const [err, ret] = result
             if (err) {
             } else {

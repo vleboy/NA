@@ -216,7 +216,6 @@ export default {
                 terval == bull.code ? bull.winloseAmount = item.winloseAmountMap[terval].winloseAmount : ''
               })
             } // 将有数据的输赢push到相应游戏类别里
-
             item.gameList.map(side => {
               side.topAmount ? '' : side.topAmount = 0;
               allCompany.push(side.company)
@@ -237,7 +236,7 @@ export default {
             let ruler = []
             let companyList = [] // 处理后的要渲染的数据
             for (let i = 0;i < allCompany.length;i++) {
-              if (ruler.indexOf(allCompany[i]) == -1) {
+              if (!ruler.includes(allCompany[i])) {
                 ruler.push(allCompany[i])
                 companyList.push({
                   company: allCompany[i],
@@ -328,12 +327,13 @@ export default {
                   let count = ''
                   count += side.winloseAmount ? side.winloseAmount : 0
                   winloseAmount.push(Number(count))
-                  
                 }) // 获取运营商名称与启用/停用状态
+                // console.log(allCompany)
+                // console.log(winloseAmount)
                 let ruler = []
                 let companyList = [] // 处理后的要渲染的数据
                 for (let i = 0;i < allCompany.length;i++) {
-                  if (ruler.indexOf(allCompany[i]) == -1) {
+                  if (!ruler.includes(allCompany[i])) {
                     ruler.push(allCompany[i])
                     companyList.push({
                       company: allCompany[i],
@@ -353,8 +353,10 @@ export default {
                     })
                   }
                 } // 合并去重数据
+                // console.log(123,companyList)
+                item.companyList = companyList
                 if (!item.companyList) {
-                  item.companyList = companyList
+                  // item.companyList = companyList
                 } else {
                   item.companyList.map(outside => {
                     companyList.map(inside => {
@@ -425,7 +427,7 @@ export default {
                   let ruler = []
                   let companyList = [] // 处理后的要渲染的数据
                   for (let i = 0;i < allCompany.length;i++) {
-                    if (ruler.indexOf(allCompany[i]) == -1) {
+                    if (!ruler.includes(allCompany[i])) {
                       ruler.push(allCompany[i])
                       companyList.push({
                         company: allCompany[i],
@@ -445,8 +447,9 @@ export default {
                       })
                     }
                   } // 合并去重数据
+                  item.companyList = companyList
                   if (!item.companyList) {
-                    item.companyList = companyList
+                    // item.companyList = companyList
                   } else {
                     item.companyList.map(outside => {
                       companyList.map(inside => {
@@ -519,7 +522,7 @@ export default {
                   let ruler = []
                   let companyList = [] // 处理后的要渲染的数据
                   for (let i = 0;i < allCompany.length;i++) {
-                    if (ruler.indexOf(allCompany[i]) == -1) {
+                    if (!ruler.includes(allCompany[i])) {
                       ruler.push(allCompany[i])
                       companyList.push({
                         company: allCompany[i],
@@ -539,8 +542,9 @@ export default {
                       })
                     }
                   } // 合并去重数据
+                  item.companyList = companyList
                   if (!item.companyList) {
-                    item.companyList = companyList
+                    // item.companyList = companyList
                   } else {
                     item.companyList.map(outside => {
                       companyList.map(inside => {
