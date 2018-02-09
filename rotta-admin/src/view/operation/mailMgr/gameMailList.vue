@@ -81,7 +81,7 @@
         </el-form-item>
         <el-form-item label="包含物品" label-width="100px" v-if="role!='100'">
           <el-row>
-            <el-col :span="8">
+            <el-col :span="7">
               <el-col :span="4">类型</el-col>
               <el-col :span="18">
                 <el-select v-model="contentType" placeholder="请选择" clearable style="width: 100%"
@@ -90,7 +90,7 @@
                 </el-select>
               </el-col>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="7">
               <el-col :span="4">道具</el-col>
               <el-col :span="18">
                 <el-select v-model="addToolInfo.toolName" placeholder="请选择" filterable clearable style="width: 100%">
@@ -103,11 +103,14 @@
                 </el-select>
               </el-col>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="7">
               <el-col :span="4">数量</el-col>
               <el-col :span="18">
                 <el-input v-model="addToolInfo.sum" placeholder="请输入数量" type="number" :maxlength='10'></el-input>
               </el-col>
+            </el-col>
+            <el-col :span="3" class="g-text-right">
+              <el-button @click="addProp" type="primary">{{isEditPackage ? '修改' : '添加'}}</el-button>
             </el-col>
           </el-row>
           <div style="margin-top: 2rem">
@@ -125,9 +128,7 @@
                 </el-table-column>
               </el-table>
             </el-row>
-            <el-row style="text-align: right;margin-top: 2rem">
-              <el-button @click="addProp">{{isEditPackage ? '修改' : '添加'}}</el-button>
-            </el-row>
+
           </div>
         </el-form-item>
       </el-form>
