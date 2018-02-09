@@ -1,11 +1,11 @@
 <template>
-  <div class="naArcadeGame-report">
+  <div class="naArcadeGame-report" @click="getTimer">
     <div class="nowUserlist">
 
       <div class="clearFix" style="margin-bottom:0.5rem">
         <p class="title" style="float:left">当前选择列表</p>
         <div style="float:right;margin-right:1rem">
-          <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围(默认最近一周)" :editable="false"></el-date-picker>
+          <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围(默认最近一周)" :editable="false" align="right" :clearable="false"></el-date-picker>
           <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData">搜索</el-button>
           <el-button @click="resetSearch">重置</el-button>
         </div>
@@ -349,6 +349,14 @@ export default {
     }
   },
   methods: {
+    getTimer () {
+      let timer = document.getElementsByTagName('input')
+      for (let item of timer) {
+        item.readOnly = true
+      }
+      let clear = document.getElementsByClassName('el-picker-panel__link-btn')[0]
+      clear.style.display = 'none'
+    }, // 原生操作时间日期控件
     refreshList (data) {
       this.$store.commit('startLoading')
       this.playerParent = ''
