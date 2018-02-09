@@ -92,6 +92,19 @@ export const rightList = [
           }
         ]
       },
+      {
+        isChecked: false,
+        name: 'AG游戏报表',
+        hasParent: true,
+        children: [
+          {
+            isChecked: false,
+            name: 'AG真人游戏报表',
+            hasParent: false,
+            children: ''
+          }
+        ]
+      },
     ]
   },
   {

@@ -31,6 +31,10 @@
                       <template slot="title">MG游戏报表</template>
                       <el-menu-item index="mgVedioGameReport">MG电子游戏报表</el-menu-item>
                   </el-submenu>
+                  <el-submenu index="1-5" v-show="userRight.agLiveGameReport.hasRight">
+                      <template slot="title">AG游戏报表</template>
+                      <el-menu-item index="agLiveGameReport">AG真人游戏报表</el-menu-item>
+                  </el-submenu>
               </el-submenu>
               <el-submenu index="2" v-show="userRight.managerList.hasRight || userRight.outcreate.hasRight || userRight.merchantList.hasRight || userRight.pointWarning.hasRight || userRight.comcreate.hasRight">
                   <template slot="title">商户中心</template>
@@ -178,6 +182,10 @@ export default {
           hasRight: false,
           name: 'MG电子游戏报表'
         }, // MG电子游戏报表
+        agLiveGameReport: {
+          hasRight: false,
+          name: 'AG真人游戏报表'
+        }, // AG真人游戏报表
         managerList: {
           hasRight: false,
           name: '线路商列表'

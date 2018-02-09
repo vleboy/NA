@@ -288,7 +288,7 @@ export default {
         item.readOnly = true
       }
       let clear = document.getElementsByClassName('el-picker-panel__link-btn')[0]
-      clear.style.display = 'none'
+      clear ? clear.style.display = 'none' : ''
     }, // 原生操作时间日期控件
     refreshList (data) {
       this.$store.commit('startLoading')

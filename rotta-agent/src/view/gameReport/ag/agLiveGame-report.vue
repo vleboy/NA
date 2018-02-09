@@ -1,5 +1,5 @@
 <template>
-  <div class="naMall-report"  @click="getTimer">
+  <div class="agLiveGame-report" @click="getTimer">
     <div class="nowUserlist">
 
       <div class="clearFix" style="margin-bottom:0.5rem">
@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <el-table :data="naMallNowlist" stripe>
+      <el-table :data="agLiveNowlist" stripe>
         <el-table-column label="序号" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -20,14 +20,58 @@
         </el-table-column>
         <el-table-column label="管理员账号" prop="username" align="center">
           <template scope="scope">
-            <span class="fontUrl" @click="refreshList(scope.row)">{{formatSuffix(scope.row.username)}}</span>
+            <span class="fontUrl" @click="refreshList(scope.row)">{{scope.row.username}}</span>
           </template>
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
-        <el-table-column label="交易金额" prop="betAmount" align="center">
+        <el-table-column label="投注金额" prop="betAmount" align="center">
           <template scope="scope">
             <span>{{points(scope.row.betAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="输赢金额" prop="winloseAmount" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.winloseAmount) > 0 ? 'green' : 'red']">{{points(scope.row.winloseAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="返水比例" prop="vedioMix" align="center">
+          <template scope="scope">
+            <span v-if="scope.row.suffix == 'Agent'">1%</span>
+            <div slot="reference" v-else>
+                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
+                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="佣金" prop="nowBouns" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.nowBouns)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理总金额" prop="nowallBet" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate)}}%</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理交公司" prop="submit" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
+          <template scope="scope">
+            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -36,7 +80,7 @@
 
     <div class="childlist">
       <p class="title">直属下级列表</p>
-      <el-table :data="naMallNowchild" stripe>
+      <el-table :data="agLiveNowchild" stripe>
         <el-table-column label="序号" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
@@ -50,33 +94,121 @@
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
-        <el-table-column label="交易金额" prop="betAmount" align="center">
+        <el-table-column label="投注金额" prop="betAmount" align="center">
           <template scope="scope">
             <span>{{points(scope.row.betAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="输赢金额" prop="winloseAmount" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.winloseAmount) > 0 ? 'green' : 'red']">{{points(scope.row.winloseAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="返水比例" prop="vedioMix" align="center">
+          <template scope="scope">
+            <span v-if="scope.row.suffix == 'Agent'">1%</span>
+            <div slot="reference" v-else>
+                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
+                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column label="佣金" prop="nowBouns" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.nowBouns)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理总金额" prop="nowallBet" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate) + '%'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理交公司" prop="submit" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
+          <template scope="scope">
+            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
-    <div class="childlist" v-for="item of naRenderChild">
+    <div class="childlist" v-for="item of agRenderChild">
       <p class="title">({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 下级列表</p>
       <el-table :data="item" stripe>
         <el-table-column label="序号" prop="" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
         </el-table-column>
-        <el-table-column label="昵称" prop="displayName" align="center">
+        <el-table-column label="管理员账号" prop="uname" align="center">
            <template scope="scope">
-            <span class="fontUrl" @click="getChild_player(scope.row)">{{scope.row.username}}</span>
+            <span class="fontUrl" @click="getChild_player(scope.row)">{{scope.row.uname}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="管理员账号" prop="uname" align="center">
+        <el-table-column label="昵称" prop="displayName" align="center">
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
-        <el-table-column label="交易金额" prop="betAmount" align="center">
+        <el-table-column label="投注金额" prop="betAmount" align="center">
           <template scope="scope">
             <span>{{points(scope.row.betAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="输赢金额" prop="winloseAmount" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.winloseAmount) > 0 ? 'green' : 'red']">{{points(scope.row.winloseAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="返水比例" prop="vedioMix" align="center">
+          <template scope="scope">
+            <span v-if="scope.row.suffix == 'Agent'">1%</span>
+            <div slot="reference" v-else>
+                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
+                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column label="佣金" prop="nowBouns" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.nowBouns)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理总金额" prop="nowallBet" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理占成" prop="rate" align="center">
+          <template scope="scope">
+            <span>{{(scope.row.rate) + '%'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理交公司" prop="submit" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.submit) > 0 ? 'green' : 'red']">{{points(scope.row.submit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="获利比例" prop="winloseRate" align="center">
+          <template scope="scope">
+            <span>{{formatWinloseRate(scope.row.winloseRate)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -87,7 +219,7 @@
       <div class="clearFix" style="margin-bottom:0.5rem">
         <p class="title" style="float:left"><span v-if="playerParent">({{playerParent}})</span>所属玩家列表</p>
       </div>
-      <el-table :data="naMallPlayer" stripe>
+      <el-table :data="agLivePlayer" stripe>
         <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="center">
@@ -99,9 +231,37 @@
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="center">
         </el-table-column>
-        <el-table-column label="交易金额" prop="betAmount" align="center">
+        <el-table-column label="投注金额" prop="betAmount" align="center">
           <template scope="scope">
             <span>{{points(scope.row.betAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="输赢金额" prop="winloseAmount" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.winloseAmount) > 0 ? 'green' : 'red']">{{points(scope.row.winloseAmount)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="返水比例" prop="vedioMix" align="center">
+          <template scope="scope">
+            <div slot="reference">
+                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
+                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="洗码量" prop="mixAmount" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.mixAmount)}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column label="佣金" prop="nowBouns" align="center">
+          <template scope="scope">
+            <span>{{points(scope.row.nowBouns)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="会员总金额" prop="nowallBet" align="center">
+          <template scope="scope">
+            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -118,7 +278,7 @@ export default {
   beforeCreate () {
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'naMallReport'
+      data: 'agLiveGameReport'
     })
     this.$store.commit('returnLocalStorage')
   },
@@ -138,28 +298,32 @@ export default {
 
       nowPlayer: [], // 当前登录或点击渲染的代理玩家
       playerParent: '', // 当前玩家所属代理昵称
+
+
+      parentMix: '', // 上级洗码比
+      nowType: gameType('agLive'), // 当前输赢报表游戏类型
     }
   },
   activated: function () {
     this.$store.commit({
       type: 'recordNowindex',
-      data: 'naMallReport'
+      data: 'agLiveGameReport'
     })
   },
   computed:{
-    naMallNowlist () {
+    agLiveNowlist () {
       let data = [this.nowList]
       return data
     },
-    naMallNowchild () {
+    agLiveNowchild () {
       let nowChild = this.nowChild
       return nowChild
     },
-    naRenderChild () {
+    agRenderChild () {
       let child = this.clickChild
       return child
     },
-    naMallPlayer () {
+    agLivePlayer () {
       let player = this.nowPlayer
       return player
     }
@@ -221,7 +385,6 @@ export default {
       this.clickChild = []
       this.nowList = ''
       this.getLoginSelf()
-      this.getLoginSelf()
       this.getLoginChild(localStorage.loginId)
       if (localStorage.loginSuffix != 'Agent') {
         this.getLoginPlayer({
@@ -245,6 +408,15 @@ export default {
           var user = ret.data.payload
           user.betCount = 0
           user.betAmount = 0
+          user.winAmount = 0
+          user.winloseAmount = 0
+          user.mixAmount = 0
+          user.submit = 0
+          user.winloseRate = 0
+          user.nowBouns = 0
+          user.nowallBet = 0
+          let mix = ''
+          !user.gameList ? this.parentMix = 0.01 : user.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? this.parentMix = 0.01 : this.parentMix = user.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
           this.nowList = user
         }
       })
@@ -273,7 +445,7 @@ export default {
             let allReady = [] // promise所有结果返回
             for (let item of result) {
               let child_data = {
-                gameType: gameType('naMall'),
+                gameType: gameType('agLive'),
                 role: '1000',
                 userIds: item.map(item=>{return item.userId}),
                 query: {
@@ -298,6 +470,12 @@ export default {
                             if (item.userId == side.userId) {
                               item.betCount = side.betCount
                               item.betAmount = side.betAmount
+                              item.winloseAmount = side.winloseAmount
+                              item.mixAmount = side.mixAmount
+                              item.submit = side.winloseAmount * (1 - item.rate / 100)
+                              item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                              item.nowallBet = item.nowBouns + side.winloseAmount
+                              item.winloseRate = item.nowallBet / side.mixAmount
                             }
                           })
                         })
@@ -310,6 +488,12 @@ export default {
                         }))
                         this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.submit = this.nowList.winloseAmount * (1 - this.nowList.rate / 100)
+                        this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.nowBouns = this.nowChild.map( child => child.nowBouns ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.nowallBet = this.nowChild.map( child => child.nowallBet ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
                       }
                       resolve(data)
                     }
@@ -359,7 +543,7 @@ export default {
           let allReady = [] // promise所有结果返回
           for (let item of result) {
             let player_data = {
-              gameType: gameType('naMall'),
+              gameType: gameType('agLive'),
               gameUserNames: item.map(item=>{return item.userName}),
               query: {
                 createdAt: time
@@ -382,9 +566,16 @@ export default {
                         if (item.userName == side.userName) {
                           item.betCount = side.betCount
                           item.betAmount = side.betAmount
+                          item.winloseAmount = side.winloseAmount
+                          item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                          item.nowallBet = item.nowBouns + side.winloseAmount
                           if (!this.nowChild) {
                             this.nowList.betCount += item.betCount
                             this.nowList.betAmount += item.betAmount
+                            this.nowList.winloseAmount += item.winloseAmount
+                            this.nowList.mixAmount += item.mixAmount
+                            this.nowList.nowallBet += item.nowallBet
+                            this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
                           }
                         }
                       })
@@ -442,7 +633,7 @@ export default {
             let allReady = [] // promise所有结果返回
             for (let item of data) {
               let child_data = {
-                gameType: gameType('naMall'),
+                gameType: gameType('agLive'),
                 role: '1000',
                 userIds: item.map(item=>{return item.userId}),
                 query: {
@@ -467,6 +658,11 @@ export default {
                             if (outside.userId == inside.userId) {
                               outside.betCount = inside.betCount
                               outside.betAmount = inside.betAmount
+                              outside.winloseAmount = inside.winloseAmount
+                              outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
+                              outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                              outside.nowallBet = outside.nowBouns + inside.winloseAmount
+                              outside.winloseRate = outside.nowallBet / inside.mixAmount
                               this.clickChild[this.clickChild.length-1].push(outside)
                             }
                           })
@@ -515,7 +711,7 @@ export default {
                 let allReady = [] // promise所有结果返回
                 for (let item of data) {
                   let child_data = {
-                    gameType: gameType('naMall'),
+                    gameType: gameType('agLive'),
                     role: '1000',
                     userIds: item.map(item=>{return item.userId}),
                     query: {
@@ -540,6 +736,11 @@ export default {
                                 if (outside.userId == inside.userId) {
                                   outside.betCount = inside.betCount
                                   outside.betAmount = inside.betAmount
+                                  outside.winloseAmount = inside.winloseAmount
+                                  outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
+                                  outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                                  outside.nowallBet = outside.nowBouns + inside.winloseAmount
+                                  outside.winloseRate = outside.nowallBet / inside.mixAmount
                                   this.clickChild[this.clickChild.length-1].push(outside)
                                 }
                               })
@@ -586,10 +787,11 @@ export default {
               this.clickChild.push([])
               var data = [ret.data.payload]
               let time = this.isSelect_time ? this.searchDate : getWeek()
+
               let allReady = [] // promise所有结果返回
               for (let item of data) {
                 let child_data = {
-                  gameType: gameType('naMall'),
+                  gameType: gameType('agLive'),
                   role: '1000',
                   userIds: item.map(item=>{return item.userId}),
                   query: {
@@ -614,6 +816,11 @@ export default {
                               if (outside.userId == inside.userId) {
                                 outside.betCount = inside.betCount
                                 outside.betAmount = inside.betAmount
+                                outside.winloseAmount = inside.winloseAmount
+                                outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
+                                outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                                outside.nowallBet = outside.nowBouns + inside.winloseAmount
+                                outside.winloseRate = outside.nowallBet / inside.mixAmount
                                 this.clickChild[this.clickChild.length-1].push(outside)
                               }
                             })
@@ -675,7 +882,7 @@ export default {
           let allReady = [] // promise所有结果返回
           for (let item of result) {
             let player_data = {
-              gameType: gameType('naMall'),
+              gameType: gameType('agLive'),
               gameUserNames: item.map(item=>{return item.userName}),
               query: {
                 createdAt: time
@@ -698,9 +905,16 @@ export default {
                         if (item.userName == side.userName) {
                           item.betCount = side.betCount
                           item.betAmount = side.betAmount
+                          item.winloseAmount = side.winloseAmount
+                          item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                          item.nowallBet = item.nowBouns + side.winloseAmount
                           if (!this.nowChild) {
                             this.nowList.betCount += item.betCount
                             this.nowList.betAmount += item.betAmount
+                            this.nowList.winloseAmount += item.winloseAmount
+                            this.nowList.mixAmount += item.mixAmount
+                            this.nowList.nowallBet += item.nowallBet
+                            this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
                           }
                         }
                       })
@@ -732,9 +946,6 @@ export default {
         }
       })
     }, // 点击查询代理玩家
-    formatSuffix (suffix) {
-      return suffix ? suffix.substring(suffix.indexOf('_') + 1, suffix.length) : suffix
-    }, // 格式化前缀
     points (data) {
       if (data && !isNaN(Number(data).toFixed(2))) {
         return formatPoints(Number(data).toFixed(2))
@@ -760,7 +971,7 @@ export default {
     }, // 格式化用户类型
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
-      this.$router.push('playerdetail')
+      this.$router.push('agentPlayerDetail')
       this.$store.commit({
         type: 'playerUserName',
         data: row
@@ -771,16 +982,15 @@ export default {
 </script>
 
 <style scpoed>
-.naMall-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
-.naMall-report .input{width: 25rem}
-.naMall-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
-.naMall-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
-.naMall-report .nowUserlist,
-.naMall-report .childlist,
-.naMall-report .playerlist{width: 99%;margin: 2rem auto}
-.naMall-report .fontUrl{cursor: pointer;color: #20a0ff}
-.naMall-report .fontUrl:hover{text-decoration: underline;}
-
+.agLiveGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+.agLiveGame-report .input{width: 25rem}
+.agLiveGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+.agLiveGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
+.agLiveGame-report .nowUserlist,
+.agLiveGame-report .childlist,
+.agLiveGame-report .playerlist{width: 99%;margin: 2rem auto}
+.agLiveGame-report .fontUrl{cursor: pointer;color: #20a0ff}
+.agLiveGame-report .fontUrl:hover{text-decoration: underline;}
 .green{color: #00CC00}
 .red{color: #FF3300}
 </style>

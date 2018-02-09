@@ -66,6 +66,7 @@ import naMallReport from '@/view/gameReport/na/naMall-report' // NA游戏总报�
 import ttgVedioGameReport from '@/view/gameReport/ttg/ttgVedioReport' // TTG电子游戏报表
 import saLiveGameReport from '@/view/gameReport/sa/saLiveGame-report' // SA真人游戏报表
 import mgVedioGameReport from '@/view/gameReport/mg/mgVedioGame-report' // MG电子游戏报表
+import agLiveGameReport from '@/view/gameReport/ag/agLiveGame-report' // AG真人游戏报表
 
 import { Message } from 'element-ui'
 import store from '@/store/store'
@@ -316,6 +317,14 @@ const router = new Router({
       path: '/saLiveGameReport',
       name: 'SA真人游戏报表',
       component: saLiveGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/agLiveGameReport',
+      name: 'AG真人游戏报表',
+      component: agLiveGameReport,
       meta: {
         keepAlive: true
       }
