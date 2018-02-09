@@ -250,7 +250,7 @@
         let name = this.$store.state.variable.playerUserName || localStorage.playerName
         let [startTime, endTime] = this.amountDate
         startTime = new Date(startTime).getTime()
-        endTime = new Date(endTime).getTime()+5000
+        endTime = new Date(endTime).getTime()
         // this.$store.commit('startLoading')
         invoke({
           url: api.playerBill,
