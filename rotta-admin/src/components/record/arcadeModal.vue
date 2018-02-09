@@ -62,8 +62,9 @@ export default {
       let classType = {}
       classType = {
         'record-slxy': this.recordAllObj.gameId == '50001',
-        'record-jssk': this.recordAllObj.gameId =='50002',
-        'record-fksg': this.recordAllObj.gameId =='50003'
+        'record-jssk': this.recordAllObj.gameId == '50002',
+        'record-fksg': this.recordAllObj.gameId == '50003',
+        'record-bsmf': this.recordAllObj.gameId == '50004'
       }
       return classType
     },
@@ -71,8 +72,9 @@ export default {
       let item_left = {}
       item_left = {
         'item_left_slxy': this.recordAllObj.gameId == '50001',
-        'item_left_jssk': this.recordAllObj.gameId =='50002',
-        'item_left_fksg': this.recordAllObj.gameId =='50003'
+        'item_left_jssk': this.recordAllObj.gameId == '50002',
+        'item_left_fksg': this.recordAllObj.gameId == '50003',
+        'item_left_bsmf': this.recordAllObj.gameId == '50004'
       }
       return item_left
     },
@@ -81,7 +83,8 @@ export default {
       resultIcon  = {
         '50001': this.roundIconSLXY,
         '50002': this.roundIconJSSK,
-        '50003': this.roundIconFKSG
+        '50003': this.roundIconFKSG,
+        '50004': this.roundIconBSMF
       }
       return resultIcon
     },
@@ -90,7 +93,8 @@ export default {
       resultSuc  = {
         '50001': this.winResultObjSLXY,
         '50002': this.winResultObjJSSK,
-        '50003': this.winResultObjFKSG
+        '50003': this.winResultObjFKSG,
+        '50004': this.winResultObjBSMF
       }
       return resultSuc
     }
@@ -283,6 +287,68 @@ export default {
           imgTwo:`${this.imgPrefix}fksg/lingdang_x.png`
         }
       ]
+      this.roundIconBSMF = [
+        {
+          imgOne:`${this.imgPrefix}bsmf/1hong.png`,
+          imgTwo:`${this.imgPrefix}bsmf/1hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/1huang.png`,
+          imgTwo:`${this.imgPrefix}bsmf/1huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/1lv.png`,
+          imgTwo:`${this.imgPrefix}bsmf/1lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/2hong.png`,
+          imgTwo:`${this.imgPrefix}bsmf/2hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/2huang.png`,
+          imgTwo:`${this.imgPrefix}bsmf/2huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/2lv.png`,
+          imgTwo:`${this.imgPrefix}bsmf/2lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/3hong.png`,
+          imgTwo:`${this.imgPrefix}bsmf/3hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/3huang.png`,
+          imgTwo:`${this.imgPrefix}bsmf/3huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/3lv.png`,
+          imgTwo:`${this.imgPrefix}bsmf/3lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/4hong.png`,
+          imgTwo:`${this.imgPrefix}bsmf/4hong_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/4huang.png`,
+          imgTwo:`${this.imgPrefix}bsmf/4huang_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/4lv.png`,
+          imgTwo:`${this.imgPrefix}bsmf/4lv_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/jiezhi.png`,
+          imgTwo:`${this.imgPrefix}bsmf/jiezhi_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/huangguan.png`,
+          imgTwo:`${this.imgPrefix}bsmf/huangguan_x.png`
+        },
+        {
+          imgOne:`${this.imgPrefix}bsmf/xianglian.png`,
+          imgTwo:`${this.imgPrefix}bsmf/xianglian_x.png`
+        }
+      ]
       this.winResultObjSLXY = {
         '1': `${this.imgPrefix}slxy/slxy_youwin.png` ,
         '2': `${this.imgPrefix}slxy/slxy_bigwin.png` ,
@@ -296,6 +362,12 @@ export default {
         '4': `${this.imgPrefix}jssk/bcbm_super.png`
       }
       this.winResultObjFKSG = {
+        '1': `${this.imgPrefix}fksg/fksg_youwin.png` ,
+        '2': `${this.imgPrefix}fksg/fksg_bigwin.png` ,
+        '3': `${this.imgPrefix}fksg/fksg_magic.png` ,
+        '4': `${this.imgPrefix}fksg/fksg_super.png`
+      }
+      this.winResultObjBSMF = {
         '1': `${this.imgPrefix}fksg/fksg_youwin.png` ,
         '2': `${this.imgPrefix}fksg/fksg_bigwin.png` ,
         '3': `${this.imgPrefix}fksg/fksg_magic.png` ,
@@ -385,6 +457,9 @@ export default {
     .record-fksg{
       background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/fksg/fksg_bg.jpg");
     }
+    .record-bsmf{
+      background: url("https://d38xgux2jezyfx.cloudfront.net/recordImg/bsmf/bsmf_bg.jpg");
+    }
     .arcade_modal_head{
       position: absolute;
       width: 100%;
@@ -436,6 +511,11 @@ export default {
       .item_left_fksg{
         top: 64px;
         left: 32px;
+      }
+      .item_left_bsmf{
+        top: 53px;
+        left: 28px;
+        color: #fbe806;
       }
       .item_right{
         width: 100px;
