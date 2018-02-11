@@ -479,23 +479,9 @@
         this.getConsumeAndIncome()
       }, // 售出收益日期筛选过滤切换
       getWeek() {
-        //按周日为一周的最后一天计算
-        let date = new Date();
-
-        //今天是这周的第几天
-        let today = date.getDay();
-
-        //上周日距离今天的天数（负数表示）
-        let stepSunDay = -today + 1;
-
-        // 如果今天是周日
-        if (today == 0) {
-          stepSunDay = -7;
-        }
-
-        let time = date.getTime();
-
-        return new Date(time + stepSunDay * 24 * 3600 * 1000);
+        let nowDate= new Date()  ;
+        let nowDay = nowDate.getDay() || 7;
+        return new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 1 - nowDay);
       }, // 处理周次
       companySelect () {
         invoke({
