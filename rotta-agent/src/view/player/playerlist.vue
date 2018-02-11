@@ -68,7 +68,7 @@
         </el-table-column>
         <el-table-column label="游戏状态" align="left" width="100">
           <template scope="scope">
-            <el-tag :type="scope.row.gameState==3 ? 'success' : 'gray'">
+            <el-tag :type="scope.row.gameState==3 || scope.row.gameState==2 ? 'success' : 'gray'">
               <div>{{scope.row.gameStateName}}</div>
             </el-tag>
           </template>
