@@ -257,8 +257,17 @@ export default {
               }
             } // 合并去重数据
             if (!item.companyList) {
+              companyList.sort(function(a,b){
+                return a.company.substr(0,1) > b.company.substr(0,1)
+              })
               item.companyList = companyList
             } else {
+              companyList.sort(function(a,b){
+                return a.company.substr(0,1) > b.company.substr(0,1)
+              })
+              item.companyList.sort(function(a,b){
+                return a.company.substr(0,1) > b.company.substr(0,1)
+              })
               item.companyList.map(outside => {
                 companyList.map(inside => {
                   if (inside.company == outside.company) {
@@ -328,8 +337,6 @@ export default {
                   count += side.winloseAmount ? side.winloseAmount : 0
                   winloseAmount.push(Number(count))
                 }) // 获取运营商名称与启用/停用状态
-                // console.log(allCompany)
-                // console.log(winloseAmount)
                 let ruler = []
                 let companyList = [] // 处理后的要渲染的数据
                 for (let i = 0;i < allCompany.length;i++) {
@@ -353,7 +360,7 @@ export default {
                     })
                   }
                 } // 合并去重数据
-                // console.log(123,companyList)
+                companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
                 item.companyList = companyList
                 if (!item.companyList) {
                   // item.companyList = companyList
@@ -447,6 +454,7 @@ export default {
                       })
                     }
                   } // 合并去重数据
+                  companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
                   item.companyList = companyList
                   if (!item.companyList) {
                     // item.companyList = companyList
@@ -542,6 +550,7 @@ export default {
                       })
                     }
                   } // 合并去重数据
+                  companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
                   item.companyList = companyList
                   if (!item.companyList) {
                     // item.companyList = companyList

@@ -214,7 +214,6 @@ export default {
                 terval == bull.code ? bull.winloseAmount = item.winloseAmountMap[terval].winloseAmount : ''
               })
             } // 将有数据的输赢push到相应游戏类别里
-
             item.gameList.map(side => {
               side.topAmount ? '' : side.topAmount = 0;
               allCompany.push(side.company)
@@ -256,8 +255,17 @@ export default {
               }
             } // 合并去重数据
             if (!item.companyList) {
+              companyList.sort(function(a,b){
+                return a.company.substr(0,1) > b.company.substr(0,1)
+              })
               item.companyList = companyList
             } else {
+              companyList.sort(function(a,b){
+                return a.company.substr(0,1) > b.company.substr(0,1)
+              })
+              item.companyList.sort(function(a,b){
+                return a.company.substr(0,1) > b.company.substr(0,1)
+              })
               item.companyList.map(outside => {
                 companyList.map(inside => {
                   if (inside.company == outside.company) {
@@ -326,7 +334,6 @@ export default {
                   let count = ''
                   count += side.winloseAmount ? side.winloseAmount : 0
                   winloseAmount.push(Number(count))
-                  
                 }) // 获取运营商名称与启用/停用状态
                 let ruler = []
                 let companyList = [] // 处理后的要渲染的数据
@@ -351,6 +358,7 @@ export default {
                     })
                   }
                 } // 合并去重数据
+                companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
                 item.companyList = companyList
                 if (!item.companyList) {
                   // item.companyList = companyList
@@ -444,6 +452,7 @@ export default {
                       })
                     }
                   } // 合并去重数据
+                  companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
                   item.companyList = companyList
                   if (!item.companyList) {
                     // item.companyList = companyList
@@ -539,6 +548,7 @@ export default {
                       })
                     }
                   } // 合并去重数据
+                  companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
                   item.companyList = companyList
                   if (!item.companyList) {
                     // item.companyList = companyList
