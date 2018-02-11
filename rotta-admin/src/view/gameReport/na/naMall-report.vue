@@ -652,7 +652,7 @@ export default {
                       return item.betCount > 0 && !isRepeat
                     }))
                   }
-                  resolve(pro)
+                  resolve(data)
                 }
               })
             })
