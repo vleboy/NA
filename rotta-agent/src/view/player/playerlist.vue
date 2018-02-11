@@ -382,7 +382,11 @@
                 type: 'error'
               })
             } else {
-              this.gameTypeList = res.data.payload
+              for (let item of res.data.payload) {
+                if (item.code != '10000') {
+                  this.gameTypeList.push(item)
+                }
+              }
               this.gameTypeList.unshift({
                 code: '0',
                 name: '离线'
