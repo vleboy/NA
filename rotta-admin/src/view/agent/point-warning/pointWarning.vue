@@ -54,7 +54,7 @@
         </el-table>
       </div>
     </div>
-
+    
     <div class="point-warning" v-for="(child,index) of nowChild">
       <div class="belong-list">
         <p class="title">{{nowParent[index]}}下级接入商</p>
@@ -72,11 +72,6 @@
             <template scope="scope">
               <span @click="getChild(scope.row)" class="fontUrl" v-if="scope.row.role == '10'">{{scope.row.displayName}}</span>
               <span v-else>{{scope.row.displayName}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="抽成比" prop="" align="left">
-            <template scope="scope">
-              <span>{{scope.row.rate}}%</span>
             </template>
           </el-table-column>
           <el-table-column label="接入商" prop="" align="center">
@@ -114,6 +109,8 @@
         </el-table>
       </div>
     </div>
+    
+    
 
     <!-- 解锁/启用框 -->
     <div>
@@ -284,7 +281,7 @@ export default {
         }
       })
     },
-    getChild (parent) {
+    getChild (parent, index) {
       this.$store.commit('startLoading')
       let data = {
         parent: parent.userId

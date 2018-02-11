@@ -72,11 +72,6 @@
               <span @click="getChild(scope.row)" class="fontUrl">{{scope.row.displayName}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="抽成比" prop="" align="left">
-            <template scope="scope">
-              <span>{{scope.row.rate}}%</span>
-            </template>
-          </el-table-column>
           <el-table-column label="接入商" prop="" align="center">
             <template scope="scope">
               <div slot="reference" class="gameName">
