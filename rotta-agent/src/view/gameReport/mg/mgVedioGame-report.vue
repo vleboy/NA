@@ -143,9 +143,9 @@
         </el-table-column>
         <el-table-column label="类型" prop="role" align="center" :formatter="userType">
         </el-table-column>
-        <el-table-column label="管理员账号" prop="uname" align="center">
+        <el-table-column label="管理员账号" prop="username" align="center">
            <template scope="scope">
-            <span class="fontUrl" @click="getChild_player(scope.row)">{{scope.row.uname}}</span>
+            <span class="fontUrl" @click="getChild_player(scope.row)">{{scope.row.username}}</span>
           </template>
         </el-table-column>
         <el-table-column label="昵称" prop="displayName" align="center">

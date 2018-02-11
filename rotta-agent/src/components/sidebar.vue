@@ -33,7 +33,7 @@
                   </el-submenu>
                   <el-submenu index="1-5">
                       <template slot="title">AG游戏报表</template>
-                      <el-menu-item index="saLiveGameReport">AG真人游戏报表</el-menu-item>
+                      <el-menu-item index="agLiveGameReport">AG真人游戏报表</el-menu-item>
                   </el-submenu>
               </el-submenu>
               <el-submenu index="2">

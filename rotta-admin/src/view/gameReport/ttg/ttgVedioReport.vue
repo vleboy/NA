@@ -66,8 +66,8 @@
         </el-table-column>
         <el-table-column label="管理员账号" prop="username" align="left">
           <template scope="scope">
-            <span class="fontUrl" @click="getChild(scope.row)" v-if="scope.row.role == '10'">{{scope.row.displayName}}</span>
-            <span class="fontUrl" @click="getPlayer(scope.row, true)" v-if="scope.row.role == '100'">{{scope.row.displayName}}</span>
+            <span class="fontUrl" @click="getChild(scope.row)" v-if="scope.row.role == '10'">{{scope.row.username}}</span>
+            <span class="fontUrl" @click="getPlayer(scope.row, true)" v-if="scope.row.role == '100'">{{scope.row.username}}</span>
           </template>
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="left">
@@ -108,12 +108,12 @@
         <el-table-column label="类型" prop="role" align="left" :formatter="userType">
         </el-table-column>
         <el-table-column label="昵称" prop="displayName" align="left">
-           <template scope="scope">
-            <span class="fontUrl" @click="getChild(scope.row)" v-if="scope.row.role == '10'">{{scope.row.displayName}}</span>
-            <span class="fontUrl" @click="getPlayer(scope.row, false)" v-if="scope.row.role == '100'">{{scope.row.displayName}}</span>
-          </template>
         </el-table-column>
-        <el-table-column label="管理员账号" prop="uname" align="left">
+        <el-table-column label="管理员账号" prop="username" align="left">
+          <template scope="scope">
+            <span class="fontUrl" @click="getChild(scope.row)" v-if="scope.row.role == '10'">{{scope.row.username}}</span>
+            <span class="fontUrl" @click="getPlayer(scope.row, false)" v-if="scope.row.role == '100'">{{scope.row.username}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="交易次数" prop="betCount" align="left">
         </el-table-column>
