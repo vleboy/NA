@@ -245,6 +245,7 @@ export default {
         this.fileList = []
         this.noticeInfo = JSON.parse(JSON.stringify(row))
         this.noticeInfo.remark = this.noticeInfo.remark === 'NULL!' ? '' : this.noticeInfo.remark
+        this.noticeInfo.url = this.noticeInfo.url === 'NULL!' ? '' : this.noticeInfo.url
         this.fileList.push({
           name: '',
           url: this.noticeInfo.img
