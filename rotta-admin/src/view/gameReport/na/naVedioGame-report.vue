@@ -291,7 +291,7 @@ export default {
       clear ? clear.style.display = 'none' : ''
     }, // 原生操作时间日期控件
     refreshList (data) {
-      this.$store.commit('startLoading')
+      // this.$store.commit('startLoading')
       this.playerParent = ''
       this.nowPlayer = []
       this.nowChild = []
