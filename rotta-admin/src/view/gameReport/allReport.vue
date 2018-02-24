@@ -606,9 +606,9 @@ export default {
                         }
                         item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
                         item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
-                        this.nowList.allWinlose += item.allWinlose
-                        this.nowList.role != 1 ? this.nowList.allSubmit += item.allSubmit : ''
                       }
+                      this.nowList.allWinlose += item.allWinlose
+                      this.nowList.role != 1 ? this.nowList.allSubmit += item.allSubmit : ''
                       this.nowList.allbetCount += item.allbetCount
                       this.nowChild.push(item)
                     }
