@@ -432,20 +432,81 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
-          user.allbetCount = 0
-          user.allWinlose = 0
-          user.allSubmit = 0
-          user.naWinlose = 0
-          user.naSubmit = 0
-          user.ttgWinlose = 0
-          user.ttgSubmit = 0
-          user.saWinlose = 0
-          user.saSubmit = 0
-          user.mgWinlose = 0
-          user.mgSubmit = 0
-          user.agWinlose = 0
-          user.agSubmit = 0
-          this.nowList = user
+          if (localStorage.loginRole != 100) {
+            user.allbetCount = 0
+            user.allWinlose = 0
+            user.allSubmit = 0
+            user.naWinlose = 0
+            user.naSubmit = 0
+            user.ttgWinlose = 0
+            user.ttgSubmit = 0
+            user.saWinlose = 0
+            user.saSubmit = 0
+            user.mgWinlose = 0
+            user.mgSubmit = 0
+            user.agWinlose = 0
+            user.agSubmit = 0
+            this.nowList = user
+          } else {
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+            let allGameTyle = [
+              {code: gameType('naVedio'), company: 'na'},
+              {code: gameType('naArcade'), company: 'na'},
+              {code: gameType('ttgVedio'), company: 'ttg'},
+              {code: gameType('saLive'), company: 'sa'},
+              {code: gameType('mgVedio'), company: 'mg'},
+              {code: gameType('agLive'), company: 'ag'}
+            ] // 所有游戏类型
+            let allCode = {
+              na: [30000,40000,50000],
+              ttg: [1010000],
+              mg: [10300000],
+              sa: [1060000],
+              ag: [1050000]
+            }
+            let data = {
+              gameType: allGameTyle.map(game => {return game.code}),
+              role: '100',
+              userIds: [localStorage.loginId],
+              query: {createdAt: time}
+            }
+            invoke({
+              url: api.calcUserStat,
+              method: api.post,
+              data: data
+            }).then(result => {
+              const [err,ret] = result
+              if (err) {
+                reject('error')
+              } else {
+                var data = ret.data.payload
+                if (data[0]) {
+                  this.nowList.allbetCount = data[0].betCount
+                  for (let code in data[0].gameTypeMap) {
+                    if (allCode.na.includes(Number(code))) {
+                      this.nowList.naWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.naSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (allCode.ttg.includes(Number(code))) {
+                      this.nowList.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.ttgSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (allCode.mg.includes(Number(code))) {
+                      this.nowList.mgWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.mgSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (allCode.sa.includes(Number(code))) {
+                      this.nowList.saWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.saSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (allCode.ag.includes(Number(code))) {
+                      this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.agSubmit += data[0].gameTypeMap[code].submitAmount
+                    }
+                    this.nowList.allWinlose = this.nowList.naWinlose + this.nowList.ttgWinlose + this.nowList.mgWinlose + this.nowList.saWinlose + this.nowList.agWinlose
+                    this.nowList.allSubmit = this.nowList.naSubmit + this.nowList.ttgSubmit + this.nowList.mgSubmit + this.nowList.saSubmit + this.nowList.agSubmit
+                  }
+                }
+                resolve(data)
+              }
+            })
+          }
         }
       })
     }, // 获取登陆用户报表基本信息
@@ -519,29 +580,29 @@ export default {
                       for (let code in data[0].gameTypeMap) {
                         if (allCode.na.includes(Number(code))) {
                           item.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naSubmit += data[0].gameTypeMap[code].winAmount
+                          item.naSubmit += data[0].gameTypeMap[code].submitAmount
                           this.nowList.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.naSubmit += data[0].gameTypeMap[code].winAmount : ''
+                          this.nowList.role != 1 ? this.nowList.naSubmit += data[0].gameTypeMap[code].submitAmount : ''
                         } else if (allCode.ttg.includes(Number(code))) {
                           item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.ttgSubmit += data[0].gameTypeMap[code].winAmount
+                          item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
                           this.nowList.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.ttgSubmit += data[0].gameTypeMap[code].winAmount : ''
+                          this.nowList.role != 1 ? this.nowList.ttgSubmit += data[0].gameTypeMap[code].submitAmount : ''
                         } else if (allCode.mg.includes(Number(code))) {
                           item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.mgSubmit += data[0].gameTypeMap[code].winAmount
+                          item.mgSubmit += data[0].gameTypeMap[code].submitAmount
                           this.nowList.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.mgSubmit += data[0].gameTypeMap[code].winAmount : ''
+                          this.nowList.role != 1 ? this.nowList.mgSubmit += data[0].gameTypeMap[code].submitAmount : ''
                         } else if (allCode.sa.includes(Number(code))) {
                           item.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.saSubmit += data[0].gameTypeMap[code].winAmount
+                          item.saSubmit += data[0].gameTypeMap[code].submitAmount
                           this.nowList.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.saSubmit += data[0].gameTypeMap[code].winAmount : ''
+                          this.nowList.role != 1 ? this.nowList.saSubmit += data[0].gameTypeMap[code].submitAmount : ''
                         } else if (allCode.ag.includes(Number(code))) {
                           item.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.agSubmit += data[0].gameTypeMap[code].winAmount
+                          item.agSubmit += data[0].gameTypeMap[code].submitAmount
                           this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.agSubmit += data[0].gameTypeMap[code].winAmount : ''
+                          this.nowList.role != 1 ? this.nowList.agSubmit += data[0].gameTypeMap[code].submitAmount : ''
                         }
                         item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
                         item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
@@ -649,19 +710,19 @@ export default {
                       for (let code in data[0].gameTypeMap) {
                         if (allCode.na.includes(Number(code))) {
                           item.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naSubmit += data[0].gameTypeMap[code].winAmount
+                          item.naSubmit += data[0].gameTypeMap[code].submitAmount
                         } else if (allCode.ttg.includes(Number(code))) {
                           item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.ttgSubmit += data[0].gameTypeMap[code].winAmount
+                          item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
                         } else if (allCode.mg.includes(Number(code))) {
                           item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.mgSubmit += data[0].gameTypeMap[code].winAmount
+                          item.mgSubmit += data[0].gameTypeMap[code].submitAmount
                         } else if (allCode.sa.includes(Number(code))) {
                           item.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.saSubmit += data[0].gameTypeMap[code].winAmount
+                          item.saSubmit += data[0].gameTypeMap[code].submitAmount
                         } else if (allCode.ag.includes(Number(code))) {
                           item.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.agSubmit += data[0].gameTypeMap[code].winAmount
+                          item.agSubmit += data[0].gameTypeMap[code].submitAmount
                         }
                         item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
                         item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
@@ -760,19 +821,19 @@ export default {
                           for (let code in data[0].gameTypeMap) {
                             if (allCode.na.includes(Number(code))) {
                               item.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.naSubmit += data[0].gameTypeMap[code].winAmount
+                              item.naSubmit += data[0].gameTypeMap[code].submitAmount
                             } else if (allCode.ttg.includes(Number(code))) {
                               item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.ttgSubmit += data[0].gameTypeMap[code].winAmount
+                              item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
                             } else if (allCode.mg.includes(Number(code))) {
                               item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.mgSubmit += data[0].gameTypeMap[code].winAmount
+                              item.mgSubmit += data[0].gameTypeMap[code].submitAmount
                             } else if (allCode.sa.includes(Number(code))) {
                               item.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.saSubmit += data[0].gameTypeMap[code].winAmount
+                              item.saSubmit += data[0].gameTypeMap[code].submitAmount
                             } else if (allCode.ag.includes(Number(code))) {
                               item.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.agSubmit += data[0].gameTypeMap[code].winAmount
+                              item.agSubmit += data[0].gameTypeMap[code].submitAmount
                             }
                             item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
                             item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
@@ -870,19 +931,19 @@ export default {
                         for (let code in data[0].gameTypeMap) {
                           if (allCode.na.includes(Number(code))) {
                             item.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.naSubmit += data[0].gameTypeMap[code].winAmount
+                            item.naSubmit += data[0].gameTypeMap[code].submitAmount
                           } else if (allCode.ttg.includes(Number(code))) {
                             item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.ttgSubmit += data[0].gameTypeMap[code].winAmount
+                            item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
                           } else if (allCode.mg.includes(Number(code))) {
                             item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.mgSubmit += data[0].gameTypeMap[code].winAmount
+                            item.mgSubmit += data[0].gameTypeMap[code].submitAmount
                           } else if (allCode.sa.includes(Number(code))) {
                             item.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.saSubmit += data[0].gameTypeMap[code].winAmount
+                            item.saSubmit += data[0].gameTypeMap[code].submitAmount
                           } else if (allCode.ag.includes(Number(code))) {
                             item.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.agSubmit += data[0].gameTypeMap[code].winAmount
+                            item.agSubmit += data[0].gameTypeMap[code].submitAmount
                           }
                           item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
                           item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
