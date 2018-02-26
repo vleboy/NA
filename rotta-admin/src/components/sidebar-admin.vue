@@ -15,6 +15,7 @@
                       <el-menu-item index="naVedioGameReport" v-show="userRight.naVedioGameReport.hasRight">NA电子游戏报表</el-menu-item>
                       <el-menu-item index="naArcadeGameReport" v-show="userRight.naArcadeGameReport.hasRight">NA街机游戏报表</el-menu-item>
                       <el-menu-item index="naLiveGameReport" v-show="userRight.naLiveGameReport.hasRight">NA真人游戏报表</el-menu-item>
+                      <el-menu-item index="commingSoon" ><a href="javascript:;" @click="getSign" v-show="userRight.naLiveGameReport.hasRight">NA真人游戏(跳转)</a></el-menu-item>
                       <el-menu-item index="naMallReport" v-show="userRight.naMallReport.hasRight">NA商城总报表</el-menu-item>      
                   </el-submenu>
                   <el-submenu index="1-2" v-show="userRight.ttgVedioGameReport.hasRight">
