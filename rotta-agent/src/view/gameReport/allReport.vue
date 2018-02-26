@@ -1,197 +1,317 @@
 <template>
-  <div class="allReport">
+  <div class="allReport" @click="getTimer">
     <div class="nowUserlist">
+
       <div class="clearFix" style="margin-bottom:0.5rem">
-        <p class="title" style="float:left">当前选择列表<span v-if="nowRole != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
+        <p class="title" style="float:left">当前选择列表</p>
         <div style="float:right;margin-right:1rem">
-          <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围(默认最近一周)" :editable="false"></el-date-picker>
-          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData" :loading="loading">搜索</el-button>
+          <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围(默认最近一周)" :editable="false" align="right" :clearable="false"></el-date-picker>
+          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData">搜索</el-button>
           <el-button @click="resetSearch">重置</el-button>
         </div>
       </div>
+
       <el-table :data="allNowlist" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="类型" prop="role" align="center" :formatter="userType">
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
         </el-table-column>
-        <el-table-column label="昵称" prop="displayName" align="center">
+        <el-table-column label="昵称" prop="displayName" align="left">
         </el-table-column>
-        <el-table-column label="管理员账号" prop="username" align="center">
-        </el-table-column>
-        <el-table-column label="代理占成" prop="rate" align="center">
+        <el-table-column label="管理员账号" prop="username" align="left">
           <template scope="scope">
-            <span>{{(scope.row.rate)}}%</span>
+            <span class="fontUrl" @click="refreshList()">{{formatSuffix(scope.row.username)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="交易次数" prop="allbetCount" align="center">
+        <el-table-column label="交易次数" prop="allbetCount" align="left">
+        </el-table-column>
+        <el-table-column label="总游戏输赢金额" prop="allWinlose" align="left">
           <template scope="scope">
-            <span>{{(flashNumber.allbetCount)}}</span>
+            <span>{{points(scope.row.allWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总游戏输赢金额" prop="allWinlose" align="center">
+        <el-table-column label="总游戏交公司" prop="allSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(flashNumber.allWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.allWinlose)}}</span>
+            <span>{{points(scope.row.allSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总游戏交公司" prop="allSubmit" align="center">
+        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
-            <span>{{(flashNumber.allSubmit)}}</span>
+            <span>{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="center">
+        <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(flashNumber.naWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.naWinlose)}}</span>
+            <span>{{points(scope.row.naSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(代理交公司)" prop="naSubmit" align="center">
+        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
           <template scope="scope">
-            <span>{{(flashNumber.naSubmit)}}</span>
+            <span>{{points(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="center">
+        <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(flashNumber.ttgWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.ttgWinlose)}}</span>
+            <span>{{points(scope.row.ttgSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(代理交公司)" prop="ttgSubmit" align="center">
+        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
           <template scope="scope">
-            <span>{{(flashNumber.ttgSubmit)}}</span>
+            <span>{{points(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="center">
+        <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(flashNumber.saWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.saWinlose)}}</span>
+            <span>{{points(scope.row.saSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(代理交公司)" prop="saSubmit" align="center">
+        <el-table-column label="MG游戏(输赢金额)" prop="mgWinlose" align="left">
           <template scope="scope">
-            <span>{{(flashNumber.saSubmit)}}</span>
+            <span>{{points(scope.row.mgWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="MG游戏(商家交公司)" prop="mgSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.mgSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="AG游戏(输赢金额)" prop="agWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.agWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="AG游戏(商家交公司)" prop="agSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.agSubmit)}}</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
-    <div class="childlist" v-if="loginRole != '100'">
-      <p class="title">下级列表</p>
+    <div class="childlist">
+      <p class="title">直属下级列表</p>
       <el-table :data="allNowchild" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="类型" prop="role" align="center" :formatter="userType">
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
         </el-table-column>
-        <el-table-column label="昵称" prop="displayName" align="center">
+        <el-table-column label="昵称" prop="displayName" align="left">
         </el-table-column>
-        <el-table-column label="管理员账号" prop="username" align="center">
+        <el-table-column label="管理员账号" prop="username" align="left">
           <template scope="scope">
-            <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.username}}</span>
+            <span class="fontUrl" @click="getChild_player(scope.row, true)">{{(scope.row.username)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="代理占成" prop="rate" align="center">
+        <el-table-column label="交易次数" prop="allbetCount" align="left">
+        </el-table-column>
+        <el-table-column label="总游戏输赢金额" prop="allWinlose" align="left">
           <template scope="scope">
-            <span>{{(scope.row.rate)}}%</span>
+            <span>{{points(scope.row.allWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="交易次数" prop="allbetCount" align="center">
-        </el-table-column>
-        <el-table-column label="总游戏输赢金额" prop="allWinlose" align="center">
+        <el-table-column label="总游戏交公司" prop="allSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.allWinlose)}}</span>
+            <span>{{points(scope.row.allSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总游戏交公司" prop="allSubmit" align="center">
+        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
-            <span>{{formatToFix(scope.row.allSubmit)}}</span>
+            <span>{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="center">
+        <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.naWinlose)}}</span>
+            <span>{{points(scope.row.naSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(代理交公司)" prop="naSubmit" align="center">
+        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
           <template scope="scope">
-            <span>{{formatToFix(scope.row.naSubmit)}}</span>
+            <span>{{points(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="center">
+        <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.ttgWinlose)}}</span>
+            <span>{{points(scope.row.ttgSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(代理交公司)" prop="ttgSubmit" align="center">
+        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
           <template scope="scope">
-            <span>{{formatToFix(scope.row.ttgSubmit)}}</span>
+            <span>{{points(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="center">
+        <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{(scope.row.saWinlose)}}</span>
+            <span>{{points(scope.row.saSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(代理交公司)" prop="saSubmit" align="center">
+        <el-table-column label="MG游戏(输赢金额)" prop="mgWinlose" align="left">
           <template scope="scope">
-            <span>{{(scope.row.saSubmit)}}</span>
+            <span>{{points(scope.row.mgWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="MG游戏(商家交公司)" prop="mgSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.mgSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="AG游戏(输赢金额)" prop="agWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.agWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="AG游戏(商家交公司)" prop="agSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.agSubmit)}}</span>
           </template>
         </el-table-column>
       </el-table>
-      <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.allGameData.allNowchild.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
-      </div>
+    </div>
+
+    <div class="childlist" v-for="(item, index) of allRenderChild">
+      <p class="title">({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 下级列表</p>
+      <el-table :data="item" stripe>
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
+        </el-table-column>
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
+        </el-table-column>
+        <el-table-column label="昵称" prop="displayName" align="left">
+        </el-table-column>
+        <el-table-column label="管理员账号" prop="username" align="left">
+          <template scope="scope">
+            <span class="fontUrl" @click="getChild_player(scope.row, false)">{{(scope.row.username)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="交易次数" prop="allbetCount" align="left">
+        </el-table-column>
+        <el-table-column label="总游戏输赢金额" prop="allWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.allWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="总游戏交公司" prop="allSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.allSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.ttgWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.ttgSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.saWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.saSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="MG游戏(输赢金额)" prop="mgWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.mgWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="MG游戏(商家交公司)" prop="mgSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.mgSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="AG游戏(输赢金额)" prop="agWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.agWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="AG游戏(商家交公司)" prop="agSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.agSubmit)}}</span>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
 
     <div class="playerlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
-        <p class="title" style="float:left">所属玩家列表</p>
-        <div style="float:right;margin-right:1rem">
-          <el-input placeholder="请输入玩家用户名" class="input" v-model="playerData"></el-input>
-          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchPlayer" :loading="playerLoading">搜索</el-button>
-          <el-button @click="resetPlayerSearch">重置</el-button>
-        </div>
+        <p class="title" style="float:left"><span v-if="playerParent">({{playerParent}})</span>所属玩家列表</p>
       </div>
-      <el-table :data="allNowplayer" stripe>
-        <el-table-column label="序号" prop="rank" align="center" width="75" type="index">
+      <el-table :data="allPlayer" stripe>
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
-        <el-table-column label="用户名" prop="userName" align="center">
+        <el-table-column label="用户名" prop="userName" align="left">
           <template scope="scope">
             <span class="fontUrl" @click="goPlayDetail(scope.row.userName)">{{scope.row.userName}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="昵称" prop="nickname" align="center">
+        <el-table-column label="昵称" prop="nickname" align="left">
         </el-table-column>
-        <el-table-column label="交易次数" prop="allbetCount" align="center">
+        <el-table-column label="交易次数" prop="allbetCount" align="left">
         </el-table-column>
-        <el-table-column label="总输赢金额" prop="allWinlose" align="center">
+        <el-table-column label="总游戏输赢金额" prop="allWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.allWinlose)}}</span>
+            <span>{{points(scope.row.allWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="center">
+        <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naWinlose)}}</span>
+          </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="center">
+        <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.ttgWinlose)}}</span>
+          </template>
         </el-table-column>
-        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="center">
+        <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.saWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="MG游戏(输赢金额)" prop="mgWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.mgWinlose)}}</span>
+          </template>
+        </el-table-column>        
+        <el-table-column label="AG游戏(输赢金额)" prop="agWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.agWinlose)}}</span>
+          </template>
         </el-table-column>
       </el-table>
-      <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.allGameData.allNowplayer.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
-      </div>
     </div>
   </div>
 </template>
 <script>
-import TWEEN from '@tweenjs/tween.js'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
+import { formatPoints } from '@/behavior/format'
+import { gameType } from '@/behavior/gameType'
+import { getWeek } from '@/behavior/getWeek'
 export default {
   beforeCreate () {
-    localStorage.removeItem('searchTime')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'allReport'
     })
     this.$store.commit('returnLocalStorage')
-    this.$store.commit('startLoading')
-    this.$store.dispatch('getallNowchild')
-    this.$store.dispatch('getallNowplayer')
+  },
+  created () {
+    this.refreshList()
   },
   activated: function () {
     this.$store.commit({
@@ -200,436 +320,736 @@ export default {
     })
   },
   computed: {
-    rollNumber () {
-      let data = this.$store.state.variable.allGameData.allNowlist
-      return data
-    },
     allNowlist () {
-      this.nowRole = this.$store.state.variable.allGameData.allNowlist.userId
-      let data = [this.$store.state.variable.allGameData.allNowlist]
+      let data = [this.nowList]
       return data
     },
     allNowchild () {
-      var nowchild = this.$store.state.variable.allGameData.allNowchild
-      if (this.childPage === 1) {
-        nowchild = this.$store.state.variable.allGameData.allNowchild.slice(0, this.childSize)
-      } else {
-        nowchild = this.$store.state.variable.allGameData.allNowchild.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
-      }
-      return nowchild
+      return this.nowChild
     },
-    allNowplayer () {
-      var nowplayer = this.$store.state.variable.allGameData.allNowplayer
-      if (this.playerPage === 1) {
-        nowplayer = this.$store.state.variable.allGameData.allNowplayer.slice(0, this.playerSize)
-      } else {
-        nowplayer = this.$store.state.variable.allGameData.allNowplayer.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
-      }
-      return nowplayer
-    }
-  },
-  data () {
-    return {
-      flashNumber: {
-        allbetCount: 0,
-        allWinlose: 0,
-        allSubmit: 0,
-        naWinlose: 0,
-        naSubmit: 0,
-        ttgWinlose: 0,
-        ttgSubmit: 0,
-        saWinlose: 0,
-        saSubmit: 0
-      },
-      playerData: '',
-      loading: false,
-      playerLoading: false,
-      searchDate: [],
-      childSize: 10,
-      childPage: 1,
-      playerSize: 20,
-      playerPage: 1,
-      nowRole: '',
-      loginId: localStorage.loginId,
-      loginRole: localStorage.loginRole
+    allRenderChild () {
+      let child = this.clickChild
+      return child
+    },
+    allPlayer () {
+      let player = this.nowPlayer
+      return player
     }
   },
   watch: {
     searchDate (val) {
-      if (val[0] != null || val[1] != null) {
-        for (var i = val.length - 1; i >= 0; i--) {
-          this.searchDate[i] = new Date(this.searchDate[i].toString()).getTime()
+      if (!val) {
+        this.isSelect_time = false
+        this.searchDate = getWeek()
+      } else {
+        if (typeof val[0] == 'object' || typeof val[1] == 'object') {
+          if (val[0] < 1514736000000 || (val[0] < 1517796000000 && val[1] > 1517796000000)) {
+            this.$message({
+              type: 'error',
+              message: '该时间范围暂不支持查询',
+              duration: 0,
+              showClose: true,
+            })
+            this.isSelect_time = true
+          } else {
+            if (val[1] < 1517796000000) {
+              this.$message({
+                type: 'warning',
+                message: '当前时间范围查询数据为旧版报表',
+                duration: 5000
+              })
+            }
+            for (var i = val.length - 1; i >= 0; i--) {
+              this.searchDate[i] = new Date(this.searchDate[i].toString()).getTime()
+            }
+            if (this.searchDate[1] >= new Date().getTime() - 180000) {
+              if (this.searchDate[1] - this.searchDate[0] <= 180000) {
+                this.searchDate[0] = this.searchDate[0] - 180000
+                this.searchDate[1] = new Date().getTime() - 180000
+              } else {
+                this.searchDate[1] = new Date().getTime() - 180000
+              }
+            }
+            this.isSelect_time = true
+          }
         }
       }
     },
-    'rollNumber.allbetCount' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.allbetCount = this._object.tweeningNumber.toFixed(0)
-        }).start()
-      animate()
-    },
-    'rollNumber.allWinlose' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.allWinlose = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.allSubmit' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.allSubmit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.naWinlose' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.naWinlose = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.naSubmit' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.naSubmit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.ttgWinlose' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.ttgWinlose = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.ttgSubmit' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.ttgSubmit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.saWinlose' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.saWinlose = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.saSubmit' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.saSubmit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
+  },
+  data () {
+    return {
+      loginRole: localStorage.loginRole, // 登陆角色类型
+
+      isSelect_time: false, // 是否自定义搜索时间
+      searchDate: getWeek(), // 搜索时间戳
+
+      nowList: '', // 登录角色报表信息
+      nowChild: [], // 登陆角色直属下级
+
+      clickChild: [], // 点击渲染的下级
+      rendered: [], // 已经渲染的下级
+
+      nowPlayer: [], // 当前登录或点击渲染的商户玩家
+      playerParent: '', // 当前玩家所属商户昵称
     }
   },
   methods: {
-    formatToFix (data) {
-      if (data && !isNaN(data.toFixed(2))) {
-        return data.toFixed(2)
-      } else {
-        return '0.00'
+    getTimer () {
+      let timer = document.getElementsByTagName('input')
+      for (let item of timer) {
+        item.readOnly = true
       }
-    },
-    formatnickname (data) {
-      return data.nickname == 'NULL!' ? '-' : data.nickname
-    },
-    userType (data) {
-      return '代理'
-    }, // 格式化用户类型
-    searchData () {
-      if (this.searchDate[0] == null || this.searchDate[1] == null) {
-        this.$message({
-          type: 'error',
-          message: '请选择搜索时间'
-        })
-      } else {
-        this.loading = true
-        localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.$store.dispatch('getallNowchild')
-        this.$store.dispatch('getallNowplayer')
-        let _self = this
-        setTimeout(function(){
-          _self.$message({
-            type: 'success',
-            message: '搜索完毕!'
-          })
-          _self.loading = false
-        },3000)
-      }
-    }, // 按时间搜索
-    resetSearch () {
-      this.searchDate = []
-      localStorage.removeItem('searchTime')
+      let clear = document.getElementsByClassName('el-picker-panel__link-btn')[0]
+      clear ? clear.style.display = 'none' : ''
+    }, // 原生操作时间日期控件
+    refreshList (data) {
       this.$store.commit('startLoading')
-      this.$store.dispatch('getallNowchild')
-      this.$store.dispatch('getallNowplayer')
-    }, // 重置搜索条件
-    searchPlayer () {
-      if (!this.playerData) {
-        this.$message({
-          type: 'error',
-          message: '请输入玩家用户名'
+      this.playerParent = ''
+      this.nowPlayer = []
+      this.nowChild = []
+      this.clickChild = []
+      this.nowList = ''
+      this.getLoginSelf()
+      this.getLoginChild(localStorage.loginId)
+      localStorage.loginSuffix != 'Agent' ? this.getPlayer({
+        displayName: localStorage.loginDislayName,
+        userId: localStorage.loginId,
+        parent: localStorage.parentID
+      }, true) : ''
+    }, // 初始化列表
+    getLoginSelf () {
+      let require = {
+        userId: localStorage.loginId
+      }
+      invoke({
+        url: api.reportInfo,
+        method: api.post,
+        data: require
+      }).then(result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var user = ret.data.payload
+          user.allbetCount = 0
+          user.allWinlose = 0
+          user.allSubmit = 0
+          user.naWinlose = 0
+          user.naSubmit = 0
+          user.ttgWinlose = 0
+          user.ttgSubmit = 0
+          user.saWinlose = 0
+          user.saSubmit = 0
+          user.mgWinlose = 0
+          user.mgSubmit = 0
+          user.agWinlose = 0
+          user.agSubmit = 0
+          this.nowList = user
+        }
+      })
+    }, // 获取登陆用户报表基本信息
+    getLoginChild (id) {
+      let data = {}
+      localStorage.loginSuffix == 'Agent' ? data.parent = '01' : data.parent = id
+      invoke({
+        url: api.reportInfo,
+        method: api.post,
+        data: data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var child = ret.data.payload
+            child.length == 0 ? this.$store.commit('closeLoading') : ''
+
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+
+            let allGameTyle = [
+              {code: gameType('naVedio'), company: 'na'},
+              {code: gameType('naArcade'), company: 'na'},
+              {code: gameType('ttgVedio'), company: 'ttg'},
+              {code: gameType('saLive'), company: 'sa'},
+              {code: gameType('mgVedio'), company: 'mg'},
+              {code: gameType('agLive'), company: 'ag'}
+            ] // 所有游戏类型
+
+            let allReady = [] // promise所有结果返回
+            let allCode = {
+              na: [30000,40000,50000],
+              ttg: [1010000],
+              mg: [10300000],
+              sa: [1060000],
+              ag: [1050000]
+            }
+            for (let item of child) {
+              let data = {
+                gameType: allGameTyle.map(game => {return game.code}),
+                role: item.role,
+                userIds: [item.userId],
+                query: {createdAt: time}
+              }
+              item.allbetCount = 0
+              item.allWinlose = 0
+              item.allSubmit = 0
+              item.naWinlose = 0
+              item.naSubmit = 0
+              item.ttgWinlose = 0
+              item.ttgSubmit = 0
+              item.saWinlose = 0
+              item.saSubmit = 0
+              item.mgWinlose = 0
+              item.mgSubmit = 0
+              item.agWinlose = 0
+              item.agSubmit = 0
+              let pro = new Promise((resolve, reject) => {
+                invoke({
+                  url: api.calcUserStat,
+                  method: api.post,
+                  data: data
+                }).then(result => {
+                  const [err,ret] = result
+                  if (err) {
+                    reject('error')
+                  } else {
+                    var data = ret.data.payload
+                    if (data[0]) {
+                      item.allbetCount = data[0].betCount
+                      for (let code in data[0].gameTypeMap) {
+                        if (allCode.na.includes(Number(code))) {
+                          item.naWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.naSubmit += data[0].gameTypeMap[code].submitAmount
+                          this.nowList.naWinlose += data[0].gameTypeMap[code].winloseAmount
+                          this.nowList.suffix != 'Agent' ? this.nowList.naSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                        } else if (allCode.ttg.includes(Number(code))) {
+                          item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
+                          this.nowList.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
+                          this.nowList.suffix != 'Agent' ? this.nowList.ttgSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                        } else if (allCode.mg.includes(Number(code))) {
+                          item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.mgSubmit += data[0].gameTypeMap[code].submitAmount
+                          this.nowList.mgWinlose += data[0].gameTypeMap[code].winloseAmount
+                          this.nowList.suffix != 'Agent' ? this.nowList.mgSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                        } else if (allCode.sa.includes(Number(code))) {
+                          item.saWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.saSubmit += data[0].gameTypeMap[code].submitAmount
+                          this.nowList.saWinlose += data[0].gameTypeMap[code].winloseAmount
+                          this.nowList.suffix != 'Agent' ? this.nowList.saSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                        } else if (allCode.ag.includes(Number(code))) {
+                          item.agWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                          this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
+                          this.nowList.suffix != 'Agent' ? this.nowList.agSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                        }
+                        item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
+                        item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
+                      }
+                      this.nowList.allWinlose += item.allWinlose
+                      this.nowList.suffix != 'Agent' ? this.nowList.allSubmit += item.allSubmit : ''
+                      this.nowList.allbetCount += item.allbetCount
+                      this.nowChild.push(item)
+                    }
+                    resolve(data)
+                  }
+                })
+              })
+              allReady.push(pro)
+            }
+            let _this = this
+            Promise.all(allReady).then(result => {
+              _this.$store.commit('closeLoading')
+            }).catch(err => {
+              _this.$message({
+                type: 'error',
+                message: err.message
+              })
+              _this.$store.commit('closeLoading')
+            })
+          }
+        }
+      )
+    }, // 获取登录用户直属下级
+    getChild_player(parent, isClear) {
+      this.getChild(parent)
+      this.getPlayer(parent, isClear)
+    }, // 请求下级玩家与代理
+    getChild (parent) {
+      let will_render = {
+        parent: parent.parent,
+        userId: parent.userId
+      }
+      this.$store.commit('startLoading')
+      if (this.rendered.length == 0) {
+        this.rendered.push(will_render)
+        invoke({
+          url: api.reportInfo,
+          method: api.post,
+          data: {
+            parent: parent.userId
+          }
+        }).then(result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            this.nowPlayer = []
+            this.playerParent = ''
+            this.clickChild = []
+            var child = ret.data.payload
+
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+
+            let allGameTyle = [
+              {code: gameType('naVedio'), company: 'na'},
+              {code: gameType('naArcade'), company: 'na'},
+              {code: gameType('ttgVedio'), company: 'ttg'},
+              {code: gameType('saLive'), company: 'sa'},
+              {code: gameType('mgVedio'), company: 'mg'},
+              {code: gameType('agLive'), company: 'ag'}
+            ] // 所有游戏类型
+
+            let allReady = [] // promise所有结果返回
+            let allCode = {
+              na: [30000,40000,50000],
+              ttg: [1010000],
+              mg: [10300000],
+              sa: [1060000],
+              ag: [1050000]
+            }
+            for (let item of child) {
+              let data = {
+                gameType: allGameTyle.map(game => {return game.code}),
+                role: item.role,
+                userIds: [item.userId],
+                query: {createdAt: time}
+              }
+              item.allbetCount = 0
+              item.allWinlose = 0
+              item.allSubmit = 0
+              item.naWinlose = 0
+              item.naSubmit = 0
+              item.ttgWinlose = 0
+              item.ttgSubmit = 0
+              item.saWinlose = 0
+              item.saSubmit = 0
+              item.mgWinlose = 0
+              item.mgSubmit = 0
+              item.agWinlose = 0
+              item.agSubmit = 0
+              let pro = new Promise((resolve, reject) => {
+                invoke({
+                  url: api.calcUserStat,
+                  method: api.post,
+                  data: data
+                }).then(result => {
+                  const [err,ret] = result
+                  if (err) {
+                    reject('error')
+                  } else {
+                    var data = ret.data.payload
+                    if (data[0]) {
+                      item.allbetCount = data[0].betCount
+                      for (let code in data[0].gameTypeMap) {
+                        if (allCode.na.includes(Number(code))) {
+                          item.naWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.naSubmit += data[0].gameTypeMap[code].submitAmount
+                        } else if (allCode.ttg.includes(Number(code))) {
+                          item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
+                        } else if (allCode.mg.includes(Number(code))) {
+                          item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.mgSubmit += data[0].gameTypeMap[code].submitAmount
+                        } else if (allCode.sa.includes(Number(code))) {
+                          item.saWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.saSubmit += data[0].gameTypeMap[code].submitAmount
+                        } else if (allCode.ag.includes(Number(code))) {
+                          item.agWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                        }
+                        item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
+                        item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
+                      }
+                    }
+                    resolve(item)
+                  }
+                })
+              })
+              allReady.push(pro)
+            }
+            let _this = this
+            Promise.all(allReady).then(result => {
+              this.clickChild.push(result.filter(element => {return element.allbetCount > 0}))
+              _this.$store.commit('closeLoading')
+            }).catch(err => {
+              _this.$message({
+                type: 'error',
+                message: err.message
+              })
+              _this.$store.commit('closeLoading')
+            })
+          }
         })
       } else {
-        this.playerLoading = true
-        let data = {
-          parentId: this.$store.state.variable.allGameData.allNowlist.userId,
-          query: {
-            userName: this.playerData
-          },
-          sortkey: 'createdAt',
-          sort: 'desc'
-        }
-        invoke({
-          url: api.reportPlayer,
-          method: api.post,
-          data: data
-        }).then(
-          result => {
+        if (this.rendered.filter(item => {return (item.userId == parent.parent)}).length > 0) {
+          if (this.rendered.filter(item => {return item.userId == parent.userId}).length > 0) {
+            this.$store.commit('closeLoading')
+          } else {
+            this.nowPlayer = []
+            this.playerParent = ''
+            this.rendered.push(will_render)
+            invoke({
+              url: api.reportInfo,
+              method: api.post,
+              data: {
+                parent: parent.userId
+              }
+            }).then(result => {
+              const [err, ret] = result
+              if (err) {
+              } else {
+                var child = ret.data.payload
+                let time = this.isSelect_time ? this.searchDate : getWeek()
+                
+                let allGameTyle = [
+                  {code: gameType('naVedio'), company: 'na'},
+                  {code: gameType('naArcade'), company: 'na'},
+                  {code: gameType('ttgVedio'), company: 'ttg'},
+                  {code: gameType('saLive'), company: 'sa'},
+                  {code: gameType('mgVedio'), company: 'mg'},
+                  {code: gameType('agLive'), company: 'ag'}
+                ] // 所有游戏类型
+
+                let allReady = [] // promise所有结果返回
+                let allCode = {
+                  na: [30000,40000,50000],
+                  ttg: [1010000],
+                  mg: [10300000],
+                  sa: [1060000],
+                  ag: [1050000]
+                }
+                for (let item of child) {
+                  let data = {
+                    gameType: allGameTyle.map(game => {return game.code}),
+                    role: item.role,
+                    userIds: [item.userId],
+                    query: {createdAt: time}
+                  }
+                  item.allbetCount = 0
+                  item.allWinlose = 0
+                  item.allSubmit = 0
+                  item.naWinlose = 0
+                  item.naSubmit = 0
+                  item.ttgWinlose = 0
+                  item.ttgSubmit = 0
+                  item.saWinlose = 0
+                  item.saSubmit = 0
+                  item.mgWinlose = 0
+                  item.mgSubmit = 0
+                  item.agWinlose = 0
+                  item.agSubmit = 0
+                  let pro = new Promise((resolve, reject) => {
+                    invoke({
+                      url: api.calcUserStat,
+                      method: api.post,
+                      data: data
+                    }).then(result => {
+                      const [err,ret] = result
+                      if (err) {
+                        reject('error')
+                      } else {
+                        var data = ret.data.payload
+                        if (data[0]) {
+                          item.allbetCount = data[0].betCount
+                          for (let code in data[0].gameTypeMap) {
+                            if (allCode.na.includes(Number(code))) {
+                              item.naWinlose += data[0].gameTypeMap[code].winloseAmount
+                              item.naSubmit += data[0].gameTypeMap[code].submitAmount
+                            } else if (allCode.ttg.includes(Number(code))) {
+                              item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
+                              item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
+                            } else if (allCode.mg.includes(Number(code))) {
+                              item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
+                              item.mgSubmit += data[0].gameTypeMap[code].submitAmount
+                            } else if (allCode.sa.includes(Number(code))) {
+                              item.saWinlose += data[0].gameTypeMap[code].winloseAmount
+                              item.saSubmit += data[0].gameTypeMap[code].submitAmount
+                            } else if (allCode.ag.includes(Number(code))) {
+                              item.agWinlose += data[0].gameTypeMap[code].winloseAmount
+                              item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                            }
+                            item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
+                            item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
+                          }
+                        }
+                        resolve(item)
+                      }
+                    })
+                  })
+                  allReady.push(pro)
+                }
+                let _this = this
+                Promise.all(allReady).then(result => {
+                   this.clickChild.push(result.filter(element => {return element.allbetCount > 0}))
+                  _this.$store.commit('closeLoading')
+                }).catch(err => {
+                  _this.$message({
+                    type: 'error',
+                    message: err.message
+                  })
+                  _this.$store.commit('closeLoading')
+                })
+              }
+            })
+          }
+        } else {
+          this.rendered = []
+          this.playerParent = ''
+          this.nowPlayer = []
+          this.clickChild = []
+          this.rendered.push(will_render)
+          invoke({
+            url: api.reportInfo,
+            method: api.post,
+            data: {
+              parent: parent.userId
+            }
+          }).then(result => {
             const [err, ret] = result
             if (err) {
             } else {
-              this.rollNumber.allbetCount = 0
-              this.rollNumber.allWinlose = 0
-              this.rollNumber.allSubmit = 0
-              this.rollNumber.naWinlose = 0
-              this.rollNumber.naSubmit = 0
-              this.rollNumber.ttgWinlose = 0
-              this.rollNumber.ttgSubmi = 0
-              this.rollNumber.saWinlose = 0
-              this.rollNumber.saSubmi = 0
-              this.$store.commit('resetallNowplayer')
-              this.$store.commit('getWeek')
-              let searchDate = []
-              if (localStorage.searchTime) {
-                searchDate = JSON.parse(localStorage.searchTime)
-              } else {
-                searchDate = [this.$store.state.startTime, this.$store.state.endTime]
+              var child = ret.data.payload
+              let time = this.isSelect_time ? this.searchDate : getWeek()
+
+              let allGameTyle = [
+                {code: gameType('naVedio'), company: 'na'},
+                {code: gameType('naArcade'), company: 'na'},
+                {code: gameType('ttgVedio'), company: 'ttg'},
+                {code: gameType('saLive'), company: 'sa'},
+                {code: gameType('mgVedio'), company: 'mg'},
+                {code: gameType('agLive'), company: 'ag'}
+              ] // 所有游戏类型
+
+              let allReady = [] // promise所有结果返回
+              let allCode = {
+                na: [30000,40000,50000],
+                ttg: [1010000],
+                mg: [10300000],
+                sa: [1060000],
+                ag: [1050000]
               }
-              var data = ret.data.payload
-              for (let item of data) {
+              for (let item of child) {
+                let data = {
+                  gameType: allGameTyle.map(game => {return game.code}),
+                  role: item.role,
+                  userIds: [item.userId],
+                  query: {createdAt: time}
+                }
                 item.allbetCount = 0
                 item.allWinlose = 0
+                item.allSubmit = 0
                 item.naWinlose = 0
+                item.naSubmit = 0
                 item.ttgWinlose = 0
+                item.ttgSubmit = 0
                 item.saWinlose = 0
-                let na_live = {
-                  gameType: 30000,
-                  gameUserNames: [item.userName],
-                  query: {
-                    createdAt: searchDate
-                  }
-                } // 请求NA真人游戏玩家
-                let na_vedio = {
-                  gameType: 40000,
-                  gameUserNames: [item.userName],
-                  query: {
-                    createdAt: searchDate
-                  }
-                } // 请求NA电子游戏玩家
-                let na_arcade = {
-                  gameType: 50000,
-                  gameUserNames: [item.userName],
-                  query: {
-                    createdAt: searchDate
-                  }
-                } // 请求NA街机游戏玩家
-                let ttg_vedio = {
-                  gameType: 1010000,
-                  gameUserNames: [item.userName],
-                  query: {
-                    createdAt: searchDate
-                  }
-                }
-                let sa_live = {
-                  gameType: 1060000,
-                  gameUserNames: [item.userName],
-                  query: {
-                    createdAt: searchDate
-                  }
-                } // 请求SA真人游戏玩家
-
-                let p1 = invoke({
-                  url: api.calcPlayerStat,
-                  method: api.post,
-                  data: na_live
-                }) // NA真人游戏玩家账单
-                let p2 = invoke({
-                  url: api.calcPlayerStat,
-                  method: api.post,
-                  data: na_vedio
-                }) // NA电子游戏玩家账单
-                let p3 = invoke({
-                  url: api.calcPlayerStat,
-                  method: api.post,
-                  data: na_arcade
-                }) // NA街机游戏玩家账单
-                let p4 = invoke({
-                  url: api.calcPlayerStat,
-                  method: api.post,
-                  data: ttg_vedio
-                }) // TTG电子游戏玩家账单
-                let p5 = invoke({
-                  url: api.calcPlayerStat,
-                  method: api.post,
-                  data: sa_live
-                }) // SA真人游戏玩家账单
-
-                Promise.all([p1,p2,p3,p4,p5]).then(
-                  result => {
-                    let result1 = result[0][1].data.payload[0]
-                    if (result1 && result1.betCount > 0) {
-                      item.allbetCount += result1.betCount
-                      item.allWinlose += result1.winlose
-                      item.naWinlose += result1.winlose
-                    } // NA真人游戏玩家账单
-                    let result2 = result[1][1].data.payload[0]
-                    if (result2 && result2.betCount > 0) {
-                      item.allbetCount += result2.betCount
-                      item.allWinlose += result2.winlose
-                      item.naWinlose += result2.winlose
-                    } // NA电子游戏玩家账单
-                    let result3 = result[2][1].data.payload[0]
-                    if (result3 && result3.betCount > 0) {
-                      item.allbetCount += result3.betCount
-                      item.allWinlose += result3.winlose
-                      item.naWinlose += result3.winlose
-                    } // NA街机游戏玩家账单
-                    let result4 = result[3][1].data.payload[0]
-                    if (result4 && result4.betCount > 0) {
-                      item.allbetCount += result4.betCount
-                      item.allWinlose += result4.winlose
-                      item.ttgWinlose += result4.winlose
-                    } // TTG电子游戏玩家账单
-                    let result5 = result[4][1].data.payload[0]
-                    if (result5 && result5.betCount > 0) {
-                      item.allbetCount += result5.betCount
-                      item.allWinlose += result5.winlose
-                      item.saWinlose += result5.winlose
-                    } // SA真人游戏玩家账单
-
-                    if (item.allbetCount > 0) {
-                      this.$store.commit({
-                        type: 'recordallNowplayer',
-                        data: item
-                      })
+                item.saSubmit = 0
+                item.mgWinlose = 0
+                item.mgSubmit = 0
+                item.agWinlose = 0
+                item.agSubmit = 0
+                let pro = new Promise((resolve, reject) => {
+                  invoke({
+                    url: api.calcUserStat,
+                    method: api.post,
+                    data: data
+                  }).then(result => {
+                    const [err,ret] = result
+                    if (err) {
+                      reject('error')
+                    } else {
+                      var data = ret.data.payload
+                      if (data[0]) {
+                        item.allbetCount = data[0].betCount
+                        for (let code in data[0].gameTypeMap) {
+                          if (allCode.na.includes(Number(code))) {
+                            item.naWinlose += data[0].gameTypeMap[code].winloseAmount
+                            item.naSubmit += data[0].gameTypeMap[code].submitAmount
+                          } else if (allCode.ttg.includes(Number(code))) {
+                            item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
+                            item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
+                          } else if (allCode.mg.includes(Number(code))) {
+                            item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
+                            item.mgSubmit += data[0].gameTypeMap[code].submitAmount
+                          } else if (allCode.sa.includes(Number(code))) {
+                            item.saWinlose += data[0].gameTypeMap[code].winloseAmount
+                            item.saSubmit += data[0].gameTypeMap[code].submitAmount
+                          } else if (allCode.ag.includes(Number(code))) {
+                            item.agWinlose += data[0].gameTypeMap[code].winloseAmount
+                            item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                          }
+                          item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
+                          item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
+                        }
+                      }
+                      resolve(item)
                     }
-                  }
-                )
-                this.$store.commit('closeLoading')
+                  })
+                })
+                allReady.push(pro)
               }
-              this.playerLoading = false
+              let _this = this
+              Promise.all(allReady).then(result => {
+                this.clickChild.push(result.filter(element => {return element.allbetCount > 0}))
+                _this.$store.commit('closeLoading')
+              }).catch(err => {
+                _this.$message({
+                  type: 'error',
+                  message: err.message
+                })
+                _this.$store.commit('closeLoading')
+              })
             }
-          }
-        )
+          })
+        }
       }
-    }, // 搜索玩家
-    resetPlayerSearch () {
-      this.playerData = ''
-      this.rollNumber.allbetCount = 0
-      this.rollNumber.allWinlose = 0
-      this.rollNumber.allSubmit = 0
-      this.rollNumber.naWinlose = 0
-      this.rollNumber.naSubmit = 0
-      this.rollNumber.ttgWinlose = 0
-      this.rollNumber.ttgSubmi = 0
-      this.rollNumber.saWinlose = 0
-      this.rollNumber.saSubmi = 0
-      this.$store.dispatch('getallNowplayer')
-    }, // 重置玩家搜索
-    checkUser (data) {
-      this.$store.commit({
-        type: 'recordallID',
-        data: data.userId
-      })
-      this.$store.commit('resetallchildInfo')
-      this.$store.commit('resetallNowplayer')
+    }, // 点击查询下级
+    getPlayer (parent, isClear) {
+      if (isClear) {
+        this.playerParent = ''
+        this.clickChild = []
+      }
       this.$store.commit('startLoading')
-      this.$store.dispatch('getallNowchild')
-      this.$store.dispatch('getallNowplayer')
-    }, // 跳转下级
-    goBack () {
-      var data = this.$store.state.variable.allGameData.allNowlist.parent
-      if (data == '01') {
-        data = ''
+      this.playerParent = parent.displayName
+      var data = {
+        parentId: parent.userId
       }
-      this.$store.commit({
-        type: 'recordallID',
+      invoke({
+        url: api.reportPlayer,
+        method: api.post,
         data: data
+      }).then(result => {
+        this.nowPlayer = []
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var data = ret.data.payload
+          data.map(item => {
+            item.allbetCount = 0
+            item.allWinlose = 0
+            item.naWinlose = 0
+            item.ttgWinlose = 0
+            item.saWinlose = 0
+            item.mgWinlose = 0
+            item.agWinlose = 0
+          })
+          var result = []
+          var cut_count = 50 // 数组切割长度
+          for (var i = 0;i < Math.ceil(data.length / cut_count);i++) {
+            i == 0 ? result.push(data.slice(i, cut_count)) : result.push(data.slice(i * cut_count, cut_count * (i + 1)))
+          }
+          let time = this.isSelect_time ? this.searchDate : getWeek()
+
+          let allGameTyle = [
+            {code: gameType('naVedio'), company: 'na'},
+            {code: gameType('naArcade'), company: 'na'},
+            {code: gameType('ttgVedio'), company: 'ttg'},
+            {code: gameType('saLive'), company: 'sa'},
+            {code: gameType('mgVedio'), company: 'mg'},
+            {code: gameType('agLive'), company: 'ag'}
+          ] // 所有游戏类型
+
+          let allReady = [] // promise所有结果返回
+
+          let allCode = {
+            na: [30000,40000,50000],
+            ttg: [1010000],
+            mg: [10300000],
+            sa: [1060000],
+            ag: [1050000]
+          }
+
+          for (let item of result) {
+            let player_data = {
+              gameType: allGameTyle.map(game => {return game.code}),
+              gameUserNames: item.map(item=>{return item.userName}),
+              query: {
+                createdAt: time
+              }
+            }
+            let pro = new Promise((resolve, reject) => {
+              invoke({
+                url: api.calcPlayerStat,
+                method: api.post,
+                data: player_data
+              }).then(result => {
+                const [err, ret] = result
+                if (err) {
+                  reject(err)
+                } else {
+                  var data = ret.data.payload
+                  for (let player of data) {
+                    item.map(inside => {
+                      if (player.userName == inside.userName) {
+                        inside.allbetCount = player.betCount
+                        for (let code in player.gameTypeMap) {
+                          if (allCode.na.includes(Number(code))) {
+                            inside.naWinlose += player.gameTypeMap[code].winloseAmount
+                          } else if (allCode.ttg.includes(Number(code))) {
+                            inside.ttgWinlose += player.gameTypeMap[code].winloseAmount
+                          } else if (allCode.mg.includes(Number(code))) {
+                            inside.mgWinlose += player.gameTypeMap[code].winloseAmount
+                          } else if (allCode.sa.includes(Number(code))) {
+                            inside.saWinlose += player.gameTypeMap[code].winloseAmount
+                          } else if (allCode.ag.includes(Number(code))) {
+                            inside.agWinlose += player.gameTypeMap[code].winloseAmount
+                          }
+                          inside.allWinlose = inside.naWinlose + inside.ttgWinlose + inside.mgWinlose + inside.saWinlose + inside.agWinlose
+                        }
+                        this.nowPlayer.push(inside)
+                      }
+                    })
+                  }
+                  resolve(item)
+                }
+              })
+            })
+            allReady.push(pro)
+          }
+          let _this = this
+          Promise.all(allReady).then(result => {
+            _this.$store.commit('closeLoading')
+          }).catch(err => {
+            _this.$message({
+              type: 'error',
+              message: err.message
+            })
+            _this.$store.commit('closeLoading')
+          })
+        }
       })
-      this.$store.commit('resetallchildInfo')
-      this.$store.commit('resetallNowplayer')
+    }, // 点击查询商户玩家
+    searchData () {
       this.$store.commit('startLoading')
-      this.$store.dispatch('getallNowchild')
-      data !== '01' ? this.$store.dispatch('getallNowplayer') : ''
-    }, // 退回上一级
+      this.refreshList()
+    }, // 自定义时间搜索
+    resetSearch () {
+      this.$store.commit('startLoading')
+      this.isSelect_time = false
+      this.searchDate = ''
+      this.refreshList()
+    }, // 按默认时间搜索
+    userType (data) {
+      return '代理'
+    }, // 格式化用户类型
+    formatSuffix (suffix) {
+      return suffix ? suffix.substring(suffix.indexOf('_') + 1, suffix.length) : suffix
+    }, // 格式化前缀
+    points (data) {
+      if (data && !isNaN(Number(data).toFixed(2))) {
+        return formatPoints(Number(data).toFixed(2))
+      } else {
+        return '0.00'
+      }
+    }, // 格式化金额
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
       this.$router.push('agentPlayerDetail')
@@ -638,21 +1058,6 @@ export default {
         data: row
       })
     }, // 跳转至玩家详情
-    getChildsize (size) {
-      this.childSize = size
-    }, // 下级列表分页
-    getChildpage (page) {
-      this.childPage = page
-    }, // 下级列表分页
-    getPlayersize (size) {
-      this.playerSize = size
-    }, // 玩家列表分页
-    getPlayerpage (page) {
-      this.playerPage = page
-    }, // 玩家列表分页
-  },
-  beforeDestroy () {
-    localStorage.removeItem('searchTime')
   }
 }
 </script>
