@@ -24,6 +24,12 @@ export const rightList = [
     children: [
       {
         isChecked: false,
+        name: '公司输赢总报表',
+        hasParent: true,
+        children: ''
+      },
+      {
+        isChecked: false,
         name: 'NA游戏报表',
         hasParent: true,
         children: [
