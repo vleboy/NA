@@ -91,6 +91,10 @@ html,body{width: 100%;height: 100%;font-size: 14px;font-family: '微软雅黑'}
 #app{width: 100%;height: 100%;position: relative}
 /* #20a0ff */
 /**/
+/*.main-left ::-webkit-scrollbar {
+width: 0px;
+height: 1px;
+}*/
 .top{
   width: calc(100% - 256px);
   position:absolute;
