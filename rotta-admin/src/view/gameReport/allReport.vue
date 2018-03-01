@@ -432,22 +432,21 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
-          if (localStorage.loginRole != 100) {
-            user.allbetCount = 0
-            user.allWinlose = 0
-            user.allSubmit = 0
-            user.naWinlose = 0
-            user.naSubmit = 0
-            user.ttgWinlose = 0
-            user.ttgSubmit = 0
-            user.saWinlose = 0
-            user.saSubmit = 0
-            user.mgWinlose = 0
-            user.mgSubmit = 0
-            user.agWinlose = 0
-            user.agSubmit = 0
-            this.nowList = user
-          } else {
+          user.allbetCount = 0
+          user.allWinlose = 0
+          user.allSubmit = 0
+          user.naWinlose = 0
+          user.naSubmit = 0
+          user.ttgWinlose = 0
+          user.ttgSubmit = 0
+          user.saWinlose = 0
+          user.saSubmit = 0
+          user.mgWinlose = 0
+          user.mgSubmit = 0
+          user.agWinlose = 0
+          user.agSubmit = 0
+          this.nowList = user
+          if (localStorage.loginRole == 100) {
             let time = this.isSelect_time ? this.searchDate : getWeek()
             let allGameTyle = [
               {code: gameType('naVedio'), company: 'na'},
@@ -479,7 +478,7 @@ export default {
               if (err) {
               } else {
                 var data = ret.data.payload
-                if (data[0]) {
+                if (data) {
                   this.nowList.allbetCount = data[0].betCount
                   for (let code in data[0].gameTypeMap) {
                     if (allCode.na.includes(Number(code))) {
@@ -501,9 +500,6 @@ export default {
                     this.nowList.allWinlose = this.nowList.naWinlose + this.nowList.ttgWinlose + this.nowList.mgWinlose + this.nowList.saWinlose + this.nowList.agWinlose
                     this.nowList.allSubmit = this.nowList.naSubmit + this.nowList.ttgSubmit + this.nowList.mgSubmit + this.nowList.saSubmit + this.nowList.agSubmit
                   }
-                } else {
-                  user.allbetCount = 0
-                  this.nowList = user
                 }
               }
             })
