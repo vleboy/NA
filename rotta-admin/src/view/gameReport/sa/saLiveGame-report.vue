@@ -302,8 +302,10 @@ export default {
       for (let item of timer) {
         item.readOnly = true
       }
-      let clear = document.getElementsByClassName('el-picker-panel__link-btn')[0]
-      clear ? clear.style.display = 'none' : ''
+      let clear = document.getElementsByClassName('el-picker-panel__link-btn')
+      for (let btn of clear) {
+        btn.style.display = 'none'
+      }
     }, // 原生操作时间日期控件
     refreshList (data) {
       this.$store.commit('startLoading')
