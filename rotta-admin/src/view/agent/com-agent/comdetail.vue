@@ -378,32 +378,6 @@ v<template>
                     <el-row>
                         <el-col :span="7">
                             <div class="">
-                                <el-form-item label="管理员Email" v-show="disable == true">
-                                    {{comdetail.adminEmail}}
-                                </el-form-item>
-                                <el-form-item label="管理员Email" prop="adminEmail" v-show="disable == false">
-                                    <el-input v-model="comdetail.adminEmail"></el-input>
-                                </el-form-item>
-                            </div>
-                        </el-col>
-                        <el-col :span="1">
-                            <span class="hidden">1</span>
-                        </el-col>
-                        <!-- <el-col :span="7">
-                            <div class="">
-                                <el-form-item label="生效时间" v-show="disable == true">
-                                    {{contractPeriod(comdetail.contractPeriod)}}
-                                </el-form-item>
-                                <el-form-item label="生效时间" prop="contractPeriod" v-show="disable == false">
-                                    <el-date-picker v-model="comdetail.contractPeriod" type="daterange" label="生效时间" :disabled="comdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
-                                    <el-checkbox v-model="comdetail.isforever" @change="changeContract">永久</el-checkbox>
-                                </el-form-item>
-                            </div>
-                        </el-col> -->
-                    </el-row>
-                    <el-row>
-                        <el-col :span="7">
-                            <div class="">
                                 <el-form-item label="上次登录时间">
                                     {{formatTime(comdetail.loginAt)}}
                                 </el-form-item>
@@ -432,6 +406,32 @@ v<template>
                                 </el-form-item>
                             </div>
                         </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="7">
+                            <div class="">
+                                <el-form-item label="管理员Email" v-show="disable == true">
+                                    {{comdetail.adminEmail}}
+                                </el-form-item>
+                                <el-form-item label="管理员Email" prop="adminEmail" v-show="disable == false">
+                                    <el-input v-model="comdetail.adminEmail"></el-input>
+                                </el-form-item>
+                            </div>
+                        </el-col>
+                        <el-col :span="1">
+                            <span class="hidden">1</span>
+                        </el-col>
+                        <!-- <el-col :span="7">
+                            <div class="">
+                                <el-form-item label="生效时间" v-show="disable == true">
+                                    {{contractPeriod(comdetail.contractPeriod)}}
+                                </el-form-item>
+                                <el-form-item label="生效时间" prop="contractPeriod" v-show="disable == false">
+                                    <el-date-picker v-model="comdetail.contractPeriod" type="daterange" label="生效时间" :disabled="comdetail.isforever" :editable='false' :picker-options="pickerOptions"></el-date-picker>
+                                    <el-checkbox v-model="comdetail.isforever" @change="changeContract">永久</el-checkbox>
+                                </el-form-item>
+                            </div>
+                        </el-col> -->
                     </el-row>
                 </el-form>
             </div>
