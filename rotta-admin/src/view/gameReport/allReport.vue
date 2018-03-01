@@ -477,7 +477,6 @@ export default {
             }).then(result => {
               const [err,ret] = result
               if (err) {
-                reject('error')
               } else {
                 var data = ret.data.payload
                 if (data[0]) {
@@ -502,8 +501,10 @@ export default {
                     this.nowList.allWinlose = this.nowList.naWinlose + this.nowList.ttgWinlose + this.nowList.mgWinlose + this.nowList.saWinlose + this.nowList.agWinlose
                     this.nowList.allSubmit = this.nowList.naSubmit + this.nowList.ttgSubmit + this.nowList.mgSubmit + this.nowList.saSubmit + this.nowList.agSubmit
                   }
+                } else {
+                  user.allbetCount = 0
+                  this.nowList = user
                 }
-                resolve(data)
               }
             })
           }
