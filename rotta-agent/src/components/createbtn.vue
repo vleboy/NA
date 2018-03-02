@@ -74,8 +74,8 @@ export default {
       }
     }, // 配置代理信息
     gosuccom () {
-      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || localStorage.nowGameList == 'false') {
-        if (localStorage.nowGameList == 'false' && this.$store.state.checkform.points === true && this.$store.state.checkform.rate === true) {
+      if (this.$store.state.checkform.points === false || this.$store.state.checkform.rate === false || localStorage.nowGameList == false) {
+        if (localStorage.nowGameList == false && this.$store.state.checkform.points === true && this.$store.state.checkform.rate === true) {
           this.$message({
             message: '请选择至少一款游戏！',
             type: 'error'
