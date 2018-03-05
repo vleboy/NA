@@ -467,6 +467,7 @@ export default {
             let time = this.isSelect_time ? this.searchDate : getWeek()
 
             let allGameTyle = [
+              {code: gameType('naLive'), company: 'na'},
               {code: gameType('naVedio'), company: 'na'},
               {code: gameType('naArcade'), company: 'na'},
               {code: gameType('ttgVedio'), company: 'ttg'},
@@ -601,6 +602,7 @@ export default {
             let time = this.isSelect_time ? this.searchDate : getWeek()
 
             let allGameTyle = [
+              {code: gameType('naLive'), company: 'na'},
               {code: gameType('naVedio'), company: 'na'},
               {code: gameType('naArcade'), company: 'na'},
               {code: gameType('ttgVedio'), company: 'ttg'},
@@ -712,6 +714,7 @@ export default {
                 let time = this.isSelect_time ? this.searchDate : getWeek()
                 
                 let allGameTyle = [
+                  {code: gameType('naLive'), company: 'na'},
                   {code: gameType('naVedio'), company: 'na'},
                   {code: gameType('naArcade'), company: 'na'},
                   {code: gameType('ttgVedio'), company: 'ttg'},
@@ -822,6 +825,7 @@ export default {
               let time = this.isSelect_time ? this.searchDate : getWeek()
 
               let allGameTyle = [
+                {code: gameType('naLive'), company: 'na'},
                 {code: gameType('naVedio'), company: 'na'},
                 {code: gameType('naArcade'), company: 'na'},
                 {code: gameType('ttgVedio'), company: 'ttg'},
@@ -951,6 +955,7 @@ export default {
           let time = this.isSelect_time ? this.searchDate : getWeek()
 
           let allGameTyle = [
+            {code: gameType('naLive'), company: 'na'},
             {code: gameType('naVedio'), company: 'na'},
             {code: gameType('naArcade'), company: 'na'},
             {code: gameType('ttgVedio'), company: 'ttg'},
