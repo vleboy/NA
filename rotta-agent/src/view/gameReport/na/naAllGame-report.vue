@@ -579,7 +579,6 @@ export default {
             }
             let _this = this
             Promise.all(naAllReady).then(result => {
-              console.log(123,result)
               result.filter(element => {return element.naAllbetCount > 0}).length > 0 ? this.clickChild.push(result.filter(element => {return element.naAllbetCount > 0})) : ''
               _this.$store.commit('closeLoading')
             }).catch(err => {
