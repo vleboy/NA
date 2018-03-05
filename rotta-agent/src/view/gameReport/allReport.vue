@@ -27,7 +27,7 @@
         </el-table-column>
         <el-table-column label="总游戏输赢金额" prop="allWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.allWinlose)}}</span>
+            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.allWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="总游戏交公司" prop="allSubmit" align="left">
@@ -37,7 +37,7 @@
         </el-table-column>
         <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.naWinlose)}}</span>
+            <span :class="[Number(scope.row.naWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
@@ -47,7 +47,7 @@
         </el-table-column>
         <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.ttgWinlose)}}</span>
+            <span :class="[Number(scope.row.ttgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
@@ -57,7 +57,7 @@
         </el-table-column>
         <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.saWinlose)}}</span>
+            <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
@@ -67,7 +67,7 @@
         </el-table-column>
         <el-table-column label="MG游戏(输赢金额)" prop="mgWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.mgWinlose)}}</span>
+            <span :class="[Number(scope.row.mgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.mgWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="MG游戏(商家交公司)" prop="mgSubmit" align="left">
@@ -77,7 +77,7 @@
         </el-table-column>
         <el-table-column label="AG游戏(输赢金额)" prop="agWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.agWinlose)}}</span>
+            <span :class="[Number(scope.row.agWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.agWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="AG游戏(商家交公司)" prop="agSubmit" align="left">
@@ -106,7 +106,7 @@
         </el-table-column>
         <el-table-column label="总游戏输赢金额" prop="allWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.allWinlose)}}</span>
+            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.allWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="总游戏交公司" prop="allSubmit" align="left">
@@ -116,7 +116,7 @@
         </el-table-column>
         <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.naWinlose)}}</span>
+            <span :class="[Number(scope.row.naWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
@@ -126,7 +126,7 @@
         </el-table-column>
         <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.ttgWinlose)}}</span>
+            <span :class="[Number(scope.row.ttgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
@@ -136,7 +136,7 @@
         </el-table-column>
         <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.saWinlose)}}</span>
+            <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
@@ -146,7 +146,7 @@
         </el-table-column>
         <el-table-column label="MG游戏(输赢金额)" prop="mgWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.mgWinlose)}}</span>
+            <span :class="[Number(scope.row.mgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.mgWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="MG游戏(商家交公司)" prop="mgSubmit" align="left">
@@ -156,7 +156,7 @@
         </el-table-column>
         <el-table-column label="AG游戏(输赢金额)" prop="agWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.agWinlose)}}</span>
+            <span :class="[Number(scope.row.agWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.agWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="AG游戏(商家交公司)" prop="agSubmit" align="left">
@@ -185,7 +185,7 @@
         </el-table-column>
         <el-table-column label="总游戏输赢金额" prop="allWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.allWinlose)}}</span>
+            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.allWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="总游戏交公司" prop="allSubmit" align="left">
@@ -195,7 +195,7 @@
         </el-table-column>
         <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.naWinlose)}}</span>
+            <span :class="[Number(scope.row.naWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
@@ -205,7 +205,7 @@
         </el-table-column>
         <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.ttgWinlose)}}</span>
+            <span :class="[Number(scope.row.ttgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
@@ -215,7 +215,7 @@
         </el-table-column>
         <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.saWinlose)}}</span>
+            <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
@@ -225,7 +225,7 @@
         </el-table-column>
         <el-table-column label="MG游戏(输赢金额)" prop="mgWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.mgWinlose)}}</span>
+            <span :class="[Number(scope.row.mgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.mgWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="MG游戏(商家交公司)" prop="mgSubmit" align="left">
@@ -235,7 +235,7 @@
         </el-table-column>
         <el-table-column label="AG游戏(输赢金额)" prop="agWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.agWinlose)}}</span>
+            <span :class="[Number(scope.row.agWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.agWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="AG游戏(商家交公司)" prop="agSubmit" align="left">
@@ -264,32 +264,32 @@
         </el-table-column>
         <el-table-column label="总游戏输赢金额" prop="allWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.allWinlose)}}</span>
+            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.allWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.naWinlose)}}</span>
+            <span :class="[Number(scope.row.naWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="TTG游戏(输赢金额)" prop="ttgWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.ttgWinlose)}}</span>
+            <span :class="[Number(scope.row.ttgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="SA游戏(输赢金额)" prop="saWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.saWinlose)}}</span>
+            <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="MG游戏(输赢金额)" prop="mgWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.mgWinlose)}}</span>
+            <span :class="[Number(scope.row.mgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.mgWinlose)}}</span>
           </template>
         </el-table-column>        
         <el-table-column label="AG游戏(输赢金额)" prop="agWinlose" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.agWinlose)}}</span>
+            <span :class="[Number(scope.row.agWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.agWinlose)}}</span>
           </template>
         </el-table-column>
       </el-table>
