@@ -874,11 +874,11 @@ export default {
                         inside.naAllbetCount = player.betCount
                         for (let code in player.gameTypeMap) {
                           if (naAllCode.naLive == code) {
-                            inside.naWinlose += player.gameTypeMap[code].winloseAmount
+                            inside.naLiveWinlose += player.gameTypeMap[code].winloseAmount
                           } else if (naAllCode.naVedio == code) {
-                            inside.naWinlose += player.gameTypeMap[code].winloseAmount
+                            inside.naVedioWinlose += player.gameTypeMap[code].winloseAmount
                           } else if (naAllCode.naArcade == code) {
-                            inside.naWinlose += player.gameTypeMap[code].winloseAmount
+                            inside.naArcadeWinlose += player.gameTypeMap[code].winloseAmount
                           }
                           inside.naAllWinlose = inside.naLiveWinlose + inside.naVedioWinlose + inside.naArcadeWinlose
                         }
