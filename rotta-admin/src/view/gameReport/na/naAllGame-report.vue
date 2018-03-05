@@ -1,14 +1,16 @@
 <template>
-  <div class="naAllGame-report">
+  <div class="naAllReport" @click="getTimer">
     <div class="nowUserlist">
+
       <div class="clearFix" style="margin-bottom:0.5rem">
-        <p class="title" style="float:left">当前选择列表<span v-if="nowRole != loginId" class="fontUrl" @click="goBack()" style="font-size:1.2rem;font-weight:normal;margin-left:1rem">回到上一级</span></p>
+        <p class="title" style="float:left">当前选择列表</p>
         <div style="float:right;margin-right:1rem">
-          <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围(默认最近一周)" :editable="false"></el-date-picker>
-          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData" :loading="loading">搜索</el-button>
+          <el-date-picker class="input" v-model="searchDate" type="datetimerange" placeholder="选择日期时间范围(默认最近一周)" :editable="false" align="right" :clearable="false"></el-date-picker>
+          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchData">搜索</el-button>
           <el-button @click="resetSearch">重置</el-button>
         </div>
       </div>
+
       <el-table :data="naAllNowlist" stripe>
         <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
@@ -17,67 +19,57 @@
         <el-table-column label="昵称" prop="displayName" align="left">
         </el-table-column>
         <el-table-column label="管理员账号" prop="username" align="left">
-        </el-table-column>
-        <el-table-column label="抽成比" prop="rate" align="left">
           <template scope="scope">
-            <span>{{scope.row.rate}}%</span>
+            <span class="fontUrl" @click="refreshList()">{{formatSuffix(scope.row.username)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="交易次数" prop="betCount" align="left">
+        <el-table-column label="交易次数" prop="naAllbetCount" align="left">
+        </el-table-column>
+        <el-table-column label="总游戏输赢金额" prop="naAllWinlose" align="left">
           <template scope="scope">
-            <span>{{(flashNumber.betCount)}}</span>
+            <span>{{points(scope.row.naAllWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总输赢金额" prop="allWinlose" align="left">
+        <el-table-column label="总游戏交公司" prop="naAllSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(flashNumber.allWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.allWinlose)}}</span>
+            <span>{{points(scope.row.naAllSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总商家交公司" prop="allSubmit" align="left">
+        <el-table-column label="NA真人游戏(输赢金额)" prop="naliveWinlose" align="left">
           <template scope="scope">
-            <span>{{(flashNumber.allSubmit)}}</span>
+            <span>{{points(scope.row.naliveWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA电子游戏(输赢金额)" prop="vedioWinlose" align="left">
+        <el-table-column label="NA真人游戏(商家交公司)" prop="naliveSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(flashNumber.vedioWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.vedioWinlose)}}</span>
+            <span>{{points(scope.row.naliveSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA电子游戏(商家交公司)" prop="vedioSubmit" align="left">
+        <el-table-column label="NA电子游戏(输赢金额)" prop="naVedioWinlose" align="left">
           <template scope="scope">
-            <span>{{(flashNumber.vedioSubmit)}}</span>
+            <span>{{points(scope.row.naVedioWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(输赢金额)" prop="liveWinlose" align="left">
+        <el-table-column label="NA电子游戏(商家交公司)" prop="naVedioSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(flashNumber.liveWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.liveWinlose)}}</span>
+            <span>{{points(scope.row.naVedioSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(商家交公司)" prop="liveSubmit" align="left">
+        <el-table-column label="NA街机游戏(输赢金额)" prop="naArcadeWinlose" align="left">
           <template scope="scope">
-            <span>{{(flashNumber.liveSubmit)}}</span>
+            <span>{{points(scope.row.naArcadeWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA街机游戏(输赢金额)" prop="arcadeWinlose" align="left">
+        <el-table-column label="NA街机游戏(商家交公司)" prop="naArcadeSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(flashNumber.arcadeWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.arcadeWinlose)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="NA街机游戏(商家交公司)" prop="arcadeSubmit" align="left">
-          <template scope="scope">
-            <span>{{(flashNumber.arcadeSubmit)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="NA商城(输赢金额)" prop="mallWinlose" align="left">
-          <template scope="scope">
-            <span :class="[Number(flashNumber.mallWinlose) > 0 ? 'green' : 'red']">{{(flashNumber.mallWinlose)}}</span>
+            <span>{{points(scope.row.naArcadeSubmit)}}</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
     <div class="childlist" v-if="loginRole != '100'">
-      <p class="title">下级列表</p>
+      <p class="title">直属下级列表</p>
       <el-table :data="naAllNowchild" stripe>
         <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
@@ -87,77 +79,120 @@
         </el-table-column>
         <el-table-column label="管理员账号" prop="username" align="left">
           <template scope="scope">
-            <span class="fontUrl" @click="checkUser(scope.row)">{{scope.row.username}}</span>
+            <span class="fontUrl" @click="getChild(scope.row)" v-if="scope.row.role == '10'">{{(scope.row.username)}}</span>
+            <span class="fontUrl" @click="getPlayer(scope.row, true)" v-if="scope.row.role == '100'">{{(scope.row.username)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="抽成比" prop="rate" align="left">
+        <el-table-column label="交易次数" prop="naAllbetCount" align="left">
+        </el-table-column>
+        <el-table-column label="总游戏输赢金额" prop="naAllWinlose" align="left">
           <template scope="scope">
-            <span>{{scope.row.rate}}%</span>
+            <span>{{points(scope.row.naAllWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="交易次数" prop="betCount" align="left">
-        </el-table-column>
-        <el-table-column label="总输赢金额" prop="allWinlose" align="left">
+        <el-table-column label="总游戏交公司" prop="naAllSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.allWinlose)}}</span>
+            <span>{{points(scope.row.naAllSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="总商家交公司" prop="allSubmit" align="left">
+        <el-table-column label="NA真人游戏(输赢金额)" prop="naliveWinlose" align="left">
           <template scope="scope">
-            <span>{{formatToFix(scope.row.allSubmit)}}</span>
+            <span>{{points(scope.row.naliveWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA电子游戏(输赢金额)" prop="vedioWinlose" align="left">
+        <el-table-column label="NA真人游戏(商家交公司)" prop="naliveSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.vedioWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.vedioWinlose)}}</span>
+            <span>{{points(scope.row.naliveSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA电子游戏(商家交公司)" prop="vedioSubmit" align="left">
+        <el-table-column label="NA电子游戏(输赢金额)" prop="naVedioWinlose" align="left">
           <template scope="scope">
-            <span>{{formatToFix(scope.row.vedioSubmit)}}</span>
+            <span>{{points(scope.row.naVedioWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(输赢金额)" prop="liveWinlose" align="left">
+        <el-table-column label="NA电子游戏(商家交公司)" prop="naVedioSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.liveWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.liveWinlose)}}</span>
+            <span>{{points(scope.row.naVedioSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(商家交公司)" prop="liveSubmit" align="left">
+        <el-table-column label="NA街机游戏(输赢金额)" prop="naArcadeWinlose" align="left">
           <template scope="scope">
-            <span>{{formatToFix(scope.row.liveSubmit)}}</span>
+            <span>{{points(scope.row.naArcadeWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA街机游戏(输赢金额)" prop="arcadeWinlose" align="left">
+        <el-table-column label="NA街机游戏(商家交公司)" prop="naArcadeSubmit" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.arcadeWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.arcadeWinlose)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="NA街机游戏(商家交公司)" prop="arcadeSubmit" align="left">
-          <template scope="scope">
-            <span>{{formatToFix(scope.row.arcadeSubmit)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="NA商城(输赢金额)" prop="mallWinlose" align="left">
-          <template scope="scope">
-            <span :class="[Number(scope.row.mallWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.mallWinlose)}}</span>
+            <span>{{points(scope.row.naArcadeSubmit)}}</span>
           </template>
         </el-table-column>
       </el-table>
-      <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naAllGameData.allNowchild.length" :page-sizes="[10, 20]" :page-size="childSize" @size-change="getChildsize" @current-change="getChildpage"></el-pagination>
-      </div>
+    </div>
+
+    <div class="childlist" v-for="(item, index) of naAllRenderChild">
+      <p class="title">({{item.length > 0 && item[0].parentDisplayName ? item[0].parentDisplayName : ''}}) 下级列表</p>
+      <el-table :data="item" stripe>
+        <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
+        </el-table-column>
+        <el-table-column label="类型" prop="role" align="left" :formatter="userType">
+        </el-table-column>
+        <el-table-column label="昵称" prop="displayName" align="left">
+        </el-table-column>
+        <el-table-column label="管理员账号" prop="username" align="left">
+          <template scope="scope">
+            <span class="fontUrl" @click="getChild(scope.row)" v-if="scope.row.role == '10'">{{(scope.row.username)}}</span>
+            <span class="fontUrl" @click="getPlayer(scope.row, false)" v-if="scope.row.role == '100'">{{(scope.row.username)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="交易次数" prop="naAllbetCount" align="left">
+        </el-table-column>
+        <el-table-column label="总游戏输赢金额" prop="naAllWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naAllWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="总游戏交公司" prop="naAllSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naAllSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA真人游戏(输赢金额)" prop="naliveWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naliveWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA真人游戏(商家交公司)" prop="naliveSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naliveSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA电子游戏(输赢金额)" prop="naVedioWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naVedioWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA电子游戏(商家交公司)" prop="naVedioSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naVedioSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA街机游戏(输赢金额)" prop="naArcadeWinlose" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naArcadeWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="NA街机游戏(商家交公司)" prop="naArcadeSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.naArcadeSubmit)}}</span>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
 
     <div class="playerlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
-        <p class="title" style="float:left">所属玩家列表</p>
-        <div style="float:right;margin-right:1rem">
-          <el-input placeholder="请输入玩家用户名" class="input" v-model="playerData"></el-input>
-          <el-button type="primary" style="margin:0 -0.6rem 0 0.2rem" @click="searchPlayer" :loading="playerLoading">搜索</el-button>
-          <el-button @click="resetPlayerSearch">重置</el-button>
-        </div>
+        <p class="title" style="float:left"><span v-if="playerParent">({{playerParent}})</span>所属玩家列表</p>
       </div>
-      <el-table :data="naAllNowplayer" stripe>
+      <el-table :data="naAllPlayer" stripe>
         <el-table-column label="序号" prop="rank" align="left" width="75" type="index">
         </el-table-column>
         <el-table-column label="用户名" prop="userName" align="left">
@@ -167,61 +202,48 @@
         </el-table-column>
         <el-table-column label="昵称" prop="nickname" align="left">
         </el-table-column>
-        <el-table-column label="交易次数" prop="betCount" align="left">
+        <el-table-column label="交易次数" prop="naAllbetCount" align="left">
         </el-table-column>
-        <el-table-column label="总输赢金额" prop="allWinlose" align="left">
+        <el-table-column label="总游戏输赢金额" prop="naAllWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.allWinlose)}}</span>
+            <span>{{points(scope.row.naAllWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA电子游戏(输赢金额)" prop="vedioWinlose" align="left">
+        <el-table-column label="NA真人游戏(输赢金额)" prop="naLiveWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.vedioWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.vedioWinlose)}}</span>
+            <span>{{points(scope.row.naLiveWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(输赢金额)" prop="liveWinlose" align="left">
+        <el-table-column label="NA电子游戏(输赢金额)" prop="naVedioWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.liveWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.liveWinlose)}}</span>
+            <span>{{points(scope.row.naVedioWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA街机游戏(输赢金额)" prop="arcadeWinlose" align="left">
+        <el-table-column label="NA街机游戏(输赢金额)" prop="naArcadeWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.arcadeWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.arcadeWinlose)}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="NA商城(输赢金额)" prop="mallWinlose" align="left">
-          <template scope="scope">
-            <span :class="[Number(scope.row.mallWinlose) > 0 ? 'green' : 'red']">{{formatToFix(scope.row.mallWinlose)}}</span>
+            <span>{{points(scope.row.naArcadeWinlose)}}</span>
           </template>
         </el-table-column>
       </el-table>
-      <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.naAllGameData.allNowplayer.length" :page-sizes="[20, 50]" :page-size="playerSize" @size-change="getPlayersize" @current-change="getPlayerpage"></el-pagination>
-      </div>
     </div>
   </div>
 </template>
 <script>
-import TWEEN from '@tweenjs/tween.js'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
+import { formatPoints } from '@/behavior/format'
+import { gameType } from '@/behavior/gameType'
+import { getWeek } from '@/behavior/getWeek'
 export default {
   beforeCreate () {
-    localStorage.removeItem('searchTime')
-    this.$store.commit('resetnaAllchildInfo')
-    this.$store.commit('resetnaAllNowplayer')
-    this.$store.commit('startLoading')
     this.$store.commit({
       type: 'recordNowindex',
       data: 'naAllGameReport'
     })
-    this.$store.commit({
-      type: 'recordnaAllID',
-      data: ''
-    })
     this.$store.commit('returnLocalStorage')
-    this.$store.dispatch('getnaAllNowchild')
-    this.$store.dispatch('getnaAllNowplayer')
+  },
+  created () {
+    this.refreshList()
   },
   activated: function () {
     this.$store.commit({
@@ -230,221 +252,695 @@ export default {
     })
   },
   computed: {
-    rollNumber () {
-      let data = this.$store.state.variable.naAllGameData.allNowlist
-      return data
-    },
     naAllNowlist () {
-      this.nowRole = this.$store.state.variable.naAllGameData.allNowlist.userId
-      let data = [this.$store.state.variable.naAllGameData.allNowlist]
+      let data = [this.nowList]
       return data
     },
     naAllNowchild () {
-      var nowchild = this.$store.state.variable.naAllGameData.allNowchild
-      if (this.childPage === 1) {
-        nowchild = this.$store.state.variable.naAllGameData.allNowchild.slice(0, this.childSize)
-      } else {
-        nowchild = this.$store.state.variable.naAllGameData.allNowchild.slice(((this.childPage - 1) * this.childSize), this.childSize * this.childPage)
-      }
-      return nowchild
+      return this.nowChild
     },
-    naAllNowplayer () {
-      var nowplayer = this.$store.state.variable.naAllGameData.allNowplayer
-      if (this.playerPage === 1) {
-        nowplayer = this.$store.state.variable.naAllGameData.allNowplayer.slice(0, this.playerSize)
-      } else {
-        nowplayer = this.$store.state.variable.naAllGameData.allNowplayer.slice(((this.playerPage - 1) * this.playerSize), this.playerSize * this.playerPage)
-      }
-      return nowplayer
+    naAllRenderChild () {
+      let child = this.clickChild
+      return child
     },
+    naAllPlayer () {
+      let player = this.nowPlayer
+      return player
+    }
   },
   watch: {
     searchDate (val) {
-      if (val[0] != null || val[1] != null) {
-        for (var i = val.length - 1; i >= 0; i--) {
-          this.searchDate[i] = new Date(this.searchDate[i].toString()).getTime()
+      if (!val) {
+        this.isSelect_time = false
+        this.searchDate = getWeek()
+      } else {
+        if (typeof val[0] == 'object' || typeof val[1] == 'object') {
+          if (val[0] < 1514736000000 || (val[0] < 1517796000000 && val[1] > 1517796000000)) {
+            this.$message({
+              type: 'error',
+              message: '该时间范围暂不支持查询',
+              duration: 0,
+              showClose: true,
+            })
+            this.isSelect_time = true
+          } else {
+            if (val[1] < 1517796000000) {
+              this.$message({
+                type: 'warning',
+                message: '当前时间范围查询数据为旧版报表',
+                duration: 5000
+              })
+            }
+            for (var i = val.length - 1; i >= 0; i--) {
+              this.searchDate[i] = new Date(this.searchDate[i].toString()).getTime()
+            }
+            if (this.searchDate[1] >= new Date().getTime() - 180000) {
+              if (this.searchDate[1] - this.searchDate[0] <= 180000) {
+                this.searchDate[0] = this.searchDate[0] - 180000
+                this.searchDate[1] = new Date().getTime() - 180000
+              } else {
+                this.searchDate[1] = new Date().getTime() - 180000
+              }
+            }
+            this.isSelect_time = true
+          }
         }
       }
-    },
-    'rollNumber.betCount' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.betCount = this._object.tweeningNumber.toFixed(0)
-        }).start()
-      animate()
-    },
-    'rollNumber.allWinlose' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.allWinlose = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.allSubmit' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.allSubmit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.vedioWinlose' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.vedioWinlose = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.vedioSubmit' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.vedioSubmit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.liveWinlose' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.liveWinlose = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.liveSubmit' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.liveSubmit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.arcadeWinlose' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.arcadeWinlose = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.arcadeSubmit' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.arcadeSubmit = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
-    },
-    'rollNumber.mallWinlose' (newValue, oldValue) {
-      if (!oldValue) {
-        oldValue = 0
-      }
-      let vm = this
-      function animate (time) {
-        requestAnimationFrame(animate)
-        TWEEN.update(time)
-      }
-      new TWEEN.Tween({ tweeningNumber: oldValue }).easing(TWEEN.Easing.Quadratic.Out).to({ tweeningNumber: newValue }, 500).onUpdate(function () {
-          vm.flashNumber.mallWinlose = this._object.tweeningNumber.toFixed(2)
-        }).start()
-      animate()
     },
   },
   data () {
     return {
-      flashNumber: {
-        betCount: 0,
-        allWinlose: 0,
-        allSubmit: 0,
-        vedioWinlose: 0,
-        vedioSubmit: 0,
-        liveWinlose: 0,
-        liveSubmit: 0,
-        arcadeWinlose: 0,
-        arcadeSubmit: 0,
-        mallWinlose: 0,
-      },
-      playerData: '',
-      loading: false,
-      playerLoading: false,
-      searchDate: [],
-      childSize: 10,
-      childPage: 1,
-      playerSize: 20,
-      playerPage: 1,
-      nowRole: '',
-      loginId: localStorage.loginId,
-      loginRole: localStorage.loginRole
+      loginRole: localStorage.loginRole, // 登陆角色类型
+
+      isSelect_time: false, // 是否自定义搜索时间
+      searchDate: getWeek(), // 搜索时间戳
+
+      nowList: '', // 登录角色报表信息
+      nowChild: [], // 登陆角色直属下级
+
+      clickChild: [], // 点击渲染的下级
+      rendered: [], // 已经渲染的下级
+
+      nowPlayer: [], // 当前登录或点击渲染的商户玩家
+      playerParent: '', // 当前玩家所属商户昵称
     }
   },
   methods: {
-    formatToFix (data) {
-      if (data && !isNaN(data.toFixed(2))) {
-        return data.toFixed(2)
-      } else {
-        return '0.00'
+    getTimer () {
+      let timer = document.getElementsByTagName('input')
+      for (let item of timer) {
+        item.readOnly = true
       }
-    },
-    formatnickname (data) {
-      return data.nickname == 'NULL!' ? '-' : data.nickname
-    },
+      let clear = document.getElementsByClassName('el-picker-panel__link-btn')
+      for (let btn of clear) {
+        btn.style.display = 'none'
+      }
+    }, // 原生操作时间日期控件
+    refreshList (data) {
+      this.$store.commit('startLoading')
+      this.playerParent = ''
+      this.nowPlayer = []
+      this.nowChild = []
+      this.clickChild = []
+      this.nowList = ''
+      this.getLoginSelf()
+      localStorage.loginRole != '100' ? this.getLoginChild(localStorage.loginId) : ''
+      localStorage.loginRole == '100' ? this.getPlayer({
+        displayName: localStorage.loginDislayName,
+        userId: localStorage.loginId,
+        parent: localStorage.parentID
+      }, true) : ''
+    }, // 初始化列表
+    getLoginSelf () {
+      let require = {
+        userId: localStorage.loginId
+      }
+      invoke({
+        url: api.reportInfo,
+        method: api.post,
+        data: require
+      }).then(result => {
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var user = ret.data.payload
+          user.naAllbetCount = 0
+          user.naAllWinlose = 0
+          user.naAllSubmit = 0
+          user.naLiveWinlose = 0
+          user.naLiveSubmit = 0
+          user.naVedioWinlose = 0
+          user.naVedioSubmit = 0
+          user.naArcadeWinlose = 0
+          user.naArcadeSubmit = 0
+          this.nowList = user
+          if (localStorage.loginRole == 100) {
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+            let naAllGameTyle = [
+              {code: gameType('naVedio'), company: 'na'},
+              {code: gameType('naArcade'), company: 'na'},
+              {code: gameType('naLive'), company: 'na'}
+            ] // 所有游戏类型
+            let naAllCode = {
+              naLive: 30000,
+              naVedio: 40000,
+              naArcade: 50000
+            }
+            let data = {
+              gameType: naAllGameTyle.map(game => {return game.code}),
+              role: '100',
+              userIds: [localStorage.loginId],
+              query: {createdAt: time}
+            }
+            invoke({
+              url: api.calcUserStat,
+              method: api.post,
+              data: data
+            }).then(result => {
+              const [err,ret] = result
+              if (err) {
+              } else {
+                var data = ret.data.payload
+                if (data) {
+                  this.nowList.naAllbetCount = data[0].betCount
+                  for (let code in data[0].gameTypeMap) {
+                    if (naAllCode.naLive == code) {
+                      this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (naAllCode.naVedio == code) {
+                      this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (naAllCode.naArcade == code) {
+                      this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
+                    }
+                    this.nowList.naAllWinlose = this.nowList.naLiveWinlose + this.nowList.naVedioWinlose + this.nowList.naArcadeWinlose
+                    this.nowList.naAllSubmit = this.nowList.naLiveSubmit + this.nowList.naVedioSubmit + this.nowList.naArcadeSubmit
+                  }
+                }
+              }
+            })
+          }
+        }
+      })
+    }, // 获取登陆用户报表基本信息
+    getLoginChild (id) {
+      let data = {}
+      localStorage.loginRole == 1 ? data.parent = '01' : data.parent = id
+      invoke({
+        url: api.reportInfo,
+        method: api.post,
+        data: data
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            var child = ret.data.payload
+            child.length == 0 ? this.$store.commit('closeLoading') : ''
+
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+
+            let naAllGameTyle = [
+              {code: gameType('naVedio'), company: 'na'},
+              {code: gameType('naArcade'), company: 'na'},
+              {code: gameType('naLive'), company: 'na'}
+            ] // 所有游戏类型
+
+            let naAllReady = [] // promise所有结果返回
+
+            let naAllCode = {
+              naLive: 30000,
+              naVedio: 40000,
+              naArcade: 50000
+            }
+
+            for (let item of child) {
+              let data = {
+                gameType: naAllGameTyle.map(game => {return game.code}),
+                role: item.role,
+                userIds: [item.userId],
+                query: {createdAt: time}
+              }
+              item.naAllbetCount = 0
+              item.naAllWinlose = 0
+              item.naAllSubmit = 0
+              item.naLiveWinlose = 0
+              item.naLiveSubmit = 0
+              item.naVedioWinlose = 0
+              item.naVedioSubmit = 0
+              item.naArcadeWinlose = 0
+              item.naArcadeSubmit = 0
+
+              let pro = new Promise((resolve, reject) => {
+                invoke({
+                  url: api.calcUserStat,
+                  method: api.post,
+                  data: data
+                }).then(result => {
+                  const [err,ret] = result
+                  if (err) {
+                    reject('error')
+                  } else {
+                    var data = ret.data.payload
+                    if (data[0]) {
+                      item.naAllbetCount = data[0].betCount
+                      for (let code in data[0].gameTypeMap) {
+                        if (naAllCode.naLive == code) {
+                          item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                          this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
+                          this.nowList.role != 1 ? this.nowList.naLiveSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                        } else if (naAllCode.naVedio == code) {
+                          item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
+                          this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
+                          this.nowList.role != 1 ? this.nowList.naVedioSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                        } else if (naAllCode.naArcade == code) {
+                          item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
+                          this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                          this.nowList.role != 1 ? this.nowList.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                        }
+                        item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
+                        item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
+                      }
+                      this.nowList.naAllWinlose += item.naAllWinlose
+                      this.nowList.role != 1 ? this.nowList.naAllSubmit += item.naAllSubmit : ''
+                      this.nowList.naAllbetCount += item.naAllbetCount
+                      this.nowChild.push(item)
+                    }
+                    resolve(data)
+                  }
+                })
+              })
+              naAllReady.push(pro)
+            }
+            let _this = this
+            Promise.all(naAllReady).then(result => {
+              _this.$store.commit('closeLoading')
+            }).catch(err => {
+              _this.$message({
+                type: 'error',
+                message: err.message
+              })
+              _this.$store.commit('closeLoading')
+            })
+          }
+        }
+      )
+    }, // 获取登录用户直属下级
+    getChild (parent) {
+      let will_render = {
+        parent: parent.parent,
+        userId: parent.userId
+      }
+      this.$store.commit('startLoading')
+      if (this.rendered.length == 0) {
+        this.rendered.push(will_render)
+        invoke({
+          url: api.reportInfo,
+          method: api.post,
+          data: {
+            parent: parent.userId
+          }
+        }).then(result => {
+          const [err, ret] = result
+          if (err) {
+          } else {
+            this.nowPlayer = []
+            this.playerParent = ''
+            this.clickChild = []
+            var child = ret.data.payload
+
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+
+            let naAllGameTyle = [
+              {code: gameType('naVedio'), company: 'na'},
+              {code: gameType('naArcade'), company: 'na'},
+              {code: gameType('naLive'), company: 'na'}
+            ] // 所有游戏类型
+
+            let naAllReady = [] // promise所有结果返回
+
+            let naAllCode = {
+              naLive: 30000,
+              naVedio: 40000,
+              naArcade: 50000
+            }
+            for (let item of child) {
+              let data = {
+                gameType: naAllGameTyle.map(game => {return game.code}),
+                role: item.role,
+                userIds: [item.userId],
+                query: {createdAt: time}
+              }
+              item.naAllbetCount = 0
+              item.naAllWinlose = 0
+              item.naAllSubmit = 0
+              item.naLiveWinlose = 0
+              item.naLiveSubmit = 0
+              item.naVedioWinlose = 0
+              item.naVedioSubmit = 0
+              item.naArcadeWinlose = 0
+              item.naArcadeSubmit = 0
+              let pro = new Promise((resolve, reject) => {
+                invoke({
+                  url: api.calcUserStat,
+                  method: api.post,
+                  data: data
+                }).then(result => {
+                  const [err,ret] = result
+                  if (err) {
+                    reject('error')
+                  } else {
+                    var data = ret.data.payload
+                    if (data[0]) {
+                      item.naAllbetCount = data[0].betCount
+                      for (let code in data[0].gameTypeMap) {
+                        if (naAllCode.naLive == code) {
+                          item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                        } else if (naAllCode.naVedio == code) {
+                          item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
+                        } else if (naAllCode.naArcade == code) {
+                          item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
+                        }
+                        item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
+                        item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
+                      }
+                    }
+                    resolve(item)
+                  }
+                })
+              })
+              naAllReady.push(pro)
+            }
+            let _this = this
+            Promise.all(naAllReady).then(result => {
+              this.clickChild.push(result.filter(element => {return element.naAllbetCount > 0}))
+              _this.$store.commit('closeLoading')
+            }).catch(err => {
+              _this.$message({
+                type: 'error',
+                message: err.message
+              })
+              _this.$store.commit('closeLoading')
+            })
+          }
+        })
+      } else {
+        if (this.rendered.filter(item => {return (item.userId == parent.parent)}).length > 0) {
+          if (this.rendered.filter(item => {return item.userId == parent.userId}).length > 0) {
+            this.$store.commit('closeLoading')
+          } else {
+            this.nowPlayer = []
+            this.playerParent = ''
+            this.rendered.push(will_render)
+            invoke({
+              url: api.reportInfo,
+              method: api.post,
+              data: {
+                parent: parent.userId
+              }
+            }).then(result => {
+              const [err, ret] = result
+              if (err) {
+              } else {
+                var child = ret.data.payload
+                let time = this.isSelect_time ? this.searchDate : getWeek()
+                
+                let naAllGameTyle = [
+                  {code: gameType('naVedio'), company: 'na'},
+                  {code: gameType('naArcade'), company: 'na'},
+                  {code: gameType('naLive'), company: 'na'}
+                ] // 所有游戏类型
+
+                let naAllReady = [] // promise所有结果返回
+
+                let naAllCode = {
+                  naLive: 30000,
+                  naVedio: 40000,
+                  naArcade: 50000
+                }
+                for (let item of child) {
+                  let data = {
+                    gameType: naAllGameTyle.map(game => {return game.code}),
+                    role: item.role,
+                    userIds: [item.userId],
+                    query: {createdAt: time}
+                  }
+                  item.naAllbetCount = 0
+                  item.naAllWinlose = 0
+                  item.naAllSubmit = 0
+                  item.naLiveWinlose = 0
+                  item.naLiveSubmit = 0
+                  item.naVedioWinlose = 0
+                  item.naVedioSubmit = 0
+                  item.naArcadeWinlose = 0
+                  item.naArcadeSubmit = 0
+                  let pro = new Promise((resolve, reject) => {
+                    invoke({
+                      url: api.calcUserStat,
+                      method: api.post,
+                      data: data
+                    }).then(result => {
+                      const [err,ret] = result
+                      if (err) {
+                        reject('error')
+                      } else {
+                        var data = ret.data.payload
+                        if (data[0]) {
+                          item.naAllbetCount = data[0].betCount
+                          for (let code in data[0].gameTypeMap) {
+                            if (naAllCode.naLive == code) {
+                              item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
+                              item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                            } else if (naAllCode.naVedio == code) {
+                              item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
+                              item.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
+                            } else if (naAllCode.naArcade == code) {
+                              item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                              item.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
+                            }
+                            item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
+                            item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
+                          }
+                        }
+                        resolve(item)
+                      }
+                    })
+                  })
+                  naAllReady.push(pro)
+                }
+                let _this = this
+                Promise.all(naAllReady).then(result => {
+                   this.clickChild.push(result.filter(element => {return element.naAllbetCount > 0}))
+                  _this.$store.commit('closeLoading')
+                }).catch(err => {
+                  _this.$message({
+                    type: 'error',
+                    message: err.message
+                  })
+                  _this.$store.commit('closeLoading')
+                })
+              }
+            })
+          }
+        } else {
+          this.rendered = []
+          this.playerParent = ''
+          this.nowPlayer = []
+          this.clickChild = []
+          this.rendered.push(will_render)
+          invoke({
+            url: api.reportInfo,
+            method: api.post,
+            data: {
+              parent: parent.userId
+            }
+          }).then(result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var child = ret.data.payload
+              let time = this.isSelect_time ? this.searchDate : getWeek()
+
+              let naAllGameTyle = [
+                {code: gameType('naVedio'), company: 'na'},
+                {code: gameType('naArcade'), company: 'na'},
+                {code: gameType('naLive'), company: 'na'}
+              ] // 所有游戏类型
+
+              let naAllReady = [] // promise所有结果返回
+
+              let naAllCode = {
+                naLive: 30000,
+                naVedio: 40000,
+                naArcade: 50000
+              }
+              for (let item of child) {
+                let data = {
+                  gameType: naAllGameTyle.map(game => {return game.code}),
+                  role: item.role,
+                  userIds: [item.userId],
+                  query: {createdAt: time}
+                }
+                item.naAllbetCount = 0
+                item.naAllWinlose = 0
+                item.naAllSubmit = 0
+                item.naLiveWinlose = 0
+                item.naLiveSubmit = 0
+                item.naVedioWinlose = 0
+                item.naVedioSubmit = 0
+                item.naArcadeWinlose = 0
+                item.naArcadeSubmit = 0
+                let pro = new Promise((resolve, reject) => {
+                  invoke({
+                    url: api.calcUserStat,
+                    method: api.post,
+                    data: data
+                  }).then(result => {
+                    const [err,ret] = result
+                    if (err) {
+                      reject('error')
+                    } else {
+                      var data = ret.data.payload
+                      if (data[0]) {
+                        item.naAllbetCount = data[0].betCount
+                        for (let code in data[0].gameTypeMap) {
+                          if (naAllCode.naLive == code) {
+                            item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
+                            item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                          } else if (naAllCode.naVedio == code) {
+                            item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
+                            item.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
+                          } else if (naAllCode.naArcade == code) {
+                            item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                            item.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
+                          }
+                          item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
+                          item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
+                        }
+                      }
+                      resolve(item)
+                    }
+                  })
+                })
+                naAllReady.push(pro)
+              }
+              let _this = this
+              Promise.all(naAllReady).then(result => {
+                this.clickChild.push(result.filter(element => {return element.naAllbetCount > 0}))
+                _this.$store.commit('closeLoading')
+              }).catch(err => {
+                _this.$message({
+                  type: 'error',
+                  message: err.message
+                })
+                _this.$store.commit('closeLoading')
+              })
+            }
+          })
+        }
+      }
+    }, // 点击查询下级
+    getPlayer (parent, isClear) {
+      if (isClear) {
+        this.playerParent = ''
+        this.clickChild = []
+      }
+      this.$store.commit('startLoading')
+      this.playerParent = parent.displayName
+      var data = {
+        parentId: parent.userId
+      }
+      invoke({
+        url: api.reportPlayer,
+        method: api.post,
+        data: data
+      }).then(result => {
+        this.nowPlayer = []
+        const [err, ret] = result
+        if (err) {
+        } else {
+          var data = ret.data.payload
+          data.map(item => {
+            item.naAllbetCount = 0
+            item.naAllWinlose = 0
+            item.naLiveWinlose = 0
+            item.naVedioWinlose = 0
+            item.naArcadeWinlose = 0
+          })
+          var result = []
+          var cut_count = 50 // 数组切割长度
+          for (var i = 0;i < Math.ceil(data.length / cut_count);i++) {
+            i == 0 ? result.push(data.slice(i, cut_count)) : result.push(data.slice(i * cut_count, cut_count * (i + 1)))
+          }
+          let time = this.isSelect_time ? this.searchDate : getWeek()
+
+          let naAllGameTyle = [
+            {code: gameType('naVedio'), company: 'na'},
+            {code: gameType('naArcade'), company: 'na'},
+            {code: gameType('naLive'), company: 'na'}
+          ] // 所有游戏类型
+
+          let naAllReady = [] // promise所有结果返回
+
+          let naAllCode = {
+            naLive: 30000,
+            naVedio: 40000,
+            naArcade: 50000
+          }
+
+          for (let item of result) {
+            let player_data = {
+              gameType: naAllGameTyle.map(game => {return game.code}),
+              gameUserNames: item.map(item=>{return item.userName}),
+              query: {
+                createdAt: time
+              }
+            }
+            let pro = new Promise((resolve, reject) => {
+              invoke({
+                url: api.calcPlayerStat,
+                method: api.post,
+                data: player_data
+              }).then(result => {
+                const [err, ret] = result
+                if (err) {
+                  reject(err)
+                } else {
+                  var data = ret.data.payload
+                  for (let player of data) {
+                    item.map(inside => {
+                      if (player.userName == inside.userName) {
+                        inside.naAllbetCount = player.betCount
+                        for (let code in player.gameTypeMap) {
+                          if (naAllCode.naLive == code) {
+                            inside.naLiveWinlose += player.gameTypeMap[code].winloseAmount
+                          } else if (naAllCode.naVedio == code) {
+                            inside.naVedioWinlose += player.gameTypeMap[code].winloseAmount
+                          } else if (naAllCode.naArcade == code) {
+                            inside.naArcadeWinlose += player.gameTypeMap[code].winloseAmount
+                          }
+                          inside.naAllWinlose = inside.naLiveWinlose + inside.naVedioWinlose + inside.naArcadeWinlose
+                        }
+                        this.nowPlayer.push(inside)
+                      }
+                    })
+                  }
+                  resolve(item)
+                }
+              })
+            })
+            naAllReady.push(pro)
+          }
+          let _this = this
+          Promise.all(naAllReady).then(result => {
+            _this.$store.commit('closeLoading')
+          }).catch(err => {
+            _this.$message({
+              type: 'error',
+              message: err.message
+            })
+            _this.$store.commit('closeLoading')
+          })
+        }
+      })
+    }, // 点击查询商户玩家
+    searchData () {
+      this.$store.commit('startLoading')
+      this.refreshList()
+    }, // 自定义时间搜索
+    resetSearch () {
+      this.$store.commit('startLoading')
+      this.isSelect_time = false
+      this.searchDate = ''
+      this.refreshList()
+    }, // 按默认时间搜索
     userType (data) {
       if (data.role == '1') {
         return '管理员'
@@ -454,219 +950,16 @@ export default {
         return '商户'
       }
     }, // 格式化用户类型
-    searchData () {
-      if (this.searchDate[0] == null || this.searchDate[1] == null) {
-        this.$message({
-          type: 'error',
-          message: '请选择搜索时间'
-        })
+    formatSuffix (suffix) {
+      return suffix ? suffix.substring(suffix.indexOf('_') + 1, suffix.length) : suffix
+    }, // 格式化前缀
+    points (data) {
+      if (data && !isNaN(Number(data).toFixed(2))) {
+        return formatPoints(Number(data).toFixed(2))
       } else {
-        this.loading = true
-        localStorage.setItem('searchTime',JSON.stringify(this.searchDate))
-        this.$store.dispatch('getnaAllNowchild')
-        this.$store.dispatch('getnaAllNowplayer')
-        let _self = this
-        setTimeout(function(){
-          _self.$message({
-            type: 'success',
-            message: '搜索完毕!'
-          })
-          _self.loading = false
-        },3000)
+        return '0.00'
       }
-    }, // 按时间搜索
-    resetSearch () {
-      this.searchDate = []
-      localStorage.removeItem('searchTime')
-      this.$store.commit('startLoading')
-      this.$store.dispatch('getnaAllNowchild')
-      this.$store.dispatch('getnaAllNowplayer')
-    }, // 重置搜索条件
-    searchPlayer () {
-      if (!this.playerData) {
-        this.$message({
-          type: 'error',
-          message: '请输入玩家用户名'
-        })
-      } else {
-        this.playerLoading = true
-        let data = {
-          parentId: this.$store.state.variable.naAllGameData.allNowlist.userId,
-          query: {
-            userName: this.playerData
-          },
-          sortkey: 'createdAt',
-          sort: 'desc'
-        }
-        invoke({
-          url: api.reportPlayer,
-          method: api.post,
-          data: data
-        }).then(
-          result => {
-            const [err, ret] = result
-            if (err) {
-            } else {
-              this.rollNumber.betCount = 0
-              this.rollNumber.allWinlose = 0
-              this.rollNumber.allSubmit = 0
-              this.rollNumber.vedioWinlose = 0
-              this.rollNumber.vedioSubmit = 0
-              this.rollNumber.liveWinlose = 0
-              this.rollNumber.liveSubmit = 0
-              this.rollNumber.arcadeWinlose = 0
-              this.rollNumber.arcadeSubmit = 0
-              this.rollNumber.mallWinlose = 0
-              this.$store.commit('resetnaAllNowplayer')
-              this.$store.commit('getWeek')
-              let searchDate = []
-              if (localStorage.searchTime) {
-                searchDate = JSON.parse(localStorage.searchTime)
-              } else {
-                searchDate = [this.$store.state.startTime, this.$store.state.endTime]
-              }
-              var data = ret.data.payload
-              for (let item of data) {
-                item.betCount = 0
-                item.allWinlose = 0
-                item.vedioWinlose = 0
-                item.liveWinlose = 0
-                item.arcadeWinlose = 0
-                item.mallWinlose = 0
-                let player_live = {
-                  gameType: 30000,
-                  gameUserNames: [item.userName],
-                  query: {
-                    createdAt: searchDate
-                  }
-                } // 请求真人游戏玩家
-                let player_vedio = {
-                  gameType: 40000,
-                  gameUserNames: [item.userName],
-                  query: {
-                    createdAt: searchDate
-                  }
-                } // 请求电子游戏玩家
-                let player_arcade = {
-                  gameType: 50000,
-                  gameUserNames: [item.userName],
-                  query: {
-                    createdAt: searchDate
-                  }
-                } // 请求街机游戏玩家
-                let naMall_data = {
-                  gameType: -1,
-                  kindId:-3,
-                  role: item.role,
-                  userIds: [item.userId],
-                  query: {
-                    createdAt: searchDate
-                  }
-                } // 请求NA商城数据
-
-                let p1 = invoke({
-                  url: api.calcPlayerStat,
-                  method: api.post,
-                  data: player_live
-                }) // 真人游戏玩家账单
-                let p2 = invoke({
-                  url: api.calcPlayerStat,
-                  method: api.post,
-                  data: player_vedio
-                }) // 电子游戏玩家账单
-                let p3 = invoke({
-                  url: api.calcPlayerStat,
-                  method: api.post,
-                  data: player_arcade
-                }) // 街机游戏玩家账单
-                let p4 = invoke({
-                  url: api.calcUserStat,
-                  method: api.post,
-                  data: naMall_data
-                }) // NA玩家商城账单
-
-                Promise.all([p1,p2,p3,p4]).then(
-                  result => {
-                    let result1 = result[0][1].data.payload[0]
-                    if (result1 && result1.betCount > 0) {
-                      item.betCount += result1.betCount
-                      item.allWinlose += result1.winlose
-                      item.liveWinlose = result1.winlose
-                    }
-                    let result2 = result[1][1].data.payload[0]
-                    if (result2 && result2.betCount > 0) {
-                      item.betCount += result2.betCount
-                      item.allWinlose += result2.winlose
-                      item.vedioWinlose = result2.winlose
-                    }
-                    let result3 = result[2][1].data.payload[0]
-                    if (result3 && result3.betCount > 0) {
-                      item.betCount += result3.betCount
-                      item.allWinlose += result3.winlose
-                      item.arcadeWinlose = result3.winlose
-                    }
-                    let result4 = result[3][1].data.payload[0]
-                    if (result4 && result4.betCount > 0) {
-                      item.betCount += result4.betCount
-                      item.mallWinlose += result4.winlose
-                    }
-
-                    if (item.betCount > 0) {
-                      this.$store.commit({
-                        type: 'recordnaAllNowplayer',
-                        data: item
-                      })
-                    }
-                  }
-                )
-                this.$store.commit('closeLoading')
-              }
-              this.playerLoading = false
-            }
-          }
-        )
-      }
-    }, // 搜索玩家
-    resetPlayerSearch () {
-      this.playerData = ''
-      this.rollNumber.betCount = 0
-      this.rollNumber.allWinlose = 0
-      this.rollNumber.allSubmit = 0
-      this.rollNumber.vedioWinlose = 0
-      this.rollNumber.vedioSubmit = 0
-      this.rollNumber.liveWinlose = 0
-      this.rollNumber.liveSubmit = 0
-      this.rollNumber.arcadeWinlose = 0
-      this.rollNumber.arcadeSubmit = 0
-      this.rollNumber.mallWinlose = 0
-      this.$store.dispatch('getnaAllNowplayer')
-    }, // 重置玩家搜索
-    checkUser (data) {
-      this.$store.commit({
-        type: 'recordnaAllID',
-        data: data.userId
-      })
-      this.$store.commit('resetnaAllchildInfo')
-      this.$store.commit('resetnaAllNowplayer')
-      this.$store.commit('startLoading')
-      this.$store.dispatch('getnaAllNowchild')
-      this.$store.dispatch('getnaAllNowplayer')
-    }, // 跳转下级
-    goBack () {
-      var data = this.$store.state.variable.naAllGameData.allNowlist.parent
-      if (data == '01') {
-        data = ''
-      }
-      this.$store.commit({
-        type: 'recordnaAllID',
-        data: data
-      })
-      this.$store.commit('resetnaAllchildInfo')
-      this.$store.commit('resetnaAllNowplayer')
-      this.$store.commit('startLoading')
-      this.$store.dispatch('getnaAllNowchild')
-      data !== '01' ? this.$store.dispatch('getnaAllNowplayer') : ''
-    }, // 退回上一级
+    }, // 格式化金额
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
       this.$router.push('playerdetail')
@@ -675,36 +968,21 @@ export default {
         data: row
       })
     }, // 跳转至玩家详情
-    getChildsize (size) {
-      this.childSize = size
-    }, // 下级列表分页
-    getChildpage (page) {
-      this.childPage = page
-    }, // 下级列表分页
-    getPlayersize (size) {
-      this.playerSize = size
-    }, // 玩家列表分页
-    getPlayerpage (page) {
-      this.playerPage = page
-    }, // 玩家列表分页
-  },
-  beforeDestroy () {
-    localStorage.removeItem('searchTime')
   }
 }
 </script>
 
 <style scpoed>
-.naAllGame-report .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
-.naAllGame-report .input{width: 25rem}
-.naAllGame-report .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
-.naAllGame-report .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
-.naAllGame-report .nowUserlist,
-.naAllGame-report .childlist,
-.naAllGame-report .playerlist{width: 99%;margin: 2rem auto}
-.naAllGame-report .fontUrl{cursor: pointer;color: #20a0ff}
-.naAllGame-report .fontUrl:hover{text-decoration: underline;}
+  .naAllReport .clearFix:after {clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;}
+  .naAllReport .input{width: 25rem}
+  .naAllReport .page{padding-bottom: 2rem;text-align: right;margin-right: 1%;margin-top: 0.5rem;margin-top: 2rem}
+  .naAllReport .title{font-size: 1.5rem;margin: 0 0 0.5rem 0;font-weight: 600;display: inline-block}
+  .naAllReport .nowUserlist,
+  .naAllReport .childlist,
+  .naAllReport .playerlist{width: 99%;margin: 2rem auto}
+  .naAllReport .fontUrl{cursor: pointer;color: #20a0ff}
+  .naAllReport .fontUrl:hover{text-decoration: underline;}
 
-.green{color: #00CC00}
-.red{color: #FF3300}
+  .green{color: #00CC00}
+  .red{color: #FF3300}
 </style>

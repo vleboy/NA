@@ -11,7 +11,7 @@
                   <el-menu-item index="allReport" v-show="userRight.allGameReport.hasRight">公司输赢总报表</el-menu-item>
                   <el-submenu index="1-1" v-show="userRight.naVedioGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight || userRight.naMallReport.hasRight">
                       <template slot="title">NA游戏报表</template>
-                      <!-- <el-menu-item index="naAllGameReport">NA游戏总报表</el-menu-item> -->
+                      <el-menu-item index="naAllGameReport">NA游戏总报表</el-menu-item>
                       <el-menu-item index="naVedioGameReport" v-show="userRight.naVedioGameReport.hasRight">NA电子游戏报表</el-menu-item>
                       <el-menu-item index="naArcadeGameReport" v-show="userRight.naArcadeGameReport.hasRight">NA街机游戏报表</el-menu-item>
                       <el-menu-item index="naLiveGameReport" v-show="userRight.naLiveGameReport.hasRight">NA真人游戏报表</el-menu-item>
