@@ -13,10 +13,11 @@
                       <template slot="title">NA游戏报表</template>
                       <el-menu-item index="naAllGameReport">NA游戏总报表</el-menu-item>
                       <el-menu-item index="naVedioGameReport">NA电子游戏报表</el-menu-item>
-                      <!-- <el-menu-item index="naLiveGameReport">NA真人游戏报表</el-menu-item> -->
+                      <el-menu-item index="naLiveGameReport">NA真人游戏报表</el-menu-item>
+                      <el-menu-item index="commingSoon" ><a href="javascript:;" @click="getSign">NA真人游戏(跳转)</a></el-menu-item>
                       <el-menu-item index="naArcadeGameReport">NA街机游戏报表</el-menu-item>
-                      <el-menu-item index="naMallReport">NA棋牌游戏总报表</el-menu-item>
-                      <el-menu-item index="commingSoon" ><a href="javascript:;" @click="getSign">NA真人游戏</a></el-menu-item>
+                      <el-menu-item index="naMallReport">NA棋牌游戏报表</el-menu-item>
+                      
                   </el-submenu>
                   <el-submenu index="1-2">
                       <template slot="title">TTG游戏报表</template>
