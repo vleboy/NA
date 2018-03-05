@@ -6,17 +6,17 @@
               <div class="logo"><img style=" width: 70%;" src="static/NAlogo.png"></div>
               <el-menu-item index="board" v-show="userRight.board.hasRight">看板</el-menu-item>
               <el-menu-item index="personal" v-show="userRight.personal.hasRight">个人中心</el-menu-item>
-              <el-submenu index="1" v-show="userRight.naVedioGameReport.hasRight || userRight.naLiveGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight || userRight.ttgVedioGameReport.hasRight || userRight.saLiveGameReport.hasRight || userRight.mgVedioGameReport.hasRight || userRight.allGameReport.hasRight">
+              <el-submenu index="1" v-show="userRight.naVedioGameReport.hasRight || userRight.naLiveGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight || userRight.ttgVedioGameReport.hasRight || userRight.saLiveGameReport.hasRight || userRight.mgVedioGameReport.hasRight || userRight.allGameReport.hasRight || userRight.naAllGameReport.hasRight">
                   <template slot="title">输赢报表</template>
                   <el-menu-item index="allReport" v-show="userRight.allGameReport.hasRight">公司输赢总报表</el-menu-item>
                   <el-submenu index="1-1" v-show="userRight.naVedioGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight || userRight.naMallReport.hasRight">
                       <template slot="title">NA游戏报表</template>
-                      <el-menu-item index="naAllGameReport">NA游戏总报表</el-menu-item>
+                      <el-menu-item index="naAllGameReport" v-show="userRight.naAllGameReport.hasRight">NA游戏总报表</el-menu-item>
                       <el-menu-item index="naVedioGameReport" v-show="userRight.naVedioGameReport.hasRight">NA电子游戏报表</el-menu-item>
                       <el-menu-item index="naArcadeGameReport" v-show="userRight.naArcadeGameReport.hasRight">NA街机游戏报表</el-menu-item>
                       <el-menu-item index="naLiveGameReport" v-show="userRight.naLiveGameReport.hasRight">NA真人游戏报表</el-menu-item>
                       <el-menu-item index="commingSoon" ><a href="javascript:;" @click="getSign" v-show="userRight.naLiveGameReport.hasRight">NA真人游戏(跳转)</a></el-menu-item>
-                      <el-menu-item index="naMallReport" v-show="userRight.naMallReport.hasRight">NA商城总报表</el-menu-item>      
+                      <el-menu-item index="naMallReport" v-show="userRight.naMallReport.hasRight">NA棋牌游戏报表</el-menu-item>      
                   </el-submenu>
                   <el-submenu index="1-2" v-show="userRight.ttgVedioGameReport.hasRight">
                       <template slot="title">TTG游戏报表</template>
@@ -158,6 +158,10 @@ export default {
           hasRight: false,
           name: '公司输赢总报表'
         },
+        naAllGameReport: {
+          hasRight: false,
+          name: 'NA游戏总报表'
+        },
         naLiveGameReport: {
           hasRight: false,
           name: 'NA真人游戏'
@@ -172,8 +176,8 @@ export default {
         }, // NA街机游戏报表
         naMallReport: {
           hasRight: false,
-          name: 'NA商城总报表'
-        }, // NA商城总报表
+          name: 'NA棋牌游戏报表'
+        }, // NA棋牌游戏报表
         ttgVedioGameReport: {
           hasRight: false,
           name: 'TTG电子游戏报表'

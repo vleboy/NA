@@ -35,6 +35,12 @@ export const rightList = [
         children: [
           {
             isChecked: false,
+            name: 'NA游戏总报表',
+            hasParent: false,
+            children: ''
+          },
+          {
+            isChecked: false,
             name: 'NA电子游戏报表',
             hasParent: false,
             children: ''
@@ -47,7 +53,7 @@ export const rightList = [
           },
           {
             isChecked: false,
-            name: 'NA商城总报表',
+            name: 'NA棋牌游戏报表',
             hasParent: false,
             children: ''
           },

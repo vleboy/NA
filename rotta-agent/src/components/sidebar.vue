@@ -16,7 +16,7 @@
                       <el-menu-item index="naArcadeGameReport">NA街机游戏报表</el-menu-item>
                       <el-menu-item index="naLiveGameReport">NA真人游戏报表</el-menu-item>
                       <el-menu-item index="commingSoon" ><a href="javascript:;" @click="getSign">NA真人游戏(跳转)</a></el-menu-item>
-                      <el-menu-item index="naMallReport">NA商城总报表</el-menu-item>
+                      <el-menu-item index="naMallReport">NA棋牌游戏报表</el-menu-item>
                       
                   </el-submenu>
                   <el-submenu index="1-2">

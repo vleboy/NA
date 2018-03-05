@@ -299,7 +299,7 @@ const router = new Router({
     },
     {
       path: '/naMallReport',
-      name: 'NA商城总报表',
+      name: 'NA棋牌游戏报表',
       component: naMallReport,
       meta: {
         keepAlive: true

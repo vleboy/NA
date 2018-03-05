@@ -287,7 +287,7 @@
     <el-breadcrumb separator="/" v-if="nowindex === 'naMallReport'" class="title">
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item>NA游戏报表 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">NA商城总报表</span> </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">NA棋牌游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'ttgVedioGameReport'" class="title">
