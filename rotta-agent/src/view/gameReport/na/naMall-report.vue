@@ -762,7 +762,7 @@ export default {
     }, // 格式化用户类型
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
-      this.$router.push('playerdetail')
+      this.$router.push('agentPlayerDetail')
       this.$store.commit({
         type: 'playerUserName',
         data: row
