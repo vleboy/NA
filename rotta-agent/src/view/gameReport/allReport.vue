@@ -681,7 +681,7 @@ export default {
             }
             let _this = this
             Promise.all(allReady).then(result => {
-              this.clickChild.push(result.filter(element => {return element.allbetCount > 0}))
+            result.filter(element => {return element.allbetCount > 0}).length > 0 ? this.clickChild.push(result.filter(element => {return element.allbetCount > 0})) : ''
               _this.$store.commit('closeLoading')
             }).catch(err => {
               _this.$message({
@@ -793,7 +793,7 @@ export default {
                 }
                 let _this = this
                 Promise.all(allReady).then(result => {
-                   this.clickChild.push(result.filter(element => {return element.allbetCount > 0}))
+                  result.filter(element => {return element.allbetCount > 0}).length > 0 ? this.clickChild.push(result.filter(element => {return element.allbetCount > 0})) : ''
                   _this.$store.commit('closeLoading')
                 }).catch(err => {
                   _this.$message({
@@ -904,7 +904,7 @@ export default {
               }
               let _this = this
               Promise.all(allReady).then(result => {
-                this.clickChild.push(result.filter(element => {return element.allbetCount > 0}))
+              result.filter(element => {return element.allbetCount > 0}).length > 0 ? this.clickChild.push(result.filter(element => {return element.allbetCount > 0})) : ''
                 _this.$store.commit('closeLoading')
               }).catch(err => {
                 _this.$message({
