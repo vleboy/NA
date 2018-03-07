@@ -68,6 +68,7 @@ import BoothList from '@/view/operation/booth/boothList' // 展位管理
 import GameBackstage from '@/view/gameBackstage/gameBackstage' // 游戏后台
 
 import allReport from '@/view/gameReport/allReport' // 公司所有游戏总报表
+
 import naAllGameReport from '@/view/gameReport/na/naAllGame-report' // NA游戏总报表
 import naVedioGameReport from '@/view/gameReport/na/naVedioGame-report' // NA电子游戏报表
 import naLiveGameReport from '@/view/gameReport/na/naLiveGame-report' // NA真人游戏报表
@@ -75,9 +76,15 @@ import naArcadeGameReport from '@/view/gameReport/na/naArcadeGame-report' // NA�
 import naMallReport from '@/view/gameReport/na/naMall-report' // NA游戏总报表
 
 import ttgVedioGameReport from '@/view/gameReport/ttg/ttgVedioReport' // TTG电子游戏报表
+
 import saLiveGameReport from '@/view/gameReport/sa/saLiveGame-report' // SA真人游戏报表
+import saFishingGameReport from '@/view/gameReport/sa/saFishingGame-report' // SA捕鱼游戏报表
+
 import agLiveGameReport from '@/view/gameReport/ag/agLiveGame-report' // AG真人游戏报表
+
 import mgVedioGameReport from '@/view/gameReport/mg/mgVedioGame-report' // MG电子游戏报表
+
+import ugSportGameReport from '@/view/gameReport/ug/ugSportGame-report' // UG体育游戏报表
 
 import LineUp from '@/view/lineup/lineup' // 排队设置
 
@@ -379,6 +386,14 @@ const router = new Router({
       }
     },
     {
+      path: '/saFishingGameReport',
+      name: 'SA捕鱼游戏报表',
+      component: saFishingGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
       path: '/agLiveGameReport',
       name: 'AG真人游戏报表',
       component: agLiveGameReport,
@@ -390,6 +405,14 @@ const router = new Router({
       path: '/mgVedioGameReport',
       name: 'MG电子游戏报表',
       component: mgVedioGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/ugSportGameReport',
+      name: 'UG体育游戏报表',
+      component: ugSportGameReport,
       meta: {
         keepAlive: true
       }

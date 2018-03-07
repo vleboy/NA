@@ -27,6 +27,7 @@
                   <el-submenu index="1-3">
                       <template slot="title">SA游戏报表</template>
                       <el-menu-item index="saLiveGameReport">SA真人游戏报表</el-menu-item>
+                      <el-menu-item index="saFishingGameReport">SA捕鱼游戏报表</el-menu-item>
                   </el-submenu>
                   <el-submenu index="1-4">
                       <template slot="title">MG游戏报表</template>
@@ -35,6 +36,10 @@
                   <el-submenu index="1-5">
                       <template slot="title">AG游戏报表</template>
                       <el-menu-item index="agLiveGameReport">AG真人游戏报表</el-menu-item>
+                  </el-submenu>
+                  <el-submenu index="1-6">
+                      <template slot="title">UG体育游戏报表</template>
+                      <el-menu-item index="ugSportGameReport">UG体育游戏报表</el-menu-item>
                   </el-submenu>
               </el-submenu>
               <el-submenu index="2">

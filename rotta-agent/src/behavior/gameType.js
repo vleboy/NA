@@ -71,6 +71,16 @@ export const gameType = function (type) {
 	  x = 1090000; 
 	  break;  
 	  // 'IM电子竞技'
+
+	case 'ugSport':
+	  x = 1100000; 
+	  break;  
+	  // 'UG体育游戏'
+	
+	case 'saFishing':
+	  x = 1110000; 
+	  break;  
+	  // 'SA捕鱼游戏'
   }
   return x
 }

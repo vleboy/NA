@@ -85,6 +85,16 @@
             <span>{{points(scope.row.agSubmit)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="UG游戏(输赢金额)" prop="ugWinlose" align="left">
+          <template scope="scope">
+            <span :class="[Number(scope.row.ugWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ugWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="UG游戏(商家交公司)" prop="ugSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.ugSubmit)}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
 
@@ -163,6 +173,16 @@
         <el-table-column label="AG游戏(商家交公司)" prop="agSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.agSubmit)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="UG游戏(输赢金额)" prop="ugWinlose" align="left">
+          <template scope="scope">
+            <span :class="[Number(scope.row.ugWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ugWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="UG游戏(商家交公司)" prop="ugSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.ugSubmit)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -245,6 +265,16 @@
             <span>{{points(scope.row.agSubmit)}}</span>
           </template>
         </el-table-column>
+        <el-table-column label="UG游戏(输赢金额)" prop="ugWinlose" align="left">
+          <template scope="scope">
+            <span :class="[Number(scope.row.ugWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ugWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="UG游戏(商家交公司)" prop="ugSubmit" align="left">
+          <template scope="scope">
+            <span>{{points(scope.row.ugSubmit)}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
 
@@ -292,6 +322,11 @@
         <el-table-column label="AG游戏(输赢金额)" prop="agWinlose" align="left">
           <template scope="scope">
             <span :class="[Number(scope.row.agWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.agWinlose)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="UG游戏(输赢金额)" prop="ugWinlose" align="left">
+          <template scope="scope">
+            <span :class="[Number(scope.row.ugWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ugWinlose)}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -447,6 +482,8 @@ export default {
           user.mgSubmit = 0
           user.agWinlose = 0
           user.agSubmit = 0
+          user.ugWinlose = 0
+          user.ugSubmit = 0
           this.nowList = user
           if (localStorage.loginRole == 100) {
             let time = this.isSelect_time ? this.searchDate : getWeek()
@@ -456,15 +493,18 @@ export default {
               {code: gameType('naArcade'), company: 'na'},
               {code: gameType('ttgVedio'), company: 'ttg'},
               {code: gameType('saLive'), company: 'sa'},
+              {code: gameType('saFishing'), company: 'sa'},
               {code: gameType('mgVedio'), company: 'mg'},
-              {code: gameType('agLive'), company: 'ag'}
+              {code: gameType('agLive'), company: 'ag'},
+              {code: gameType('ugSport'), company: 'ug'}
             ] // 所有游戏类型
             let allCode = {
               na: [30000,40000,50000],
               ttg: [1010000],
               mg: [10300000],
-              sa: [1060000],
-              ag: [1050000]
+              sa: [1060000,1110000],
+              ag: [1050000],
+              ug: [1100000]
             }
             let data = {
               gameType: allGameTyle.map(game => {return game.code}),
@@ -499,9 +539,12 @@ export default {
                     } else if (allCode.ag.includes(Number(code))) {
                       this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
                       this.nowList.agSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (allCode.ug.includes(Number(code))) {
+                      this.nowList.ugWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.ugSubmit += data[0].gameTypeMap[code].submitAmount
                     }
-                    this.nowList.allWinlose = this.nowList.naWinlose + this.nowList.ttgWinlose + this.nowList.mgWinlose + this.nowList.saWinlose + this.nowList.agWinlose
-                    this.nowList.allSubmit = this.nowList.naSubmit + this.nowList.ttgSubmit + this.nowList.mgSubmit + this.nowList.saSubmit + this.nowList.agSubmit
+                    this.nowList.allWinlose = this.nowList.naWinlose + this.nowList.ttgWinlose + this.nowList.mgWinlose + this.nowList.saWinlose + this.nowList.agWinlose + this.nowList.ugWinlose
+                    this.nowList.allSubmit = this.nowList.naSubmit + this.nowList.ttgSubmit + this.nowList.mgSubmit + this.nowList.saSubmit + this.nowList.agSubmit + this.nowList.ugSubmit
                   }
                 }
               }
@@ -533,8 +576,10 @@ export default {
               {code: gameType('naArcade'), company: 'na'},
               {code: gameType('ttgVedio'), company: 'ttg'},
               {code: gameType('saLive'), company: 'sa'},
+              {code: gameType('saFishing'), company: 'sa'},
               {code: gameType('mgVedio'), company: 'mg'},
-              {code: gameType('agLive'), company: 'ag'}
+              {code: gameType('agLive'), company: 'ag'},
+              {code: gameType('ugSport'), company: 'ug'}
             ] // 所有游戏类型
 
             let allReady = [] // promise所有结果返回
@@ -542,8 +587,9 @@ export default {
               na: [30000,40000,50000],
               ttg: [1010000],
               mg: [10300000],
-              sa: [1060000],
-              ag: [1050000]
+              sa: [1060000,1110000],
+              ag: [1050000],
+              ug: [1100000]
             }
             for (let item of child) {
               let data = {
@@ -565,6 +611,8 @@ export default {
               item.mgSubmit = 0
               item.agWinlose = 0
               item.agSubmit = 0
+              item.ugWinlose = 0
+              item.ugSubmit = 0
               let pro = new Promise((resolve, reject) => {
                 invoke({
                   url: api.calcUserStat,
@@ -604,9 +652,14 @@ export default {
                           item.agSubmit += data[0].gameTypeMap[code].submitAmount
                           this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
                           this.nowList.role != 1 ? this.nowList.agSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                        } else if (allCode.ug.includes(Number(code))) {
+                          item.ugWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.ugSubmit += data[0].gameTypeMap[code].submitAmount
+                          this.nowList.ugWinlose += data[0].gameTypeMap[code].winloseAmount
+                          this.nowList.role != 1 ? this.nowList.ugSubmit += data[0].gameTypeMap[code].submitAmount : ''
                         }
-                        item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
-                        item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
+                        item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose + item.ugWinlose
+                        item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit + item.ugSubmit 
                       }
                       this.nowList.allWinlose += item.allWinlose
                       this.nowList.role != 1 ? this.nowList.allSubmit += item.allSubmit : ''
@@ -664,8 +717,10 @@ export default {
               {code: gameType('naArcade'), company: 'na'},
               {code: gameType('ttgVedio'), company: 'ttg'},
               {code: gameType('saLive'), company: 'sa'},
+              {code: gameType('saFishing'), company: 'sa'},
               {code: gameType('mgVedio'), company: 'mg'},
-              {code: gameType('agLive'), company: 'ag'}
+              {code: gameType('agLive'), company: 'ag'},
+              {code: gameType('ugSport'), company: 'ug'}
             ] // 所有游戏类型
 
             let allReady = [] // promise所有结果返回
@@ -673,8 +728,9 @@ export default {
               na: [30000,40000,50000],
               ttg: [1010000],
               mg: [10300000],
-              sa: [1060000],
-              ag: [1050000]
+              sa: [1060000,1110000],
+              ag: [1050000],
+              ug: [1100000]
             }
             for (let item of child) {
               let data = {
@@ -696,6 +752,8 @@ export default {
               item.mgSubmit = 0
               item.agWinlose = 0
               item.agSubmit = 0
+              item.ugWinlose = 0
+              item.ugSubmit = 0
               let pro = new Promise((resolve, reject) => {
                 invoke({
                   url: api.calcUserStat,
@@ -725,9 +783,12 @@ export default {
                         } else if (allCode.ag.includes(Number(code))) {
                           item.agWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                        } else if (allCode.ug.includes(Number(code))) {
+                          item.ugWinlose += data[0].gameTypeMap[code].winloseAmount
+                          item.ugSubmit += data[0].gameTypeMap[code].submitAmount
                         }
-                        item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
-                        item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
+                        item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose + item.ugWinlose
+                        item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit + item.ugSubmit
                       }
                     }
                     resolve(item)
@@ -776,8 +837,10 @@ export default {
                   {code: gameType('naArcade'), company: 'na'},
                   {code: gameType('ttgVedio'), company: 'ttg'},
                   {code: gameType('saLive'), company: 'sa'},
+                  {code: gameType('saFishing'), company: 'sa'},
                   {code: gameType('mgVedio'), company: 'mg'},
-                  {code: gameType('agLive'), company: 'ag'}
+                  {code: gameType('agLive'), company: 'ag'},
+                  {code: gameType('ugSport'), company: 'ug'}
                 ] // 所有游戏类型
 
                 let allReady = [] // promise所有结果返回
@@ -785,8 +848,9 @@ export default {
                   na: [30000,40000,50000],
                   ttg: [1010000],
                   mg: [10300000],
-                  sa: [1060000],
-                  ag: [1050000]
+                  sa: [1060000,1110000],
+                  ag: [1050000],
+                  ug: [1100000]
                 }
                 for (let item of child) {
                   let data = {
@@ -808,6 +872,8 @@ export default {
                   item.mgSubmit = 0
                   item.agWinlose = 0
                   item.agSubmit = 0
+                  item.ugWinlose = 0
+                  item.ugSubmit = 0
                   let pro = new Promise((resolve, reject) => {
                     invoke({
                       url: api.calcUserStat,
@@ -837,9 +903,12 @@ export default {
                             } else if (allCode.ag.includes(Number(code))) {
                               item.agWinlose += data[0].gameTypeMap[code].winloseAmount
                               item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                            } else if (allCode.ug.includes(Number(code))) {
+                              item.ugWinlose += data[0].gameTypeMap[code].winloseAmount
+                              item.ugSubmit += data[0].gameTypeMap[code].submitAmount
                             }
-                            item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
-                            item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
+                            item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose + item.ugWinlose
+                            item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit + item.ugSubmit
                           }
                         }
                         resolve(item)
@@ -887,8 +956,10 @@ export default {
                 {code: gameType('naArcade'), company: 'na'},
                 {code: gameType('ttgVedio'), company: 'ttg'},
                 {code: gameType('saLive'), company: 'sa'},
+                {code: gameType('saFishing'), company: 'sa'},
                 {code: gameType('mgVedio'), company: 'mg'},
-                {code: gameType('agLive'), company: 'ag'}
+                {code: gameType('agLive'), company: 'ag'},
+                {code: gameType('ugSport'), company: 'ug'}
               ] // 所有游戏类型
 
               let allReady = [] // promise所有结果返回
@@ -896,8 +967,9 @@ export default {
                 na: [30000,40000,50000],
                 ttg: [1010000],
                 mg: [10300000],
-                sa: [1060000],
-                ag: [1050000]
+                sa: [1060000,1110000],
+                ag: [1050000],
+                ug: [1100000]
               }
               for (let item of child) {
                 let data = {
@@ -919,6 +991,8 @@ export default {
                 item.mgSubmit = 0
                 item.agWinlose = 0
                 item.agSubmit = 0
+                item.ugWinlose = 0
+                item.ugSubmit = 0
                 let pro = new Promise((resolve, reject) => {
                   invoke({
                     url: api.calcUserStat,
@@ -948,9 +1022,12 @@ export default {
                           } else if (allCode.ag.includes(Number(code))) {
                             item.agWinlose += data[0].gameTypeMap[code].winloseAmount
                             item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                          } else if (allCode.ug.includes(Number(code))) {
+                            item.ugWinlose += data[0].gameTypeMap[code].winloseAmount
+                            item.ugSubmit += data[0].gameTypeMap[code].submitAmount
                           }
-                          item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose
-                          item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit
+                          item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose + item.ugWinlose
+                          item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit + item.ugSubmit
                         }
                       }
                       resolve(item)
@@ -1003,6 +1080,7 @@ export default {
             item.saWinlose = 0
             item.mgWinlose = 0
             item.agWinlose = 0
+            item.ugWinlose = 0
           })
           var result = []
           var cut_count = 50 // 数组切割长度
@@ -1017,8 +1095,10 @@ export default {
             {code: gameType('naArcade'), company: 'na'},
             {code: gameType('ttgVedio'), company: 'ttg'},
             {code: gameType('saLive'), company: 'sa'},
+            {code: gameType('saFishing'), company: 'sa'},
             {code: gameType('mgVedio'), company: 'mg'},
-            {code: gameType('agLive'), company: 'ag'}
+            {code: gameType('agLive'), company: 'ag'},
+            {code: gameType('ugSport'), company: 'ug'}
           ] // 所有游戏类型
 
           let allReady = [] // promise所有结果返回
@@ -1027,8 +1107,9 @@ export default {
             na: [30000,40000,50000],
             ttg: [1010000],
             mg: [10300000],
-            sa: [1060000],
-            ag: [1050000]
+            sa: [1060000,1110000],
+            ag: [1050000],
+            ug: [1100000]
           }
 
           for (let item of result) {
@@ -1065,8 +1146,10 @@ export default {
                             inside.saWinlose += player.gameTypeMap[code].winloseAmount
                           } else if (allCode.ag.includes(Number(code))) {
                             inside.agWinlose += player.gameTypeMap[code].winloseAmount
+                          } else if (allCode.ug.includes(Number(code))) {
+                            inside.ugWinlose += player.gameTypeMap[code].winloseAmount
                           }
-                          inside.allWinlose = inside.naWinlose + inside.ttgWinlose + inside.mgWinlose + inside.saWinlose + inside.agWinlose
+                          inside.allWinlose = inside.naWinlose + inside.ttgWinlose + inside.mgWinlose + inside.saWinlose + inside.agWinlose + inside.ugWinlose
                         }
                         this.nowPlayer.push(inside)
                       }

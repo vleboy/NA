@@ -302,6 +302,12 @@
       <el-breadcrumb-item><span  class="large">SA真人游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'saFishingGameReport'" class="title">
+      <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
+      <el-breadcrumb-item>SA游戏报表 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">SA捕鱼游戏报表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'mgVedioGameReport'" class="title">
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item>MG游戏报表 </el-breadcrumb-item>
@@ -312,6 +318,12 @@
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item>AG游戏报表 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">AG真人游戏报表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'ugSportGameReport'" class="title">
+      <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
+      <el-breadcrumb-item>UG游戏报表 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">UG体育游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'lineup'" class="title">

@@ -88,6 +88,12 @@ export const rightList = [
             name: 'SA真人游戏报表',
             hasParent: false,
             children: ''
+          },
+          {
+            isChecked: false,
+            name: 'SA捕鱼游戏报表',
+            hasParent: false,
+            children: ''
           }
         ]
       },
@@ -112,6 +118,19 @@ export const rightList = [
           {
             isChecked: false,
             name: 'AG真人游戏报表',
+            hasParent: false,
+            children: ''
+          }
+        ]
+      },
+      {
+        isChecked: false,
+        name: 'UG游戏报表',
+        hasParent: true,
+        children: [
+          {
+            isChecked: false,
+            name: 'UG体育游戏报表',
             hasParent: false,
             children: ''
           }
