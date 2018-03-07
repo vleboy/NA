@@ -28,9 +28,7 @@ export const invoke = async (cfg) => {
   const isToken = (cfg.isToken != 'false')
   try {
       const response = await axios.request(isToken ? requestConfig : noTokenRequestConfig)
-      // console.log(response.data.code)
-      if (response.data.code && response.data.code != 0) {
-        // console.log(response.data)
+      if (response.data.code != 0) {
         Message({
           type: 'error',
           message: response.data.msg,
