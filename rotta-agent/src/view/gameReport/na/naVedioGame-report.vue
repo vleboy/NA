@@ -379,7 +379,7 @@ export default {
       let require = {
         userId: localStorage.loginId
       }
-      let result1 = invoke({
+      invoke({
         url: api.reportInfo,
         method: api.post,
         data: require
