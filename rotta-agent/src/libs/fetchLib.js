@@ -27,15 +27,18 @@ export const invoke = async (cfg) => {
   } // 主要是针对接口不需要token情况下  默认是传递  不需要传递 isToken = false 即可
   const isToken = (cfg.isToken != 'false')
   try {
-     const response = await axios.request(isToken ? requestConfig : noTokenRequestConfig)
-     if (response.data.code != 0) {
+      const response = await axios.request(isToken ? requestConfig : noTokenRequestConfig)
+      // console.log(response.data.code)
+      if (response.data.code && response.data.code != 0) {
+        // console.log(response.data)
         Message({
-        type: 'error',
-        message: response.data.msg,
-      })
-      return [1, response]
-     }
-    return [0, response]
+          type: 'error',
+          message: response.data.msg,
+        })
+        return [1, response]
+      } else {
+        return [0, response]
+      }
   } catch (e) {
     if (!e.response || e.response.message) {
       store.state.variable.isloading = false
