@@ -96,20 +96,12 @@ export default {
         result => {
           const [err, ret] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
             this.loading = false
             this.userInfo.captcha = ''
             this.userInfo.getcode = ''
             this.getcaptcha()
           } else {
             var success = ret.data.payload
-            this.$message({
-              message: '登录成功',
-              type: 'success'
-            })
             this.loading = false
             this.$store.commit({
               type: 'recordToken',
@@ -136,6 +128,10 @@ export default {
             localStorage.setItem('loginRole', success.role)
             localStorage.setItem('loginUsername', success.username)
             localStorage.setItem('loginParentName', success.parentName)
+            this.$message({
+              message: '登陆成功',
+              type: 'success'
+            })
             this.$store.commit('changeIslogin')
           }
         }
