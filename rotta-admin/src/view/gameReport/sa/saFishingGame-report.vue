@@ -320,7 +320,6 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
-          console.log(333,user)
           if (user.gamelist && user.gameList.filter(game => {return game.code == gameType('saFishing')}).length == 0) {
             this.$message({
               message: '您尚未购买此游戏',
