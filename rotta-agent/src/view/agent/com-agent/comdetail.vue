@@ -10,11 +10,9 @@
                     <span v-if="show1">收起</span>
                 </span>
             </h4>
-            <p v-if="this.comdetail.parent !== '01' && this.$store.state.variable.comdetailID != loginId">所属代理: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
+            <p v-if="this.comdetail.parent != loginId">所属代理: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
             </p>
-            <p v-if="this.comdetail.parent !== '01' && this.$store.state.variable.comdetailID == loginId">所属代理: <span>{{comdetail.parentDisplayName}}</span>
-            </p>
-            <p v-if="this.comdetail.parent === '01'">所属代理: 无
+            <p v-else>所属代理: {{comdetail.parentDisplayName}}
             </p>
         </div>
         <el-collapse-transition>
@@ -848,6 +846,7 @@ export default {
       })
     }, // 代理对其下级代理存点
     player_storePoints (index, row) {
+      console.log(11,row)
       var obj = {
         type: 'player',
         userId: row.userId,
