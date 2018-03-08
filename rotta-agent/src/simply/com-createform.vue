@@ -165,7 +165,6 @@ export default {
           this.merchantInfo.sn = item.sn
         }
       }
-
       if (localStorage.loginSuffix == 'Agent') {
         !this.merchantInfo.sn ? this.merchantInfo.sn = 'NA369' : ''
       } else {
@@ -177,11 +176,7 @@ export default {
         this.merchantInfo.sn = ''
       } else {
         this.$refs[this.merchantInfo].resetFields()
-        if (localStorage.loginSuffix == 'Agent') {
-          this.merchantInfo.sn = 'NA369'
-        } else {
-          this.merchantInfo.sn = localStorage.loginSn
-        }
+        this.changeParent()
       }
     }
   },
