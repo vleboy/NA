@@ -61,13 +61,18 @@ import naAllGameReport from '@/view/gameReport/na/naAllGame-report' // NA游戏�
 import naVedioGameReport from '@/view/gameReport/na/naVedioGame-report' // NA电子游戏报表
 import naLiveGameReport from '@/view/gameReport/na/naLiveGame-report' // NA真人游戏报表
 import naArcadeGameReport from '@/view/gameReport/na/naArcadeGame-report' // NA街机游戏报表
-import naMallReport from '@/view/gameReport/na/naMall-report' // NA游戏总报表
+import naMallReport from '@/view/gameReport/na/naMall-report' // NA棋牌游戏报表
 
 import ttgVedioGameReport from '@/view/gameReport/ttg/ttgVedioReport' // TTG电子游戏报表
+
 import saLiveGameReport from '@/view/gameReport/sa/saLiveGame-report' // SA真人游戏报表
 import saFishingGameReport from '@/view/gameReport/sa/saFishingGame-report' // SA捕鱼游戏报表
+import saAllGameReport from '@/view/gameReport/sa/saAllGame-report' // SA游戏总报表
+
 import mgVedioGameReport from '@/view/gameReport/mg/mgVedioGame-report' // MG电子游戏报表
+
 import agLiveGameReport from '@/view/gameReport/ag/agLiveGame-report' // AG真人游戏报表
+
 import ugSportGameReport from '@/view/gameReport/ug/ugSportGame-report' // UG体育游戏报表
 
 import { Message } from 'element-ui'
@@ -327,6 +332,14 @@ const router = new Router({
       path: '/saFishingGameReport',
       name: 'SA捕鱼游戏报表',
       component: saFishingGameReport,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/saAllGameReport',
+      name: 'SA游戏总报表',
+      component: saAllGameReport,
       meta: {
         keepAlive: true
       }

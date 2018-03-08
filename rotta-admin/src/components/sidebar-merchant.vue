@@ -25,6 +25,7 @@
                   </el-submenu>
                   <el-submenu index="1-3">
                       <template slot="title">SA游戏报表</template>
+                      <el-menu-item index="saAllGameReport">SA游戏总报表</el-menu-item>
                       <el-menu-item index="saLiveGameReport">SA真人游戏报表</el-menu-item>
                       <el-menu-item index="saFishingGameReport">SA捕鱼游戏报表</el-menu-item>
                   </el-submenu>

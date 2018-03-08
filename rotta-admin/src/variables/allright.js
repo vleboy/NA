@@ -85,6 +85,12 @@ export const rightList = [
         children: [
           {
             isChecked: false,
+            name: 'SA游戏总报表',
+            hasParent: false,
+            children: ''
+          },
+          {
+            isChecked: false,
             name: 'SA真人游戏报表',
             hasParent: false,
             children: ''

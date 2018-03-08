@@ -308,6 +308,12 @@
       <el-breadcrumb-item><span  class="large">SA捕鱼游戏报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'saAllGameReport'" class="title">
+      <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
+      <el-breadcrumb-item>SA游戏报表 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">SA游戏总报表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'mgVedioGameReport'" class="title">
       <el-breadcrumb-item>输赢报表 </el-breadcrumb-item>
       <el-breadcrumb-item>MG游戏报表 </el-breadcrumb-item>

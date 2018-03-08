@@ -6,7 +6,7 @@
               <div class="logo"><img style=" width: 70%;" src="static/NAlogo.png"></div>
               <el-menu-item index="board" v-show="userRight.board.hasRight">看板</el-menu-item>
               <el-menu-item index="personal" v-show="userRight.personal.hasRight">个人中心</el-menu-item>
-              <el-submenu index="1" v-show="userRight.naVedioGameReport.hasRight || userRight.naLiveGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight || userRight.ttgVedioGameReport.hasRight || userRight.saLiveGameReport.hasRight || userRight.mgVedioGameReport.hasRight || userRight.allGameReport.hasRight || userRight.naAllGameReport.hasRight || userRight.saFishingGameReport.hasRight || userRight.ugSportGameReport.hasRight">
+              <el-submenu index="1" v-show="userRight.naVedioGameReport.hasRight || userRight.naLiveGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight || userRight.ttgVedioGameReport.hasRight || userRight.saLiveGameReport.hasRight || userRight.mgVedioGameReport.hasRight || userRight.allGameReport.hasRight || userRight.naAllGameReport.hasRight || userRight.saFishingGameReport.hasRight || userRight.ugSportGameReport.hasRight || userRight.saAllGameReport.hasRight">
                   <template slot="title">输赢报表</template>
                   <el-menu-item index="allReport" v-show="userRight.allGameReport.hasRight">公司输赢总报表</el-menu-item>
                   <el-submenu index="1-1" v-show="userRight.naVedioGameReport.hasRight || userRight.naArcadeGameReport.hasRight || userRight.naMallReport.hasRight || userRight.naMallReport.hasRight">
@@ -23,10 +23,11 @@
                       <!-- <el-menu-item index="ttgAllGameReport">TTG游戏总报表</el-menu-item> -->
                       <el-menu-item index="ttgVedioGameReport">TTG电子游戏报表</el-menu-item>
                   </el-submenu>
-                  <el-submenu index="1-3" v-show="userRight.saLiveGameReport.hasRight || userRight.saFishingGameReport.hasRight">
+                  <el-submenu index="1-3" v-show="userRight.saLiveGameReport.hasRight || userRight.saFishingGameReport.hasRight || userRight.saAllGameReport.hasRight">
                       <template slot="title">SA游戏报表</template>
-                      <el-menu-item index="saLiveGameReport">SA真人游戏报表</el-menu-item>
-                      <el-menu-item index="saFishingGameReport">SA捕鱼游戏报表</el-menu-item>
+                      <el-menu-item index="saAllGameReport" v-show="userRight.saAllGameReport.hasRight">SA游戏总报表</el-menu-item>
+                      <el-menu-item index="saLiveGameReport" v-show="userRight.saLiveGameReport.hasRight">SA真人游戏报表</el-menu-item>
+                      <el-menu-item index="saFishingGameReport" v-show="userRight.saFishingGameReport.hasRight">SA捕鱼游戏报表</el-menu-item>
                   </el-submenu>
                   <el-submenu index="1-4" v-show="userRight.mgVedioGameReport.hasRight">
                       <template slot="title">MG游戏报表</template>
@@ -195,6 +196,10 @@ export default {
           hasRight: false,
           name: 'SA捕鱼游戏报表'
         }, // SA捕鱼游戏报表
+        saAllGameReport: {
+          hasRight: false,
+          name: 'SA游戏总报表'
+        }, // SA游戏总报表
         mgVedioGameReport: {
           hasRight: false,
           name: 'MG电子游戏报表'
