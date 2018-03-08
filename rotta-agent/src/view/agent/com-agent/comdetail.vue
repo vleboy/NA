@@ -10,9 +10,11 @@
                     <span v-if="show1">收起</span>
                 </span>
             </h4>
-            <p v-if="this.comdetail.parent != loginId">所属代理: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
+            <p v-if="this.comdetail.parent !== '01' && this.$store.state.variable.comdetailID != loginId">所属代理: <span class="router-link" title="跳转至所属上级详情页" @click="goParent">{{comdetail.parentDisplayName}}</span>
             </p>
-            <p v-else>所属代理: {{comdetail.parentDisplayName}}
+            <p v-if="this.comdetail.parent !== '01' && this.$store.state.variable.comdetailID == loginId">所属代理: <span>{{comdetail.parentDisplayName}}</span>
+            </p>
+            <p v-if="this.comdetail.parent === '01'">所属代理: <span>{{comdetail.parentDisplayName}}</span>
             </p>
         </div>
         <el-collapse-transition>
