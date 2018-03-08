@@ -846,7 +846,6 @@ export default {
       })
     }, // 代理对其下级代理存点
     player_storePoints (index, row) {
-      console.log(11,row)
       var obj = {
         type: 'player',
         userId: row.userId,
