@@ -832,7 +832,7 @@ export default {
         userId: row.userId,
         role: '1000',
         username: row.username,
-        parentDispalyName: row.parentDisplayName, // 上级昵称
+        parentDisplayName: row.parentDisplayName, // 上级昵称
         parentId: row.parent, // 上级ID
         parentName: row.parentName // 上级用户名
       }
@@ -852,14 +852,12 @@ export default {
         type: 'player',
         userId: row.userId,
         userRole: '10000',
-        username: row.userName,
-        parentDispalyName: row.merchantName, // 上级昵称
+        userName: row.userName,
+        parentDisplayName: row.merchantName, // 上级昵称
         parentRoll: '1000', // 上级角色
-        parentId: row.parent, // 上级ID
+        fromUserId: row.parent, // 上级ID
         parentName: row.parentName // 上级用户名
       }
-      // console.log('操作的用户为 ' + row.userName + ' / ' + '操作的用户ID为 ' + row.userId + '/' + obj)
-      // console.log(obj)
       this.$store.commit({
         type: 'getpointsObject',
         data: obj
@@ -867,7 +865,7 @@ export default {
       this.$store.commit('startStoreDialog')
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'billtransfer'
+        data: 'playertransfer'
       })
     }, // 代理对玩家存点
     damn_withdrawPoints (index, row) {
@@ -875,7 +873,7 @@ export default {
         userId: row.userId,
         role: '1000',
         username: row.username,
-        parentDispalyName: row.parentDisplayName, // 上级昵称
+        parentDisplayName: row.parentDisplayName, // 上级昵称
         parentId: row.parent, // 上级ID
         parentName: row.parentName // 上级用户名
       }
@@ -895,10 +893,10 @@ export default {
         type: 'player',
         userId: row.userId,
         userRole: '10000',
-        username: row.userName,
-        parentDispalyName: row.merchantName, // 上级昵称
+        userName: row.userName,
+        parentDisplayName: row.merchantName, // 上级昵称
         parentRoll: '1000', // 上级角色
-        parentId: row.parent, // 上级ID
+        fromUserId: row.parent, // 上级ID
         parentName: row.parentName // 上级用户名
       }
       // console.log('操作的用户为 ' + row.userName + ' / ' + '操作的用户ID为 ' + row.userId + '/' + obj)
@@ -910,7 +908,7 @@ export default {
       this.$store.commit('startWithdrawDialog')
       this.$store.commit({
         type: 'getpointsIndex',
-        data: 'billtransfer'
+        data: 'playertransfer'
       })
     }, // 代理对玩家提点
     lockUser (index, row) {
@@ -1106,7 +1104,7 @@ export default {
         userId: this.comdetail.userId,
         role: '1000',
         username: this.comdetail.username,
-        parentDispalyName: this.comdetail.parentDisplayName, // 上级昵称
+        parentDisplayName: this.comdetail.parentDisplayName, // 上级昵称
         parentId: this.comdetail.parent, // 上级ID
         parentName: this.comdetail.parentName // 上级用户名
       }
@@ -1172,7 +1170,7 @@ export default {
         userId: this.comdetail.userId,
         role: '1000',
         username: this.comdetail.username,
-        parentDispalyName: this.comdetail.parentDisplayName, // 上级昵称
+        parentDisplayName: this.comdetail.parentDisplayName, // 上级昵称
         parentId: this.comdetail.parent, // 上级ID
         parentName: this.comdetail.parentName // 上级用户名
       }
@@ -1187,8 +1185,10 @@ export default {
       this.$store.commit('startWithdrawDialog')
     }, // 代理详情页提点
     getPlayerList () {
-      this.$store.commit(startLoading)
+      this.$store.commit('startLoading')
       this.$store.dispatch('getDetailPlayer')
+      let _this = this
+      setTimeout(function (){_this.$store.commit('closeLoading')},3000)
     }, // 刷新玩家列表
     getnowSize (size) {
       this.size = size

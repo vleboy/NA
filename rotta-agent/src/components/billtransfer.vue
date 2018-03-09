@@ -41,6 +41,12 @@
         </div>
         <div v-if="isfinish === true">
           <p class="success"><i class="el-icon-circle-check"></i>操作成功</p>
+          <p class="success">
+            起始账户: <span>{{successBack.fromDisplayName}}</span> <span class="red"> 减少点数: {{storePoints.amount}} </span>
+          </p>
+          <p class="success">
+            转入账户: <span>{{successBack.toDisplayName}}</span> <span class="green"> 增加点数: {{storePoints.amount}} </span>
+          </p>
           <div style="text-align:center">
             <el-button type="primary" @click="cancel">确定</el-button>
           </div>
@@ -65,6 +71,12 @@
           </div>
           <div v-if="isfinish === true">
             <p class="success"><i class="el-icon-circle-check"></i>操作成功</p>
+            <p class="success">
+              起始账户: <span>{{successBack.fromDisplayName}}</span> <span class="red"> 减少点数: {{withdrawPoints.amount}} </span>
+            </p>
+            <p class="success">
+              转入账户: <span>{{successBack.toDisplayName}}</span> <span class="green"> 增加点数: {{withdrawPoints.amount}} </span>
+            </p>
             <div style="text-align:center">
               <el-button type="primary" @click="cancel">确定</el-button>
             </div>
@@ -92,6 +104,12 @@
         </div>
         <div v-if="isfinish === true">
           <p class="success"><i class="el-icon-circle-check"></i>操作成功</p>
+          <p class="success">
+            起始账户: <span>{{successBack.parentDisplayName}}</span> <span class="red"> 减少点数: {{storePoints.amount}} </span>
+          </p>
+          <p class="success">
+            转入账户: <span>{{successBack.userName}}</span> <span class="green"> 增加点数: {{storePoints.amount}} </span>
+          </p>
           <div style="text-align:center">
             <el-button type="primary" @click="cancel">确定</el-button>
           </div>
@@ -116,6 +134,12 @@
           </div>
           <div v-if="isfinish === true">
             <p class="success"><i class="el-icon-circle-check"></i>操作成功</p>
+            <p class="success">
+            起始账户: <span>{{successBack.userName}}</span> <span class="red"> 减少点数: {{withdrawPoints.amount}} </span>
+            </p>
+            <p class="success">
+              转入账户: <span>{{successBack.parentDisplayName}}</span> <span class="green"> 增加点数: {{withdrawPoints.amount}} </span>
+            </p>
             <div style="text-align:center">
               <el-button type="primary" @click="cancel">确定</el-button>
             </div>
@@ -175,6 +199,7 @@ export default {
         remark: ''
       }, // 提点明细
       contractPeriod: '',
+      successBack: '', // 加减点成功后返回的数据
       isforever: false
     }
   },
@@ -205,6 +230,7 @@ export default {
         amount: '',
         remark: ''
       } // 提点明细
+      this.successBack = ''
     },
     postStore () {
       this.loading = true
@@ -221,7 +247,6 @@ export default {
       }
       data.toUser = this.$store.state.variable.dialogObj.username
       if (!this.storePoints.amount || Number(this.storePoints.amount) < 0 || isNaN(this.storePoints.amount) === true) {
-        // console.log(data)
         this.$message({
           message: '请完善存点信息',
           type: 'error'
@@ -249,7 +274,7 @@ export default {
               this.loading = false
             } else {
               var data = ret.data.payload
-              // console.log('存点成功返回', data)
+              this.successBack = data
               this.loading = false
               this.isfinish = true
               if (this.$store.state.variable.nowIndex == 'comlist') {
@@ -283,9 +308,7 @@ export default {
         }
       }
       data.toRole = '1000'
-      // console.log('1:', data)
       if (!this.withdrawPoints.amount || Number(this.withdrawPoints.amount) < 0 || isNaN(this.withdrawPoints.amount) === true) {
-        // console.log(data)
         this.loading = false
         this.$message({
           message: '请完善存点信息',
@@ -312,7 +335,7 @@ export default {
               })
             } else {
               var data = ret.data.payload
-              // console.log('提点成功返回', data)
+              this.successBack = data
               this.loading = false
               this.isfinish = true
               if (this.$store.state.variable.nowIndex == 'comlist') {
@@ -349,16 +372,18 @@ export default {
           data: data
         }).then(
           result => {
-            const [err, res] = result
+            const [err, ret] = result
             if (err) {
               this.$message({
                 message: err.msg,
                 type: 'error'
               })
             } else {
+              this.successBack = this.$store.state.variable.dialogObj
               this.$message.success('提交成功')
               this.loading = false
               this.isfinish = true
+              this.$store.dispatch('getDetailPlayer')
               this.$store.dispatch('getAgentPlayer')
               this.$store.dispatch('getSelfData')
             }
@@ -387,16 +412,18 @@ export default {
           data: data
         }).then(
           result => {
-            const [err, res] = result
+            const [err, ret] = result
             if (err) {
               this.$message({
                 message: err.msg,
                 type: 'error'
               })
             } else {
+              this.successBack = this.$store.state.variable.dialogObj
               this.$message.success('提交成功')
               this.loading = false
               this.isfinish = true
+              this.$store.dispatch('getDetailPlayer')
               this.$store.dispatch('getAgentPlayer')
               this.$store.dispatch('getSelfData')
             }
@@ -426,7 +453,6 @@ export default {
             })
           } else {
             var data = ret.data.payload
-            // console.log(data)
             this.$message({
               message: '解锁成功',
               type: 'success'
@@ -443,6 +469,8 @@ export default {
 </script>
 
 <style scoped>
+.green{color: #00CC00}
+.red{color: #FF3300}
 .billTransfer .bottom-btn{text-align: center;}
 .billTransfer .distance{margin-right: 10%}
 .billTransfer .dialogInput{width: 80%}

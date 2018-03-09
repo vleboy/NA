@@ -424,7 +424,7 @@ export default {
         userId: row.userId,
         role: row.role,
         username: row.username,
-        parentDispalyName: row.parentDisplayName, // 上级昵称
+        parentDisplayName: row.parentDisplayName, // 上级昵称
         parentId: row.parent, // 上级ID
         parentName: row.parentName // 上级用户名
       }
@@ -443,7 +443,7 @@ export default {
         userId: row.userId,
         role: row.role,
         username: row.username,
-        parentDispalyName: row.parentDisplayName, // 上级昵称
+        parentDisplayName: row.parentDisplayName, // 上级昵称
         parentId: row.parent, // 上级ID
         parentName: row.parentName // 上级用户名
       }
@@ -463,7 +463,7 @@ export default {
         userId: row.userId, // 玩家ID
         role: row.role, // 玩家角色类别
         userName: row.userName, // 玩家用户名
-        parentDispalyName: row.parentDisplayName, // 上级昵称
+        parentDisplayName: row.merchantName, // 上级昵称
         fromUserId: row.parent, // 上级ID
         parentName: row.parentName // 上级用户名
       }
@@ -482,7 +482,7 @@ export default {
         userId: row.userId, // 玩家ID
         role: row.role, // 玩家角色类别
         userName: row.userName,
-        parentDispalyName: row.parentDisplayName, // 上级昵称
+        parentDisplayName: row.merchantName, // 上级昵称
         fromUserId: row.parent, // 上级ID
         parentName: row.parentName // 上级用户名
       }

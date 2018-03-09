@@ -442,11 +442,7 @@ export default {
             let naAllGameTyle = [
               {code: gameType('naLive'), company: 'na'},
               {code: gameType('naVedio'), company: 'na'},
-              {code: gameType('naArcade'), company: 'na'},
-              {code: gameType('ttgVedio'), company: 'ttg'},
-              {code: gameType('saLive'), company: 'sa'},
-              {code: gameType('mgVedio'), company: 'mg'},
-              {code: gameType('agLive'), company: 'ag'}
+              {code: gameType('naArcade'), company: 'na'}
             ] // 所有游戏类型
 
             let naAllReady = [] // promise所有结果返回
@@ -561,11 +557,7 @@ export default {
             let naAllGameTyle = [
               {code: gameType('naLive'), company: 'na'},
               {code: gameType('naVedio'), company: 'na'},
-              {code: gameType('naArcade'), company: 'na'},
-              {code: gameType('ttgVedio'), company: 'ttg'},
-              {code: gameType('saLive'), company: 'sa'},
-              {code: gameType('mgVedio'), company: 'mg'},
-              {code: gameType('agLive'), company: 'ag'}
+              {code: gameType('naArcade'), company: 'na'}
             ] // 所有游戏类型
 
             let naAllReady = [] // promise所有结果返回
@@ -661,11 +653,7 @@ export default {
                 let naAllGameTyle = [
                   {code: gameType('naLive'), company: 'na'},
                   {code: gameType('naVedio'), company: 'na'},
-                  {code: gameType('naArcade'), company: 'na'},
-                  {code: gameType('ttgVedio'), company: 'ttg'},
-                  {code: gameType('saLive'), company: 'sa'},
-                  {code: gameType('mgVedio'), company: 'mg'},
-                  {code: gameType('agLive'), company: 'ag'}
+                  {code: gameType('naArcade'), company: 'na'}
                 ] // 所有游戏类型
 
                 let naAllReady = [] // promise所有结果返回
@@ -761,10 +749,6 @@ export default {
                 {code: gameType('naLive'), company: 'na'},
                 {code: gameType('naVedio'), company: 'na'},
                 {code: gameType('naArcade'), company: 'na'},
-                {code: gameType('ttgVedio'), company: 'ttg'},
-                {code: gameType('saLive'), company: 'sa'},
-                {code: gameType('mgVedio'), company: 'mg'},
-                {code: gameType('agLive'), company: 'ag'}
               ] // 所有游戏类型
 
               let naAllReady = [] // promise所有结果返回
@@ -880,11 +864,7 @@ export default {
           let naAllGameTyle = [
             {code: gameType('naLive'), company: 'na'},
             {code: gameType('naVedio'), company: 'na'},
-            {code: gameType('naArcade'), company: 'na'},
-            {code: gameType('ttgVedio'), company: 'ttg'},
-            {code: gameType('saLive'), company: 'sa'},
-            {code: gameType('mgVedio'), company: 'mg'},
-            {code: gameType('agLive'), company: 'ag'}
+            {code: gameType('naArcade'), company: 'na'}
           ] // 所有游戏类型
 
           let naAllReady = [] // promise所有结果返回
