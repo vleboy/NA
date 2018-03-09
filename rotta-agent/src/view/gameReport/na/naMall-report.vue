@@ -384,7 +384,7 @@ export default {
                         if (item.userName == side.userName) {
                           item.betCount = side.betCount
                           item.betAmount = side.betAmount
-                          if (!this.nowChild) {
+                          if (this.nowChild.length == 0) {
                             this.nowList.betCount += item.betCount
                             this.nowList.betAmount += item.betAmount
                           }
@@ -700,10 +700,6 @@ export default {
                         if (item.userName == side.userName) {
                           item.betCount = side.betCount
                           item.betAmount = side.betAmount
-                          if (!this.nowChild) {
-                            this.nowList.betCount += item.betCount
-                            this.nowList.betAmount += item.betAmount
-                          }
                         }
                       })
                     })

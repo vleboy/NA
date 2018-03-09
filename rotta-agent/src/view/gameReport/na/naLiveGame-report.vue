@@ -566,12 +566,13 @@ export default {
                     item.map(item=> {
                       data.map(side =>{
                         if (item.userName == side.userName) {
+                          item.mixAmount = side.mixAmount
                           item.betCount = side.betCount
                           item.betAmount = side.betAmount
                           item.winloseAmount = side.winloseAmount
                           item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                           item.nowallBet = item.nowBouns + side.winloseAmount
-                          if (!this.nowChild) {
+                          if (this.nowChild.length == 0) {
                             this.nowList.betCount += item.betCount
                             this.nowList.betAmount += item.betAmount
                             this.nowList.winloseAmount += item.winloseAmount
@@ -910,14 +911,6 @@ export default {
                           item.winloseAmount = side.winloseAmount
                           item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                           item.nowallBet = item.nowBouns + side.winloseAmount
-                          if (!this.nowChild) {
-                            this.nowList.betCount += item.betCount
-                            this.nowList.betAmount += item.betAmount
-                            this.nowList.winloseAmount += item.winloseAmount
-                            this.nowList.mixAmount += item.mixAmount
-                            this.nowList.nowallBet += item.nowallBet
-                            this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
-                          }
                         }
                       })
                     })
