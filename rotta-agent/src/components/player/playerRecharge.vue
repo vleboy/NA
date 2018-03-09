@@ -67,16 +67,17 @@
         return `【代理】${this.dataProp.parentName}`
       },
       parentPoints () {
-        return `上级代理可分配点数为:${this.agentPoints || 0}`
+        return this.isSaveStatus ? `上级代理可分配点数为:${this.agentPoints || 0}` : `当前玩家剩余点数为：${this.dataProp.balance}`
       }
     },
     methods:{
       getList() {
+        if (!this.isSaveStatus) return
         invoke({
           url: api.getAgentPoint,
           method: api.post,
           data: {
-            userId: this.balanceInfo.fromUserId
+            userId: this.dataProp.fromUserId
           }
         }).then(
           result => {
