@@ -335,6 +335,48 @@ export default {
           user.saFishingWinlose = 0
           user.saFishingSubmit = 0
           this.nowList = user
+          if (localStorage.loginSuffix != 'Agent') {
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+            let saAllGameTyle = [
+              {code: gameType('saFishing'), company: 'sa'},
+              {code: gameType('saLive'), company: 'sa'}
+            ] // 所有游戏类型
+            let saAllCode = {
+              saLive: 1060000,
+              saFishing: 1110000
+            }
+            let data = {
+              gameType: saAllGameTyle.map(game => {return game.code}),
+              role: '1000',
+              userIds: [localStorage.loginId],
+              query: {createdAt: time}
+            }
+            invoke({
+              url: api.calcUserStat,
+              method: api.post,
+              data: data
+            }).then(result => {
+              const [err,ret] = result
+              if (err) {
+              } else {
+                var data = ret.data.payload
+                if (data) {
+                  this.nowList.saAllbetCount = data[0].betCount
+                  for (let code in data[0].gameTypeMap) {
+                    if (saAllCode.saLive == code) {
+                      this.nowList.saLiveWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.saLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (saAllCode.saFishing == code) {
+                      this.nowList.saFishingWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.saFishingSubmit += data[0].gameTypeMap[code].submitAmount
+                    }
+                    this.nowList.saAllWinlose = this.nowList.saLiveWinlose + this.nowList.saFishingWinlose
+                    this.nowList.saAllSubmit = this.nowList.saLiveSubmit + this.nowList.saFishingSubmit
+                  }
+                }
+              }
+            })
+          }
         }
       })
     }, // 获取登陆用户报表基本信息

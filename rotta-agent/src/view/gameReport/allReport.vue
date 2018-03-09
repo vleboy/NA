@@ -483,6 +483,71 @@ export default {
           user.ugWinlose = 0
           user.ugSubmit = 0
           this.nowList = user
+          if (localStorage.loginSuffix != 'Agent') {
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+            let allGameTyle = [
+              {code: gameType('naLive'), company: 'na'},
+              {code: gameType('naVedio'), company: 'na'},
+              {code: gameType('naArcade'), company: 'na'},
+              {code: gameType('ttgVedio'), company: 'ttg'},
+              {code: gameType('saLive'), company: 'sa'},
+              {code: gameType('saFishing'), company: 'sa'},
+              {code: gameType('mgVedio'), company: 'mg'},
+              {code: gameType('agLive'), company: 'ag'},
+              {code: gameType('ugSport'), company: 'ug'}
+            ] // 所有游戏类型
+            let allCode = {
+              na: [30000,40000,50000],
+              ttg: [1010000],
+              mg: [10300000],
+              sa: [1060000,1110000],
+              ag: [1050000],
+              ug: [1100000]
+            }
+            let data = {
+              gameType: allGameTyle.map(game => {return game.code}),
+              role: '1000',
+              userIds: [localStorage.loginId],
+              query: {createdAt: time}
+            }
+            invoke({
+              url: api.calcUserStat,
+              method: api.post,
+              data: data
+            }).then(result => {
+              const [err,ret] = result
+              if (err) {
+              } else {
+                var data = ret.data.payload
+                if (data) {
+                  this.nowList.allbetCount = data[0].betCount
+                  for (let code in data[0].gameTypeMap) {
+                    if (allCode.na.includes(Number(code))) {
+                      this.nowList.naWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.naSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (allCode.ttg.includes(Number(code))) {
+                      this.nowList.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.ttgSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (allCode.mg.includes(Number(code))) {
+                      this.nowList.mgWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.mgSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (allCode.sa.includes(Number(code))) {
+                      this.nowList.saWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.saSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (allCode.ag.includes(Number(code))) {
+                      this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.agSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (allCode.ug.includes(Number(code))) {
+                      this.nowList.ugWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.ugSubmit += data[0].gameTypeMap[code].submitAmount
+                    }
+                    this.nowList.allWinlose = this.nowList.naWinlose + this.nowList.ttgWinlose + this.nowList.mgWinlose + this.nowList.saWinlose + this.nowList.agWinlose + this.nowList.ugWinlose
+                    this.nowList.allSubmit = this.nowList.naSubmit + this.nowList.ttgSubmit + this.nowList.mgSubmit + this.nowList.saSubmit + this.nowList.agSubmit + this.nowList.ugSubmit
+                  }
+                }
+              }
+            })
+          }
         }
       })
     }, // 获取登陆用户报表基本信息

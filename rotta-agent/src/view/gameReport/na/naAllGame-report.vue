@@ -372,6 +372,53 @@ export default {
           user.naArcadeWinlose = 0
           user.naArcadeSubmit = 0
           this.nowList = user
+          if (localStorage.loginSuffix != 'Agent') {
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+            let naAllGameTyle = [
+              {code: gameType('naVedio'), company: 'na'},
+              {code: gameType('naArcade'), company: 'na'},
+              {code: gameType('naLive'), company: 'na'}
+            ] // 所有游戏类型
+            let naAllCode = {
+              naLive: 30000,
+              naVedio: 40000,
+              naArcade: 50000
+            }
+            let data = {
+              gameType: naAllGameTyle.map(game => {return game.code}),
+              role: '1000',
+              userIds: [localStorage.loginId],
+              query: {createdAt: time}
+            }
+            invoke({
+              url: api.calcUserStat,
+              method: api.post,
+              data: data
+            }).then(result => {
+              const [err,ret] = result
+              if (err) {
+              } else {
+                var data = ret.data.payload
+                if (data) {
+                  this.nowList.naAllbetCount = data[0].betCount
+                  for (let code in data[0].gameTypeMap) {
+                    if (naAllCode.naLive == code) {
+                      this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (naAllCode.naVedio == code) {
+                      this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
+                    } else if (naAllCode.naArcade == code) {
+                      this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                      this.nowList.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
+                    }
+                    this.nowList.naAllWinlose = this.nowList.naLiveWinlose + this.nowList.naVedioWinlose + this.nowList.naArcadeWinlose
+                    this.nowList.naAllSubmit = this.nowList.naLiveSubmit + this.nowList.naVedioSubmit + this.nowList.naArcadeSubmit
+                  }
+                }
+              }
+            })
+          }
         }
       })
     }, // 获取登陆用户报表基本信息
