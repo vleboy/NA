@@ -17,8 +17,11 @@
       </div>
       <!-- 主内容区路由 -->
       <div :class="{'main-right-true': isSlider, 'main-right-false': !isSlider }" id="routerBox" @click="closeMap">
-        <div class="right-content">
-          <router-view v-loading="loading" element-loading-text="正在为您加载" style='z-index:1000'></router-view>
+        <div class="right-content" v-loading="loading" element-loading-text="正在为您加载" style='z-index:1000'>
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive"></router-view>
+          </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive"></router-view>
         </div>
       </div>
       <!-- 层级关系 -->
