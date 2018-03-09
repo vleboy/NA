@@ -309,7 +309,7 @@ export default {
       this.getLoginSelf()
       this.getLoginChild(localStorage.loginId)
       localStorage.loginSuffix != 'Agent' ? this.getPlayer({
-        displayName: localStorage.loginDislayName,
+        displayName: localStorage.loginDisplayName,
         userId: localStorage.loginId,
         parent: localStorage.parentID
       }, true) : ''

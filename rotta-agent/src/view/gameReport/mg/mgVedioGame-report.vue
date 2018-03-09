@@ -1,4 +1,4 @@
-<template>
+s<template>
   <div class="mgVedioGame-report" @click="getTimer">
     <div class="nowUserlist">
 
@@ -370,7 +370,7 @@ export default {
       this.getLoginChild(localStorage.loginId)
       if (localStorage.loginSuffix != 'Agent') {
         this.getLoginPlayer({
-          displayName: localStorage.loginDislayName,
+          displayName: localStorage.loginDisplayName,
           userId: localStorage.loginId
         })
       }

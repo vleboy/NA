@@ -124,6 +124,7 @@ export default {
             localStorage.setItem('loginSuffix', success.suffix)
             localStorage.setItem('loginSn', success.sn)
             localStorage.setItem('loginParent', success.parent)
+            localStorage.setItem('loginDisplayName', success.displayName)
             localStorage.setItem('loginId', success.userId)
             localStorage.setItem('loginRole', success.role)
             localStorage.setItem('loginUsername', success.username)
