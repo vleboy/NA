@@ -317,7 +317,7 @@ export default {
       this.getLoginSelf()
       localStorage.loginRole != '100' ? this.getLoginChild(localStorage.loginId) : ''
       localStorage.loginRole == '100' ? this.getPlayer({
-        displayName: localStorage.loginDislayName,
+        displayName: localStorage.loginDisplayName,
         userId: localStorage.loginId,
         parent: localStorage.parentID
       }, true) : ''

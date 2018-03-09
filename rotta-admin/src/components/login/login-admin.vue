@@ -128,7 +128,7 @@ export default {
             localStorage.setItem('loginSubrole', success.subRole)
             localStorage.setItem('userRight', crypto.aesEncrypt(JSON.stringify(success.subRolePermission), key))
             localStorage.setItem('loginRole', success.role)
-            localStorage.setItem('loginDislayName', success.displayName)
+            localStorage.setItem('loginDisplayName', success.displayName)
             localStorage.setItem('loginUsername', success.username)
             this.$store.commit('changeIslogin')
           }
