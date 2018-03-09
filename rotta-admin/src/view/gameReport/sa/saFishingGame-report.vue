@@ -320,7 +320,7 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
-          if (user.gamelist && user.gameList.filter(game => {return game.code == gameType('saFishing')}).length == 0) {
+          if (user.gameList && user.gameList.filter(game => {return game.code == gameType('saFishing')}).length == 0) {
             this.$message({
               message: '您尚未购买此游戏',
               type: 'warning'
