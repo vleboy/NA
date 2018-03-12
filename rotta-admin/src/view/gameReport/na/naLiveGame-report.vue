@@ -782,6 +782,7 @@ export default {
                           item.betCount = side.betCount
                           item.betAmount = side.betAmount
                           item.winloseAmount = side.winloseAmount
+                          item.mixAmount = side.mixAmount
                           if (localStorage.loginRole == '100') {
                             this.nowList.betCount += item.betCount
                             this.nowList.betAmount += item.betAmount
