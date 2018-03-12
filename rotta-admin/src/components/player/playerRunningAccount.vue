@@ -106,12 +106,17 @@ $<template>
               </template>
             </el-table-column>
           </el-table>
-          <div style="text-align: right;margin:2rem 0">
-            <el-pagination layout="prev, pager, next, jumper" :total="playerAccountList.length"
-                           :page-size="20" @size-change="getNowsize" @current-change="getNowpage"
-                           :current-page.sync="currentPage">
-            </el-pagination>
-          </div>
+          <el-row style="padding: 20px 0">
+            <el-col :span="12">
+              <el-button type="primary" @click="exportData">导出数据</el-button>
+            </el-col>
+            <el-col :span="12" class="g-text-right">
+              <el-pagination layout="prev, pager, next, jumper" :total="playerAccountList.length"
+                             :page-size="20" @size-change="getNowsize" @current-change="getNowpage"
+                             :current-page.sync="currentPage">
+              </el-pagination>
+            </el-col>
+          </el-row>
         </div>
       </div>
     </div>
@@ -307,6 +312,9 @@ export default {
     jumpAccount () {
       this.radioTime = '1'
       this.changeDate()
+    },
+    exportData () {
+      window.open(`${api.exportFlow}?userName=${localStorage.playerName}&type=${this.radioType}&action=${this.radioMoney}&startTime=${this.amountDate ? this.startDate : ''}&endTime=${this.amountDate ? this.endDate : ''}`)
     }
   },
   filters:{   //过滤器，所有数字保留两位小数

@@ -221,6 +221,10 @@ const api = {
 
   playerDetail: front.playerExt + front.stage + '/player/info', // 玩家详细基本信息
 
+  exportFlow: front.playerExt + front.stage + '/player/bill/flow/download', // 导出流水
+
+  exportDetail: front.playerExt + front.stage + '/player/bill/detail/download', // 导出交易记录
+
   // methods
   get: 'get',
 

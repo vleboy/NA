@@ -90,18 +90,23 @@
           </template>
         </el-table-column>
       </el-table>
-      <div style="text-align: right;margin:2rem 0">
-        <div style="margin-bottom: 10px;font-size: 15px;" v-if='radioInfo!=-1'>本页输赢总计:
+      <el-row style="padding: 20px 0">
+        <el-col :span="12">
+          <el-button type="primary" @click="exportData">导出数据</el-button>
+        </el-col>
+        <el-col :span="12" class="g-text-right">
+          <div style="margin-bottom: 10px;font-size: 15px;" v-if='radioInfo!=-1'>本页输赢总计:
               <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">
                 {{formatPoints(allAmountFun)}}
               </span>
-        </div>
+          </div>
 
-        <el-pagination layout="prev, pager, next, jumper" :total="playerDetailList.length"
-                       :page-size="20" @size-change="getNowsize" @current-change="getNowpage"
-                       :current-page.sync="currentPage">
-        </el-pagination>
-      </div>
+          <el-pagination layout="prev, pager, next, jumper" :total="playerDetailList.length"
+                         :page-size="20" @size-change="getNowsize" @current-change="getNowpage"
+                         :current-page.sync="currentPage">
+          </el-pagination>
+        </el-col>
+      </el-row>
     </div>
 
     <el-dialog title="战绩详细" :visible.sync="isOpenModalBill" class="g-text-center">
@@ -368,7 +373,13 @@
       }, // 格式化创建时间
       formatPoints (num) {
         return thousandFormatter(num)
-      } // 千位符格式化
+      }, // 千位符格式化
+      exportData () {
+        let [startTime, endTime] = this.amountDate
+        startTime = new Date(startTime).getTime()
+        endTime = new Date(endTime).getTime()
+        window.open(`${api.exportDetail}?userName=${this.$store.state.variable.playerUserName || localStorage.playerName}&company=${this.companyInfo}&gameType=${this.radioInfo}&startTime=${startTime}&endTime=${endTime}`)
+      }
     }
   }
 </script>
