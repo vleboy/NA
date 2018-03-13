@@ -54,6 +54,28 @@
       <el-breadcrumb-item><span  class="large">玩家流水账详情</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-breadcrumb separator="/" v-if="nowindex === 'prizePlayerList'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>神秘大奖 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">玩家中奖列表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'prizeConfig'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>神秘大奖 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">奖品配置</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'gameNoticeList'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">游戏公告列表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'horseRaceLampList'" class="title">
+      <el-breadcrumb-item>运营中心 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">跑马灯列表</span> </el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-breadcrumb separator="/" v-if="nowindex === 'outcreate'" class="title">
       <el-breadcrumb-item>商户中心 </el-breadcrumb-item>
       <el-breadcrumb-item>线路商管理 </el-breadcrumb-item>

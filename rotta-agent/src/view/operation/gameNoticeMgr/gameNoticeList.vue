@@ -83,7 +83,6 @@
             class="g-avatar-uploader"
             ref="upload"
             :http-request="requestHeader"
-            :on-success="handleSuccess"
             :on-error="handleError"
             :before-upload="beforeUpload"
             :file-list="fileList"
@@ -316,7 +315,10 @@ export default {
       }
     }, // 控制搜索条件
     resetSearch () {
-      this.searchInfo = {}
+      this.searchInfo = {
+        searchId: '',
+        searchName: ''
+      }
       this.searchArray = []
       this.getGameNoticeList()
     },
@@ -405,27 +407,11 @@ export default {
         data: this.imgFile,
         isToken: 'false'
       }).then(res => {
-        const [err, ret] = res
-        if (err) {
-          this.dialogLoading = false
-          this.$message({
-            message: err.msg,
-            type: 'error'
-          })
-        } else {
-          this.dialogLoading = false
-          this.$message.success('上传成功')
-          this.noticeInfo.img = (process.env.NODE_ENV == 'development') ? dev : prod
-//           console.log(this.noticeInfo.img, 'this.noticeInfo.img')
-        }
+        this.dialogLoading = false
+        this.$message.success('上传成功')
+        this.noticeInfo.img = (process.env.NODE_ENV == 'development') ? dev : prod
       })
     },
-    handleSuccess (response, file, fileList) {
-      this.dialogLoading = false
-      this.$message.success('上传成功')
-      this.fileList = fileList
-//      this.noticeInfo.img = `https://ouef62ous.bkt.clouddn.com/${response.key}`
-    }, // 图片上传成功回调
     beforeUpload (file) {
       let fileName = this.suffixFun(file.name)
       const isLt1M = file.size / 1024 / 1024 < 10

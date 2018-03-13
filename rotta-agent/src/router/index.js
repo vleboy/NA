@@ -45,6 +45,10 @@ import Addadmin from '@/view/system/admin-manage/addadmin' // 新增管理员
 import Msnlist from '@/view/system/msnlist/msnlist' // 线路号列表
 
 import BoothList from '@/view/booth/boothList' // 展位管理
+import HorseRaceLampList from '@/view/operation/horseRaceLampMgr/horseRaceLampList' // 跑马灯列表
+import GameNoticeList from '@/view/operation/gameNoticeMgr/gameNoticeList' // 游戏公告列表
+import PrizePlayerList from '@/view/operation/mysteriousPrize/prizeList' // 大奖玩家列表
+import PrizeConfig from '@/view/operation/mysteriousPrize/prizeConfig' // 神秘大奖奖品配置
 
 import AgentPlayerList from '@/view/player/playerlist' // 玩家列表
 import AgentPlayerDetail from '@/view/player/playerdetail' // 玩家详情页
@@ -232,6 +236,26 @@ const router = new Router({
       path: '/boothList',
       name: '展位管理',
       component: BoothList
+    },
+    {
+      path: '/horseRaceLampList',
+      name: '跑马灯列表',
+      component: HorseRaceLampList
+    },
+    {
+      path: '/gameNoticeList',
+      name: '游戏公告列表',
+      component: GameNoticeList
+    },
+    {
+      path: '/prizePlayerList',
+      name: '神秘大奖',
+      component: PrizePlayerList
+    },
+    {
+      path: '/prizeConfig',
+      name: '奖品配置',
+      component: PrizeConfig
     },
     {
       path: '/agentPlayerList',

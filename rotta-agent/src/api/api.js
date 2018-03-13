@@ -113,9 +113,9 @@ const api = {
 
   getBfSetting: front.diana + '/configOne', // 获取包房代理配置
 
-  companySelect: front.diana + '/companySelect', // 获取运营商
+  configOne: front.diana + '/configOne', // 查看神秘大奖
 
-  gameBigType: front.diana + '/gameBigType', // 获取游戏大类
+  configNew: front.diana + '/configNew ', // 新增神秘大奖
   // thor
 
   addBooth: front.thor + '/seatNew', // 新增展位
@@ -210,6 +210,10 @@ const api = {
   //stateMachine
 
   uploadImg: front.stateMachine + '/upload', // 上传图片获取签证
+
+  mysteryList: front.stateMachine + '/mysteryList', // 神秘大奖列表
+
+  mysteryOperate : front.stateMachine + '/mysteryOperate ', // 操作神秘大奖
 
   // methods
 
