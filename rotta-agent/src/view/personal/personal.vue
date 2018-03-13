@@ -21,7 +21,7 @@
               <span>上次登录IP: {{adminInfo.lastIP}}</span>
             </p>
             <p>
-              <span>备注: {{Remark(adminInfo.remark)}}</span>
+              <span style="width: 100%">备注: {{Remark(adminInfo.remark)}}</span>
             </p>
         </div>
     </div>
