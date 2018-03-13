@@ -93,14 +93,14 @@
                     <el-table-column label="交易详情(原账+当前操作额=现在余额)" align="left" prop="">
                       <template scope="scope">
                         <p v-if="scope.row.action === 1">
-                          <span>{{scope.row.oldBalance}}</span>
-                          <span class="green"> + {{scope.row.amount}}</span> =
-                          <span>{{scope.row.balance}}</span>
+                          <span>{{scope.row.oldBalance.toFixed(2)}}</span>
+                          <span class="green"> + {{scope.row.amount.toFixed(2)}}</span> =
+                          <span>{{scope.row.balance.toFixed(2)}}</span>
                         </p>
                         <p v-if="scope.row.action === -1">
-                            <span>{{scope.row.oldBalance}}</span>
-                            <span class="red"> - {{Math.abs(scope.row.amount)}}</span> =
-                            <span>{{scope.row.balance}}</span>
+                            <span>{{scope.row.oldBalance.toFixed(2)}}</span>
+                            <span class="red"> - {{Math.abs(scope.row.amount).toFixed(2)}}</span> =
+                            <span>{{scope.row.balance.toFixed(2)}}</span>
                         </p>
                       </template>
                     </el-table-column>

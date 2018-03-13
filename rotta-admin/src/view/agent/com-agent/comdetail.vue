@@ -449,7 +449,11 @@ v<template>
                 <div class="propertyform-form">
                     <el-table style="width: 98%; font-size: 12px;" :data="waterFall" border>
                         <el-table-column label="序号" prop="" type="index" align="left" width="80"></el-table-column>
-                        <el-table-column label="账户余额" prop="balance" align="left" width=""></el-table-column>
+                        <el-table-column label="账户余额" prop="" align="left" width="">
+                          <template scope="scope">
+                            {{scope.row.balance.toFixed(2)}}
+                          </template>
+                        </el-table-column>
                         <el-table-column label="交易点数" prop="" align="left" width="">
                             <template scope="scope">
                                 <span class="green" v-if="scope.row.action === 1">{{scope.row.amount.toFixed(2)}}</span>
