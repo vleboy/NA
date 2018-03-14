@@ -40,7 +40,7 @@
                 <el-table-column label="洗码比" prop="gamelist" align="center" width="110">
                     <template scope="scope">
                         <div slot="reference" class="gamelist">
-                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.mix.toFixed(2) }}%</el-tag>
+                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ parseInt(item.mix).toFixed(2) }}%</el-tag>
                         </div>
                     </template>
                 </el-table-column>
