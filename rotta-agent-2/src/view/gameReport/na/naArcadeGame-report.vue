@@ -455,7 +455,7 @@ export default {
                               item.winloseAmount = side.winloseAmount
                               item.mixAmount = side.mixAmount
                               item.submit = side.winloseAmount * (1 - item.rate / 100)
-                              item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                              item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.betAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                               item.nowallBet = item.nowBouns + side.winloseAmount
                               item.winloseRate = item.nowallBet / side.mixAmount
                             }
