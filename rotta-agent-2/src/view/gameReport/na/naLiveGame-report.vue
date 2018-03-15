@@ -474,10 +474,10 @@ export default {
                               item.betAmount = side.betAmount
                               item.winloseAmount = side.winloseAmount
                               item.mixAmount = side.mixAmount
-                              item.submit = side.winloseAmount * (1 - item.rate / 100)
                               item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                               item.nowallBet = item.nowBouns + side.winloseAmount
                               item.winloseRate = item.nowallBet / side.mixAmount
+                              item.submit = item.nowallBet * (1 - item.rate / 100)
                             }
                           })
                         })
@@ -491,11 +491,11 @@ export default {
                         this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.submit = this.nowList.winloseAmount * (1 - this.nowList.rate / 100)
                         this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.nowBouns = this.nowChild.map( child => child.nowBouns ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.nowallBet = this.nowChild.map( child => child.nowallBet ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
+                        this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate / 100)
                       }
                       resolve(data)
                     }
