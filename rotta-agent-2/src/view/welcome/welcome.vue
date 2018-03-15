@@ -2,7 +2,7 @@
   <div class="welcome">
     <div class="contentBox">
       <img src="static/welcome.png"><br>
-      <span class="test">欢迎使用NA后台管理系统</span>
+      <span class="test">欢迎使用N2后台管理系统</span>
     </div>
   </div>
 </template>

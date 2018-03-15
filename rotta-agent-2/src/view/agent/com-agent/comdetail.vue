@@ -166,7 +166,7 @@
                   <el-table-column prop="name" align="center" label="游戏"></el-table-column>
                   <el-table-column prop="mix" align="center" label="洗码比">
                     <template scope="scope">
-                      <span>{{scope.row.mix}}%</span>
+                      <span>{{ Number(scope.row.mix).toFixed(2) }}%</span>
                     </template>
                   </el-table-column>
                   <el-table-column align="center" label="操作">

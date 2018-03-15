@@ -2,7 +2,7 @@
   <div class="login">
 
     <div class="login-left">
-      <p class="title-big">NA 代理后台管理系统</p>
+      <p class="title-big">N2 代理后台管理系统</p>
     </div>
 
     <div class="login-center"></div>
