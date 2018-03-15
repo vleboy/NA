@@ -814,11 +814,15 @@ export default {
         })
       } else {
         if (this.rendered.filter(item => {return (item.userId == parent.parent)}).length > 0) {
+          // 判断请求下级是否是同一级
           if (this.rendered.filter(item => {return item.userId == parent.userId}).length > 0) {
+            // 如果是已渲染用户
             this.$store.commit('closeLoading')
           } else {
+            // 如果是同一级 且为不同用户
             this.nowPlayer = []
             this.playerParent = ''
+            this.clickChild = []
             this.rendered.push(will_render)
             invoke({
               url: api.reportInfo,
