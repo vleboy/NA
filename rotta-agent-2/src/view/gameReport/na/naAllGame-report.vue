@@ -483,17 +483,18 @@ export default {
                       for (let code in data[0].gameTypeMap) {
                         if (naAllCode.naLive == code) {
                           item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.rate != 0 ? item.naLiveSubmit = (1 - item.rate / 100) * item.naLiveWinlose : item.naLiveSubmit = 0
+                          // item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
                           this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
                           this.nowList.suffix != 'Agent' ? this.nowList.naLiveSubmit += data[0].gameTypeMap[code].submitAmount : ''
                         } else if (naAllCode.naVedio == code) {
                           item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.rate != 0 ? item.naVedioSubmit = (1 - item.rate / 100) * item.naVedioWinlose : item.naVedioSubmit = 0
                           this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
                           this.nowList.suffix != 'Agent' ? this.nowList.naVedioSubmit += data[0].gameTypeMap[code].submitAmount : ''
                         } else if (naAllCode.naArcade == code) {
                           item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.rate != 0 ? item.naArcadeSubmit = (1 - item.rate / 100) * item.naArcadeWinlose : item.naArcadeSubmit = 0
                           this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
                           this.nowList.suffix != 'Agent' ? this.nowList.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount : ''
                         }
@@ -598,13 +599,13 @@ export default {
                       for (let code in data[0].gameTypeMap) {
                         if (naAllCode.naLive == code) {
                           item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.rate != 0 ? item.naLiveSubmit = (1 - item.rate / 100) * item.naLiveWinlose : item.naLiveSubmit = 0
                         } else if (naAllCode.naVedio == code) {
                           item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.rate != 0 ? item.naVedioSubmit = (1 - item.rate / 100) * item.naVedioWinlose : item.naVedioSubmit = 0
                         } else if (naAllCode.naArcade == code) {
                           item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.rate != 0 ? item.naArcadeSubmit = (1 - item.rate / 100) * item.naArcadeWinlose : item.naArcadeSubmit = 0
                         }
                         item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
                         item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
