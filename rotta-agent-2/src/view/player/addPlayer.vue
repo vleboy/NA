@@ -17,6 +17,14 @@
               <el-option v-for="(item, index) in childrenList" :key="index" :label="item.displayName" :value="item.userId"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="玩家限红" v-if="!playerInfo.parentId==''">
+            <el-checkbox-group v-model="checkChipList" @change="changeChip" v-if="chipList.length">
+              <el-checkbox v-for="item of chipList" :label="item.id" style="margin-left: 0px">
+                {{item.text}}
+              </el-checkbox>
+            </el-checkbox-group>
+            <div v-else>该代理暂无限红数据</div>
+          </el-form-item>
           <el-form-item label="玩家洗码比">
             <el-table stripe :data="gameList">
               <el-table-column prop="name" label="游戏类别" align="center">
@@ -43,7 +51,7 @@
           <el-form-item>
             <div style="text-align: center">
               <el-button type="primary" class="subBtn" @click="registAdmin"> 创建玩家</el-button>
-              <el-button type="primary" class="subBtn" @click="resetAdmin"> 重置</el-button>
+              <!--<el-button type="primary" class="subBtn" @click="resetAdmin"> 重置</el-button>-->
             </div>
           </el-form-item>
         </el-form>
@@ -140,7 +148,9 @@
             {validator: checkPoints, trigger: 'blur'}
           ]
         },
-        gameList: []
+        gameList: [],
+        chipList: [],
+        checkChipList: []
       }
     },
     computed: {
@@ -170,6 +180,39 @@
         )
         this.$store.commit('closeLoading')
       },
+      getChipList () {
+        this.chipList = []
+        this.$store.commit('startLoading')
+        invoke({
+          url: api.chipList,
+          method: api.post,
+          data: {
+            parentId: this.playerInfo.parentId
+          }
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+              this.$message({
+                message: err.msg,
+                type: 'error'
+              })
+            } else {
+              for (let item of ret.data.list) {
+                this.chipList.push({
+                  id: item.id,
+                  text:`${item.gameId == 1 ? '百家乐' : '轮盘'}，最大：${item.max}，最小：${item.min}，筹码：${item.jtton}`,
+                  value: item
+                })
+              }
+            }
+          }
+        )
+        this.$store.commit('closeLoading')
+      },
+      changeChip () {
+        console.log(this.checkChipList, '11')
+      },
       changeList () {
         for (let item of this.childrenList) {
           if (item.userId === this.playerInfo.parentId) {
@@ -181,6 +224,7 @@
           data.playerMix = `该玩家游戏洗码比范围为: 0% ~ ${data.mix}%`
           data.isPercentage = false
         }
+        this.getChipList()
       },
       changeMix (row) {
         if (row.percentage < 0 || row.percentage > row.mix){
@@ -195,6 +239,8 @@
           return item.isPercentage == false
         })
         let newGameList = []
+        let storageChipList = []
+
         for (let item of this.gameList) {
           newGameList.push({
             mix: item.percentage,
@@ -202,6 +248,16 @@
             name: item.name
           })
         }
+
+        // 处理限红
+        for (let item of this.checkChipList) {
+          for (let data of this.chipList) {
+            if(item == data.id){
+              storageChipList.push(data.value)
+            }
+          }
+        }
+
         if (!this.status.isCheckUserName || !this.status.isCheckPwd || !this.status.isCheckPoints) {
           return this.$message.error('请完善配置信息')
         } else if (!this.playerInfo.parentId) {
@@ -210,6 +266,7 @@
           return this.$message.error('请输入正确的玩家洗码比')
         }
         this.playerInfo.gameList = newGameList
+        this.playerInfo.chip = storageChipList
         this.$store.commit('startLoading')
         if (this.status.isSending) return
         this.status.isSending = true

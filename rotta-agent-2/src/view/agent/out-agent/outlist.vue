@@ -60,7 +60,7 @@
           <el-table-column label="线路商游戏" prop="gamelist" align="center">
               <template scope="scope">
                   <div slot="reference" class="gamelist">
-                      <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
+                      <el-tag v-for="(item,index) in scope.row.gameList" :key='index'>{{ item.name }}</el-tag>
                   </div>
               </template>
           </el-table-column>
@@ -92,7 +92,7 @@
                 </div>
               </el-popover>
             </template>
-          </el-table-column> 
+          </el-table-column>
           <el-table-column label="操作" align="center" width="80">
               <template scope="scope">
                   <el-button type="text" class="myBtn" @click="checkUser(scope.$index, scope.row)">查看</el-button>
@@ -118,7 +118,7 @@
   </div>
   <billtransfer></billtransfer>
 </div>
-  
+
 </template>
 
 <script>

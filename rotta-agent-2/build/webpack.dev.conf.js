@@ -20,25 +20,25 @@ module.exports = merge(baseWebpackConfig, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config.dev.env,
-      'zues_URL': JSON.stringify('https://d3oo6v0d877qm6.cloudfront.net'), // zues有关接口
+      'zues_URL': JSON.stringify('https://d7nnwhk3clfz0.cloudfront.net'), // zues有关接口
 
-      'hulk_URL': JSON.stringify('https://d3oo6v0d877qm6.cloudfront.net'), // hulk有关接口
+      'hulk_URL': JSON.stringify('https://d7nnwhk3clfz0.cloudfront.net'), // hulk有关接口
 
-      'Javis_URL': JSON.stringify('https://d3oo6v0d877qm6.cloudfront.net'), // javis有关接口
+      'Javis_URL': JSON.stringify('https://d7nnwhk3clfz0.cloudfront.net'), // javis有关接口
 
-      'diana_URL': JSON.stringify('https://d3oo6v0d877qm6.cloudfront.net'), // diana有关接口
+      'diana_URL': JSON.stringify('https://d7nnwhk3clfz0.cloudfront.net'), // diana有关接口
 
-      'thor_URL': JSON.stringify('https://d3oo6v0d877qm6.cloudfront.net'), // thor有关接口
+      'thor_URL': JSON.stringify('https://d7nnwhk3clfz0.cloudfront.net'), // thor有关接口
 
-      'hera_URL': JSON.stringify('https://d3oo6v0d877qm6.cloudfront.net'), // hera有关接口
+      'hera_URL': JSON.stringify('https://d7nnwhk3clfz0.cloudfront.net'), // hera有关接口
 
-      'hawkeye_URL': JSON.stringify('https://d3oo6v0d877qm6.cloudfront.net'), // hawkeye有关接口
+      'hawkeye_URL': JSON.stringify('https://d7nnwhk3clfz0.cloudfront.net'), // hawkeye有关接口
 
-      'stat_URL': JSON.stringify('https://d3oo6v0d877qm6.cloudfront.net'), // stat有关接口
+      'stat_URL': JSON.stringify('https://d7nnwhk3clfz0.cloudfront.net'), // stat有关接口
 
-      'playerExt_URL': JSON.stringify('https://d3oo6v0d877qm6.cloudfront.net'), // playerExt有关接口
+      'playerExt_URL': JSON.stringify('https://d7nnwhk3clfz0.cloudfront.net'), // playerExt有关接口
 
-      'stateMachine_URL': JSON.stringify('https://d3oo6v0d877qm6.cloudfront.net'), // StateMachine有关接口
+      'stateMachine_URL': JSON.stringify('https://d7nnwhk3clfz0.cloudfront.net'), // StateMachine有关接口
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

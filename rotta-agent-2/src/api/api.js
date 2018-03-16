@@ -215,6 +215,12 @@ const api = {
 
   mysteryOperate : front.stateMachine + '/mysteryOperate ', // 操作神秘大奖
 
+  chipList : front.stateMachine + '/agent/chip ', // 限红
+
+  editPlayerChip : front.stateMachine + '/player/chip ', // 玩家修改限红
+
+  updateAgentChip : front.stateMachine + '/updateChip ', // 代理修改限红
+
   // methods
 
   get: 'get',

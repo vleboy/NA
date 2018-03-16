@@ -17,14 +17,14 @@
       <el-table-column label="代理游戏" prop="gamelist" align="center" width="110">
           <template scope="scope">
               <div slot="reference" class="gamelist">
-                  <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
+                  <el-tag v-for="(item,index) in scope.row.gameList" :key='index'>{{ item.name }}</el-tag>
               </div>
           </template>
       </el-table-column>
       <el-table-column label="洗码比" prop="gamelist" align="center" width="110">
           <template scope="scope">
               <div slot="reference" class="gamelist">
-                  <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ Number(item.mix).toFixed(2) }}%</el-tag>
+                  <el-tag v-for="(item,index) in scope.row.gameList" :key='index'>{{ Number(item.mix).toFixed(2) }}%</el-tag>
               </div>
           </template>
       </el-table-column>
@@ -66,6 +66,7 @@
           <template scope="scope">
             <el-button type="text" class="myBtn" @click="storePoints(scope.$index, scope.row)">存点</el-button>
             <el-button type="text" class="myBtn" @click="withdrawPoints(scope.$index, scope.row)">提点</el-button>
+            <el-button type="text" class="myBtn" @click="openModalChip(scope.row)">限红</el-button>
               <el-button type="text" class="myBtn" @click="">
                   <el-dropdown trigger="click">
                       <span style="color:#20a0ff">更多</span>
@@ -92,16 +93,22 @@
       </el-table-column>
     </el-table>
     <div class="page">
-        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.comlist.length" :page-sizes="[10, 20]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage"></el-pagination>
+        <el-pagination layout="prev, pager, next, sizes, jumper" :total="this.$store.state.variable.comlist.length" page-sizes="[10, 20]" :page-size="nowSize" @size-change="getNowsize" @current-change="getNowpage">
+        </el-pagination>
     </div>
+    <playerChip v-if="isOpenModalChip" ref="childMethod" :dataProp="chipInfo" @closeModal="closeChipModal"></playerChip>
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import { detailTime, formatStatus, formatContractPeriod, formatRemark, formatPoints, formatUsername } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
+import playerChip from '@/components/player/playerChip'
 export default {
+  components: {
+    playerChip
+  },
   computed:{
     comlist () {
       var comlist = this.$store.state.variable.comlist
@@ -117,7 +124,9 @@ export default {
     return {
       loginUser: localStorage.loginSuffix,
       nowSize: 10,
-      nowPage: 1
+      nowPage: 1,
+      isOpenModalChip: false, // 限红模态框
+      chipInfo: {}
     }
   },
   methods: {
@@ -283,7 +292,23 @@ export default {
       this.$store.dispatch('getSelfData')
       this.$store.dispatch('getAgentPlayer')
       this.$store.dispatch('getComlist')
-    } // 查看当前代理下级
+    }, // 查看当前代理下级
+    openModalChip (row) {
+      let rows = JSON.parse(JSON.stringify(row))
+      this.chipInfo = {
+        userId: rows.userId,
+        chip: rows.chip,
+        isAgent: 1
+      }
+      this.isOpenModalChip = true
+      setTimeout(()=>{
+        this.$refs.childMethod.openChipModal()
+    },0)
+    }, //
+    closeChipModal () {
+      this.$store.dispatch('getComlist')
+      this.isOpenModalChip = false
+    }
   }
 }
 </script>
