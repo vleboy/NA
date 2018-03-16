@@ -52,7 +52,7 @@
                 <template slot="title">玩家中心</template>
                 <el-menu-item index="agentPlayerList">玩家列表</el-menu-item>
               </el-submenu>
-              <el-submenu index="4">
+              <!-- <el-submenu index="4">
                 <template slot="title">运营中心</template>
                 <el-menu-item index="gameNoticeList">游戏公告列表</el-menu-item>
                 <el-menu-item index="horseRaceLampList">跑马灯列表</el-menu-item>
@@ -61,7 +61,7 @@
                   <el-menu-item index="prizePlayerList">玩家中奖列表</el-menu-item>
                   <el-menu-item index="prizeConfig">奖品配置</el-menu-item>
                 </el-submenu>
-              </el-submenu>
+              </el-submenu> -->
               <el-submenu index="5">
                   <template slot="title">系统设置</template>
                   <el-submenu index="5-1">
