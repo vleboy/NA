@@ -578,7 +578,6 @@ export default {
           } else {
             this.nowPlayer = []
             this.playerParent = ''
-            this.clickChild = []
             this.rendered.push(will_render)
             invoke({
               url: api.reportInfo,

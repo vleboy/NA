@@ -822,7 +822,6 @@ export default {
             // 如果是同一级 且为不同用户
             this.nowPlayer = []
             this.playerParent = ''
-            this.clickChild = []
             this.rendered.push(will_render)
             invoke({
               url: api.reportInfo,
