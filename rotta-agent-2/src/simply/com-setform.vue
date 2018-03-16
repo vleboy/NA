@@ -3,61 +3,69 @@
   <div class="com-setform">
     <h2 class="title">配置代理信息</h2>
     <el-form :model="setcomInfo" :rules="rules" ref="setcomInfo" class="setform" label-width="160px" label-position="right">
-          <el-form-item label="商户拥有的游戏">
-            <el-select v-model="setcomInfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
-                <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:10rem"></el-option>
-            </el-select>
+      <el-form-item label="商户拥有的游戏">
+        <el-select v-model="setcomInfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem" @change="changeCompany">
+            <el-option v-for="(item,index) in CompanyList" :key="index" :label="item.client" :value="item.server" style="width:10rem"></el-option>
+        </el-select>
 
-            <el-select v-model="setcomInfo.selectGame" placeholder="请选择" clearable style="width:10rem;">
-                <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:10rem"></el-option>
-            </el-select>
+        <el-select v-model="setcomInfo.selectGame" placeholder="请选择" clearable style="width:10rem;">
+            <el-option v-for="(item,index) in CompanyGame" :key="index" :label="item.name" :value="item" style="width:10rem"></el-option>
+        </el-select>
 
-          </el-form-item>
+      </el-form-item>
 
-          <el-form-item :label="setcomInfo.selectGame.name + '洗码比(%)'" v-show="setcomInfo.selectGame" prop="selectGame">
-            <el-tooltip class="item" effect="dark" :content="'该上级代理' + setcomInfo.selectGame.name + '洗码比为' + parentMix + '%'" placement="top">
-              <el-input class="input" type="number" placeholder="0.00~1.00,最大不超过其上级洗码比" v-model="setcomInfo.selectGame.mix"></el-input>
-            </el-tooltip>
-            <el-button type="text" @click="addGame">添加</el-button>
-          </el-form-item>
+      <el-form-item :label="setcomInfo.selectGame.name + '洗码比(%)'" v-show="setcomInfo.selectGame" prop="selectGame">
+        <el-tooltip class="item" effect="dark" :content="'该上级代理' + setcomInfo.selectGame.name + '洗码比为' + parentMix + '%'" placement="top">
+          <el-input class="input" type="number" placeholder="0.00~1.00,最大不超过其上级洗码比" v-model="setcomInfo.selectGame.mix"></el-input>
+        </el-tooltip>
+        <el-button type="text" @click="addGame">添加</el-button>
+      </el-form-item>
 
-          <el-form-item label="" prop="username" style="width: 45rem;margin-left:-8rem">
-            <el-table :data="setcomInfo.showSelect" border>
-              <el-table-column prop="company" align="center" label="公司"></el-table-column>
-              <el-table-column prop="gameName" align="center" label="游戏">
-              </el-table-column>
-              <el-table-column prop="mix" align="center" label="洗码比">
-                <template scope="scope">
-                  <span>{{scope.row.mix}}%</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" label="操作">
-                <template scope="scope">
-                  <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer">删除</span>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-form-item>
-          <el-form-item label="代理点数" prop="points">
-            <el-tooltip class="item" effect="dark" :content="parentBills" placement="right">
-              <el-input v-model="setcomInfo.points" class="input" placeholder="请输入点数,最大不超过其上级拥有点数"></el-input>
-            </el-tooltip>
-          </el-form-item>
-          <el-form-item label="代理成数(%)" prop="rate">
-            <el-tooltip class="item" effect="dark" :content="parentRate" placement="right">
-              <el-input v-model="setcomInfo.rate" class="input" placeholder="0.00~100.00,最大不超过其上级成数"></el-input>
-            </el-tooltip>
-          </el-form-item>
+      <el-form-item label="" prop="username" style="width: 45rem;margin-left:-8rem">
+        <el-table :data="setcomInfo.showSelect" border>
+          <el-table-column prop="company" align="center" label="公司"></el-table-column>
+          <el-table-column prop="gameName" align="center" label="游戏">
+          </el-table-column>
+          <el-table-column prop="mix" align="center" label="洗码比">
+            <template scope="scope">
+              <span>{{scope.row.mix}}%</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="操作">
+            <template scope="scope">
+              <span @click="deleteGame(scope.row)" style="color: #20a0ff;cursor: pointer">删除</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-form-item>
+      <el-form-item label="代理点数" prop="points">
+        <el-tooltip class="item" effect="dark" :content="parentBills" placement="right">
+          <el-input v-model="setcomInfo.points" class="input" placeholder="请输入点数,最大不超过其上级拥有点数"></el-input>
+        </el-tooltip>
+      </el-form-item>
+      <el-form-item label="代理成数(%)" prop="rate">
+        <el-tooltip class="item" effect="dark" :content="parentRate" placement="right">
+          <el-input v-model="setcomInfo.rate" class="input" placeholder="0.00~100.00,最大不超过其上级成数"></el-input>
+        </el-tooltip>
+      </el-form-item>
+      <el-form-item label="代理限红" v-if="setcomInfo.company">
+        <el-checkbox-group v-model="checkChipList" v-if="chipList.length" @change="change">
+          <el-checkbox v-for="item of chipList" :label="item.id" style="margin-left: 0">
+            {{item.text}}
+          </el-checkbox>
+        </el-checkbox-group>
+        <div v-else>该代理暂无限红数据</div>
+      </el-form-item>
     </el-form>
   </div>
   <div>
     <createbtn class="Noprint" :setcomInfo="setcomInfo" @on-result-change="resetForm"></createbtn>
   </div>
 </div>
-  
+
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import store from '@/store/store'
 import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
@@ -65,6 +73,50 @@ import Createbtn from '@/components/createbtn'
 import { checkPoints, checkRate } from '@/behavior/regexp'
 export default {
   name: 'out-setform',
+  data () {
+    var checkMix = (rule, value, callback) => {
+      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
+      if (!value.mix) {
+        callback(new Error('请输入洗码比'))
+      } else if (!num.test(value.mix)) {
+        callback(new Error('电子游戏洗码比只能为0.00 - 1.00'))
+        this.isPassMix = false
+      } else if (value.mix > this.parentMix) {
+        callback(new Error('超出上级洗码比'))
+        this.isPassMix = false
+      } else {
+        this.isPassMix = true
+        callback()
+      }
+    }
+    return {
+      isPassMix: true, // 验证洗码比
+      parentMix: '', // 上级洗码比
+      CompanyList: [], // 游戏大类列表
+      CompanyGame: [], // 厂商的游戏列表
+      setcomInfo: {
+        company: '', // 选择的游戏厂商
+        selectGame: '', // 选择的厂商的游戏
+        showSelect: [], // 列表展示数据
+        gameList: [], // 代理游戏
+        points: '', // 代理点数
+        rate: '' // 代理抽成比
+      },
+      rules: {
+        points: [
+          {validator: checkPoints, trigger: 'blur'}
+        ],
+        rate: [
+          {validator: checkRate, trigger: 'blur'}
+        ],
+        selectGame: [
+          {validator: checkMix, trigger: 'blur'}
+        ]
+      },
+      chipList: [],
+      checkChipList: []
+    }
+  },
   components: {
     Createbtn
   },
@@ -106,48 +158,6 @@ export default {
         }
       }
     )
-  },
-  data () {
-    var checkMix = (rule, value, callback) => {
-      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
-      if (!value.mix) {
-        callback(new Error('请输入洗码比'))
-      } else if (!num.test(value.mix)) {
-        callback(new Error('电子游戏洗码比只能为0.00 - 1.00'))
-        this.isPassMix = false
-      } else if (value.mix > this.parentMix) {
-        callback(new Error('超出上级洗码比'))
-        this.isPassMix = false
-      } else {
-        this.isPassMix = true
-        callback()
-      }
-    }
-    return {
-      isPassMix: true, // 验证洗码比
-      parentMix: '', // 上级洗码比
-      CompanyList: [], // 游戏大类列表
-      CompanyGame: [], // 厂商的游戏列表
-      setcomInfo: {
-        company: '', // 选择的游戏厂商
-        selectGame: '', // 选择的厂商的游戏
-        showSelect: [], // 列表展示数据
-        gameList: [], // 代理游戏
-        points: '', // 代理点数
-        rate: '' // 代理抽成比
-      },
-      rules: {
-        points: [
-          {validator: checkPoints, trigger: 'blur'}
-        ],
-        rate: [
-          {validator: checkRate, trigger: 'blur'}
-        ],
-        selectGame: [
-          {validator: checkMix, trigger: 'blur'}
-        ]
-      }
-    }
   },
   watch: {
     'setcomInfo.company' (val) {
@@ -213,6 +223,9 @@ export default {
     }
   },
   methods: {
+    change(){
+
+    },
     resetForm (val) {
       this.setcomInfo = val
     },
@@ -260,6 +273,39 @@ export default {
       this.setcomInfo.gameList = this.setcomInfo.gameList.filter(item => {
         return item.name != data.gameName
       })
+    },
+    getChipList () {
+      this.$store.commit('startLoading')
+      invoke({
+        url: api.chipList,
+        method: api.post,
+        data: {
+          parentId: this.$store.state.variable.comcreate.parent == '01' ? '' : this.$store.state.variable.comcreate.parent
+        }
+      }).then(
+        result => {
+          const [err, ret] = result
+          if (err) {
+            this.$message({
+              message: err.msg,
+              type: 'error'
+            })
+          } else {
+            for (let item of ret.data.list) {
+              this.chipList.push({
+                id: item.id,
+                text:`${item.gameId == 1 ? '百家乐' : '轮盘'}，最大：${item.max}，最小：${item.min}，筹码：${item.jtton}`,
+                value: item
+              })
+            }
+          }
+        }
+      )
+      this.$store.commit('closeLoading')
+    },
+    changeCompany(){
+      this.chipList = []
+      this.setcomInfo.company && this.getChipList()
     }
   },
   beforeDestroy () {
@@ -280,6 +326,15 @@ export default {
         data: data
       })
       var comcreate = this.$store.state.variable.comcreate
+      let storageChipList = []
+      for (let item of this.checkChipList) {
+        for (let data of this.chipList) {
+          if(item == data.id){
+            storageChipList.push(data.value)
+          }
+        }
+      }
+      comcreate.chip = storageChipList // 处理限红 只有这么骚操作了
       invoke({
         url: api.createUser,
         method: api.post,

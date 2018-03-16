@@ -159,8 +159,8 @@
                     </el-tooltip>
                     <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
                 </div>
-                
-                
+
+
                 <el-table :data="comdetail.gameList" border style="width: 40rem;margin-top:1rem">
                   <el-table-column prop="company" align="center" label="公司"></el-table-column>
                   <el-table-column prop="name" align="center" label="游戏"></el-table-column>
@@ -741,7 +741,7 @@ export default {
       uploadAction2: '', // 上传name URL
       imgFile1:{},  // 上传LOGO img
       imgFile2:{},  // 上传NAME img
-      parentMix: '', // 上级洗码比  
+      parentMix: '', // 上级洗码比
       selcetCompany: '', // 选择的游戏运行商
       selectGame: '', // 选择的游戏
       CompanyList: [], // 所有游戏运营商

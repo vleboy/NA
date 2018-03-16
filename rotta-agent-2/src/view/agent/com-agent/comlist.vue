@@ -33,14 +33,14 @@
                 <el-table-column label="代理游戏" prop="gamelist" align="center" width="110">
                     <template scope="scope">
                         <div slot="reference" class="gamelist">
-                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ item.name }}</el-tag>
+                            <el-tag v-for="(item,index) in scope.row.gameList" :key='index'>{{ item.name }}</el-tag>
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="洗码比" prop="gamelist" align="center" width="110">
                     <template scope="scope">
                         <div slot="reference" class="gamelist">
-                            <el-tag v-for="item in scope.row.gameList" key={{item}}>{{ Number(item.mix).toFixed(2) }}%</el-tag>
+                            <el-tag v-for="(item,index) in scope.row.gameList" :key='index'>{{ Number(item.mix).toFixed(2) }}%</el-tag>
                         </div>
                     </template>
                 </el-table-column>
@@ -83,6 +83,7 @@
                       <el-button type="text" class="myBtn" @click="createAgent(scope.$index, scope.row)" v-if="scope.row.status === 1 && scope.row.parentName != 'XYZBF'">创建代理</el-button>
                       <el-button type="text" class="myBtn" @click="createPlayer(scope.$index, scope.row)" v-if="scope.row.status === 1">创建玩家</el-button>
                       <el-button type="text" class="myBtn" @click="goDetail(scope.$index, scope.row)">查看详情</el-button>
+                      <!--<el-button type="text" class="myBtn" @click="openModalChip(scope.row)">编辑限红</el-button>-->
                     </template>
                 </el-table-column>
             </el-table>
@@ -172,21 +173,24 @@
       </div>
     </div>
     <billtransfer></billtransfer>
+    <playerChip v-if="isOpenModalChip" ref="childMethod" :dataProp="chipInfo" @closeModal="closeChipModal"></playerChip>
 </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import Recursion from '@/components/recursion-form' // 递归表格
 import Rottamap from '@/components/rottamap' // 组织架构
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 import Billtransfer from '@/components/billtransfer'
+import playerChip from '@/components/player/playerChip'
 import { detailTime, formatStatus, formatContractPeriod, formatRemark, formatPoints, formatUsername } from '@/behavior/format'
 export default {
   components: {
     Rottamap,
     Billtransfer,
-    Recursion
+    Recursion,
+    playerChip
   },
   beforeCreate () {
     this.$store.commit('startLoading')
@@ -214,7 +218,9 @@ export default {
       nowPage: 1,
       playerStatus: ['已锁定', '正常'],
       agentSearchData: '', // 代理列表搜索条件
-      playerSearchData: '' // 玩家列表搜索条件
+      playerSearchData: '', // 玩家列表搜索条件
+      isOpenModalChip: false, // 限红模态框
+      chipInfo: {}
     }
   },
   computed: {
@@ -573,6 +579,23 @@ export default {
       })
       this.$store.commit('startStoreDialog')
     }, // 解锁用户
+    openModalChip (row) {
+      let rows = JSON.parse(JSON.stringify(row))
+      this.chipInfo = {
+        userId: rows.userId,
+        chip: rows.chip,
+        isAgent: 1
+      }
+      this.isOpenModalChip = true
+      setTimeout(()=>{
+        this.$refs.childMethod.openChipModal()
+      },0)
+    }, //
+    closeChipModal () {
+      this.$store.dispatch('getComlist')
+      this.isOpenModalChip = false
+    }
+
   },
   beforeDestroy () {
     var data = ''

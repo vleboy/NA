@@ -93,6 +93,7 @@
               <el-button  type="text" @click="changeStatus(scope.row)">锁定</el-button>
               <el-button  type="text" @click="openModal(0, scope.row)">存点</el-button>
               <el-button  type="text" @click="openModal(1, scope.row)">提点</el-button>
+              <el-button  type="text" @click="openModal(2, scope.row)">限红</el-button>
             </span>
 
           </template>
@@ -107,6 +108,7 @@
     </div>
 
     <playerRecharge v-if="isOpenModal" ref="childMethod" :dataProp="balanceInfo" @closeModal="closeRechargeModal"></playerRecharge>
+    <playerChip v-if="isOpenModalChip" ref="childMethod" :dataProp="balanceInfo" @closeModal="closeRechargeModal"></playerChip>
   </div>
 </template>
 
@@ -115,8 +117,9 @@
   import { invoke } from '@/libs/fetchLib'
   import api from '@/api/api'
   import playerRecharge from '@/components/player/playerRecharge'
+  import playerChip from '@/components/player/playerChip'
   export default {
-    components:{playerRecharge},
+    components:{playerRecharge, playerChip},
     beforeCreate () {
       this.$store.commit('returnLocalStorage')
       this.$store.commit({
@@ -139,6 +142,7 @@
         currentPage: 1,
         showSearch: false,
         isOpenModal: false,
+        isOpenModalChip: false,
         isFetching: false,
         isLastMessage: false, // 主要判断是否是后台返回最后一次信息
         playerList: [],
@@ -308,7 +312,6 @@
       }, // 打开创建玩家
       openModal (bool, row) {
         let rows = JSON.parse(JSON.stringify(row))
-        this.isOpenModal = true
         this.balanceInfo = {
           userName: rows.userName,
           parentName: rows.merchantName,
@@ -316,15 +319,28 @@
           balance: rows.balance,
           points: '',
           fromUserId: rows.parent,
-          isSave: bool
+          isSave: bool,
+          chip: rows.chip,
+          isAgent: 0
         }
-        setTimeout(()=>{
-          this.$refs.childMethod.openRechargeModal()
-        },0)
+        if(bool != '2') {
+          this.isOpenModal = true
+          setTimeout(()=>{
+            this.$refs.childMethod.openRechargeModal()
+          },0)
+        } else {
+          this.isOpenModalChip = true
+          setTimeout(()=>{
+            this.$refs.childMethod.openChipModal()
+          },0)
+        }
+
+
       },
       closeRechargeModal () {
         this.initData()
         this.isOpenModal = false
+        this.isOpenModalChip = false
         this.getPlayList()
       },
       getAtime (row, col) {
