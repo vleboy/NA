@@ -2,7 +2,7 @@
   <div class="p-modal-recharge">
     <el-dialog title="玩家限红" :visible.sync="isOpenModal"  @close="sureCloseModal">
       <el-checkbox-group v-model="checkChipList" v-if="chipList.length">
-        <el-checkbox v-for="item of chipList" :label="item.id" style="margin-left: 0">
+        <el-checkbox v-for="item of chipList" :label="item.id" style="margin-left: 0;display: block">
           {{item.text}}
         </el-checkbox>
       </el-checkbox-group>
