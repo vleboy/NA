@@ -69,15 +69,12 @@
     mounted () {},
     data () {
       let checkUserName = (rule, value, callback) => {
-        var regName = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
+        var regName = new RegExp(/^[a-zA-Z\d]{6,16}$/)
         if (value === '') {
           callback(new Error('请输入用户名名称'))
           this.status.isCheckUserName = false
         } else if (!regName.exec(value)) {
-          callback(new Error('请输入中英文或者数字'))
-          this.status.isCheckUserName = false
-        } else if (value.length < 6 || value.length > 16) {
-          callback(new Error('用户名为6-16位字符'))
+          callback(new Error('请输入6-16位中英文或者数字'))
           this.status.isCheckUserName = false
         } else {
           callback()

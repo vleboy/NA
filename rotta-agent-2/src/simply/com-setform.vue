@@ -9,14 +9,14 @@
         </el-select>
 
         <el-select v-model="setcomInfo.selectGame" placeholder="请选择" clearable style="width:10rem;">
-            <el-option v-for="(item,index) in CompanyGame" :key="index" :label="item.name" :value="item" style="width:10rem"></el-option>
+            <el-option v-for="(item,index) in CompanyGame" :key="index" :label="item.name" :value="item.code" style="width:10rem"></el-option>
         </el-select>
 
       </el-form-item>
 
-      <el-form-item :label="setcomInfo.selectGame.name + '洗码比(%)'" v-show="setcomInfo.selectGame" prop="selectGame">
-        <el-tooltip class="item" effect="dark" :content="'该上级代理' + setcomInfo.selectGame.name + '洗码比为' + parentMix + '%'" placement="top">
-          <el-input class="input" type="number" placeholder="0.00~1.00,最大不超过其上级洗码比" v-model="setcomInfo.selectGame.mix"></el-input>
+      <el-form-item :label="secondGameList.name + '洗码比(%)'" v-show="setcomInfo.selectGame" prop="selectGame">
+        <el-tooltip class="item" effect="dark" :content="'该上级代理' + secondGameList.name + '洗码比为' + parentMix + '%'" placement="top">
+          <el-input class="input" type="number" placeholder="0.00~1.00,最大不超过其上级洗码比" v-model="secondGameList.mix"></el-input>
         </el-tooltip>
         <el-button type="text" @click="addGame">添加</el-button>
       </el-form-item>
@@ -75,13 +75,13 @@ export default {
   name: 'out-setform',
   data () {
     var checkMix = (rule, value, callback) => {
-      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
-      if (!value.mix) {
+      var num = new RegExp(/^[0|1](\.[0-9]{1,2}){0,1}$/)
+      if (!this.secondGameList.mix) {
         callback(new Error('请输入洗码比'))
-      } else if (!num.test(value.mix)) {
+      } else if (!num.test(this.secondGameList.mix)) {
         callback(new Error('电子游戏洗码比只能为0.00 - 1.00'))
         this.isPassMix = false
-      } else if (value.mix > this.parentMix) {
+      } else if (this.secondGameList.mix > this.parentMix) {
         callback(new Error('超出上级洗码比'))
         this.isPassMix = false
       } else {
@@ -114,7 +114,8 @@ export default {
         ]
       },
       chipList: [],
-      checkChipList: []
+      checkChipList: [],
+      secondGameList: {}
     }
   },
   components: {
@@ -188,9 +189,14 @@ export default {
       }
     },
     'setcomInfo.selectGame' (val) {
-      if (val) {
+      for (let item of this.CompanyGame) {
+        if (item.code == val) {
+          this.secondGameList = item
+        }
+      }
+      if (this.secondGameList) {
         let data = {
-          code: val.code,
+          code: this.secondGameList.code,
           userId: ''
         }
         if (this.$store.state.variable.comcreate.parent == '01') {
@@ -230,14 +236,14 @@ export default {
       this.setcomInfo = val
     },
     addGame () {
-      if (this.setcomInfo.company && this.setcomInfo.selectGame && this.setcomInfo.selectGame.mix && this.isPassMix) {
+      if (this.setcomInfo.company && this.secondGameList && this.secondGameList.mix && this.isPassMix) {
         let data = {
           company: this.setcomInfo.company,
-          gameName: this.setcomInfo.selectGame.name,
-          mix: this.setcomInfo.selectGame.mix
+          gameName: this.secondGameList.name,
+          mix: this.secondGameList.mix
         }
         if (this.setcomInfo.showSelect.length == 0) {
-          let select = this.setcomInfo.selectGame
+          let select = this.secondGameList
           select.company = this.setcomInfo.company
           this.setcomInfo.gameList.push(select)
           this.setcomInfo.showSelect.push(data)
@@ -253,7 +259,7 @@ export default {
             }
           }
           if (!repeat) {
-            let select = this.setcomInfo.selectGame
+            let select = this.secondGameList
             select.company = this.setcomInfo.company
             this.setcomInfo.gameList.push(select)
             this.setcomInfo.showSelect.push(data)

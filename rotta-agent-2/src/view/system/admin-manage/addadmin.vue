@@ -16,11 +16,11 @@
           </el-form-item>
       </el-form>
     </div>
-    
+
   </div>
   </div>
 </template>
-<script>
+<script type="text/ecmascript-6">
 import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
 import { checkPassword, checkUsername } from '@/behavior/regexp'
@@ -75,15 +75,21 @@ export default {
               this.resetAdmin()
               this.loading = false
             } else {
-              var data = ret.payload
-              console.log(data)
-              this.$message({
-                message: '创建成功',
-                type: 'success'
-              })
-              this.resetAdmin()
-              this.loading = false
-              this.$router.push('adminlist')
+              if(ret.data.code!=0) {
+                this.$message({
+                  message: ret.msg,
+                  type: 'error'
+                })
+              } else {
+                this.$message({
+                  message: '创建成功',
+                  type: 'success'
+                })
+                this.resetAdmin()
+                this.loading = false
+                this.$router.push('adminlist')
+              }
+
             }
           }
         )

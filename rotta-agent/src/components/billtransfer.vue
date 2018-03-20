@@ -83,7 +83,7 @@
           </div>
       </el-dialog>
     </div>
-    
+
     <!-- 玩家存提点框 -->
     <div v-if="this.$store.state.variable.pointsIndex === 'playertransfer'">
       <el-dialog title="存点操作" :visible.sync="storeDialog" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
@@ -150,9 +150,10 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
+import { pattern } from '@/behavior/regexp'
 export default {
   beforeCreate () {
     this.isfinish = false
@@ -252,6 +253,9 @@ export default {
           type: 'error'
         })
         this.loading = false
+      } else if (!pattern.positive.exec(this.storePoints.amount)) {
+        this.loading = false
+        return this.$message.error(`点数为正数，保留2位小数`)
       } else {
         var url = ''
         if (this.$store.state.variable.dialogObj.type) {
@@ -314,7 +318,10 @@ export default {
           message: '请完善存点信息',
           type: 'error'
         })
-      } else {
+      } else if (!pattern.positive.exec(this.withdrawPoints.amount)) {
+        this.loading = false
+        return this.$message.error(`点数为正数，保留2位小数`)
+      }  else {
         var url = ''
         if (this.$store.state.variable.dialogObj.type) {
           url = api.playerTake
@@ -365,6 +372,9 @@ export default {
           type: 'error'
         })
         this.loading = false
+      } else if (!pattern.positive.exec(this.storePoints.amount)) {
+        this.loading = false
+        return this.$message.error(`点数为正数，保留2位小数`)
       } else {
         invoke({
           url: api.playerDeposit,
@@ -405,6 +415,9 @@ export default {
           type: 'error'
         })
         this.loading = false
+      } else if (!pattern.positive.exec(this.withdrawPoints.amount)) {
+        this.loading = false
+        return this.$message.error(`点数为正数，保留2位小数`)
       } else {
         invoke({
           url: api.playerTake,

@@ -20,7 +20,7 @@
                   <el-menu-item index="allReport">公司输赢总报表</el-menu-item>
                   <el-submenu index="1-1">
                       <template slot="title">NA游戏报表</template>
-                      
+
                   </el-submenu> -->
                   <!-- <el-submenu index="1-2">
                       <template slot="title">TTG游戏报表</template>
@@ -55,7 +55,7 @@
                 <template slot="title">玩家中心</template>
                 <el-menu-item index="agentPlayerList">玩家列表</el-menu-item>
               </el-submenu>
-              <el-submenu index="4">
+              <el-submenu index="4" v-if="Number(this.level) === 0">
                 <template slot="title">运营中心</template>
                 <el-menu-item index="gameNoticeList">游戏公告列表</el-menu-item>
                 <el-menu-item index="horseRaceLampList">跑马灯列表</el-menu-item>

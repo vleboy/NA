@@ -7,8 +7,8 @@
         <el-button type="primary" class="justfy1" @click="openModal()">创建跑马灯</el-button>
       </el-col>
       <el-col :span="13" class="g-text-right">
-        <el-input placeholder="请输入跑马灯次数" class="input" v-model="searchInfo.searchName"></el-input>
-        <el-button style="margin-left: 10px" type="primary" @click="startSearch">搜索</el-button>
+        <el-input placeholder="请输入跑马灯内容" class="input" v-model="searchInfo.content"></el-input>
+        <el-button style="margin-left: 10px" type="primary" @click="getHorseRaceLampList">搜索</el-button>
         <el-button @click="resetSearch">重置</el-button>
       </el-col>
     </div>
@@ -131,8 +131,7 @@ export default {
         second: 0
       },
       searchInfo: {
-        searchId: '',
-        searchName: ''
+        content: ''
       },
       searchArray: [], // 暂时加储
       dateOption: {
@@ -156,7 +155,8 @@ export default {
       this.$store.commit('startLoading')
       invoke({
         url: api.getHorseRaceLampList,
-        method: api.post
+        method: api.post,
+        data: this.searchInfo
       }).then(
         result => {
           const [err, res] = result
@@ -229,28 +229,6 @@ export default {
         }
       }
     },
-    startSearch () {
-      let {searchId, searchName} = this.searchInfo
-      this.arrayLocal = JSON.parse(JSON.stringify(this.searchArray))
-      if ((!searchId && !searchName)) {
-        this.searchArray = []
-        this.getHorseRaceLampList()
-      } else if (searchName && searchId) {
-        this.horseRaceLampList = this.arrayLocal.filter(item => {
-          return (item.count === Number(this.searchInfo.searchName) && item.noid === this.searchInfo.searchId)
-        })
-      } else {
-        if (searchName) {
-          this.horseRaceLampList = this.arrayLocal.filter(item => {
-            return item.count === Number(this.searchInfo.searchName)
-          })
-        } else if (searchId) {
-          this.horseRaceLampList = this.arrayLocal.filter(item => {
-            return item.noid === this.searchInfo.searchId
-          })
-        }
-      }
-    }, // 控制搜索条件
     resetSearch () {
       this.searchInfo = {}
       this.searchArray = []
