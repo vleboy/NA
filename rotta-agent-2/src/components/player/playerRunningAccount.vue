@@ -35,6 +35,7 @@ $<template>
             <el-button @click="isShowSearch = !isShowSearch" type="text">高级筛选
               <i :class="{'el-icon-caret-top':!isShowSearch,'el-icon-caret-bottom':isShowSearch}" style="font-size: 12px"></i>
             </el-button>
+            <el-button type="primary" @click="exportData">导出数据</el-button>
           </el-col>
           <el-col v-if="isShowSearch" style="position: relative">
             <div  class="from-search">
@@ -104,10 +105,8 @@ $<template>
             </el-table-column>
           </el-table>
           <el-row style="padding: 20px 0">
-            <el-col :span="12">
-              <el-button type="primary" @click="exportData">导出数据</el-button>
-            </el-col>
-            <el-col :span="12" class="g-text-right">
+
+            <el-col :span="24" class="g-text-right">
               <el-pagination layout="prev, pager, next, jumper" :total="playerAccountList.length"
                              :page-size="20" @size-change="getNowsize" @current-change="getNowpage"
                              :current-page.sync="currentPage">

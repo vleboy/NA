@@ -26,6 +26,7 @@
             placeholder="选择日期时间范围">
           </el-date-picker>
           <el-button type="primary" @click="searchAmount">搜索</el-button>
+          <el-button type="primary" @click="exportData">导出数据</el-button>
         </el-col>
         <el-col :span="12">
           <span class="justfy2">当前剩余点数：<span style="color: #F7BA2A">{{formatPoints(balance)}}</span></span>
@@ -91,10 +92,7 @@
         </el-table-column>
       </el-table>
       <el-row style="padding: 20px 0">
-        <el-col :span="12">
-          <el-button type="primary" @click="exportData">导出数据</el-button>
-        </el-col>
-        <el-col :span="12" class="g-text-right">
+        <el-col :span="24" class="g-text-right">
           <div style="margin-bottom: 10px;font-size: 15px;" v-if='radioInfo!=-1'>本页输赢总计:
               <span :class="{'-p-green':this.allAmount>0,'-p-red':this.allAmount<0}">
                 {{formatPoints(allAmountFun)}}
