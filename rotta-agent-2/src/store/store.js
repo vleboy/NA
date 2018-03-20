@@ -489,60 +489,60 @@ const actions = {
       }
     )
   }, // 获取管理员列表
-  getManager_LoginList (context) {
-    var checklogin = {
-      role: '1000',
-      type: 'login',
-      pageSize: '20',
-      startKey: null,
-      level: 0
-    }
-    invoke({
-      url: api.loginList,
-      method: api.post,
-      data: checklogin
-    }).then(
-      result => {
-        const [res, ret] = result
-        if (res) {
-        } else {
-          var list = ret.data.payload.Items
-          context.commit({
-            type: 'recordManager_LoginList',
-            data: list
-          })
-        }
-        context.commit('closeLoading')
-      }
-    )
-  }, // 获取代理登录日志
-  getMerchant_LoginList (context) {
-    var checklogin = {
-      role: '1000',
-      type: 'login',
-      pageSize: '20',
-      startKey: null,
-      level: -1
-    }
-    invoke({
-      url: api.loginList,
-      method: api.post,
-      data: checklogin
-    }).then(
-      result => {
-        const [res, ret] = result
-        if (res) {
-        } else {
-          var list = ret.data.payload.Items
-          context.commit({
-            type: 'recordMerchant_LoginList',
-            data: list
-          })
-        }
-        context.commit('closeLoading')
-      }
-    )
-  }, // 获取代理登录日志
+  //getManager_LoginList (context) {
+  //  var checklogin = {
+  //    role: '1000',
+  //    type: 'login',
+  //    pageSize: '20',
+  //    startKey: null,
+  //    level: 0
+  //  }
+  //  invoke({
+  //    url: api.loginList,
+  //    method: api.post,
+  //    data: checklogin
+  //  }).then(
+  //    result => {
+  //      const [res, ret] = result
+  //      if (res) {
+  //      } else {
+  //        var list = ret.data.payload.Items
+  //        context.commit({
+  //          type: 'recordManager_LoginList',
+  //          data: list
+  //        })
+  //      }
+  //      context.commit('closeLoading')
+  //    }
+  //  )
+  //}, // 获取代理登录日志
+  //getMerchant_LoginList (context) {
+  //  var checklogin = {
+  //    role: '1000',
+  //    type: 'login',
+  //    pageSize: '20',
+  //    startKey: null,
+  //    level: -1
+  //  }
+  //  invoke({
+  //    url: api.loginList,
+  //    method: api.post,
+  //    data: checklogin
+  //  }).then(
+  //    result => {
+  //      const [res, ret] = result
+  //      if (res) {
+  //      } else {
+  //        var list = ret.data.payload.Items
+  //        context.commit({
+  //          type: 'recordMerchant_LoginList',
+  //          data: list
+  //        })
+  //      }
+  //      context.commit('closeLoading')
+  //    }
+  //  )
+  //}, // 获取代理登录日志
   addVisitedViews({ commit }, view) {
     commit('ADD_VISITED_VIEWS', view)
   },
@@ -3205,13 +3205,13 @@ const mutations = {
     state.variable.gameListData = payload.data
   }, // 获取所有游戏列表数据
 
-  recordManager_LoginList (state, payload) {
-    state.variable.managerLoginList = payload.data
-  }, // 存储线路商登录日志
+  //recordManager_LoginList (state, payload) {
+  //  state.variable.managerLoginList = payload.data
+  //}, // 存储线路商登录日志
 
-  recordMerchant_LoginList (state, payload) {
-    state.variable.merchantLoginList = payload.data
-  }, // 存储商户登录日志
+  //recordMerchant_LoginList (state, payload) {
+  //  state.variable.merchantLoginList = payload.data
+  //}, // 存储商户登录日志
 
   recordAdmin_cooperDate (state, payload) {
     state.variable.adminCooperdate = payload.data
@@ -3309,7 +3309,7 @@ const mutations = {
     state.variable.allGameData.allNowplayer.push(payload.data)
     state.variable.allGameData.allNowlist.allbetCount += payload.data.allbetCount
     state.variable.allGameData.allNowlist.allWinlose += payload.data.allWinlose
-    
+
     state.variable.allGameData.allNowlist.naWinlose += payload.data.naWinlose
 
     state.variable.allGameData.allNowlist.ttgWinlose += payload.data.ttgWinlose
