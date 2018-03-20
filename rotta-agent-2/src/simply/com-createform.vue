@@ -15,7 +15,7 @@
       </el-form-item>
       <el-form-item label="代理标识" prop="sn">
         <div v-if="merchantInfo.snType == 2">
-          <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中英文、数字、@、_"></el-input>
+          <el-input v-model="merchantInfo.sn" class="input" placeholder="3~5位,只能包含中英文、数字、_"></el-input>
         </div>
         <div v-else>
           {{merchantInfo.sn || '暂无'}}
@@ -142,6 +142,9 @@ export default {
         ],
         displayName: [
           {validator: checkDisplayname, trigger: 'blur'}
+        ],
+        sn: [
+          {validator: checksn, trigger: 'blur'}
         ]
       },
       identificationType: [
