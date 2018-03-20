@@ -75,7 +75,7 @@ export default {
   name: 'out-setform',
   data () {
     var checkMix = (rule, value, callback) => {
-      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
+      var num = new RegExp(/^[0|1](\.[0-9]{1,2}){0,1}$/)
       if (!value.mix) {
         callback(new Error('请输入洗码比'))
       } else if (!num.test(value.mix)) {
