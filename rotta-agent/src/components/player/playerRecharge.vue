@@ -104,8 +104,8 @@
         var rex = new RegExp(/^[0-9]*[1-9][0-9]*$/)
         if (this.isSave && (!rex.exec(this.balanceInfo.points) || this.balanceInfo.points > 1000000000)) {
           return this.$message.error('存点数范围为1-1000,000,00的正整数')
-        } else if (!this.isSave && !rex.exec(this.balanceInfo.points)) {
-          return this.$message.error('提点数为正整数')
+        } else if (!rex.exec(this.balanceInfo.points)) {
+          return this.$message.error(`${this.isSaveStatus ? '存点' : '提点'}数为正整数`)
         } else if (!this.balanceInfo.fromUserId) {
           return this.$message.error('请选择账户')
         }
