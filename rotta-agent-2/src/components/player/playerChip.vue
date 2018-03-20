@@ -1,13 +1,13 @@
 <template>
   <div class="p-modal-recharge">
-    <el-dialog title="玩家限红" :visible.sync="isOpenModal"  @close="sureCloseModal">
+    <el-dialog title="玩家限红" :visible.sync="isOpenModal"  @close="sureCloseModal" size="tiny">
       <el-checkbox-group v-model="checkChipList" v-if="chipList.length">
         <el-checkbox v-for="item of chipList" :label="item.id" style="margin-left: 0;display: block">
           {{item.text}}
         </el-checkbox>
       </el-checkbox-group>
       <div v-else class="g-text-center">{{!isFetching ? '该代理暂无限红数据!' : '加载中...'}}</div>
-      <div class="g-text-right">
+      <div class="g-text-right" style="margin-top: 20px">
         <el-button @click="isOpenModal = false">取 消</el-button>
         <el-button type="primary" :load="isSending" @click="submit()">{{isSending ? '提交中' : '确 定'}}</el-button>
       </div>
