@@ -83,7 +83,7 @@
           </div>
       </el-dialog>
     </div>
-    
+
     <!-- 玩家存提点框 -->
     <div v-if="this.$store.state.variable.pointsIndex === 'playertransfer'">
       <el-dialog title="存点操作" :visible.sync="storeDialog" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
@@ -153,6 +153,7 @@
 <script>
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
+import { pattern } from '@/behavior/regexp'
 export default {
   beforeCreate () {
     this.isfinish = false
@@ -246,12 +247,15 @@ export default {
         data.toRole = '1000'
       }
       data.toUser = this.$store.state.variable.dialogObj.username
-      if (!this.storePoints.amount || Number(this.storePoints.amount) < 0 || isNaN(this.storePoints.amount) === true) {
+      if (!this.storePoints.amount || Number(this.storePoints.amount) < 0 || isNaN(this.storePoints.amount) === true ) {
         this.$message({
           message: '请完善存点信息',
           type: 'error'
         })
         this.loading = false
+      } else if (!pattern.positive.exec(this.storePoints.amount)) {
+        this.loading = false
+        return this.$message.error(`点数为正数，保留2位小数`)
       } else {
         var url = ''
         if (this.$store.state.variable.dialogObj.type) {
@@ -314,6 +318,9 @@ export default {
           message: '请完善存点信息',
           type: 'error'
         })
+      } else if (!pattern.positive.exec(this.withdrawPoints.amount)) {
+        this.loading = false
+        return this.$message.error(`点数为正数，保留2位小数`)
       } else {
         var url = ''
         if (this.$store.state.variable.dialogObj.type) {
