@@ -2,7 +2,8 @@
   <div class="createBtn">
     <div v-if="nowindex === 'comcreate'">
       <div v-if="steps === 0">
-        <el-button type="primary" class="createBtn-btn" @click="gosetcom">下一步</el-button>
+        <el-button type="primary" class="createBtn-btn" @click="gosetcom"
+                   :disabled="!displayNameCheck || !usernameCheck || !passwordCheck">下一步</el-button>
         <el-button class="" @click="reset">重置</el-button>
       </div>
       <div v-if="steps === 1">
@@ -15,7 +16,6 @@
         <el-button @click="print"> 打 印 </el-button>
       </div>
     </div>
-    
   </div>
 </template>
 <script>
@@ -26,6 +26,15 @@ export default {
     },
     nowindex () {
       return this.$store.state.variable.nowIndex
+    },
+    displayNameCheck () {
+      return this.$store.state.checkform.displayName
+    },
+    usernameCheck () {
+      return this.$store.state.checkform.username
+    },
+    passwordCheck () {
+      return this.$store.state.checkform.password
     }
   },
   props: ['managerInfo', 'setOutinfo', 'merchantInfo', 'setcomInfo'],
@@ -64,7 +73,7 @@ export default {
   },
   methods: {
     gosetcom () {
-      if (this.$store.state.checkform.sn === false || this.$store.state.checkform.username === false || this.$store.state.checkform.password === false || this.$store.state.checkform.displayName === false) {
+      if (!this.$store.state.checkform.username || !this.$store.state.checkform.password || !this.$store.state.checkform.displayName) {
         this.$message({
           message: '请完善创建信息',
           type: 'error'
