@@ -15,7 +15,7 @@
             <span>{{formatTime(scope.row.createdAt)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作人" prop="username" align="center" sortable>
+        <el-table-column label="操作人" prop="username" align="center">
           <template scope="scope">
             <span>{{user(scope.row.username)}}</span>
           </template>
