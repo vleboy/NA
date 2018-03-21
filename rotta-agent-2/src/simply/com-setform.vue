@@ -3,7 +3,7 @@
   <div class="com-setform">
     <h2 class="title">配置代理信息</h2>
     <el-form :model="setcomInfo" :rules="rules" ref="setcomInfo" class="setform" label-width="160px" label-position="right">
-      <el-form-item label="商户拥有的游戏">
+      <el-form-item label="代理拥有的游戏">
         <el-select v-model="setcomInfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem" @change="changeCompany">
             <el-option v-for="(item,index) in CompanyList" :key="index" :label="item.client" :value="item.server" style="width:10rem"></el-option>
         </el-select>
@@ -43,7 +43,7 @@
           <el-input v-model="setcomInfo.points" class="input" placeholder="请输入点数,最大不超过其上级拥有点数"></el-input>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="代理成数(%)" prop="rate">
+      <el-form-item label="代理抽成比(%)" prop="rate">
         <el-tooltip class="item" effect="dark" :content="parentRate" placement="right">
           <el-input v-model="setcomInfo.rate" class="input" placeholder="0.00~100.00,最大不超过其上级成数"></el-input>
         </el-tooltip>
@@ -79,7 +79,7 @@ export default {
       if (!this.secondGameList.mix) {
         callback(new Error('请输入洗码比'))
       } else if (!num.test(this.secondGameList.mix)) {
-        callback(new Error('电子游戏洗码比只能为0.00 - 1.00'))
+        callback(new Error('游戏洗码比只能为0.00 - 1.00'))
         this.isPassMix = false
       } else if (this.secondGameList.mix > this.parentMix) {
         callback(new Error('超出上级洗码比'))

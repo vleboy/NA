@@ -342,10 +342,7 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
+
         } else {
           var data = ret.data.payload
           if (!data.launchImg || data.launchImg == 'NULL!') {
