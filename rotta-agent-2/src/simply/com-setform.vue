@@ -81,9 +81,6 @@ export default {
       } else if (!num.test(this.secondGameList.mix)) {
         callback(new Error('游戏洗码比只能为0.00 - 1.00'))
         this.isPassMix = false
-      } else if (this.secondGameList.mix > this.parentMix) {
-        callback(new Error('超出上级洗码比'))
-        this.isPassMix = false
       } else {
         this.isPassMix = true
         callback()
