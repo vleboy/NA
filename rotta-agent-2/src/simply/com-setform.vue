@@ -43,13 +43,13 @@
           <el-input v-model="setcomInfo.points" class="input" placeholder="请输入点数,最大不超过其上级拥有点数"></el-input>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="代理抽成比(%)" prop="rate">
+      <el-form-item label="代理成数(%)" prop="rate">
         <el-tooltip class="item" effect="dark" :content="parentRate" placement="right">
           <el-input v-model="setcomInfo.rate" class="input" placeholder="0.00~100.00,最大不超过其上级成数"></el-input>
         </el-tooltip>
       </el-form-item>
       <el-form-item label="代理限红" v-if="setcomInfo.company">
-        <el-checkbox-group v-model="checkChipList" v-if="chipList.length" @change="change">
+        <el-checkbox-group v-model="checkChipList" v-if="chipList.length">
           <el-checkbox v-for="item of chipList" :label="item.id" style="margin-left: 0">
             {{item.text}}
           </el-checkbox>
@@ -59,7 +59,7 @@
     </el-form>
   </div>
   <div>
-    <createbtn class="Noprint" :setcomInfo="setcomInfo" @on-result-change="resetForm"></createbtn>
+    <createbtn class="Noprint" :setcomInfo="setcomInfo" @on-result-change="resetForm" @submitAddAgent= 'addAgent'></createbtn>
   </div>
 </div>
 
@@ -76,16 +76,58 @@ export default {
   data () {
     var checkMix = (rule, value, callback) => {
       var num = new RegExp(/^[0|1](\.[0-9]{1,2}){0,1}$/)
+      if (!(this.parentMix.length > 3)) {
+        this.parentMix = `${this.parentMix}0`
+      }
       if (!this.secondGameList.mix) {
         callback(new Error('请输入洗码比'))
-      } else if (!num.test(this.secondGameList.mix)) {
-        callback(new Error('游戏洗码比只能为0.00 - 1.00'))
+      } else if (!num.test(this.secondGameList.mix) || this.secondGameList.mix > this.parentMix) {
+        console.log(this.secondGameList.mix,this.parentMix)
+        callback(new Error('超过上级洗码比'))
         this.isPassMix = false
       } else {
         this.isPassMix = true
         callback()
       }
     }
+
+    var checkRate = (rule, value, callback) => {
+      var num = new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/)
+      // console.log(value)
+      if (value === '') {
+        callback(new Error('请输入成数'))
+        this.$store.state.checkform.rate = false
+      } else if (!num.test(value)) {
+        callback(new Error('成数只能为0.00 - 100.00'))
+        this.$store.state.checkform.rate = false
+      } else if (value < 0 || value > 100) {
+        callback(new Error('成数应为0~100之间的数字'))
+        this.$store.state.checkform.rate = false
+      } else if (Number(value) > Number(this.$store.state.variable.comparentBills.rate)) {
+        callback(new Error('所属代理成数已超过最大可分配额'))
+        this.$store.state.checkform.rate = false
+      } else {
+        this.$store.state.checkform.rate = true
+        callback()
+      }
+    } // 验证成数
+
+    var checkPoints = (rule, value, callback) => {
+      var num = new RegExp(/^[0-9]/)
+      if (value === '') {
+        callback(new Error('请输入初始点数'))
+        this.$store.state.checkform.points = false
+      } else if (!num.exec(value)) {
+        callback(new Error('请输入正确的点数'))
+        this.$store.state.checkform.points = false
+      } else if (Number(value) > Number(this.$store.state.variable.comparentBills.balance)) {
+        callback(new Error('所属账户已超过最大可分配额'))
+        this.$store.state.checkform.points = false
+      } else {
+        this.$store.state.checkform.points = true
+        callback()
+      }
+    } // 验证初始分配点数
     return {
       isPassMix: true, // 验证洗码比
       parentMix: '', // 上级洗码比
@@ -226,9 +268,6 @@ export default {
     }
   },
   methods: {
-    change(){
-
-    },
     resetForm (val) {
       this.setcomInfo = val
     },
@@ -309,52 +348,52 @@ export default {
     changeCompany(){
       this.chipList = []
       this.setcomInfo.company && this.getChipList()
-    }
-  },
-  beforeDestroy () {
-    if (this.setcomInfo.gameList.length != 0 && this.setcomInfo.points && this.setcomInfo.rate) {
-      let data = this.setcomInfo
-      for (let outside of data.gameList) {
-        for (let inside of this.CompanyList) {
-          if (outside.company == inside.server) {
-            outside.companyName = inside.companyName
+    },
+    addAgent () {
+      if (this.setcomInfo.gameList.length != 0 && this.setcomInfo.points && this.setcomInfo.rate) {
+        let data = this.setcomInfo
+        for (let outside of data.gameList) {
+          for (let inside of this.CompanyList) {
+            if (outside.company == inside.server) {
+              outside.companyName = inside.companyName
+            }
           }
         }
+        delete data.selectGame
+        delete data.showSelect
+        delete data.company
+        this.$store.commit({
+          type: 'recordComcreate',
+          data: data
+        })
+        var comcreate = this.$store.state.variable.comcreate
+        let storageChipList = []
+        for (let item of this.checkChipList) {
+          for (let data of this.chipList) {
+            if(item == data.id){
+              storageChipList.push(data.value)
+            }
+          }
+        }
+        comcreate.chip = storageChipList // 处理限红 只有这么骚操作了
+        invoke({
+          url: api.createUser,
+          method: api.post,
+          data: comcreate
+        }).then(
+          result => {
+            const [err, ret] = result
+            if (err) {
+            } else {
+              var data = ret.data.payload
+              this.$store.commit({
+                type: 'recordComsuccess',
+                data: data
+              })
+            }
+          }
+        )
       }
-      delete data.selectGame
-      delete data.showSelect
-      delete data.company
-      this.$store.commit({
-        type: 'recordComcreate',
-        data: data
-      })
-      var comcreate = this.$store.state.variable.comcreate
-      let storageChipList = []
-      for (let item of this.checkChipList) {
-        for (let data of this.chipList) {
-          if(item == data.id){
-            storageChipList.push(data.value)
-          }
-        }
-      }
-      comcreate.chip = storageChipList // 处理限红 只有这么骚操作了
-      invoke({
-        url: api.createUser,
-        method: api.post,
-        data: comcreate
-      }).then(
-        result => {
-          const [err, ret] = result
-          if (err) {
-          } else {
-            var data = ret.data.payload
-            this.$store.commit({
-              type: 'recordComsuccess',
-              data: data
-            })
-          }
-        }
-      )
     }
   }
 }

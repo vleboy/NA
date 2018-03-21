@@ -90,12 +90,14 @@ export default {
             type: 'error'
           })
         } else {
+
           this.$message({
             message: '请完善配置信息',
             type: 'error'
           })
         }
       } else {
+        this.$emit('submitAddAgent')
         this.$store.commit('changeSteps')
         localStorage.removeItem('nowGameList')
       }
