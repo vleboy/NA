@@ -9,13 +9,11 @@
 
               <el-submenu index="1">
                 <template slot="title">输赢报表</template>
-                <el-menu-item index="naAllGameReport">NA游戏总报表</el-menu-item>
-                <el-menu-item index="naVedioGameReport">NA电子游戏报表</el-menu-item>
-                <el-menu-item index="naArcadeGameReport">NA街机游戏报表</el-menu-item>
-                <el-menu-item index="naLiveGameReport">NA真人游戏报表</el-menu-item>
-                <el-menu-item index="commingSoon" ><a href="javascript:;" @click="getSign">NA真人游戏(跳转)</a></el-menu-item>
-                <el-menu-item index="naMallReport">NA棋牌游戏报表</el-menu-item>
 
+                  <el-menu-item index="naAllGameReport">NA游戏总报表</el-menu-item>
+                  <el-menu-item v-for="(item,index) in gameList" :index="item.path" :key="index">{{item.name+'报表'}}</el-menu-item>
+
+                  <el-menu-item v-if="isLiveGameState" index="commingSoon" ><a href="javascript:;" @click="getSign">NA真人游戏(跳转)</a></el-menu-item>
                   <!-- <template slot="title">输赢报表</template>
                   <el-menu-item index="allReport">公司输赢总报表</el-menu-item>
                   <el-submenu index="1-1">
@@ -93,7 +91,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 export default {
@@ -101,12 +99,54 @@ export default {
   data () {
     return {
       level: localStorage.loginLevel,
-      suffix: localStorage.loginSuffix
+      suffix: localStorage.loginSuffix,
+      gameReportForm: [
+        {
+          code: '10000',
+          name: 'NA棋牌游戏',
+          path: 'naMallReport'
+        },
+        {
+          code: '30000',
+          name: 'NA真人游戏',
+          path: 'naLiveGameReport'
+        },
+        {
+          code: '40000',
+          name: 'NA电子游戏',
+          path: 'naVedioGameReport'
+        },
+        {
+          code: '50000',
+          name: 'NA街机游戏',
+          path: 'naArcadeGameReport'
+        }
+      ],
+      storageReportForm: [],
+      isLiveGameState: false
     }
   },
   computed: {
     nowindex () {
       return this.$store.state.variable.nowIndex
+    },
+    gameList () {
+      let loginGameList = JSON.parse(localStorage.loginGameList);
+      if(!loginGameList.length) {
+        this.isLiveGameState = true
+        return this.gameReportForm
+      } else {
+        for (let item of loginGameList) {
+          for (let data of this.gameReportForm) {
+            if (item.code == data.code) {
+              this.storageReportForm.push(data)
+            } else if (item.code == '30000') {
+              this.isLiveGameState = true
+            }
+          }
+        }
+        return  this.storageReportForm
+      }
     }
   },
   methods: {

@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 // import { checkUsername, checkPassword, checkCaptcha } from '@/behavior/regexp'
@@ -117,7 +117,7 @@ export default {
               type: 'recordUserinfo',
               data: info
             })
-            let loginTime = new Date().getTime() 
+            let loginTime = new Date().getTime()
             localStorage.setItem('loginTime', loginTime)
             localStorage.setItem('loginToken', success.token)
             localStorage.setItem('loginLevel', success.level)
@@ -129,6 +129,8 @@ export default {
             localStorage.setItem('loginRole', success.role)
             localStorage.setItem('loginUsername', success.username)
             localStorage.setItem('loginParentName', success.parentName)
+            localStorage.setItem('loginGameList', JSON.stringify(success.gameList))
+
             this.$message({
               message: '登陆成功',
               type: 'success'
