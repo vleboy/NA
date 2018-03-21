@@ -478,6 +478,7 @@ export default {
                               debugger
                               item.winloseAmount = side.winloseAmount
                               item.mixAmount = side.mixAmount
+                              console.log('item:',item)
                               if (item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0) {
                                 // 当前没有代理这款游戏,但是有数据/按上级洗码比算
                                 item.nowBouns = side.betAmount * this.parentMix
@@ -498,20 +499,21 @@ export default {
                           }
                           return item.betCount > 0 && !isRepeat
                         }))
-                        this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的下注汇总
+                        this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的下注金额汇总
                         debugger
-                        this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的输赢金额汇总
+                        this.nowList.mixAmount = this.nowList.betAmount//当前登录代理电子游戏的洗码量
                       debugger;
                          // localStorage.loginSuffix == 'Agent' ? this.nowList.nowBouns = 0 : this.nowList.nowBouns = this.nowChild.map( child => child.nowBouns ).reduce( (a , b)=>{return a + b} , 0 )
-                         this.nowList.nowBouns = this.nowList.betAmount * this.parentMix;
+                         this.nowList.nowBouns = this.nowList.betAmount * this.parentMix;//当前登录代理电子游戏的佣金
 
                         
                           
-                        this.nowList.nowallBet = this.nowChild.map( child => child.nowallBet ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
-                        this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate / 100)
+                        //this.nowList.nowallBet = this.nowChild.map( child => child.nowallBet ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.nowallBet = this.nowList.nowBouns + this.nowList.winloseAmount//当前登录代理电子游戏的代理总金额
+                        this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount//当前登录代理电子游戏的获利比例
+                        this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate * 0.01 )//当前登录代理电子游戏的代理交公司
                       }
                       return data || []
                     }
@@ -595,10 +597,11 @@ export default {
 
                           item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.betAmount * this.parentMix : item.nowBouns = side.betAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
 
-                          item.nowallBet = item.nowBouns + side.winloseAmount
+                       
+                          debugger
                              this.nowList.submit = item.nowallBet * (1-this.nowList.rate*0.01)
                              this.nowList.nowBouns = item.nowBouns
-                        
+                           item.nowallBet = item.nowBouns + side.winloseAmount
                         this.nowList.mixAmount = item.mixAmount
                             this.nowList.nowallBet = item.nowallBet
                             
@@ -698,7 +701,7 @@ export default {
                               outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.betAmount * this.parentMix : outside.nowBouns = inside.betAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                               outside.nowallBet = outside.nowBouns + inside.winloseAmount
                               outside.winloseRate = outside.nowallBet / inside.betAmount
-                              outside.submit = outside.nowallBet * (1 - outside.rate / 100)
+                              outside.submit = outside.nowallBet * (1 - outside.rate * 0.01)
                               this.clickChild[this.clickChild.length-1].push(outside)
                             }
                           })
