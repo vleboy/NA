@@ -124,10 +124,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
               this.isSending = false
             } else {
               this.$message.success('提交成功')
