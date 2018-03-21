@@ -148,10 +148,10 @@
         <el-collapse-transition>
             <div class="editform" v-show="show3">
                 <el-select v-model="selcetCompany" placeholder="请选择" clearable style="width:12rem;margin-right:0.5rem;margin-left:6rem" v-show="!disable">
-                    <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:12rem"></el-option>
+                    <el-option v-for="(item,index) in CompanyList" :key="index" :label="item.client" :value="item.server" style="width:12rem"></el-option>
                 </el-select>
                 <el-select v-model="selectGame" placeholder="请选择" clearable style="width:12rem;" v-show="!disable">
-                    <el-option v-for="item in CompanyGame" :key="item" :label="item.name" :value="item" style="width:12rem"></el-option>
+                    <el-option v-for="(item,index) in CompanyGame" :key="index" :label="item.name" :value="item" style="width:12rem"></el-option>
                 </el-select>
                 <div v-show="selectGame">
                     <el-tooltip class="item" effect="dark" :content="'该上级代理' + selectGame.name + '洗码比为' + parentMix + '%'" placement="top">
@@ -455,7 +455,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import Billtransfer from '@/components/billtransfer'
 import { detailTime, formatContractPeriod, billType, formatRemark, formatUsername, formatPoints } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
@@ -574,6 +574,7 @@ export default {
     },
     comdetail () {
       let data = this.$store.state.variable.comdetaildata
+      data.remark = data.remark == 'NULL!' ? '' : data.remark
       if (data && data.launchImg) {
         this.imgInfo.logoImg = data.launchImg.logo[0]
         this.imgInfo.nameImg = data.launchImg.name[0]
@@ -1076,10 +1077,6 @@ export default {
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'warning'
-              })
               this.loading = false
             } else {
               var data = ret.data.payload

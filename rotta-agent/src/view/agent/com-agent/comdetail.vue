@@ -159,8 +159,8 @@
                     </el-tooltip>
                     <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
                 </div>
-                
-                
+
+
                 <el-table :data="comdetail.gameList" border style="width: 40rem;margin-top:1rem">
                   <el-table-column prop="company" align="center" label="公司"></el-table-column>
                   <el-table-column prop="name" align="center" label="游戏"></el-table-column>
@@ -455,7 +455,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import Billtransfer from '@/components/billtransfer'
 import { detailTime, formatContractPeriod, billType, formatRemark, formatUsername, formatPoints } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
@@ -574,6 +574,7 @@ export default {
     },
     comdetail () {
       let data = this.$store.state.variable.comdetaildata
+      data.remark = data.remark == 'NULL!' ? '' : data.remark
       if (data && data.launchImg) {
         this.imgInfo.logoImg = data.launchImg.logo[0]
         this.imgInfo.nameImg = data.launchImg.name[0]
@@ -741,7 +742,7 @@ export default {
       uploadAction2: '', // 上传name URL
       imgFile1:{},  // 上传LOGO img
       imgFile2:{},  // 上传NAME img
-      parentMix: '', // 上级洗码比  
+      parentMix: '', // 上级洗码比
       selcetCompany: '', // 选择的游戏运行商
       selectGame: '', // 选择的游戏
       CompanyList: [], // 所有游戏运营商
@@ -1076,10 +1077,6 @@ export default {
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'warning'
-              })
               this.loading = false
             } else {
               var data = ret.data.payload
