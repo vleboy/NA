@@ -15,7 +15,7 @@
               <div class="right_bottom">{{item.bet||0}}</div>
             </div>
           </div>
-          <div v-for="(item,indexChild) in data" :key="indexChild"  class="arcade_modal_low " :class="{'layer':!item.isWin}"></div>
+          <div v-for="(item,index2) in data" :key="index2"  class="arcade_modal_low " :class="{'layer':!item.isWin}"></div>
         </div>
       </div>
       <div class="arcade_modal_footer">
@@ -53,7 +53,8 @@ export default {
       roundIconFKSG:[],
       winResultObjSLXY: {},
       winResultObjJSSK: {},
-      winResultObjFKSG: {}
+      winResultObjFKSG: {},
+      imgPrefix: 'https://d38xgux2jezyfx.cloudfront.net/recordImg/'
     }
   },
   computed: {

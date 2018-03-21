@@ -69,7 +69,7 @@
     mounted () {},
     data () {
       let checkUserName = (rule, value, callback) => {
-        var regName = new RegExp(/^[a-zA-Z\d]{6,16}$/)
+        var regName = new RegExp(/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){6,16}$/)
         if (value === '') {
           callback(new Error('请输入用户名名称'))
           this.status.isCheckUserName = false
