@@ -233,7 +233,7 @@
 
             </div>
            <div slot="reference" v-for="game in scope.row.gameList" v-else="game.code == nowType">
-              <span >没有查询到该玩家的电子游戏洗码比</span>
+              <span >请设置玩家电子游戏洗码比</span>
             </div>
           </template>
         </el-table-column>
