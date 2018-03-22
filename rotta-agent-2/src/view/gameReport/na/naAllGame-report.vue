@@ -405,20 +405,20 @@ export default {
                 console.log('data1111111111111',data);
                 if (data) {
                   this.nowList.naAllbetCount = data[0].betCount
-                  for (let code in data[0].gameTypeMap) {
-                    if (naAllCode.naLive == code) {
-                      this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
-                    } else if (naAllCode.naVedio == code) {
-                      this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
-                    } else if (naAllCode.naArcade == code) {
-                      this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
-                    }
-                    this.nowList.naAllWinlose = this.nowList.naLiveWinlose + this.nowList.naVedioWinlose + this.nowList.naArcadeWinlose
-                    this.nowList.naAllSubmit = this.nowList.naLiveSubmit + this.nowList.naVedioSubmit + this.nowList.naArcadeSubmit
-                  }
+                  // for (let code in data[0].gameTypeMap) {
+                  //   if (naAllCode.naLive == code) {
+                  //     this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
+                  //     this.nowList.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                  //   } else if (naAllCode.naVedio == code) {
+                  //     this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
+                  //     this.nowList.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
+                  //   } else if (naAllCode.naArcade == code) {
+                  //     this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                  //     this.nowList.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
+                  //   }
+                  //   this.nowList.naAllWinlose = this.nowList.naLiveWinlose + this.nowList.naVedioWinlose + this.nowList.naArcadeWinlose
+                  //   this.nowList.naAllSubmit = this.nowList.naLiveSubmit + this.nowList.naVedioSubmit + this.nowList.naArcadeSubmit
+                  // }
                 }
               }
             })
@@ -516,7 +516,7 @@ export default {
                           console.log('真人交公司',item.naLiveSubmit)
                           // item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
                           this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.naLiveSubmit += data[0].gameTypeMap[code].submitAmount : 0//this.nowList.naLiveSubmit += item.naLiveSubmit//真人代理总金额
+                          this.nowList.suffix != 'Agent' ? this.nowList.naLiveSubmit = item.naLiveSubmit : ''//this.nowList.naLiveSubmit += item.naLiveSubmit//真人代理总金额
                         } else if (naAllCode.naVedio == code) {
                           item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
                           //console.log('navedioitem',item.gameList.filter(mix => {return mix.code == code}))
@@ -534,7 +534,8 @@ export default {
                           item.rate != 0 ? item.naVedioSubmit = (100 - item.rate)*0.01 * naVideoNowAllBet : item.naVedioSubmit = 0
                         //console.log('naVedioSubmit',item.naVedioSubmit)
                           this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.naVedioSubmit += data[0].gameTypeMap[code].submitAmount : ''// this.nowList.naVedioSubmit += item.naVedioSubmit
+                          this.nowList.suffix != 'Agent' ? this.nowList.naVedioSubmit = item.naVedioSubmit : ''// this.nowList.naVedioSubmit += item.naVedioSubmit
+                          console.log('电子交公司',this.nowList.naVedioSubmit)
                         } else if (naAllCode.naArcade == code) {
                           item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.naArcadeMix = item.gameList.filter(mix => {return mix.code == code})[0].mix;
@@ -545,14 +546,15 @@ export default {
                           item.rate != 0 ? item.naArcadeSubmit = (100 - item.rate )*0.01 * naArcadeNowAllBet : item.naArcadeSubmit = 0
                          console.log('街机交公司',item.naArcadeSubmit)
                           this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          this.nowList.suffix != 'Agent' ? this.nowList.naArcadeSubmit = item.naArcadeSubmit: ''
                         }
                         item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
                         item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
                       }
-                      this.nowList.naAllWinlose += item.naAllWinlose
+                      console.log('naAllWinlose',item.naAllWinlose)
+                      this.nowList.naAllWinlose = item.naAllWinlose
                       this.nowList.suffix != 'Agent' ? this.nowList.naAllSubmit += item.naAllSubmit : ''
-                      this.nowList.naAllbetCount += item.naAllbetCount
+                      this.nowList.naAllbetCount = item.naAllbetCount
                       this.nowChild.push(item)
                     }
                     resolve(data)
@@ -658,15 +660,15 @@ export default {
                           item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
                          // item.naLiveSubmit = (1 - item.rate / 100) * item.naLiveWinlose 
                          item.naLiveBetAmount += data[0].gameTypeMap[code].betAmount
-                          item.rate != 0 ? item.naLiveSubmit = (1 - item.rate / 100) * item.naLiveBetAmount : item.naLiveSubmit = 0
+                          item.rate != 0 ? item.naLiveSubmit = (100 - item.rate )*0.01 * item.naLiveBetAmount : item.naLiveSubmit = 0
                         } else if (naAllCode.naVedio == code) {
                           item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
                            item.naVedioBetAmount = data[0].gameTypeMap[code].betAmount * -1
-                          item.rate != 0 ? item.naVedioSubmit = (1 - item.rate / 100) * item.naVedioBetAmount : item.naVedioSubmit = 0
+                          item.rate != 0 ? item.naVedioSubmit = (100 - item.rate )*0.01 * item.naVedioBetAmount : item.naVedioSubmit = 0
                         } else if (naAllCode.naArcade == code) {
                           item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
                            item.naArcadeBetAmount += data[0].gameTypeMap[code].betAmount
-                          item.rate != 0 ? item.naArcadeSubmit = (1 - item.rate / 100) * item.naArcadeBetAmount : item.naArcadeSubmit = 0
+                          item.rate != 0 ? item.naArcadeSubmit =(100 - item.rate )*0.01 * item.naArcadeBetAmount : item.naArcadeSubmit = 0
                         }
                         item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
                         item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
