@@ -68,28 +68,16 @@ export default {
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
               this.resetAdmin()
               this.loading = false
             } else {
-              if(ret.data.code!=0) {
-                this.$message({
-                  message: ret.msg,
-                  type: 'error'
-                })
-              } else {
-                this.$message({
-                  message: '创建成功',
-                  type: 'success'
-                })
-                this.resetAdmin()
-                this.loading = false
-                this.$router.push('adminlist')
-              }
-
+              this.$message({
+                message: '创建成功',
+                type: 'success'
+              })
+              this.resetAdmin()
+              this.loading = false
+              this.$router.push('adminlist')
             }
           }
         )

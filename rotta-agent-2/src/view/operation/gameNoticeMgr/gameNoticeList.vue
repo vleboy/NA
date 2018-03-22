@@ -4,14 +4,14 @@
       <el-row class="transition-box">
         <el-col :span="10">
           <span>公告ID: </span>
-          <el-input placeholder="请输入" class="input" v-model="searchInfo.searchId"></el-input>
+          <el-input placeholder="请输入" class="input" v-model="searchInfo.adId"></el-input>
         </el-col>
         <el-col :span="10">
           <span>公告名称：</span>
-          <el-input placeholder="请输入" class="input" v-model="searchInfo.searchName"></el-input>
+          <el-input placeholder="请输入" class="input" v-model="searchInfo.adName"></el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="startSearch">搜索</el-button>
+          <el-button type="primary" @click="getGameNoticeList">搜索</el-button>
           <el-button @click="resetSearch">重置</el-button>
         </el-col>
       </el-row>
@@ -155,10 +155,9 @@ export default {
         remark: ''
       },
       searchInfo: {
-        searchId: '',
-        searchName: ''
+        adId: '',
+        adName: ''
       },
-      searchArray: [], // 暂时加储
       dateOption: {
         disabledDate (time) {
           return time.getTime() < Date.now() - 3600 * 1000 * 24
@@ -177,28 +176,31 @@ export default {
   },
   methods: {
     getGameNoticeList () {
+      if(this.searchInfo.adId == ''){
+        delete this.searchInfo.adId
+      }
+      if (this.searchInfo.adName == '') {
+        delete this.searchInfo.adName
+      }
       this.$store.commit('startLoading')
       invoke({
         url: api.getGameNoticeList,
-        method: api.post
+        method: api.post,
+        data: {
+          query: this.searchInfo
+        }
       }).then(
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             this.gameNoticeList = res.data.payload
-            this.searchArray = res.data.payload
           }
           this.$store.commit('closeLoading')
         }
       )
     },
     submitProp (id) {
-      // console.log(pattern.url.exec(this.noticeInfo.url), this.noticeInfo.url)
       if(this.noticeInfo.url =='NULL!') this.noticeInfo.url = '';
       if (!this.noticeInfo.adName) {
         return this.$message.error('请输入公告名称')
@@ -292,34 +294,11 @@ export default {
         }
       )
     }, // 更改道具状态
-    startSearch () {
-      let {searchId, searchName} = this.searchInfo
-      this.arrayLocal = JSON.parse(JSON.stringify(this.searchArray))
-      if ((!searchId && !searchName)) {
-        this.searchArray = []
-        this.getGameNoticeList()
-      } else if (searchName && searchId) {
-        this.gameNoticeList = this.arrayLocal.filter(item => {
-          return (item.adName === this.searchInfo.searchName && item.adId === this.searchInfo.searchId)
-        })
-      } else {
-        if (searchName) {
-          this.gameNoticeList = this.arrayLocal.filter(item => {
-            return item.adName === this.searchInfo.searchName
-          })
-        } else if (searchId) {
-          this.gameNoticeList = this.arrayLocal.filter(item => {
-            return item.adId === this.searchInfo.searchId
-          })
-        }
-      }
-    }, // 控制搜索条件
     resetSearch () {
       this.searchInfo = {
-        searchId: '',
-        searchName: ''
+        adId: '',
+        adName: ''
       }
-      this.searchArray = []
       this.getGameNoticeList()
     },
     getAtime (row, col) {

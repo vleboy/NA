@@ -517,7 +517,8 @@ export default {
           url: api.gameBigType,
           method: api.post,
           data: {
-            companyIden: val
+            companyIden: val,
+            userId: this.comdetail.parent
           }
         }).then(
           result => {
