@@ -514,8 +514,7 @@ export default {
                           localStorage.loginSuffix == 'Agent' ? this.nowList.nowBouns = 0 : this.nowList.nowBouns = this.nowList.betAmount * this.parentMix;//当前登录代理电子游戏的佣金
                     //  this.nowList.nowBouns = 0.12
 
- console.log('1',this.nowList)
- console.log('2',this.parentMix)
+
                         
                           
                         //this.nowList.nowallBet = this.nowChild.map( child => child.nowallBet ).reduce( (a , b)=>{return a + b} , 0 )
