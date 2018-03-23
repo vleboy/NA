@@ -363,7 +363,11 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
-      //    console.log('user',user)
+         console.log('user',user)
+          user.naVedioBetAmount = 0;
+          user.naArcadeBetAmount = 0;
+          user.naLiveBetAmount = 0;
+          user.naLiveMix = 0;
           user.naAllbetCount = 0
           user.naAllWinlose = 0
           user.naAllSubmit = 0
@@ -404,7 +408,7 @@ export default {
                 var data = ret.data.payload
                 console.log('data1111111111111',data);
                 if (data) {
-                  this.nowList.naAllbetCount = data[0].betCount
+                 // this.nowList.naAllbetCount = data[0].betCount
                   // for (let code in data[0].gameTypeMap) {
                   //   if (naAllCode.naLive == code) {
                   //     this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
@@ -515,8 +519,20 @@ export default {
                           item.rate != 0 ? item.naLiveSubmit = (100 - item.rate )*0.01 * naLiveNowAllBet : item.naLiveSubmit = 0
                           console.log('真人交公司',item.naLiveSubmit)
                           // item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+
+
+
+
+
+
+
                           this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
                           this.nowList.suffix != 'Agent' ? this.nowList.naLiveSubmit = item.naLiveSubmit : ''//this.nowList.naLiveSubmit += item.naLiveSubmit//真人代理总金额
+
+                         
+
+
+
                         } else if (naAllCode.naVedio == code) {
                           item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
                           //console.log('navedioitem',item.gameList.filter(mix => {return mix.code == code}))
@@ -531,10 +547,40 @@ export default {
                            let naVideoNowAllBet = item.naVedioWinlose + naVideoNowBouns;
                           // console.log('naVideoNowAllBet',naVideoNowAllBet)
                           // console.log('rate',item.rate)
-                          item.rate != 0 ? item.naVedioSubmit = (100 - item.rate)*0.01 * naVideoNowAllBet : item.naVedioSubmit = 0
+
+
+
+                           this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
+  
+
+                           this.nowList.naVedioBetAmount +=  item.naVedioBetAmount
+
+                            for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
+                              if (this.nowList.gameList[i].code == 40000) {
+                                this.nowList.naVedioNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naVedioBetAmount
+                                }
+                            }
+
+                                                        console.log('输赢2',this.nowList.naVedioWinlose)
+                                                        console.log('投注2',this.nowList.naVedioBetAmount)
+                           this.nowList.naVideoNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naVedioWinlose                
+                            this.nowList.suffix !=  'Agent' ? this.nowList.naVedioSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naVideoNowAllBet : this.nowList.naVedioSubmit = 0
+                            console.log('佣金11',this.nowList.naVedioNowBouns)
+                            console.log('总金额11',this.nowList.naVideoNowAllBet)
+                            console.log('交公司11',this.nowList.naVedioSubmit) 
+
+
+
+
+
+
+
+
+                         
+                        item.rate != 0 ? item.naVedioSubmit = (100 - item.rate)*0.01 * naVideoNowAllBet : item.naVedioSubmit = 0
                         //console.log('naVedioSubmit',item.naVedioSubmit)
-                          this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.naVedioSubmit = item.naVedioSubmit : ''// this.nowList.naVedioSubmit += item.naVedioSubmit
+                          
+                        //  this.nowList.suffix != 'Agent' ? this.nowList.naVedioSubmit = item.naVedioSubmit : ''// this.nowList.naVedioSubmit += item.naVedioSubmit
                           console.log('电子交公司',this.nowList.naVedioSubmit)
                         } else if (naAllCode.naArcade == code) {
                           item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
@@ -543,6 +589,37 @@ export default {
                           let naArcadeNowBouns = item.naArcadeBetAmount * item.naArcadeMix *0.01
                           let naArcadeNowAllBet = item.naArcadeWinlose + naArcadeNowBouns;
                              
+
+
+                              this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                              this.nowList.naAllWinlose += this.nowList.naArcadeWinlose
+                           this.nowList.naArcadeBetAmount +=  item.naArcadeBetAmount
+
+                            for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
+                              if (this.nowList.gameList[i].code == 40000) {
+                                this.nowList.naArcadeNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naArcadeBetAmount
+                                }
+                            }
+
+                                                        console.log('输赢Arcade2',this.nowList.naArcadeWinlose)
+                                                        console.log('投注Arcade2',this.nowList.naArcadeBetAmount)
+                           this.nowList.naArcadeNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naArcadeWinlose                
+                            this.nowList.suffix !=  'Agent' ? this.nowList.naArcadeSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naArcadeNowAllBet : this.nowList.naArcadeSubmit = 0
+                            console.log('佣金Arcade11',this.nowList.naArcadeNowBouns)
+                            console.log('总金额Arcade11',this.nowList.naArcadeNowAllBet)
+                            console.log('交公司Arcade11',this.nowList.naArcadeSubmit) 
+
+
+
+
+
+
+
+
+
+
+
+
                           item.rate != 0 ? item.naArcadeSubmit = (100 - item.rate )*0.01 * naArcadeNowAllBet : item.naArcadeSubmit = 0
                          console.log('街机交公司',item.naArcadeSubmit)
                           this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
@@ -552,9 +629,9 @@ export default {
                         item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
                       }
                       console.log('naAllWinlose',item.naAllWinlose)
-                      this.nowList.naAllWinlose = item.naAllWinlose
+                      this.nowList.naAllWinlose += item.naAllWinlose
                       this.nowList.suffix != 'Agent' ? this.nowList.naAllSubmit += item.naAllSubmit : ''
-                      this.nowList.naAllbetCount = item.naAllbetCount
+                      this.nowList.naAllbetCount += item.naAllbetCount
                       this.nowChild.push(item)
                     }
                     resolve(data)
@@ -997,10 +1074,85 @@ export default {
                             inside.naLiveWinlose += player.gameTypeMap[code].winloseAmount
                           } else if (naAllCode.naVedio == code) {
                             inside.naVedioWinlose += player.gameTypeMap[code].winloseAmount
+                           
+
+
+
+                           this.nowList.naVedioWinlose += inside.naVedioWinlose
+
+                           console.log('玩家zil',player.gameTypeMap[code].betAmount)
+                           this.nowList.naVedioBetAmount += player.gameTypeMap[code].betAmount * -1
+                            for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
+                              if (this.nowList.gameList[i].code == 40000) {
+                                this.nowList.naVedioNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naVedioBetAmount
+                                }
+                            }
+                           this.nowList.naVideoNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naVedioWinlose
+                          this.nowList.suffix !=  'Agent' ? this.nowList.naVedioSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naVideoNowAllBet : this.nowList.naVedioSubmit = 0
+                          console.log('佣金Vedio1',this.nowList.naVedioNowBouns)
+                          console.log('总金额Vedio1',this.nowList.naVideoNowAllBet)
+                                                       // console.log('投注1',inside.naVedioBetAmount) 
+                                                        console.log('交公司Vedio1',this.nowList.naVedioSubmit) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                           } else if (naAllCode.naArcade == code) {
+
                             inside.naArcadeWinlose += player.gameTypeMap[code].winloseAmount
+
+
+
+
+
+                           this.nowList.naArcadeWinlose += inside.naArcadeWinlose
+                           console.log('玩家Arcade',player.gameTypeMap[code].betAmount)
+                           this.nowList.naArcadeBetAmount += player.gameTypeMap[code].betAmount * -1
+                            for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
+                              if (this.nowList.gameList[i].code == 40000) {
+                                this.nowList.naArcadeNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naArcadeBetAmount
+                                }
+                            }
+                           this.nowList.naArcadeNowAllBet = this.nowList.naArcadeNowBouns + this.nowList.naArcadeWinlose
+                          this.nowList.suffix !=  'Agent' ? this.nowList.naArcadeSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naArcadeNowAllBet : this.nowList.naArcadeSubmit = 0
+                          console.log('佣金Arcade1',this.nowList.naArcadeNowBouns)
+                          console.log('总金额Arcade1',this.nowList.naArcadeNowAllBet)
+                                                       // console.log('投注1',inside.naVedioBetAmount) 
+                                                        console.log('交公司Arcade1',this.nowList.naArcadeSubmit) 
+
+
+
+
+
+
+
                           }
                           inside.naAllWinlose = inside.naLiveWinlose + inside.naVedioWinlose + inside.naArcadeWinlose
+                            this.nowList.naAllWinlose += inside.naAllWinlose
+                              this.nowList.naAllbetCount += inside.naAllbetCount
                         }
                         this.nowPlayer.push(inside)
                       }
