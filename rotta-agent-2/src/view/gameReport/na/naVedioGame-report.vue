@@ -443,6 +443,7 @@ export default {
             } else {
               // 有此游戏且有数据
               
+
                this.parentMix = user.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100 //当前登录代理的洗码比
             
             }
@@ -653,7 +654,7 @@ export default {
                     
                           //当前没有下级
 
- console.log('么有下级',this.nowChild.length)
+// console.log('么有下级',this.nowChild.length)
                   //  if (this.nowChild.length == 0) {
 
                       
