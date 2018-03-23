@@ -654,7 +654,27 @@ export default {
                           //当前没有下级
 
  console.log('么有下级',this.nowChild.length)
-                  //  if (this.nowChild.length == 0) {
+                    if (this.nowChild.length == 0) {
+
+                      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                       
                        this.nowList.nowBouns = item.nowBouns
@@ -667,7 +687,7 @@ export default {
                        this.nowList.winloseAmount += item.winloseAmount//输赢金额
                        this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
                          
-                     //     }
+                          }
                           
                         }
                       })
