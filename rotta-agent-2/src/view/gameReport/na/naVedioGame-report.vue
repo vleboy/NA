@@ -239,12 +239,38 @@
         </el-table-column>
          <el-table-column label="佣金" prop="nowBouns" align="center">
           <template scope="scope">
-            <span>{{points(scope.row.nowBouns)}}</span>
+
+
+           <div slot="reference1" v-for="game in scope.row.gameList" v-if="game.code == nowType">
+<!--               <span v-if="game.mix">{{parseFloat(game.mix).toFixed(2)}}%</span>
+               <span v-else>{{ parentMix * 100}}%</span> -->
+                <span>{{points(scope.row.nowBouns)}}</span>
+            </div>
+           <div slot="reference1" v-for="game in scope.row.gameList" v-else="game.code == nowType">
+              <span >请设置玩家电子游戏洗码比</span>
+            </div>
+
+
+
+           
           </template>
         </el-table-column>
         <el-table-column label="会员总金额" prop="nowallBet" align="center">
           <template scope="scope">
-            <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
+
+            <div slot="reference2" v-for="game in scope.row.gameList" v-if="game.code == nowType">
+<!--               <span v-if="game.mix">{{parseFloat(game.mix).toFixed(2)}}%</span>
+               <span v-else>{{ parentMix * 100}}%</span> -->
+               <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
+            </div>
+           <div slot="reference2" v-for="game in scope.row.gameList" v-else="game.code == nowType">
+              <span >请设置玩家电子游戏洗码比</span>
+            </div>
+
+
+
+
+            
           </template>
         </el-table-column>
       </el-table>
@@ -361,7 +387,9 @@ export default {
       for (let btn of clear) {
         btn.style.display = 'none'
       }
-    }, // 原生操作时间日期控件
+    }, // ←原生操作时间日期控件
+
+
     refreshList (data) {
       this.$store.commit('startLoading')
       this.playerParent = ''
@@ -377,7 +405,10 @@ export default {
           userId: localStorage.loginId
         })
       }
-    }, // 初始化列表
+    }, // ←初始化列表
+
+
+
     getLoginSelf () {
       let require = {
         userId: localStorage.loginId
@@ -391,6 +422,7 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
+          //console.log('登录用户报表基本信息：',user.betAmount)
           user.betCount = 0
           user.betAmount = 0
           user.winAmount = 0
@@ -422,9 +454,13 @@ export default {
           user.nowBouns =  user.betAmount * this.parentMix
           
           this.nowList = user
+
+
         }
       })
-    }, // 获取登陆用户报表基本信息
+    }, // ←获取登陆用户报表基本信息
+
+
     getLoginChild (id) {
       
       let data = {}
@@ -473,6 +509,8 @@ export default {
                       return []
                     } else {
                       var data = ret.data.payload
+                      console.log('data',data)
+                      console.log('item',item)
                       if (data.length > 0) {
                         item.map(item=> {
                           data.map(side =>{
@@ -490,25 +528,28 @@ export default {
                               } else {
                                 // 当前有这款游戏 并且有洗码比
                                  
-                                item.nowBouns = side.betAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                                item.nowBouns = side.betAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix * 0.01
                               }
                               item.nowallBet = item.nowBouns + side.winloseAmount
                               item.winloseRate = item.nowallBet / side.betAmount
-                              item.submit = item.nowallBet * (1 - item.rate / 100)
+                              item.submit = item.nowallBet * (100 - item.rate) * 0.01
                             }
                           })
                         })
+                      
                         this.nowChild.push(...item.filter(item=>{
                           let isRepeat = false
                           for (let side of this.nowChild) {
-                            side.userId == item.userId ? isRepeat = true : '' 
+                            side.userId == item.userId ? isRepeat = true : '' ;
+
+
                           }
                           return item.betCount > 0 && !isRepeat
                         }))
-                        this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的下注汇总
-                        this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的下注金额汇总
-                         
-                        this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的输赢金额汇总
+                        this.nowList.betCount += this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的下注汇总
+                        this.nowList.betAmount += this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的下注金额汇总
+                        
+                        this.nowList.winloseAmount += this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的输赢金额汇总
                         this.nowList.mixAmount = this.nowList.betAmount//当前登录代理电子游戏的洗码量
                        ;
                           localStorage.loginSuffix == 'Agent' ? this.nowList.nowBouns = 0 : this.nowList.nowBouns = this.nowList.betAmount * this.parentMix;//当前登录代理电子游戏的佣金
@@ -543,7 +584,13 @@ export default {
           }
         }
       )
-    }, // 获取登录用户直属下级
+    }, // ←获取登录用户直属下级
+
+
+
+
+
+
     getLoginPlayer (parent) {
       this.playerParent = parent.displayName
       this.$store.commit('startLoading')
@@ -604,27 +651,24 @@ export default {
                           item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.betAmount * this.parentMix : item.nowBouns = side.betAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
 
                     
+                          //当前没有下级
 
-                    if (this.nowChild.length == 0) {
+ console.log('么有下级',this.nowChild.length)
+                  //  if (this.nowChild.length == 0) {
 
+                      
                        this.nowList.nowBouns = item.nowBouns
                        item.nowallBet = item.nowBouns + side.winloseAmount
                        this.nowList.submit = item.nowallBet * (1-this.nowList.rate*0.01)
-                    }
-                             
-
-                           
-
-                            this.nowList.mixAmount = item.mixAmount
-                            this.nowList.nowallBet = item.nowallBet
-                            
-                          if (this.nowChild.length == 0) {
-                            this.nowList.betCount += item.betCount  //投注次数
-                            this.nowList.betAmount += item.betAmount//投注
-                            this.nowList.winloseAmount += item.winloseAmount//输赢金额
-                            this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
+                       this.nowList.mixAmount = item.mixAmount
+                       this.nowList.nowallBet = item.nowallBet
+                       this.nowList.betCount += item.betCount  //投注次数
+                       this.nowList.betAmount += item.betAmount//投注
+                       this.nowList.winloseAmount += item.winloseAmount//输赢金额
+                       this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
                          
-                          }
+                     //     }
+                          
                         }
                       })
                     })
@@ -655,11 +699,18 @@ export default {
           })
         }
       })
-    }, // 获取登陆用户直属玩家
+    }, // ←获取登陆用户直属玩家
+
+
+
+
     getChild_player (parent) {
       this.getChild(parent)
       this.getPlayer(parent)
-    }, // 获取下级代理及自己的玩家
+    }, // ←获取下级代理及自己的玩家
+
+
+
     getChild (parent) {
       this.$store.commit('startLoading')
       if (this.rendered.length == 0) {
@@ -902,7 +953,11 @@ export default {
           })
         }
       }
-    }, // 点击查询下级
+    }, // ←点击查询下级
+
+
+
+
     getPlayer (parent) {
       var isSame = false
       for (let item of this.rendered) {
@@ -992,30 +1047,45 @@ export default {
           })
         }
       })
-    }, // 点击查询代理玩家
+    }, // ←点击查询代理玩家
+
+
+
+
+
     points (data) {
       if (data && !isNaN(Number(data).toFixed(2))) {
         return formatPoints(Number(data).toFixed(2))
       } else {
         return '0.00'
       }
-    }, // 格式化金额
+    }, // ←格式化金额
+
+
     formatWinloseRate (rate) {
       return rate ? (rate * 100).toFixed(2) + '%' : 0
-    }, // 格式化百分率
+    }, // ←格式化百分率
+
+
     searchData () {
       this.$store.commit('startLoading')
       this.refreshList()
-    }, // 自定义时间搜索
+    }, // ←自定义时间搜索
+
+
     resetSearch () {
       this.$store.commit('startLoading')
       this.isSelect_time = false
       this.searchDate = ''
       this.refreshList()
-    }, // 按默认时间搜索
+    }, // ←按默认时间搜索
+
+
     userType (data) {
       return '代理'
-    }, // 格式化用户类型
+    }, // ←格式化用户类型
+
+
     goPlayDetail (row) {
       localStorage.setItem('playerName', row)
       this.$router.push('agentPlayerDetail')
@@ -1023,7 +1093,9 @@ export default {
         type: 'playerUserName',
         data: row
       })
-    }, // 跳转至玩家详情
+    }, // ←跳转至玩家详情
+
+
   }
 }
 </script>
