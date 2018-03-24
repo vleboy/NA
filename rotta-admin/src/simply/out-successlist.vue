@@ -46,9 +46,9 @@
         <p>管理员Email : {{outdata.adminEmail}}</p>
       </div>    
     </div>
-    <div class="list-bottom justfy">
+    <!-- <div class="list-bottom justfy">
       <p>生效时间 : {{formTime(outdata.contractPeriod)}}</p>
-    </div>
+    </div> -->
   </div>
   <div>
     <createbtn class="Noprint"></createbtn>

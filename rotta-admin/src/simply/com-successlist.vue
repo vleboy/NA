@@ -61,9 +61,9 @@
         <p>管理员Email : {{comdata.adminEmail}}</p>
       </div>    
     </div>
-    <div class="list-bottom">
+    <!-- <div class="list-bottom">
       <p>生效时间 : {{formTime(comdata.contractPeriod)}}</p>
-    </div>
+    </div> -->
   </div>
   <div>
     <createbtn class="Noprint"></createbtn>
