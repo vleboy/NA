@@ -216,10 +216,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.isLastMessage = res.data.list < this.pageSize
               this.playerList = res.data.list
@@ -244,10 +240,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else if (res) {
               this.$message({
                 message: '状态改变成功',
@@ -281,10 +273,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else if (res) {
               this.$message({
                 message: '状态改变成功',
@@ -377,10 +365,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               for (let item of res.data.payload) {
                 if (item.code != '10000') {

@@ -253,10 +253,6 @@ export default {
         result => {
           const [err, ret] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             var data = ret.data.payload
             console.log(data)

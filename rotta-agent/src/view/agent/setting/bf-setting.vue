@@ -54,10 +54,6 @@ export default {
       result => {
         const [err, ret] = result
         if (err) {
-          this.$message({
-            message: err.msg,
-            type: 'error'
-          })
         } else {
           this.ruleForm = {
             code: 'bfagent',
@@ -83,10 +79,6 @@ export default {
             result => {
               const [err, ret] = result
               if (err) {
-                this.$message({
-                  message: err.msg,
-                  type: 'error'
-                })
               } else {
                 this.$message({
                   message: '设置成功',

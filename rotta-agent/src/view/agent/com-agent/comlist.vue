@@ -511,10 +511,6 @@ export default {
         result => {
           const [err, ret] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
             this.$store.commit('closeLoading')
           } else {
             var data = ret.data.payload
@@ -542,10 +538,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else if (res) {
             this.$message({
               message: '状态改变成功',

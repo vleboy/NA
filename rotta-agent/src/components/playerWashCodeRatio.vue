@@ -53,10 +53,6 @@
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.propInfo = JSON.parse(JSON.stringify(this.dataProp.gameList || []))
               for (let item of ret.data.list) {
@@ -118,10 +114,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.isOpenPlayerMix = false
               this.$message.success('编辑成功')

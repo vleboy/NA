@@ -271,10 +271,6 @@ export default {
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'warning'
-              })
               this.loading = false
             } else {
               var data = ret.data.payload
@@ -336,10 +332,6 @@ export default {
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'warning'
-              })
             } else {
               var data = ret.data.payload
               this.successBack = data
@@ -384,10 +376,6 @@ export default {
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.successBack = this.$store.state.variable.dialogObj
               this.$message.success('提交成功')
@@ -427,10 +415,6 @@ export default {
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.successBack = this.$store.state.variable.dialogObj
               this.$message.success('提交成功')
@@ -460,10 +444,6 @@ export default {
         result => {
           const [err, ret] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             var data = ret.data.payload
             this.$message({

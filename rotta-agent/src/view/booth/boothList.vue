@@ -212,10 +212,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             this.boothList = res.data.payload
           }
@@ -231,10 +227,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             console.log(res)
             this.boothType = res.data.payload

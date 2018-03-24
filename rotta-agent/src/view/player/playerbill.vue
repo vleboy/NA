@@ -196,10 +196,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             this.playerBillDetailInfo =  res.data.billInfo
             this.playerBillDetailList =  res.data.list

@@ -138,10 +138,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             this.gameType =  res.data.data.gameId
             this.mode =  res.data.data.record.mode

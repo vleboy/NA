@@ -388,10 +388,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             this.recordAllObj = res.data.data.record;
             if(this.recordAllObj.userWin<'100'){

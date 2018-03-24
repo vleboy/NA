@@ -258,7 +258,6 @@
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message.error(err.msg)
             } else {
               this.consumeList = ret.data.data
               this.dynamicNum = this.consumeList.sum
@@ -284,7 +283,6 @@
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message.error(err.msg)
             } else {
               this.consumeAndIncomeList = ret.data.data
               this.drawAllLine()
@@ -482,10 +480,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.companyList = res.data.payload
               this.companyList.unshift({
