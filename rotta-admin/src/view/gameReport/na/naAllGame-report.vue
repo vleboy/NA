@@ -35,14 +35,14 @@
             <span>{{points(scope.row.naAllSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(输赢金额)" prop="naliveWinlose" align="left">
+        <el-table-column label="NA真人游戏(输赢金额)" prop="naLiveWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.naliveWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naliveWinlose)}}</span>
+            <span :class="[Number(scope.row.naLiveWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naLiveWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(商家交公司)" prop="naliveSubmit" align="left">
+        <el-table-column label="NA真人游戏(商家交公司)" prop="naLiveSubmit" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.naliveSubmit)}}</span>
+            <span>{{points(scope.row.naLiveSubmit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="NA电子游戏(输赢金额)" prop="naVedioWinlose" align="left">
@@ -65,7 +65,7 @@
             <span>{{points(scope.row.naArcadeSubmit)}}</span>
           </template>
         </el-table-column>
-      </el-table>
+L     </el-table>
     </div>
 
     <div class="childlist" v-if="loginRole != '100'">
@@ -95,14 +95,14 @@
             <span>{{points(scope.row.naAllSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(输赢金额)" prop="naliveWinlose" align="left">
+        <el-table-column label="NA真人游戏(输赢金额)" prop="naLiveWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.naliveWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naliveWinlose)}}</span>
+            <span :class="[Number(scope.row.naLiveWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naLiveWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(商家交公司)" prop="naliveSubmit" align="left">
+        <el-table-column label="NA真人游戏(商家交公司)" prop="naLiveSubmit" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.naliveSubmit)}}</span>
+            <span>{{points(scope.row.naLiveSubmit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="NA电子游戏(输赢金额)" prop="naVedioWinlose" align="left">
@@ -155,14 +155,14 @@
             <span>{{points(scope.row.naAllSubmit)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(输赢金额)" prop="naliveWinlose" align="left">
+        <el-table-column label="NA真人游戏(输赢金额)" prop="naLiveWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.naliveWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naliveWinlose)}}</span>
+            <span :class="[Number(scope.row.naLiveWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naLiveWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA真人游戏(商家交公司)" prop="naliveSubmit" align="left">
+        <el-table-column label="NA真人游戏(商家交公司)" prop="naLiveSubmit" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.naliveSubmit)}}</span>
+            <span>{{points(scope.row.naLiveSubmit)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="NA电子游戏(输赢金额)" prop="naVedioWinlose" align="left">
@@ -186,7 +186,7 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
+L   </div>
 
     <div class="playerlist">
       <div class="clearFix" style="margin-bottom:0.5rem">
@@ -483,7 +483,6 @@ export default {
                     reject('error')
                   } else {
                     var data = ret.data.payload
-                    console.log(222,data)
                     if (data[0]) {
                       item.naAllbetCount = data[0].betCount
                       for (let code in data[0].gameTypeMap) {
