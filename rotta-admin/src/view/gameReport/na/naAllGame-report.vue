@@ -483,6 +483,7 @@ export default {
                     reject('error')
                   } else {
                     var data = ret.data.payload
+                    console.log(222,data)
                     if (data[0]) {
                       item.naAllbetCount = data[0].betCount
                       for (let code in data[0].gameTypeMap) {
