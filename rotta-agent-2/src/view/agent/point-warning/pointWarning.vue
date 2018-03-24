@@ -308,7 +308,6 @@ export default {
                 let status = [] // 用户游戏状态组
                 let winloseAmount = [] // 用户游戏输赢组
                 let topAmount = [] // 用户设定阈值
-
                 for (let terval in item.winloseAmountMap) {
                   item.gameList.map(bull => {
                     terval == bull.code ? bull.winloseAmount = item.winloseAmountMap[terval].winloseAmount : ''
@@ -325,7 +324,6 @@ export default {
                     isStart = 1
                   }
                   status.push(isStart)
-
                   let count = ''
                   count += side.winloseAmount ? side.winloseAmount : 0
                   winloseAmount.push(Number(count))
@@ -354,9 +352,8 @@ export default {
                   }
                 } // 合并去重数据
                 companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
-                item.companyList = companyList
                 if (!item.companyList) {
-                  // item.companyList = companyList
+                  item.companyList = companyList
                 } else {
                   item.companyList.map(outside => {
                     companyList.map(inside => {
@@ -448,9 +445,8 @@ export default {
                     }
                   } // 合并去重数据
                   companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
-                  item.companyList = companyList
                   if (!item.companyList) {
-                    // item.companyList = companyList
+                    item.companyList = companyList
                   } else {
                     item.companyList.map(outside => {
                       companyList.map(inside => {
@@ -544,9 +540,8 @@ export default {
                     }
                   } // 合并去重数据
                   companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
-                  item.companyList = companyList
                   if (!item.companyList) {
-                    // item.companyList = companyList
+                    item.companyList = companyList
                   } else {
                     item.companyList.map(outside => {
                       companyList.map(inside => {

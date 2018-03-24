@@ -354,9 +354,9 @@ export default {
                   }
                 } // 合并去重数据
                 companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
-                item.companyList = companyList
+                // item.companyList = companyList
                 if (!item.companyList) {
-                  // item.companyList = companyList
+                  item.companyList = companyList
                 } else {
                   item.companyList.map(outside => {
                     companyList.map(inside => {
@@ -448,9 +448,9 @@ export default {
                     }
                   } // 合并去重数据
                   companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
-                  item.companyList = companyList
+                  // item.companyList = companyList
                   if (!item.companyList) {
-                    // item.companyList = companyList
+                    item.companyList = companyList
                   } else {
                     item.companyList.map(outside => {
                       companyList.map(inside => {
@@ -544,9 +544,9 @@ export default {
                     }
                   } // 合并去重数据
                   companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
-                  item.companyList = companyList
+                  // item.companyList = companyList
                   if (!item.companyList) {
-                    // item.companyList = companyList
+                    item.companyList = companyList
                   } else {
                     item.companyList.map(outside => {
                       companyList.map(inside => {
