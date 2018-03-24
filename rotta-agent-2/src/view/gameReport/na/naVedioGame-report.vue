@@ -232,7 +232,7 @@
                <span v-else>{{ parentMix * 100}}%</span>
 
             </div>
-           <div slot="reference" v-for="game in scope.row.gameList" v-else="game.code == nowType">
+           <div slot="reference"  v-else>
               <span >请设置玩家电子游戏洗码比</span>
             </div>
           </template>
@@ -246,7 +246,7 @@
                <span v-else>{{ parentMix * 100}}%</span> -->
                 <span>{{points(scope.row.nowBouns)}}</span>
             </div>
-           <div slot="reference1" v-for="game in scope.row.gameList" v-else="game.code == nowType">
+           <div slot="reference1"  v-else>
               <span >请设置玩家电子游戏洗码比</span>
             </div>
 
@@ -263,7 +263,7 @@
                <span v-else>{{ parentMix * 100}}%</span> -->
                <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
             </div>
-           <div slot="reference2" v-for="game in scope.row.gameList" v-else="game.code == nowType">
+           <div slot="reference2" v-else>
               <span >请设置玩家电子游戏洗码比</span>
             </div>
 
