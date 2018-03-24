@@ -148,11 +148,13 @@
         <el-collapse-transition>
             <div class="editform" v-show="show3">
                 <el-select v-model="selcetCompany" placeholder="请选择" clearable style="width:12rem;margin-right:0.5rem;margin-left:6rem" v-show="!disable">
-                    <el-option v-for="(item,index) in CompanyList" :key="index" :label="item.client" :value="item.server" style="width:12rem"></el-option>
+                  <el-option v-for="item in CompanyList" :key="item.code" :label="item.client" :value="item.server" style="width:12rem"></el-option>
                 </el-select>
-                <el-select v-model="selectGame" placeholder="请选择" clearable style="width:12rem;" v-show="!disable">
-                    <el-option v-for="(item,index) in CompanyGame" :key="index" :label="item.name" :value="item" style="width:12rem"></el-option>
+
+                <el-select v-model="gameCode" placeholder="请选择" clearable style="width:12rem;" v-show="!disable">
+                    <el-option v-for="item in CompanyGame" :key="item.code" :label="item.name" :value="item.code" style="width:12rem"></el-option>
                 </el-select>
+
                 <div v-show="selectGame">
                     <el-tooltip class="item" effect="dark" :content="'该上级代理' + selectGame.name + '洗码比为' + parentMix + '%'" placement="top">
                         <el-input class="input" type="number" placeholder="0.00~1.00,最大不超过其上级洗码比" v-model="selectGame.mix" style="width:19rem;margin:1rem 0 0 6rem"></el-input>
@@ -509,12 +511,13 @@ export default {
       if (val) {
         this.$store.commit('startLoading')
         this.selectGame = ''
+        this.gameCode = ''
         invoke({
           url: api.gameBigType,
           method: api.post,
           data: {
             companyIden: val,
-            userId: this.comdetail.parent
+            userId: this.comdetail.parent == '01' ? '' : this.comdetail.parent
           }
         }).then(
           result => {
@@ -529,12 +532,18 @@ export default {
         )
       } else {
         this.CompanyGame = []
+        this.gameCode = ''
         this.selectGame = ''
       }
     },
-    selectGame (val) {
+    gameCode (val) {
       if (val) {
-        this.selectGame.mix = ''
+        this.CompanyGame.forEach(item => {
+          if (item.code == val) {
+            this.selectGame = item
+            this.selectGame.mix = ''
+          }
+        })
         let data = {
           code: val.code,
           userId: ''
@@ -741,6 +750,7 @@ export default {
       imgFile2:{},  // 上传NAME img
       parentMix: '', // 上级洗码比
       selcetCompany: '', // 选择的游戏运行商
+      gameCode: '', // 选择的游戏码
       selectGame: '', // 选择的游戏
       CompanyList: [], // 所有游戏运营商
       CompanyGame: [], // 具体游戏运营商游戏
@@ -1036,6 +1046,7 @@ export default {
       this.show3 = true
       this.selcetCompany = ''
       this.selectGame = ''
+      this.gameCode = ''
       this.$store.commit('startEdit')
     }, // 开启编辑
     // changeContract () {
@@ -1076,6 +1087,7 @@ export default {
               this.disable = true
               this.$store.commit('closeEdit')
               this.selectGame = ''
+              this.gameCode = ''
               this.show1 = false
               this.show2 = false
               this.show3 = false

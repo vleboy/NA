@@ -514,7 +514,7 @@ export default {
           method: api.post,
           data: {
             companyIden: val,
-            userId: this.comdetail.parent
+            userId: this.comdetail.parent == '01' ? '' : this.comdetail.parent
           }
         }).then(
           result => {
