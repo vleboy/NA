@@ -489,10 +489,6 @@ export default {
       result => {
         const [err, ret] = result
         if (err) {
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
         } else {
           var data = ret.data.payload
           for (let item of data) {
@@ -978,10 +974,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else if (res) {
             this.$message({
               message: '状态改变成功',
@@ -1242,10 +1234,6 @@ export default {
         const [err, ret] = res
         if (err) {
           this.isUpdate1 = false
-          this.$message({
-            message: err.msg,
-            type: 'error'
-          })
         } else {
           this.comdetail.launchImg.logo[0] = (process.env.NODE_ENV == 'development') ? dev : prod
           this.isUpdate1 = false
@@ -1286,10 +1274,6 @@ export default {
           const [err, ret] = res
           if (err) {
             this.isUpdate1 = false
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             this.uploadAction1 = ret.data.payload
             resolve(true)
@@ -1336,10 +1320,6 @@ export default {
         const [err, ret] = res
         if (err) {
           this.isUpdate2 = false
-          this.$message({
-            message: err.msg,
-            type: 'error'
-          })
         } else {
           this.comdetail.launchImg.name[0] = (process.env.NODE_ENV == 'development') ? dev : prod
           this.isUpdate2 = false
@@ -1380,10 +1360,6 @@ export default {
           const [err, ret] = res
           if (err) {
             this.isUpdate2 = false
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             this.uploadAction2 = ret.data.payload
             resolve(true)

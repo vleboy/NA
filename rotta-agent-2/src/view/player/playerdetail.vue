@@ -137,10 +137,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             this.playerDetailInfo = res.data.userInfo
             setTimeout(()=>{
@@ -175,10 +171,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             // console.log(res)
             this.$message.success('修改成功')

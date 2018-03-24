@@ -162,10 +162,6 @@ export default {
       .then(res => {
         const [err, ret] = res
         if (err) {
-          this.$message({
-            message: err.msg,
-            type: 'error'
-          })
         } else {
           window.open(ret.data.url)
         }

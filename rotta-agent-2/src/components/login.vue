@@ -86,6 +86,7 @@ export default {
       }
     }, // 获取验证码
     login () {
+      if (!this.userInfo.password) return
       this.loading = true
       var log = this.userInfo
       invoke({

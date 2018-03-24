@@ -30,10 +30,6 @@ const actions = {
         const [err, ret] = result
         if (err) {
           context.commit('closeLoading')
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
         } else {
           var data = []
           data.push(ret.data.payload)
@@ -61,10 +57,6 @@ const actions = {
         const [err, ret] = result
         if (err) {
           context.commit('closeLoading')
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
         } else {
           var data = ret.data.payload
           context.commit({
@@ -91,10 +83,6 @@ const actions = {
         const [err, ret] = result
         if (err) {
           context.commit('closeLoading')
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
         } else {
           var data = ret.data.payload
           context.commit({
@@ -115,10 +103,6 @@ const actions = {
         const [err, ret] = result
         if (err) {
           context.commit('closeLoading')
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
         } else {
           var data = ret.data.payload
           context.commit({
@@ -139,10 +123,6 @@ const actions = {
         const [err, ret] = result
         if (err) {
           context.commit('closeLoading')
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
         } else {
           var data = ret.data.payload
           context.commit({
@@ -176,10 +156,6 @@ const actions = {
         const [err, ret] = result
         if (err) {
           context.commit('closeLoading')
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
         } else {
           var data = ret.data.payload
           context.commit({
@@ -208,10 +184,6 @@ const actions = {
         result => {
           const [err, ret] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'warning'
-            })
           } else {
             var data = ret.data.payload
             context.commit({
@@ -244,10 +216,6 @@ const actions = {
           const [err, ret] = result
           if (err) {
             context.commit('closeLoading')
-            this.$message({
-              message: err.msg,
-              type: 'warning'
-            })
           } else {
             var data = ret.data.list
             context.commit({
@@ -277,10 +245,6 @@ const actions = {
         const [err, ret] = result
         if (err) {
           context.commit('closeLoading')
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
         } else {
           var data = ret.data.list
           context.commit('countAjax')
@@ -313,10 +277,6 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
         } else {
           var data = ret.data.payload
           context.commit('countAjax')
@@ -342,7 +302,6 @@ const actions = {
       result => {
         const [err, ret] = result
         if (err) {
-
         } else {
           var data = ret.data.payload
           if (!data.launchImg || data.launchImg == 'NULL!') {
@@ -376,10 +335,6 @@ const actions = {
         const [err, ret] = result
         if (err) {
           context.commit('closeLoading')
-          this.$message({
-            message: err.msg,
-            type: 'warning'
-          })
         } else {
           var data = ret.data.payload
           context.commit('countAjax')

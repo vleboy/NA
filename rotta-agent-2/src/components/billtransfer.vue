@@ -374,10 +374,7 @@ export default {
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
+              this.loading = false
             } else {
               this.successBack = this.$store.state.variable.dialogObj
               this.$message.success('提交成功')
@@ -414,10 +411,7 @@ export default {
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
+              this.loading = false
             } else {
               this.successBack = this.$store.state.variable.dialogObj
               this.$message.success('提交成功')
@@ -447,10 +441,7 @@ export default {
         result => {
           const [err, ret] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
+            this.loading = false
           } else {
             var data = ret.data.payload
             this.$message({

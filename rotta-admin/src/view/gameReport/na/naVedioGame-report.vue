@@ -172,9 +172,9 @@
             <span :class="[Number(scope.row.winloseAmount) > 0 ? 'green' : 'red']">{{points(scope.row.winloseAmount)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="洗码量" prop="mixAmount" align="left">
+        <el-table-column label="洗码量" prop="betAmount" align="left">
           <template scope="scope">
-            <span>{{points(scope.row.mixAmount)}}</span>
+            <span>{{points(scope.row.betAmount)}}</span>
           </template>
         </el-table-column>
       </el-table>

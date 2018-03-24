@@ -161,10 +161,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             this.horseRaceLampList = res.data.list.Items
             this.searchArray = res.data.list.Items
@@ -192,10 +188,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
             this.isSending = false
           } else if (res) {
             this.$message({
@@ -267,10 +259,6 @@ export default {
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else if (res) {
               this.$message({
                 type: 'success',

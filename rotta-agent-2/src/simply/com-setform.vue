@@ -77,7 +77,7 @@ export default {
     var checkMix = (rule, value, callback) => {
       var num = new RegExp(/^[0|1](\.[0-9]{1,2}){0,1}$/)
       if (!(this.parentMix.length > 3)) {
-        this.parentMix = `${this.parentMix}0`
+        this.parentMix = `${this.parentMix}`
       }
       if (!this.secondGameList.mix) {
         callback(new Error('请输入洗码比'))
@@ -328,10 +328,6 @@ export default {
         result => {
           const [err, ret] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             for (let item of ret.data.list) {
               this.chipList.push({

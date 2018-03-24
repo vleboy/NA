@@ -221,10 +221,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
             this.isSending = false
           } else if (res) {
             this.$message({
@@ -279,10 +275,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else if (res) {
             this.$message({
               message: '状态改变成功',
@@ -328,10 +320,6 @@ export default {
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else if (res) {
               this.$message({
                 type: 'success',
@@ -420,10 +408,6 @@ export default {
         }).then(res => {
           const [err, ret] = res
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
             this.dialogLoading = false
           } else {
             this.dialogLoading = false

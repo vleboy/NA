@@ -56,10 +56,6 @@ export default{
         .then(res => {
           const [err, ret] = res
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
             this.$store.commit('closeLoading')
           } else {
             this.gameList = ret.data.payload
@@ -79,10 +75,6 @@ export default{
         .then(res => {
           const [err, ret] = res
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
             this.$store.commit('closeLoading')
           } else {
             this.$store.commit('closeLoading')

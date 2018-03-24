@@ -187,10 +187,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.prizeList = res.data.payload
             }
@@ -212,10 +208,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else if (res) {
               this.$message({
                 message: '操作成功',

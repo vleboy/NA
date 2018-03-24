@@ -226,10 +226,6 @@ export default {
         result => {
           const [err, res] = result
           if (err) {
-            this.$message({
-              message: err.msg,
-              type: 'error'
-            })
           } else {
             this.isLastMessage = res.data.list < this.pageSize
             this.playerAccountList = res.data.list

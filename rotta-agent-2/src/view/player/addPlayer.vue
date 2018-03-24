@@ -165,10 +165,6 @@
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.childrenList = ret.data.list
               this.playerInfo.parentId = this.$store.state.variable.nowParent || ''
@@ -190,10 +186,6 @@
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               for (let item of ret.data.list) {
                 this.chipList.push({
@@ -275,10 +267,6 @@
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
               this.status.isSending = false
             } else {
               var data = ret.payload

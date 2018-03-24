@@ -299,10 +299,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.isLastMessage = res.data.list < this.pageSize
               this.playerDetailList = res.data.list
@@ -327,10 +323,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.companyList = res.data.payload
               this.companyList.unshift({
@@ -354,10 +346,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               this.gameTypeList = res.data.payload
               if(this.radioInfo=='') {

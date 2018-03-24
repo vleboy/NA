@@ -47,10 +47,6 @@
           result => {
             const [err, ret] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
             } else {
               for (let item of ret.data.list) {
                 this.chipList.push({
@@ -105,10 +101,6 @@
           result => {
             const [err, res] = result
             if (err) {
-              this.$message({
-                message: err.msg,
-                type: 'error'
-              })
               this.isSending = false
             } else {
               this.$message.success('提交成功')

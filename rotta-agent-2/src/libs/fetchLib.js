@@ -34,6 +34,7 @@ export const invoke = async (cfg) => {
           type: 'error',
           message: response.data.msg,
         })
+        store.state.variable.isloading = false
         return [1, response]
       } else {
         return [0, response]
