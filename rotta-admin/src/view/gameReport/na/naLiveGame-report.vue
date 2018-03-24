@@ -484,7 +484,7 @@ export default {
             var data = ret.data.payload
             data.map(user => {
               user.gameList.map(game => {
-                game.code == gameType('naLive') ? user.rate == game.rate : ''
+                game.code == gameType('naLive') ? user.rate = game.rate : ''
               })
             })
             var result_manager = data.filter(item => {return item.role == '10'})
@@ -571,7 +571,7 @@ export default {
                 var data = ret.data.payload
                 data.map(user => {
                   user.gameList.map(game => {
-                    game.code == gameType('naLive') ? user.rate == game.rate : ''
+                    game.code == gameType('naLive') ? user.rate = game.rate : ''
                   })
                 })
                 var result_manager = data.filter(item => {return item.role == '10'})
@@ -658,7 +658,7 @@ export default {
               var data = ret.data.payload
               data.map(user => {
                 user.gameList.map(game => {
-                  game.code == gameType('naLive') ? user.rate == game.rate : ''
+                  game.code == gameType('naLive') ? user.rate = game.rate : ''
                 })
               })
               var result_manager = data.filter(item => {return item.role == '10'})
