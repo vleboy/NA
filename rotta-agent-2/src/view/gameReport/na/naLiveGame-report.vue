@@ -269,7 +269,7 @@
     </div>
   </div>
 </template>
-<script>
+<script type="text/ecmascript-6">
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 import { formatPoints } from '@/behavior/format'
@@ -466,6 +466,7 @@ export default {
                     if (err) {
                       reject(err)
                     } else {
+                      let mix = 1 // 定义一个返水比例
                       var data = ret.data.payload
                       if (data.length > 0) {
                         item.map(item=> {
@@ -489,12 +490,17 @@ export default {
                           }
                           return item.betCount > 0 && !isRepeat
                         }))
+                        for(let item of this.nowList.gameList) {
+                          if(item.code == this.nowType) {
+                            mix = +item.mix
+                          }
+                        }
                         this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.nowBouns = this.nowChild.map( child => child.nowBouns ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.nowallBet = this.nowChild.map( child => child.nowallBet ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.nowBouns = (this.nowList.mixAmount*mix/100).toFixed(2)
+                        this.nowList.nowallBet = +this.nowList.nowBouns + this.nowList.winloseAmount
                         this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
                         this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate / 100)
                       }

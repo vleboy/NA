@@ -409,6 +409,7 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
+          console.log(user,'user')
           user.betCount = 0
           user.betAmount = 0
           user.winAmount = 0
@@ -489,12 +490,18 @@ export default {
                           }
                           return item.betCount > 0 && !isRepeat
                         }))
+                        let mix = 1 // 定义一个返水比例
+                        for(let item of this.nowList.gameList) {
+                          if(item.code == this.nowType) {
+                            mix = +item.mix
+                          }
+                        }
                         this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.nowBouns = this.nowChild.map( child => child.nowBouns ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.nowallBet = this.nowChild.map( child => child.nowallBet ).reduce( (a , b)=>{return a + b} , 0 )
+                        this.nowList.nowBouns = (this.nowList.mixAmount*mix/100).toFixed(2)
+                        this.nowList.nowallBet = +this.nowList.nowBouns + this.nowList.winloseAmount
                         this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
                         this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate / 100)
                       }
