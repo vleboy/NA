@@ -232,9 +232,9 @@
                <span v-else>{{ parentMix * 100}}%</span>
 
             </div>
-           <div slot="reference"  v-else>
+           <!-- <div slot="reference"  v-else>
               <span >请设置玩家电子游戏洗码比</span>
-            </div>
+            </div> -->
           </template>
         </el-table-column>
          <el-table-column label="佣金" prop="nowBouns" align="center">
@@ -246,9 +246,9 @@
                <span v-else>{{ parentMix * 100}}%</span> -->
                 <span>{{points(scope.row.nowBouns)}}</span>
             </div>
-           <div slot="reference1"  v-else>
+           <!-- <div slot="reference1"  v-else>
               <span >请设置玩家电子游戏洗码比</span>
-            </div>
+            </div> -->
 
 
 
@@ -263,10 +263,10 @@
                <span v-else>{{ parentMix * 100}}%</span> -->
                <span :class="[Number(scope.row.nowallBet) > 0 ? 'green' : 'red']">{{points(scope.row.nowallBet)}}</span>
             </div>
-           <div slot="reference2" v-else>
+           <!-- <div slot="reference2" v-else>
               <span >请设置玩家电子游戏洗码比</span>
             </div>
-
+ -->
 
 
 
