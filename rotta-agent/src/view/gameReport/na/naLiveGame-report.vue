@@ -740,7 +740,7 @@ export default {
                                 if (outside.userId == inside.userId) {
                                   outside.betCount = inside.betCount
                                   outside.betAmount = inside.betAmount
-                                  outside.mixAmount = inside.mixAmount_
+                                  outside.mixAmount = inside.mixAmount
                                   outside.winloseAmount = inside.winloseAmount
                                   outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
                                   outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
