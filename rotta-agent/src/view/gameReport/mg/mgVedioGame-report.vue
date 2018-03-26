@@ -38,9 +38,9 @@ s<template>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
             <span v-if="scope.row.suffix == 'Agent'">1%</span>
-            <div slot="reference" v-else>
-                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
-                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            <div v-if="game.code == nowType && scope.row.suffix != 'Agent'" slot="reference" v-for="game in scope.row.gameList" >
+              <span v-if="game.mix">{{parseFloat(game.mix).toFixed(2)}}%</span>
+              <span v-else>{{ parseFloat(parentMix * 100).toFixed(2)}}%</span>
             </div>
           </template>
         </el-table-column>
@@ -102,9 +102,9 @@ s<template>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
             <span v-if="scope.row.suffix == 'Agent'">1%</span>
-            <div slot="reference" v-else>
-                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
-                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            <div v-if="game.code == nowType && scope.row.suffix != 'Agent'" slot="reference" v-for="game in scope.row.gameList" >
+              <span v-if="game.mix">{{parseFloat(game.mix).toFixed(2)}}%</span>
+              <span v-else>{{ parseFloat(parentMix * 100).toFixed(2)}}%</span>
             </div>
           </template>
         </el-table-column>
@@ -165,9 +165,9 @@ s<template>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
             <span v-if="scope.row.suffix == 'Agent'">1%</span>
-            <div slot="reference" v-else>
-                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
-                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            <div v-if="game.code == nowType && scope.row.suffix != 'Agent'" slot="reference" v-for="game in scope.row.gameList" >
+              <span v-if="game.mix">{{parseFloat(game.mix).toFixed(2)}}%</span>
+              <span v-else>{{ parseFloat(parentMix * 100).toFixed(2)}}%</span>
             </div>
           </template>
         </el-table-column>
@@ -228,9 +228,10 @@ s<template>
         </el-table-column>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
-            <div slot="reference">
-                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
-                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            <span v-if="scope.row.suffix == 'Agent'">1%</span>
+            <div v-if="game.code == nowType && scope.row.suffix != 'Agent'" slot="reference" v-for="game in scope.row.gameList" >
+              <span v-if="game.mix">{{parseFloat(game.mix).toFixed(2)}}%</span>
+              <span v-else>{{ parseFloat(parentMix * 100).toFixed(2)}}%</span>
             </div>
           </template>
         </el-table-column>
@@ -464,7 +465,7 @@ export default {
                         this.nowChild.push(...item.filter(item=>{
                           let isRepeat = false
                           for (let side of this.nowChild) {
-                            side.userId == item.userId ? isRepeat = true : '' 
+                            side.userId == item.userId ? isRepeat = true : ''
                           }
                           return item.betCount > 0 && !isRepeat
                         }))
@@ -566,7 +567,7 @@ export default {
                     this.nowPlayer.push(...item.filter(item=>{
                       let isRepeat = false
                       for (let side of this.nowPlayer) {
-                        side.userName == item.userName ? isRepeat = true : '' 
+                        side.userName == item.userName ? isRepeat = true : ''
                       }
                       return item.betCount > 0 && !isRepeat
                     }))
@@ -649,7 +650,7 @@ export default {
                               this.clickChild[this.clickChild.length-1].push(outside)
                             }
                           })
-                        }) 
+                        })
                       } else {
                         this.clickChild.pop()
                       }
@@ -727,7 +728,7 @@ export default {
                                   this.clickChild[this.clickChild.length-1].push(outside)
                                 }
                               })
-                            }) 
+                            })
                           } else {
                             this.clickChild.pop()
                           }
@@ -806,7 +807,7 @@ export default {
                                 this.clickChild[this.clickChild.length-1].push(outside)
                               }
                             })
-                          }) 
+                          })
                         } else {
                           this.clickChild.pop()
                         }
@@ -896,7 +897,7 @@ export default {
                     this.nowPlayer.push(...item.filter(item=>{
                       let isRepeat = false
                       for (let side of this.nowPlayer) {
-                        side.userName == item.userName ? isRepeat = true : '' 
+                        side.userName == item.userName ? isRepeat = true : ''
                       }
                       return item.betCount > 0 && !isRepeat
                     }))
