@@ -38,9 +38,9 @@
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
             <span v-if="scope.row.suffix == 'Agent'">1%</span>
-            <div slot="reference" v-else>
-                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
-                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            <div v-if="game.code == nowType && scope.row.suffix != 'Agent'" slot="reference" v-for="game in scope.row.gameList" >
+              <span v-if="game.mix">{{parseFloat(game.mix).toFixed(2)}}%</span>
+              <span v-else>{{ parseFloat(parentMix * 100).toFixed(2)}}%</span>
             </div>
           </template>
         </el-table-column>
@@ -107,9 +107,9 @@
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
             <span v-if="scope.row.suffix == 'Agent'">1%</span>
-            <div slot="reference" v-else>
-                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
-                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            <div v-if="game.code == nowType && scope.row.suffix != 'Agent'" slot="reference" v-for="game in scope.row.gameList" >
+              <span v-if="game.mix">{{parseFloat(game.mix).toFixed(2)}}%</span>
+              <span v-else>{{ parseFloat(parentMix * 100).toFixed(2)}}%</span>
             </div>
           </template>
         </el-table-column>
@@ -175,9 +175,9 @@
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
             <span v-if="scope.row.suffix == 'Agent'">1%</span>
-            <div slot="reference" v-else>
-                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
-                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            <div v-if="game.code == nowType && scope.row.suffix != 'Agent'" slot="reference" v-for="game in scope.row.gameList" >
+              <span v-if="game.mix">{{parseFloat(game.mix).toFixed(2)}}%</span>
+              <span v-else>{{ parseFloat(parentMix * 100).toFixed(2)}}%</span>
             </div>
           </template>
         </el-table-column>
@@ -243,9 +243,10 @@
         </el-table-column>
         <el-table-column label="返水比例" prop="vedioMix" align="center">
           <template scope="scope">
-            <div slot="reference">
-                <span v-for="item in scope.row.gameList" key={{item}} v-if="scope.row.gameList && scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length > 0">{{ item.mix }}%</span>
-                <span v-if="!scope.row.gameList || scope.row.gameList.filter(mix => {return mix.code == this.nowType}).length == 0">{{ parentMix * 100}}%</span>
+            <span v-if="scope.row.suffix == 'Agent'">1%</span>
+            <div v-if="game.code == nowType && scope.row.suffix != 'Agent'" slot="reference" v-for="game in scope.row.gameList" >
+              <span v-if="game.mix">{{parseFloat(game.mix).toFixed(2)}}%</span>
+              <span v-else>{{ parseFloat(parentMix * 100).toFixed(2)}}%</span>
             </div>
           </template>
         </el-table-column>
