@@ -610,7 +610,7 @@ export default {
                           item.winloseAmount = side.winloseAmount
                           item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                           item.nowallBet = item.nowBouns + side.winloseAmount
-                          if (this.nowChild.length == 0) {
+                          if (localStorage.loginSuffix != 'Agent') {
                             this.nowList.betCount += item.betCount
                             this.nowList.betAmount += item.betAmount
                             this.nowList.winloseAmount += item.winloseAmount
