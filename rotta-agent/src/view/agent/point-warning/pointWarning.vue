@@ -2,7 +2,7 @@
   <div>
     <div class="point-warning">
       <div class="belong-list">
-        <p class="title">管理员直管接入商</p>
+        <p class="title">管理员直管接入商 <span style="font-size:15px">统计截止时间:{{lastAllAmountTime}}</span></p>
         <el-table stripe :data="allAgent">
           <el-table-column label="序号" prop="rank" align="left" type="index" width="80">
           </el-table-column>
@@ -143,6 +143,7 @@
   </div>
 </template>
 <script>
+import { detailTime } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 export default {
@@ -155,6 +156,7 @@ export default {
   },
   created () {
     this.getAll_agent()
+    this.getLastAllAmountTime()
   },
   data () {
     return {
@@ -169,6 +171,7 @@ export default {
       rendered: [], // 已渲染的下级
       nowParent: [], // 现在渲染的下级所属上级昵称
       noType: '', // 判断现在点击的是直属还是下级
+      lastAllAmountTime:''// 最后统计时间
     }
   },
   computed: {
@@ -708,6 +711,15 @@ export default {
           message: '请设置正确的预警点数'
         })
       }
+    },
+    getLastAllAmountTime(){
+      invoke({
+        url: api.configOne,
+        method: api.post,
+        data: {code:'roundLast'}
+      }).then(([err, ret]) => {
+        this.lastAllAmountTime = detailTime(ret.data.payload.lastAllAmountTime)
+      })
     }
   }
 }
@@ -724,13 +736,10 @@ export default {
   margin:5.5px;
   border-radius: 5px;
 }
-.point-warning .belong-list .progress-content{
 
-}
 .point-warning .belong-list .click-zone{margin: 10px 0;}
 .point-warning .belong-list .list-btn{color: #409EFF;cursor: pointer;}
 .point-warning .belong-list .list-btn:hover{text-decoration: underline}
-
 
 .point-warning .belong-list .progress-content{
   color: #000;
