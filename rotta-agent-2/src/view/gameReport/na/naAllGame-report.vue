@@ -401,27 +401,23 @@ export default {
               data: data
             }).then(result => {
               const [err,ret] = result
-              if (err) {
-              } else {
-
-                var data = ret.data.payload
-                if (data) {
-                 // this.nowList.naAllbetCount = data[0].betCount
-                  // for (let code in data[0].gameTypeMap) {
-                  //   if (naAllCode.naLive == code) {
-                  //     this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                  //     this.nowList.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
-                  //   } else if (naAllCode.naVedio == code) {
-                  //     this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                  //     this.nowList.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
-                  //   } else if (naAllCode.naArcade == code) {
-                  //     this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                  //     this.nowList.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
-                  //   }
-                  //   this.nowList.naAllWinlose = this.nowList.naLiveWinlose + this.nowList.naVedioWinlose + this.nowList.naArcadeWinlose
-                  //   this.nowList.naAllSubmit = this.nowList.naLiveSubmit + this.nowList.naVedioSubmit + this.nowList.naArcadeSubmit
-                  // }
-                }
+              var data = ret.data.payload
+              if (data) {
+                // this.nowList.naAllbetCount = data[0].betCount
+                // for (let code in data[0].gameTypeMap) {
+                //   if (naAllCode.naLive == code) {
+                //     this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
+                //     this.nowList.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
+                //   } else if (naAllCode.naVedio == code) {
+                //     this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
+                //     this.nowList.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
+                //   } else if (naAllCode.naArcade == code) {
+                //     this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                //     this.nowList.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
+                //   }
+                //   this.nowList.naAllWinlose = this.nowList.naLiveWinlose + this.nowList.naVedioWinlose + this.nowList.naArcadeWinlose
+                //   this.nowList.naAllSubmit = this.nowList.naLiveSubmit + this.nowList.naVedioSubmit + this.nowList.naArcadeSubmit
+                // }
               }
             })
           }
@@ -442,15 +438,12 @@ export default {
           } else {
             var child = ret.data.payload
             child.length == 0 ? this.$store.commit('closeLoading') : ''
-
             let time = this.isSelect_time ? this.searchDate : getWeek()
-
             let naAllGameTyle = [
               {code: gameType('naLive'), company: 'na'},
               {code: gameType('naVedio'), company: 'na'},
               {code: gameType('naArcade'), company: 'na'}
             ] // 所有游戏类型
-
             let naAllReady = [] // promise所有结果返回
             let naAllCode = {
               naLive: 30000,
@@ -490,9 +483,7 @@ export default {
                   if (err) {
                     reject('error')
                   } else {
-
                     var data = ret.data.payload
-
                     if (data[0]) {
                       item.naAllbetCount = data[0].betCount
                       item.naBetamount = data[0].betAmount
@@ -504,89 +495,47 @@ export default {
                           item.naLiveMixAmount = data[0].gameTypeMap[code].mixAmount
                           let naLiveNowBouns = item.naLiveMixAmount * item.naLiveMix *0.01
                           let naLiveNowAllBet = item.naLiveWinlose + naLiveNowBouns;
-
                          // item.naLiveSubmit = (1 - item.rate / 100) * item.naLiveWinlose 
-                         
                           item.rate != 0 ? item.naLiveSubmit = (100 - item.rate )*0.01 * naLiveNowAllBet : item.naLiveSubmit = 0
                           // item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
-
-
-
-
-
-
-
                           this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
                           this.nowList.suffix != 'Agent' ? this.nowList.naLiveSubmit = item.naLiveSubmit : ''//this.nowList.naLiveSubmit += item.naLiveSubmit//真人代理总金额
-
-                         
-
-
-
                         } else if (naAllCode.naVedio == code) {
                           item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.naVedioMix = item.gameList.filter(mix => {return mix.code == code})[0].mix;
                           item.naVedioBetAmount = data[0].gameTypeMap[code].betAmount * -1 ;
                           let naVideoNowBouns = item.naVedioBetAmount * item.naVedioMix *0.01
-                          
                           let naVideoNowAllBet = item.naVedioWinlose + naVideoNowBouns;
-
-
-
                           this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-  
-
                           this.nowList.naVedioBetAmount +=  item.naVedioBetAmount
-
-                            for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
-                              if (this.nowList.gameList[i].code == 40000) {
-                                this.nowList.naVedioNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naVedioBetAmount
-                                }
-                            }
-
-                           this.nowList.naVideoNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naVedioWinlose                
-                            this.nowList.suffix !=  'Agent' ? this.nowList.naVedioSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naVideoNowAllBet : this.nowList.naVedioSubmit = 0
-
-
-                        item.rate != 0 ? item.naVedioSubmit = (100 - item.rate)*0.01 * naVideoNowAllBet : item.naVedioSubmit = 0
-                          
-                        //  this.nowList.suffix != 'Agent' ? this.nowList.naVedioSubmit = item.naVedioSubmit : ''// this.nowList.naVedioSubmit += item.naVedioSubmit
+                          for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
+                            if (this.nowList.gameList[i].code == 40000) {
+                              this.nowList.naVedioNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naVedioBetAmount
+                              }
+                          }
+                          this.nowList.naVideoNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naVedioWinlose                
+                          this.nowList.suffix !=  'Agent' ? this.nowList.naVedioSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naVideoNowAllBet : this.nowList.naVedioSubmit = 0
+                          item.rate != 0 ? item.naVedioSubmit = (100 - item.rate)*0.01 * naVideoNowAllBet : item.naVedioSubmit = 0
+                          //  this.nowList.suffix != 'Agent' ? this.nowList.naVedioSubmit = item.naVedioSubmit : ''// this.nowList.naVedioSubmit += item.naVedioSubmit
                         } else if (naAllCode.naArcade == code) {
                           item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.naArcadeMix = item.gameList.filter(mix => {return mix.code == code})[0].mix;
                           item.naArcadeBetAmount = data[0].gameTypeMap[code].betAmount * -1 ;
                           let naArcadeNowBouns = item.naArcadeBetAmount * item.naArcadeMix *0.01
                           let naArcadeNowAllBet = item.naArcadeWinlose + naArcadeNowBouns;
-                             
-
-
-                              this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                              this.nowList.naAllWinlose += this.nowList.naArcadeWinlose
-                           this.nowList.naArcadeBetAmount +=  item.naArcadeBetAmount
-
-                            for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
-                              if (this.nowList.gameList[i].code == 40000) {
-                                this.nowList.naArcadeNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naArcadeBetAmount
-                                }
-                            }
-                           this.nowList.naArcadeNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naArcadeWinlose                
-                            this.nowList.suffix !=  'Agent' ? this.nowList.naArcadeSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naArcadeNowAllBet : this.nowList.naArcadeSubmit = 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-                          item.rate != 0 ? item.naArcadeSubmit = (100 - item.rate )*0.01 * naArcadeNowAllBet : item.naArcadeSubmit = 0
                           this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.naArcadeSubmit = item.naArcadeSubmit: ''
+                          this.nowList.naAllWinlose += this.nowList.naArcadeWinlose
+                          this.nowList.naArcadeBetAmount +=  item.naArcadeBetAmount
+                          for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
+                            if (this.nowList.gameList[i].code == 40000) {
+                              this.nowList.naArcadeNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naArcadeBetAmount
+                              }
+                          }
+                          this.nowList.naArcadeNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naArcadeWinlose                
+                          this.nowList.suffix !=  'Agent' ? this.nowList.naArcadeSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naArcadeNowAllBet : this.nowList.naArcadeSubmit = 0
+                        item.rate != 0 ? item.naArcadeSubmit = (100 - item.rate )*0.01 * naArcadeNowAllBet : item.naArcadeSubmit = 0
+                        this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
+                        this.nowList.suffix != 'Agent' ? this.nowList.naArcadeSubmit = item.naArcadeSubmit: ''
                         }
                         item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
                         item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
@@ -642,15 +591,12 @@ export default {
             this.playerParent = ''
             this.clickChild = []
             var child = ret.data.payload
-
             let time = this.isSelect_time ? this.searchDate : getWeek()
-
             let naAllGameTyle = [
               {code: gameType('naLive'), company: 'na'},
               {code: gameType('naVedio'), company: 'na'},
               {code: gameType('naArcade'), company: 'na'}
             ] // 所有游戏类型
-
             let naAllReady = [] // promise所有结果返回
             let naAllCode = {
               naLive: 30000,
@@ -751,13 +697,11 @@ export default {
               } else {
                 var child = ret.data.payload
                 let time = this.isSelect_time ? this.searchDate : getWeek()
-                
                 let naAllGameTyle = [
                   {code: gameType('naLive'), company: 'na'},
                   {code: gameType('naVedio'), company: 'na'},
                   {code: gameType('naArcade'), company: 'na'}
                 ] // 所有游戏类型
-
                 let naAllReady = [] // promise所有结果返回
                 let naAllCode = {
                   naLive: 30000,
@@ -781,12 +725,12 @@ export default {
                   item.naArcadeWinlose = 0
                   item.naArcadeSubmit = 0
                   item.naAllBetAmount = 0//总投注
-              item.naLiveBetAmount =0//真人投注
-              item.naVedioBetAmount = 0 //电子投注
-              item.naArcadeBetAmount = 0//街
-              item.naLiveMix =0;//真人洗码比
-              item.naVedioMix = 0;//电子洗码比
-              item.naArcadeMix = 0;//街机洗码比
+                  item.naLiveBetAmount =0//真人投注
+                  item.naVedioBetAmount = 0 //电子投注
+                  item.naArcadeBetAmount = 0//街
+                  item.naLiveMix =0;//真人洗码比
+                  item.naVedioMix = 0;//电子洗码比
+                  item.naArcadeMix = 0;//街机洗码比
                   let pro = new Promise((resolve, reject) => {
                     invoke({
                       url: api.calcUserStat,
@@ -876,7 +820,6 @@ export default {
                   userIds: [item.userId],
                   query: {createdAt: time}
                 }
-
                 item.naAllbetCount = 0
                 item.naAllWinlose = 0
                 item.naAllSubmit = 0
@@ -887,12 +830,12 @@ export default {
                 item.naArcadeWinlose = 0
                 item.naArcadeSubmit = 0
                 item.naAllBetAmount = 0//总投注
-              item.naLiveBetAmount =0//真人投注
-              item.naVedioBetAmount = 0 //电子投注
-              item.naArcadeBetAmount = 0//街
-              item.naLiveMix =0;//真人洗码比
-              item.naVedioMix = 0;//电子洗码比
-              item.naArcadeMix = 0;//街机洗码比
+                item.naLiveBetAmount =0//真人投注
+                item.naVedioBetAmount = 0 //电子投注
+                item.naArcadeBetAmount = 0//街
+                item.naLiveMix =0;//真人洗码比
+                item.naVedioMix = 0;//电子洗码比
+                item.naArcadeMix = 0;//街机洗码比
                 let pro = new Promise((resolve, reject) => {
                   invoke({
                     url: api.calcUserStat,
@@ -990,21 +933,17 @@ export default {
             i == 0 ? result.push(data.slice(i, cut_count)) : result.push(data.slice(i * cut_count, cut_count * (i + 1)))
           }
           let time = this.isSelect_time ? this.searchDate : getWeek()
-
           let naAllGameTyle = [
             {code: gameType('naLive'), company: 'na'},
             {code: gameType('naVedio'), company: 'na'},
             {code: gameType('naArcade'), company: 'na'}
           ] // 所有游戏类型
-
           let naAllReady = [] // promise所有结果返回
-
           let naAllCode = {
             naLive: 30000,
             naVedio: 40000,
             naArcade: 50000
           }
-
           for (let item of result) {
             let player_data = {
               gameType: naAllGameTyle.map(game => {return game.code}),
@@ -1033,51 +972,30 @@ export default {
                             inside.naLiveWinlose += player.gameTypeMap[code].winloseAmount
                           } else if (naAllCode.naVedio == code) {
                             inside.naVedioWinlose += player.gameTypeMap[code].winloseAmount
-                           
-
-
-
-                           this.nowList.naVedioWinlose += inside.naVedioWinlose
-
-                           this.nowList.naVedioBetAmount += player.gameTypeMap[code].betAmount * -1
+                            this.nowList.naVedioWinlose += inside.naVedioWinlose
+                            this.nowList.naVedioBetAmount += player.gameTypeMap[code].betAmount * -1
                             for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
                               if (this.nowList.gameList[i].code == 40000) {
                                 this.nowList.naVedioNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naVedioBetAmount
                                 }
                             }
-                           this.nowList.naVideoNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naVedioWinlose
-                          this.nowList.suffix !=  'Agent' ? this.nowList.naVedioSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naVideoNowAllBet : this.nowList.naVedioSubmit = 0
-
-
-
+                            this.nowList.naVideoNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naVedioWinlose
+                            this.nowList.suffix !=  'Agent' ? this.nowList.naVedioSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naVideoNowAllBet : this.nowList.naVedioSubmit = 0
                           } else if (naAllCode.naArcade == code) {
-
                             inside.naArcadeWinlose += player.gameTypeMap[code].winloseAmount
-
-
-
-
-
-                           this.nowList.naArcadeWinlose += inside.naArcadeWinlose
-                           this.nowList.naArcadeBetAmount += player.gameTypeMap[code].betAmount * -1
+                            this.nowList.naArcadeWinlose += inside.naArcadeWinlose
+                            this.nowList.naArcadeBetAmount += player.gameTypeMap[code].betAmount * -1
                             for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
                               if (this.nowList.gameList[i].code == 40000) {
                                 this.nowList.naArcadeNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naArcadeBetAmount
                                 }
                             }
-                           this.nowList.naArcadeNowAllBet = this.nowList.naArcadeNowBouns + this.nowList.naArcadeWinlose
-                          this.nowList.suffix !=  'Agent' ? this.nowList.naArcadeSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naArcadeNowAllBet : this.nowList.naArcadeSubmit = 0
-
-
-
-
-
-
-
+                            this.nowList.naArcadeNowAllBet = this.nowList.naArcadeNowBouns + this.nowList.naArcadeWinlose
+                            this.nowList.suffix !=  'Agent' ? this.nowList.naArcadeSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naArcadeNowAllBet : this.nowList.naArcadeSubmit = 0
                           }
                           inside.naAllWinlose = inside.naLiveWinlose + inside.naVedioWinlose + inside.naArcadeWinlose
-                            this.nowList.naAllWinlose += inside.naAllWinlose
-                              this.nowList.naAllbetCount += inside.naAllbetCount
+                          this.nowList.naAllWinlose += inside.naAllWinlose
+                          this.nowList.naAllbetCount += inside.naAllbetCount
                         }
                         this.nowPlayer.push(inside)
                       }
