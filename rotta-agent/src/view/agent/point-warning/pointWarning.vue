@@ -381,99 +381,103 @@ export default {
           }
         })
       } else {
-        if (this.rendered[this.rendered.length - 1].userId == parent.parent) {
-          this.rendered.push(will_render)
-          this.nowParent.push(parent.displayName)
-          invoke({
-            url: api.reportInfo,
-            method: api.post,
-            data: data
-          }).then(result => {
-            const [err, ret] = result
-            if (err) {
-              this.$store.commit('closeLoading')
-            } else {
-              var child = ret.data.payload
-              if (child.length > 0) {
-                for (let item of child) {
-
-                  // 五个组长度一致且一一对应
-                  let userId = [] // 用户ID组
-                  let allCompany = [] // 用户游戏大类组
-                  let status = [] // 用户游戏状态组
-                  let winloseAmount = [] // 用户游戏输赢组
-                  let topAmount = [] // 用户设定阈值
-
-                  for (let terval in item.winloseAmountMap) {
-                    item.gameList.map(bull => {
-                      terval == bull.code ? bull.winloseAmount = item.winloseAmountMap[terval].winloseAmount : ''
-                    })
-                  } // 将有数据的输赢push到相应游戏类别里
-
-                  item.gameList.map(side => {
-                    side.topAmount ? '' : side.topAmount = 0;
-                    allCompany.push(side.company)
-                    userId.push(item.userId)
-                    topAmount.push(side.topAmount)
-                    let isStart = 0
-                    side.status ? '' : side.status = 1
-                    if (side.status = 1) {
-                      isStart = 1
-                    }
-                    status.push(isStart)
-
-                    let count = ''
-                    count += side.winloseAmount ? side.winloseAmount : 0
-                    winloseAmount.push(count)
-                    
-                  }) // 获取运营商名称与启用/停用状态
-                  let ruler = []
-                  let companyList = [] // 处理后的要渲染的数据
-                  for (let i = 0;i < allCompany.length;i++) {
-                    if (!ruler.includes(allCompany[i])) {
-                      ruler.push(allCompany[i])
-                      companyList.push({
-                        company: allCompany[i],
-                        status: status[i],
-                        winloseAmount: Number(winloseAmount[i]),
-                        topAmount: Number(topAmount[i]),
-                        userId: userId[i],
-                        usedRate: topAmount[i] != 0 && winloseAmount[i] > 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
-                      })
-                    } else {
-                      companyList.map(reaction => {
-                        if (reaction.company == allCompany[i]) {
-                          reaction.winloseAmount += Number(winloseAmount[i])
-                          reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
-                          reaction.usedRate > 100 ? reaction.usedRate = 100 : ''
-                        }
-                      })
-                    }
-                  } // 合并去重数据
-                  companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
-                  // item.companyList = companyList
-                  if (!item.companyList) {
-                    item.companyList = companyList
-                  } else {
-                    item.companyList.map(outside => {
-                      companyList.map(inside => {
-                        if (inside.company == outside.company) {
-                          outside.winloseAmount = inside.winloseAmount
-                          outside.usedRate = outside.topAmount != 0 && outside.winloseAmount > 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
-                          outside.usedRate > 100 ? outside.usedRate = 100 : ''
-                        }
-                      })
-                    })
-                  }
-                }
-                this.clickChild.push([])
-                this.clickChild[this.clickChild.length - 1] = child
+        if (this.rendered.filter(item => {return (item.userId == parent.parent)}).length > 0) {
+          if (this.rendered.filter(item => {return item.userId == parent.userId}).length > 0) {
+            this.$store.commit('closeLoading')
+          } else {
+            this.rendered.push(will_render)
+            this.nowParent.push(parent.displayName)
+            invoke({
+              url: api.reportInfo,
+              method: api.post,
+              data: data
+            }).then(result => {
+              const [err, ret] = result
+              if (err) {
                 this.$store.commit('closeLoading')
               } else {
-                this.$store.commit('closeLoading')
+                var child = ret.data.payload
+                if (child.length > 0) {
+                  for (let item of child) {
+
+                    // 五个组长度一致且一一对应
+                    let userId = [] // 用户ID组
+                    let allCompany = [] // 用户游戏大类组
+                    let status = [] // 用户游戏状态组
+                    let winloseAmount = [] // 用户游戏输赢组
+                    let topAmount = [] // 用户设定阈值
+
+                    for (let terval in item.winloseAmountMap) {
+                      item.gameList.map(bull => {
+                        terval == bull.code ? bull.winloseAmount = item.winloseAmountMap[terval].winloseAmount : ''
+                      })
+                    } // 将有数据的输赢push到相应游戏类别里
+
+                    item.gameList.map(side => {
+                      side.topAmount ? '' : side.topAmount = 0;
+                      allCompany.push(side.company)
+                      userId.push(item.userId)
+                      topAmount.push(side.topAmount)
+                      let isStart = 0
+                      side.status ? '' : side.status = 1
+                      if (side.status = 1) {
+                        isStart = 1
+                      }
+                      status.push(isStart)
+
+                      let count = ''
+                      count += side.winloseAmount ? side.winloseAmount : 0
+                      winloseAmount.push(count)
+                      
+                    }) // 获取运营商名称与启用/停用状态
+                    let ruler = []
+                    let companyList = [] // 处理后的要渲染的数据
+                    for (let i = 0;i < allCompany.length;i++) {
+                      if (!ruler.includes(allCompany[i])) {
+                        ruler.push(allCompany[i])
+                        companyList.push({
+                          company: allCompany[i],
+                          status: status[i],
+                          winloseAmount: Number(winloseAmount[i]),
+                          topAmount: Number(topAmount[i]),
+                          userId: userId[i],
+                          usedRate: topAmount[i] != 0 && winloseAmount[i] > 0 ? Number((topAmount[i] / winloseAmount[i] * 100).toFixed(3)) : 0
+                        })
+                      } else {
+                        companyList.map(reaction => {
+                          if (reaction.company == allCompany[i]) {
+                            reaction.winloseAmount += Number(winloseAmount[i])
+                            reaction.usedRate = Number(winloseAmount[i]) > 0 && reaction.topAmount != 0  ? Number((winloseAmount[i] / reaction.topAmount * 100).toFixed(3)) : 0
+                            reaction.usedRate > 100 ? reaction.usedRate = 100 : ''
+                          }
+                        })
+                      }
+                    } // 合并去重数据
+                    companyList.sort(function(a,b){return a.company.substr(0,1) > b.company.substr(0,1)})
+                    // item.companyList = companyList
+                    if (!item.companyList) {
+                      item.companyList = companyList
+                    } else {
+                      item.companyList.map(outside => {
+                        companyList.map(inside => {
+                          if (inside.company == outside.company) {
+                            outside.winloseAmount = inside.winloseAmount
+                            outside.usedRate = outside.topAmount != 0 && outside.winloseAmount > 0 ? Number((outside.winloseAmount / outside.topAmount * 100).toFixed(3)) : 0
+                            outside.usedRate > 100 ? outside.usedRate = 100 : ''
+                          }
+                        })
+                      })
+                    }
+                  }
+                  this.clickChild.push([])
+                  this.clickChild[this.clickChild.length - 1] = child
+                  this.$store.commit('closeLoading')
+                } else {
+                  this.$store.commit('closeLoading')
+                }
               }
-            }
-          })
+            })
+          }
         } else {
           this.rendered = []
           this.nowParent = []
