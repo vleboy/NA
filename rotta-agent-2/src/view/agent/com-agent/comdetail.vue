@@ -545,7 +545,7 @@ export default {
           }
         })
         let data = {
-          code: val.code,
+          code: val,
           userId: ''
         }
         if (this.$store.state.variable.comdetaildata.parent == '01') {
