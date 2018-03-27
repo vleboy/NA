@@ -487,62 +487,7 @@ export default {
                     if (data[0]) {
                       item.naAllbetCount = data[0].betCount
                       item.naBetamount = data[0].betAmount
-                      for (let code in data[0].gameTypeMap) {
-                        if (naAllCode.naLive == code) {
-                          item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount//真人输赢金额=后端统计
-                          item.naLiveMix = item.gameList.filter(mix => {return mix.code == code})[0].mix;
-                          item.naLiveBetAmount += data[0].gameTypeMap[code].betAmount
-                          item.naLiveMixAmount = data[0].gameTypeMap[code].mixAmount
-                          let naLiveNowBouns = item.naLiveMixAmount * item.naLiveMix *0.01
-                          let naLiveNowAllBet = item.naLiveWinlose + naLiveNowBouns;
-                         // item.naLiveSubmit = (1 - item.rate / 100) * item.naLiveWinlose 
-                          item.rate != 0 ? item.naLiveSubmit = (100 - item.rate )*0.01 * naLiveNowAllBet : item.naLiveSubmit = 0
-                          // item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.naLiveSubmit = item.naLiveSubmit : ''//this.nowList.naLiveSubmit += item.naLiveSubmit//真人代理总金额
-                        } else if (naAllCode.naVedio == code) {
-                          item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naVedioMix = item.gameList.filter(mix => {return mix.code == code})[0].mix;
-                          item.naVedioBetAmount = data[0].gameTypeMap[code].betAmount * -1 ;
-                          let naVideoNowBouns = item.naVedioBetAmount * item.naVedioMix *0.01
-                          let naVideoNowAllBet = item.naVedioWinlose + naVideoNowBouns;
-                          this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.naVedioBetAmount +=  item.naVedioBetAmount
-                          for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
-                            if (this.nowList.gameList[i].code == 40000) {
-                              this.nowList.naVedioNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naVedioBetAmount
-                              }
-                          }
-                          this.nowList.naVideoNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naVedioWinlose                
-                          this.nowList.suffix !=  'Agent' ? this.nowList.naVedioSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naVideoNowAllBet : this.nowList.naVedioSubmit = 0
-                          item.rate != 0 ? item.naVedioSubmit = (100 - item.rate)*0.01 * naVideoNowAllBet : item.naVedioSubmit = 0
-                          //  this.nowList.suffix != 'Agent' ? this.nowList.naVedioSubmit = item.naVedioSubmit : ''// this.nowList.naVedioSubmit += item.naVedioSubmit
-                        } else if (naAllCode.naArcade == code) {
-                          item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naArcadeMix = item.gameList.filter(mix => {return mix.code == code})[0].mix;
-                          item.naArcadeBetAmount = data[0].gameTypeMap[code].betAmount * -1 ;
-                          let naArcadeNowBouns = item.naArcadeBetAmount * item.naArcadeMix *0.01
-                          let naArcadeNowAllBet = item.naArcadeWinlose + naArcadeNowBouns;
-                          this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.naAllWinlose += this.nowList.naArcadeWinlose
-                          this.nowList.naArcadeBetAmount +=  item.naArcadeBetAmount
-                          for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
-                            if (this.nowList.gameList[i].code == 40000) {
-                              this.nowList.naArcadeNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naArcadeBetAmount
-                              }
-                          }
-                          this.nowList.naArcadeNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naArcadeWinlose                
-                          this.nowList.suffix !=  'Agent' ? this.nowList.naArcadeSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naArcadeNowAllBet : this.nowList.naArcadeSubmit = 0
-                        item.rate != 0 ? item.naArcadeSubmit = (100 - item.rate )*0.01 * naArcadeNowAllBet : item.naArcadeSubmit = 0
-                        this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                        this.nowList.suffix != 'Agent' ? this.nowList.naArcadeSubmit = item.naArcadeSubmit: ''
-                        }
-                        item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
-                        item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
-                      }
-                      this.nowList.naAllWinlose += item.naAllWinlose
-                      this.nowList.suffix != 'Agent' ? this.nowList.naAllSubmit += item.naAllSubmit : ''
-                      this.nowList.naAllbetCount += item.naAllbetCount
+                      this.calcSubmitAmount(naAllCode,data[0].gameTypeMap,item)
                       this.nowChild.push(item)
                     }
                     resolve(data)
@@ -639,24 +584,7 @@ export default {
                     var data = ret.data.payload
                     if (data[0]) {
                       item.naAllbetCount = data[0].betCount
-                      for (let code in data[0].gameTypeMap) {
-                        if (naAllCode.naLive == code) {
-                          item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                         // item.naLiveSubmit = (1 - item.rate / 100) * item.naLiveWinlose 
-                         item.naLiveBetAmount += data[0].gameTypeMap[code].betAmount
-                          item.rate != 0 ? item.naLiveSubmit = (100 - item.rate )*0.01 * item.naLiveBetAmount : item.naLiveSubmit = 0
-                        } else if (naAllCode.naVedio == code) {
-                          item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                           item.naVedioBetAmount = data[0].gameTypeMap[code].betAmount * -1
-                          item.rate != 0 ? item.naVedioSubmit = (100 - item.rate )*0.01 * item.naVedioBetAmount : item.naVedioSubmit = 0
-                        } else if (naAllCode.naArcade == code) {
-                          item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                           item.naArcadeBetAmount += data[0].gameTypeMap[code].betAmount
-                          item.rate != 0 ? item.naArcadeSubmit =(100 - item.rate )*0.01 * item.naArcadeBetAmount : item.naArcadeSubmit = 0
-                        }
-                        item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
-                        item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
-                      }
+                      this.calcSubmitAmount(naAllCode,data[0].gameTypeMap,item)
                     }
                     resolve(item)
                   }
@@ -967,36 +895,7 @@ export default {
                     item.map(inside => {
                       if (player.userName == inside.userName) {
                         inside.naAllbetCount = player.betCount
-                        for (let code in player.gameTypeMap) {
-                          if (naAllCode.naLive == code) {
-                            inside.naLiveWinlose += player.gameTypeMap[code].winloseAmount
-                          } else if (naAllCode.naVedio == code) {
-                            inside.naVedioWinlose += player.gameTypeMap[code].winloseAmount
-                            this.nowList.naVedioWinlose += inside.naVedioWinlose
-                            this.nowList.naVedioBetAmount += player.gameTypeMap[code].betAmount * -1
-                            for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
-                              if (this.nowList.gameList[i].code == 40000) {
-                                this.nowList.naVedioNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naVedioBetAmount
-                                }
-                            }
-                            this.nowList.naVideoNowAllBet = this.nowList.naVedioNowBouns + this.nowList.naVedioWinlose
-                            this.nowList.suffix !=  'Agent' ? this.nowList.naVedioSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naVideoNowAllBet : this.nowList.naVedioSubmit = 0
-                          } else if (naAllCode.naArcade == code) {
-                            inside.naArcadeWinlose += player.gameTypeMap[code].winloseAmount
-                            this.nowList.naArcadeWinlose += inside.naArcadeWinlose
-                            this.nowList.naArcadeBetAmount += player.gameTypeMap[code].betAmount * -1
-                            for (var i = this.nowList.gameList.length - 1; i >= 0; i--) {
-                              if (this.nowList.gameList[i].code == 40000) {
-                                this.nowList.naArcadeNowBouns = this.nowList.gameList[i].mix * 0.01 * this.nowList.naArcadeBetAmount
-                                }
-                            }
-                            this.nowList.naArcadeNowAllBet = this.nowList.naArcadeNowBouns + this.nowList.naArcadeWinlose
-                            this.nowList.suffix !=  'Agent' ? this.nowList.naArcadeSubmit = (100 - this.nowList.rate)*0.01 * this.nowList.naArcadeNowAllBet : this.nowList.naArcadeSubmit = 0
-                          }
-                          inside.naAllWinlose = inside.naLiveWinlose + inside.naVedioWinlose + inside.naArcadeWinlose
-                          this.nowList.naAllWinlose += inside.naAllWinlose
-                          this.nowList.naAllbetCount += inside.naAllbetCount
-                        }
+                        this.calcSubmitAmount(naAllCode,player.gameTypeMap,inside)
                         this.nowPlayer.push(inside)
                       }
                     })
@@ -1051,6 +950,42 @@ export default {
         data: row
       })
     }, // 跳转至玩家详情
+    calcSubmitAmount(naAllCode,gameTypeMap,item){
+      // 遍历游戏类型
+      for (let code in gameTypeMap) {
+        // 真人
+        if (naAllCode.naLive == code) {
+          item.naLiveWinlose += gameTypeMap[code].winloseAmount // 真人输赢金额
+          item.naLiveMix = item.gameList.filter(mix => {return mix.code == code})[0].mix // 真人洗码比
+          item.naLiveBetAmount += gameTypeMap[code].betAmount * -1 // 真人下注金额
+          item.naLiveMixAmount = gameTypeMap[code].mixAmount       // 真人洗码量
+          let naLiveNowBouns = item.naLiveMixAmount * item.naLiveMix *0.01  // 真人佣金
+          let naLiveNowAllBet = item.naLiveWinlose + naLiveNowBouns         // 真人代理总金额
+          item.rate != 0 ? item.naLiveSubmit = (100 - item.rate )*0.01 * naLiveNowAllBet : item.naLiveSubmit = 0 // 真人交公司
+        }
+        // 电子 
+        else if (naAllCode.naVedio == code) {
+          item.naVedioWinlose += gameTypeMap[code].winloseAmount    // 电子输赢金额
+          item.naVedioMix = item.gameList.filter(mix => {return mix.code == code})[0].mix // 电子洗码比
+          item.naVedioBetAmount = gameTypeMap[code].betAmount * -1  // 电子下注金额
+          let naVideoNowBouns = item.naVedioBetAmount * item.naVedioMix *0.01 // 电子佣金
+          let naVideoNowAllBet = item.naVedioWinlose + naVideoNowBouns; // 电子代理总金额
+          item.rate != 0 ? item.naVedioSubmit = (100 - item.rate)*0.01 * naVideoNowAllBet : item.naVedioSubmit = 0 // 电子交公司
+        }
+        // 街机 
+        else if (naAllCode.naArcade == code) {
+          item.naArcadeWinlose += gameTypeMap[code].winloseAmount   // 街机输赢金额
+          item.naArcadeMix = item.gameList.filter(mix => {return mix.code == code})[0].mix  // 街机洗码比
+          item.naArcadeBetAmount = gameTypeMap[code].betAmount * -1 // 街机下注金额
+          let naArcadeNowBouns = item.naArcadeBetAmount * item.naArcadeMix *0.01  // 街机佣金
+          let naArcadeNowAllBet = item.naArcadeWinlose + naArcadeNowBouns;        // 街机代理总金额
+          item.rate != 0 ? item.naArcadeSubmit = (100 - item.rate )*0.01 * naArcadeNowAllBet : item.naArcadeSubmit = 0 // 街机交公司
+        }
+        // 总计
+        item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
+        item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
+      }
+    }
   }
 }
 </script>

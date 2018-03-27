@@ -499,7 +499,7 @@ export default {
                         this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
                         this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.nowBouns = (this.nowList.mixAmount*mix/100).toFixed(2)
+                        this.nowList.nowBouns = +(this.nowList.mixAmount*mix/100).toFixed(2)
                         this.nowList.nowallBet = +this.nowList.nowBouns + this.nowList.winloseAmount
                         this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
                         this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate / 100)
@@ -670,10 +670,10 @@ export default {
                               outside.mixAmount = inside.mixAmount
                               outside.betAmount = inside.betAmount
                               outside.winloseAmount = inside.winloseAmount
-                              outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
                               outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                               outside.nowallBet = outside.nowBouns + inside.winloseAmount
                               outside.winloseRate = outside.nowallBet / inside.mixAmount
+                              outside.submit = outside.nowallBet * (1 - outside.rate / 100)
                               this.clickChild[this.clickChild.length-1].push(outside)
                             }
                           })
@@ -749,10 +749,10 @@ export default {
                                   outside.mixAmount = inside.mixAmount
                                   outside.betAmount = inside.betAmount
                                   outside.winloseAmount = inside.winloseAmount
-                                  outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
                                   outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                                   outside.nowallBet = outside.nowBouns + inside.winloseAmount
                                   outside.winloseRate = outside.nowallBet / inside.mixAmount
+                                  outside.submit = outside.nowallBet * (1 - outside.rate / 100)
                                   this.clickChild[this.clickChild.length-1].push(outside)
                                 }
                               })
@@ -830,10 +830,10 @@ export default {
                                 outside.betAmount = inside.betAmount
                                 outside.mixAmount = inside.mixAmount
                                 outside.winloseAmount = inside.winloseAmount
-                                outside.submit = inside.winloseAmount * (1 - outside.rate / 100)
                                 outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                                 outside.nowallBet = outside.nowBouns + inside.winloseAmount
                                 outside.winloseRate = outside.nowallBet / inside.mixAmount
+                                outside.submit = outside.nowallBet * (1 - outside.rate / 100)
                                 this.clickChild[this.clickChild.length-1].push(outside)
                               }
                             })
