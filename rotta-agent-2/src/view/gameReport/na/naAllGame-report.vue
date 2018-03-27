@@ -377,50 +377,36 @@ export default {
           user.naArcadeWinlose = 0
           user.naArcadeSubmit = 0
           this.nowList = user
-          // if (localStorage.loginSuffix != 'Agent') {
-          //   let time = this.isSelect_time ? this.searchDate : getWeek()
-          //   let naAllGameTyle = [
-          //     {code: gameType('naVedio'), company: 'na'},
-          //     {code: gameType('naArcade'), company: 'na'},
-          //     {code: gameType('naLive'), company: 'na'}
-          //   ] // 所有游戏类型
-          //   let naAllCode = {
-          //     naLive: 30000,
-          //     naVedio: 40000,
-          //     naArcade: 50000
-          //   }
-          //   let data = {
-          //     gameType: naAllGameTyle.map(game => {return game.code}),
-          //     role: '1000',
-          //     userIds: [localStorage.loginId],
-          //     query: {createdAt: time}
-          //   }
-          //   invoke({
-          //     url: api.calcUserStat,
-          //     method: api.post,
-          //     data: data
-          //   }).then(result => {
-          //     const [err,ret] = result
-          //     var data = ret.data.payload
-          //     if (data) {
-          //       // this.nowList.naAllbetCount = data[0].betCount
-          //       // for (let code in data[0].gameTypeMap) {
-          //       //   if (naAllCode.naLive == code) {
-          //       //     this.nowList.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-          //       //     this.nowList.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
-          //       //   } else if (naAllCode.naVedio == code) {
-          //       //     this.nowList.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-          //       //     this.nowList.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
-          //       //   } else if (naAllCode.naArcade == code) {
-          //       //     this.nowList.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-          //       //     this.nowList.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
-          //       //   }
-          //       //   this.nowList.naAllWinlose = this.nowList.naLiveWinlose + this.nowList.naVedioWinlose + this.nowList.naArcadeWinlose
-          //       //   this.nowList.naAllSubmit = this.nowList.naLiveSubmit + this.nowList.naVedioSubmit + this.nowList.naArcadeSubmit
-          //       // }
-          //     }
-          //   })
-          // }
+          if (localStorage.loginSuffix != 'Agent') {
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+            let naAllGameTyle = [
+              {code: gameType('naVedio'), company: 'na'},
+              {code: gameType('naArcade'), company: 'na'},
+              {code: gameType('naLive'), company: 'na'}
+            ] // 所有游戏类型
+            let naAllCode = {
+              naLive: 30000,
+              naVedio: 40000,
+              naArcade: 50000
+            }
+            let data = {
+              gameType: naAllGameTyle.map(game => {return game.code}),
+              role: '1000',
+              userIds: [localStorage.loginId],
+              query: {createdAt: time}
+            }
+            invoke({
+              url: api.calcUserStat,
+              method: api.post,
+              data: data
+            }).then(result => {
+              const [err,ret] = result
+              var data = ret.data.payload
+              if (data) {
+                this.calcSubmitAmount(naAllCode,data[0],user)
+              }
+            })
+          }
         }
       })
     }, // 获取登陆用户报表基本信息
@@ -496,18 +482,19 @@ export default {
             }
             let _this = this
             Promise.all(naAllReady).then(result => {
-              result.forEach(add => {
-                this.nowList.naAllbetCount += add.naAllbetCount
-                this.nowList.naAllWinlose += add.naAllWinlose 
-                this.nowList.naLiveWinlose += add.naLiveWinlose
-                this.nowList.naVedioWinlose += add.naVedioWinlose
-                this.nowList.naArcadeWinlose += add.naArcadeWinlose
-                this.nowList.naAllSubmit += add.naAllSubmit 
-                this.nowList.naLiveSubmit += add.naLiveSubmit 
-                this.nowList.naVedioSubmit += add.naVedioSubmit
-                this.nowList.naArcadeSubmit += add.naArcadeSubmit
-                /*localStorage.loginSuffix != 'Agent' ?*/ 
-              })
+              if(localStorage.loginSuffix == 'Agent'){
+                result.forEach(add => {
+                  this.nowList.naAllbetCount += add.naAllbetCount
+                  this.nowList.naAllWinlose += add.naAllWinlose 
+                  this.nowList.naLiveWinlose += add.naLiveWinlose
+                  this.nowList.naVedioWinlose += add.naVedioWinlose
+                  this.nowList.naArcadeWinlose += add.naArcadeWinlose
+                  // localStorage.loginSuffix != 'Agent' ? this.nowList.naAllSubmit += add.naAllSubmit : ''
+                  // localStorage.loginSuffix != 'Agent' ? this.nowList.naLiveSubmit += add.naLiveSubmit : ''
+                  // localStorage.loginSuffix != 'Agent' ? this.nowList.naVedioSubmit += add.naVedioSubmit : ''
+                  // localStorage.loginSuffix != 'Agent' ? this.nowList.naArcadeSubmit += add.naArcadeSubmit : ''
+                })
+              }
               _this.$store.commit('closeLoading')
             }).catch(err => {
               _this.$message({
@@ -680,24 +667,7 @@ export default {
                       } else {
                         var data = ret.data.payload
                         if (data[0]) {
-                          item.naAllbetCount = data[0].betCount
-                          for (let code in data[0].gameTypeMap) {
-                            if (naAllCode.naLive == code) {
-                              item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.naLiveBetAmount += data[0].gameTypeMap[code].betAmount
-                              item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
-                            } else if (naAllCode.naVedio == code) {
-                              item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.naVedioBetAmount = data[0].gameTypeMap[code].betAmount * -1
-                              item.naVedioSubmit += data[0].gameTypeMap[code].submitAmount
-                            } else if (naAllCode.naArcade == code) {
-                              item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.naArcadeBetAmount += data[0].gameTypeMap[code].betAmount
-                              item.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
-                            }
-                            item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
-                            item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
-                          }
+                          this.calcSubmitAmount(naAllCode,data[0],item)
                         }
                         resolve(item)
                       }
@@ -785,24 +755,7 @@ export default {
                     } else {
                       var data = ret.data.payload
                       if (data[0]) {
-                        item.naAllbetCount = data[0].betCount
-                        for (let code in data[0].gameTypeMap) {
-                          if (naAllCode.naLive == code) {
-                            item.naLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.naLiveBetAmount += data[0].gameTypeMap[code].betAmount
-                            item.naLiveSubmit += data[0].gameTypeMap[code].submitAmount
-                          } else if (naAllCode.naVedio == code) {
-                            item.naVedioWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.naVedioBetAmount = data[0].gameTypeMap[code].betAmount * -1
-                            item.naVedioSubmit = data[0].gameTypeMap[code].submitAmount
-                          } else if (naAllCode.naArcade == code) {
-                            item.naArcadeWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.naArcadeBetAmount += data[0].gameTypeMap[code].betAmount
-                            item.naArcadeSubmit += data[0].gameTypeMap[code].submitAmount
-                          }
-                          item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
-                          item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
-                        }
+                        this.calcSubmitAmount(naAllCode,data[0],item)
                       }
                       resolve(item)
                     }
@@ -857,12 +810,12 @@ export default {
             item.naArcadeWinlose = 0
             item.naArcadeSubmit = 0
             item.naAllBetAmount = 0//总投注
-              item.naLiveBetAmount =0//真人投注
-              item.naVedioBetAmount = 0 //电子投注
-              item.naArcadeBetAmount = 0//街
-              item.naLiveMix =0;//真人洗码比
-              item.naVedioMix = 0;//电子洗码比
-              item.naArcadeMix = 0;//街机洗码比
+            item.naLiveBetAmount =0//真人投注
+            item.naVedioBetAmount = 0 //电子投注
+            item.naArcadeBetAmount = 0//街
+            item.naLiveMix =0;//真人洗码比
+            item.naVedioMix = 0;//电子洗码比
+            item.naArcadeMix = 0;//街机洗码比
           })
           var result = []
           var cut_count = 50 // 数组切割长度
@@ -916,7 +869,6 @@ export default {
           }
           let _this = this
           Promise.all(naAllReady).then(result => {
-
             _this.$store.commit('closeLoading')
           }).catch(err => {
             _this.$message({
