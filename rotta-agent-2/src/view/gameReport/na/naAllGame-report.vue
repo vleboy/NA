@@ -999,11 +999,6 @@ export default {
         item.naAllWinlose = item.naLiveWinlose + item.naVedioWinlose + item.naArcadeWinlose
         item.naAllSubmit = item.naLiveSubmit + item.naVedioSubmit + item.naArcadeSubmit
       }
-      console.info('电子佣金下注',item.naVedioBetAmount)
-      console.info('电子洗码比',item.naVedioMix)
-      console.info('电子佣金',item.naVideoNowBouns)
-      console.info('电子代理总金额',item.naVideoNowAllBet)
-      console.info('电子交公司',item.naVedioSubmit)
     }
   }
 }
