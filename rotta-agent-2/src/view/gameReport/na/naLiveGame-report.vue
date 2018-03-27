@@ -421,6 +421,37 @@ export default {
           let mix = ''
           !user.gameList ? this.parentMix = 0.01 : user.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? this.parentMix = 0.01 : this.parentMix = user.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
           this.nowList = user
+          if (localStorage.loginSuffix != 'Agent') {
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+            let data = {
+              gameType: gameType('naLive'),
+              role: '1000',
+              userIds: [localStorage.loginId],
+              query: {createdAt: time}
+            }
+            invoke({
+              url: api.calcUserStat,
+              method: api.post,
+              data: data
+            }).then(result => {
+              const [err,ret] = result
+              var data = ret.data.payload
+              if (data) {
+                data.map(side =>{
+                  if (user.userId == side.userId) {
+                    user.betCount = side.betCount
+                    user.betAmount = side.betAmount
+                    user.winloseAmount = side.winloseAmount
+                    user.mixAmount = side.mixAmount
+                    user.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? user.nowBouns = side.mixAmount * this.parentMix : user.nowBouns = side.mixAmount * user.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                    user.nowallBet = user.nowBouns + side.winloseAmount
+                    user.winloseRate = user.nowallBet / side.mixAmount
+                    user.submit = user.nowallBet * (1 - user.rate / 100)
+                  }
+                })
+              }
+            })
+          }
         }
       })
     }, // 获取登陆用户报表基本信息
