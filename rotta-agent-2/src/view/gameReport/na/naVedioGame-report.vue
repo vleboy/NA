@@ -699,8 +699,8 @@ export default {
           }
         })
       } else {
-        if (this.rendered[this.rendered.length - 1].userId == parent.parent) {
-          if (this.rendered[this.rendered.length - 1].userId == parent.userId) {
+        if (this.rendered.filter(item => {return (item.userId == parent.parent)}).length > 0) {
+          if (this.rendered.filter(item => {return item.userId == parent.userId}).length > 0) {
             this.$store.commit('closeLoading')
           } else {
             this.rendered.push(parent)
