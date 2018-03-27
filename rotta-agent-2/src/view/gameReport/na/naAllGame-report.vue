@@ -960,8 +960,6 @@ export default {
       })
     }, // 跳转至玩家详情
     calcSubmitAmount(naAllCode,data,item){
-      // console.info('data:',data)
-      // console.info('item:',item)
       item.naAllbetCount = data.betCount
       item.naBetamount = data.betAmount
       let gameTypeMap = data.gameTypeMap
