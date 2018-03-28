@@ -40,7 +40,7 @@
             <span :class="[Number(scope.row.naWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
+        <el-table-column label="NA游戏(代理交公司)" prop="naSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.naSubmit)}}</span>
           </template>
@@ -50,7 +50,7 @@
             <span :class="[Number(scope.row.ttgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
+        <el-table-column label="TTG游戏(代理交公司)" prop="ttgSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.ttgSubmit)}}</span>
           </template>
@@ -60,7 +60,7 @@
             <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
+        <el-table-column label="SA游戏(代理交公司)" prop="saSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.saSubmit)}}</span>
           </template>
@@ -70,7 +70,7 @@
             <span :class="[Number(scope.row.mgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.mgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="MG游戏(商家交公司)" prop="mgSubmit" align="left">
+        <el-table-column label="MG游戏(代理交公司)" prop="mgSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.mgSubmit)}}</span>
           </template>
@@ -80,7 +80,7 @@
             <span :class="[Number(scope.row.agWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.agWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="AG游戏(商家交公司)" prop="agSubmit" align="left">
+        <el-table-column label="AG游戏(代理交公司)" prop="agSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.agSubmit)}}</span>
           </template>
@@ -90,7 +90,7 @@
             <span :class="[Number(scope.row.ugWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ugWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="UG游戏(商家交公司)" prop="ugSubmit" align="left">
+        <el-table-column label="UG游戏(代理交公司)" prop="ugSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.ugSubmit)}}</span>
           </template>
@@ -129,7 +129,7 @@
             <span :class="[Number(scope.row.naWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
+        <el-table-column label="NA游戏(代理交公司)" prop="naSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.naSubmit)}}</span>
           </template>
@@ -139,7 +139,7 @@
             <span :class="[Number(scope.row.ttgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
+        <el-table-column label="TTG游戏(代理交公司)" prop="ttgSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.ttgSubmit)}}</span>
           </template>
@@ -149,7 +149,7 @@
             <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
+        <el-table-column label="SA游戏(代理交公司)" prop="saSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.saSubmit)}}</span>
           </template>
@@ -159,7 +159,7 @@
             <span :class="[Number(scope.row.mgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.mgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="MG游戏(商家交公司)" prop="mgSubmit" align="left">
+        <el-table-column label="MG游戏(代理交公司)" prop="mgSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.mgSubmit)}}</span>
           </template>
@@ -169,7 +169,7 @@
             <span :class="[Number(scope.row.agWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.agWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="AG游戏(商家交公司)" prop="agSubmit" align="left">
+        <el-table-column label="AG游戏(代理交公司)" prop="agSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.agSubmit)}}</span>
           </template>
@@ -179,7 +179,7 @@
             <span :class="[Number(scope.row.ugWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ugWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="UG游戏(商家交公司)" prop="ugSubmit" align="left">
+        <el-table-column label="UG游戏(代理交公司)" prop="ugSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.ugSubmit)}}</span>
           </template>
@@ -218,7 +218,7 @@
             <span :class="[Number(scope.row.naWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
+        <el-table-column label="NA游戏(代理交公司)" prop="naSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.naSubmit)}}</span>
           </template>
@@ -228,7 +228,7 @@
             <span :class="[Number(scope.row.ttgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ttgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="TTG游戏(商家交公司)" prop="ttgSubmit" align="left">
+        <el-table-column label="TTG游戏(代理交公司)" prop="ttgSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.ttgSubmit)}}</span>
           </template>
@@ -238,7 +238,7 @@
             <span :class="[Number(scope.row.saWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.saWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="SA游戏(商家交公司)" prop="saSubmit" align="left">
+        <el-table-column label="SA游戏(代理交公司)" prop="saSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.saSubmit)}}</span>
           </template>
@@ -248,7 +248,7 @@
             <span :class="[Number(scope.row.mgWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.mgWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="MG游戏(商家交公司)" prop="mgSubmit" align="left">
+        <el-table-column label="MG游戏(代理交公司)" prop="mgSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.mgSubmit)}}</span>
           </template>
@@ -258,7 +258,7 @@
             <span :class="[Number(scope.row.agWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.agWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="AG游戏(商家交公司)" prop="agSubmit" align="left">
+        <el-table-column label="AG游戏(代理交公司)" prop="agSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.agSubmit)}}</span>
           </template>
@@ -268,7 +268,7 @@
             <span :class="[Number(scope.row.ugWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.ugWinlose)}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="UG游戏(商家交公司)" prop="ugSubmit" align="left">
+        <el-table-column label="UG游戏(代理交公司)" prop="ugSubmit" align="left">
           <template scope="scope">
             <span>{{points(scope.row.ugSubmit)}}</span>
           </template>
@@ -516,34 +516,31 @@ export default {
               data: data
             }).then(result => {
               const [err,ret] = result
-              if (err) {
-              } else {
-                var data = ret.data.payload
-                if (data) {
-                  this.nowList.allbetCount = data[0].betCount
-                  for (let code in data[0].gameTypeMap) {
-                    if (allCode.na.includes(Number(code))) {
-                      this.nowList.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.naSubmit += data[0].gameTypeMap[code].submitAmount
-                    } else if (allCode.ttg.includes(Number(code))) {
-                      this.nowList.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.ttgSubmit += data[0].gameTypeMap[code].submitAmount
-                    } else if (allCode.mg.includes(Number(code))) {
-                      this.nowList.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.mgSubmit += data[0].gameTypeMap[code].submitAmount
-                    } else if (allCode.sa.includes(Number(code))) {
-                      this.nowList.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.saSubmit += data[0].gameTypeMap[code].submitAmount
-                    } else if (allCode.ag.includes(Number(code))) {
-                      this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.agSubmit += data[0].gameTypeMap[code].submitAmount
-                    } else if (allCode.ug.includes(Number(code))) {
-                      this.nowList.ugWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.ugSubmit += data[0].gameTypeMap[code].submitAmount
-                    }
-                    this.nowList.allWinlose = this.nowList.naWinlose + this.nowList.ttgWinlose + this.nowList.mgWinlose + this.nowList.saWinlose + this.nowList.agWinlose + this.nowList.ugWinlose
-                    this.nowList.allSubmit = this.nowList.naSubmit + this.nowList.ttgSubmit + this.nowList.mgSubmit + this.nowList.saSubmit + this.nowList.agSubmit + this.nowList.ugSubmit
+              var data = ret.data.payload
+              if (data) {
+                this.nowList.allbetCount = data[0].betCount
+                for (let code in data[0].gameTypeMap) {
+                  if (allCode.na.includes(Number(code))) {
+                    this.nowList.naWinlose += data[0].gameTypeMap[code].winloseAmount
+                    this.nowList.naSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,user)
+                  } else if (allCode.ttg.includes(Number(code))) {
+                    this.nowList.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
+                    this.nowList.ttgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,user)
+                  } else if (allCode.mg.includes(Number(code))) {
+                    this.nowList.mgWinlose += data[0].gameTypeMap[code].winloseAmount
+                    this.nowList.mgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,user)
+                  } else if (allCode.sa.includes(Number(code))) {
+                    this.nowList.saWinlose += data[0].gameTypeMap[code].winloseAmount
+                    this.nowList.saSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,user)
+                  } else if (allCode.ag.includes(Number(code))) {
+                    this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
+                    this.nowList.agSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,user)
+                  } else if (allCode.ug.includes(Number(code))) {
+                    this.nowList.ugWinlose += data[0].gameTypeMap[code].winloseAmount
+                    this.nowList.ugSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,user)
                   }
+                  this.nowList.allWinlose = this.nowList.naWinlose + this.nowList.ttgWinlose + this.nowList.mgWinlose + this.nowList.saWinlose + this.nowList.agWinlose + this.nowList.ugWinlose
+                  this.nowList.allSubmit = this.nowList.naSubmit + this.nowList.ttgSubmit + this.nowList.mgSubmit + this.nowList.saSubmit + this.nowList.agSubmit + this.nowList.ugSubmit
                 }
               }
             })
@@ -627,38 +624,39 @@ export default {
                       for (let code in data[0].gameTypeMap) {
                         if (allCode.na.includes(Number(code))) {
                           item.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.naSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           this.nowList.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.naSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          // this.nowList.suffix != 'Agent' ? this.nowList.naSubmit += item.naSubmit : ''
                         } else if (allCode.ttg.includes(Number(code))) {
                           item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.ttgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           this.nowList.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.ttgSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          // this.nowList.suffix != 'Agent' ? this.nowList.ttgSubmit += item.ttgSubmit : ''
                         } else if (allCode.mg.includes(Number(code))) {
                           item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.mgSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.mgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           this.nowList.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.mgSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          // this.nowList.suffix != 'Agent' ? this.nowList.mgSubmit += item.mgSubmit : ''
                         } else if (allCode.sa.includes(Number(code))) {
                           item.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.saSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.saSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           this.nowList.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.saSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          // this.nowList.suffix != 'Agent' ? this.nowList.saSubmit += item.saSubmit : ''
                         } else if (allCode.ag.includes(Number(code))) {
                           item.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.agSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.agSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          // this.nowList.suffix != 'Agent' ? this.nowList.agSubmit += item.agSubmit : ''
                         } else if (allCode.ug.includes(Number(code))) {
                           item.ugWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.ugSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.ugSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           this.nowList.ugWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.ugSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          // this.nowList.suffix != 'Agent' ? this.nowList.ugSubmit += item.ugSubmit : ''
                         }
                         item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose + item.ugWinlose
                         item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit + item.ugSubmit
                       }
+                      
                       this.nowList.allWinlose += item.allWinlose
                       this.nowList.suffix != 'Agent' ? this.nowList.allSubmit += item.allSubmit : ''
                       this.nowList.allbetCount += item.allbetCount
@@ -772,22 +770,22 @@ export default {
                       for (let code in data[0].gameTypeMap) {
                         if (allCode.na.includes(Number(code))) {
                           item.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.naSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.naSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                         } else if (allCode.ttg.includes(Number(code))) {
                           item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.ttgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                         } else if (allCode.mg.includes(Number(code))) {
                           item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.mgSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.mgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                         } else if (allCode.sa.includes(Number(code))) {
                           item.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.saSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.saSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                         } else if (allCode.ag.includes(Number(code))) {
                           item.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.agSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                         } else if (allCode.ug.includes(Number(code))) {
                           item.ugWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.ugSubmit += data[0].gameTypeMap[code].submitAmount
+                          item.ugSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                         }
                         item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose + item.ugWinlose
                         item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit + item.ugSubmit
@@ -892,22 +890,22 @@ export default {
                           for (let code in data[0].gameTypeMap) {
                             if (allCode.na.includes(Number(code))) {
                               item.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.naSubmit += data[0].gameTypeMap[code].submitAmount
+                              item.naSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                             } else if (allCode.ttg.includes(Number(code))) {
                               item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
+                              item.ttgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                             } else if (allCode.mg.includes(Number(code))) {
                               item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.mgSubmit += data[0].gameTypeMap[code].submitAmount
+                              item.mgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                             } else if (allCode.sa.includes(Number(code))) {
                               item.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.saSubmit += data[0].gameTypeMap[code].submitAmount
+                              item.saSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                             } else if (allCode.ag.includes(Number(code))) {
                               item.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                              item.agSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                             } else if (allCode.ug.includes(Number(code))) {
                               item.ugWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.ugSubmit += data[0].gameTypeMap[code].submitAmount
+                              item.ugSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                             }
                             item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose + item.ugWinlose
                             item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit + item.ugSubmit
@@ -1011,22 +1009,22 @@ export default {
                         for (let code in data[0].gameTypeMap) {
                           if (allCode.na.includes(Number(code))) {
                             item.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.naSubmit += data[0].gameTypeMap[code].submitAmount
+                            item.naSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           } else if (allCode.ttg.includes(Number(code))) {
                             item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
+                            item.ttgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           } else if (allCode.mg.includes(Number(code))) {
                             item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.mgSubmit += data[0].gameTypeMap[code].submitAmount
+                            item.mgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           } else if (allCode.sa.includes(Number(code))) {
                             item.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.saSubmit += data[0].gameTypeMap[code].submitAmount
+                            item.saSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           } else if (allCode.ag.includes(Number(code))) {
                             item.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.agSubmit += data[0].gameTypeMap[code].submitAmount
+                            item.agSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           } else if (allCode.ug.includes(Number(code))) {
                             item.ugWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.ugSubmit += data[0].gameTypeMap[code].submitAmount
+                            item.ugSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
                           }
                           item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose + item.ugWinlose
                           item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit + item.ugSubmit
@@ -1207,6 +1205,28 @@ export default {
         data: row
       })
     }, // 跳转至玩家详情
+    calcSubmitAmount(code,gameTypeMap,item){
+      let submitAmount = 0
+      // 真人
+      if (code == 30000 || code == 1050000 || code == 1060000) {
+        let naLiveWinlose = gameTypeMap[code].winloseAmount // 真人输赢金额
+        let naLiveMix = item.gameList.filter(mix => {return mix.code == code})[0].mix // 真人洗码比
+        let naLiveMixAmount = gameTypeMap[code].mixAmount       // 真人洗码量
+        let naLiveNowBouns = naLiveMixAmount * naLiveMix *0.01  // 真人佣金
+        let naLiveNowAllBet = naLiveWinlose + naLiveNowBouns         // 真人代理总金额
+        item.rate != 0 ? submitAmount = (100 - item.rate )*0.01 * naLiveNowAllBet : submitAmount = 0 // 真人交公司
+      }
+      // 非真人
+      else {
+        let naVedioWinlose = gameTypeMap[code].winloseAmount    // 电子输赢金额
+        let naVedioMix = item.gameList.filter(mix => {return mix.code == code})[0].mix // 电子洗码比
+        let naVedioBetAmount = gameTypeMap[code].betAmount * -1  // 电子下注金额
+        let naVideoNowBouns = naVedioBetAmount * naVedioMix *0.01 // 电子佣金
+        let naVideoNowAllBet = naVedioWinlose + naVideoNowBouns; // 电子代理总金额
+        item.rate != 0 ? submitAmount = (100 - item.rate)*0.01 * naVideoNowAllBet : submitAmount = 0 // 电子交公司
+      }
+      return submitAmount
+    }
   }
 }
 </script>
