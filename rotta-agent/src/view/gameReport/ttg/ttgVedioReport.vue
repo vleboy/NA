@@ -505,7 +505,7 @@ export default {
                           this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
                           this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
                           this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                          this.nowList.nowBouns = this.nowList.mixAmount * this.parentMix;
+                          this.nowList.nowBouns = this.nowList.betAmount * this.parentMix;
                           this.nowList.nowallBet = this.nowList.nowBouns + this.nowList.winloseAmount
                           this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
                           this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate * 0.01 )
