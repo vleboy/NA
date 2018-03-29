@@ -361,18 +361,7 @@ export default {
               } else {
                 var data = ret.data.payload
                 if (data) {
-                  this.nowList.saAllbetCount = data[0].betCount
-                  for (let code in data[0].gameTypeMap) {
-                    if (saAllCode.saLive == code) {
-                      this.nowList.saLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.saLiveSubmit += data[0].gameTypeMap[code].submitAmount
-                    } else if (saAllCode.saFishing == code) {
-                      this.nowList.saFishingWinlose += data[0].gameTypeMap[code].winloseAmount
-                      this.nowList.saFishingSubmit += data[0].gameTypeMap[code].submitAmount
-                    }
-                    this.nowList.saAllWinlose = this.nowList.saLiveWinlose + this.nowList.saFishingWinlose
-                    this.nowList.saAllSubmit = this.nowList.saLiveSubmit + this.nowList.saFishingSubmit
-                  }
+                  this.calcSubmitAmount(saAllCode,data[0],user)
                 }
               }
             })
@@ -433,28 +422,10 @@ export default {
                   } else {
                     var data = ret.data.payload
                     if (data[0]) {
-                      item.saAllbetCount = data[0].betCount
-                      for (let code in data[0].gameTypeMap) {
-                        if (saAllCode.saLive == code) {
-                          item.saLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.saLiveSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.saLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.saLiveSubmit += data[0].gameTypeMap[code].submitAmount : ''
-                        } else if (saAllCode.saFishing == code) {
-                          item.saFishingWinlose += data[0].gameTypeMap[code].winloseAmount
-                          item.saFishingSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.saFishingWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.suffix != 'Agent' ? this.nowList.saFishingSubmit += data[0].gameTypeMap[code].submitAmount : ''
-                        }
-                        item.saAllWinlose = item.saLiveWinlose + item.saFishingWinlose
-                        item.saAllSubmit = item.saLiveSubmit + item.saFishingSubmit
-                      }
-                      this.nowList.saAllWinlose += item.saAllWinlose
-                      this.nowList.suffix != 'Agent' ? this.nowList.saAllSubmit += item.saAllSubmit : ''
-                      this.nowList.saAllbetCount += item.saAllbetCount
+                      this.calcSubmitAmount(saAllCode,data[0],item)
                       this.nowChild.push(item)
                     }
-                    resolve(data)
+                    resolve(item)
                   }
                 })
               })
@@ -462,6 +433,12 @@ export default {
             }
             let _this = this
             Promise.all(saAllReady).then(result => {
+              result.forEach(add => {
+                this.nowList.saAllbetCount += add.saAllbetCount
+                this.nowList.saAllWinlose += add.saAllWinlose 
+                this.nowList.saLiveWinlose += add.saLiveWinlose
+                this.nowList.saFishingWinlose += add.saFishingWinlose
+              })
               _this.$store.commit('closeLoading')
             }).catch(err => {
               _this.$message({
@@ -628,18 +605,7 @@ export default {
                       } else {
                         var data = ret.data.payload
                         if (data[0]) {
-                          item.saAllbetCount = data[0].betCount
-                          for (let code in data[0].gameTypeMap) {
-                            if (saAllCode.saLive == code) {
-                              item.saLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.saLiveSubmit += data[0].gameTypeMap[code].submitAmount
-                            } else if (saAllCode.saFishing == code) {
-                              item.saFishingWinlose += data[0].gameTypeMap[code].winloseAmount
-                              item.saFishingSubmit += data[0].gameTypeMap[code].submitAmount
-                            }
-                            item.saAllWinlose = item.saLiveWinlose + item.saFishingWinlose
-                            item.saAllSubmit = item.saLiveSubmit + item.saFishingSubmit
-                          }
+                          this.calcSubmitAmount(saAllCode,data[0],item)
                         }
                         resolve(item)
                       }
@@ -716,18 +682,7 @@ export default {
                     } else {
                       var data = ret.data.payload
                       if (data[0]) {
-                        item.saAllbetCount = data[0].betCount
-                        for (let code in data[0].gameTypeMap) {
-                          if (saAllCode.saLive == code) {
-                            item.saLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.saLiveSubmit += data[0].gameTypeMap[code].submitAmount
-                          } else if (saAllCode.saFishing == code) {
-                            item.saFishingWinlose += data[0].gameTypeMap[code].winloseAmount
-                            item.saFishingSubmit += data[0].gameTypeMap[code].submitAmount
-                          }
-                          item.saAllWinlose = item.saLiveWinlose + item.saFishingWinlose
-                          item.saAllSubmit = item.saLiveSubmit + item.saFishingSubmit
-                        }
+                        this.calcSubmitAmount(saAllCode,data[0],item)
                       }
                       resolve(item)
                     }
@@ -821,15 +776,7 @@ export default {
                   for (let player of data) {
                     item.map(inside => {
                       if (player.userName == inside.userName) {
-                        inside.saAllbetCount = player.betCount
-                        for (let code in player.gameTypeMap) {
-                          if (saAllCode.saLive == code) {
-                            inside.saLiveWinlose += player.gameTypeMap[code].winloseAmount
-                          } else if (saAllCode.saFishing == code) {
-                            inside.saFishingWinlose += player.gameTypeMap[code].winloseAmount
-                          }
-                          inside.saAllWinlose = inside.saLiveWinlose + inside.saFishingWinlose
-                        }
+                        this.calcSubmitAmount(saAllCode,player,inside)                        
                         this.nowPlayer.push(inside)
                       }
                     })
@@ -884,6 +831,36 @@ export default {
         data: row
       })
     }, // 跳转至玩家详情
+    calcSubmitAmount(saAllCode,data,item){
+      item.saAllbetCount = data.betCount
+      item.saBetamount = data.betAmount
+      let gameTypeMap = data.gameTypeMap
+      // 遍历游戏类型
+      for (let code in gameTypeMap) {
+        // 真人
+        if (saAllCode.saLive == code) {
+          item.saLiveWinlose += gameTypeMap[code].winloseAmount // 真人输赢金额
+          item.saLiveMix = item.gameList.filter(mix => {return mix.code == code})[0].mix // 真人洗码比
+          item.saLiveBetAmount += gameTypeMap[code].betAmount * -1 // 真人下注金额
+          item.saLiveMixAmount = gameTypeMap[code].mixAmount       // 真人洗码量
+          let saLiveNowBouns = item.saLiveMixAmount * item.saLiveMix *0.01  // 真人佣金
+          let saLiveNowAllBet = item.saLiveWinlose + saLiveNowBouns         // 真人代理总金额
+          item.rate != 0 ? item.saLiveSubmit = (100 - item.rate )*0.01 * saLiveNowAllBet : item.saLiveSubmit = 0 // 真人交公司
+        }
+        // 电子 
+        else if (saAllCode.saFishing == code) {
+          item.saFishingWinlose += gameTypeMap[code].winloseAmount    // 电子输赢金额
+          item.saFishingMix = item.gameList.filter(mix => {return mix.code == code})[0].mix // 电子洗码比
+          item.saFishingBetAmount = gameTypeMap[code].betAmount * -1  // 电子下注金额
+          let saVideoNowBouns = item.saFishingBetAmount * item.saFishingMix *0.01 // 电子佣金
+          let saVideoNowAllBet = item.saFishingWinlose + saVideoNowBouns; // 电子代理总金额
+          item.rate != 0 ? item.saFishingSubmit = (100 - item.rate)*0.01 * saVideoNowAllBet : item.saFishingSubmit = 0 // 电子交公司
+        }
+        // 总计
+        item.saAllWinlose = item.saLiveWinlose + item.saFishingWinlose
+        item.saAllSubmit = item.saLiveSubmit + item.saFishingSubmit
+      }
+    }
   }
 }
 </script>
