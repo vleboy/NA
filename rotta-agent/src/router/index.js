@@ -290,7 +290,7 @@ const router = new Router({
     },
     {
       path: '/allReport',
-      name: '公司输赢报表',
+      name: '公司输赢总报表',
       component: allReport,
       meta: {
         keepAlive: true
