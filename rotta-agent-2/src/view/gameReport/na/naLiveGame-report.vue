@@ -526,14 +526,16 @@ export default {
                             mix = +item.mix
                           }
                         }
-                        this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.nowBouns = +(this.nowList.mixAmount*mix/100).toFixed(2)
-                        this.nowList.nowallBet = +this.nowList.nowBouns + this.nowList.winloseAmount
-                        this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
-                        this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate / 100)
+                        if(localStorage.loginSuffix == 'Agent'){
+                          this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.nowBouns = this.nowList.mixAmount * this.parentMix;
+                          this.nowList.nowallBet = this.nowList.nowBouns + this.nowList.winloseAmount
+                          this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
+                          this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate * 0.01 )
+                        }
                       }
                       resolve(data)
                     }
@@ -610,14 +612,14 @@ export default {
                           item.winloseAmount = side.winloseAmount
                           item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                           item.nowallBet = item.nowBouns + side.winloseAmount
-                          if (localStorage.loginSuffix != 'Agent') {
-                            this.nowList.betCount += item.betCount
-                            this.nowList.betAmount += item.betAmount
-                            this.nowList.winloseAmount += item.winloseAmount
-                            this.nowList.mixAmount += item.mixAmount
-                            this.nowList.nowallBet += item.nowallBet
-                            this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
-                          }
+                          // if (localStorage.loginSuffix != 'Agent') {
+                          //   this.nowList.betCount += item.betCount
+                          //   this.nowList.betAmount += item.betAmount
+                          //   this.nowList.winloseAmount += item.winloseAmount
+                          //   this.nowList.mixAmount += item.mixAmount
+                          //   this.nowList.nowallBet += item.nowallBet
+                          //   this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
+                          // }
                         }
                       })
                     })

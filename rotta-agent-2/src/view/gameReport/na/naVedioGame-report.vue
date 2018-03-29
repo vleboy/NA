@@ -392,7 +392,6 @@ export default {
         if (err) {
         } else {
           var user = ret.data.payload
-          //console.log('登录用户报表基本信息：',user.betAmount)
           user.betCount = 0
           user.betAmount = 0
           user.winAmount = 0
@@ -416,6 +415,37 @@ export default {
           }
           user.nowBouns =  user.betAmount * this.parentMix
           this.nowList = user
+          if (localStorage.loginSuffix != 'Agent') {
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+            let data = {
+              gameType: gameType('naVedio'),
+              role: '1000',
+              userIds: [localStorage.loginId],
+              query: {createdAt: time}
+            }
+            invoke({
+              url: api.calcUserStat,
+              method: api.post,
+              data: data
+            }).then(result => {
+              const [err,ret] = result
+              var data = ret.data.payload
+              if (data) {
+                data.map(side =>{
+                  if (user.userId == side.userId) {
+                    user.betCount = side.betCount
+                    user.betAmount = side.betAmount
+                    user.winloseAmount = side.winloseAmount
+                    user.mixAmount = side.mixAmount
+                    user.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? user.nowBouns = side.betAmount * this.parentMix : user.nowBouns = side.betAmount * user.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                    user.nowallBet = user.nowBouns + side.winloseAmount
+                    user.winloseRate = user.nowallBet / side.mixAmount
+                    user.submit = user.nowallBet * (1 - user.rate / 100)
+                  }
+                })
+              }
+            })
+          }
         }
       })
     }, // ←获取登陆用户报表基本信息
@@ -488,14 +518,16 @@ export default {
                         }
                         return item.betCount > 0 && !isRepeat
                       }))
-                      this.nowList.betCount += this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的下注汇总
-                      this.nowList.betAmount += this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的下注金额汇总
-                      this.nowList.winloseAmount += this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )//当前登录代理的输赢金额汇总
-                      this.nowList.mixAmount = this.nowList.betAmount//当前登录代理电子游戏的洗码量
-                      localStorage.loginSuffix == 'Agent' ? this.nowList.nowBouns = 0 : this.nowList.nowBouns = this.nowList.betAmount * this.parentMix;//当前登录代理电子游戏的佣金
-                      this.nowList.nowallBet = this.nowList.nowBouns + this.nowList.winloseAmount//当前登录代理电子游戏的代理总金额
-                      this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount//当前登录代理电子游戏的获利比例
-                      this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate * 0.01 )//当前登录代理电子游戏的代理交公司
+                      if(localStorage.loginSuffix == 'Agent'){
+                          this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.nowBouns = this.nowList.betAmount * this.parentMix;
+                          this.nowList.nowallBet = this.nowList.nowBouns + this.nowList.winloseAmount
+                          this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
+                          this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate * 0.01 )
+                        }
                     }
                     return data || []
                   }
