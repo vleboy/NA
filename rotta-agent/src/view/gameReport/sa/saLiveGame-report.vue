@@ -695,6 +695,7 @@ export default {
                             if (outside.userId == inside.userId) {
                               outside.betCount = inside.betCount
                               outside.betAmount = inside.betAmount
+                              outside.mixAmount = inside.mixAmount
                               outside.winloseAmount = inside.winloseAmount
                               outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                               outside.nowallBet = outside.nowBouns + inside.winloseAmount
@@ -773,6 +774,7 @@ export default {
                                 if (outside.userId == inside.userId) {
                                   outside.betCount = inside.betCount
                                   outside.betAmount = inside.betAmount
+                                  outside.mixAmount = inside.mixAmount
                                   outside.winloseAmount = inside.winloseAmount
                                   outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                                   outside.nowallBet = outside.nowBouns + inside.winloseAmount
@@ -853,6 +855,7 @@ export default {
                               if (outside.userId == inside.userId) {
                                 outside.betCount = inside.betCount
                                 outside.betAmount = inside.betAmount
+                                outside.mixAmount = inside.mixAmount
                                 outside.winloseAmount = inside.winloseAmount
                                 outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                                 outside.nowallBet = outside.nowBouns + inside.winloseAmount
@@ -942,6 +945,7 @@ export default {
                         if (item.userName == side.userName) {
                           item.betCount = side.betCount
                           item.betAmount = side.betAmount
+                          item.mixAmount = side.mixAmount
                           item.winloseAmount = side.winloseAmount
                           item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                           item.nowallBet = item.nowBouns + side.winloseAmount
