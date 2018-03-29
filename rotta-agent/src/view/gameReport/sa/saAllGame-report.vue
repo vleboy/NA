@@ -433,12 +433,14 @@ export default {
             }
             let _this = this
             Promise.all(saAllReady).then(result => {
-              result.forEach(add => {
-                this.nowList.saAllbetCount += add.saAllbetCount
-                this.nowList.saAllWinlose += add.saAllWinlose 
-                this.nowList.saLiveWinlose += add.saLiveWinlose
-                this.nowList.saFishingWinlose += add.saFishingWinlose
-              })
+              if(localStorage.loginSuffix == 'Agent'){
+                result.forEach(add => {
+                  this.nowList.saAllbetCount += add.saAllbetCount
+                  this.nowList.saAllWinlose += add.saAllWinlose 
+                  this.nowList.saLiveWinlose += add.saLiveWinlose
+                  this.nowList.saFishingWinlose += add.saFishingWinlose
+                })
+              }
               _this.$store.commit('closeLoading')
             }).catch(err => {
               _this.$message({
