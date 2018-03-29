@@ -601,19 +601,17 @@ export default {
                           item.nowBouns = item.betAmount * this.parentMix
                           item.winloseAmount = side.winloseAmount
                           item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.betAmount * this.parentMix : item.nowBouns = side.betAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
-                    if (this.nowChild.length == 0) {
-                       this.nowList.nowBouns = item.nowBouns
-                       item.nowallBet = item.nowBouns + side.winloseAmount
-                       this.nowList.submit = item.nowallBet * (1-this.nowList.rate*0.01)
-                       this.nowList.mixAmount = item.mixAmount
-                       this.nowList.nowallBet = item.nowallBet
-                       this.nowList.betCount += item.betCount  //投注次数
-                       this.nowList.betAmount += item.betAmount//投注
-                       this.nowList.winloseAmount += item.winloseAmount//输赢金额
-                       this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
-
-                          }
-
+                          // if (this.nowChild.length == 0) {
+                          //   this.nowList.nowBouns = item.nowBouns
+                          //   item.nowallBet = item.nowBouns + side.winloseAmount
+                          //   this.nowList.submit = item.nowallBet * (1-this.nowList.rate*0.01)
+                          //   this.nowList.mixAmount = item.mixAmount
+                          //   this.nowList.nowallBet = item.nowallBet
+                          //   this.nowList.betCount += item.betCount  //投注次数
+                          //   this.nowList.betAmount += item.betAmount//投注
+                          //   this.nowList.winloseAmount += item.winloseAmount//输赢金额
+                          //   this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
+                          // }
                         }
                       })
                     })
