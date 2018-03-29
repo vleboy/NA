@@ -611,7 +611,7 @@ export default {
                           //   this.nowList.winloseAmount += item.winloseAmount
                           //   this.nowList.mixAmount += item.mixAmount
                           //   this.nowList.nowallBet += item.nowallBet
-                          //   this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
+                          //   this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
                           // }
                         }
                       })
