@@ -64,16 +64,16 @@
         </el-form-item>
         <el-form-item label="播放时间间隔" label-width="140px" >
           <el-col :span="6">
-            <el-input class="-hrl-time" v-model="timeObj.day" type="number" placeholder="请输入天" @blur="changeCount"></el-input> 天
+            <el-input-number class="-hrl-time" v-model="timeObj.day" type="number" placeholder="请输入天" @blur="changeCount" :min="0"></el-input-number> 天
           </el-col>
           <el-col :span="6">
-            <el-input class="-hrl-time" v-model="timeObj.hour" type="number" placeholder="请输入小时" @blur="changeCount"></el-input> 时
+            <el-input-number class="-hrl-time" v-model="timeObj.hour" type="number" placeholder="请输入小时" @blur="changeCount" :min="0"></el-input-number> 时
           </el-col>
           <el-col :span="6">
-            <el-input class="-hrl-time" v-model="timeObj.minute" type="number" placeholder="请输入分钟" @blur="changeCount"></el-input> 分
+            <el-input-number class="-hrl-time" v-model="timeObj.minute" type="number" placeholder="请输入分钟" @blur="changeCount" :min="0"></el-input-number> 分
           </el-col>
           <el-col :span="6">
-            <el-input class="-hrl-time" v-model="timeObj.second" type="number" placeholder="请输入秒数" @blur="changeCount"></el-input> 秒
+            <el-input-number class="-hrl-time" v-model="timeObj.second" type="number" placeholder="请输入秒数" @blur="changeCount" :min="0"></el-input-number> 秒
           </el-col>
         </el-form-item>
         <el-form-item label="单条公告显示时间" label-width="140px">
