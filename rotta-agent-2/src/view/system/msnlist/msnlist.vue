@@ -16,7 +16,7 @@
                 <p v-if="scope.row.status === 2" class="blue">已锁定</p>
               </template>
             </el-table-column>
-            <el-table-column label="商户" prop="displayName" align="center" :formatter="backDisplayname">
+            <el-table-column label="代理" prop="displayName" align="center" :formatter="backDisplayname">
             </el-table-column>
             <el-table-column label="操作" align="center" min-width="65">
                 <template scope="scope">

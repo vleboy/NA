@@ -47,7 +47,7 @@
               <el-submenu index="2">
                 <template slot="title">代理中心</template>
                 <el-menu-item index="comlist">代理列表</el-menu-item>
-                <el-menu-item index="point-warning" v-if="suffix == 'Agent'">接入商点数告警列表</el-menu-item>
+                <el-menu-item index="point-warning" v-if="suffix == 'Agent'">点数告警列表</el-menu-item>
               </el-submenu>
               <el-submenu index="3">
                 <template slot="title">玩家中心</template>

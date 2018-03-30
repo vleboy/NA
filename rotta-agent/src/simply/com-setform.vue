@@ -3,7 +3,7 @@
   <div class="com-setform">
     <h2 class="title">配置代理信息</h2>
     <el-form :model="setcomInfo" :rules="rules" ref="setcomInfo" class="setform" label-width="160px" label-position="right">
-          <el-form-item label="商户拥有的游戏">
+          <el-form-item label="代理拥有的游戏">
             <el-select v-model="setcomInfo.company" placeholder="请选择" clearable style="width:10rem;margin-right:0.5rem">
                 <el-option v-for="item in CompanyList" :key="item" :label="item.client" :value="item.server" style="width:10rem"></el-option>
             </el-select>

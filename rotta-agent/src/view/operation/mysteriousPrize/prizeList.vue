@@ -15,7 +15,7 @@
       </el-row>
       <el-row class="transition-box" style="margin-top: 2rem">
         <el-col :span="10" class="g-text-right">
-        <span>所属商户: </span>
+        <span>所属代理: </span>
         <el-input placeholder="请输入" class="input" v-model="searchInfo.merchantName"></el-input>
         </el-col>
         <el-col :span="10" class="g-text-right">
@@ -47,7 +47,7 @@
         <el-table-column prop="userName" label="用户名" align="center"></el-table-column>
         <el-table-column prop="msn" label="线路号" show-overflow-tooltip align="center">
         </el-table-column>
-        <el-table-column prop="merchantName" label="所属商户" align="center">
+        <el-table-column prop="merchantName" label="所属代理" align="center">
           <template scope="scope">
             {{ scope.row.merchantName === 'NULL!' ? '-' : scope.row.merchantName}}
           </template>

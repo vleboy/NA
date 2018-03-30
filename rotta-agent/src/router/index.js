@@ -184,7 +184,7 @@ const router = new Router({
     },
     {
       path: '/merchant',
-      name: '商户登录日志',
+      name: '代理登录日志',
       component: Merchant
     },
     {

@@ -47,7 +47,7 @@
               <span>{{(scope.row.rate)}}%</span>
             </template>
           </el-table-column>
-          <el-table-column label="可用商户名额" prop="limit" align="center">
+          <el-table-column label="可用代理名额" prop="limit" align="center">
             <template scope="scope">
               <span>{{(scope.row.merchantUsedCount)}}</span>/<span>{{(scope.row.limit)}}</span>
             </template>
