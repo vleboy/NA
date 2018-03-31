@@ -485,7 +485,7 @@ export default {
           user.ugWinlose = 0
           user.ugSubmit = 0
           this.nowList = user
-          if (localStorage.loginRole == 100) {
+          if (localStorage.loginRole != 1) {
             let time = this.isSelect_time ? this.searchDate : getWeek()
             let allGameTyle = [
               {code: gameType('naLive'), company: 'na'},
@@ -508,7 +508,7 @@ export default {
             }
             let data = {
               gameType: allGameTyle.map(game => {return game.code}),
-              role: '100',
+              role: localStorage.loginRole,
               userIds: [localStorage.loginId],
               query: {createdAt: time}
             }
@@ -630,40 +630,35 @@ export default {
                         if (allCode.na.includes(Number(code))) {
                           item.naWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.naSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.naSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          localStorage.loginRole == 1 ? this.nowList.naWinlose += data[0].gameTypeMap[code].winloseAmount : ''
                         } else if (allCode.ttg.includes(Number(code))) {
                           item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.ttgSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.ttgSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          localStorage.loginRole == 1 ? this.nowList.ttgWinlose += data[0].gameTypeMap[code].winloseAmount : ''
                         } else if (allCode.mg.includes(Number(code))) {
                           item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.mgSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.mgSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          localStorage.loginRole == 1 ? this.nowList.mgWinlose += data[0].gameTypeMap[code].winloseAmount : ''
                         } else if (allCode.sa.includes(Number(code))) {
                           item.saWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.saSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.saSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          localStorage.loginRole == 1 ? this.nowList.saWinlose += data[0].gameTypeMap[code].winloseAmount : ''
                         } else if (allCode.ag.includes(Number(code))) {
                           item.agWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.agSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.agSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          localStorage.loginRole == 1 ? this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount : ''
                         } else if (allCode.ug.includes(Number(code))) {
                           item.ugWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.ugSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.ugWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.ugSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          localStorage.loginRole == 1 ? this.nowList.ugWinlose += data[0].gameTypeMap[code].winloseAmount : ''
                         }
                         item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose + item.ugWinlose
                         item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit + item.ugSubmit 
                       }
-                      this.nowList.allWinlose += item.allWinlose
-                      this.nowList.role != 1 ? this.nowList.allSubmit += item.allSubmit : ''
-                      this.nowList.allbetCount += item.allbetCount
+                      if (localStorage.loginRole == 1) {
+                        this.nowList.allWinlose += item.allWinlose
+                        this.nowList.allbetCount += item.allbetCount
+                      }
                       this.nowChild.push(item)
                     }
                     resolve(data)
