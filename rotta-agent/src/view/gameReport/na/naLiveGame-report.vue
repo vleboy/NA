@@ -520,12 +520,12 @@ export default {
                           }
                           return item.betCount > 0 && !isRepeat
                         }))
-                        let mix = 1 // 定义一个返水比例
-                        for(let item of this.nowList.gameList) {
-                          if(item.code == this.nowType) {
-                            mix = +item.mix
-                          }
-                        }
+                        // let mix = 1 // 定义一个返水比例
+                        // for(let item of this.nowList.gameList) {
+                        //   if(item.code == this.nowType) {
+                        //     mix = +item.mix
+                        //   }
+                        // }
                         if(localStorage.loginSuffix == 'Agent'){
                           this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
                           this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
