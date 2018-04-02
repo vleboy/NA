@@ -438,8 +438,8 @@ export default {
                     user.winloseAmount = side.winloseAmount
                     user.mixAmount = side.mixAmount
                     user.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? user.nowBouns = side.betAmount * this.parentMix : user.nowBouns = side.betAmount * user.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
-                    user.nowallBet = user.nowBouns + side.winloseAmount
-                    user.winloseRate = user.nowallBet / side.mixAmount
+                    user.nowallBet = user.nowBouns + user.winloseAmount
+                    user.winloseRate = user.nowallBet / user.betAmount
                     user.submit = user.nowallBet * (1 - user.rate / 100)
                   }
                 })
