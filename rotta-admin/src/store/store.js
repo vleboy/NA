@@ -1801,7 +1801,7 @@ const actions = {
   //     }
   //   }
   //   // 请求下级账单信息
-    
+
   //   context.commit('resetnaVedioNowchild')
   //   // let count = {
   //   //   bet: 0,
@@ -3684,7 +3684,7 @@ const mutations = {
 
     state.variable.allGameData.allNowlist.allbetCount += payload.data.allbetCount
     state.variable.allGameData.allNowlist.allWinlose += payload.data.allWinlose
-    
+
     state.variable.allGameData.allNowlist.naWinlose += payload.data.naWinlose
 
     state.variable.allGameData.allNowlist.ttgWinlose += payload.data.ttgWinlose

@@ -218,7 +218,8 @@ export default {
           password: '', // 商户管理员密码
           adminName: '', // 商户管理员姓名
           adminEmail: '', // 商户管理员邮箱
-          adminContact: '' // 商户管理员联系方式
+          adminContact: '', // 商户管理员联系方式
+          isOpenBrowser: false // 是否在浏览器中打开
         }
       }
     },

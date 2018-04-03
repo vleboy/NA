@@ -75,6 +75,7 @@
           </el-select>
         </el-input>
         <el-button type="text" class="" @click="checkURL(selectFront2,setcomInfo.moneyURL)">验证</el-button>
+        <el-checkbox class="-p-checked" v-model="setcomInfo.isOpenBrowser">是否在系统浏览器中打开</el-checkbox>
       </el-form-item>
       <el-form-item label="商户注册页面地址">
         <el-input v-model="setcomInfo.registerURL" class="input" placeholder="选填">
@@ -117,10 +118,10 @@
     <createbtn class="Noprint" :setcomInfo="setcomInfo" @on-result-change="resetForm"></createbtn>
   </div>
 </div>
-  
+
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import store from '@/store/store'
 import {invoke} from '@/libs/fetchLib'
 import api from '@/api/api'
@@ -276,7 +277,8 @@ export default {
         password: '', // 商户管理员密码
         adminName: '', // 商户管理员姓名
         adminEmail: '', // 商户管理员邮箱
-        adminContact: '' // 商户管理员联系方式
+        adminContact: '', // 商户管理员联系方式
+        isOpenBrowser: false // 是否在浏览器中打开
       },
       rules: {
         points: [
@@ -449,11 +451,13 @@ export default {
       data.frontURL = this.selectFront1 + this.setcomInfo.frontURL
       data.moneyURL = this.selectFront2 + this.setcomInfo.moneyURL
       data.registerURL = this.selectFront3 + this.setcomInfo.registerURL
+      data.isOpenBrowser = this.setcomInfo.isOpenBrowser ? 1 : 0
       this.$store.commit({
         type: 'recordComcreate',
         data: data
       })
       var comcreate = this.$store.state.variable.comcreate
+
       invoke({
         url: api.createUser,
         method: api.post,
@@ -480,6 +484,7 @@ export default {
 .com-setform{width:45rem;margin: 0 auto;}
 .com-setform .title{font-weight: normal;color: #5a5a5a;margin: 1rem 0 2rem 0;text-align: center;margin-left: -35rem}
 .com-setform .input{width: 21rem}
+.com-setform .-p-checked{    position: absolute;  right: -80px;}
 @media print {
   .Noprint{ display: none }
 }
