@@ -274,6 +274,9 @@ const actions = {
               name:['https://s3-ap-southeast-1.amazonaws.com/image-na-dev/dating-nagaming.png','http://assetdownload.oss-cn-hangzhou.aliyuncs.com/image/dating-nagaming.png']
             }
           }
+
+          data.isOpenBrowser = !data.isOpenBrowser && 0
+
           context.commit('countAjax')
           localStorage.setItem('parentID', data.parent)
           context.commit({
