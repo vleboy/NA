@@ -221,6 +221,10 @@ const api = {
 
   updateAgentChip : front.stateMachine + '/updateChip ', // 代理修改限红
 
+  getAgentPlayerMix : front.stateMachine + '/agent/mix ', // 获取上级代理的洗马比
+
+  editPlayerMix : front.stateMachine + '/player/mix ', // 修改玩家洗马比
+
   // methods
 
   get: 'get',

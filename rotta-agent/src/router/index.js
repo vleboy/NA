@@ -184,7 +184,7 @@ const router = new Router({
     },
     {
       path: '/merchant',
-      name: '商户登录日志',
+      name: '代理登录日志',
       component: Merchant
     },
     {
@@ -290,7 +290,7 @@ const router = new Router({
     },
     {
       path: '/allReport',
-      name: '公司输赢报表',
+      name: '公司输赢总报表',
       component: allReport,
       meta: {
         keepAlive: true

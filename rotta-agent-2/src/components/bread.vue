@@ -9,14 +9,14 @@
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'outlist'" class="title">
-      <el-breadcrumb-item>商户中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>代理中心 </el-breadcrumb-item>
       <el-breadcrumb-item>线路商管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">线路商列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'point-warning'" class="title">
-      <el-breadcrumb-item>商户中心 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">接入商点数告警列表</span> </el-breadcrumb-item>
+      <el-breadcrumb-item>代理中心 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">点数告警列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'addPlayer'" class="title">
@@ -77,13 +77,13 @@
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'outcreate'" class="title">
-      <el-breadcrumb-item>商户中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>代理中心 </el-breadcrumb-item>
       <el-breadcrumb-item>线路商管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">创建线路商</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'outdetail'" class="title">
-      <el-breadcrumb-item>商户中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>代理中心 </el-breadcrumb-item>
       <el-breadcrumb-item>线路商 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">线路商详情</span> </el-breadcrumb-item>
     </el-breadcrumb>
@@ -99,9 +99,9 @@
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'comdetail'" class="title">
-      <el-breadcrumb-item>商户中心 </el-breadcrumb-item>
-      <el-breadcrumb-item>商户管理 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">商户详情</span> </el-breadcrumb-item>
+      <el-breadcrumb-item>代理中心 </el-breadcrumb-item>
+      <el-breadcrumb-item>代理管理 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">代理详情</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'gamelist'" class="title">
@@ -139,7 +139,7 @@
 
     <el-breadcrumb separator="/" v-if="nowindex === 'merchant'" class="title">
       <el-breadcrumb-item>财务中心 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">直属商户报表</span> </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">直属代理报表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'helplist'" class="title">

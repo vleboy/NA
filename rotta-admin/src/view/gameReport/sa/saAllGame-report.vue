@@ -337,7 +337,7 @@ export default {
           user.saFishingWinlose = 0
           user.saFishingSubmit = 0
           this.nowList = user
-          if (localStorage.loginRole == 100) {
+          if (localStorage.loginRole != 1) {
             let time = this.isSelect_time ? this.searchDate : getWeek()
             let saAllGameTyle = [
               {code: gameType('saFishing'), company: 'sa'},
@@ -349,7 +349,7 @@ export default {
             }
             let data = {
               gameType: saAllGameTyle.map(game => {return game.code}),
-              role: '100',
+              role: localStorage.loginRole,
               userIds: [localStorage.loginId],
               query: {createdAt: time}
             }
@@ -443,20 +443,19 @@ export default {
                         if (saAllCode.saLive == code) {
                           item.saLiveWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.saLiveSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.saLiveWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.saLiveSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          localStorage.loginRole == 1 ? this.nowList.saLiveWinlose += data[0].gameTypeMap[code].winloseAmount : ''
                         } else if (saAllCode.saFishing == code) {
                           item.saFishingWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.saFishingSubmit += data[0].gameTypeMap[code].submitAmount
-                          this.nowList.saFishingWinlose += data[0].gameTypeMap[code].winloseAmount
-                          this.nowList.role != 1 ? this.nowList.saFishingSubmit += data[0].gameTypeMap[code].submitAmount : ''
+                          localStorage.loginRole == 1 ? this.nowList.saFishingWinlose += data[0].gameTypeMap[code].winloseAmount : ''
                         }
                         item.saAllWinlose = item.saLiveWinlose + item.saFishingWinlose
                         item.saAllSubmit = item.saLiveSubmit + item.saFishingSubmit
                       }
-                      this.nowList.saAllWinlose += item.saAllWinlose
-                      this.nowList.role != 1 ? this.nowList.saAllSubmit += item.saAllSubmit : ''
-                      this.nowList.saAllbetCount += item.saAllbetCount
+                      if (localStorage.loginRole == 1) {
+                        this.nowList.saAllWinlose += item.saAllWinlose
+                        this.nowList.saAllbetCount += item.saAllbetCount
+                      }
                       this.nowChild.push(item)
                     }
                     resolve(data)

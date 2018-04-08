@@ -5,7 +5,7 @@
         <h2>{{detailInfo.userName}}</h2>
       </div>
       <div class="baseinfo">
-        <h4>基本信息</h4>
+        <h4>基本信息 <el-button type="text" @click="addPlayerMix">新增玩家洗码比</el-button></h4>
         <div class="baseinfo-form">
           <el-row>
             <el-col :span="4">
@@ -53,6 +53,7 @@
         </div>
       </div>
     </div>
+    <playerMix ref="childMethodPlayer" :dataMix="detailInfo" @getPlayerDetail="getPlayerDetail"></playerMix>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -61,9 +62,10 @@ import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 import playerRunningAccount from '@/components/player/playerRunningAccount'
 import transactionRecord from '@/components/player/transactionRecord'
+import playerMix from '@/components/player/playerMix'
 
 export default {
-  components:{playerRunningAccount, transactionRecord},
+  components:{playerRunningAccount, transactionRecord, playerMix},
   beforeCreate () {
     this.$store.commit('returnLocalStorage')
     this.$store.commit({
@@ -84,7 +86,7 @@ export default {
     return {
       password: '',
       editPassword: false,
-      isOpenModal: false,
+      isOpenModalMix: false,
       balanceInfo: {},
       playerDetailInfo: '',
       jumpUrl:[
@@ -122,6 +124,11 @@ export default {
     } // 管理员姓名
   },
   methods: {
+    addPlayerMix () {
+      setTimeout(()=>{
+        this.$refs.childMethodPlayer.openChipModal()
+      },0)
+    },
     getPlayerDetail () {
       if(this.isFetching) return
       this.isFetching = true

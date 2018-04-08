@@ -8,7 +8,7 @@
           <el-input v-model="setOutinfo.points" class="input" placeholder="请输入"></el-input>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="代理可放商户名额" prop="limit">
+      <el-form-item label="代理可放代理名额" prop="limit">
         <el-input v-model="setOutinfo.limit" class="input" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="代理拥有的游戏">

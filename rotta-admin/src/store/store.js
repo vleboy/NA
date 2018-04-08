@@ -274,6 +274,9 @@ const actions = {
               name:['https://s3-ap-southeast-1.amazonaws.com/image-na-dev/dating-nagaming.png','http://assetdownload.oss-cn-hangzhou.aliyuncs.com/image/dating-nagaming.png']
             }
           }
+
+          data.isOpenBrowser = !data.isOpenBrowser && 0
+
           context.commit('countAjax')
           localStorage.setItem('parentID', data.parent)
           context.commit({
@@ -1801,7 +1804,7 @@ const actions = {
   //     }
   //   }
   //   // 请求下级账单信息
-    
+
   //   context.commit('resetnaVedioNowchild')
   //   // let count = {
   //   //   bet: 0,
@@ -3684,7 +3687,7 @@ const mutations = {
 
     state.variable.allGameData.allNowlist.allbetCount += payload.data.allbetCount
     state.variable.allGameData.allNowlist.allWinlose += payload.data.allWinlose
-    
+
     state.variable.allGameData.allNowlist.naWinlose += payload.data.naWinlose
 
     state.variable.allGameData.allNowlist.ttgWinlose += payload.data.ttgWinlose

@@ -401,6 +401,37 @@ export default {
           let mix = ''
           !user.gameList ? this.parentMix = 0.01 : user.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? this.parentMix = 0.01 : this.parentMix = user.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
           this.nowList = user
+          if (localStorage.loginSuffix != 'Agent') {
+            let time = this.isSelect_time ? this.searchDate : getWeek()
+            let data = {
+              gameType: gameType('ttgVedio'),
+              role: '1000',
+              userIds: [localStorage.loginId],
+              query: {createdAt: time}
+            }
+            invoke({
+              url: api.calcUserStat,
+              method: api.post,
+              data: data
+            }).then(result => {
+              const [err,ret] = result
+              var data = ret.data.payload
+              if (data) {
+                data.map(side =>{
+                  if (user.userId == side.userId) {
+                    user.betCount = side.betCount
+                    user.betAmount = side.betAmount
+                    user.winloseAmount = side.winloseAmount
+                    user.mixAmount = side.mixAmount
+                    user.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? user.nowBouns = side.betAmount * this.parentMix : user.nowBouns = side.betAmount * user.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                    user.nowallBet = user.nowBouns + side.winloseAmount
+                    user.winloseRate = user.nowallBet / side.betAmount
+                    user.submit = user.nowallBet * (1 - user.rate / 100)
+                  }
+                })
+              }
+            })
+          }
         }
       })
     }, // 获取登陆用户报表基本信息
@@ -455,10 +486,10 @@ export default {
                               item.betAmount = side.betAmount
                               item.winloseAmount = side.winloseAmount
                               item.mixAmount = side.mixAmount
-                              item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                              item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.betAmount * this.parentMix : item.nowBouns = side.betAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                               item.nowallBet = item.nowBouns + side.winloseAmount
                               item.submit = item.nowallBet * (1 - item.rate / 100)
-                              item.winloseRate = item.nowallBet / side.mixAmount
+                              item.winloseRate = item.nowallBet / side.betAmount
                             }
                           })
                         })
@@ -469,14 +500,16 @@ export default {
                           }
                           return item.betCount > 0 && !isRepeat
                         }))
-                        this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.nowBouns = this.nowChild.map( child => child.nowBouns ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.nowallBet = this.nowChild.map( child => child.nowallBet ).reduce( (a , b)=>{return a + b} , 0 )
-                        this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
-                        this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate / 100)
+                        if(localStorage.loginSuffix == 'Agent'){
+                          this.nowList.betCount = this.nowChild.map( child => child.betCount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.betAmount = this.nowChild.map( child => child.betAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.winloseAmount = this.nowChild.map( child => child.winloseAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.mixAmount = this.nowChild.map( child => child.mixAmount ).reduce( (a , b)=>{return a + b} , 0 )
+                          this.nowList.nowBouns = this.nowList.betAmount * this.parentMix;
+                          this.nowList.nowallBet = this.nowList.nowBouns + this.nowList.winloseAmount
+                          this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
+                          this.nowList.submit = this.nowList.nowallBet * (1 - this.nowList.rate * 0.01 )
+                        }
                       }
                       resolve(data)
                     }
@@ -551,16 +584,16 @@ export default {
                           item.betCount = side.betCount
                           item.betAmount = side.betAmount
                           item.winloseAmount = side.winloseAmount
-                          item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                          item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.betAmount * this.parentMix : item.nowBouns = side.betAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                           item.nowallBet = item.nowBouns + side.winloseAmount
-                          if (this.nowChild.length == 0) {
-                            this.nowList.betCount += item.betCount
-                            this.nowList.betAmount += item.betAmount
-                            this.nowList.winloseAmount += item.winloseAmount
-                            this.nowList.mixAmount += item.mixAmount
-                            this.nowList.nowallBet += item.nowallBet
-                            this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.mixAmount
-                          }
+                          // if (this.nowChild.length == 0) {
+                          //   this.nowList.betCount += item.betCount
+                          //   this.nowList.betAmount += item.betAmount
+                          //   this.nowList.winloseAmount += item.winloseAmount
+                          //   this.nowList.mixAmount += item.mixAmount
+                          //   this.nowList.nowallBet += item.nowallBet
+                          //   this.nowList.winloseRate = this.nowList.nowallBet / this.nowList.betAmount
+                          // }
                         }
                       })
                     })
@@ -643,9 +676,9 @@ export default {
                               outside.betCount = inside.betCount
                               outside.betAmount = inside.betAmount
                               outside.winloseAmount = inside.winloseAmount
-                              outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                              outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.betAmount * this.parentMix : outside.nowBouns = inside.betAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                               outside.nowallBet = outside.nowBouns + inside.winloseAmount
-                              outside.winloseRate = outside.nowallBet / inside.mixAmount
+                              outside.winloseRate = outside.nowallBet / inside.betAmount
                               outside.submit = outside.nowallBet * (1 - outside.rate / 100)
                               this.clickChild[this.clickChild.length-1].push(outside)
                             }
@@ -721,9 +754,9 @@ export default {
                                   outside.betCount = inside.betCount
                                   outside.betAmount = inside.betAmount
                                   outside.winloseAmount = inside.winloseAmount
-                                  outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                                  outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.betAmount * this.parentMix : outside.nowBouns = inside.betAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                                   outside.nowallBet = outside.nowBouns + inside.winloseAmount
-                                  outside.winloseRate = outside.nowallBet / inside.mixAmount
+                                  outside.winloseRate = outside.nowallBet / inside.betAmount
                                   outside.submit = outside.nowallBet * (1 - outside.rate / 100)
                                   this.clickChild[this.clickChild.length-1].push(outside)
                                 }
@@ -800,9 +833,9 @@ export default {
                                 outside.betCount = inside.betCount
                                 outside.betAmount = inside.betAmount
                                 outside.winloseAmount = inside.winloseAmount
-                                outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.mixAmount * this.parentMix : outside.nowBouns = inside.mixAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                                outside.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? outside.nowBouns = inside.betAmount * this.parentMix : outside.nowBouns = inside.betAmount * outside.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                                 outside.nowallBet = outside.nowBouns + inside.winloseAmount
-                                outside.winloseRate = outside.nowallBet / inside.mixAmount
+                                outside.winloseRate = outside.nowallBet / inside.betAmount
                                 outside.submit = outside.nowallBet * (1 - outside.rate / 100)
                                 this.clickChild[this.clickChild.length-1].push(outside)
                               }
@@ -889,7 +922,7 @@ export default {
                           item.betCount = side.betCount
                           item.betAmount = side.betAmount
                           item.winloseAmount = side.winloseAmount
-                          item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.mixAmount * this.parentMix : item.nowBouns = side.mixAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                          item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.betAmount * this.parentMix : item.nowBouns = side.betAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
                           item.nowallBet = item.nowBouns + side.winloseAmount
                         }
                       })

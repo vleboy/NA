@@ -8,17 +8,17 @@
           </el-table-column>
           <el-table-column label="类型" prop="" align="left" :formatter="formatRole">
           </el-table-column>
-          <el-table-column label="接入商标识" align="left">
+          <el-table-column label="代理标识" align="left">
             <template scope="scope">
               <span>{{scope.row.sn ? scope.row.sn : scope.row.suffix}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="接入商昵称" prop="displayName" align="left">
+          <el-table-column label="代理昵称" prop="displayName" align="left">
             <template scope="scope">
               <span @click="getChild(scope.row)" class="fontUrl">{{scope.row.displayName}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="接入商" prop="" align="center">
+          <el-table-column label="游戏品牌" prop="" align="center">
             <template scope="scope">
               <div slot="reference" class="gameName">
                   <el-tag v-for="item in scope.row.companyList" key={{item}}>{{ item.company }}</el-tag>
@@ -56,23 +56,23 @@
 
     <div class="point-warning" v-for="(child,index) of nowChild">
       <div class="belong-list">
-        <p class="title">{{nowParent[index]}}下级接入商</p>
+        <p class="title">{{nowParent[index]}}下级代理</p>
         <el-table :data="child">
           <el-table-column label="序号" prop="rank" align="left" type="index" width="80">
           </el-table-column>
           <el-table-column label="类型" prop="" align="left" :formatter="formatRole">
           </el-table-column>
-          <el-table-column label="接入商标识" align="left">
+          <el-table-column label="代理标识" align="left">
             <template scope="scope">
               <span>{{scope.row.sn ? scope.row.sn : scope.row.suffix}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="接入商昵称" prop="displayName" align="left">
+          <el-table-column label="代理昵称" prop="displayName" align="left">
             <template scope="scope">
               <span @click="getChild(scope.row)" class="fontUrl">{{scope.row.displayName}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="接入商" prop="" align="center">
+          <el-table-column label="游戏品牌" prop="" align="center">
             <template scope="scope">
               <div slot="reference" class="gameName">
                   <el-tag v-for="item in scope.row.companyList" key={{item}}>{{ item.company }}</el-tag>
@@ -113,8 +113,8 @@
       <el-dialog title="停用" :visible.sync="isVisible" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
         <div style="text-align:center">
           <p style="font-size:1.2rem">{{status == 1 ? '停用' : '启用'}}</p>
-          <p style="margin:10px auto">确认要{{status == 1 ? '停用' : '启用'}}该接入商的{{forceGame.company}}游戏吗？</p>
-          <p style="width:60%;margin:10px auto 20px;text-align:left;color:red" v-if="status == 1">告警: 停用后,该接入商下的所有玩家都无法进入游戏,已在游戏中的玩家会被系统T出游戏。</p>
+          <p style="margin:10px auto">确认要{{status == 1 ? '停用' : '启用'}}该代理的{{forceGame.company}}游戏吗？</p>
+          <p style="width:60%;margin:10px auto 20px;text-align:left;color:red" v-if="status == 1">告警: 停用后,该代理下的所有玩家都无法进入游戏,已在游戏中的玩家会被系统T出游戏。</p>
           <div style="width:50%;margin:30px auto 10px;" class="clearFix">
             <el-button type="primary" style="float:left" @click="post_changeStatus(forceGame)" :loading="loading">确定</el-button>
             <el-button style="float:right" @click="cancel">取消</el-button>

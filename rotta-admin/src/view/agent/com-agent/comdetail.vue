@@ -1,4 +1,4 @@
-v<template>
+<template>
     <div class="comdetail">
         <div class="simpleinfo">
             <div class="comdetail-title">
@@ -73,18 +73,11 @@ v<template>
                             <el-col :span="1">
                                 <span class="hidden">1</span>
                             </el-col>
-                            <!-- <el-col :span="7">
+                            <el-col :span="7">
                                 <div class="">
-                                    <el-form-item label="商家占成" v-show="disable == true">
-                                        {{comdetail.rate}}%
-                                    </el-form-item>
-                                    <el-form-item label="商家占成" prop="rate" v-show="disable == false">
-                                      <el-input v-model="comdetail.rate">
-                                        <template slot="prepend">%</template>
-                                      </el-input>
-                                    </el-form-item>
+                                  <el-checkbox class="-p-checked" v-model="comdetail.isOpenBrowser" :disabled='disable'>是否在系统浏览器中打开</el-checkbox>
                                 </div>
-                            </el-col> -->
+                            </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="7">
@@ -304,8 +297,8 @@ v<template>
                         <!-- </el-tooltip> -->
                         <el-button type="text" @click="addGame" v-show="!disable">添加</el-button>
                     </div>
-                    
-                    
+
+
                     <el-table :data="comdetail.gameList" border style="width: 40rem;margin-top:1rem">
                       <el-table-column prop="company" align="center" label="公司"></el-table-column>
                       <el-table-column prop="name" align="center" label="游戏"></el-table-column>
@@ -517,7 +510,7 @@ v<template>
     </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
 import Billtransfer from '@/components/billtransfer'
 import { detailTime, formatContractPeriod, billType, formatRemark, formatUsername, formatMSN, formatPoints } from '@/behavior/format'
 import { invoke } from '@/libs/fetchLib'
@@ -578,6 +571,7 @@ export default {
         this.imgInfo.logoImg = data.launchImg.logo[0]
         this.imgInfo.nameImg = data.launchImg.name[0]
       }
+      data.isOpenBrowser = data.isOpenBrowser == 1
       return data
     },
     waterFall () {
@@ -1059,6 +1053,7 @@ export default {
           } else {
             comdetailID = this.$store.state.variable.comdetailID
           }
+        this.comdetail.isOpenBrowser = this.comdetail.isOpenBrowser ? 1 : 0
         invoke({
           url: api.merchants + '/' + comdetailID,
           method: api.post,

@@ -21,7 +21,7 @@
         <p class="suclist-line1">
           <span>代理初始点数 : {{outdata.points}}</span>
           <span>代理抽成比 : {{outdata.rate}}%</span>
-          <span>代理可放商户名额 : {{outdata.limit}}</span>
+          <span>代理可放代理名额 : {{outdata.limit}}</span>
         </p>
         <p>
           <span class="">代理游戏 :

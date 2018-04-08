@@ -54,6 +54,7 @@
 
 <script type="text/ecmascript-6">
   import {invoke} from '@/libs/fetchLib'
+  import { pattern } from '@/behavior/regexp'
   import api from '@/api/api'
   export default {
     beforeCreate () {
@@ -176,7 +177,7 @@
         }
       },
       changeMix (row) {
-        if (row.percentage < 0 || row.percentage > row.mix){
+        if (row.percentage > row.mix || !pattern.positive.exec(row.percentage)){
           this.$message.error(`请输入正确的${row.name}洗码比范围`)
           row.isPercentage = false
         } else {

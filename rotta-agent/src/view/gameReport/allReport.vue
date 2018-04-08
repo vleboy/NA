@@ -539,9 +539,9 @@ export default {
                     this.nowList.ugWinlose += data[0].gameTypeMap[code].winloseAmount
                     this.nowList.ugSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,user)
                   }
-                  this.nowList.allWinlose = this.nowList.naWinlose + this.nowList.ttgWinlose + this.nowList.mgWinlose + this.nowList.saWinlose + this.nowList.agWinlose + this.nowList.ugWinlose
-                  this.nowList.allSubmit = this.nowList.naSubmit + this.nowList.ttgSubmit + this.nowList.mgSubmit + this.nowList.saSubmit + this.nowList.agSubmit + this.nowList.ugSubmit
                 }
+                this.nowList.allWinlose = this.nowList.naWinlose + this.nowList.ttgWinlose + this.nowList.mgWinlose + this.nowList.saWinlose + this.nowList.agWinlose + this.nowList.ugWinlose
+                this.nowList.allSubmit = this.nowList.naSubmit + this.nowList.ttgSubmit + this.nowList.mgSubmit + this.nowList.saSubmit + this.nowList.agSubmit + this.nowList.ugSubmit
               }
             })
           }
@@ -625,41 +625,35 @@ export default {
                         if (allCode.na.includes(Number(code))) {
                           item.naWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.naSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
-                          this.nowList.naWinlose += data[0].gameTypeMap[code].winloseAmount
-                          // this.nowList.suffix != 'Agent' ? this.nowList.naSubmit += item.naSubmit : ''
                         } else if (allCode.ttg.includes(Number(code))) {
                           item.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.ttgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
-                          this.nowList.ttgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          // this.nowList.suffix != 'Agent' ? this.nowList.ttgSubmit += item.ttgSubmit : ''
                         } else if (allCode.mg.includes(Number(code))) {
                           item.mgWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.mgSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
-                          this.nowList.mgWinlose += data[0].gameTypeMap[code].winloseAmount
-                          // this.nowList.suffix != 'Agent' ? this.nowList.mgSubmit += item.mgSubmit : ''
                         } else if (allCode.sa.includes(Number(code))) {
                           item.saWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.saSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
-                          this.nowList.saWinlose += data[0].gameTypeMap[code].winloseAmount
-                          // this.nowList.suffix != 'Agent' ? this.nowList.saSubmit += item.saSubmit : ''
                         } else if (allCode.ag.includes(Number(code))) {
                           item.agWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.agSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
-                          this.nowList.agWinlose += data[0].gameTypeMap[code].winloseAmount
-                          // this.nowList.suffix != 'Agent' ? this.nowList.agSubmit += item.agSubmit : ''
                         } else if (allCode.ug.includes(Number(code))) {
                           item.ugWinlose += data[0].gameTypeMap[code].winloseAmount
                           item.ugSubmit += this.calcSubmitAmount(code,data[0].gameTypeMap,item)
-                          this.nowList.ugWinlose += data[0].gameTypeMap[code].winloseAmount
-                          // this.nowList.suffix != 'Agent' ? this.nowList.ugSubmit += item.ugSubmit : ''
                         }
                         item.allWinlose = item.naWinlose + item.ttgWinlose + item.mgWinlose + item.saWinlose + item.agWinlose + item.ugWinlose
                         item.allSubmit = item.naSubmit + item.ttgSubmit + item.mgSubmit + item.saSubmit + item.agSubmit + item.ugSubmit
                       }
-                      
-                      this.nowList.allWinlose += item.allWinlose
-                      this.nowList.suffix != 'Agent' ? this.nowList.allSubmit += item.allSubmit : ''
-                      this.nowList.allbetCount += item.allbetCount
+                      if(this.nowList.suffix == 'Agent'){
+                        this.nowList.allWinlose += item.allWinlose
+                        this.nowList.allbetCount += item.allbetCount
+                        this.nowList.naWinlose += item.naWinlose 
+                        this.nowList.ttgWinlose += item.ttgWinlose 
+                        this.nowList.mgWinlose += item.mgWinlose 
+                        this.nowList.saWinlose += item.saWinlose 
+                        this.nowList.agWinlose += item.agWinlose 
+                        this.nowList.ugWinlose += item.ugWinlose 
+                      }
                       this.nowChild.push(item)
                     }
                     resolve(data)

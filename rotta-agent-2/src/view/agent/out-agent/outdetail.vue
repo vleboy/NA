@@ -14,7 +14,7 @@
                     <span>负责人: {{outdetail.hostName}}</span>
                     <span>负责人联系方式: {{outdetail.hostContact}}</span>
                     <span>抽成比: {{outdetail.rate}}%</span>
-                    <span>代理可放商户名额: {{outdetail.limit}}</span>
+                    <span>代理可放代理名额: {{outdetail.limit}}</span>
                     <span>代理游戏: 
                         <div v-for="item in outdetail.gameList" style="display:inline-block;margin-left:0.25rem">
                             {{item.name}}
@@ -94,7 +94,7 @@
                     <el-row>
                         <el-col :span="6">
                             <div class="">
-                                <el-form-item label="可放商户名额" prop="limit">
+                                <el-form-item label="可放代理名额" prop="limit">
                                     <el-input v-model="outdetail.limit" icon="edit" :on-icon-click="turnONedit" :disabled="disable"></el-input>
                                 </el-form-item>
                             </div>
@@ -363,11 +363,11 @@
             </div>
         </div>
         <div class="propertyinfo margin">
-            <h4>拥有商户列表</h4>
+            <h4>拥有代理列表</h4>
             <div class="propertyform">
             <div class="propertyform-header">
-                <span class="justfy1">商户剩余点数: <span style="color:#FF9900">{{childMerchantsbill}}</span></span>
-                <span style="margin-left: 1rem">商户数：{{usedMerchant}}/{{outdetail.limit}}</span>
+                <span class="justfy1">代理剩余点数: <span style="color:#FF9900">{{childMerchantsbill}}</span></span>
+                <span style="margin-left: 1rem">代理数：{{usedMerchant}}/{{outdetail.limit}}</span>
                 <el-button type="text" class="propertybtn justfy2">刷新</el-button>
             </div>
             <div class="propertyform-form">
@@ -391,7 +391,7 @@
                             <span>{{Remark(scope.row.remark)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="操作(对旗下商户操作)" align="center">
+                    <el-table-column prop="" label="操作(对旗下代理操作)" align="center">
                       <template scope="scope">
                         <el-button type="text" @click="damn_storePoints(scope.$index, scope.row)">存点</el-button>
                         <el-button type="text" @click="damn_withdrawPoints(scope.$index, scope.row)">提点</el-button>
@@ -553,10 +553,10 @@ export default {
         callback(new Error('请输入可用名额'))
         this.isfinish.limit = false
       } else if (!num.exec(value)) {
-        callback(new Error('请输入正确的可放商户名额'))
+        callback(new Error('请输入正确的可放代理名额'))
         this.isfinish.limit = false
       } else if (value > 10) {
-        callback(new Error('最大可放商户名额为10'))
+        callback(new Error('最大可放代理名额为10'))
         this.isfinish.limit = false
       } else {
         this.isfinish.limit = true

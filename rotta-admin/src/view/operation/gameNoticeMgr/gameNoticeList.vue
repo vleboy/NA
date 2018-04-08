@@ -75,7 +75,7 @@
           <el-input v-model="noticeInfo.url" auto-complete="off" placeholder="请输入跳转的链接 例（http://www.xxxx.com）" :maxlength="500"></el-input>
         </el-form-item>
         <el-form-item label="优先级" label-width="140px" >
-          <el-input-number style="width: 100%;" v-model="noticeInfo.priority" auto-complete="off" :min="1" placeholder="请输入（根据优先级确定公告排序）"></el-input-number>
+          <el-input-number style="width: 100%;" v-model="noticeInfo.priority" auto-complete="off" :min="1"  :max='1000'  placeholder="请输入（根据优先级确定公告排序）"></el-input-number>
         </el-form-item>
         <el-form-item label="公告图标" label-width="140px" style="text-align: left">
           <el-upload
@@ -107,7 +107,7 @@
     <el-dialog title="公告排序" :visible.sync="isOpenInput" style="text-align: center" size="tiny">
       <el-form :model="noticeInfo" v-loading.body="dialogLoading">
         <el-form-item label="优先级" label-width="60px" >
-          <el-input-number style="width: 100%;" v-model="noticeInfo.priority" auto-complete="off" :min="1" placeholder="请输入（根据优先级确定公告排序）"></el-input-number>
+          <el-input-number style="width: 100%;" v-model="noticeInfo.priority" auto-complete="off" :min="1"  :max='1000' placeholder="请输入（根据优先级确定公告排序）"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -216,6 +216,8 @@ export default {
         return this.$message.error('请选择上传图片')
       } else if (!this.noticeInfo.priority) {
         return this.$message.error('请输入优先级')
+      } else if (!pattern.positiveInteger.exec(this.noticeInfo.priority)) {
+        return this.$message.error('请输入正整数')
       }
       if (this.isSending) return // 防止重复提交
       this.isSending = true

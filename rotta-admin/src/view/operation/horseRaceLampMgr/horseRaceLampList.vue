@@ -64,16 +64,16 @@
         </el-form-item>
         <el-form-item label="播放时间间隔" label-width="140px" >
           <el-col :span="6">
-            <el-input class="-hrl-time" v-model="timeObj.day" type="number" placeholder="请输入天" @blur="changeCount"></el-input> 天
+            <el-input class="-hrl-time" v-model="timeObj.day" type="number" placeholder="请输入天" @blur="changeCount" :min="0"></el-input> 天
           </el-col>
           <el-col :span="6">
-            <el-input class="-hrl-time" v-model="timeObj.hour" type="number" placeholder="请输入小时" @blur="changeCount"></el-input> 时
+            <el-input class="-hrl-time" v-model="timeObj.hour" type="number" placeholder="请输入小时" @blur="changeCount" :min="0"></el-input> 时
           </el-col>
           <el-col :span="6">
-            <el-input class="-hrl-time" v-model="timeObj.minute" type="number" placeholder="请输入分钟" @blur="changeCount"></el-input> 分
+            <el-input class="-hrl-time" v-model="timeObj.minute" type="number" placeholder="请输入分钟" @blur="changeCount" :min="0"></el-input> 分
           </el-col>
           <el-col :span="6">
-            <el-input class="-hrl-time" v-model="timeObj.second" type="number" placeholder="请输入秒数" @blur="changeCount"></el-input> 秒
+            <el-input class="-hrl-time" v-model="timeObj.second" type="number" placeholder="请输入秒数" @blur="changeCount" :min="0"></el-input> 秒
           </el-col>
         </el-form-item>
         <el-form-item label="单条公告显示时间" label-width="140px">
@@ -181,6 +181,14 @@ export default {
         return this.$message.error('请输入公告内容')
       } else if (time < this.horseRaceLampInfo.splitTime) {
         return this.$message.error('时间间隔不能小于播放间隔时间')
+      } else if (this.timeObj.day<0) {
+        return this.$message.error('天数不能为负')
+      } else if (this.timeObj.hour<0) {
+        return this.$message.error('时数不能为负')
+      } else if (this.timeObj.minute<0) {
+        return this.$message.error('分数不能为负')
+      } else if (this.timeObj.second<0) {
+        return this.$message.error('秒数不能为负')
       }
       if (this.isSending) return // 防止重复提交
       this.isSending = true
