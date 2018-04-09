@@ -601,6 +601,7 @@ export default {
                           item.nowBouns = item.betAmount * this.parentMix
                           item.winloseAmount = side.winloseAmount
                           item.gameList.filter(mix => {return mix.code == this.nowType}).length == 0 ? item.nowBouns = side.betAmount * this.parentMix : item.nowBouns = side.betAmount * item.gameList.filter(mix => {return mix.code == this.nowType})[0].mix / 100
+                          item.nowallBet = item.nowBouns + side.winloseAmount
                           // if (this.nowChild.length == 0) {
                           //   this.nowList.nowBouns = item.nowBouns
                           //   item.nowallBet = item.nowBouns + side.winloseAmount
