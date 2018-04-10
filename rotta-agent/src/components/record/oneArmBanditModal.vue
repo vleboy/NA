@@ -48,6 +48,7 @@ export default {
       gameTypeFile: {
         '40001': 'tlzm',
         '40002': 'xcl',
+        '42002': 'xcl',
         '40003': 'xlxr',
         '40004': 'sfss',
         '40005': 'csjb',
@@ -67,7 +68,7 @@ export default {
       let classType = {}
       classType = {
         'record-tlzm': this.gameType=='40001',
-        'record-xcl': this.gameType=='40002',
+        'record-xcl': this.gameType== '40002' || '42002',
         'record-xlxr': this.gameType=='40003',
         'record-sfss': this.gameType=='40004',
         'record-csjb': this.gameType=='40005',
