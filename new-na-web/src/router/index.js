@@ -9,6 +9,7 @@ import Download from '@/views/Download'
 import Innovation from '@/views/innovation'
 import Game from '@/views/Game'
 import Pro from '@/views/pro'
+import BusinessDetail from '@/views/businessDetail'
 
 Vue.use(Router)
 
@@ -53,6 +54,11 @@ const router = new Router({
       path: '/Pro',
       name: '/Pro',
       component: Pro
+    },
+    {
+      path: '/detail',
+      name: 'businessDetail',
+      component: BusinessDetail
     }
   ]
 })

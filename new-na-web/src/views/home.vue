@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <home-prize />
+    <home-btn-nav />
     <section><home-platform /></section>
     <section><home-video-player /></section>
     <section> <home-advantage /></section>
@@ -26,6 +26,7 @@ import homeAdvantage from '@/components/home/home-advantage'
 import homeVideoPlayer from '@/components/home/home-video-player'
 import homePlatform from '@/components/home/home-platform'
 import homePrize from '@/components/home/home-prize'
+import homeBtnNav from '@/components/home/home-btn-nav'
 export default {
   name: 'Home',
   head: {
@@ -41,7 +42,8 @@ export default {
     homeAdvantage,
     homeVideoPlayer,
     homePlatform,
-    homePrize
+    homePrize,
+    homeBtnNav
   },
   mounted () {
     let Panels = $('section')

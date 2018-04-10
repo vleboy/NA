@@ -8,8 +8,8 @@
       <div class="platform-box flex boxs">
         <div class="platform-items">
           <div class="platform-item" v-for="item in platformLists[0]">
-            <div class="platform-item-img" @mouseover="hoverIn(item)"><img :src="item.img" alt=""></div>
-            <div class="platform-item-desc">
+            <div class="platform-item-img-left" @mouseover="hoverIn(item)"><img :src="item.img" alt=""></div>
+            <div class="platform-item-desc-left">
               <div class="platform-item-title">{{item.title}}</div>
               <div class="platform-item-msg">{{item.msg}}</div>
             </div>
@@ -20,8 +20,8 @@
         </div>
         <div class="platform-items">
           <div class="platform-item" v-for="item in platformLists[1]">
-            <div class="platform-item-img" @mouseover="hoverIn(item)"><img :src="item.img" alt=""></div>
-            <div class="platform-item-desc">
+            <div class="platform-item-img-right" @mouseover="hoverIn(item)"><img :src="item.img" alt=""></div>
+            <div class="platform-item-desc-right">
               <div class="platform-item-title">{{item.title}}</div>
               <div class="platform-item-msg">{{item.msg}}</div>
             </div>
@@ -82,26 +82,26 @@ export default {
   },
   methods: {
     hoverIn (item) {
-      switch (item.title) {
-        case '真人LIVE':
-          this.lag = '真人LIVE'
-          break
-        case '电子游戏':
-          this.lag = '电子游戏'
-          break
-        case '棋牌游戏':
-          this.lag = '棋牌游戏'
-          break
-        case '体育赛事':
-          this.lag = '体育赛事'
-          break
-      }
+//      switch (item.title) {
+//        case '真人LIVE':
+//          this.lag = '真人LIVE'
+//          break
+//        case '电子游戏':
+//          this.lag = '电子游戏'
+//          break
+//        case '棋牌游戏':
+//          this.lag = '棋牌游戏'
+//          break
+//        case '体育赛事':
+//          this.lag = '体育赛事'
+//          break
+//      }
     }
   }
 }
 </script>
 
-<style lang="stylus" scoped>
+<style type="text/stylus" lang="stylus" scoped>
 .home-platform
   h2
     font-size 2.5rem
@@ -125,21 +125,39 @@ export default {
     color #666666
     margin 0  auto 80px
   .mobile-box
-    display none 
+    display none
   .platform-box
     justify-content space-between
     .platform-items
       flex-basis 30%
       .platform-item
-        display flex
-        margin-bottom 100px
-        .platform-item-img
-          width 58px
-          height 58px
-          cursor pointer
-        .platform-item-desc
-          width calc(100% - 58px)
+        /*display flex*/
+        overflow: hidden;
+        margin-bottom 40px
+        .platform-item-img-left
+          text-align right
+          /*width 58px*/
+          /*height 58px*/
+          /*cursor pointer*/
+        .platform-item-desc-left
+          /*width calc(100% - 58px)*/
+          float: right;
+          text-align: right;
+          width: 80%;
           padding-left 20px
+          .platform-item-title
+            font-size 20px
+            color #444444
+          .platform-item-msg
+            color #666666
+            font-size 14px
+        .platform-item-img-right
+          text-align left
+        .platform-item-desc-right
+          float: left;
+          text-align: left;
+          width: 80%;
+
           .platform-item-title
             font-size 20px
             color #444444
@@ -153,7 +171,7 @@ export default {
       justify-content center
     .bounce
       animation Wanimate 1.5s ease both
-    @keyframes Wanimate 
+    @keyframes Wanimate
       0%
         opacity 0
         transform translateY(15%)

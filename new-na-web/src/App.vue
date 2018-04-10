@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <home-banner v-show="$route.path !== '/Pro'"/>
+    <home-banner v-show="$route.path !== '/Pro' && $route.path !== '/detail'"/>
     <router-view/>
-    <home-footer v-show="$route.path !== '/Pro'"/>
+    <home-footer v-show="$route.path !== '/Pro' && $route.path !== '/detail'"/>
   </div>
 </template>
 

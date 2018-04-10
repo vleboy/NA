@@ -27,8 +27,8 @@ export default {
         }
       },
       banners: [
-      //  {banner: require('@/assets/img/banner1.jpg') },
-      //  {banner: require('@/assets/img/banner2.jpg') },
+//        {banner: require('@/assets/img/banner1.jpg') },
+//        {banner: require('@/assets/img/banner2.jpg') },
         {banner: require('@/assets/img/banner1.jpg')}
       ]
     }
@@ -52,7 +52,7 @@ export default {
       bottom 30px
     .swiper-slide
       height auto
-  img 
+  img
     width 100%
     height 100%
 </style>
