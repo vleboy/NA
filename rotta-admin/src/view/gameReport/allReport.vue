@@ -37,7 +37,7 @@
         </el-table-column>
         <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
+            <span :class="[Number(scope.row.naWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
@@ -127,7 +127,7 @@
         </el-table-column>
         <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
+            <span :class="[Number(scope.row.naWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
@@ -217,7 +217,7 @@
         </el-table-column>
         <el-table-column label="NA游戏(输赢金额)" prop="naWinlose" align="left">
           <template scope="scope">
-            <span :class="[Number(scope.row.allWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
+            <span :class="[Number(scope.row.naWinlose) > 0 ? 'green' : 'red']">{{points(scope.row.naWinlose)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="NA游戏(商家交公司)" prop="naSubmit" align="left">
