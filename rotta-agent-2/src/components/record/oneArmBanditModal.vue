@@ -69,59 +69,71 @@ export default {
     // 四方神兽 40004
     // 财神进宝 40005
     // 福运亨通 40006
+    gameTypeId () {
+      let typeId = {}
+      typeId = {
+        'tlzm': (this.gameType=='40001') || (this.gameType=='42001'),
+        'xcl': (this.gameType== '40002') || (this.gameType=='42002'),
+        'xlxr': (this.gameType=='40003') || (this.gameType=='42003'),
+        'sfss': (this.gameType=='40004') || (this.gameType=='42004'),
+        'csjb': (this.gameType=='40005') || (this.gameType=='42005'),
+        'fyht': (this.gameType=='40006') || (this.gameType=='42006')
+      }
+      return typeId
+    },
     recordBackgroundUrl () {
       let classType = {}
       classType = {
-        'record-tlzm': (this.gameType=='40001') || (this.gameType=='42001'),
-        'record-xcl': (this.gameType== '40002') || (this.gameType=='42002'),
-        'record-xlxr': (this.gameType=='40003') || (this.gameType=='42003'),
-        'record-sfss': (this.gameType=='40004') || (this.gameType=='42004'),
-        'record-csjb': (this.gameType=='40005') || (this.gameType=='42005'),
-        'record-fyht': (this.gameType=='40006') || (this.gameType=='42006')
+        'record-tlzm': this.gameTypeId.tlzm,
+        'record-xcl': this.gameTypeId.xcl,
+        'record-xlxr': this.gameTypeId.xlxr,
+        'record-sfss': this.gameTypeId.sfss,
+        'record-csjb': this.gameTypeId.csjb,
+        'record-fyht': this.gameTypeId.fyht
       }
       return classType
     },
     recordClassContent () {
       let classContent = {}
       classContent = {
-        'tlzm': (this.gameType=='40001') || (this.gameType=='42001'),
-        'xlxr': (this.gameType=='40003') || (this.gameType=='42003'),
-        'sfss': (this.gameType=='40004') || (this.gameType=='42004'),
-        'csjb': (this.gameType=='40005') || (this.gameType=='42005'),
-        'fyht': (this.gameType=='40006') || (this.gameType=='42006')
+        'tlzm': this.gameTypeId.tlzm,
+        'xlxr': this.gameTypeId.xlxr,
+        'sfss': this.gameTypeId.sfss,
+        'csjb': this.gameTypeId.csjb,
+        'fyht': this.gameTypeId.fyht
       }
       return classContent
     },
     recordClassWrap () {
       let classWrap = {}
       classWrap = {
-        'tlzm-wrap': (this.gameType=='40001') || (this.gameType=='42001'),
-        'xlxr-wrap': (this.gameType=='40003') || (this.gameType=='42003'),
-        'sfss-wrap': (this.gameType=='40004') || (this.gameType=='42004'),
-        'csjb-wrap': (this.gameType=='40005') || (this.gameType=='42005'),
-        'fyht-wrap': (this.gameType=='40006') || (this.gameType=='42006')
+        'tlzm-wrap': this.gameTypeId.tlzm,
+        'xlxr-wrap': this.gameTypeId.xlxr,
+        'sfss-wrap': this.gameTypeId.sfss,
+        'csjb-wrap': this.gameTypeId.csjb,
+        'fyht-wrap': this.gameTypeId.fyht
       }
       return classWrap
     },
     recordClassLow () {
       let classLow = {}
       classLow = {
-        'tlzm-low': (this.gameType=='40001') || (this.gameType=='42001'),
-        'xlxr-low': (this.gameType=='40003') || (this.gameType=='42003'),
-        'sfss-low': (this.gameType=='40004') || (this.gameType=='42004'),
-        'csjb-low': (this.gameType=='40005') || (this.gameType=='42005'),
-        'fyht-low': (this.gameType=='40006') || (this.gameType=='42006')
+        'tlzm-low': this.gameTypeId.tlzm,
+        'xlxr-low': this.gameTypeId.xlxr,
+        'sfss-low': this.gameTypeId.sfss,
+        'csjb-low': this.gameTypeId.csjb,
+        'fyht-low': this.gameTypeId.fyht
       }
       return classLow
     },
     recordClassIcon () {
       let classIcon = {}
       classIcon = {
-        'tlzm-icon': (this.gameType=='40001') || (this.gameType=='42001'),
-        'xlxr-icon': (this.gameType=='40003') || (this.gameType=='42003'),
-        'sfss-icon': (this.gameType=='40004') || (this.gameType=='42004'),
-        'csjb-icon': (this.gameType=='40005') || (this.gameType=='42005'),
-        'fyht-icon': (this.gameType=='40006') || (this.gameType=='42006')
+        'tlzm-icon': this.gameTypeId.tlzm,
+        'xlxr-icon': this.gameTypeId.xlxr,
+        'sfss-icon': this.gameTypeId.sfss,
+        'csjb-icon': this.gameTypeId.csjb,
+        'fyht-icon': this.gameTypeId.fyht
       }
       return classIcon
     }
