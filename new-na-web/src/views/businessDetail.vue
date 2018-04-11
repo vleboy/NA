@@ -4,8 +4,8 @@
       <div class="-p-mobile" v-if="isShowDetail && nowId != 3" @click="isShowDetail = false">
         <img class="-arrow" src="/static/arrow.png">
       </div>
-      <router-link to="/" v-if="!isShowDetail"><img class="-img-logo" src="/static/logo.png" alt=""></router-link>
-      <img v-else class="-img-logo" src="/static/logo.png" alt="" @click="isShowDetail = false">
+      <router-link to="/" v-if="!isShowDetail || nowId == 3"><img class="-img-logo" src="/static/logo.png" alt=""></router-link>
+      <img v-if="isShowDetail && nowId != 3" class="-img-logo" src="/static/logo.png" alt="" @click="isShowDetail = false">
     </div>
 
     <div class="-p-jump" v-if="!isShowDetail" :class="backgroundObj">
