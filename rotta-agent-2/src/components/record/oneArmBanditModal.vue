@@ -4,8 +4,8 @@
       <div class="record-content" :class="recordClassContent">
         <div v-for="(data,index) in recordArray" :key="index" class="record-wrap"
              :class="recordClassWrap">
-          <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low"
-               :class="{'tlzm-low':gameType=='40001', 'sfss-low':gameType=='40004','xlxr-low':gameType=='40003','fyht-low':gameType=='40006','csjb-low':gameType=='40005','no-win':!item.isWin}">
+          <div v-for="(item,indexChild) in data" :key="indexChild" class="record-low" :class=""
+               :class="[recordClassLow,{'no-win':!item.isWin}]">
             <img :src="`${imgPrefix}${gameTypeFile[gameType]}/${item.value}.png`" class="record-icon"
                  :class="recordClassIcon">
           </div>
@@ -47,19 +47,24 @@ export default {
       winCard: [], //战绩二维数组
       gameTypeFile: {
         '40001': 'tlzm',
+        '42001': 'tlzm',
         '40002': 'xcl',
         '42002': 'xcl',
         '40003': 'xlxr',
+        '42003': 'xlxr',
         '40004': 'sfss',
+        '42004': 'sfss',
         '40005': 'csjb',
-        '40006': 'fyht'
+        '42005': 'csjb',
+        '40006': 'fyht',
+        '42006': 'fyht'
       },
       imgPrefix: 'https://d38xgux2jezyfx.cloudfront.net/recordImg/'
     }
   },
   computed: {
     // 罗塔之谜 40001
-    // 小厨娘   40002 "|| 42002
+    // 小厨娘    40002 "|| 42002
     // 祥龙献瑞 40003
     // 四方神兽 40004
     // 财神进宝 40005
@@ -67,45 +72,56 @@ export default {
     recordBackgroundUrl () {
       let classType = {}
       classType = {
-        'record-tlzm': this.gameType=='40001',
-        'record-xcl': this.gameType== '40002' || '42002',
-        'record-xlxr': this.gameType=='40003',
-        'record-sfss': this.gameType=='40004',
-        'record-csjb': this.gameType=='40005',
-        'record-fyht': this.gameType=='40006'
+        'record-tlzm': (this.gameType=='40001') || (this.gameType=='42001'),
+        'record-xcl': (this.gameType== '40002') || (this.gameType=='42002'),
+        'record-xlxr': (this.gameType=='40003') || (this.gameType=='42003'),
+        'record-sfss': (this.gameType=='40004') || (this.gameType=='42004'),
+        'record-csjb': (this.gameType=='40005') || (this.gameType=='42005'),
+        'record-fyht': (this.gameType=='40006') || (this.gameType=='42006')
       }
       return classType
     },
     recordClassContent () {
       let classContent = {}
       classContent = {
-        'tlzm': this.gameType=='40001',
-        'xlxr': this.gameType=='40003',
-        'sfss': this.gameType=='40004',
-        'csjb': this.gameType=='40005',
-        'fyht': this.gameType=='40006'
+        'tlzm': (this.gameType=='40001') || (this.gameType=='42001'),
+        'xlxr': (this.gameType=='40003') || (this.gameType=='42003'),
+        'sfss': (this.gameType=='40004') || (this.gameType=='42004'),
+        'csjb': (this.gameType=='40005') || (this.gameType=='42005'),
+        'fyht': (this.gameType=='40006') || (this.gameType=='42006')
       }
       return classContent
     },
     recordClassWrap () {
       let classWrap = {}
       classWrap = {
-        'tlzm-wrap': this.gameType=='40001',
-        'xlxr-wrap': this.gameType=='40003',
-        'sfss-wrap': this.gameType=='40004',
-        'csjb-wrap': this.gameType=='40005',
-        'fyht-wrap': this.gameType=='40006'
+        'tlzm-wrap': (this.gameType=='40001') || (this.gameType=='42001'),
+        'xlxr-wrap': (this.gameType=='40003') || (this.gameType=='42003'),
+        'sfss-wrap': (this.gameType=='40004') || (this.gameType=='42004'),
+        'csjb-wrap': (this.gameType=='40005') || (this.gameType=='42005'),
+        'fyht-wrap': (this.gameType=='40006') || (this.gameType=='42006')
       }
       return classWrap
+    },
+    recordClassLow () {
+      let classLow = {}
+      classLow = {
+        'tlzm-low': (this.gameType=='40001') || (this.gameType=='42001'),
+        'xlxr-low': (this.gameType=='40003') || (this.gameType=='42003'),
+        'sfss-low': (this.gameType=='40004') || (this.gameType=='42004'),
+        'csjb-low': (this.gameType=='40005') || (this.gameType=='42005'),
+        'fyht-low': (this.gameType=='40006') || (this.gameType=='42006')
+      }
+      return classLow
     },
     recordClassIcon () {
       let classIcon = {}
       classIcon = {
-        'tlzm-icon': this.gameType=='40001',
-        'xlxr-icon': this.gameType=='40003',
-        'sfss-icon': this.gameType=='40004',
-        'csjb-icon': this.gameType=='40005',
-        'fyht-icon': this.gameType=='40006'
+        'tlzm-icon': (this.gameType=='40001') || (this.gameType=='42001'),
+        'xlxr-icon': (this.gameType=='40003') || (this.gameType=='42003'),
+        'sfss-icon': (this.gameType=='40004') || (this.gameType=='42004'),
+        'csjb-icon': (this.gameType=='40005') || (this.gameType=='42005'),
+        'fyht-icon': (this.gameType=='40006') || (this.gameType=='42006')
       }
       return classIcon
     }
