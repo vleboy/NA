@@ -1,14 +1,21 @@
 <template>
-  <div class="p-detail">
+  <div class="p-detail" :class="{'detail-height':!isShowDetail}">
     <div class="-p-logo">
       <div class="-p-mobile" v-if="isShowDetail && nowId != 3" @click="isShowDetail = false">
         <img class="-arrow" src="/static/arrow.png">
       </div>
-      <router-link to="/"><img class="-img-logo" src="/static/logo.png" alt=""></router-link>
+      <router-link to="/" v-if="!isShowDetail"><img class="-img-logo" src="/static/logo.png" alt=""></router-link>
+      <img v-else class="-img-logo" src="/static/logo.png" alt="" @click="isShowDetail = false">
     </div>
 
-    <div class="-p-jump" v-if="!isShowDetail">
-      <div @click="jumpDetail(item.id)" v-for="item of jumpList">{{item.name}}</div>
+    <div class="-p-jump" v-if="!isShowDetail" :class="backgroundObj">
+      <div class="-jump-title" v-if="nowId==1"><img src="../assets/img/detail/tz/dl-title.png"></div>
+      <div class="-jump-title" v-else><img src="../assets/img/detail/tz/api-title.png"></div>
+      <div class="-jump-btn">
+        <div class="-btn-item" @click="jumpDetail(item.id)" v-for="item of jumpList">
+          <img  :src="item.url">
+        </div>
+      </div>
     </div>
 
     <div class="-p-child" v-else>
@@ -59,11 +66,11 @@ export default {
         case 1:
           jumpType = [
             {
-              name: '信誉代理',
+              url: require('@/assets/img/detail/tz/dl-xy-btn.jpg'),
               id: 1
             },
             {
-              name: '综合平台代理',
+              url: require('@/assets/img/detail/tz/dl-zh-btn.jpg'),
               id: 2
             }
           ]
@@ -71,11 +78,11 @@ export default {
         case 2:
           jumpType = [
             {
-              name: 'API标准版',
+              url: require('@/assets/img/detail/tz/bz-btn.jpg'),
               id: 1
             },
             {
-              name: 'API旗舰版',
+              url: require('@/assets/img/detail/tz/qj-btn.jpg'),
               id: 2
             }
           ]
@@ -139,6 +146,12 @@ export default {
       }
 
       return jumpType
+    },
+    backgroundObj () {
+      return {
+        '-jump-api-bg': this.nowId == 2,
+        '-jump-dl-bg': this.nowId == 1
+      }
     }
   },
   methods: {
@@ -291,16 +304,56 @@ export default {
 </script>
 
 <style lang="stylus">
+  .detail-height{
+    height:100%;
+  }
   .p-detail{
     position: absolute;
     background:url("../assets/img/detail/detail-bg.jpg") no-repeat;
     background-size: cover;
     width: 100%;
 
+    .-p-jump {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      .-jump-title{
+        text-align: center;
+        margin-top:250px;
+      }
+
+      .-jump-btn{
+       text-align: center;
+      }
+
+      .-btn-item{
+        display:inline-block ;
+        width: 25%;
+        padding: 50px 10px;
+        cursor: pointer;
+
+        img{
+          width: 100%;
+        }
+      }
+    }
+
+    .-jump-api-bg{
+      background:url("../assets/img/detail/tz/tiaozhuan-01.jpg") no-repeat;
+      background-size: cover;
+    }
+
+    .-jump-dl-bg{
+      background:url("../assets/img/detail/tz/dl-tz-bg.jpg") no-repeat;
+      background-size: cover;
+    }
+
     .-p-logo{
       position: absolute;
       left: 40px;
       top: 40px;
+      z-index: 99999;
 
       .-p-mobile {
         display: none;
@@ -367,12 +420,40 @@ export default {
   @media (max-width: 768px) {
     .p-detail {
 
+      .-p-jump {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+          .-jump-title{
+
+            img{
+              width: 70%;
+            }
+          }
+
+          .-jump-btn{
+            text-align: center;
+          }
+
+          .-btn-item{
+            padding: 0;
+            padding-top: 10px;
+            width:100%;
+
+          img{
+            width: 50%;
+          }
+        }
+      }
       .-n-ul{
         display: inline!important;
       }
       .-p-logo {
-        position: static;
-        margin-top: 20px;
+        position: relative;
+        left: 0;
+        top: 40px;
         width: 100%;
         text-align: center;
         .-p-mobile {
@@ -394,7 +475,7 @@ export default {
 
       .-p-header {
         width: 70%;
-        margin: 16px auto;
+        margin: 50px auto 15px;
         text-align: center;
       }
 
