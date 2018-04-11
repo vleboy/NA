@@ -34,8 +34,8 @@
       <transition name="mobileShow">
         <ul class="mobile" v-show="showMenu">
           <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">合作共赢</router-link></li>
-          <li :class="{active: $route.path === '/Pro'}"><router-link to="/Pro">NA旗舰版</router-link></li>          
-          <li :class="{active: $route.path === '/Game'}"><router-link to="/Game">NA游戏</router-link></li>              
+          <li :class="{active: $route.path === '/Pro'}"><router-link to="/Pro">NA旗舰版</router-link></li>
+          <li :class="{active: $route.path === '/Game'}"><router-link to="/Game">NA游戏</router-link></li>
           <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
           <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
         </ul>
@@ -59,18 +59,18 @@ export default {
       if (this.showMenu) {
         $('html, body').off('touchmove')
         $('.mobile-menu').css('height', 'auto')
-        this.showMenu = !this.showMenu
       } else {
         $('html, body').on('touchmove', function (e) {
           e.preventDefault()
         }, false)
         $('.mobile-menu').css('height', '100vh')
-        this.showMenu = !this.showMenu
       }
+      this.showMenu = !this.showMenu
     }
   },
   watch: {
-    '$route': function () {
+    '$route': function (_new) {
+      if(_new.path != '/detail')
       this.showView()
     }
   }
@@ -89,16 +89,16 @@ export default {
   color #ffffff
   background #00000073
   text-align center
-  z-index 99 
+  z-index 99
   h1
-    max-width 157px 
+    max-width 157px
     margin 0 auto
     padding 50px 0 10px
     p
       font-size 30px
   nav
     ul
-      li 
+      li
         height 50px
         border-bottom 1px solid #444444
         border-right 3px solid transparent
@@ -107,7 +107,7 @@ export default {
         align-items center
         justify-content center
         cursor pointer
-        &:hover 
+        &:hover
           color #FFCB16
           background rgba(0, 0, 0, 0.3)
           border-right 3px solid #FFCB16
