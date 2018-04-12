@@ -9,11 +9,11 @@
     </div>
 
     <div class="-p-jump" v-if="!isShowDetail" :class="backgroundObj">
-      <div class="-jump-title" v-if="nowId==1"><img src="../assets/img/detail/tz/dl-title.png"></div>
-      <div class="-jump-title" v-else><img src="../assets/img/detail/tz/api-title.png"></div>
+      <div class="-jump-title" v-if="nowId==1"><img src="../assets/img/detail/tz/dl-title.png" alt=""></div>
+      <div class="-jump-title" v-else><img src="../assets/img/detail/tz/api-title.png" alt=""></div>
       <div class="-jump-btn">
         <div class="-btn-item" @click="jumpDetail(item.id)" v-for="item of jumpList">
-          <img  :src="item.url">
+          <img  :src="item.url" alt="">
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
           </ul>
         </div>
         <div class="-p-img">
-          <img :src="navTypeDetail.content">
+          <img :src="navTypeDetail.content" alt="加载中...">
         </div>
       </div>
     </div>
@@ -43,6 +43,8 @@
 </style>
 
 <script>
+import $ from 'jquery'
+
 export default {
   name: 'business-detail',
   head: {
@@ -281,6 +283,7 @@ export default {
       this.isShowDetail = !this.isShowDetail
     },
     switchType (item) {
+      this.navTypeDetail = item
       for (let data of this.detailList) {
         if (item.id == data.id) {
           data.isActive = true
@@ -288,7 +291,6 @@ export default {
           data.isActive = false
         }
       }
-      this.navTypeDetail = item
     },
     isPC(){
       var userAgentInfo = navigator.userAgent;
@@ -427,6 +429,7 @@ export default {
         height: 100%;
 
           .-jump-title{
+            margin-top:200px;
 
             img{
               width: 70%;
@@ -453,7 +456,7 @@ export default {
       .-p-logo {
         position: relative;
         left: 0;
-        top: 40px;
+        top: 35px;
         width: 100%;
         text-align: center;
         .-p-mobile {

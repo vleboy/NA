@@ -1,7 +1,7 @@
 <template>
   <div class="pro">
     <div class="pro-desc">
-      <router-link to="/"><img src="/static/proTopBg.jpg" alt=""></router-link>
+      <!--<router-link to="/"><img src="/static/proTopBg.jpg" alt=""></router-link>-->
       <div class="pro-desc-msg">
         <h3>NA Gaming</h3>
         <h2>旗舰版介绍</h2>
@@ -150,7 +150,7 @@ export default {
     color #1F1F1F
   h2
     font-size 40px
-    color #373C42 
+    color #373C42
     font-weight bold
     margin-bottom 50px
   p
@@ -169,7 +169,7 @@ export default {
   .pro-cooperation-companys
     width 100%
     margin-top 40px
-    ul 
+    ul
       display flex
       margin 30px 0
       li:first-child
@@ -188,11 +188,11 @@ export default {
     font-size 48px
     margin-bottom 16px
     color #373B46
-    text-align left 
+    text-align left
   p
     font-size 18px
     color #1F1F1F
-    text-align left 
+    text-align left
   img
     margin-top 50px
 
@@ -200,7 +200,7 @@ export default {
   display flex
   margin-top 50px
   img
-    width 50% 
+    width 50%
     margin 0
 
 .login-info-desc
@@ -251,7 +251,7 @@ export default {
     font-size 18px
     color #1F1F1F
     margin-bottom 100px
-  img 
+  img
     max-width 100%
 
 .pro-recharge-msg
@@ -268,7 +268,7 @@ export default {
   p
     font-size 18px
     color #1F1F1F
-  img 
+  img
     max-width 100%
 
 .pro-warning
@@ -331,9 +331,9 @@ export default {
     p
       font-size 12px
       padding 0 10%
-  
+
   .pro-cooperation
-    padding 0 
+    padding 0
     .pro-cooperation-companys
       ul
         li:first-child
@@ -360,8 +360,8 @@ export default {
     padding 0
     img
       padding 0 4%
-      
-  
+
+
   .login-info
     display flex
     flex-direction column-reverse
@@ -380,7 +380,7 @@ export default {
     margin-top 50px
     p
       margin-bottom 0
-    img 
+    img
       margin 0
       padding 0 4%
 
@@ -408,11 +408,11 @@ export default {
     width 100%
     padding 0
     font-size 18px
-  
+
   .pro-placard
     padding 0
     img
-      padding 0 4%  
+      padding 0 4%
 
   .pro-warning
     font-size 13px
@@ -446,7 +446,7 @@ export default {
   .pro-bottom-item
     padding 0
     margin-top 50px
-    
+
 </style>
 
 
