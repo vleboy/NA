@@ -22,6 +22,8 @@ import operatorList from 'view/operator/operatorList' // 游戏供应商列表
 import addOperator from 'view/operator/addOperator' // 创建游戏供应商
 import operatorDetail from 'view/operator/operatorDetail' // 游戏供应商详细
 
+import gameHallConfig from 'view/gameHallConfig/gameHallConfig' // 游戏大厅配置
+
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -98,6 +100,11 @@ export default new Router({
       path: '/operatordetail',
       name: '游戏供应商详细',
       component: operatorDetail
+    },
+    {
+      path: '/gameHallConfig',
+      name: '游戏大厅配置',
+      component: gameHallConfig
     }
   ]
 })

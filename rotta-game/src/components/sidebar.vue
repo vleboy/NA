@@ -29,6 +29,11 @@
                 <!--<el-menu-item index="gameBackstage">游戏后台</el-menu-item>-->
               <!--</el-submenu>-->
 
+              <el-submenu index="5">
+                <template slot="title">游戏大厅</template>
+                <el-menu-item index="gameHallConfig">游戏大厅配置</el-menu-item>
+              </el-submenu>
+
           </el-menu>
         </el-col>
     </el-row>

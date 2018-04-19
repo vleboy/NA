@@ -59,6 +59,11 @@
       <el-breadcrumb-item>游戏供应商 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">创建游戏供应商</span> </el-breadcrumb-item>
     </el-breadcrumb>
+
+    <el-breadcrumb separator="/" v-if="nowindex === 'gameHallConfig'" class="title">
+      <el-breadcrumb-item>游戏大厅 </el-breadcrumb-item>
+      <el-breadcrumb-item><span  class="large">游戏大厅配置</span> </el-breadcrumb-item>
+    </el-breadcrumb>
   </div>
 </template>
 

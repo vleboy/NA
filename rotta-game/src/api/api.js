@@ -91,6 +91,12 @@ const api = {
 
   gameUpdate: front.diana + front.stage + '/gameUpdate', // 修改游戏数据
 
+  configMultList: front.diana + front.stage + '/configMultList', // 获取游戏配置列表
+
+  configMultNew: front.diana + front.stage + '/configMultNew', // 新增、编辑游戏配置
+
+  configMultDel: front.diana + front.stage + '/configMultDel', // 删除游戏配置
+
   // hulk
 
   billTransfer: front.hulk + front.stage + '/billTransfer', // 存提点接口
