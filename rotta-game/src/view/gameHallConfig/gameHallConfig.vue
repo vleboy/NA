@@ -313,8 +313,6 @@ export default{
 
         if (!this.gameHallInfo.businessKey) {
           return this.$message.error('请选择游戏')
-        } else if (!this.gameHallInfo.url) {
-          return this.$message.error('请输入格式正确的跳转链接')
         }
 
         this.gameHallInfo.code = 'lobbyconfig'

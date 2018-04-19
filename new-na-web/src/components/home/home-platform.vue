@@ -1,6 +1,6 @@
 <template>
   <div class="home-platform">
-    <div class="container">
+    <div class="container" @click="goJump">
       <h2>New Asia (NA) 游戏平台</h2>
       <div class="line"><i></i></div>
       <div class="platform-desc">NA游戏平台，是NA娱乐旗下针对博彩行业开发的综合型游戏平台。NA整合上下游各方资源，各国游戏研发团队为NA定制打造各类博彩游戏，
@@ -81,6 +81,9 @@ export default {
     }
   },
   methods: {
+    goJump () {
+      window.open('http://game-hall.s3-website-ap-southeast-1.amazonaws.com')
+    },
     hoverIn (item) {
 //      switch (item.title) {
 //        case '真人LIVE':
@@ -103,6 +106,8 @@ export default {
 
 <style type="text/stylus" lang="stylus" scoped>
 .home-platform
+  .container
+    cursor pointer
   h2
     font-size 2.5rem
     color #444444
@@ -204,6 +209,7 @@ export default {
   .home-platform
     .container
       padding 0
+      cursor pointer
     h2
       margin-top 1.4rem
       font-size 20px

@@ -12,7 +12,7 @@
           <li :class="{active: $route.path === '/'}"><router-link to="/">{{$router.path}}首页</router-link></li>
           <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">合作共赢</router-link></li>
           <li :class="{active: $route.path === '/Pro'}"><router-link to="/Pro">NA旗舰版</router-link></li>
-          <li :class="{active: $route.path === '/Game'}"><router-link to="/Game">NA游戏</router-link></li>
+          <li :class="{active: $route.path === '/Game'}"><a target="_blank" href="http://game-hall.s3-website-ap-southeast-1.amazonaws.com">NA游戏</a></li>
           <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
           <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
         </ul>
