@@ -55,8 +55,8 @@
             <el-option v-for="(item, index) in gameList" :key="index" :label="item.gameName" :value="item.kindId"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="视频连接" label-width="140px" >
-          <el-input v-model="gameHallInfo.url" auto-complete="off" placeholder="请输入正确视频连接 例（http://www.xxxx.com）" :maxlength="500"></el-input>
+        <el-form-item label="视频链接" label-width="140px" >
+          <el-input v-model="gameHallInfo.url" auto-complete="off" placeholder="请输入正确视频链接 例（http://www.xxxx.com）" :maxlength="500"></el-input>
         </el-form-item>
         <el-form-item label="是否推荐" label-width="140px">
           <el-switch
