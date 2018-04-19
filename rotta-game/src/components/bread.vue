@@ -6,28 +6,8 @@
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'gamelist'" class="title">
-      <el-breadcrumb-item>游戏中心 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">游戏列表</span> </el-breadcrumb-item>
-    </el-breadcrumb>
-
-    <el-breadcrumb separator="/" v-if="nowindex === 'helplist'" class="title">
-      <el-breadcrumb-item>客服中心 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">帮助信息列表</span> </el-breadcrumb-item>
-    </el-breadcrumb>
-
-    <el-breadcrumb separator="/" v-if="nowindex === 'helpdetail'" class="title">
-      <el-breadcrumb-item>客服中心 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">帮助信息详情</span> </el-breadcrumb-item>
-    </el-breadcrumb>
-
-    <el-breadcrumb separator="/" v-if="nowindex === 'addhelp'" class="title">
-      <el-breadcrumb-item>客服中心 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">新增帮助信息</span> </el-breadcrumb-item>
-    </el-breadcrumb>
-
-    <el-breadcrumb separator="/" v-if="nowindex === 'gameBackstage'" class="title">
-      <el-breadcrumb-item>游戏中心 </el-breadcrumb-item>
-      <el-breadcrumb-item><span  class="large">游戏后台</span> </el-breadcrumb-item>
+      <!--<el-breadcrumb-item>游戏中心 </el-breadcrumb-item>-->
+      <el-breadcrumb-item><span  class="large">游戏管理</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'propList'" class="title">
@@ -41,27 +21,26 @@
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'addGame'" class="title">
-      <el-breadcrumb-item>游戏列表 </el-breadcrumb-item>
+      <el-breadcrumb-item>游戏管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">创建游戏</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'gameList'" class="title">
-      <el-breadcrumb-item>游戏列表 </el-breadcrumb-item>
+      <el-breadcrumb-item>游戏管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">游戏列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'operatorList'" class="title">
-      <el-breadcrumb-item>游戏供应商 </el-breadcrumb-item>
+      <el-breadcrumb-item>供应商管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">供应商列表</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'addOperator'" class="title">
-      <el-breadcrumb-item>游戏供应商 </el-breadcrumb-item>
+      <el-breadcrumb-item>供应商管理 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">创建游戏供应商</span> </el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-breadcrumb separator="/" v-if="nowindex === 'gameHallConfig'" class="title">
-      <el-breadcrumb-item>游戏大厅 </el-breadcrumb-item>
       <el-breadcrumb-item><span  class="large">游戏大厅配置</span> </el-breadcrumb-item>
     </el-breadcrumb>
   </div>
