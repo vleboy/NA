@@ -41,7 +41,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template scope="scope">
-          <el-button type="text" class="myBtn" @click="submitProp(scope.row)">{{scope.row.isRecommend ? '取消推荐':'推荐'}}</el-button>
+          <el-button type="text" class="myBtn" @click="changeRecommend(scope.row)">{{scope.row.isRecommend ? '取消推荐':'推荐'}}</el-button>
           <el-button type="text" class="myBtn" @click="openModal(scope.row)">编辑</el-button>
           <el-button type="text" class="myBtn" @click="delGame(scope.row.businessKey)">删除</el-button>
         </template>
@@ -289,6 +289,19 @@ export default{
           isRecommend: false,
           state: 0
         }
+      }
+    },
+    changeRecommend (item) {
+      let array = []
+      for(let data of this.gameItems) {
+        if(data.isRecommend) {
+          array.push(data)
+        }
+      }
+      if ((array.length>=12) && !item.isRecommend) {
+        return this.$message.error('游戏推荐不能超过12个')
+      } else {
+        this.submitProp(item)
       }
     },
     submitProp (item) {
