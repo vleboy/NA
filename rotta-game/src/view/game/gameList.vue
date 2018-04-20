@@ -5,24 +5,18 @@
     <el-button type="primary" class="justfy1" @click="goCreate">创建新游戏</el-button>
     <div class="outresult">
       <el-table stripe :data="gameItems">
-        <el-table-column label="游戏名称" prop="gameName" align="center" width="130">
-        </el-table-column>
-        <el-table-column label="游戏标识" prop="gameIden" align="center" width="130">
-        </el-table-column>
-        <el-table-column label="分类" :formatter="getType" align="center">
-        </el-table-column>
-        <el-table-column label="所属供应商" prop="company.companyName" align="center" width="150">
-        </el-table-column>
-        <el-table-column label="标识" prop="companyIden" align="center">
-        </el-table-column>
+        <el-table-column label="游戏名称" prop="gameName" align="center" width="130"></el-table-column>
+        <el-table-column label="分类" :formatter="getType" align="center"></el-table-column>
+        <el-table-column label="游戏标识" prop="gameIden" align="center" width="130"></el-table-column>
+        <!--<el-table-column label="所属供应商" prop="company.companyName" align="center" width="150">-->
+        <!--</el-table-column>-->
+        <el-table-column label="供应商标识" prop="companyIden" align="center"></el-table-column>
         <el-table-column label="网页游戏" prop="isWebGame" align="center" width="130">
           <template scope="scope">
             {{scope.row.isWebGame!='0' ? '是' : '否' }}
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" width="150">
-        </el-table-column>
-        </el-table-column>
+        <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" width="150"></el-table-column>
         <el-table-column label="状态" align="center">
           <template scope="scope">
             <el-tag :type="scope.row.gameStatus ? 'success' : 'danger'">
