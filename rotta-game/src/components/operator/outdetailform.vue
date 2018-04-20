@@ -4,10 +4,10 @@
       <h4>供应商基本信息</h4>
       <div class="simpleform">
         <el-row>
-          <el-col :span="8">
+          <el-col :span="10">
             <span>供应商ID: {{gameDetail.companyId}}</span>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <span>供应商标识: {{gameDetail.companyIden}}</span>
           </el-col>
           <el-col :span="8">
@@ -15,11 +15,11 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
+          <el-col :span="10">
             <span>供应商接入类型: {{companyTypeArray[gameDetail.companyType-1]}}</span>
           </el-col>
-          <el-col :span="8" v-if="gameDetail.companyType != 1">
-            <span>成数: {{gameDetail.companyRatio || 0}}%</span>
+          <el-col :span="6" v-if="gameDetail.companyType != 1">
+            <span>接入分成比: {{gameDetail.companyRatio || 0}}%</span>
           </el-col>
           <el-col :span="8">
             <span>

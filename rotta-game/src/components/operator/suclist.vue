@@ -18,8 +18,8 @@
       <el-row>
         <p class="print-justfy1">供应商接入类型 : {{companyTypeArray[suclist.companyType-1]}}</p>
 
-        <p class="print-justfy1" v-if="suclist.companyType==1">合作区域 : {{regionList[suclist.companyRegion-1] || '暂无'}}</p>
-        <p class="print-justfy1" v-else>接入成数 : {{suclist.companyRatio || '0'}}%</p>
+        <!--<p class="print-justfy1" v-if="suclist.companyType==1">合作区域 : {{regionList[suclist.companyRegion-1] || '暂无'}}</p>-->
+        <p class="print-justfy1" v-if="suclist.companyType!=1">接入成数 : {{suclist.companyRatio || '0'}}%</p>
         <p class="print-justfy1"><span>KEY : {{suclist.companyKey||'暂无'}}</span><span>（注意：本信息只显示一次，请记录此信息，若遗失请联系管理员）</span></p>
         <p class="print-justfy1"><span>合同备注 : {{suclist.remark == 'NULL!' ? '暂无' : suclist.remark}}</span></p>
       </el-row>
@@ -37,7 +37,7 @@ export default {
   name: 'suclist',
   data () {
     return {
-      regionList: ['亚太', '大陆', '港澳台', '欧洲', '美洲'],
+//      regionList: ['亚太', '大陆', '港澳台', '欧洲', '美洲'],
       companyTypeArray:['A类（接入公司的游戏供应商）','B类（公司接入的游戏供应商）']
     }
   },

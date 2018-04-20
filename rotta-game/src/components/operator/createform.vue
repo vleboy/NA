@@ -33,11 +33,11 @@
           <el-option v-for="item in companyTypeArray" :key="item.id" :label="item.value" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="所属区域" prop="companyRegion" v-if='managerInfo.companyType==1'>
-        <el-select v-model="managerInfo.companyRegion" placeholder="请选择" clearable class="input">
-          <el-option v-for="item in regionOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </el-form-item>
+      <!--<el-form-item label="所属区域" prop="companyRegion" v-if='managerInfo.companyType==1'>-->
+        <!--<el-select v-model="managerInfo.companyRegion" placeholder="请选择" clearable class="input">-->
+          <!--<el-option v-for="item in regionOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
+        <!--</el-select>-->
+      <!--</el-form-item>-->
       <!--<el-form-item label="上传合同" v-if='managerInfo.companyType==1'>-->
         <!--<el-upload-->
           <!--class="upload-demo"-->
@@ -241,7 +241,7 @@
 //          companyContactWay: false,
 //          companyContact: false,
 //          companyEmail: false,
-          companyRegion: false,
+//          companyRegion: false,
           companyType: false,
 //          companyContract: false,
           companyRatio: false,
@@ -255,7 +255,7 @@
 //          companyContactWay: '', // 联系方式
 //          companyContact: '', // 联系人
 //          companyEmail: '', // 邮箱
-          companyRegion: '', // 所属区域
+//          companyRegion: '', // 所属区域
 //          companyContract: '', // 合同
 //          license: '', // 执照
           remark: '', // 类型
@@ -355,7 +355,7 @@
           companyKey: storeInfo.companyKey, // key
           companyRatio: storeInfo.companyRatio, // 成数
           gameTypeList: storeInfo.gameTypeList, // 游戏类别
-          companyRegion: storeInfo.companyRegion == 'NULL!' ? '' : storeInfo.companyRegion, // 所属区域
+//          companyRegion: storeInfo.companyRegion == 'NULL!' ? '' : storeInfo.companyRegion, // 所属区域
 //          companyContract: storeInfo.companyContract == 'NULL!' ? '' : storeInfo.companyContract, // 合同
 //          license: storeInfo.license == 'NULL!' ? '' : storeInfo.license, // 执照
           remark: storeInfo.remark == 'NULL!' ? '' : storeInfo.remark// 备注
@@ -374,7 +374,7 @@
             companyIden: true,
             companyRatio: true,
 //            companyEmail: true,
-            companyRegion: true,
+//            companyRegion: true,
             gameTypeList : true
         }
       } else {
@@ -385,7 +385,7 @@
 //          companyContactWay: '', // 联系方式
 //          companyContact: '', // 联系人
 //          companyEmail: '', // 邮箱
-          companyRegion: '', // 所属区域
+//          companyRegion: '', // 所属区域
 //          companyContract: '', // 合同
           companyType: '', // 类型
           companyKey: '', // key
@@ -466,7 +466,7 @@
 //          companyEmail: '', // 邮箱
           companyKey: '', // key
           companyRatio: '', // 成数
-          companyRegion: '', // 所属区域
+//          companyRegion: '', // 所属区域
           companyType: '', // 供应商类型
 //          companyContract: '', // 合同
 //          license: '', // 执照
