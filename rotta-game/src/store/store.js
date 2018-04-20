@@ -184,22 +184,13 @@ const mutations = {
 
   getOperatorSearch () {
     state.variable.operatorList = state.variable.searchOld
-    if (state.variable.getSearchOperator.companyContactWay) {
+    if (state.variable.getSearchOperator.companyIden) {
       state.variable.operatorList = state.variable.operatorList.filter(item => {
-        return item.companyContactWay === state.variable.getSearchOperator.companyContactWay
+        return item.companyIden === state.variable.getSearchOperator.companyIden
       })
     } else if (state.variable.getSearchOperator.companyName) {
       state.variable.operatorList = state.variable.operatorList.filter(item => {
         return item.companyName === state.variable.getSearchOperator.companyName
-      })
-    } else if (state.variable.getSearchOperator.companyEmail) {
-      state.variable.operatorList = state.variable.operatorList.filter(item => {
-        return item.companyEmail === state.variable.getSearchOperator.companyEmail
-      })
-    } else if (state.variable.getSearchOperator.createAt) {
-      state.variable.operatorList = state.variable.operatorList.filter(item => {
-        var now = dateformat(new Date(parseFloat(item.createdAt)), 'isoDate')
-        return now === dateformat(new Date(parseFloat(state.variable.getSearchOperator.createAt)), 'isoDate')
       })
     }
   }, // 搜索线路商列表数据

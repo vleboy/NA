@@ -4,46 +4,24 @@
       <h4>供应商基本信息</h4>
       <div class="simpleform">
         <el-row>
-          <el-col :span="6">
+          <el-col :span="8">
             <span>供应商ID: {{gameDetail.companyId}}</span>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <span>供应商标识: {{gameDetail.companyIden}}</span>
           </el-col>
-          <el-col :span="6">
-            <span>联系人: {{gameDetail.companyContact}}</span>
-          </el-col>
-           <el-col :span="6">
-             <span>联系方式: {{gameDetail.companyContactWay}}</span>
-           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <span>供应商Email: {{gameDetail.companyEmail}}</span>
-          </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <span>供应商描述: {{gameDetail.companyDesc == 'NULL!' ? '暂无' : gameDetail.companyDesc}}</span>
           </el-col>
-          <el-col :span="6">
-            <span>供应商接入类型: {{companyTypeArray[gameDetail.companyType-1]}}</span>
-          </el-col>
-          <el-col :span="6" v-if="gameDetail.companyType == 1">
-            <span>
-              合同信息: <a style="text-decoration:none" :href=gameDetail.companyContract v-if="gameDetail.companyContract != 'NULL!'">下载</a>
-              <a v-else>暂无</a>
-            </span>
-          </el-col>
-          <el-col :span="6" v-else>
-            <span>成数: {{gameDetail.companyRatio || 0}}%</span>
-          </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6" v-if="gameDetail.companyType == 1">
-            <span>执照信息: <img :src="gameDetail.license" style="width: 100% ;margin-top: 1rem" v-if="gameDetail.license != 'NULL!'">
-              <a v-else>暂无</a>
-            </span>
+          <el-col :span="8">
+            <span>供应商接入类型: {{companyTypeArray[gameDetail.companyType-1]}}</span>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8" v-if="gameDetail.companyType != 1">
+            <span>成数: {{gameDetail.companyRatio || 0}}%</span>
+          </el-col>
+          <el-col :span="8">
             <span>
               游戏类型:<span v-for="item in gameTypeList" :key="item">{{item}}</span> &emsp;
             </span>

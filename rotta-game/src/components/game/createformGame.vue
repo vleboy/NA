@@ -1,6 +1,6 @@
 <template>
   <div class="outcreate" v-loading.body="dialogLoading" element-loading-text="上传中，请稍等">
-    <h2 class="title">游戏基本信息</h2>
+    <h2 class="title">游戏基本信息<span style="font-size: 14px"> (<span style="color: #ff4949"> * </span>为必填项)</span></h2>
     <el-form :model="managerInfo" :rules="rules" ref="managerInfo" class="createform" label-width="150px"
              label-position="right">
       <el-form-item label="游戏名称" prop="gameName">

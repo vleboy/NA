@@ -1,6 +1,6 @@
 <template>
   <div class="outcreate" v-loading.body="dialogLoading" element-loading-text="上传中，请稍等">
-    <h2 class="title">供应商信息</h2>
+    <h2 class="title">供应商信息<span style="font-size: 14px"> (<span style="color: #ff4949"> * </span>为必填项)</span> </h2>
     <el-form :model="managerInfo" :rules="rules" ref="managerInfo" class="createform" label-width="150px" label-position="right">
       <el-form-item label="供应商名称" prop="companyName">
         <el-input v-model="managerInfo.companyName" class="input" :disabled="this.$store.state.variable.isEdit" placeholder="请输入供应商名称" :maxlength='20'></el-input>
@@ -11,16 +11,16 @@
       <el-form-item label="供应商描述" prop="companyDesc">
         <el-input v-model="managerInfo.companyDesc" class="input" type="textarea" placeholder="请输入供应商描述" :maxlength='200'></el-input>
       </el-form-item>
-      <el-form-item label="联系人" prop="companyContact">
-        <el-input v-model="managerInfo.companyContact" class="input" placeholder="请输入联系人" :maxlength='16'></el-input>
-      </el-form-item>
-      <el-form-item label="联系方式" prop="companyContactWay">
-        <el-input v-model="managerInfo.companyContactWay" type="number" class="input" placeholder="请输入联系方式" :maxlength='20'></el-input>
-      </el-form-item>
-      <el-form-item label="联系邮箱（重要）" prop="companyEmail">
-        <el-input v-model="managerInfo.companyEmail" class="input" placeholder="请输入联系邮箱（重要）" :maxlength='30'></el-input>
-      </el-form-item>
-      <el-form-item label="游戏类别（可多选）" prop="gameTypeList" >
+      <!--<el-form-item label="联系人" prop="companyContact">-->
+        <!--<el-input v-model="managerInfo.companyContact" class="input" placeholder="请输入联系人" :maxlength='16'></el-input>-->
+      <!--</el-form-item>-->
+      <!--<el-form-item label="联系方式" prop="companyContactWay">-->
+        <!--<el-input v-model="managerInfo.companyContactWay" type="number" class="input" placeholder="请输入联系方式" :maxlength='20'></el-input>-->
+      <!--</el-form-item>-->
+      <!--<el-form-item label="联系邮箱（重要）" prop="companyEmail">-->
+        <!--<el-input v-model="managerInfo.companyEmail" class="input" placeholder="请输入联系邮箱（重要）" :maxlength='30'></el-input>-->
+      <!--</el-form-item>-->
+      <el-form-item label="游戏类别（可多选）" prop="gameTypeList" class="is-required">
         <el-select v-model="managerInfo.gameTypeList" allow-create filterable multiple placeholder="请选择游戏类别（可多选）" clearable class="input">
           <el-option v-for="item in optionsList" :key="item.code" :label="item.name" :value="item.code"></el-option>
         </el-select>
@@ -28,7 +28,7 @@
     </el-form>
     <h2 class="title">合同信息</h2>
     <el-form :model="managerInfo" :rules="rules" ref="managerInfo" class="createform" label-width="150px" label-position="right">
-      <el-form-item label="供应商接入类型" prop="companyType" >
+      <el-form-item label="供应商接入类型" prop="companyType" class="is-required">
         <el-select v-model="managerInfo.companyType" placeholder="请选择" clearable class="input" :disabled="this.$store.state.variable.isEdit">
           <el-option v-for="item in companyTypeArray" :key="item.id" :label="item.value" :value="item.id"></el-option>
         </el-select>
@@ -38,40 +38,40 @@
           <el-option v-for="item in regionOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="上传合同" v-if='managerInfo.companyType==1'>
-        <el-upload
-          class="upload-demo"
-          :action="uploadAction"
-          ref="upload"
-          :on-success="handleSuccess"
-          :on-error="handleError"
-          :before-upload="beforeUpload"
-          :http-request="requestHeader"
-          :on-remove='changeRemove'
-          :file-list="arrayList"
-          :data="form">
-        <el-button size="small" type="primary">选取文件</el-button>
-        <div slot="tip" class="el-upload__tip">压缩包格式：.zip，且不超过20M</div>
-      </el-upload>
-      </el-form-item>
-      <el-form-item label="上传执照" prop="license" v-if='managerInfo.companyType==1'>
-        <el-upload
-          :action="uploadAction"
-          class="g-avatar-uploader"
-          ref="upload"
-          :show-file-list="false"
-          :http-request="requestHeaderTwo"
-          :on-success="handleSuccessTwo"
-          :on-error="handleErrorTwo"
-          :before-upload="beforeUploadTwo"
-          :data="form">
-          <img v-if="managerInfo.license" :src="managerInfo.license" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-        <div class="el-upload__tip">只能上传一张jpg/png文件，且不超过5M</div>
-        <el-button type="text" @click="removeLicense" v-if="managerInfo.license">清除执照</el-button>
-      </el-form-item>
-      <el-form-item label="接入分成比(%)" prop="companyRatio" v-if='managerInfo.companyType==2'>
+      <!--<el-form-item label="上传合同" v-if='managerInfo.companyType==1'>-->
+        <!--<el-upload-->
+          <!--class="upload-demo"-->
+          <!--:action="uploadAction"-->
+          <!--ref="upload"-->
+          <!--:on-success="handleSuccess"-->
+          <!--:on-error="handleError"-->
+          <!--:before-upload="beforeUpload"-->
+          <!--:http-request="requestHeader"-->
+          <!--:on-remove='changeRemove'-->
+          <!--:file-list="arrayList"-->
+          <!--:data="form">-->
+        <!--<el-button size="small" type="primary">选取文件</el-button>-->
+        <!--<div slot="tip" class="el-upload__tip">压缩包格式：.zip，且不超过20M</div>-->
+      <!--</el-upload>-->
+      <!--</el-form-item>-->
+      <!--<el-form-item label="上传执照" prop="license" v-if='managerInfo.companyType==1'>-->
+        <!--<el-upload-->
+          <!--:action="uploadAction"-->
+          <!--class="g-avatar-uploader"-->
+          <!--ref="upload"-->
+          <!--:show-file-list="false"-->
+          <!--:http-request="requestHeaderTwo"-->
+          <!--:on-success="handleSuccessTwo"-->
+          <!--:on-error="handleErrorTwo"-->
+          <!--:before-upload="beforeUploadTwo"-->
+          <!--:data="form">-->
+          <!--<img v-if="managerInfo.license" :src="managerInfo.license" class="avatar">-->
+          <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+        <!--</el-upload>-->
+        <!--<div class="el-upload__tip">只能上传一张jpg/png文件，且不超过5M</div>-->
+        <!--<el-button type="text" @click="removeLicense" v-if="managerInfo.license">清除执照</el-button>-->
+      <!--</el-form-item>-->
+      <el-form-item label="接入分成比(%)" prop="companyRatio" v-if='managerInfo.companyType==2' class="is-required">
         <el-input v-model="managerInfo.companyRatio" class="input" placeholder="请输入接入分成比(范围0.00-100.00)" :maxlength='16'></el-input>
       </el-form-item>
       <!--<el-form-item label="接入KEY" prop="companyKey" v-if='managerInfo.companyType==2'>-->
@@ -143,47 +143,47 @@
           this.isfinish.companyDesc = true
         }
       } // 供应商描述
-      var validateCompanyEmail = (rule, value, callback) => {
-        var email = new RegExp(/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/)
-        if (value === '') {
-          this.isfinish.companyEmail = false
-          callback(new Error('请输入邮箱'))
-        } else if (!email.exec(value)) {
-          this.isfinish.companyEmail = false
-          callback(new Error('邮箱格式不对，长度为2-16个字符'))
-        } else {
-          callback()
-          this.isfinish.companyEmail = true
-        }
-      } // 验证邮箱
-      var validateCompanyContactWay = (rule, value, callback) => {
-        if (value === '') {
-          this.isfinish.companyContactWay = false
-          callback(new Error('请输入联系方式'))
-        } else if (value.length < 2 || value.length > 20) {
-          this.isfinish.companyContactWay = false
-          callback(new Error('长度位2-20个字符'))
-        } else {
-          callback()
-          this.isfinish.companyContactWay = true
-        }
-      } // 联系方式
-      var validateCompanyContact = (rule, value, callback) => {
-        var reg = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
-        if (value === '') {
-          this.isfinish.companyContact = false
-          callback(new Error('请输入联系人'))
-        } else if (!reg.exec(value)) {
-          this.isfinish.companyContact = false
-          callback(new Error('请输入中英文或者数字'))
-        } else if (value.length < 2) {
-          this.isfinish.companyContact = false
-          callback(new Error('必须为两位数'))
-        } else {
-          callback()
-          this.isfinish.companyContact = true
-        }
-      } // 联系人
+//      var validateCompanyEmail = (rule, value, callback) => {
+//        var email = new RegExp(/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/)
+//        if (value === '') {
+//          this.isfinish.companyEmail = false
+//          callback(new Error('请输入邮箱'))
+//        } else if (!email.exec(value)) {
+//          this.isfinish.companyEmail = false
+//          callback(new Error('邮箱格式不对，长度为2-16个字符'))
+//        } else {
+//          callback()
+//          this.isfinish.companyEmail = true
+//        }
+//      } // 验证邮箱
+//      var validateCompanyContactWay = (rule, value, callback) => {
+//        if (value === '') {
+//          this.isfinish.companyContactWay = false
+//          callback(new Error('请输入联系方式'))
+//        } else if (value.length < 2 || value.length > 20) {
+//          this.isfinish.companyContactWay = false
+//          callback(new Error('长度位2-20个字符'))
+//        } else {
+//          callback()
+//          this.isfinish.companyContactWay = true
+//        }
+//      } // 联系方式
+//      var validateCompanyContact = (rule, value, callback) => {
+//        var reg = new RegExp(/^[\u4E00-\u9FA5A-Za-z0-9_]+$/)
+//        if (value === '') {
+//          this.isfinish.companyContact = false
+//          callback(new Error('请输入联系人'))
+//        } else if (!reg.exec(value)) {
+//          this.isfinish.companyContact = false
+//          callback(new Error('请输入中英文或者数字'))
+//        } else if (value.length < 2) {
+//          this.isfinish.companyContact = false
+//          callback(new Error('必须为两位数'))
+//        } else {
+//          callback()
+//          this.isfinish.companyContact = true
+//        }
+//      } // 联系人
       var validateCompanyRatio = (rule, value, callback) => {
         if(this.managerInfo.companyType == 2) {
           if (value === '') {
@@ -207,14 +207,14 @@
           this.isfinish.companyType = true
         }
       } // 接入类型
-      var validateCompanyContract = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请上传合同'))
-        } else {
-          callback()
-          this.isfinish.companyContract = true
-        }
-      } // 验证负责人联系方式
+//      var validateCompanyContract = (rule, value, callback) => {
+//        if (value === '') {
+//          callback(new Error('请上传合同'))
+//        } else {
+//          callback()
+//          this.isfinish.companyContract = true
+//        }
+//      } // 验证负责人联系方式
       var validateRemark = (rule, value, callback) => {
         if (value && value.length < 2) {
           callback(new Error('必须为两位数'))
@@ -238,26 +238,26 @@
           companyName: false,
           companyIden: false,
           companyDesc: true, // 不是必填  所以默认为true
-          companyContactWay: false,
-          companyContact: false,
-          companyEmail: false,
+//          companyContactWay: false,
+//          companyContact: false,
+//          companyEmail: false,
           companyRegion: false,
           companyType: false,
-          companyContract: false,
+//          companyContract: false,
           companyRatio: false,
           remark: true, // 不是必填  所以默认为true
-          license: false,
+//          license: false,
           gameTypeList: false
         },
         managerInfo: {
           companyName: '', // 供应商名称
           companyDesc: '', // 供应商描述
-          companyContactWay: '', // 联系方式
-          companyContact: '', // 联系人
-          companyEmail: '', // 邮箱
+//          companyContactWay: '', // 联系方式
+//          companyContact: '', // 联系人
+//          companyEmail: '', // 邮箱
           companyRegion: '', // 所属区域
-          companyContract: '', // 合同
-          license: '', // 执照
+//          companyContract: '', // 合同
+//          license: '', // 执照
           remark: '', // 类型
           companyKey: '', // key（B类才有）
           companyRatio: '', // 成数 （B类才有）
@@ -267,32 +267,32 @@
         }, // 创建列表
         rules: {
           companyName: [
-            {validator: validateCompanyName, trigger: 'blur'}
+            {validator: validateCompanyName, trigger: 'blur',required: true}
           ],
           companyIden: [
-            {validator: validateCompanyIden, trigger: 'blur'}
+            {validator: validateCompanyIden, trigger: 'blur',required: true}
           ],
           companyDesc: [
-            {validator: validateCompanyDesc, trigger: 'blur'}
+            {validator: validateCompanyDesc, trigger: 'blur',required: true}
           ],
-          companyContactWay: [
-            {validator: validateCompanyContactWay, trigger: 'blur'}
-          ],
-          companyEmail: [
-            {validator: validateCompanyEmail, trigger: 'blur'}
-          ],
+//          companyContactWay: [
+//            {validator: validateCompanyContactWay, trigger: 'blur'}
+//          ],
+//          companyEmail: [
+//            {validator: validateCompanyEmail, trigger: 'blur'}
+//          ],
           companyRatio: [
             {validator: validateCompanyRatio, trigger: 'blur'}
           ],
           companyType: [
             {validator: validateCompanyType, trigger: 'blur'}
           ],
-          companyContract: [
-            {validator: validateCompanyContract, trigger: 'blur'}
-          ],
-          companyContact: [
-            {validator: validateCompanyContact, trigger: 'blur'}
-          ],
+//          companyContract: [
+//            {validator: validateCompanyContract, trigger: 'blur'}
+//          ],
+//          companyContact: [
+//            {validator: validateCompanyContact, trigger: 'blur'}
+//          ],
           remark: [
             {validator: validateRemark, trigger: 'blur'}
           ],
@@ -348,32 +348,32 @@
           companyName: storeInfo.companyName, // 供应商名称
           companyIden: storeInfo.companyIden.toUpperCase(), // 供应商名标识
           companyDesc: storeInfo.companyDesc == 'NULL!' ? '' : storeInfo.companyDesc, // 供应商描述
-          companyContactWay: storeInfo.companyContactWay, // 联系方式
-          companyContact: storeInfo.companyContact, // 联系人
-          companyEmail: storeInfo.companyEmail, // 邮箱
+//          companyContactWay: storeInfo.companyContactWay, // 联系方式
+//          companyContact: storeInfo.companyContact, // 联系人
+//          companyEmail: storeInfo.companyEmail, // 邮箱
           companyType: storeInfo.companyType, // 类型
           companyKey: storeInfo.companyKey, // key
           companyRatio: storeInfo.companyRatio, // 成数
           gameTypeList: storeInfo.gameTypeList, // 游戏类别
           companyRegion: storeInfo.companyRegion == 'NULL!' ? '' : storeInfo.companyRegion, // 所属区域
-          companyContract: storeInfo.companyContract == 'NULL!' ? '' : storeInfo.companyContract, // 合同
-          license: storeInfo.license == 'NULL!' ? '' : storeInfo.license, // 执照
-          remark: storeInfo.remark == 'NULL!' ? '' : storeInfo.remark// 类型
+//          companyContract: storeInfo.companyContract == 'NULL!' ? '' : storeInfo.companyContract, // 合同
+//          license: storeInfo.license == 'NULL!' ? '' : storeInfo.license, // 执照
+          remark: storeInfo.remark == 'NULL!' ? '' : storeInfo.remark// 备注
         }
-        if(this.managerInfo.companyContract) {
-          this.arrayList.push({
-            name: this.managerInfo.companyContract.split('/')[3],
-            url: this.managerInfo.companyContract
-          })
-        }
+//        if(this.managerInfo.companyContract) {
+//          this.arrayList.push({
+//            name: this.managerInfo.companyContract.split('/')[3],
+//            url: this.managerInfo.companyContract
+//          })
+//        }
 
         this.isfinish = {
             companyName: true,
-            companyContactWay: true,
-            companyContact: true,
+//            companyContactWay: true,
+//            companyContact: true,
             companyIden: true,
             companyRatio: true,
-            companyEmail: true,
+//            companyEmail: true,
             companyRegion: true,
             gameTypeList : true
         }
@@ -382,15 +382,15 @@
           companyName: '', // 供应商名称
           companyIden: '', // 供应商标识
           companyDesc: '', // 供应商描述
-          companyContactWay: '', // 联系方式
-          companyContact: '', // 联系人
-          companyEmail: '', // 邮箱
+//          companyContactWay: '', // 联系方式
+//          companyContact: '', // 联系人
+//          companyEmail: '', // 邮箱
           companyRegion: '', // 所属区域
-          companyContract: '', // 合同
+//          companyContract: '', // 合同
           companyType: '', // 类型
           companyKey: '', // key
           companyRatio: '', // 成数
-          license: '', // 执照
+//          license: '', // 执照
           remark: '', // 类型
           gameTypeList : [] // 游戏类别
         }
@@ -418,8 +418,7 @@
           })
       },
       postCreateform () {
-        if (!this.isfinish.companyName || !this.isfinish.companyEmail || this.isfinish.companyDesc == false ||
-          !this.isfinish.companyContactWay || this.isfinish.remark == false || !this.isfinish.companyContact ||
+        if (!this.isfinish.companyName || this.isfinish.companyDesc == false || this.isfinish.remark == false ||
           !this.isfinish.companyIden || !this.managerInfo.companyType || (!this.isfinish.companyRatio && (this.managerInfo.companyType==2))||
           !this.managerInfo.gameTypeList.length) {
           this.$message({
@@ -462,15 +461,15 @@
           companyName: '', // 供应商名称
           companyIden: '', // 供应商标识
           companyDesc: '', // 供应商描述
-          companyContactWay: '', // 联系方式
-          companyContact: '', // 联系人
-          companyEmail: '', // 邮箱
+//          companyContactWay: '', // 联系方式
+//          companyContact: '', // 联系人
+//          companyEmail: '', // 邮箱
           companyKey: '', // key
           companyRatio: '', // 成数
           companyRegion: '', // 所属区域
           companyType: '', // 供应商类型
-          companyContract: '', // 合同
-          license: '', // 执照
+//          companyContract: '', // 合同
+//          license: '', // 执照
           remark: '', // 类型
           gameTypeList : [] // 游戏类别
         }
@@ -493,7 +492,7 @@
           } else {
             this.dialogLoading = false
             this.$message.success('上传成功')
-            this.managerInfo.companyContract = (process.env.NODE_ENV == 'development') ? dev : prod
+//            this.managerInfo.companyContract = (process.env.NODE_ENV == 'development') ? dev : prod
 //            console.log(this.managerInfo.companyContract, 'this.managerInfo')
           }
         })
@@ -504,7 +503,7 @@
         this.dialogLoading = false
         this.$message.success('上传成功')
         this.fileList = fileList
-        this.managerInfo.companyContract = `https://ouef62ous.bkt.clouddn.com/${response.key}`
+//        this.managerInfo.companyContract = `https://ouef62ous.bkt.clouddn.com/${response.key}`
       }, // 文件上传成功回调
       beforeUpload (file, fileList) {
         let fileName = this.suffixFun(file.name)
@@ -557,7 +556,7 @@
         this.$message.error('上传失败，请重新选择')
       }, // 错误回调
       changeRemove (file) {
-        this.managerInfo.companyContract = ''
+//        this.managerInfo.companyContract = ''
 //        console.log(this.managerInfo)
       }, // 移除事件
 
@@ -580,7 +579,7 @@
           } else {
             this.dialogLoading = false
             this.$message.success('上传成功')
-            this.managerInfo.license = (process.env.NODE_ENV == 'development') ? dev : prod
+//            this.managerInfo.license = (process.env.NODE_ENV == 'development') ? dev : prod
 //            console.log(this.managerInfo.license, 'this.managerInfo')
           }
         })
@@ -589,7 +588,7 @@
       handleSuccessTwo (response, file, fileList) {
         this.dialogLoading = false
         this.$message.success('上传成功')
-        this.managerInfo.license = `https://ouef62ous.bkt.clouddn.com/${response.key}`
+//        this.managerInfo.license = `https://ouef62ous.bkt.clouddn.com/${response.key}`
       }, // 图片上传成功回调
       beforeUploadTwo (file) {
         const isJPG = (file.type === 'image/jpeg') || (file.type === 'image/png')
@@ -634,7 +633,7 @@
         })
       }, // 上传前的检验 格式、大小等
       removeLicense () {
-        this.managerInfo.license = ''
+//        this.managerInfo.license = ''
       },
       handleErrorTwo (err) {
         this.dialogLoading = false

@@ -25,19 +25,14 @@
             <span>kindID: {{gameDetail.kindId}}</span>
           </el-col>
           <el-col :span="6">
-            <span>游戏服务器: {{gameDetail.ip}}</span>
-          </el-col>
-          <el-col :span="6">
-            <span>端口: {{gameDetail.port}}</span>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
             <span>网页游戏 : {{gameDetail.isWebGame!='0' ? '是' : '否' }}</span><br>
           </el-col>
           <el-col :span="6">
             <span>网页地址: {{gameDetail.gameLink|| '暂无'}}</span>
           </el-col>
+        </el-row>
+        <el-row>
+
           <el-col :span="6">
             <span style="word-break: break-all">游戏简介: {{ gameDetail.gameRecommend == 'NULL!' ? '' : gameDetail.gameRecommend}}</span>
           </el-col>

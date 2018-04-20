@@ -9,18 +9,6 @@
         <el-col :span="12">
           <span class="print-justfy1">供应商ID : {{suclist.companyId}}</span>
         </el-col>
-        <el-col :span="6">
-          <span class="print-justfy1">联系人 : {{suclist.companyContact}}</span>
-        </el-col>
-        <el-col :span="6">
-          <span class="print-justfy1">联系方式 : {{suclist.companyContactWay}}</span><br>
-        </el-col>
-      </el-row>
-
-      <el-row>
-        <el-col :span="12">
-          <span class=" print-justfy1">供应商Email : {{suclist.companyEmail}}</span>
-        </el-col>
         <el-col :span="12">
           <span class="print-justfy1">供应商描述 : {{suclist.companyDesc == 'NULL!' ? '暂无' : suclist.companyDesc}}</span>
         </el-col>

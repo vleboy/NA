@@ -9,22 +9,22 @@
           {{companyTypeArray[scope.row.companyType-1]}}
         </template>
       </el-table-column>
-      <el-table-column label="联系方式" prop="companyContactWay" align="center" width="120"></el-table-column>
-      <el-table-column label="供应商邮箱" prop="companyEmail" align="center" width="150"></el-table-column>
+      <!--<el-table-column label="联系方式" prop="companyContactWay" align="center" width="120"></el-table-column>-->
+      <!--<el-table-column label="供应商邮箱" prop="companyEmail" align="center" width="150"></el-table-column>-->
       <el-table-column label="创建时间" prop="createdAt" :formatter="getAtime" align="center" width="150"></el-table-column>
-      <el-table-column label="状态" align="center" prop="companyStatus" width="90">
+      <el-table-column label="状态" align="center" prop="companyStatus" >
         <template scope="scope">
           <el-tag :type="scope.row.companyStatus ? 'success' : 'danger'">
             {{status[scope.row.companyStatus]}}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="key" align="center" prop="companyKey" width="190">
+      <el-table-column label="key" align="center" prop="companyKey" width="350">
         <template scope="scope">
           {{scope.row.companyKey ? scope.row.companyKey : '暂无'}}
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" width="65">
+      <el-table-column label="备注" align="center">
         <template scope="scope">
           <el-popover trigger="hover" placement="bottom-start" width="250">
             <p>{{scope.row.remark == 'NULL!' ? '' : scope.row.remark}}</p>
@@ -34,7 +34,7 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" min-width="160">
+      <el-table-column label="操作" align="center" width="190">
         <template scope="scope">
           <el-button type="text"  @click="goDetail(scope.row)" style="margin-left: 10px">查看</el-button>
           <el-button type="text"  @click="editOperator(scope.row)">编辑</el-button>
