@@ -6,7 +6,7 @@
         <el-input v-model="managerInfo.companyName" class="input" :disabled="this.$store.state.variable.isEdit" placeholder="请输入供应商名称" :maxlength='20'></el-input>
       </el-form-item>
       <el-form-item label="供应商标识" prop="companyIden">
-        <el-input v-model="managerInfo.companyIden" class="input" :disabled="this.$store.state.variable.isEdit" placeholder="请输入供应商标识（1-6位非中文）" :maxlength='20'></el-input>
+        <el-input v-model="managerInfo.companyIden" class="input" :disabled="this.$store.state.variable.isEdit" placeholder="请输入供应商标识（必须首字母开头并且大写的非中文）" :maxlength='20'></el-input>
       </el-form-item>
       <el-form-item label="供应商描述" prop="companyDesc">
         <el-input v-model="managerInfo.companyDesc" class="input" type="textarea" placeholder="请输入供应商描述" :maxlength='200'></el-input>

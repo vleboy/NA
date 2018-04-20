@@ -7,7 +7,7 @@ export const pattern = {
   url: new RegExp(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&:/~+#]*[\w\-@?^=%&/~+#])?/), // url验证
   digitalRange : new RegExp(/^(\d{1,2}(\.\d{1,2})?|100(\.0{1,2})?)$/), // 数字范围验证 （0.00-100.00）
   positive : new RegExp(/^[0-9]+([.]{1}[0-9]{1,2})?$/), // 正数，保留两位小数点
-  nonChinese : new RegExp(/^[A-Za-z0-9]*$/) // 非中文验证
+  nonChinese : new RegExp(/^[A-Z0-9]{1,6}$/) // 非中文验证
 }
 
 export const checkUsername = (rule, value, callback) => {
