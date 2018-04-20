@@ -30,7 +30,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="服务器ip" prop="ip" align="center" width="130"></el-table-column>
+        <!--<el-table-column label="服务器ip" prop="ip" align="center" width="130"></el-table-column>-->
         <el-table-column label="kindId" prop="kindId" align="center" width="130"></el-table-column>
         <el-table-column label="操作" align="center" width="200">
           <template scope="scope">

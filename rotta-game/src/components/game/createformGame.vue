@@ -12,7 +12,7 @@
       <el-form-item label="游戏简介" prop="gameRecommend">
         <el-input v-model="managerInfo.gameRecommend" class="input" placeholder="请输入游戏简介" type="textarea" :maxlength='200'></el-input>
       </el-form-item>
-      <el-form-item label="所属供应商" prop="companyName">
+      <el-form-item label="所属供应商" prop="companyName" class="is-required">
         <el-select v-model="managerInfo.companyName" placeholder="请选择所属供应商" clearable class="input" @change="changeCompany">
           <el-option v-for="item in companyOptions" :key="item.companyName" :value="item.companyName" class="select-width"></el-option>
         </el-select>
@@ -28,7 +28,7 @@
       <el-form-item label="key" v-if="companyKey">
         <el-tag type="danger">{{companyKey}}</el-tag>
       </el-form-item>
-      <el-form-item label="游戏LOGO" prop="gameImg">
+      <el-form-item label="游戏LOGO" prop="gameImg" class="is-required">
         <el-upload
           :action="uploadAction"
           class="g-avatar-uploader"
@@ -43,12 +43,12 @@
         </el-upload>
         <div class="el-upload__tip">只能上传一张jpg/png文件，且不超过1M</div>
       </el-form-item>
-      <el-form-item label="服务器" prop="ip">
-        <el-input v-model="managerInfo.ip" class="input" placeholder="请输入ip地址 （如：xxx.xxx.xxx.xxx）"></el-input>
-      </el-form-item>
-      <el-form-item label="端口" prop="port">
-        <el-input v-model="managerInfo.port" class="input" type="number" placeholder="请输入端口号"></el-input>
-      </el-form-item>
+      <!--<el-form-item label="服务器" prop="ip">-->
+        <!--<el-input v-model="managerInfo.ip" class="input" placeholder="请输入ip地址 （如：xxx.xxx.xxx.xxx）"></el-input>-->
+      <!--</el-form-item>-->
+      <!--<el-form-item label="端口" prop="port">-->
+        <!--<el-input v-model="managerInfo.port" class="input" type="number" placeholder="请输入端口号"></el-input>-->
+      <!--</el-form-item>-->
       <el-form-item label="网页游戏" style="text-align: left">
         <el-checkbox v-model="isShowWebGame"></el-checkbox>
       </el-form-item>
@@ -125,31 +125,31 @@
           this.isfinish.gameRecommend = true
         }
       } // 游戏简介
-      var validateIp = (rule, value, callback) => {
-        var ip = new RegExp(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/)
-        if (value === '') {
-          callback(new Error('请输入服务器'))
-          this.isfinish.ip = false
-        } else if (!ip.exec(value)) {
-          callback(new Error('请输入正确的服务器格式'))
-          this.isfinish.ip = false
-        } else {
-          callback()
-          this.isfinish.ip = true
-        }
-      } // 服务器
-      var validatePort = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入端口'))
-          this.isfinish.port = false
-        } else if (value < 1 || value > 65535) {
-          callback(new Error('端口必须小于65535，大于1'))
-          this.isfinish.port = false
-        } else {
-          callback()
-          this.isfinish.port = true
-        }
-      } // 端口
+//      var validateIp = (rule, value, callback) => {
+//        var ip = new RegExp(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/)
+//        if (value === '') {
+//          callback(new Error('请输入服务器'))
+//          this.isfinish.ip = false
+//        } else if (!ip.exec(value)) {
+//          callback(new Error('请输入正确的服务器格式'))
+//          this.isfinish.ip = false
+//        } else {
+//          callback()
+//          this.isfinish.ip = true
+//        }
+//      } // 服务器
+//      var validatePort = (rule, value, callback) => {
+//        if (value === '') {
+//          callback(new Error('请输入端口'))
+//          this.isfinish.port = false
+//        } else if (value < 1 || value > 65535) {
+//          callback(new Error('端口必须小于65535，大于1'))
+//          this.isfinish.port = false
+//        } else {
+//          callback()
+//          this.isfinish.port = true
+//        }
+//      } // 端口
       var validateKindId = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入KindId'))
@@ -182,8 +182,6 @@
           gameName: false,
           gameType: false,
           company: false,
-          port: false,
-          ip: false,
           kindId: false,
           gameRecommend: false,
           gameIden: false
@@ -192,8 +190,8 @@
           gameName: '', // 名称
           gameType: '', // 类别
           company: '', // 供应商
-          port: '', // 端口
-          ip: '', // 服务器
+//          port: '', // 端口
+//          ip: '', // 服务器
           kindId: '', // kindId
           gameRecommend: '', // 简介
           gameImg: '', // 游戏logo
@@ -205,28 +203,28 @@
         }, // 创建列表
         rules: {
           gameName: [
-            {validator: validateGameName, trigger: 'blur'}
+            {validator: validateGameName, trigger: 'blur',required: true}
           ],
           gameRecommend: [
-            {validator: validateGameRecommend, trigger: 'blur'}
+            {validator: validateGameRecommend, trigger: 'blur',required: true}
           ],
           gameType: [
-            {validator: validateGameType, trigger: 'blur'}
+            {validator: validateGameType, trigger: 'blur',required: true}
           ],
           company: [
-            {validator: validateCompany, trigger: 'blur'}
+            {validator: validateCompany, trigger: 'blur',required: true}
           ],
-          port: [
-            {validator: validatePort, trigger: 'blur'}
-          ],
-          ip: [
-            {validator: validateIp, trigger: 'blur'}
-          ],
+//          port: [
+//            {validator: validatePort, trigger: 'blur'}
+//          ],
+//          ip: [
+//            {validator: validateIp, trigger: 'blur'}
+//          ],
           kindId: [
-            {validator: validateKindId, trigger: 'blur'}
+            {validator: validateKindId, trigger: 'blur',required: true}
           ],
           gameIden: [
-            {validator: validateGameIden, trigger: 'blur'}
+            {validator: validateGameIden, trigger: 'blur',required: true}
           ]
         }, // 列表验证规则
         options: [],
@@ -260,9 +258,9 @@
           kindId: Number(storeInfo.kindId)-Number(storeInfo.gameType), // kindId
           gameType: storeInfo.gameType, // 游戏类别
           gameImg: storeInfo.gameImg, // logo
-          ip: storeInfo.ip, // 服务器ip
+//          ip: storeInfo.ip, // 服务器ip
           isWebGame: storeInfo.isWebGame, // 是否是网页游戏
-          port: storeInfo.port, // 端口
+//          port: storeInfo.port, // 端口
           gameLink: storeInfo.gameLink, // 链接
           company: storeInfo.company, // 游戏厂商规则
           companyName: storeInfo.companyName // 游戏厂商规则
@@ -274,8 +272,8 @@
           gameName: true,
           gameType: true,
           company: true,
-          port: true,
-          ip: true,
+//          port: true,
+//          ip: true,
           kindId: true,
           gameRecommend: true,
           gameIden: true
@@ -286,7 +284,7 @@
     methods: {
       postCreateform () {
         if (!this.isfinish.gameName || !this.managerInfo.gameType  || !this.isfinish.gameIden ||
-          !this.isfinish.port || !this.isfinish.ip || !this.isfinish.gameRecommend || !this.isfinish.kindId || !this.managerInfo.gameImg) {
+          !this.isfinish.gameRecommend || !this.isfinish.kindId || !this.managerInfo.gameImg) {
           this.$message({
             message: '请完善创建信息',
             type: 'error'
@@ -335,8 +333,8 @@
           gameName: '', // 名称
           gameType: '', // 类别
           company: '', // 供应商
-          port: '', // 端口
-          ip: '', // 服务器
+//          port: '', // 端口
+//          ip: '', // 服务器
           gameRecommend: '', // 简介
           gameImg: '', // 图片上传 （暂不实现）
           gameLink: '', // 网页游戏链接
