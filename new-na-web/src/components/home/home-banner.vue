@@ -27,9 +27,9 @@ export default {
         }
       },
       banners: [
-//        {banner: require('@/assets/img/banner1.jpg') },
-//        {banner: require('@/assets/img/banner2.jpg') },
-        {banner: require('@/assets/img/banner1.jpg')}
+        {banner: require('@/assets/img/banner1.jpg') },
+        {banner: require('@/assets/img/banner2.png') },
+        {banner: require('@/assets/img/banner3.png')}
       ]
     }
   },
