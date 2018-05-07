@@ -4,7 +4,10 @@
       <div class="-p-mobile" v-if="isShowDetail && nowId != 3" @click="isShowDetail = false">
         <img class="-arrow" src="/static/arrow.png">
       </div>
-      <router-link to="/" v-if="!isShowDetail || nowId == 3"><img class="-img-logo" src="/static/logo.png" alt=""></router-link>
+      <div class="-p-mobile" v-else @click="toHome">
+        <img class="-arrow" src="/static/arrow.png">
+      </div>
+      <div v-if="!isShowDetail || nowId == 3" @click="toHome"><img class="-img-logo" src="/static/logo.png" alt=""></div>
       <img v-if="isShowDetail && nowId != 3" class="-img-logo" src="/static/logo.png" alt="" @click="isShowDetail = false">
     </div>
 
@@ -178,7 +181,7 @@ export default {
               },
               {
                 id: 3,
-                name: '对接说明',
+                name: '开户热线',
                 content:  require('@/assets/img/detail/dl-dj.jpg'),
                 titleImg:  require('@/assets/img/detail/dj-01.png'),
                 isActive: false
@@ -238,7 +241,7 @@ export default {
               },
               {
                 id: 3,
-                name: '对接说明',
+                name: '开户热线',
                 content:  require('@/assets/img/detail/mobile/dl-dj.jpg'),
                 titleImg:  require('@/assets/img/detail/mobile/api-dj-title.png'),
                 isActive: false
@@ -300,6 +303,9 @@ export default {
         if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
       }
       return flag;
+    },
+    toHome () {
+      this.$router.push({'path': '/',query:{'id':1}})
     }
   }
 }

@@ -23,7 +23,7 @@
             </div>
           </div>
         </a>
-        <a href="http://dl.haima.me/download/DXDown/win/Z001/Droid4XInstaller.exe">
+        <a href="http://app.risheng3d.com/emulator/emulator.exe">
           <img src="../../assets/img/windowsButton.png" alt="">
         </a>
       </div>
@@ -49,11 +49,11 @@ export default {
       try {
         const { data } = await axios.get('https://3y68duvxk7.execute-api.ap-southeast-1.amazonaws.com/dev/ipquery')
         if (data.payload.data.country === '中国') {
-          this.ios = 'itms-services://?action=download-manifest&url=https://a1.na12345.com/NAGame/Update/IOS/autoIntall.plist'
-          this.android = 'http://a1.na12345.com/NAGame/Update/Android/NAGame.apk'
+          this.ios = 'itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall2900.plist'
+          this.android = 'http://app.risheng3d.com/apk/NAGame2900.apk'
         } else {
-          this.ios = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall1800.plist'
-          this.android = 'http://oss.na12345.com/NAGame1800.apk'
+          this.ios = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall2900.plist'
+          this.android = 'http://oss.na12345.com/NAGame2900.apk'
         }
       } catch (err) {
         console.log(err)
@@ -74,14 +74,14 @@ export default {
     font-size 40px
     margin-bottom 26px
   .download-desc
-    width 50% 
+    width 50%
     margin 0 auto 100px
     font-size 1rem
   .download-button
     display flex
     justify-content space-around
     a
-      margin-left 60px 
+      margin-left 60px
       position relative
       .code-box
         // display none
@@ -90,7 +90,7 @@ export default {
         bottom 95px
         width 230px
         height 230px
-        border-radius 5px 
+        border-radius 5px
         background #ffffff
         padding 5px 5px
         transition opacity 1s
@@ -119,7 +119,7 @@ export default {
       margin 0 auto 60px
     .download-button
       a
-        img 
+        img
           width 85%
         .code-box
           width 170px
@@ -139,9 +139,9 @@ export default {
     .download-button
       justify-content space-between
       a
-        pointer-events none
+        /*pointer-events none*/
         margin 0
-        img 
+        img
           width 80%
       a:last-child
         display none

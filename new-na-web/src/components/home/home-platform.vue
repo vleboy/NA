@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     goJump () {
-      window.open('http://game-hall.s3-website-ap-southeast-1.amazonaws.com')
+      window.open('http://game.na77.com')
     },
     hoverIn (item) {
 //      switch (item.title) {

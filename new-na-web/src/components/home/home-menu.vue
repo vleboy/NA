@@ -12,7 +12,7 @@
           <li :class="{active: $route.path === '/'}"><router-link to="/">{{$router.path}}首页</router-link></li>
           <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">合作共赢</router-link></li>
           <li :class="{active: $route.path === '/Pro'}"><router-link to="/Pro">NA旗舰版</router-link></li>
-          <li :class="{active: $route.path === '/Game'}"><a target="_blank" href="http://game-hall.s3-website-ap-southeast-1.amazonaws.com">NA游戏</a></li>
+          <li :class="{active: $route.path === '/Game'}"><a target="_blank" href="http://game.na77.com">NA游戏</a></li>
           <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
           <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
         </ul>
@@ -22,7 +22,7 @@
     <div class="mobile-menu" :class="{bgColor: showMenu}">
       <div class="mobile-menu-left">
         <div class="mobile-menu-icon">
-          <div class="navbar-burger" @click="showView" :class="{'is-active': showMenu}">
+          <div class="navbar-burger" @click="showView(true)" :class="{'is-active': showMenu}">
             <span></span>
             <span></span>
             <span></span>
@@ -35,7 +35,7 @@
         <ul class="mobile" v-show="showMenu">
           <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">合作共赢</router-link></li>
           <li :class="{active: $route.path === '/Pro'}"><router-link to="/Pro">NA旗舰版</router-link></li>
-          <li :class="{active: $route.path === '/Game'}"><router-link to="/Game">NA游戏</router-link></li>
+          <li :class="{active: $route.path === '/Game'}"><a target="_blank" href="http://game.na77.com">NA游戏</a></li>
           <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
           <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
         </ul>
@@ -55,7 +55,7 @@ export default {
     }
   },
   methods: {
-    showView () {
+    showView (bool) {
       if (this.showMenu) {
         $('html, body').off('touchmove')
         $('.mobile-menu').css('height', 'auto')
@@ -63,15 +63,19 @@ export default {
         $('html, body').on('touchmove', function (e) {
           e.preventDefault()
         }, false)
-        $('.mobile-menu').css('height', '100vh')
+//        $('.mobile-menu').css('height', '100vh')
       }
-      this.showMenu = !this.showMenu
+
+      if(!this.$route.query.id || bool) {
+        this.showMenu = !this.showMenu
+      }
     }
   },
   watch: {
     '$route': function (_new) {
-      if(_new.path != '/detail')
-      this.showView()
+      if(_new.path != '/detail') {
+        this.showView()
+      }
     }
   }
 }
