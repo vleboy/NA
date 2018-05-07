@@ -9,7 +9,7 @@
        </div>
      </div>
      <Server />
-     <card-item 
+     <card-item
       v-for="(item, index) in info"
       :key="index"
       :class="{'is-reversed': index % 2 === 0}"
@@ -69,6 +69,7 @@ export default {
 
 <style lang="stylus" scoped>
 .Ascendant
+  margin-top 3.25rem
   .is-reversed
     background-color #f9f9f9
 
@@ -123,7 +124,7 @@ export default {
 
   .chart
     flex-direction column
-  
+
   .chart-msg, .chart-cover
     width 100%
 

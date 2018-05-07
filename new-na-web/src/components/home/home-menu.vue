@@ -151,7 +151,7 @@ export default {
   .mobile-menu-left
     display flex
     align-items center
-    background-color rgba(0,0,0,0.8)
+    background-color rgba(0,0,0,1)
     h1
       position absolute
       left 50%

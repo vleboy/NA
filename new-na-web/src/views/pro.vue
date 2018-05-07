@@ -136,6 +136,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.pro
+  margin-top 3.25rem
+
 .pro-desc
   img
     width 100%

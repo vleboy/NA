@@ -43,12 +43,12 @@
         </div>
         <div class="us-info">
           <div class="us-info-title">公司信息</div>
-          <div class="us-info-item"> 
+          <div class="us-info-item">
             <p>San Miguel Avenue corner Shaw Boulevard,</p>
             <p>Ortigas Center, Ortigas Center, </p>
             <p>Pasig City, Metro Manila, 菲律宾</p>
           </div>
-          <div class="us-info-item"> 
+          <div class="us-info-item">
             <p>SKYPE: XINASIA_2</p>
             <p>EMAIL: NEWASIA@NA77.COM</p>
           </div>
@@ -76,6 +76,7 @@ export default {
 
 <style lang="stylus" scoped>
 .contact-us
+  margin-top 3.25rem
   h2
     font-size 2.5rem
     color #444444
@@ -103,7 +104,7 @@ export default {
     .contact-us-form
       width 50%
       font-size 1rem
-      .is-danger 
+      .is-danger
         border-color: #FECB16
       .is-submit
         width 100%
@@ -116,7 +117,7 @@ export default {
     .us-info
       font-size 14px
       color #666666
-      text-align right 
+      text-align right
       .us-info-title
         font-size 23px
         color #FECB16
@@ -125,7 +126,7 @@ export default {
         margin-bottom 20px
       .us-info-share
         font-size 0
-        span 
+        span
           display inline-block
           width 17px
           height 17px
@@ -169,7 +170,7 @@ export default {
         margin-bottom 20px
       .us-info
         width 100%
-        text-align left 
+        text-align left
         .us-info-share
           span:first-child
             margin-left 0

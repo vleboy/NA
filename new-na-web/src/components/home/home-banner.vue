@@ -47,6 +47,7 @@ export default {
   width 100%
   .swiper-container
     width 100%
+    top 3.25rem
     .swiper-pagination
       position absolute
       bottom 30px

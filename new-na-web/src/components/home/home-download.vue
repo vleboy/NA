@@ -9,7 +9,7 @@
       <div class="download-button boxs">
         <a :href="ios">
           <img src="../../assets/img/iosButton.png" alt="">
-          <div class="code-box">
+          <div class="code-box is-mobile">
             <div class="code">
               <div class="arrow"></div>
             </div>
@@ -17,7 +17,7 @@
         </a>
         <a :href="android">
           <img src="../../assets/img/androidButton.png" alt="">
-          <div class="code-box">
+          <div class="code-box is-mobile">
             <div class="code">
               <div class="arrow"></div>
             </div>
@@ -109,6 +109,8 @@ export default {
       &:hover .code-box
         // display block
         opacity 1
+  .is-mobile
+    display block
 @media (min-width: 768px) and (max-width: 1200px)
   .home-download
     padding 95px 0
@@ -126,6 +128,8 @@ export default {
           height 170px
           bottom 85px
           left 20px
+    .is-mobile
+      display block
 @media (max-width: 768px)
   .home-download
     padding 1.4rem 0
@@ -145,5 +149,7 @@ export default {
           width 80%
       a:last-child
         display none
+    .is-mobile
+      display none
 </style>
 

@@ -24,4 +24,8 @@ export default {
   }
 }
 </script>
+<style lang="stylus" scoped>
+  .Download
+    margin-top 3.25rem
+</style>
 
