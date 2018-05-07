@@ -362,6 +362,8 @@ export default{
             })
             this.isOpenModal = false
             this.isSending = false
+            this.fileListTwoAli = []
+            this.fileListTwo = []
             this.getGameHallList()
           }
         }
