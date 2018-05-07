@@ -34,6 +34,8 @@
           {{scope.row.isRecommend ? '是' : '否' }}
         </template>
       </el-table-column>
+      <el-table-column label="推荐排序" align="center" width="100" prop="sort">
+      </el-table-column>
       <el-table-column label="视频链接(阿里云)" align="center" width="150">
         <template scope="scope">
           {{scope.row.urlAli}}
@@ -65,6 +67,9 @@
         </el-form-item>
         <el-form-item label="视频链接(亚马逊)" label-width="140px" >
           <el-input v-model="gameHallInfo.url" auto-complete="off" placeholder="请输入正确视频链接 例（http://www.xxxx.com）" :maxlength="500"></el-input>
+        </el-form-item>
+        <el-form-item label="推荐排序" label-width="140px" >
+          <el-input v-model="gameHallInfo.sort" type="number" auto-complete="off" placeholder="请输入需要推荐的顺序"></el-input>
         </el-form-item>
         <el-form-item label="是否推荐" label-width="140px">
           <el-switch
