@@ -295,12 +295,16 @@ export default{
           url: this.gameHallInfo.recommendImg
         })
         this.fileListTwo = this.gameHallInfo.carouselImg || []
+        this.fileListTwoAli = this.gameHallInfo.carouselImgAli || []
       } else {
         this.gameHallInfo = {
           businessKey: '',
           bgImg: '',
+          bgImgAli: '',
           recommendImg: '',
+          recommendImgAli: '',
           carouselImg: [],
+          carouselImgAli: [],
           isRecommend: false,
           state: 0
         }
@@ -337,6 +341,8 @@ export default{
         this.gameHallInfo.carouselImg = this.fileListTwo
 
         this.gameHallInfo.carouselImgAli = this.fileListTwoAli
+
+        this.gameHallInfo.sort = Number(this.gameHallInfo.sort)
 
         for (let item of this.gameList) {
           if(item.kindId == this.gameHallInfo.businessKey) {
