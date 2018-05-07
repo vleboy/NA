@@ -34,7 +34,12 @@
           {{scope.row.isRecommend ? '是' : '否' }}
         </template>
       </el-table-column>
-      <el-table-column label="视频链接" align="center" width="150">
+      <el-table-column label="视频链接(阿里云)" align="center" width="150">
+        <template scope="scope">
+          {{scope.row.urlAli}}
+        </template>
+      </el-table-column>
+      <el-table-column label="视频链接(亚马逊)" align="center" width="150">
         <template scope="scope">
           {{scope.row.url}}
         </template>
@@ -55,7 +60,10 @@
             <el-option v-for="(item, index) in gameList" :key="index" :label="item.gameName" :value="item.kindId"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="视频链接" label-width="140px" >
+        <el-form-item label="视频链接(阿里云)" label-width="140px" >
+          <el-input v-model="gameHallInfo.urlAli" auto-complete="off" placeholder="请输入正确视频链接 例（http://www.xxxx.com）" :maxlength="500"></el-input>
+        </el-form-item>
+        <el-form-item label="视频链接(亚马逊)" label-width="140px" >
           <el-input v-model="gameHallInfo.url" auto-complete="off" placeholder="请输入正确视频链接 例（http://www.xxxx.com）" :maxlength="500"></el-input>
         </el-form-item>
         <el-form-item label="是否推荐" label-width="140px">
@@ -154,6 +162,7 @@ export default{
       uploadAction: [],
       imgFile:{},
       fileListTwo: [],
+      fileListTwoAli: [],
       uploadActionTwo: [],
       imgFileTwo:{},
       fileListThree: [],
@@ -271,6 +280,7 @@ export default{
       if (item) {
         this.gameHallInfo = JSON.parse(JSON.stringify(item))
         this.gameHallInfo.url = this.gameHallInfo.url === 'NULL!' ? '' : this.gameHallInfo.url
+        this.gameHallInfo.urlAli = this.gameHallInfo.urlAli === 'NULL!' ? '' : this.gameHallInfo.urlAli
         this.fileList.push({
           name: '',
           url: this.gameHallInfo.bgImg
@@ -305,11 +315,13 @@ export default{
       }
     },
     submitProp (item) {
+
       if(item) {
         this.gameHallInfo = JSON.parse(JSON.stringify(item))
         this.gameHallInfo.isRecommend = !this.gameHallInfo.isRecommend
       } else {
         if(this.gameHallInfo.url =='NULL!') this.gameHallInfo.url = '';
+        if(this.gameHallInfo.urlAli =='NULL!') this.gameHallInfo.urlAli = '';
 
         if (!this.gameHallInfo.businessKey) {
           return this.$message.error('请选择游戏')
@@ -318,6 +330,8 @@ export default{
         this.gameHallInfo.code = 'lobbyconfig'
 
         this.gameHallInfo.carouselImg = this.fileListTwo
+
+        this.gameHallInfo.carouselImgAli = this.fileListTwoAli
 
         for (let item of this.gameList) {
           if(item.kindId == this.gameHallInfo.businessKey) {
@@ -356,7 +370,7 @@ export default{
 
     // 背景图
     requestHeader () {
-//      this.uploadAli ()
+      this.uploadAli ()
       this.uploadAws ()
     },
     beforeUpload (file) {
@@ -413,7 +427,6 @@ export default{
         stsToken: this.uploadAction[1].ali.SecurityToken,
         bucket: 'assetdownload'
       })
-      console.log(this.imgFile.name)
       let suffix = this.suffixFun(this.imgFile.name)
       let date = new Date().getTime()
       let fileName = `image/${suffix[0]+date}.${suffix[1]}`
@@ -421,8 +434,8 @@ export default{
       }).then((results) => {
         this.$message.success('上传成功')
         this.dialogLoading = false
-        this.gameHallInfo.bgImg = results.url || `${this.AliUrl}/${results.name}`
-        console.log(results,this.gameHallInfo.bgImg, 'src')
+        this.gameHallInfo.bgImgAli = results.url || `${this.AliUrl}/${results.name}`
+
       }).catch((err) => {
         this.dialogLoading = false
         console.log(err);
@@ -454,14 +467,14 @@ export default{
 
     // 轮播图
     requestHeaderTwo () {
-//      this.uploadAli ()
       if(!(this.fileListTwo.length>3)){
+        this.uploadAliTwo ()
         this.uploadAwsTwo()
       } else {
         return this.$message.error('最多上传四张轮播图片')
       }
     },
-    beforeUploadTwo (file) {
+    beforeUploadTwo (file)  {
       let fileName = this.suffixFun(file.name)
       const isLt1M = file.size / 1024 / 1024 < 1
       const suffix = fileName[1].toLowerCase()
@@ -507,7 +520,7 @@ export default{
         })
       })
     }, // 上传前的检验 格式、大小等
-    uploadAli () {
+    uploadAliTwo () {
       this.AliUrl = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
       let mi = new OSS.Wrapper({
         region: 'oss-cn-hangzhou',
@@ -516,7 +529,7 @@ export default{
         stsToken: this.uploadActionTwo[1].ali.SecurityToken,
         bucket: 'assetdownload'
       })
-      console.log(this.imgFileTwo.name)
+//      console.log(this.imgFileTwo.name)
       let suffix = this.suffixFun(this.imgFileTwo.name)
       let date = new Date().getTime()
       let fileName = `image/${suffix[0]+date}.${suffix[1]}`
@@ -524,8 +537,11 @@ export default{
       }).then((results) => {
         this.$message.success('上传成功')
         this.dialogLoading = false
-        this.gameHallInfo.bgImg = results.url || `${this.AliUrl}/${results.name}`
-        console.log(results,this.gameHallInfo.bgImg, 'src')
+//        this.gameHallInfo.fileListTwoAli = results.url || `${this.AliUrl}/${results.name}`
+        this.fileListTwoAli.push({
+          name: results.name,
+          url: results.url || `${this.AliUrl}/${results.name}`
+        })
       }).catch((err) => {
         this.dialogLoading = false
         console.log(err);
@@ -563,8 +579,9 @@ export default{
 
     // 推荐图
     requestHeaderThree () {
-//      this.uploadAliThree ()
+      this.uploadAliThree ()
       this.uploadAwsThree ()
+//      console.log(this.gameHallInfo, 'src')
     },
     beforeUploadThree (file) {
       let fileName = this.suffixFun(file.name)
@@ -620,7 +637,7 @@ export default{
         stsToken: this.uploadActionThree[1].ali.SecurityToken,
         bucket: 'assetdownload'
       })
-      console.log(this.imgFileThree.name)
+//      console.log(this.imgFileThree.name)
       let suffix = this.suffixFun(this.imgFileThree.name)
       let date = new Date().getTime()
       let fileName = `image/${suffix[0]+date}.${suffix[1]}`
@@ -628,8 +645,7 @@ export default{
       }).then((results) => {
         this.$message.success('上传成功')
         this.dialogLoading = false
-        this.gameHallInfo.recommendImg = results.url || `${this.AliUrl}/${results.name}`
-        console.log(results,this.gameHallInfo.recommendImg, 'src')
+        this.gameHallInfo.recommendImgAli = results.url || `${this.AliUrl}/${results.name}`
       }).catch((err) => {
         this.dialogLoading = false
         console.log(err);

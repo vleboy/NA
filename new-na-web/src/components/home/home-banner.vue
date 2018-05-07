@@ -47,7 +47,6 @@ export default {
   width 100%
   .swiper-container
     width 100%
-    top 3.25rem
     .swiper-pagination
       position absolute
       bottom 30px
@@ -56,5 +55,11 @@ export default {
   img
     width 100%
     height 100%
+
+@media (max-width: 768px)
+  .banner
+  .swiper-container
+    width 100%
+    top 1.64rem
 </style>
 

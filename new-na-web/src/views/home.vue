@@ -66,5 +66,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  .home{
+    margin-top: 3.25rem
+  }
 </style>
 
