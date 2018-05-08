@@ -19,9 +19,14 @@
           <img :src="scope.row.bgImg" style="width: 100%;padding: 10px">
         </template>
       </el-table-column>
-      <el-table-column label="轮播图片"  align="center">
+      <el-table-column label="轮播图片(亚马逊)"  align="center">
         <template scope="scope">
           <img v-for="item of scope.row.carouselImg" :src="item.url" style="width: 20%;padding: 10px">
+        </template>
+      </el-table-column>
+      <el-table-column label="轮播图片(阿里云)"  align="center">
+        <template scope="scope">
+          <img v-for="item of scope.row.carouselImgAli" :src="item.url" style="width: 20%;padding: 10px">
         </template>
       </el-table-column>
       <el-table-column label="状态" prop="state" align="center" width="80">
@@ -342,7 +347,7 @@ export default{
 
         this.gameHallInfo.carouselImgAli = this.fileListTwoAli
 
-        this.gameHallInfo.sort = Number(this.gameHallInfo.sort)
+        this.gameHallInfo.sort = this.gameHallInfo.sort != '' ?  Number(this.gameHallInfo.sort) : ''
 
         for (let item of this.gameList) {
           if(item.kindId == this.gameHallInfo.businessKey) {
@@ -586,6 +591,7 @@ export default{
     },
     delImg (id) {
       this.fileListTwo.splice(id,1)
+      this.fileListTwoAli.splice(id,1)
     },
 
     // 推荐图
