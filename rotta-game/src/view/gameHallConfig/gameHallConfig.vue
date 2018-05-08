@@ -301,6 +301,9 @@ export default{
         })
         this.fileListTwo = this.gameHallInfo.carouselImg || []
         this.fileListTwoAli = this.gameHallInfo.carouselImgAli || []
+        if(!this.fileListTwo.length) { // 处理某一方上传时候未上传成功导致不一致情况
+          this.fileListTwoAli = []
+        }
       } else {
         this.gameHallInfo = {
           businessKey: '',
