@@ -160,7 +160,7 @@ export default{
   },
   data () {
     return {
-      AliUrl: '',
+      AliUrl: 'http://app.risheng3d.com',
       gameList: [],
       gameItems: [],
       fileList: [],
@@ -432,7 +432,6 @@ export default{
       })
     }, // 上传前的检验 格式、大小等
     uploadAli () {
-      this.AliUrl = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
       let mi = new OSS.Wrapper({
         region: 'oss-cn-hangzhou',
         accessKeyId: this.uploadAction[1].ali.AccessKeyId,
@@ -447,7 +446,7 @@ export default{
       }).then((results) => {
         this.$message.success('上传成功')
         this.dialogLoading = false
-        this.gameHallInfo.bgImgAli = results.url || `${this.AliUrl}/${results.name}`
+        this.gameHallInfo.bgImgAli = `${this.AliUrl}/${results.name}` || results.url
 
       }).catch((err) => {
         this.dialogLoading = false
@@ -456,7 +455,7 @@ export default{
     },
     uploadAws () {
       const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.fileName}` //测试环境
-      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.fileName}` //开发环境
+      const prod = `http://img.na77.com/${this.imgFile.fileName}` //开发环境
       invoke({
         url: this.uploadAction[0].aws,
         method: 'put',
@@ -534,7 +533,6 @@ export default{
       })
     }, // 上传前的检验 格式、大小等
     uploadAliTwo () {
-      this.AliUrl = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
       let mi = new OSS.Wrapper({
         region: 'oss-cn-hangzhou',
         accessKeyId: this.uploadActionTwo[1].ali.AccessKeyId,
@@ -553,7 +551,7 @@ export default{
 //        this.gameHallInfo.fileListTwoAli = results.url || `${this.AliUrl}/${results.name}`
         this.fileListTwoAli.push({
           name: results.name,
-          url: results.url || `${this.AliUrl}/${results.name}`
+          url: `${this.AliUrl}/${results.name}` || results.url
         })
       }).catch((err) => {
         this.dialogLoading = false
@@ -562,7 +560,7 @@ export default{
     },
     uploadAwsTwo () {
       const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFileTwo.fileName}` //测试环境
-      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFileTwo.fileName}` //开发环境
+      const prod = `http://img.na77.com/${this.imgFileTwo.fileName}` //开发环境
       invoke({
         url: this.uploadActionTwo[0].aws,
         method: 'put',
@@ -642,7 +640,6 @@ export default{
       })
     }, // 上传前的检验 格式、大小等
     uploadAliThree () {
-      this.AliUrl = 'http://assetdownload.oss-cn-hangzhou.aliyuncs.com'
       let mi = new OSS.Wrapper({
         region: 'oss-cn-hangzhou',
         accessKeyId: this.uploadActionThree[1].ali.AccessKeyId,
@@ -658,7 +655,7 @@ export default{
       }).then((results) => {
         this.$message.success('上传成功')
         this.dialogLoading = false
-        this.gameHallInfo.recommendImgAli = results.url || `${this.AliUrl}/${results.name}`
+        this.gameHallInfo.recommendImgAli = `${this.AliUrl}/${results.name}` || results.url
       }).catch((err) => {
         this.dialogLoading = false
         console.log(err);
@@ -666,7 +663,7 @@ export default{
     },
     uploadAwsThree () {
       const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFileThree.fileName}` //测试环境
-      const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFileThree.fileName}` //开发环境
+      const prod = `http://img.na77.com/${this.imgFileThree.fileName}` //开发环境
       invoke({
         url: this.uploadActionThree[0].aws,
         method: 'put',
