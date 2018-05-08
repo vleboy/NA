@@ -136,9 +136,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.pro
-  margin-top 3.25rem
-
 .pro-desc
   img
     width 100%
@@ -321,6 +318,7 @@ export default {
 
 @media (max-width: 768px)
   .pro
+    margin-top 3.25rem
     overflow hidden
 
   .pro-desc-msg

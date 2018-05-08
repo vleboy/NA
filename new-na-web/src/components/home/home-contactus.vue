@@ -76,7 +76,7 @@ export default {
 
 <style lang="stylus" scoped>
 .contact-us
-  margin-top 3.25rem
+
   h2
     font-size 2.5rem
     color #444444
@@ -157,6 +157,7 @@ export default {
             height 14px
 @media (max-width: 768px)
   .contact-us
+    margin-top 4.25rem
     h2
       margin-top 1.4rem
       margin-bottom 18px

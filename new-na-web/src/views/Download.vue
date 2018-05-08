@@ -25,7 +25,10 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-  .Download
-    margin-top 3.25rem
+  @media (max-width: 768px) {
+    .Download{
+      margin-top: 3.25rem
+    }
+  }
 </style>
 
