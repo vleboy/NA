@@ -47,7 +47,7 @@ export default {
   methods: {
     async ipQuery () {
       try {
-        const { data } = await axios.get('https://3y68duvxk7.execute-api.ap-southeast-1.amazonaws.com/dev/ipquery')
+        const { data } = await axios.get('http://ext.na77.org/webapi/ipquery')
         if (data.payload.data.country === '中国') {
           this.ios = 'itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall2900.plist'
           this.android = 'http://app.risheng3d.com/apk/NAGame2900.apk'
