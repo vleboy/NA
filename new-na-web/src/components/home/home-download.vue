@@ -37,8 +37,8 @@ export default {
   name: 'home-download',
   data () {
     return {
-      ios: '',
-      android: ''
+      ios: 'itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall2900.plist',
+      android: 'http://app.risheng3d.com/apk/NAGame2900.apk'
     }
   },
   mounted () {
@@ -63,7 +63,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" scoped type="text/stylus">
 .home-download
   background url('../../assets/img/downloadBg.jpg') no-repeat
   background-size cover
