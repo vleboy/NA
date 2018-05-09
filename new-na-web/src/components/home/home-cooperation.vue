@@ -62,7 +62,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" scoped type="text/stylus">
 .home-cooperation
   background url('../../assets/img/cooperation.png') no-repeat
   background-size cover
@@ -71,7 +71,7 @@ export default {
     margin 30px 0 30px
     padding 60px 15px
     background #ffffff
-    border-radius 7px 
+    border-radius 7px
     ul
       display flex
       li
