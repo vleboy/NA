@@ -311,7 +311,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" type="text/stylus">
   .detail-height{
     height:100%;
   }
@@ -427,7 +427,7 @@ export default {
 
   @media (max-width: 768px) {
     .p-detail {
-
+      background: #547eeb;
       .-p-jump {
         position: absolute;
         top: 0;
