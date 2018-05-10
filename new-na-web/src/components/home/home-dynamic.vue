@@ -8,12 +8,12 @@
 集团旗下所有游戏皆受菲律宾政府的监管与保护，正规合法，公平公正。</div>
       <div class="dynamic-items flex boxs">
         <div class="dynamic-item" v-for="item in news">
-          <a href="">
+          <a>
             <div class="card-img"><img :src="item.img" alt=""></div>
             <div class="card-box">
               <h3>{{item.title}}</h3>
               <p>{{item.msg}}</p>
-              <button>详情阅读</button>
+              <!--<button>详情阅读</button>-->
             </div>
           </a>
         </div>
@@ -67,7 +67,7 @@ export default {
     .dynamic-item
       width 23%
       color #222222
-      &:hover 
+      &:hover
          box-shadow 0 0 50px rgba(0, 0, 0, 0.3)
       a
         transition box-shadow 0.5s
@@ -82,7 +82,7 @@ export default {
           height 180px
           overflow hidden
           transition height 0.5s
-          img 
+          img
             width 100%
             height 100%
             display block
@@ -106,7 +106,7 @@ export default {
             color #888888
             margin-bottom 40px
             overflow:hidden;
-            text-overflow ellipsis 
+            text-overflow ellipsis
             display -webkit-box
             -webkit-line-clamp 5
             -webkit-box-orient vertical
@@ -164,7 +164,7 @@ export default {
           pointer-events none
           .card-box
             height auto
-            img 
+            img
               width 100%
           .card-img
             height auto
