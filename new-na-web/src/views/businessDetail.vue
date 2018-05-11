@@ -719,6 +719,13 @@
         width: 100%;
         height: 100%;
 
+        .-btn-item-two {
+
+          .-first-text {
+            padding 10px 0
+          }
+        }
+
         .-jump-title {
           margin-top: 200px;
 
@@ -728,7 +735,7 @@
         }
 
         .-jump-title-all {
-          margin-top: 100px;
+          margin-top: 150px;
           img {
             width: 60%;
           }
@@ -741,15 +748,15 @@
         .-btn-item {
           padding: 0;
           padding-top: 10px;
-          width: 100%;
+          width: 70%;
 
           img {
-            width: 50%;
+            width: 80%;
           }
         }
         .all-item{
           padding-top 0
-          width 80%
+          width 45%
         }
       }
       .-n-ul {
