@@ -9,7 +9,7 @@
     <section><home-service-plan /></section>
     <section> <home-download /></section>
     <section><home-contactus /></section>
-    <section><home-cooperation /></section>
+    <!--<section><home-cooperation /></section>-->
   </div>
 </template>
 

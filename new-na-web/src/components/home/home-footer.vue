@@ -10,8 +10,8 @@
         <div class="footer-header-items column is-4">
            <div class="footer-header-title">Share with Love</div>
            <ul>
-             <li><img src="../../assets/img/Shape11.png" alt=""></li>
-             <li><img src="../../assets/img/Shape3.png" alt=""></li>
+             <!--<li><img src="../../assets/img/Shape11.png" alt=""></li>-->
+             <!--<li><img src="../../assets/img/Shape3.png" alt=""></li>-->
              <li><img src="../../assets/img/Shape6.png" alt=""></li>
            </ul>
          </div>
@@ -38,7 +38,7 @@ export default {
 
 <style lang="stylus" scoped>
 .home-footer
-  color #FFFFFF 
+  color #FFFFFF
   text-align center
 
 .footer-header

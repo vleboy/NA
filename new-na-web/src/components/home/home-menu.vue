@@ -11,7 +11,7 @@
         <ul>
           <li :class="{active: $route.path === '/'}"><router-link to="/">{{$router.path}}首页</router-link></li>
           <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">合作共赢</router-link></li>
-          <li :class="{active: $route.path === '/Pro'}"><router-link to="/Pro">NA旗舰版</router-link></li>
+          <li :class="{active: $route.path === '/Pro'}"><router-link :to="{'path':'/detail',query:{id:4}}">NA业务</router-link></li>
           <li :class="{active: $route.path === '/Game'}"><a target="_blank" href="http://game.na77.com">NA游戏</a></li>
           <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
           <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
@@ -34,7 +34,7 @@
       <transition name="mobileShow">
         <ul class="mobile" v-show="showMenu">
           <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">合作共赢</router-link></li>
-          <li :class="{active: $route.path === '/Pro'}"><router-link to="/Pro">NA旗舰版</router-link></li>
+          <li :class="{active: $route.path === '/Pro'}"><router-link :to="{'path':'/detail',query:{id:4}}">NA业务</router-link></li>
           <li :class="{active: $route.path === '/Game'}"><a target="_blank" href="http://game.na77.com">NA游戏</a></li>
           <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
           <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
@@ -66,14 +66,14 @@ export default {
 //        $('.mobile-menu').css('height', '100vh')
       }
 
-      if(!this.$route.query.id || bool) {
+      if(!this.$route.query.id || bool || (this.$route.query.id==4)) {
         this.showMenu = !this.showMenu
       }
     }
   },
   watch: {
     '$route': function (_new) {
-      if(_new.path != '/detail') {
+      if((_new.path != '/detail')||(_new.query && (_new.query.id == 4))) {
         this.showView()
       }
     }
