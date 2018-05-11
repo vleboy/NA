@@ -9,12 +9,12 @@
       </router-link>
       <nav>
         <ul>
-          <li :class="{active: $route.path === '/'}"><router-link to="/">{{$router.path}}首页</router-link></li>
-          <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant">合作共赢</router-link></li>
-          <li :class="{active: $route.path === '/Pro'}"><router-link :to="{'path':'/detail',query:{id:4}}">NA业务</router-link></li>
-          <li :class="{active: $route.path === '/Game'}"><a target="_blank" href="http://game.na77.com">NA游戏</a></li>
-          <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact">联系我们</router-link></li>
-          <li :class="{active: $route.path === '/Download'}"><router-link to="/Download">游戏下载</router-link></li>
+          <li :class="{active: $route.path === '/'}"><router-link to="/" class="-menu-li">{{$router.path}}首页</router-link></li>
+          <li :class="{active: $route.path === '/Ascendant'}"><router-link to="/Ascendant" class="-menu-li">合作共赢</router-link></li>
+          <li :class="{active: $route.path === '/Pro'}"><router-link :to="{'path':'/detail',query:{id:4}}" class="-menu-li">NA业务</router-link></li>
+          <li :class="{active: $route.path === '/Game'}"><a target="_blank" href="http://game.na77.com" class="-menu-li">NA游戏</a></li>
+          <li :class="{active: $route.path === '/Contact'}"><router-link to="/Contact" class="-menu-li">联系我们</router-link></li>
+          <li :class="{active: $route.path === '/Download'}"><router-link to="/Download" class="-menu-li">游戏下载</router-link></li>
         </ul>
       </nav>
     </div>
@@ -81,7 +81,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" scoped type="text/stylus">
 .mobile-menu
   display  none
 .home-menu
@@ -94,6 +94,10 @@ export default {
   background #00000073
   text-align center
   z-index 99
+  .-menu-li{
+    display block
+    width 100%
+  }
   h1
     max-width 157px
     margin 0 auto
