@@ -254,7 +254,7 @@
                 },
                 {
                   id: 3,
-                  name: '开户热线',
+                  name: '咨询热线',
                   content: require('@/assets/img/detail/dl-dj.jpg'),
                   titleImg: require('@/assets/img/detail/dj-01.png'),
                   isActive: false
@@ -312,7 +312,7 @@
                     },
                     {
                       id: 3,
-                      name: '开户热线',
+                      name: '咨询热线',
                       content: require('@/assets/img/detail/dl-dj.jpg'),
                       titleImg: require('@/assets/img/detail/dj-01.png'),
                       isActive: false
@@ -395,7 +395,7 @@
                 },
                 {
                   id: 3,
-                  name: '开户热线',
+                  name: '咨询热线',
                   content: require('@/assets/img/detail/mobile/dl-dj.jpg'),
                   titleImg: require('@/assets/img/detail/mobile/api-dj-title.png'),
                   isActive: false
@@ -454,7 +454,7 @@
                     },
                     {
                       id: 3,
-                      name: '开户热线',
+                      name: '咨询热线',
                       content: require('@/assets/img/detail/mobile/dl-dj.jpg'),
                       titleImg: require('@/assets/img/detail/mobile/api-dj-title.png'),
                       isActive: false
