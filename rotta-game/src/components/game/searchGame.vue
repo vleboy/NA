@@ -14,7 +14,7 @@
       <!--</div>-->
     <!--</div>-->
     <el-radio-group v-model="companyInfo" @change="startSearch">
-      <el-radio-button v-for="(item,index) of companyOptions" :key="index" :label="item.client">{{item.companyName}}</el-radio-button>
+      <el-radio-button v-for="(item,index) of companyOptions" :key="index" :label="item.client">{{item.server}}</el-radio-button>
     </el-radio-group>
 	</div>
 </template>
@@ -82,7 +82,7 @@ export default {
         } else {
           this.companyOptions = res.data.payload
           this.companyOptions.unshift({
-            companyName: '全部厂商',
+            server: '全部厂商',
             client:''
           })
       }
