@@ -49,6 +49,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .bottom{text-align: center;}
+
 @media print {
   .Noprint { display: none }
   .PageNext{ page-break-after: always }
