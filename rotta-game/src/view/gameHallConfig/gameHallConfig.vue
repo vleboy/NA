@@ -146,9 +146,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="isOpenModal = false">取 消</el-button>
-        <el-button type="primary" :load="isSending" @click="submitProp(gameHallInfo.adId)">{{isSending ? '提交中' : '确
-          定'}}
-        </el-button>
+        <el-button type="primary" :load="isSending" @click="submitProp(gameHallInfo.adId)">{{isSending ? '提交中' : '确 定'}}</el-button>
       </div>
     </el-dialog>
   </div>
