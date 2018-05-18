@@ -5,6 +5,7 @@
     <success v-if="active==2" class="Noprint"></success>
     <suclist v-if="active==2"></suclist>
   	<div class="bottom">
+
       <successbtn v-if="active==2" hash="gameList" detail="gamedetail" class="Noprint"></successbtn>
   	</div>
   </div>
