@@ -380,7 +380,7 @@
       },
       requestHeader () {
         const dev = `https://s3-ap-southeast-1.amazonaws.com/image-na-dev/${this.imgFile.name}` //测试环境
-        const prod = `https://d38xgux2jezyfx.cloudfront.net/${this.imgFile.name}` //开发环境
+        const prod = `http://img.na77.com/${this.imgFile.name}` //开发环境
         invoke({
           url: this.uploadAction,
           method: 'put',
