@@ -185,7 +185,7 @@ const api = {
 
   //stateMachine
 
-  uploadImg: `http://n1game.na12345.com/upload`, // 上传图片获取签证
+  uploadImg: `http://n1admin.na12345.com/upload`, // 上传图片获取签证
 
   // methods
 
