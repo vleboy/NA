@@ -28,21 +28,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env,
-      'zues_URL': JSON.stringify('https://t4e98kepge.execute-api.ap-southeast-1.amazonaws.com/'), // zues有关接口
-
-      'hulk_URL': JSON.stringify('https://jb8d44xal4.execute-api.ap-southeast-1.amazonaws.com/'), // hulk有关接口
-
-      'Javis_URL': JSON.stringify('https://2v6w0zgjga.execute-api.ap-southeast-1.amazonaws.com/'), // javis有关接口
-
-      'diana_URL': JSON.stringify('https://52qkggfn4d.execute-api.ap-southeast-1.amazonaws.com/'), // diana有关接口
-
-      'thor_URL': JSON.stringify('https://lo33h259l3.execute-api.ap-southeast-1.amazonaws.com/'), // thor有关接口
-
-      'hera_URL': JSON.stringify('https://d0hhnba6ee.execute-api.ap-southeast-1.amazonaws.com/'), // hera有关接口
-
-      'hawkeye_URL': JSON.stringify('https://dawlhzlkt6.execute-api.ap-southeast-1.amazonaws.com/'), // hawkeye有关接口
-
-      'stateMachine_URL': JSON.stringify('https://3y68duvxk7.execute-api.ap-southeast-1.amazonaws.com/') // StateMachine有关接口
+      'test_URL': JSON.stringify('https://n1admin.na12345.com'), // admin有关接口
+      'game_URL': JSON.stringify('https://n1game.na12345.com'), // 游戏有关接口
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

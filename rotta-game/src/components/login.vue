@@ -18,13 +18,13 @@
         <!--<el-form-item label="商户标识" prop="">-->
           <!--<el-input class="input" v-model="userInfo.suffix" placeholder="请输入"></el-input>-->
         <!--</el-form-item>-->
-        <el-form-item label="验证码" class="captcha-form">
-          <el-input placeholder="请输入" class="captcha-input" v-model="userInfo.captcha" :maxlength='4'></el-input>
-          <div class="code-imgbox" @click="getcaptcha" v-loading="codeFetching">
-            <el-button class="code-btn" type="text" v-if="!userInfo.getcode">获取验证码</el-button>
-            <img v-else class="code-img" :src="userInfo.getcode">
-          </div>
-        </el-form-item>
+        <!--<el-form-item label="验证码" class="captcha-form">-->
+          <!--<el-input placeholder="请输入" class="captcha-input" v-model="userInfo.captcha" :maxlength='4'></el-input>-->
+          <!--<div class="code-imgbox" @click="getcaptcha" v-loading="codeFetching">-->
+            <!--<el-button class="code-btn" type="text" v-if="!userInfo.getcode">获取验证码</el-button>-->
+            <!--<img v-else class="code-img" :src="userInfo.getcode">-->
+          <!--</div>-->
+        <!--</el-form-item>-->
         <el-form-item>
           <el-button class="botton justfy1" :loading="loading" @click="login">登录</el-button>
         </el-form-item>
@@ -34,6 +34,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import bcrypt from "bcryptjs";
 import { invoke } from '@/libs/fetchLib'
 import api from '@/api/api'
 // import { checkUsername, checkPassword, checkCaptcha, checkSuffix } from '@/behavior/regexp'
@@ -52,7 +53,8 @@ export default {
         role: '1',
         username: '', // 用户名
         password: '', // 密码
-        captcha: '' // 验证码
+        challenge:  '1',
+        vid:  '1',
       },
       codeFetching: false
     }
@@ -91,12 +93,13 @@ export default {
       }
     }, // 获取验证码
     login () {
+      this.userInfo.password = bcrypt.hashSync(this.userInfo.password, 10);
       this.$store.commit('startLoading')
-      var log = this.userInfo
+
       invoke({
         url: api.login,
         method: api.post,
-        data: log
+        data: this.userInfo
       }).then(
         result => {
           const [err, ret] = result
@@ -106,7 +109,7 @@ export default {
               type: 'error'
             })
 //            this.userInfo.captcha = ''
-            this.getcaptcha()
+//             this.getcaptcha()
             this.$store.commit('closeLoading')
           } else {
             var success = ret.data.payload
