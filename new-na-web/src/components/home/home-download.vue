@@ -7,7 +7,7 @@
           <p>NA提供IOS与安卓两个版本的APP</p>
           <p>立即下载NA游戏平台，让手机成为您的移动线上赌场！</p>
         </div>
-        <div class="download-button boxs">
+        <div class="download-button boxs" v-if="ios">
           <a :href="ios">
             <img src="../../assets/img/iosButton.png" alt="">
             <div class="code-box is-mobile">
@@ -37,7 +37,7 @@
           <p>NA提供IOS与安卓两个版本的APP</p>
           <p>立即下载NA游戏平台，让手机成为您的移动线上赌场！</p>
         </div>
-        <div class="download-button boxs">
+        <div class="download-button boxs" v-if="iosN2">
           <a :href="iosN2">
             <img src="../../assets/img/iosButton_n2.png" alt="">
             <div class="code-box is-mobile">
@@ -70,10 +70,11 @@
     name: 'home-download',
     data() {
       return {
-        ios: 'itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall2900.plist',
-        android: 'http://app.risheng3d.com/apk/NAGame2900.apk',
-        iosN2: 'itms-services://?action=download-manifest&amp;url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/n2ios/n2install0001.plist',
-        androidN2: 'http://app.risheng3d.com/n2apk/n2apk0001.apk',
+        ios: '',
+        android: '',
+        iosN2: '',
+        androidN2: '',
+        isFetching: false
       }
     },
     mounted() {
@@ -81,20 +82,24 @@
     },
     methods: {
       async ipQuery() {
+        this.isFetching = true
         try {
           const {data} = await axios.get('http://ext.na77.org/webapi/ipquery')
-          if (data.payload.data.country === '中国') {
-            this.ios = 'itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall2900.plist'
-            this.android = 'http://app.risheng3d.com/apk/NAGame2900.apk'
-            this.iosN2 = 'itms-services://?action=download-manifest&amp;url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/n2ios/n2install0001.plist'
-            this.androidN2 = 'http://app.risheng3d.com/n2apk/n2apk0001.apk'
+          let item = data.payload.data
+          if (item.country === '中国') {
+            this.ios = `itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall${item.n1version}.plist`
+            this.android = `http://app.risheng3d.com/apk/NAGame${item.n1version}.apk`
+            this.iosN2 = `itms-services://?action=download-manifest&amp;url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/n2ios/n2install${item.n2version}.plist`
+            this.androidN2 = `http://app.risheng3d.com/n2apk/n2apk${item.n2version}.apk`
           } else {
-            this.ios = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall2900.plist'
-            this.android = 'http://oss.na12345.com/NAGame2900.apk'
-            this.iosN2 = 'itms-services://?action=download-manifest&url=https://oss.na12345.com/n2/n2install0001.plist'
-            this.androidN2 = 'http://oss.na12345.com/n2/n2apk0001.apk'
+            this.ios = `itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall${item.n1version}.plist`
+            this.android = `http://oss.na12345.com/NAGame${item.n1version}.apk`
+            this.iosN2 = `itms-services://?action=download-manifest&url=https://oss.na12345.com/n2/n2install${item.n2version}.plist`
+            this.androidN2 = `http://oss.na12345.com/n2/n2apk${item.n2version}.apk`
           }
+          this.isFetching = false
         } catch (err) {
+          this.isFetching = false
           console.log(err)
         }
       }
