@@ -1,31 +1,38 @@
 <template>
-  <div id="app" v-show="show">
-    <div class="content">
-      <div class="button">
+  <div id="app">
+    <div v-show="show" style="height: 100%">
+      <div class="content">
+        <div class="button">
           <a href="javascript:;" v-if="!ios"><img src="/static/mobile-1.png" alt=""></a>
           <a href="javascript:;" v-else><img src="/static/mobile-2.png" alt=""></a>
           <p v-if="ios">IOS安装教程 (请下滑!)</p>
+        </div>
+      </div>
+      <div class="section" v-if="ios">
+        <img src="/static/mobile-guide1.png" alt="">
+      </div>
+      <div class="section" v-if="ios">
+        <img src="/static/mobile-guide2.png" alt="">
+      </div>
+      <div class="section" v-if="ios">
+        <img src="/static/mobile-guide3.jpg" alt="">
+      </div>
+      <div class="section" v-if="ios">
+        <img src="/static/mobile-guide4.jpg" alt="">
+      </div>
+      <div class="section" v-if="ios">
+        <img src="/static/mobile-guide5.jpg" alt="">
+      </div>
+      <div class="section" v-if="ios">
+        <img src="/static/mobile-guide6.png" alt="">
       </div>
     </div>
-    <div class="section" v-if="ios">
-      <img src="/static/mobile-guide1.png" alt="">
+    <div v-show="!show" class="m-text">
+      正在跳转，下载中...
     </div>
-   <div class="section" v-if="ios">
-      <img src="/static/mobile-guide2.png" alt="">
-   </div>
-   <div class="section" v-if="ios">
-      <img src="/static/mobile-guide3.jpg" alt="">
+    {{show}}
   </div>
-  <div class="section" v-if="ios">
-    <img src="/static/mobile-guide4.jpg" alt="">
-  </div>
-  <div class="section" v-if="ios">
-    <img src="/static/mobile-guide5.jpg" alt="">
-  </div>
-  <div class="section" v-if="ios">
-    <img src="/static/mobile-guide6.png" alt="">
-  </div>
-  </div>
+
 </template>
 
 <script>
@@ -59,24 +66,28 @@ export default {
     if (!is_weixin() && !is_QQInnerBro()) {
       this.show = false
       if(isAndroid){
-        axios.get(`${url}/dev/ipquery`)
+        axios.get(`${url}/webapi/ipquery`)
           .then(function (res) {
             if(res.data.payload.data.country === '中国'){
-              window.location.href = `http://app.risheng3d.com/apk/NAGame${res.data.payload.version}.apk`
+              window.location.href = `http://app.risheng3d.com/apk/NAGame${res.data.payload.data.n1version}.apk` // N1
+              // window.location.href = `http://app.risheng3d.com/n2apk/n2apk${res.data.payload.data.n2version}.apk` // N2
             } else {
-              window.location.href = `http://oss.na12345.com/NAGame${res.data.payload.version}.apk`
+              window.location.href = `http://oss.na12345.com/NAGame${res.data.payload.data.n1version}.apk`  // n1
+              // window.location.href = `http://oss.na12345.com/n2/n2apk${res.data.payload.data.n2version}.apk`  // n2
             }
           })
           .catch(function (error) {
             console.log(error)
           });
       } else if(isiOS){
-         axios.get(`${url}/dev/ipquery`)
+         axios.get(`${url}/webapi/ipquery`)
          .then(function (res) {
            if(res.data.payload.data.country === '中国'){
-             window.location.href = `itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall${res.data.payload.version}.plist`
+             window.location.href = `itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/ios/autoinstall${res.data.payload.data.n1version}.plist` // N1
+             // window.location.href = `itms-services://?action=download-manifest&url=https://assetdownload.oss-cn-hangzhou.aliyuncs.com/n2ios/n2install${res.data.payload.data.n2version}.plist` // N2
            } else {
-             window.location.href = `itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall${res.data.payload.version}.plist`
+             window.location.href = `itms-services://?action=download-manifest&url=https://oss.na12345.com/autoinstall${res.data.payload.data.n1version}.plist` //N1
+             // window.location.href = `itms-services://?action=download-manifest&url=https://oss.na12345.com/n2/n2install${res.data.payload.data.n2version}.plist` //N2
            }
          })
          .catch(function (error) {
@@ -146,4 +157,10 @@ img {
   width: 100%;
   height: 100%;
 }
+  .m-text{
+    font-size: 20px;
+    height: 100vh;
+    line-height: 100vh;
+    text-align: center;
+  }
 </style>
